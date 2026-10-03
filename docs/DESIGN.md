@@ -5,7 +5,7 @@
 
 ---
 
-> ### ⚠️ INSTRUKSI KETAT UNTUK PENGEMBANG & AI AGENT (ANTI-HALUSINASI)
+> ### Notes
 > 1. **Dilarang Improvisasi Warna**: Gunakan HANYA token warna resmi: **Maritime Blue** (`primary-50` s/d `primary-950`), **Dinus Gold** (`secondary-50` s/d `secondary-600`), dan **Semantic Status** (`emerald` untuk sukses/lolos, `amber` untuk pending/menunggu, `rose` untuk gagal/ditolak).
 > 2. **Dilarang Menggunakan Icon Library Lain**: WAJIB menggunakan **Lucide Icons** dengan tag `<i data-lucide="nama-ikon" class="..."></i>`. Jangan gunakan FontAwesome, Heroicons, atau SVG mentah acak.
 > 3. **Dilarang Mengubah Border Radius**:
