@@ -1,12 +1,48 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
-      tailwind = { config: { corePlugins: { preflight: false } } };
+      tailwind = {
+        config: {
+          corePlugins: { preflight: false },
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+              },
+              colors: {
+                primary: {
+                  50: '#F1F7FE',
+                  100: '#E2EEFC',
+                  200: '#BFDBF8',
+                  300: '#86BEF3',
+                  400: '#1E7FD9',
+                  500: '#1E7FD9',
+                  600: '#1063B9',
+                  700: '#114D91',
+                  800: '#10447C',
+                  900: '#133A67',
+                  950: '#0D2544',
+                },
+                secondary: {
+                  50: '#FEFAEC',
+                  100: '#FCEEC9',
+                  200: '#F8DB8F',
+                  300: '#F4BD45',
+                  400: '#F2AB2D',
+                  500: '#F3BC45',
+                  600: '#D0670F',
+                }
+              }
+            }
+          }
+        }
+      };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,6 +56,10 @@
 
       body {
         margin: 0;
+      }
+
+      a {
+        text-decoration: none;
       }
     </style>
 
@@ -3286,7 +3326,7 @@
       >
         <div
           data-pencil-name="University Home Logo Link"
-          class="box-border w-full h-fit shrink-0 opacity-[100] flex flex-row gap-[672.016px] p-[20px_24px] justify-start items-center"
+          class="box-border w-full h-fit shrink-0 opacity-[100] flex flex-row justify-between p-[20px_24px] items-center"
         >
           <div
             data-pencil-name="University Home Logo Link"
@@ -3317,118 +3357,106 @@
           </div>
           <div
             data-pencil-name="Desktop Navigation Bar"
-            class="box-border w-[818px] shrink-0 h-fit opacity-[100] flex flex-row gap-[40px] justify-start items-center"
+            class="box-border shrink-0 h-fit opacity-[100] flex flex-row gap-[32px] justify-end items-center"
           >
-            <div
+            <nav
               data-pencil-name="Main Navigation Menu"
-              class="box-border w-[534px] shrink-0 h-fit opacity-[100] flex flex-row gap-[24px] p-[1px_0px_2px_0px] justify-start items-start"
+              class="box-border shrink-0 h-fit opacity-[100] flex flex-row gap-[24px] p-[1px_0px_2px_0px] justify-start items-center"
             >
-              <div
+              <a
+                href="landingpage.html"
                 data-pencil-name="Beranda"
-                class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                class="text-[14px]/[17px] box-border text-[#ffffffcc] hover:text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
               >
                 Beranda
-              </div>
-              <div
+              </a>
+              <a
+                href="#profil"
                 data-pencil-name="Profil"
-                class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                class="text-[14px]/[17px] box-border text-[#ffffffcc] hover:text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
               >
                 Profil
-              </div>
-              <div
+              </a>
+              <a
+                href="#inovasi"
                 data-pencil-name="Inovasi"
-                class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                class="text-[14px]/[17px] box-border text-[#ffffffcc] hover:text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
               >
                 Inovasi
-              </div>
-              <div
+              </a>
+              <a
+                href="#publikasi"
                 data-pencil-name="Publikasi"
-                class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                class="text-[14px]/[17px] box-border text-[#ffffffcc] hover:text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
               >
                 Publikasi
-              </div>
-              <div
+              </a>
+
+              <!-- MENU BARU: KAMPUS BERDAMPAK -->
+              <a
+                href="(roots)-(landing)-mbkm/mbkm.html"
+                data-pencil-name="Kampus Berdampak"
+                class="relative text-[#F3BC45] hover:text-[#f8db8f] font-[Inter,system-ui,sans-serif] font-semibold transition-colors [white-space:nowrap]"
+              >
+                <span class="text-[14px]/[17px]">Kampus Berdampak</span>
+              </a>
+
+              <a
+                href="#pengumuman"
                 data-pencil-name="Pengumuman"
-                class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                class="text-[14px]/[17px] box-border text-[#ffffffcc] hover:text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
               >
                 Pengumuman
-              </div>
-              <div
+              </a>
+              <a
+                href="#berita"
                 data-pencil-name="Berita Kegiatan"
-                class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                class="text-[14px]/[17px] box-border text-[#ffffffcc] hover:text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
               >
                 Berita Kegiatan
-              </div>
-            </div>
+              </a>
+            </nav>
+
             <div
               data-pencil-name="Login and PMB Links"
-              class="box-border w-[244px] shrink-0 h-fit opacity-[100] flex flex-row gap-[12px] justify-start items-start"
+              class="box-border shrink-0 h-fit opacity-[100] flex flex-row gap-[12px] justify-start items-center"
             >
-              <div
+              <a
+                href="https://pmb.dinus.ac.id/"
+                target="_blank"
                 data-pencil-name="External Login or PMB Link"
-                class="box-border w-[145px] shrink-0 h-fit opacity-[100] flex flex-row gap-[8px] p-[10px_17px_11px_17px] justify-start items-center [border:1px_solid_#ffffffff] rounded-[9999px]"
+                class="box-border shrink-0 h-fit opacity-[100] flex flex-row gap-[8px] p-[8px_16px_9px_16px] justify-start items-center [border:1px_solid_#ffffffff] rounded-[9999px] hover:bg-white hover:text-[#114D91] transition-all group"
               >
-                <div
+                <span
                   data-pencil-name="Pendaftaran"
-                  class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                  class="text-[13px]/[16px] box-border text-[#ffffffff] group-hover:text-[#114D91] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap] transition-colors"
                 >
                   Pendaftaran
-                </div>
-                <div
-                  data-pencil-name="White upward-right arrow icon representing external link or login action"
-                  class="box-border w-[16px] shrink-0 h-[16px] overflow-hidden relative"
-                >
-                  <svg
-                    data-pencil-name="Vector"
-                    viewBox="0 0 10 10"
-                    preserveAspectRatio="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="box-border w-[6.667px] h-[6.667px] absolute left-[4.667px] top-[4.667px] overflow-visible [z-index:0]"
-                  >
-                    <path
-                      d="M0 0l10 0 0 10"
-                      fill="none"
-                      stroke="#ffffffff"
-                      stroke-width="1.333"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                  </svg>
-                  <svg
-                    data-pencil-name="Vector"
-                    viewBox="0 0 10 10"
-                    preserveAspectRatio="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="box-border w-[6.667px] h-[6.667px] absolute left-[4.667px] top-[4.667px] overflow-visible [z-index:1]"
-                  >
-                    <path
-                      d="M0 10l10-10"
-                      fill="none"
-                      stroke="#ffffffff"
-                      stroke-width="1.333"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      vector-effect="non-scaling-stroke"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div
+                </span>
+                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white group-hover:text-[#114D91] transition-colors"></i>
+              </a>
+              <a
+                href="(roots)-apps/apps.html"
                 data-pencil-name="Login Button"
-                class="box-border w-[87px] shrink-0 h-fit opacity-[100] [box-shadow:0px_0px_0px_#00000000,_0px_0px_0px_#00000000,_0px_1px_2.625px_#0000001a,_0px_1px_1.75px_#0000001a] flex flex-row gap-0 p-[10px_24px_11px_24px] justify-start items-center bg-[#f3bc45ff] rounded-[9999px] overflow-hidden"
+                class="box-border shrink-0 h-fit opacity-[100] [box-shadow:0px_0px_0px_#00000000,_0px_0px_0px_#00000000,_0px_1px_2.625px_#0000001a,_0px_1px_1.75px_#0000001a] flex flex-row gap-1.5 p-[8px_20px_9px_20px] justify-start items-center bg-[#f3bc45ff] hover:bg-[#E0A832] rounded-[9999px] overflow-hidden transition-all text-white group"
               >
-                <div
-                  data-pencil-name="Login"
-                  class="text-[14px]/[17px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-left [white-space:nowrap]"
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-white"></i>
+                <span
+                  data-pencil-name="Portal Apps"
+                  class="text-[13px]/[16px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-bold text-left [white-space:nowrap]"
                 >
-                  Login
-                </div>
-              </div>
+                  Portal Apps
+                </span>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <script>
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    </script>
   </body>
 </html>
