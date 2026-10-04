@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulir Pendaftaran MBKM — Kampus Berdampak FIK UDINUS</title>
+  <meta name="description"
+    content="Formulir multi-step pendaftaran program Kampus Berdampak MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro." />
+
+  <!-- Font Google: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN (v3) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#F1F7FE',
+              100: '#E2EEFC',
+              200: '#BFDBF8',
+              300: '#86BEF3',
+              400: '#1E7FD9',
+              500: '#1E7FD9',
+              600: '#1063B9',
+              700: '#114D91',
+              800: '#10447C',
+              900: '#133A67',
+              950: '#0D2544',
+            },
+            secondary: {
+              50: '#FEFAEC',
+              100: '#FCEEC9',
+              200: '#F8DB8F',
+              300: '#F4BD45',
+              400: '#F2AB2D',
+              500: '#F3BC45',
+              600: '#D0670F',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body
+  class="font-sans bg-[#FAFAFA] text-gray-900 antialiased min-h-screen flex flex-col selection:bg-primary-100 selection:text-primary-800">
+
+  <!-- ========================================== -->
+  <!-- 2. SUB-HEADER: BREADCRUMB & TOMBOL KEMBALI -->
+  <!-- ========================================== -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Breadcrumb Navigation -->
+      <nav class="flex items-center gap-2 text-xs text-gray-500 font-medium">
+        <a href="../landingpage.html" class="hover:text-primary-700 transition-colors flex items-center gap-1">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Beranda</span>
+        </a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
+        <a href="mbkm.html" class="hover:text-primary-700 transition-colors">Kampus Berdampak</a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
+        <a href="detail-mbkm.html" class="hover:text-primary-700 transition-colors">Dicoding ASAH 2026</a>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
+        <span class="text-primary-700 font-semibold">Formulir Pendaftaran</span>
+      </nav>
+
+      <!-- Tombol Kembali -->
+      <a href="detail-mbkm.html"
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold border border-gray-200 rounded-lg shadow-2xs hover:border-gray-300 transition-all">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-gray-500"></i>
+        <span>Kembali ke Detail Program</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- 3. PAGE HERO BANNER: INFORMASI PROGRAM YANG DIPILIH    -->
+  <!-- ======================================================= -->
+  <section class="bg-gradient-to-r from-[#10447C] to-[#1E7FD9] text-white py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#F3BC45] text-[#114D91]">
+              Pendaftaran Mandiri (Model A)
+            </span>
+            <span class="text-xs text-blue-100 font-medium">Semester Gasal 2026/2027</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Formulir Pengajuan Kampus Berdampak
+          </h1>
+          <p class="text-xs sm:text-sm text-blue-100 mt-1">
+            Program: <strong>Studi Independen Bersertifikat — Dicoding ASAH (AI & Cloud Engineering)</strong>
+          </p>
+        </div>
+        <!-- Info Kuota & Batas Waktu -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3.5 text-xs text-right shrink-0">
+          <div class="text-blue-100">Batas Akhir Berkas:</div>
+          <div class="font-bold text-[#F3BC45] text-sm mt-0.5">25 Okt 2026 • 23:59 WIB</div>
+          <div class="text-[11px] text-blue-200 mt-1">Sisa Kuota: 12 Mahasiswa</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- 4. STEPPER BAR: NAVIGASI PROGRESS MULTI-STEP           -->
+  <!-- ======================================================= -->
+  <div class="sticky top-[64px] z-30 bg-white border-b border-gray-200 shadow-2xs">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-4 gap-2 sm:gap-4 text-center">
+
+        <!-- Step 1 Tab -->
+        <div id="step-tab-1"
+          class="step-tab flex flex-col items-center gap-1.5 transition-all text-primary-700 font-semibold cursor-pointer"
+          onclick="goToStep(1)">
+          <div id="step-circle-1"
+            class="w-8 h-8 rounded-full bg-primary-600 text-white font-bold text-xs flex items-center justify-center ring-4 ring-primary-100 transition-all">
+            1
+          </div>
+          <span class="text-[11px] sm:text-xs tracking-tight">1. Data Diri</span>
+        </div>
+
+        <!-- Step 2 Tab -->
+        <div id="step-tab-2"
+          class="step-tab flex flex-col items-center gap-1.5 transition-all text-gray-400 font-medium cursor-pointer"
+          onclick="goToStep(2)">
+          <div id="step-circle-2"
+            class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 font-bold text-xs flex items-center justify-center transition-all">
+            2
+          </div>
+          <span class="text-[11px] sm:text-xs tracking-tight">2. Berkas & Portofolio</span>
+        </div>
+
+        <!-- Step 3 Tab -->
+        <div id="step-tab-3"
+          class="step-tab flex flex-col items-center gap-1.5 transition-all text-gray-400 font-medium cursor-pointer"
+          onclick="goToStep(3)">
+          <div id="step-circle-3"
+            class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 font-bold text-xs flex items-center justify-center transition-all">
+            3
+          </div>
+          <span class="text-[11px] sm:text-xs tracking-tight">3. Konversi Matkul</span>
+        </div>
+
+        <!-- Step 4 Tab -->
+        <div id="step-tab-4"
+          class="step-tab flex flex-col items-center gap-1.5 transition-all text-gray-400 font-medium cursor-pointer"
+          onclick="goToStep(4)">
+          <div id="step-circle-4"
+            class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 font-bold text-xs flex items-center justify-center transition-all">
+            4
+          </div>
+          <span class="text-[11px] sm:text-xs tracking-tight">4. Pakta & Kirim</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- 5. MAIN FORM CONTAINER                                  -->
+  <!-- ======================================================= -->
+  <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+    <form id="multistep-form" onsubmit="handleFormSubmit(event)">
+
+      <!-- ======================================================= -->
+      <!-- STEP 1: DATA DIRI & ELIGIBILITY CHECKER                -->
+      <!-- ======================================================= -->
+      <section id="step-content-1" class="step-content space-y-6">
+
+        <!-- Status Akademik Otomatis (Eligibility Checker DESIGN.md Section 11) -->
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50/80 p-5 shadow-2xs">
+          <div class="flex items-start gap-3.5">
+            <div class="p-2 bg-emerald-100 text-emerald-700 rounded-lg shrink-0 mt-0.5">
+              <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-sm font-bold text-emerald-950 mb-1">Status Akademik: Lolos Kualifikasi Pendaftaran MBKM
+              </h4>
+              <p class="text-xs text-emerald-800 leading-relaxed mb-3">
+                Sistem SIADIN telah memvalidasi kelayakan akademik Anda. Anda memenuhi seluruh kualifikasi minimum
+                pendaftaran Kampus Berdampak Semester Gasal 2026/2027.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3 border-t border-emerald-200 text-xs">
+                <div class="flex items-center gap-2 text-emerald-900 font-semibold">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                  <span>Semester Aktif: <strong>Semester 6</strong></span>
+                </div>
+                <div class="flex items-center gap-2 text-emerald-900 font-semibold">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                  <span>IPK Kumulatif: <strong>3.68</strong> (Min. 3.00)</span>
+                </div>
+                <div class="flex items-center gap-2 text-emerald-900 font-semibold">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                  <span>SKS Tempuh: <strong>112 SKS</strong> (Min. 100)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Form Data Diri Mahasiswa -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="border-b border-gray-100 pb-4">
+            <h3 class="text-base font-bold text-gray-900">Identitas Diri Mahasiswa</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Data terverifikasi otomatis dengan Single Sign-On (SSO) UDINUS.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <!-- Nama Lengkap -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-gray-700">Nama Lengkap Mahasiswa</label>
+              <input type="text" id="mhs-name" value="Muhammad Raihan Pratama" readonly
+                class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 font-medium cursor-not-allowed select-none focus:outline-none" />
+            </div>
+
+            <!-- NIM -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-gray-700">Nomor Induk Mahasiswa (NIM)</label>
+              <input type="text" id="mhs-nim" value="A11.2023.14920" readonly
+                class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 font-mono font-medium cursor-not-allowed select-none focus:outline-none" />
+            </div>
+
+            <!-- Program Studi -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-gray-700">Program Studi / Fakultas</label>
+              <input type="text" value="S1 Teknik Informatika — Fakultas Ilmu Komputer" readonly
+                class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 font-medium cursor-not-allowed select-none focus:outline-none" />
+            </div>
+
+            <!-- Dosen Pembimbing Akademik -->
+            <div class="space-y-1.5">
+              <label class="block text-xs font-semibold text-gray-700">Dosen Pembimbing Akademik (DPA)</label>
+              <input type="text" value="Dr. Affandy, M.Kom." readonly
+                class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 font-medium cursor-not-allowed select-none focus:outline-none" />
+            </div>
+
+            <!-- Nomor WhatsApp Aktif -->
+            <div class="space-y-1.5">
+              <label for="mhs-phone" class="block text-xs font-semibold text-gray-700">
+                Nomor WhatsApp Aktif <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                  <i data-lucide="phone" class="w-4 h-4"></i>
+                </div>
+                <input type="tel" id="mhs-phone" required value="081234567890"
+                  class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
+                  placeholder="08xxxxxxxxxx" />
+              </div>
+              <p class="text-[11px] text-gray-400">Digunakan Koordinator Bu Nurul untuk konfirmasi pra-KRS.</p>
+            </div>
+
+            <!-- Email Institusi -->
+            <div class="space-y-1.5">
+              <label for="mhs-email" class="block text-xs font-semibold text-gray-700">
+                Email Institusi Mahasiswa <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                  <i data-lucide="mail" class="w-4 h-4"></i>
+                </div>
+                <input type="email" id="mhs-email" required value="111202314920@mhs.dinus.ac.id"
+                  class="w-full pl-10 pr-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Pilihan Track Spesialisasi -->
+          <div class="space-y-2 pt-2 border-t border-gray-100">
+            <label class="block text-xs font-semibold text-gray-700">
+              Formasi Track Spesialisasi yang Dilamar <span class="text-red-500">*</span>
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label
+                class="relative flex items-start gap-3 p-3.5 border-2 border-primary-500 bg-primary-50/50 rounded-xl cursor-pointer">
+                <input type="radio" name="track" value="Machine Learning & AI" checked
+                  class="mt-0.5 text-primary-600 focus:ring-primary-500" />
+                <div>
+                  <span class="text-xs font-bold text-gray-900 block">Machine Learning & AI</span>
+                  <span class="text-[11px] text-gray-500">Sisa Kuota: 12 Mhs</span>
+                </div>
+              </label>
+              <label
+                class="relative flex items-start gap-3 p-3.5 border border-gray-200 hover:border-primary-300 rounded-xl cursor-pointer transition-all">
+                <input type="radio" name="track" value="Cloud & Infrastructure"
+                  class="mt-0.5 text-primary-600 focus:ring-primary-500" />
+                <div>
+                  <span class="text-xs font-bold text-gray-900 block">Cloud Architecture</span>
+                  <span class="text-[11px] text-gray-500">Sisa Kuota: 8 Mhs</span>
+                </div>
+              </label>
+              <label
+                class="relative flex items-start gap-3 p-3.5 border border-gray-200 hover:border-primary-300 rounded-xl cursor-pointer transition-all">
+                <input type="radio" name="track" value="Mobile App Engineering"
+                  class="mt-0.5 text-primary-600 focus:ring-primary-500" />
+                <div>
+                  <span class="text-xs font-bold text-gray-900 block">Mobile App Engineering</span>
+                  <span class="text-[11px] text-gray-500">Sisa Kuota: 5 Mhs</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Aksi Navigasi Step 1 -->
+          <div class="flex justify-end pt-4 border-t border-gray-100">
+            <button type="button" onclick="goToStep(2)"
+              class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-sm font-semibold rounded-lg shadow-sm hover:shadow transition-all duration-200">
+              <span>Lanjut ke Berkas Persyaratan</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- STEP 2: UNGGAH DOKUMEN & LINK PORTOFOLIO               -->
+      <!-- ======================================================= -->
+      <section id="step-content-2" class="step-content hidden space-y-6">
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="border-b border-gray-100 pb-4">
+            <h3 class="text-base font-bold text-gray-900">Unggah Berkas Persyaratan & Portofolio</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Pastikan dokumen memenuhi batas format maksimal 2MB per file (PRD
+              Bagian 3.3).</p>
+          </div>
+
+          <div class="space-y-6">
+
+            <!-- Dokumen 1: Transkrip Nilai Akademik Terakhir -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-semibold text-gray-700">
+                  1. Transkrip Nilai Akademik Terakhir (PDF) <span class="text-red-500">*</span>
+                </label>
+                <span class="text-[11px] text-gray-400">Format PDF • Maks. 2MB</span>
+              </div>
+              <div
+                class="relative border-2 border-dashed border-gray-300 hover:border-primary-400 bg-gray-50/60 hover:bg-primary-50/20 rounded-xl p-5 text-center cursor-pointer transition-all group">
+                <input type="file" id="file-transkrip" accept=".pdf"
+                  onchange="handleFileSelected(this, 'transkrip-preview')"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                <div id="transkrip-preview" class="flex flex-col items-center justify-center gap-2">
+                  <div
+                    class="p-2.5 bg-white rounded-full border border-gray-200 text-primary-600 shadow-2xs group-hover:scale-105 transition-transform">
+                    <i data-lucide="file-up" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium text-gray-700">
+                      <span class="text-primary-600 font-semibold group-hover:underline">Pilih file PDF</span> atau
+                      seret dokumen ke sini
+                    </p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Transkrip resmi ber-barcode dari SIAKAD UDINUS</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dokumen 2: CV Terkini -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-semibold text-gray-700">
+                  2. Curriculum Vitae (CV) Terkini (PDF) <span class="text-red-500">*</span>
+                </label>
+                <span class="text-[11px] text-gray-400">Format PDF • Maks. 2MB</span>
+              </div>
+              <div
+                class="relative border-2 border-dashed border-gray-300 hover:border-primary-400 bg-gray-50/60 hover:bg-primary-50/20 rounded-xl p-5 text-center cursor-pointer transition-all group">
+                <input type="file" id="file-cv" accept=".pdf" onchange="handleFileSelected(this, 'cv-preview')"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                <div id="cv-preview" class="flex flex-col items-center justify-center gap-2">
+                  <div
+                    class="p-2.5 bg-white rounded-full border border-gray-200 text-amber-600 shadow-2xs group-hover:scale-105 transition-transform">
+                    <i data-lucide="file-badge" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium text-gray-700">
+                      <span class="text-primary-600 font-semibold group-hover:underline">Pilih file PDF</span> atau
+                      seret CV Anda ke sini
+                    </p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Memuat riwayat proyek, skill teknologi, dan prestasi</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dokumen 3: Draft Surat Rekomendasi (Surekom) Mitra -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-semibold text-gray-700">
+                  3. Draft Surat Rekomendasi (Surekom) Template Mitra <span class="text-red-500">*</span>
+                </label>
+                <span class="text-[11px] text-gray-400">Format PDF / DOCX • Maks. 2MB</span>
+              </div>
+              <div
+                class="relative border-2 border-dashed border-gray-300 hover:border-primary-400 bg-gray-50/60 hover:bg-primary-50/20 rounded-xl p-5 text-center cursor-pointer transition-all group">
+                <input type="file" id="file-surekom" accept=".pdf,.doc,.docx"
+                  onchange="handleFileSelected(this, 'surekom-preview')"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                <div id="surekom-preview" class="flex flex-col items-center justify-center gap-2">
+                  <div
+                    class="p-2.5 bg-white rounded-full border border-gray-200 text-emerald-600 shadow-2xs group-hover:scale-105 transition-transform">
+                    <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-medium text-gray-700">
+                      <span class="text-primary-600 font-semibold group-hover:underline">Pilih file template
+                        Surekom</span> yang telah diisi data diri
+                    </p>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Akan ditandatangani Dekan FIK setelah validasi
+                      Koordinator Bu Nurul</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Link Portofolio & Repositori Pendukung -->
+            <div class="pt-4 border-t border-gray-100 space-y-4">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500">Portofolio & Repositori Karya</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Link Profil GitHub / Gitlab</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                      <i data-lucide="github" class="w-4 h-4"></i>
+                    </div>
+                    <input type="url" id="link-github" placeholder="https://github.com/username"
+                      class="w-full pl-10 pr-3.5 py-2 bg-white border border-gray-300 rounded-lg text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
+                  </div>
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Link LinkedIn / Website Portofolio</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                      <i data-lucide="globe" class="w-4 h-4"></i>
+                    </div>
+                    <input type="url" id="link-porto" placeholder="https://linkedin.com/in/username"
+                      class="w-full pl-10 pr-3.5 py-2 bg-white border border-gray-300 rounded-lg text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Aksi Navigasi Step 2 -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+            <button type="button" onclick="goToStep(1)"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold border border-gray-300 rounded-lg shadow-2xs">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Kembali ke Data Diri</span>
+            </button>
+            <button type="button" onclick="goToStep(3)"
+              class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all">
+              <span>Lanjut ke Usulan Konversi Matkul</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- STEP 3: USULAN RENCANA KONVERSI MATA KULIAH (PRA-KRS)   -->
+      <!-- ======================================================= -->
+      <section id="step-content-3" class="step-content hidden space-y-6">
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+            <div>
+              <h3 class="text-base font-bold text-gray-900">Rencana Usulan Konversi Mata Kuliah (Pra-KRS)</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Pilihlah mata kuliah semester berjalan yang akan disetarakan ke
+                dalam paket 20 SKS MBKM.</p>
+            </div>
+            <!-- Counter SKS Realtime -->
+            <div
+              class="bg-primary-50 border border-primary-200 px-3.5 py-1.5 rounded-lg flex items-center gap-2 text-xs">
+              <span class="text-gray-600 font-medium">Total Terpilih:</span>
+              <span id="sks-counter" class="text-primary-700 font-extrabold text-sm">18 / 20 SKS</span>
+            </div>
+          </div>
+
+          <!-- Alert Mekanisme Bu Nurul / Koordinator (PRD Bagian 4) -->
+          <div class="flex items-start gap-3 p-4 rounded-xl border border-blue-200 bg-blue-50/80 text-blue-900 text-xs">
+            <i data-lucide="info" class="w-4 h-4 text-primary-600 shrink-0 mt-0.5"></i>
+            <div class="leading-relaxed">
+              <strong>Siklus Rekapitulasi Pra-KRS:</strong> Mata kuliah konversi MBKM tidak memiliki kelas reguler. Data
+              pilihan Anda akan direkapitulasi oleh Koordinator (Bu Nurul) untuk diserahkan ke Program Studi guna
+              pembukaan kelas khusus MBKM. Jika terdapat ketidaksesuaian matkul, Bu Nurul akan menghubungi Anda via
+              WhatsApp untuk rekonsiliasi.
+            </div>
+          </div>
+
+          <!-- Daftar Pilihan Mata Kuliah Konversi -->
+          <div class="space-y-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-gray-500">Mata Kuliah Pilihan yang Dapat
+              Dikonversi (Kurikulum TI-S1)</div>
+
+            <!-- Matkul 1 -->
+            <label
+              class="flex items-start gap-3.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-gray-50/60 cursor-pointer transition-all">
+              <input type="checkbox" checked onchange="updateSksCount()" value="4"
+                class="matkul-checkbox mt-1 text-primary-600 rounded focus:ring-primary-500" />
+              <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-900">A11.54601 — Proyek Perangkat Lunak Terapan</span>
+                    <span
+                      class="px-2 py-0.2 rounded text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">Wajib
+                      MBKM</span>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-0.5">Penyetaraan capaian pembelajaran capstone project industri
+                    Dicoding.</p>
+                </div>
+                <span class="text-xs font-bold text-primary-700 shrink-0 bg-primary-50 px-2.5 py-1 rounded-md">4
+                  SKS</span>
+              </div>
+            </label>
+
+            <!-- Matkul 2 -->
+            <label
+              class="flex items-start gap-3.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-gray-50/60 cursor-pointer transition-all">
+              <input type="checkbox" checked onchange="updateSksCount()" value="4"
+                class="matkul-checkbox mt-1 text-primary-600 rounded focus:ring-primary-500" />
+              <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-900">A11.54702 — Pembelajaran Mesin Lanjut (Deep
+                      Learning)</span>
+                    <span
+                      class="px-2 py-0.2 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100">Relevan
+                      AI</span>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-0.5">Mata kuliah konsentrasi Intelligent Systems & Computer
+                    Vision.</p>
+                </div>
+                <span class="text-xs font-bold text-primary-700 shrink-0 bg-primary-50 px-2.5 py-1 rounded-md">4
+                  SKS</span>
+              </div>
+            </label>
+
+            <!-- Matkul 3 -->
+            <label
+              class="flex items-start gap-3.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-gray-50/60 cursor-pointer transition-all">
+              <input type="checkbox" checked onchange="updateSksCount()" value="4"
+                class="matkul-checkbox mt-1 text-primary-600 rounded focus:ring-primary-500" />
+              <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-900">A11.54804 — Komputasi Awan & DevOps Terapan</span>
+                    <span
+                      class="px-2 py-0.2 rounded text-[10px] font-semibold bg-purple-50 text-purple-700 border border-purple-100">Relevan
+                      Cloud</span>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-0.5">Mata kuliah konsentrasi Jaringan & Arsitektur Cloud.</p>
+                </div>
+                <span class="text-xs font-bold text-primary-700 shrink-0 bg-primary-50 px-2.5 py-1 rounded-md">4
+                  SKS</span>
+              </div>
+            </label>
+
+            <!-- Matkul 4 -->
+            <label
+              class="flex items-start gap-3.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-gray-50/60 cursor-pointer transition-all">
+              <input type="checkbox" checked onchange="updateSksCount()" value="3"
+                class="matkul-checkbox mt-1 text-primary-600 rounded focus:ring-primary-500" />
+              <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-900">A11.54901 — Kapita Selekta Komputasi Cerdas</span>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-0.5">Penyetaraan materi workshop dan seminar teknologi mutakhir
+                    mitra.</p>
+                </div>
+                <span class="text-xs font-bold text-primary-700 shrink-0 bg-primary-50 px-2.5 py-1 rounded-md">3
+                  SKS</span>
+              </div>
+            </label>
+
+            <!-- Matkul 5 -->
+            <label
+              class="flex items-start gap-3.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-gray-50/60 cursor-pointer transition-all">
+              <input type="checkbox" checked onchange="updateSksCount()" value="3"
+                class="matkul-checkbox mt-1 text-primary-600 rounded focus:ring-primary-500" />
+              <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-900">A11.54905 — Komunikasi Profesional & Etika Profesi
+                      TI</span>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-0.5">Soft skills kerja tim, presentasi proyek capstone, dan
+                    etika industri.</p>
+                </div>
+                <span class="text-xs font-bold text-primary-700 shrink-0 bg-primary-50 px-2.5 py-1 rounded-md">3
+                  SKS</span>
+              </div>
+            </label>
+
+            <!-- Matkul 6 (Opsional belum dicentang) -->
+            <label
+              class="flex items-start gap-3.5 p-3.5 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-gray-50/60 cursor-pointer transition-all">
+              <input type="checkbox" onchange="updateSksCount()" value="2"
+                class="matkul-checkbox mt-1 text-primary-600 rounded focus:ring-primary-500" />
+              <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-gray-900">A11.54910 — Penulisan Karya Ilmiah Terapan</span>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-0.5">Penyusunan laporan akhir komprehensif MBKM.</p>
+                </div>
+                <span class="text-xs font-bold text-gray-500 shrink-0 bg-gray-100 px-2.5 py-1 rounded-md">2 SKS</span>
+              </div>
+            </label>
+
+          </div>
+
+          <!-- Aksi Navigasi Step 3 -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+            <button type="button" onclick="goToStep(2)"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold border border-gray-300 rounded-lg shadow-2xs">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Kembali ke Berkas</span>
+            </button>
+            <button type="button" onclick="goToStep(4)"
+              class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all">
+              <span>Lanjut ke Pakta & Konfirmasi</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- STEP 4: RINGKASAN & PAKTA INTEGRITAS (FINAL SUBMIT)     -->
+      <!-- ======================================================= -->
+      <section id="step-content-4" class="step-content hidden space-y-6">
+
+        <div class="bg-white rounded-xl border border-gray-200 p-6 sm:p-8 shadow-xs space-y-6">
+          <div class="border-b border-gray-100 pb-4">
+            <h3 class="text-base font-bold text-gray-900">Ringkasan Pengajuan & Pakta Integritas</h3>
+            <p class="text-xs text-gray-500 mt-0.5">Periksa kembali data Anda sebelum mengirimkan permohonan ke
+              Koordinator Kampus Berdampak.</p>
+          </div>
+
+          <!-- Ringkasan Data -->
+          <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <span class="text-gray-500 block">Nama Mahasiswa:</span>
+                <span class="font-bold text-gray-900 text-sm">Muhammad Raihan Pratama</span>
+                <span class="text-gray-500 font-mono block">A11.2023.14920 • TI-S1</span>
+              </div>
+              <div>
+                <span class="text-gray-500 block">Program MBKM Pilihan:</span>
+                <span class="font-bold text-primary-700 text-sm">Dicoding ASAH 2026 (Model A)</span>
+                <span id="summary-track" class="text-gray-700 font-medium block">Track: Machine Learning & AI</span>
+              </div>
+              <div>
+                <span class="text-gray-500 block">Validasi Akademik:</span>
+                <span class="font-bold text-emerald-700">Semester 6 • IPK 3.68 • 112 SKS (Lolos)</span>
+              </div>
+              <div>
+                <span class="text-gray-500 block">Rencana Konversi Matkul:</span>
+                <span id="summary-sks" class="font-bold text-primary-700">5 Mata Kuliah (Total: 18 SKS)</span>
+              </div>
+            </div>
+
+            <!-- Ringkasan Berkas yang Terlampir -->
+            <div class="pt-3 border-t border-gray-200/80 flex flex-wrap items-center gap-2 text-xs">
+              <span class="text-gray-500 font-medium">Status Berkas:</span>
+              <span
+                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i> Transkrip Nilai
+              </span>
+              <span
+                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i> Curriculum Vitae
+              </span>
+              <span
+                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i> Draft Surekom Mitra
+              </span>
+            </div>
+          </div>
+
+          <!-- Box Pakta Integritas (PRD Bagian 4 Fase 2) -->
+          <div class="p-5 rounded-xl border border-amber-200 bg-amber-50/70 space-y-3">
+            <div class="flex items-center gap-2 text-amber-900 font-bold text-xs">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i>
+              <span>Pakta Integritas & Pernyataan Komitmen Mahasiswa</span>
+            </div>
+            <p class="text-xs text-amber-900/90 leading-relaxed">
+              Dengan mengirimkan permohonan ini, saya menyatakan bahwa seluruh data, dokumen transkrip nilai, dan
+              informasi portofolio yang saya serahkan adalah benar dan sah. Saya bersedia mematuhi seluruh tata tertib
+              pelaksanaan MBKM FIK UDINUS, menyelesaikan program secara tuntas selama 5 bulan penuh, dan mengunduh serta
+              menyerahkan berkas fisik Pakta Integritas ke meja kerja Koordinator (Bu Nurul) di Gedung H Lantai 1.
+            </p>
+            <label class="flex items-start gap-2.5 pt-2 cursor-pointer">
+              <input type="checkbox" id="agree-check" required
+                class="mt-0.5 text-primary-600 rounded focus:ring-primary-500" />
+              <span class="text-xs font-bold text-gray-900">
+                Saya menyetujui Pakta Integritas dan berkomitmen mematuhi ketentuan Kampus Berdampak FIK UDINUS. <span
+                  class="text-red-500">*</span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Aksi Navigasi Step 4 & Final Submit -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+            <button type="button" onclick="goToStep(3)"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold border border-gray-300 rounded-lg shadow-2xs">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              <span>Kembali ke Konversi</span>
+            </button>
+            <button type="submit" id="btn-submit"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-sm font-semibold rounded-lg shadow-sm hover:shadow transition-all duration-200 active:scale-95">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Kirim Pengajuan Pendaftaran</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </form>
+
+    <!-- ======================================================= -->
+    <!-- 6. SUCCESS SCREEN / TIMELINE TRACKER (SETELAH SUBMIT)   -->
+    <!-- ======================================================= -->
+    <div id="success-screen" class="hidden space-y-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-8 shadow-md text-center max-w-2xl mx-auto">
+        <div
+          class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="check-circle" class="w-8 h-8"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Pendaftaran Berhasil Dikirim!</h2>
+        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6">
+          Berkas permohonan Anda telah masuk ke antrean seleksi Koordinator Kampus Berdampak (Bu Nurul) dan Tim Dosen
+          Verifikator FIK UDINUS.
+        </p>
+
+        <!-- Timeline Tracker Stepper (DESIGN.md Section 12) -->
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-6 mb-6 text-left">
+          <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">
+            Alur Pelacakan Status Pengajuan:
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <!-- Step 1 Selesai -->
+            <div class="flex items-center sm:flex-col sm:items-center text-left sm:text-center gap-3 sm:gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
+                <i data-lucide="check" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-gray-900 block">Pendaftaran Terkirim</span>
+                <span class="text-[11px] text-gray-500">Hari ini, Sekarang</span>
+              </div>
+            </div>
+
+            <!-- Step 2 Selesai -->
+            <div class="flex items-center sm:flex-col sm:items-center text-left sm:text-center gap-3 sm:gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
+                <i data-lucide="check" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-gray-900 block">Validasi Akademik</span>
+                <span class="text-[11px] text-emerald-600 font-medium">Lolos Kualifikasi</span>
+              </div>
+            </div>
+
+            <!-- Step 3 Sedang Berjalan -->
+            <div class="flex items-center sm:flex-col sm:items-center text-left sm:text-center gap-3 sm:gap-2">
+              <div
+                class="w-8 h-8 rounded-full bg-primary-600 text-white flex items-center justify-center text-xs font-bold ring-4 ring-primary-100 shrink-0">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-primary-700 block">Review Koordinator</span>
+                <span class="text-[11px] text-amber-600 font-medium">Dalam Verifikasi</span>
+              </div>
+            </div>
+
+            <!-- Step 4 Menunggu -->
+            <div
+              class="flex items-center sm:flex-col sm:items-center text-left sm:text-center gap-3 sm:gap-2 opacity-50">
+              <div
+                class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center text-xs font-bold shrink-0">
+                4
+              </div>
+              <div>
+                <span class="text-xs font-bold text-gray-700 block">Plotting Kelas MBKM</span>
+                <span class="text-[11px] text-gray-500">Pra-KRS Kaprodi</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="mbkm.html"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg transition-colors">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Kembali ke Katalog MBKM</span>
+          </a>
+          <a href="../(roots)-apps/apps.html"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#F3BC45] hover:bg-[#E0A832] text-white text-xs font-bold rounded-lg shadow-sm transition-all">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+            <span>Buka Portal Apps</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 7. FOOTER: FOOTER RESMI STANDAR PORTAL FIK -->
+  <!-- ========================================== -->
+  <footer class="bg-[#0D2544] text-white pt-12 pb-8 border-t border-primary-900 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+
+        <!-- Kolom 1: Profil Institusi -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="https://dinus.ac.id/img/logo-dinus.png" alt="Logo UDINUS" class="h-10 w-auto"
+              onerror="this.src='../../assets/logo.png'" />
+            <div class="flex flex-col leading-tight font-extrabold uppercase tracking-wider text-white">
+              <span class="text-xs">FAKULTAS ILMU KOMPUTER</span>
+              <span class="text-[10px] text-primary-300 font-medium">UNIVERSITAS DIAN NUSWANTORO</span>
+            </div>
+          </div>
+          <p class="text-xs text-primary-200/80 leading-relaxed">
+            Menghasilkan lulusan unggul, kompeten, berkarakter kewirausahaan dan berwawasan teknologi informasi global
+            melalui ekosistem Kampus Berdampak terintegrasi.
+          </p>
+        </div>
+
+        <!-- Kolom 2: Program Studi Sarjana -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3BC45] mb-4">
+            Program Studi Sarjana (S1)
+          </h4>
+          <ul class="space-y-2.5 text-xs text-primary-200/90 font-medium">
+            <li><a href="#" class="hover:text-white transition-colors">S1 Teknik Informatika (A)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">S1 Sistem Informasi (Unggul)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">S1 Desain Komunikasi Visual (Unggul)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">S1 Ilmu Komunikasi (A)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">S1 Animasi (Baik Sekali)</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3: Layanan MBKM & Akademik -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3BC45] mb-4">
+            Layanan MBKM & Akademik
+          </h4>
+          <ul class="space-y-2.5 text-xs text-primary-200/90 font-medium">
+            <li><a href="mbkm.html" class="hover:text-white transition-colors">Katalog Kampus Berdampak</a></li>
+            <li><a href="detail-mbkm.html" class="hover:text-white transition-colors">Rincian Program MBKM</a></li>
+            <li><a href="../(roots)-apps/apps.html" class="hover:text-white transition-colors">Portal Aplikasi Terpadu
+                (Apps)</a></li>
+            <li><a href="https://siadin.dinus.ac.id" target="_blank" class="hover:text-white transition-colors">SIADIN
+                Akademik UDINUS</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4: Narahubung -->
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[#F3BC45] mb-4">
+            Sekretariat Dekanat FIK
+          </h4>
+          <div class="space-y-2.5 text-xs text-primary-200/80 leading-relaxed">
+            <p class="flex items-start gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-[#F3BC45] shrink-0 mt-0.5"></i>
+              <span>Gedung H Lantai 1, Jl. Imam Bonjol No. 207 Semarang 50131</span>
+            </p>
+            <p class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4 text-[#F3BC45] shrink-0"></i>
+              <span>mbkm.fik@dinus.ac.id</span>
+            </p>
+            <p class="flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4 text-[#F3BC45] shrink-0"></i>
+              <span>Jam Operasional: 08.00 - 16.00 WIB</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div
+        class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-300/70">
+        <p>&copy; 2026 Fakultas Ilmu Komputer, Universitas Dian Nuswantoro. Seluruh Hak Cipta Dilindungi.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-white transition-colors">Panduan Sistem</a>
+          <span>•</span>
+          <a href="#" class="hover:text-white transition-colors">Bantuan Teknis</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================= -->
+  <!-- 8. JAVASCRIPT: LOGIKA MULTI-STEP, FILE PREVIEW & SKS    -->
+  <!-- ======================================================= -->
+  <script>
+    let currentStep = 1;
+
+    function goToStep(step) {
+      if (step < 1 || step > 4) return;
+
+      // Update Tab Visual
+      for (let i = 1; i <= 4; i++) {
+        const tab = document.getElementById(`step-tab-${i}`);
+        const circle = document.getElementById(`step-circle-${i}`);
+        const content = document.getElementById(`step-content-${i}`);
+
+        if (i < step) {
+          // Step yang sudah selesai
+          tab.className = 'step-tab flex flex-col items-center gap-1.5 transition-all text-emerald-700 font-semibold cursor-pointer';
+          circle.className = 'w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center transition-all';
+          circle.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i>';
+          content.classList.add('hidden');
+        } else if (i === step) {
+          // Step aktif saat ini
+          tab.className = 'step-tab flex flex-col items-center gap-1.5 transition-all text-primary-700 font-semibold cursor-pointer';
+          circle.className = 'w-8 h-8 rounded-full bg-primary-600 text-white font-bold text-xs flex items-center justify-center ring-4 ring-primary-100 transition-all';
+          circle.textContent = i;
+          content.classList.remove('hidden');
+        } else {
+          // Step mendatang
+          tab.className = 'step-tab flex flex-col items-center gap-1.5 transition-all text-gray-400 font-medium cursor-pointer';
+          circle.className = 'w-8 h-8 rounded-full bg-gray-100 text-gray-500 font-bold text-xs flex items-center justify-center transition-all';
+          circle.textContent = i;
+          content.classList.add('hidden');
+        }
+      }
+
+      currentStep = step;
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+
+    function handleFileSelected(input, previewId) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const previewEl = document.getElementById(previewId);
+        previewEl.innerHTML = `
+          <div class="p-2.5 bg-emerald-50 rounded-full border border-emerald-200 text-emerald-600">
+            <i data-lucide="file-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-emerald-800">${file.name}</p>
+            <p class="text-[11px] text-emerald-600">${(file.size / (1024 * 1024)).toFixed(2)} MB • Berhasil Diunggah</p>
+          </div>
+        `;
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+    }
+
+    function updateSksCount() {
+      const checkboxes = document.querySelectorAll('.matkul-checkbox:checked');
+      let totalSks = 0;
+      checkboxes.forEach(cb => {
+        totalSks += parseInt(cb.value, 10);
+      });
+      const counterEl = document.getElementById('sks-counter');
+      const summarySksEl = document.getElementById('summary-sks');
+      if (counterEl) {
+        counterEl.textContent = `${totalSks} / 20 SKS`;
+        if (totalSks > 20) {
+          counterEl.className = 'text-rose-600 font-extrabold text-sm';
+        } else {
+          counterEl.className = 'text-primary-700 font-extrabold text-sm';
+        }
+      }
+      if (summarySksEl) {
+        summarySksEl.textContent = `${checkboxes.length} Mata Kuliah (Total: ${totalSks} SKS)`;
+      }
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const agree = document.getElementById('agree-check').checked;
+      if (!agree) {
+        alert('Harap setujui Pakta Integritas sebelum mengirim pendaftaran.');
+        return;
+      }
+
+      // Sembunyikan form dan tampilkan success screen dengan Stepper Tracker
+      document.getElementById('multistep-form').classList.add('hidden');
+      document.querySelector('.sticky').classList.add('hidden');
+      document.getElementById('success-screen').classList.remove('hidden');
+      window.scrollTo({ top: 100, behavior: 'smooth' });
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      updateSksCount();
+    });
+  </script>
+</body>
+
+</html>
