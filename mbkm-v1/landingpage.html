@@ -64,11 +64,25 @@
     </style>
 
     <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+        background-color: #ffffffff;
+      }
+
       body {
         min-height: 100vh;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+      }
+
+      [data-pencil-name="Frame"] {
+        transform-origin: top center;
       }
     </style>
   </head>
@@ -3394,7 +3408,7 @@
 
               <!-- MENU BARU: KAMPUS BERDAMPAK -->
               <a
-                href="(roots)-(landing)-mbkm/mbkm.html"
+                href="(roots)/(landing)-mbkm/mbkm.html"
                 data-pencil-name="Kampus Berdampak"
                 class="relative text-[#F3BC45] hover:text-[#f8db8f] font-[Inter,system-ui,sans-serif] font-semibold transition-colors [white-space:nowrap]"
               >
@@ -3436,7 +3450,7 @@
                 <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-white group-hover:text-[#114D91] transition-colors"></i>
               </a>
               <a
-                href="(roots)-apps/apps.html"
+                href="(roots)/apps/apps.html"
                 data-pencil-name="Login Button"
                 class="box-border shrink-0 h-fit opacity-[100] [box-shadow:0px_0px_0px_#00000000,_0px_0px_0px_#00000000,_0px_1px_2.625px_#0000001a,_0px_1px_1.75px_#0000001a] flex flex-row gap-1.5 p-[8px_20px_9px_20px] justify-start items-center bg-[#f3bc45ff] hover:bg-[#E0A832] rounded-[9999px] overflow-hidden transition-all text-white group"
               >
@@ -3454,6 +3468,35 @@
       </div>
     </div>
     <script>
+      (function () {
+        function autoScale() {
+          const frame = document.querySelector('[data-pencil-name="Frame"]');
+          if (!frame) return;
+          const vw = document.documentElement.clientWidth || window.innerWidth;
+          if (vw < 1920) {
+            const scale = vw / 1920;
+            if ('zoom' in frame.style) {
+              frame.style.zoom = scale;
+            } else {
+              frame.style.transformOrigin = 'top left';
+              frame.style.transform = 'scale(' + scale + ')';
+              document.body.style.height = (5855.266 * scale) + 'px';
+            }
+          } else {
+            if ('zoom' in frame.style) {
+              frame.style.zoom = '1';
+            } else {
+              frame.style.transform = 'none';
+              document.body.style.height = 'auto';
+            }
+          }
+        }
+        window.addEventListener('resize', autoScale);
+        window.addEventListener('orientationchange', autoScale);
+        document.addEventListener('DOMContentLoaded', autoScale);
+        autoScale();
+      })();
+
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
