@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kampus Berdampak | Fakultas Ilmu Komputer UDINUS</title>
+
+  <!-- Font Google Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN (v3) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#F1F7FE',
+              100: '#E2EEFC',
+              200: '#BFDBF8',
+              300: '#86BEF3',
+              400: '#1E7FD9',
+              500: '#1E7FD9',
+              600: '#1063B9',
+              700: '#114D91',
+              800: '#10447C',
+              900: '#133A67',
+              950: '#0D2544',
+            },
+            secondary: {
+              50: '#FEFAEC',
+              100: '#FCEEC9',
+              200: '#F8DB8F',
+              300: '#F4BD45',
+              400: '#F2AB2D',
+              500: '#F3BC45',
+              600: '#D0670F',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-sans bg-[#FAFAFA] text-gray-900 antialiased min-h-screen flex flex-col selection:bg-primary-100 selection:text-primary-800">
+
+  <!-- ==================== HEADER / NAVBAR ==================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-[#114D91] to-[#1E7FD9] shadow-lg shadow-black/10">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5">
+      <a href="../landingpage.html" class="flex items-center gap-3 shrink-0">
+        <img src="../../assets/logo.png" alt="Logo UDINUS" class="h-9 w-auto" onerror="this.onerror=null;this.src='https://dinus.ac.id/img/logo-dinus.png'" />
+        <div class="flex flex-col leading-tight font-extrabold uppercase tracking-wider text-white">
+          <span class="text-xs">FAKULTAS ILMU KOMPUTER</span>
+          <span class="text-[10px] text-primary-200 font-medium">UNIVERSITAS DIAN NUSWANTORO</span>
+        </div>
+      </a>
+
+      <nav class="hidden xl:flex items-center gap-5 text-sm font-medium whitespace-nowrap">
+        <a href="../landingpage.html" class="text-white/80 hover:text-white transition-colors">Beranda</a>
+        <a href="../profil.html" class="text-white/80 hover:text-white transition-colors">Profil</a>
+        <a href="../inovasi.html" class="text-white/80 hover:text-white transition-colors">Inovasi</a>
+        <a href="../publikasi.html" class="text-white/80 hover:text-white transition-colors">Publikasi</a>
+
+        <!-- MENU AKTIF: KAMPUS BERDAMPAK -->
+        <a href="mbkm.html" class="relative text-[#F3BC45] font-semibold flex items-center gap-1.5 transition-colors group">
+          <span>Kampus Berdampak</span>
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-[#F3BC45] text-[#114D91] uppercase tracking-wide">
+            MBKM
+          </span>
+        </a>
+
+        <a href="../pengumuman.html" class="text-white/80 hover:text-white transition-colors">Pengumuman</a>
+        <a href="../berita.html" class="text-white/80 hover:text-white transition-colors">Berita Kegiatan</a>
+      </nav>
+
+      <div class="hidden xl:flex items-center gap-3 whitespace-nowrap">
+        <a href="https://pmb.dinus.ac.id/" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/80 text-white hover:bg-white hover:text-[#114D91] text-xs font-semibold transition-all">
+          <span>Pendaftaran</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="../(roots)-apps/apps.html" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#F3BC45] hover:bg-[#E0A832] text-white text-xs font-bold shadow transition-all">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Portal Apps</span>
+        </a>
+      </div>
+
+      <!-- Tombol menu (layar < xl) -->
+      <button id="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu-mobile" class="xl:hidden inline-flex items-center justify-center w-9 h-9 rounded-lg text-white hover:bg-white/10 transition-colors">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="menu-mobile" class="hidden xl:hidden border-t border-white/15 bg-[#114D91]">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col text-sm font-medium">
+        <a href="../landingpage.html" class="py-2.5 text-white/80 hover:text-white">Beranda</a>
+        <a href="../profil.html" class="py-2.5 text-white/80 hover:text-white">Profil</a>
+        <a href="../inovasi.html" class="py-2.5 text-white/80 hover:text-white">Inovasi</a>
+        <a href="../publikasi.html" class="py-2.5 text-white/80 hover:text-white">Publikasi</a>
+        <a href="mbkm.html" class="py-2.5 text-[#F3BC45] font-semibold flex items-center gap-1.5">
+          <span>Kampus Berdampak</span>
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-[#F3BC45] text-[#114D91] uppercase tracking-wide">MBKM</span>
+        </a>
+        <a href="../pengumuman.html" class="py-2.5 text-white/80 hover:text-white">Pengumuman</a>
+        <a href="../berita.html" class="py-2.5 text-white/80 hover:text-white">Berita Kegiatan</a>
+        <div class="flex flex-wrap items-center gap-3 pt-3 mt-2 border-t border-white/15">
+          <a href="https://pmb.dinus.ac.id/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/80 text-white hover:bg-white hover:text-[#114D91] text-xs font-semibold transition-all">
+            <span>Pendaftaran</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+          <a href="../(roots)-apps/apps.html" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#F3BC45] hover:bg-[#E0A832] text-white text-xs font-bold shadow transition-all">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+            <span>Portal Apps</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== BODY / MAIN CONTENT ==================== -->
+  <!-- pt-16 (64px) mengimbangi tinggi navbar yang fixed -->
+  <main class="flex-1 pt-16">
+
+    <!-- Banner judul halaman -->
+    <section class="bg-gradient-to-br from-primary-700 to-primary-400">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/15 text-white border border-white/30 mb-4">
+          <i data-lucide="award" class="w-3.5 h-3.5"></i>
+          Kampus Berdampak
+        </span>
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white max-w-3xl">
+          Katalog Program Kampus Berdampak
+        </h1>
+        <p class="mt-4 text-sm md:text-base text-primary-100 leading-relaxed max-w-2xl">
+          Jelajahi penawaran program MBKM Fakultas Ilmu Komputer pada semester berjalan: magang industri, riset bidang kajian, studi independen, dan lainnya.
+        </p>
+      </div>
+    </section>
+
+    <!-- Area konten katalog -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Program Tersedia</h2>
+        <p class="mt-1 text-sm md:text-base text-gray-600 leading-relaxed">
+          Pilih program yang sesuai dengan minat dan kualifikasi akademik Anda.
+        </p>
+      </div>
+
+      <!-- SLOT: Filter Tabs & Search (DESIGN.md bagian 9) -->
+      <div id="slot-filter" class="mb-8 bg-white rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+        Slot Filter &amp; Pencarian
+      </div>
+
+      <!-- SLOT: Grid Kartu Program (DESIGN.md bagian 7.1) -->
+      <div id="slot-katalog" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl border border-dashed border-gray-300 p-12 text-center text-sm text-gray-500">Slot Kartu Program</div>
+        <div class="bg-white rounded-xl border border-dashed border-gray-300 p-12 text-center text-sm text-gray-500">Slot Kartu Program</div>
+        <div class="bg-white rounded-xl border border-dashed border-gray-300 p-12 text-center text-sm text-gray-500">Slot Kartu Program</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-primary-950 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+
+        <!-- Identitas & Kontak -->
+        <div class="lg:col-span-2">
+          <a href="../landingpage.html" class="flex items-center gap-3 mb-4">
+            <img src="../../assets/logo.png" alt="Logo UDINUS" class="h-10 w-auto" onerror="this.onerror=null;this.src='https://dinus.ac.id/img/logo-dinus.png'" />
+            <div class="flex flex-col leading-tight font-extrabold uppercase tracking-wider">
+              <span class="text-sm">UNIVERSITAS</span>
+              <span class="text-sm">DIAN NUSWANTORO</span>
+            </div>
+          </a>
+          <p class="text-sm text-primary-200 leading-relaxed max-w-sm mb-6">
+            Mempersiapkan generasi digital yang kompeten, inovatif, dan siap menghadapi tantangan teknologi masa depan.
+          </p>
+          <ul class="space-y-3 text-sm text-primary-100">
+            <li class="flex items-start gap-3">
+              <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 text-secondary-500 shrink-0"></i>
+              <span>Jl. Imam Bonjol No.207, Pendrikan Kidul, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50131</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i data-lucide="phone" class="w-4 h-4 text-secondary-500 shrink-0"></i>
+              <span>(024) 3517261</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i data-lucide="mail" class="w-4 h-4 text-secondary-500 shrink-0"></i>
+              <span>fik@dinus.ac.id</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Program Studi -->
+        <div>
+          <h4 class="text-base font-semibold mb-4">Program Studi</h4>
+          <ul class="space-y-2.5 text-sm text-primary-200">
+            <li><a href="#" class="hover:text-white transition-colors">Program Studi Sarjana (S1)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Program Diploma &amp; Sarjana Terapan (D3 &amp; SST)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Program Diploma &amp; Sarjana Magister (S2)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Program Studi Doktor (S3)</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Program Pendidikan Jarak Jauh (PJJ)</a></li>
+          </ul>
+        </div>
+
+        <!-- Organisasi Mahasiswa & Biro -->
+        <div>
+          <h4 class="text-base font-semibold mb-4">Organisasi Mahasiswa</h4>
+          <ul class="space-y-2.5 text-sm text-primary-200 mb-8">
+            <li><a href="#" class="hover:text-white transition-colors">BEM FIK</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">DPM FIK</a></li>
+          </ul>
+          <h4 class="text-base font-semibold mb-4">Biro</h4>
+          <ul class="space-y-2.5 text-sm text-primary-200">
+            <li><a href="#" class="hover:text-white transition-colors">Biro Akademik</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Biro Keuangan</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Biro Mahasiswa</a></li>
+          </ul>
+        </div>
+
+        <!-- Unit -->
+        <div>
+          <h4 class="text-base font-semibold mb-4">Unit</h4>
+          <ul class="space-y-2.5 text-sm text-primary-200">
+            <li><a href="#" class="hover:text-white transition-colors">UPT Perpustakaan</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">UPT Career Center</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">UPT Dinustek</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">UPT LSP</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">UPT Penerbitan</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">UPT Poliklinik</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">UPT TVKU</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="mt-12 pt-6 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-200">
+        <span>© 2025 Universitas Dian Nuswantoro. All rights reserved.</span>
+        <a href="#" class="hover:text-white transition-colors">About Developer</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toggle menu mobile & inisialisasi ikon Lucide -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Toggle menu mobile (dipasang lebih dulu agar tetap jalan walau Lucide gagal dimuat)
+      const toggle = document.getElementById("menu-toggle");
+      const menu = document.getElementById("menu-mobile");
+      toggle.addEventListener("click", () => {
+        const open = menu.classList.toggle("hidden") === false;
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
