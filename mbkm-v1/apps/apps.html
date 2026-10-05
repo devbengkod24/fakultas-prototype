@@ -1,12 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal Apps | Fakultas Ilmu Komputer UDINUS</title>
     <script>
-      tailwind = { config: { corePlugins: { preflight: false } } };
+      tailwind = {
+        config: {
+          corePlugins: { preflight: false },
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+              },
+              colors: {
+                primary: {
+                  50: '#F1F7FE',
+                  100: '#E2EEFC',
+                  200: '#BFDBF8',
+                  300: '#86BEF3',
+                  400: '#1E7FD9',
+                  500: '#1E7FD9',
+                  600: '#1063B9',
+                  700: '#114D91',
+                  800: '#10447C',
+                  900: '#133A67',
+                  950: '#0D2544',
+                },
+                secondary: {
+                  50: '#FEFAEC',
+                  100: '#FCEEC9',
+                  200: '#F8DB8F',
+                  300: '#F4BD45',
+                  400: '#F2AB2D',
+                  500: '#F3BC45',
+                  600: '#D0670F',
+                }
+              }
+            }
+          }
+        }
+      };
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,6 +57,10 @@
 
       body {
         margin: 0;
+      }
+
+      a {
+        text-decoration: none;
       }
     </style>
 
@@ -39,8 +80,18 @@
     >
       <div
         data-pencil-name="section.jsx-adba7c001d2d24b1"
-        class="box-border w-full h-fit shrink-0 flex flex-col gap-0 p-[144px_448px_88px_448px] justify-start items-start [background-image:linear-gradient(101.31deg,_#114d91ff_0%,_#1e7fd9ff_100%)] bg-no-repeat bg-[length:100%_100%] overflow-hidden relative"
+        class="box-border w-full h-fit shrink-0 flex flex-col gap-0 p-[48px_448px_88px_448px] justify-start items-start [background-image:linear-gradient(101.31deg,_#114d91ff_0%,_#1e7fd9ff_100%)] bg-no-repeat bg-[length:100%_100%] overflow-hidden relative"
       >
+        <!-- Navigasi Kembali ke Landing Page -->
+        <div class="box-border w-full flex flex-row justify-between items-center mb-10 relative [z-index:10]">
+          <a
+            href="../landingpage.html"
+            class="inline-flex items-center gap-2 text-white/90 hover:text-white text-sm font-medium bg-white/15 hover:bg-white/25 px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm transition-all no-underline"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Kembali ke Beranda FIK</span>
+          </a>
+        </div>
         <div
           data-pencil-name="div.jsx-adba7c001d2d24b1"
           class="box-border w-[1920px] h-[384px] opacity-[10] absolute left-0 top-0 flex flex-col gap-0 justify-center items-start overflow-hidden [z-index:0]"
@@ -766,7 +817,7 @@
             </div>
             <div
               data-pencil-name="div.w-full"
-              class="box-border w-[270px] h-[377px] absolute left-[147px] top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:4]"
+              class="box-border w-[270px] h-[377px] absolute left-0 top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:4]"
             >
               <div
                 data-pencil-name="div.flex"
@@ -926,7 +977,7 @@
             </div>
             <div
               data-pencil-name="div.w-full"
-              class="box-border w-[270px] h-[377px] absolute left-[441px] top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:5]"
+              class="box-border w-[270px] h-[377px] absolute left-[294px] top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:5]"
             >
               <div
                 data-pencil-name="div.flex"
@@ -1154,7 +1205,7 @@
             </div>
             <div
               data-pencil-name="div.w-full"
-              class="box-border w-[270px] h-[377px] absolute left-[735px] top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:6]"
+              class="box-border w-[270px] h-[377px] absolute left-[588px] top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:6]"
             >
               <div
                 data-pencil-name="div.flex"
@@ -1335,6 +1386,137 @@
                 </div>
               </div>
             </div>
+            <!-- CARD 8: KAMPUS BERDAMPAK (Issue #4) -->
+            <div
+              data-pencil-name="Card Kampus Berdampak"
+              class="box-border w-[270px] h-[377px] absolute left-[882px] top-[350.25px] flex flex-col gap-0 p-[32px] justify-start items-start bg-[#ffffffff] [border:1px_solid_#e5e7ebff] rounded-[12px] [z-index:7] transition-all duration-200 hover:shadow-lg hover:-translate-y-1 hover:border-[#1063b9]/40 group"
+            >
+              <div
+                data-pencil-name="div.flex"
+                class="box-border w-full [flex:1_1_0] flex flex-col gap-0 justify-start items-center"
+              >
+                <!-- Icon Box -->
+                <div
+                  data-pencil-name="div.mb-6:margin"
+                  class="box-border w-fit h-fit shrink-0 flex flex-col gap-0 p-[0px_0px_24px_0px] justify-start items-start"
+                >
+                  <div
+                    data-pencil-name="div.mb-6"
+                    class="box-border w-fit h-fit shrink-0 flex flex-col gap-0 p-[16px] justify-start items-start bg-[#f1f7feff] rounded-[12px] transition-all duration-200 group-hover:scale-110 group-hover:bg-[#e2eefc]"
+                  >
+                    <div
+                      data-pencil-name="Frame"
+                      class="box-border w-[32px] h-[32px] shrink-0 flex items-center justify-center text-[#1063b9]"
+                    >
+                      <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Text Content -->
+                <div
+                  data-pencil-name="div.flex-1:margin"
+                  class="box-border w-fit [flex:1_1_0] flex flex-col gap-0 p-[0px_0px_24px_0px] justify-center items-start"
+                >
+                  <div
+                    data-pencil-name="div.flex-1"
+                    class="box-border w-[204px] [flex:1_1_0] flex flex-col gap-[12px] justify-start items-start"
+                  >
+                    <div
+                      data-pencil-name="h3.text-xl"
+                      class="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-center"
+                    >
+                      <div
+                        data-pencil-name="Kampus Berdampak"
+                        class="text-[20px]/[28px] box-border text-[#111827ff] font-[Inter,system-ui,sans-serif] font-semibold text-center [white-space:nowrap]"
+                      >
+                        Kampus Berdampak
+                      </div>
+                    </div>
+                    <div
+                      data-pencil-name="p.text-gray-600"
+                      class="box-border w-full h-fit shrink-0 flex flex-col gap-0 justify-start items-center"
+                    >
+                      <div
+                        class="text-[14px]/[20px] box-border text-[#4b5563ff] font-[Inter,system-ui,sans-serif] font-normal text-center"
+                      >
+                        Portal magang industri, riset bidang kajian, dan studi independen mahasiswa FIK.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Button: Selaras dengan Card lainnya -->
+                <a
+                  href="../(subapps)-mbkm/mahasiswa.html"
+                  data-pencil-name="div.inline-flex"
+                  class="box-border w-fit h-fit shrink-0 flex flex-row gap-[7.99px] p-[10px_20px] justify-start items-center bg-[#0655a7ff] hover:bg-[#05468b] rounded-[8px] transition-colors cursor-pointer text-white no-underline"
+                >
+                  <div
+                    data-pencil-name="Buka Aplikasi"
+                    class="text-[14px]/[20px] box-border text-[#ffffffff] font-[Inter,system-ui,sans-serif] font-medium text-center [white-space:nowrap]"
+                  >
+                    Buka Aplikasi
+                  </div>
+                  <div
+                    data-pencil-name="Frame"
+                    class="box-border w-[14px] shrink-0 h-[14px] overflow-hidden relative"
+                  >
+                    <svg
+                      data-pencil-name="Vector"
+                      viewBox="0 0 6 6"
+                      preserveAspectRatio="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="box-border w-[3.5px] h-[3.5px] opacity-[100] absolute left-[8.75px] top-[1.75px] overflow-visible [z-index:0]"
+                    >
+                      <path
+                        d="M0 0L6 0L6 6"
+                        fill="none"
+                        stroke="#ffffffff"
+                        stroke-width="1.166"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        vector-effect="non-scaling-stroke"
+                      ></path>
+                    </svg>
+                    <svg
+                      data-pencil-name="Vector"
+                      viewBox="0 0 11 11"
+                      preserveAspectRatio="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="box-border w-[6.417px] h-[6.417px] opacity-[100] absolute left-[5.833px] top-[1.75px] overflow-visible [z-index:1]"
+                    >
+                      <path
+                        d="M0 11L11 0"
+                        fill="none"
+                        stroke="#ffffffff"
+                        stroke-width="1.166"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        vector-effect="non-scaling-stroke"
+                      ></path>
+                    </svg>
+                    <svg
+                      data-pencil-name="Vector"
+                      viewBox="0 0 15 15"
+                      preserveAspectRatio="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="box-border w-[8.75px] h-[8.75px] opacity-[100] absolute left-[1.75px] top-[3.5px] overflow-visible [z-index:2]"
+                    >
+                      <path
+                        d="M15 7L15 13C15 13.530433 14.789286 14.039141 14.414213 14.414213C14.039141 14.789286 13.530433 15 13 15L2 15C1.4695671 15 0.96085906 14.789286 0.58578634 14.414213C0.2107136 14.039141 4.4408921e-16 13.530433 0 13L0 2C0 1.4695671 0.2107136 0.96085906 0.58578634 0.58578634C0.96085906 0.2107136 1.4695671 8.8817842e-16 2 0L8 0"
+                        fill="none"
+                        stroke="#ffffffff"
+                        stroke-width="1.166"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        vector-effect="non-scaling-stroke"
+                      ></path>
+                    </svg>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1355,5 +1537,8 @@
         </div>
       </div>
     </div>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>

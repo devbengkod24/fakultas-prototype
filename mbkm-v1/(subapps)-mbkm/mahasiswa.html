@@ -1371,8 +1371,8 @@
             <div class="user-dropdown-item" role="menuitem" tabindex="0"><i data-lucide="settings"></i> Pengaturan Akun
             </div>
             <div class="dropdown-sep"></div>
-            <div class="user-dropdown-item danger" id="logout-btn" role="menuitem" tabindex="0"><i
-                data-lucide="log-out"></i> Keluar</div>
+            <a href="../(roots)-apps/apps.html" class="user-dropdown-item danger" id="logout-btn" role="menuitem" tabindex="0" style="text-decoration:none;display:flex;align-items:center;gap:8px;"><i
+                data-lucide="log-out"></i> Keluar ke Portal Apps</a>
           </div>
         </div>
       </div>
@@ -1392,12 +1392,22 @@
             </button>
             <span class="separator-v" aria-hidden="true"></span>
             <nav class="breadcrumb" aria-label="Breadcrumb">
+              <div class="breadcrumb-item"><a href="../(roots)-apps/apps.html" class="breadcrumb-link" title="Kembali ke Portal Apps" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="layout-grid" style="width:13px;height:13px;"></i> Portal Apps</a></div>
+              <span class="breadcrumb-sep" aria-hidden="true">/</span>
               <div class="breadcrumb-item"><a href="#dashboard" class="breadcrumb-link">Mahasiswa</a></div>
               <span class="breadcrumb-sep" aria-hidden="true">/</span>
               <div class="breadcrumb-item"><span class="breadcrumb-page" id="breadcrumb-current">Dashboard</span></div>
             </nav>
           </div>
-          <div class="page-header-right" style="display:flex;align-items:center;gap:8px;">
+          <div class="page-header-right" style="display:flex;align-items:center;gap:12px;">
+            <!-- Global Role Switcher Demo (Mahasiswa / Dosen / Admin) -->
+            <div style="display:flex;align-items:center;gap:4px;background:#f4f4f5;padding:4px;border-radius:8px;font-size:12px;border:1px solid #e4e4e7;">
+              <span style="padding:2px 8px;font-weight:500;color:#71717a;">Demo Role:</span>
+              <span style="padding:2px 10px;border-radius:6px;font-weight:600;background:#ffffff;color:#114D91;box-shadow:0 1px 2px rgba(0,0,0,0.05);border:1px solid #e4e4e7;">Mahasiswa</span>
+              <a href="contributor.html" style="padding:2px 10px;border-radius:6px;font-weight:500;color:#71717a;text-decoration:none;transition:all 0.15s ease;" onmouseover="this.style.background='#fff';this.style.color='#09090b';" onmouseout="this.style.background='transparent';this.style.color='#71717a';">Dosen</a>
+              <a href="admin.html" style="padding:2px 10px;border-radius:6px;font-weight:500;color:#71717a;text-decoration:none;transition:all 0.15s ease;" onmouseover="this.style.background='#fff';this.style.color='#09090b';" onmouseout="this.style.background='transparent';this.style.color='#71717a';">Admin</a>
+            </div>
+
             <span class="period-pill"
               style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:9999px;font-size:11px;font-weight:600;color:#92400e;">
               <i data-lucide="calendar" style="width:12px;height:12px;"></i> Periode Genap 2025/2026
@@ -2071,8 +2081,10 @@
 
       document.addEventListener('click', closeAllDropdowns);
 
-      document.getElementById('logout-btn')?.addEventListener('click', () => {
-        if (confirm('Keluar dari akun mahasiswa?')) alert('Anda telah berhasil keluar.');
+      document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+        if (!confirm('Keluar dari akun mahasiswa dan kembali ke Portal Apps?')) {
+          e.preventDefault();
+        }
       });
     }
 
