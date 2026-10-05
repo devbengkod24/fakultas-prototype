@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Mahasiswa | Kampus Berdampak - FIK Udinus</title>
+  <meta name="description"
+    content="Sub-aplikasi Kampus Berdampak (MBKM) untuk mahasiswa FIK Universitas Dian Nuswantoro. Alur validasi syarat DB, pendaftaran mandiri, dan tracking status." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* ===================================================
+   DESIGN TOKENS — Sub-App MBKM Mahasiswa
+   Mengikuti tema fakultas-fe (Next.js app)
+   =================================================== */
+    :root {
+      --primary: #0655A7;
+      --primary-light: #1e7fd9;
+      --primary-subtle: #f1f7fe;
+      --primary-border: #bfdbf8;
+      --secondary: #f4bd45;
+      --secondary-light: #fef9c3;
+      --background: #ffffff;
+      --foreground: #111827;
+      --card-bg: #ffffff;
+      --sidebar-bg: #f9fafb;
+      --border: #e5e7eb;
+      --input-border: #d1d5db;
+      --muted-fg: #6b7280;
+      --muted-bg: #f9fafb;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --success-border: #bbf7d0;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --warning-border: #fde68a;
+      --destructive: #dc2626;
+      --destructive-bg: #fee2e2;
+      --destructive-border: #fecaca;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-size-xs: 11px;
+      --font-size-sm: 12px;
+      --font-size-base: 14px;
+      --font-size-md: 15px;
+      --font-size-lg: 16px;
+      --font-size-xl: 18px;
+      --font-size-2xl: 20px;
+      --font-size-3xl: 24px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --radius-pill: 9999px;
+      --sidebar-width: 240px;
+      --sidebar-width-collapsed: 60px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --transition-fast: all 0.15s ease;
+      --transition-base: all 0.2s ease;
+      --transition-slow: all 0.3s ease;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 100%;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      line-height: 1.6;
+      color: var(--foreground);
+      background: var(--background);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .app-layout {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background: #ffffff;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      z-index: 100;
+      flex-shrink: 0;
+      box-shadow: 1px 0 0 0 var(--border);
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-width-collapsed);
+      min-width: var(--sidebar-width-collapsed);
+    }
+
+    .sidebar-header {
+      padding: var(--space-4) var(--space-3);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .sidebar-brand-logo {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand-text {
+      display: flex;
+      flex-direction: column;
+      font-size: var(--font-size-xs);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #114D91;
+      line-height: 1.2;
+      transition: opacity 0.2s ease, width 0.2s ease;
+    }
+
+    .sidebar.collapsed .sidebar-brand-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .app-switcher-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app-switcher-btn:hover {
+      background: var(--muted-bg);
+    }
+
+    .app-switcher-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #0655A7, #1e7fd9);
+      color: #fff;
+    }
+
+    .app-switcher-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .app-switcher-info {
+      flex: 1;
+      text-align: left;
+      overflow: hidden;
+      transition: opacity 0.2s ease, width 0.2s ease;
+    }
+
+    .sidebar.collapsed .app-switcher-info,
+    .sidebar.collapsed .app-switcher-chevron {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .app-switcher-name {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .app-switcher-role {
+      font-size: var(--font-size-xs);
+      color: var(--muted-fg);
+      text-transform: capitalize;
+      display: block;
+    }
+
+    .app-switcher-chevron {
+      color: var(--muted-fg);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .app-switcher-chevron.open {
+      transform: rotate(180deg);
+    }
+
+    .app-switcher-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      padding: var(--space-1);
+      display: none;
+      min-width: 200px;
+    }
+
+    .app-switcher-dropdown.open {
+      display: block;
+    }
+
+    .app-switcher-dropdown-label {
+      font-size: var(--font-size-xs);
+      color: var(--muted-fg);
+      padding: var(--space-2) var(--space-3) var(--space-1);
+      font-weight: 500;
+    }
+
+    .switcher-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-size: var(--font-size-sm);
+    }
+
+    .switcher-item:hover {
+      background: var(--muted-bg);
+    }
+
+    .switcher-item.active {
+      font-weight: 600;
+    }
+
+    .switcher-item.disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .switcher-item-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .switcher-item-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Sidebar Nav */
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: var(--space-3) var(--space-2);
+    }
+
+    .nav-item {
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 10px var(--space-3);
+      border-radius: var(--radius-md);
+      color: #374151;
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      transition: var(--transition-fast);
+      white-space: nowrap;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      background: var(--muted-bg);
+      color: var(--foreground);
+    }
+
+    .nav-link.active {
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      background: var(--primary);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .nav-link-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-link-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .nav-link-label {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: opacity 0.2s ease, width 0.2s ease;
+    }
+
+    .sidebar.collapsed .nav-link-label,
+    .sidebar.collapsed .nav-badge {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    /* User Card */
+    .sidebar-footer {
+      padding: var(--space-3);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .user-card:hover {
+      background: var(--muted-bg);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .user-info {
+      flex: 1;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .sidebar.collapsed .user-info,
+    .sidebar.collapsed .user-chevrons {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .user-name {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .user-nim {
+      font-size: var(--font-size-xs);
+      color: var(--muted-fg);
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-chevrons {
+      color: var(--muted-fg);
+      flex-shrink: 0;
+    }
+
+    .user-dropdown {
+      position: absolute;
+      bottom: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      padding: var(--space-1);
+      display: none;
+      min-width: 200px;
+    }
+
+    .user-dropdown.open {
+      display: block;
+    }
+
+    .user-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-1);
+    }
+
+    .user-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: var(--font-size-sm);
+      color: var(--foreground);
+      transition: var(--transition-fast);
+    }
+
+    .user-dropdown-item:hover {
+      background: var(--muted-bg);
+    }
+
+    .user-dropdown-item.danger {
+      color: var(--destructive);
+    }
+
+    .user-dropdown-item.danger:hover {
+      background: var(--destructive-bg);
+    }
+
+    .user-dropdown-item svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .dropdown-sep {
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-1) 0;
+    }
+
+    /* Main Wrapper */
+    .main-wrapper {
+      flex: 1;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: #f8fafc;
+    }
+
+    .main-canvas {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      box-shadow: none;
+    }
+
+    .page-header,
+    .page-title-bar {
+      background: transparent;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .page-header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .sidebar-toggle-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--muted-fg);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--muted-bg);
+      color: var(--foreground);
+    }
+
+    .sidebar-toggle-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .separator-v {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .breadcrumb-link {
+      font-size: var(--font-size-sm);
+      color: var(--muted-fg);
+      transition: var(--transition-fast);
+    }
+
+    .breadcrumb-link:hover {
+      color: var(--foreground);
+    }
+
+    .breadcrumb-page {
+      font-size: var(--font-size-sm);
+      color: var(--foreground);
+      background: var(--sidebar-bg);
+      border: 1px solid var(--border);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-md);
+      font-weight: 500;
+    }
+
+    .breadcrumb-sep {
+      color: var(--muted-fg);
+      font-size: var(--font-size-xs);
+    }
+
+    .page-header-sep {
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-3) 0 var(--space-4);
+    }
+
+    .page-title-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin: var(--space-2) 0 var(--space-4);
+    }
+
+    .page-title {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.3;
+    }
+
+    .page-subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--muted-fg);
+      margin-top: 2px;
+    }
+
+    .page-body {
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Tabs Views */
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Cards & Layout */
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: var(--transition-base);
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+      border-color: #cbd5e1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+    }
+
+    .card-title {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--foreground);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .card-description {
+      font-size: var(--font-size-xs);
+      color: var(--muted-fg);
+      margin-top: var(--space-1);
+    }
+
+    .stat-value {
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      color: var(--foreground);
+      line-height: 1.2;
+    }
+
+    .stat-card-accent {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card-accent svg {
+      width: 20px;
+      height: 20px;
+      color: #fff;
+    }
+
+    .accent-blue {
+      background: linear-gradient(135deg, #0655A7, #1e7fd9);
+    }
+
+    .accent-green {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+    }
+
+    .accent-amber {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+    }
+
+    .accent-purple {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+    }
+
+    .accent-red {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .badge-primary {
+      background: var(--primary-subtle);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+    }
+
+    .badge-success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+
+    .badge-warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+    }
+
+    .badge-danger {
+      background: var(--destructive-bg);
+      color: var(--destructive);
+      border: 1px solid var(--destructive-border);
+    }
+
+    .badge-muted {
+      background: var(--muted-bg);
+      color: var(--muted-fg);
+      border: 1px solid var(--border);
+    }
+
+    .alert {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      border-left: 4px solid;
+      margin-bottom: var(--space-4);
+    }
+
+    .alert svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .alert-title {
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .alert-desc {
+      font-size: var(--font-size-sm);
+    }
+
+    .alert-info {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1e40af;
+    }
+
+    .alert-warning {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+      color: #92400e;
+    }
+
+    .alert-destructive {
+      background: var(--destructive-bg);
+      border-color: var(--destructive);
+      color: #991b1b;
+    }
+
+    .alert-success {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #166534;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: 9px var(--space-4);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      transition: var(--transition-base);
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+
+    .btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-light);
+    }
+
+    .btn-outline {
+      background: var(--card-bg);
+      color: var(--foreground);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      background: var(--muted-bg);
+    }
+
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #374151;
+      border-color: #e5e7eb;
+    }
+
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+
+    .btn-lg {
+      padding: 12px 20px;
+      font-size: 15px;
+    }
+
+
+    /* Forms & Upload */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    .form-label .required {
+      color: var(--destructive);
+      margin-left: 2px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--foreground);
+      background: #fff;
+      transition: var(--transition-fast);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(6, 85, 167, 0.15);
+    }
+
+    .form-control:disabled,
+    .form-control[readonly] {
+      background: #f9fafb;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .upload-card {
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: var(--transition-base);
+      position: relative;
+    }
+
+    .upload-card:hover {
+      border-color: var(--primary);
+      background: #f0f7ff;
+    }
+
+    .upload-card.has-file {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .upload-card input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      transition: var(--transition-fast);
+    }
+
+    .upload-card:hover .upload-icon-box {
+      background: #dbeafe;
+      color: var(--primary);
+    }
+
+    .upload-card.has-file .upload-icon-box {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .upload-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .upload-hint {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    .file-selected-info {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 4px 10px;
+      background: #fff;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      color: #166534;
+    }
+
+    /* Tracking Step Visualizer */
+    .tracking-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .step-card {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: #ffffff;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      position: relative;
+    }
+
+    .step-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .step-pending .step-icon {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .step-accepted .step-icon {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .step-rejected .step-icon {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .step-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .step-desc {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    /* Status Hero Box */
+    .status-hero {
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      color: #1f2937;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .status-hero.pending {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1px solid #fde68a;
+    }
+
+    .status-hero.accepted {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1px solid #bbf7d0;
+    }
+
+    .status-hero.rejected {
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+      border: 1px solid #fecaca;
+    }
+
+    .flow-chart-visual {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 16px 0;
+    }
+
+    .flow-diagram-step {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      position: relative;
+      overflow-x: auto;
+    }
+
+    .flow-node {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .flow-node.active {
+      background: #0655A7;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(6, 85, 167, 0.3);
+    }
+
+    .flow-node.neutral {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .tracking-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        width: var(--sidebar-width) !important;
+      }
+
+      .sidebar.mobile-open {
+        transform: translateX(0);
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .status-hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-layout">
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ═══════════════════════════════════════════════════
+       SIDEBAR NAV (Menu: Dashboard, Pendaftaran, Status Saya)
+       ═══════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigasi">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <img src="../../assets/images/logo-dinus.png" alt="Logo Universitas Dian Nuswantoro"
+            class="sidebar-brand-logo" />
+          <div class="sidebar-brand-text">
+            <span>Universitas</span>
+            <span>Dian Nuswantoro</span>
+          </div>
+        </div>
+        <div style="position:relative;">
+          <button class="app-switcher-btn" id="app-switcher-btn" aria-haspopup="listbox" aria-expanded="false"
+            aria-label="Pilih Layanan Aplikasi">
+            <div class="app-switcher-icon">
+              <i data-lucide="layout-dashboard"></i>
+            </div>
+            <div class="app-switcher-info">
+              <span class="app-switcher-name">Kampus Berdampak</span>
+              <span class="app-switcher-role">mahasiswa</span>
+            </div>
+            <i data-lucide="chevrons-up-down" class="app-switcher-chevron"></i>
+          </button>
+          <div class="app-switcher-dropdown" id="app-switcher-dropdown" role="listbox">
+            <div class="app-switcher-dropdown-label">Layanan Aplikasi</div>
+            <div class="switcher-item active" role="option" aria-selected="true">
+              <div class="switcher-item-icon" style="background:#eff6ff;border-color:#bfdbfe;"><i
+                  data-lucide="layout-dashboard" style="color:#0655A7;"></i></div>
+              <span>Kampus Berdampak</span>
+            </div>
+            <div class="switcher-item disabled" role="option" aria-selected="false"
+              title="Tidak tersedia untuk mahasiswa">
+              <div class="switcher-item-icon" style="background:#fff7ed;border-color:#fed7aa;"><i
+                  data-lucide="book-check" style="color:#f97316;"></i></div>
+              <span>Tugas Akhir</span>
+            </div>
+            <div class="switcher-item disabled" role="option" aria-selected="false"
+              title="Tidak tersedia untuk mahasiswa">
+              <div class="switcher-item-icon" style="background:#f0fdf4;border-color:#bbf7d0;"><i
+                  data-lucide="briefcase" style="color:#16a34a;"></i></div>
+              <span>Kerja Praktek</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu MBKM Mahasiswa Sesuai Flowchart -->
+      <nav class="sidebar-nav" aria-label="Menu Navigasi MBKM Mahasiswa">
+        <div class="nav-item">
+          <a href="#dashboard" class="nav-link active" id="nav-dashboard">
+            <span class="nav-link-icon"><i data-lucide="home"></i></span>
+            <span class="nav-link-label">Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="#pendaftaran" class="nav-link" id="nav-pendaftaran">
+            <span class="nav-link-icon"><i data-lucide="file-edit"></i></span>
+            <span class="nav-link-label">Pendaftaran</span>
+            <span id="nav-badge-pendaftaran" class="badge badge-success nav-badge"
+              style="font-size:10px;padding:1px 6px;margin-left:auto;">Buka</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="#status" class="nav-link" id="nav-status">
+            <span class="nav-link-icon"><i data-lucide="clock"></i></span>
+            <span class="nav-link-label">Status Saya</span>
+            <span id="nav-badge-status" class="badge badge-warning nav-badge"
+              style="font-size:10px;padding:1px 6px;margin-left:auto;">Pending</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer: User Card -->
+      <div class="sidebar-footer">
+        <div style="position:relative;">
+          <div class="user-card" id="user-card" role="button" tabindex="0" aria-haspopup="true"
+            aria-label="Menu Pengguna">
+            <div class="user-avatar" aria-hidden="true">
+              <img src="../../assets/images/user.png" alt="Ahmad"
+                onerror="this.style.display='none'; this.parentElement.innerText='A';" />
+            </div>
+            <div class="user-info">
+              <span class="user-name" id="user-display-name">Ahmad Rizky Pratama</span>
+              <span class="user-nim" id="user-display-nim">A11.2022.14253</span>
+            </div>
+            <i data-lucide="chevrons-up-down" class="user-chevrons"></i>
+          </div>
+          <div class="user-dropdown" id="user-dropdown" role="menu">
+            <div class="user-dropdown-header">
+              <div class="user-avatar" aria-hidden="true">A</div>
+              <div>
+                <div class="font-semibold text-sm" id="dropdown-user-name">Ahmad Rizky Pratama</div>
+                <div class="text-xs text-muted">Mahasiswa S1 Teknik Informatika</div>
+              </div>
+            </div>
+            <div class="user-dropdown-item" role="menuitem" tabindex="0"><i data-lucide="user"></i> Profil Mahasiswa
+            </div>
+            <div class="user-dropdown-item" role="menuitem" tabindex="0"><i data-lucide="settings"></i> Pengaturan Akun
+            </div>
+            <div class="dropdown-sep"></div>
+            <div class="user-dropdown-item danger" id="logout-btn" role="menuitem" tabindex="0"><i
+                data-lucide="log-out"></i> Keluar</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════
+       MAIN WRAPPER & CANVAS
+       ═══════════════════════════════════════════════════ -->
+    <div class="main-wrapper">
+      <div class="main-canvas">
+
+        <!-- Header Bar -->
+        <header class="page-header" id="page-header">
+          <div class="page-header-left">
+            <button class="sidebar-toggle-btn sidebar-toggle" aria-label="Toggle Sidebar">
+              <i data-lucide="panel-left"></i>
+            </button>
+            <span class="separator-v" aria-hidden="true"></span>
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <div class="breadcrumb-item"><a href="#dashboard" class="breadcrumb-link">Mahasiswa</a></div>
+              <span class="breadcrumb-sep" aria-hidden="true">/</span>
+              <div class="breadcrumb-item"><span class="breadcrumb-page" id="breadcrumb-current">Dashboard</span></div>
+            </nav>
+          </div>
+          <div class="page-header-right" style="display:flex;align-items:center;gap:8px;">
+            <span class="period-pill"
+              style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:9999px;font-size:11px;font-weight:600;color:#92400e;">
+              <i data-lucide="calendar" style="width:12px;height:12px;"></i> Periode Genap 2025/2026
+            </span>
+          </div>
+        </header>
+
+        <!-- Separator (Wajib sesuai DESIGN.md Bab 15.2) -->
+        <div class="page-header-sep"></div>
+
+        <!-- Page Title Bar (Wajib sesuai DESIGN.md Bab 15.2) -->
+        <div class="page-title-bar">
+          <div>
+            <h1 class="page-title" id="page-title">Dashboard Mahasiswa</h1>
+            <p class="page-subtitle" id="page-subtitle">Verifikasi data akademik Anda dari database dan mulai
+              pendaftaran program MBKM.</p>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════
+           PAGE BODY (Wajib sesuai DESIGN.md Bab 15.2)
+           Tempat seluruh konten alur flow diletakkan
+           ═══════════════════════════════════════════ -->
+        <div class="page-body">
+
+
+          <!-- ═══════════════════════════════════════════════════
+             VIEW 1: DASHBOARD
+             ═══════════════════════════════════════════════════ -->
+          <div id="view-dashboard" class="tab-view active">
+
+            <!-- Banner Selamat Datang & Status Kelayakan -->
+            <div id="dashboard-hero-banner" class="status-hero"
+              style="background:linear-gradient(135deg,#0655A7 0%,#1e7fd9 100%);color:#fff;border:none;">
+              <div>
+                <div
+                  style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:rgba(255,255,255,0.2);border-radius:9999px;font-size:11px;font-weight:600;margin-bottom:8px;">
+                  <i data-lucide="shield-check" style="width:14px;height:14px;"></i> <span
+                    id="banner-eligibility-badge">Status DB: Lolos Syarat Pendaftaran</span>
+                </div>
+                <h2 style="font-size:22px;font-weight:700;margin-bottom:4px;" id="banner-welcome-name">Halo, Ahmad Rizky
+                  Pratama!</h2>
+                <p style="font-size:13px;opacity:0.9;max-width:620px;" id="banner-eligibility-desc">
+                  Data akademik Anda telah diverifikasi oleh sistem database. Anda memenuhi semua syarat untuk mendaftar
+                  Program MBKM Mandiri semester ini.
+                </p>
+              </div>
+              <div style="flex-shrink:0;">
+                <a href="#pendaftaran" class="btn btn-lg" id="btn-hero-action"
+                  style="background:#fff;color:#0655A7;font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+                  <i data-lucide="file-edit"></i> Buka Pendaftaran Mandiri
+                </a>
+              </div>
+            </div>
+
+            <!-- Section: Validasi Syarat DB (3 Poin Sesuai Flowchart) -->
+            <div style="margin-bottom:20px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <h3 style="font-size:15px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
+                  <i data-lucide="database" style="color:var(--primary);width:18px;height:18px;"></i>
+                  Validasi Syarat Database (DB)
+                </h3>
+                <span id="db-summary-badge" class="badge badge-success">3 dari 3 Syarat Terpenuhi</span>
+              </div>
+
+              <div class="grid grid-3">
+                <!-- Syarat 1: Semester 6-8 -->
+                <div class="card" id="card-syarat-smt">
+                  <div class="card-header">
+                    <span class="card-title" style="font-size:13px;color:#64748b;">Syarat 1 &bull; Semester</span>
+                    <div class="stat-card-accent accent-blue" id="icon-syarat-smt"><i data-lucide="layers"></i></div>
+                  </div>
+                  <div class="stat-value" id="val-syarat-smt">Semester 6</div>
+                  <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:11px;color:#6b7280;">Standar: <strong>Smt 6 &ndash; 8</strong></span>
+                    <span class="badge badge-success" id="badge-syarat-smt"><i data-lucide="check"
+                        style="width:12px;height:12px;"></i> Memenuhi</span>
+                  </div>
+                </div>
+
+                <!-- Syarat 2: IPK >= 3.00 -->
+                <div class="card" id="card-syarat-ipk">
+                  <div class="card-header">
+                    <span class="card-title" style="font-size:13px;color:#64748b;">Syarat 2 &bull; IPK Kumulatif</span>
+                    <div class="stat-card-accent accent-green" id="icon-syarat-ipk"><i data-lucide="star"></i></div>
+                  </div>
+                  <div class="stat-value" id="val-syarat-ipk">3.72</div>
+                  <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:11px;color:#6b7280;">Standar: <strong>IPK &ge; 3.00</strong></span>
+                    <span class="badge badge-success" id="badge-syarat-ipk"><i data-lucide="check"
+                        style="width:12px;height:12px;"></i> Memenuhi</span>
+                  </div>
+                </div>
+
+                <!-- Syarat 3: SKS >= 100 -->
+                <div class="card" id="card-syarat-sks">
+                  <div class="card-header">
+                    <span class="card-title" style="font-size:13px;color:#64748b;">Syarat 3 &bull; Beban SKS</span>
+                    <div class="stat-card-accent accent-purple" id="icon-syarat-sks"><i data-lucide="book-open"></i>
+                    </div>
+                  </div>
+                  <div class="stat-value" id="val-syarat-sks">104 SKS</div>
+                  <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:11px;color:#6b7280;">Standar: <strong>SKS &ge; 100</strong></span>
+                    <span class="badge badge-success" id="badge-syarat-sks"><i data-lucide="check"
+                        style="width:12px;height:12px;"></i> Memenuhi</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section: Alur Sistem & Quick Status -->
+            <div class="grid grid-2">
+              <!-- Flowchart Visual Reference -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="git-branch" style="color:var(--primary);"></i> Peta Alur
+                    Mahasiswa</span>
+                  <span class="badge badge-primary">Sesuai SOP MBKM</span>
+                </div>
+                <p class="card-description" style="margin-bottom:14px;">
+                  Diagram tahapan yang Anda lalui dari validasi sistem hingga penerimaan program:
+                </p>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <div
+                    style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <span
+                      style="width:24px;height:24px;border-radius:50%;background:#0655A7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">1</span>
+                    <div style="flex:1;">
+                      <div style="font-size:13px;font-weight:600;">Validasi Syarat DB</div>
+                      <div style="font-size:11px;color:#64748b;">Cek otomatis Smt 6-8, IPK &ge; 3.00, SKS &ge; 100</div>
+                    </div>
+                    <span class="badge badge-success" id="flow-step1-badge">Lolos</span>
+                  </div>
+
+                  <div
+                    style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <span
+                      style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;color:#334155;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;"
+                      id="flow-step2-num">2</span>
+                    <div style="flex:1;">
+                      <div style="font-size:13px;font-weight:600;" id="flow-step2-title">Form Pendaftaran Mandiri</div>
+                      <div style="font-size:11px;color:#64748b;">Upload Transkrip Nilai &amp; CV (format PDF)</div>
+                    </div>
+                    <span class="badge badge-primary" id="flow-step2-badge">Tersedia</span>
+                  </div>
+
+                  <div
+                    style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <span
+                      style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;color:#334155;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">3</span>
+                    <div style="flex:1;">
+                      <div style="font-size:13px;font-weight:600;">Tracking Status Pendaftaran</div>
+                      <div style="font-size:11px;color:#64748b;">Status: Pending &rarr; Accepted atau Rejected</div>
+                    </div>
+                    <span class="badge badge-warning" id="flow-step3-badge">Pending</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Status Card -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="clipboard-check" style="color:#d97706;"></i> Status
+                    Pendaftaran Aktif</span>
+                  <a href="#status" class="btn btn-sm btn-outline">Lihat Detail &rarr;</a>
+                </div>
+                <div id="dash-status-box"
+                  style="padding:16px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;margin-bottom:14px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div
+                      style="width:36px;height:36px;border-radius:50%;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <i data-lucide="clock" id="dash-status-icon"></i>
+                    </div>
+                    <div>
+                      <div style="font-size:14px;font-weight:700;color:#92400e;" id="dash-status-label">Pending
+                        (Menunggu Verifikasi)</div>
+                      <div style="font-size:12px;color:#78350f;" id="dash-status-program">Magang Mandiri &mdash; PT
+                        Telkom Indonesia</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;">
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:6px;">
+                    <span style="color:#64748b;">Tanggal Pengajuan:</span>
+                    <span style="font-weight:600;" id="dash-status-date">10 Oktober 2025</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:6px;">
+                    <span style="color:#64748b;">Berkas Terunggah:</span>
+                    <span style="font-weight:600;color:#0655A7;"><i data-lucide="file-text"
+                        style="width:12px;height:12px;display:inline;"></i> Transkrip.pdf, CV.pdf</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:#64748b;">Reviewer:</span>
+                    <span style="font-weight:600;">Koordinator MBKM FIK</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 2: PENDAFTARAN
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-pendaftaran" class="tab-view">
+
+            <!-- KONDISI A: TIDAK LOLOS SYARAT (TERKUNCI / DISABLED) -->
+            <div id="pendaftaran-locked-container" style="display:none;">
+              <div class="alert alert-destructive">
+                <i data-lucide="lock" style="width:20px;height:20px;"></i>
+                <div>
+                  <div class="alert-title">Pendaftaran Terkunci (Disabled)</div>
+                  <div class="alert-desc">
+                    <strong>Notifikasi: Anda Belum Memenuhi Syarat Pendaftaran MBKM.</strong><br />
+                    Sistem database mendeteksi data akademik Anda belum memenuhi ambang batas minimum yang ditentukan
+                    fakultas:
+                    <ul style="margin:8px 0 4px 18px;list-style:disc;font-size:12px;">
+                      <li id="lock-reason-smt">Semester Anda belum mencapai Semester 6 &ndash; 8</li>
+                      <li id="lock-reason-ipk">IPK Kumulatif Anda kurang dari 3.00</li>
+                      <li id="lock-reason-sks">Beban SKS ditempuh belum mencapai 100 SKS (Min. 100 SKS)</li>
+                    </ul>
+                    Silakan hubungi Dosen Pembimbing Akademik (DPA) atau Koordinator MBKM jika terdapat kekeliruan data.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form dalam keadaan disabled / terkunci -->
+              <div class="card" style="opacity:0.6;pointer-events:none;filter:grayscale(30%);position:relative;">
+                <div style="position:absolute;top:16px;right:16px;">
+                  <span class="badge badge-danger"><i data-lucide="lock" style="width:12px;height:12px;"></i> Form
+                    Terkunci</span>
+                </div>
+                <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Formulir Pendaftaran Mandiri</h3>
+                <div class="grid grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Nama Mahasiswa</label>
+                    <input type="text" class="form-control" value="Ahmad Rizky Pratama" disabled />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">NIM</label>
+                    <input type="text" class="form-control" value="A11.2022.14253" disabled />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nama Mitra / Perusahaan</label>
+                  <input type="text" class="form-control" placeholder="Form dinonaktifkan..." disabled />
+                </div>
+                <button class="btn btn-primary" disabled style="cursor:not-allowed;">
+                  <i data-lucide="lock"></i> Pendaftaran Terkunci
+                </button>
+              </div>
+            </div>
+
+            <!-- KONDISI B: LOLOS SYARAT (FORM TERBUKA) -->
+            <div id="pendaftaran-form-container">
+              <div class="alert alert-success">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <div class="alert-title">Lolos Syarat Validasi DB</div>
+                  <div class="alert-desc">
+                    Selamat! Anda memenuhi syarat MBKM (Semester 6&ndash;8, IPK &ge; 3.00, SKS &ge; 100). Silakan
+                    lengkapi form pendaftaran mandiri dan unggah berkas persyaratan di bawah ini.
+                  </div>
+                </div>
+              </div>
+
+              <form id="form-pendaftaran" onsubmit="handleFormSubmit(event)">
+                <div class="card" style="margin-bottom:16px;">
+                  <h3
+                    style="font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="user-check" style="color:var(--primary);width:18px;height:18px;"></i>
+                    1. Data Akademik Pelamar
+                  </h3>
+                  <div class="grid grid-3">
+                    <div class="form-group">
+                      <label class="form-label">Nama Lengkap</label>
+                      <input type="text" class="form-control" value="Ahmad Rizky Pratama" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">NIM</label>
+                      <input type="text" class="form-control" value="A11.2022.14253" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Program Studi</label>
+                      <input type="text" class="form-control" value="Teknik Informatika - S1" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Semester Aktif</label>
+                      <input type="text" class="form-control" id="form-display-smt" value="Semester 6" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">IPK Kumulatif</label>
+                      <input type="text" class="form-control" id="form-display-ipk" value="3.72" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Total SKS Diperoleh</label>
+                      <input type="text" class="form-control" id="form-display-sks" value="104 SKS" readonly />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Detail Program Mandiri -->
+                <div class="card" style="margin-bottom:16px;">
+                  <h3
+                    style="font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="briefcase" style="color:var(--primary);width:18px;height:18px;"></i>
+                    2. Detail Pendaftaran Mandiri
+                  </h3>
+                  <div class="grid grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Jenis Program MBKM <span class="required">*</span></label>
+                      <select class="form-control" id="reg-program" required>
+                        <option value="Magang Mandiri">Magang Mandiri</option>
+                        <option value="Studi Independen Mandiri">Studi Independen Mandiri</option>
+                        <option value="Riset Mandiri">Riset / Penelitian Mandiri</option>
+                        <option value="Kewirausahaan Mandiri">Kewirausahaan Mandiri</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Nama Perusahaan / Instansi Mitra <span class="required">*</span></label>
+                      <input type="text" class="form-control" id="reg-mitra"
+                        placeholder="Contoh: PT Telkom Indonesia, GoTo, Bank Mandiri"
+                        value="PT Telkom Indonesia (Persero) Tbk" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Posisi / Peran yang Didaftar <span class="required">*</span></label>
+                      <input type="text" class="form-control" id="reg-posisi"
+                        placeholder="Contoh: Frontend Engineer Intern, UI/UX Designer" value="Software Engineer Intern"
+                        required />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Durasi Pelaksanaan <span class="required">*</span></label>
+                      <select class="form-control" id="reg-durasi" required>
+                        <option value="1 Semester (6 Bulan)">1 Semester (6 Bulan)</option>
+                        <option value="2 Semester (1 Tahun)">2 Semester (1 Tahun)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Upload Berkas: Transkrip Nilai & CV (PDF) Sesuai Flowchart -->
+                <div class="card" style="margin-bottom:20px;">
+                  <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-up" style="color:var(--primary);width:18px;height:18px;"></i>
+                    3. Unggah Dokumen Wajib (Format PDF)
+                  </h3>
+                  <p class="card-description" style="margin-bottom:16px;">
+                    Sesuai flowchart, unggah berkas <strong>Transkrip Nilai</strong> dan <strong>CV (Curriculum
+                      Vitae)</strong> dalam format <strong>PDF</strong> (Maks. 5MB per file).
+                  </p>
+
+                  <div class="grid grid-2">
+                    <!-- Upload 1: Transkrip Nilai -->
+                    <div class="upload-card" id="upload-box-transkrip">
+                      <input type="file" id="file-transkrip" accept=".pdf"
+                        onchange="handleFileChange(this, 'upload-box-transkrip', 'info-transkrip', 'name-transkrip')" />
+                      <div class="upload-icon-box">
+                        <i data-lucide="file-text" style="width:22px;height:22px;"></i>
+                      </div>
+                      <div class="upload-title">Transkrip Nilai (PDF) <span class="required">*</span></div>
+                      <div class="upload-hint">Klik atau drag file PDF ke sini (Maks 5MB)</div>
+                      <div class="file-selected-info" id="info-transkrip" style="display:flex;">
+                        <i data-lucide="check" style="width:14px;height:14px;"></i>
+                        <span id="name-transkrip">Transkrip_Nilai_Ahmad_Rizky.pdf</span>
+                      </div>
+                    </div>
+
+                    <!-- Upload 2: CV -->
+                    <div class="upload-card" id="upload-box-cv">
+                      <input type="file" id="file-cv" accept=".pdf"
+                        onchange="handleFileChange(this, 'upload-box-cv', 'info-cv', 'name-cv')" />
+                      <div class="upload-icon-box">
+                        <i data-lucide="user-check" style="width:22px;height:22px;"></i>
+                      </div>
+                      <div class="upload-title">Curriculum Vitae / CV (PDF) <span class="required">*</span></div>
+                      <div class="upload-hint">Klik atau drag file PDF ke sini (Maks 5MB)</div>
+                      <div class="file-selected-info" id="info-cv" style="display:flex;">
+                        <i data-lucide="check" style="width:14px;height:14px;"></i>
+                        <span id="name-cv">CV_Ahmad_Rizky_Pratama.pdf</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Checkbox komitmen -->
+                  <div style="margin-top:16px;display:flex;align-items:flex-start;gap:8px;">
+                    <input type="checkbox" id="check-pernyataan" required style="margin-top:3px;cursor:pointer;"
+                      checked />
+                    <label for="check-pernyataan" style="font-size:12px;color:#475569;cursor:pointer;">
+                      Saya menyatakan bahwa data yang saya isikan dan dokumen PDF yang diunggah adalah benar, sah, dan
+                      sesuai dengan ketentuan MBKM FIK Udinus.
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;">
+                  <a href="#dashboard" class="btn btn-secondary">Batal</a>
+                  <button type="submit" class="btn btn-primary btn-lg" id="btn-submit-pendaftaran">
+                    <i data-lucide="send"></i> Ajukan Pendaftaran Mandiri
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 3: STATUS SAYA (TRACKING STATUS PENDAFTARAN)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-status" class="tab-view">
+
+            <!-- Status Hero Dynamic Box -->
+            <div id="status-hero-card" class="status-hero pending">
+              <div>
+                <div
+                  style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:#fff;border-radius:9999px;font-size:11px;font-weight:700;margin-bottom:8px;"
+                  id="status-hero-pill">
+                  <i data-lucide="clock" style="width:14px;height:14px;color:#d97706;"></i>
+                  <span id="status-hero-pill-text">STATUS: PENDING (MENUNGGU)</span>
+                </div>
+                <h2 style="font-size:20px;font-weight:700;margin-bottom:4px;" id="status-hero-title">
+                  Pendaftaran Anda Sedang Dalam Proses Peninjauan
+                </h2>
+                <p style="font-size:13px;color:#6b7280;max-width:680px;" id="status-hero-desc">
+                  Berkas Anda telah diterima oleh sistem dan sedang diverifikasi oleh Tim Koordinator MBKM Fakultas Ilmu
+                  Komputer. Proses verifikasi biasanya memakan waktu 1 &ndash; 3 hari kerja.
+                </p>
+              </div>
+
+              <!-- Dynamic Action Buttons -->
+              <div id="status-hero-actions" style="flex-shrink:0;">
+                <button class="btn btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Cetak
+                  Bukti</button>
+              </div>
+            </div>
+
+            <!-- 3 Status Visual Timeline Cards -->
+            <div class="tracking-steps">
+              <!-- Step 1: Pending (Menunggu) -->
+              <div class="step-card" id="step-card-pending" style="border-left:4px solid #d97706;">
+                <div class="step-icon" style="background:#fef3c7;color:#d97706;">
+                  <i data-lucide="clock"></i>
+                </div>
+                <div>
+                  <div class="step-title">1. Pending (Menunggu)</div>
+                  <div class="step-desc">Berkas pendaftaran berhasil disubmit dan menunggu antrean verifikasi fakultas.
+                  </div>
+                  <span class="badge badge-warning" style="margin-top:8px;" id="badge-step-pending">Aktif</span>
+                </div>
+              </div>
+
+              <!-- Step 2: Accepted (Diterima) -->
+              <div class="step-card" id="step-card-accepted" style="opacity:0.6;">
+                <div class="step-icon" style="background:#dcfce7;color:#16a34a;">
+                  <i data-lucide="check-circle-2"></i>
+                </div>
+                <div>
+                  <div class="step-title">2. Accepted (Diterima)</div>
+                  <div class="step-desc">Pendaftaran disetujui, penerbitan Surat Tugas dan penetapan Dosen Pembimbing
+                    (DPL).</div>
+                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-accepted">Menunggu</span>
+                </div>
+              </div>
+
+              <!-- Step 3: Rejected (Ditolak) -->
+              <div class="step-card" id="step-card-rejected" style="opacity:0.6;">
+                <div class="step-icon" style="background:#fee2e2;color:#dc2626;">
+                  <i data-lucide="x-circle"></i>
+                </div>
+                <div>
+                  <div class="step-title">3. Rejected (Ditolak)</div>
+                  <div class="step-desc">Pendaftaran ditolak apabila berkas tidak valid atau tidak memenuhi kualifikasi
+                    mitra.</div>
+                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-rejected">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detail Berkas & Data yang Diajukan -->
+            <div class="grid grid-2">
+              <!-- Data Pengajuan -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="file-spreadsheet" style="color:var(--primary);"></i> Rincian
+                    Pengajuan MBKM</span>
+                  <span class="badge badge-primary">ID: MBKM-2025-0841</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Nama Program:</span>
+                    <span style="font-weight:600;" id="detail-status-program">Magang Mandiri</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Instansi Mitra:</span>
+                    <span style="font-weight:600;" id="detail-status-mitra">PT Telkom Indonesia (Persero) Tbk</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Posisi / Peran:</span>
+                    <span style="font-weight:600;" id="detail-status-posisi">Software Engineer Intern</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Durasi Kegiatan:</span>
+                    <span style="font-weight:600;" id="detail-status-durasi">1 Semester (6 Bulan)</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:#64748b;">Tanggal Pengajuan:</span>
+                    <span style="font-weight:600;" id="detail-status-tanggal">10 Oktober 2025</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dokumen yang Terlampir -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="folder-check" style="color:var(--primary);"></i> Dokumen
+                    Terlampir</span>
+                  <span class="badge badge-success">Terverifikasi Sistem</span>
+                </div>
+                <p class="card-description" style="margin-bottom:14px;">
+                  Berkas PDF yang berhasil Anda lampirkan saat pendaftaran:
+                </p>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <!-- Berkas 1: Transkrip Nilai -->
+                  <div
+                    style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div
+                        style="width:32px;height:32px;border-radius:6px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">
+                        PDF</div>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;" id="status-file-transkrip">
+                          Transkrip_Nilai_Ahmad_Rizky.pdf</div>
+                        <div style="font-size:11px;color:#64748b;">Dokumen Transkrip Nilai Terlegalisir</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline"
+                      onclick="alert('Membuka pratinjau berkas Transkrip Nilai (PDF)')"><i data-lucide="eye"></i>
+                      Lihat</button>
+                  </div>
+
+                  <!-- Berkas 2: CV -->
+                  <div
+                    style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div
+                        style="width:32px;height:32px;border-radius:6px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">
+                        PDF</div>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;" id="status-file-cv">CV_Ahmad_Rizky_Pratama.pdf
+                        </div>
+                        <div style="font-size:11px;color:#64748b;">Curriculum Vitae / Resume</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="alert('Membuka pratinjau berkas CV (PDF)')"><i
+                        data-lucide="eye"></i> Lihat</button>
+                  </div>
+                </div>
+
+                <!-- Notes & Feedback box for Rejected or Accepted -->
+                <div id="status-feedback-box"
+                  style="display:none;margin-top:14px;padding:12px;border-radius:8px;font-size:12px;"></div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /page-body (Wajib sesuai DESIGN.md Bab 15.2) -->
+
+      </div><!-- /main-canvas -->
+    </div><!-- /main-wrapper -->
+  </div><!-- /app-layout -->
+
+  <!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT LOGIC — Sesuai Flowchart
+     ═══════════════════════════════════════════════════ -->
+  <script>
+    // State Mahasiswa
+    let appState = {
+      isEligible: true, // Cabang: Lolos vs Tidak Lolos
+      student: {
+        name: 'Ahmad Rizky Pratama',
+        nim: 'A11.2022.14253',
+        prodi: 'Teknik Informatika',
+        smt: 6,
+        ipk: 3.72,
+        sks: 104
+      },
+      registration: {
+        program: 'Magang Mandiri',
+        mitra: 'PT Telkom Indonesia (Persero) Tbk',
+        posisi: 'Software Engineer Intern',
+        durasi: '1 Semester (6 Bulan)',
+        transkripName: 'Transkrip_Nilai_Ahmad_Rizky.pdf',
+        cvName: 'CV_Ahmad_Rizky_Pratama.pdf',
+        tanggal: '10 Oktober 2025'
+      },
+      trackingStatus: 'pending' // 'pending' | 'accepted' | 'rejected'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Inisialisasi Icons
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Sidebar controls
+      setupSidebar();
+      setupDropdowns();
+
+      // Routing Tab View
+      setupRouting();
+
+      // Render awal data
+      updateUI();
+    });
+
+    // ─── Setup Sidebar & Dropdown ──────────────────────────────
+    function setupSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      const toggleBtns = document.querySelectorAll('.sidebar-toggle-btn');
+      const isMobile = () => window.innerWidth < 768;
+
+      function toggleSidebar() {
+        if (isMobile()) {
+          sidebar?.classList.toggle('mobile-open');
+          sidebarOverlay?.classList.toggle('visible');
+        } else {
+          sidebar?.classList.toggle('collapsed');
+        }
+      }
+
+      toggleBtns.forEach(btn => btn.addEventListener('click', toggleSidebar));
+      sidebarOverlay?.addEventListener('click', () => {
+        sidebar?.classList.remove('mobile-open');
+        sidebarOverlay?.classList.remove('visible');
+      });
+    }
+
+    function setupDropdowns() {
+      const appSwitcherBtn = document.getElementById('app-switcher-btn');
+      const appSwitcherDropdown = document.getElementById('app-switcher-dropdown');
+      const appSwitcherChevron = appSwitcherBtn?.querySelector('.app-switcher-chevron');
+      const userCard = document.getElementById('user-card');
+      const userDropdown = document.getElementById('user-dropdown');
+
+      appSwitcherBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = appSwitcherDropdown?.classList.contains('open');
+        closeAllDropdowns();
+        if (!isOpen) {
+          appSwitcherDropdown?.classList.add('open');
+          appSwitcherChevron?.classList.add('open');
+        }
+      });
+
+      userCard?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = userDropdown?.classList.contains('open');
+        closeAllDropdowns();
+        if (!isOpen) userDropdown?.classList.add('open');
+      });
+
+      function closeAllDropdowns() {
+        appSwitcherDropdown?.classList.remove('open');
+        appSwitcherChevron?.classList.remove('open');
+        userDropdown?.classList.remove('open');
+      }
+
+      document.addEventListener('click', closeAllDropdowns);
+
+      document.getElementById('logout-btn')?.addEventListener('click', () => {
+        if (confirm('Keluar dari akun mahasiswa?')) alert('Anda telah berhasil keluar.');
+      });
+    }
+
+    // ─── Hash Routing (Dashboard, Pendaftaran, Status Saya) ────
+    function setupRouting() {
+      function navigate(hash) {
+        const targetHash = (hash && ['#dashboard', '#pendaftaran', '#status'].includes(hash)) ? hash : '#dashboard';
+
+        // Sembunyikan semua tab view
+        document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+
+        // Tampilkan view yang aktif
+        const activeViewId = targetHash === '#dashboard' ? 'view-dashboard' :
+          targetHash === '#pendaftaran' ? 'view-pendaftaran' : 'view-status';
+        document.getElementById(activeViewId)?.classList.add('active');
+
+        // Update active nav-link
+        document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+          if (link.getAttribute('href') === targetHash) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        // Update breadcrumb, judul dan subtitle halaman (sesuai template DESIGN.md Bab 15.2)
+        const bcCurrent = document.getElementById('breadcrumb-current');
+        const pageTitle = document.getElementById('page-title');
+        const pageSubtitle = document.getElementById('page-subtitle');
+
+        if (targetHash === '#dashboard') {
+          if (bcCurrent) bcCurrent.innerText = 'Dashboard';
+          if (pageTitle) pageTitle.innerText = 'Dashboard Mahasiswa';
+          if (pageSubtitle) pageSubtitle.innerText = 'Verifikasi data akademik Anda dari database dan mulai pendaftaran program MBKM.';
+        } else if (targetHash === '#pendaftaran') {
+          if (bcCurrent) bcCurrent.innerText = 'Pendaftaran';
+          if (pageTitle) pageTitle.innerText = 'Pendaftaran MBKM Mandiri';
+          if (pageSubtitle) pageSubtitle.innerText = 'Formulir pengajuan program MBKM mandiri untuk mahasiswa yang telah lolos syarat validasi DB.';
+        } else if (targetHash === '#status') {
+          if (bcCurrent) bcCurrent.innerText = 'Status Saya';
+          if (pageTitle) pageTitle.innerText = 'Tracking Status Pendaftaran';
+          if (pageSubtitle) pageSubtitle.innerText = 'Pantau progres verifikasi berkas pendaftaran MBKM Anda (Pending, Accepted, Rejected).';
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      window.addEventListener('hashchange', () => navigate(window.location.hash));
+      navigate(window.location.hash);
+    }
+
+    // ─── Update UI Berdasarkan State ──────────────────────────
+    function updateUI() {
+      const isPass = appState.isEligible;
+      const s = appState.student;
+
+      // 1. Update Nilai Validasi Syarat DB
+      document.getElementById('val-syarat-smt').innerText = 'Semester ' + s.smt;
+      document.getElementById('val-syarat-ipk').innerText = s.ipk.toFixed(2);
+      document.getElementById('val-syarat-sks').innerText = s.sks + ' SKS';
+
+      // Badges syarat
+      const smtPass = s.smt >= 6 && s.smt <= 8;
+      const ipkPass = s.ipk >= 3.00;
+      const sksPass = s.sks >= 100;
+
+      setCardStatus('smt', smtPass, 'Semester ' + s.smt, 'Smt 6 - 8');
+      setCardStatus('ipk', ipkPass, s.ipk.toFixed(2), 'Min. 3.00');
+      setCardStatus('sks', sksPass, s.sks + ' SKS', 'Min. 100 SKS');
+
+      // Summary badge
+      const totalPass = (smtPass ? 1 : 0) + (ipkPass ? 1 : 0) + (sksPass ? 1 : 0);
+      const dbBadge = document.getElementById('db-summary-badge');
+      if (isPass) {
+        dbBadge.className = 'badge badge-success';
+        dbBadge.innerText = '3 dari 3 Syarat Terpenuhi (Lolos)';
+      } else {
+        dbBadge.className = 'badge badge-danger';
+        dbBadge.innerText = totalPass + ' dari 3 Syarat Terpenuhi (Belum Lolos)';
+      }
+
+      // 2. Banner Dashboard
+      const bannerBadge = document.getElementById('banner-eligibility-badge');
+      const bannerDesc = document.getElementById('banner-eligibility-desc');
+      const heroBtn = document.getElementById('btn-hero-action');
+      const navBadgePendaftaran = document.getElementById('nav-badge-pendaftaran');
+      const step1Badge = document.getElementById('flow-step1-badge');
+      const step2Badge = document.getElementById('flow-step2-badge');
+
+      if (isPass) {
+        bannerBadge.innerText = 'Status DB: Lolos Syarat Pendaftaran';
+        bannerBadge.parentElement.style.background = 'rgba(255,255,255,0.2)';
+        bannerDesc.innerText = 'Data akademik Anda telah diverifikasi oleh sistem database. Anda memenuhi semua syarat untuk mendaftar Program MBKM Mandiri semester ini.';
+        heroBtn.innerHTML = '<i data-lucide="file-edit"></i> Buka Pendaftaran Mandiri';
+        heroBtn.href = '#pendaftaran';
+        heroBtn.style.display = 'inline-flex';
+
+        navBadgePendaftaran.className = 'badge badge-success nav-badge';
+        navBadgePendaftaran.innerText = 'Buka';
+
+        step1Badge.className = 'badge badge-success';
+        step1Badge.innerText = 'Lolos';
+        step2Badge.className = 'badge badge-primary';
+        step2Badge.innerText = 'Tersedia';
+
+        // Tampilan Tab Pendaftaran
+        document.getElementById('pendaftaran-locked-container').style.display = 'none';
+        document.getElementById('pendaftaran-form-container').style.display = 'block';
+      } else {
+        bannerBadge.innerText = 'Status DB: Belum Memenuhi Syarat';
+        bannerBadge.parentElement.style.background = 'rgba(220,38,38,0.3)';
+        bannerDesc.innerText = 'Mohon maaf, Anda belum memenuhi syarat pendaftaran MBKM (Semester 6-8, IPK >= 3.00, SKS >= 100). Pendaftaran saat ini terkunci.';
+        heroBtn.innerHTML = '<i data-lucide="lock"></i> Pendaftaran Terkunci';
+        heroBtn.href = '#pendaftaran';
+
+        navBadgePendaftaran.className = 'badge badge-danger nav-badge';
+        navBadgePendaftaran.innerText = 'Terkunci';
+
+        step1Badge.className = 'badge badge-danger';
+        step1Badge.innerText = 'Tidak Lolos';
+        step2Badge.className = 'badge badge-danger';
+        step2Badge.innerText = 'Terkunci';
+
+        // Tampilan Tab Pendaftaran
+        document.getElementById('pendaftaran-locked-container').style.display = 'block';
+        document.getElementById('pendaftaran-form-container').style.display = 'none';
+
+        // Update alasan kunci
+        document.getElementById('lock-reason-smt').style.display = smtPass ? 'none' : 'list-item';
+        document.getElementById('lock-reason-ipk').style.display = ipkPass ? 'none' : 'list-item';
+        document.getElementById('lock-reason-sks').style.display = sksPass ? 'none' : 'list-item';
+      }
+
+      // 3. Update Status Tracking View
+      updateTrackingUI();
+
+      // Re-render icons
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function setCardStatus(type, isOk, valText, reqText) {
+      const badge = document.getElementById('badge-syarat-' + type);
+      const icon = document.getElementById('icon-syarat-' + type);
+      if (isOk) {
+        badge.className = 'badge badge-success';
+        badge.innerHTML = '<i data-lucide="check" style="width:12px;height:12px;"></i> Memenuhi';
+        if (type === 'smt') icon.className = 'stat-card-accent accent-blue';
+        if (type === 'ipk') icon.className = 'stat-card-accent accent-green';
+        if (type === 'sks') icon.className = 'stat-card-accent accent-purple';
+      } else {
+        badge.className = 'badge badge-danger';
+        badge.innerHTML = '<i data-lucide="x" style="width:12px;height:12px;"></i> Belum Lolos';
+        icon.className = 'stat-card-accent accent-red';
+      }
+    }
+
+    // ─── Tracking Status UI (Pending, Accepted, Rejected) ─────
+    function updateTrackingUI() {
+      const st = appState.trackingStatus;
+      const reg = appState.registration;
+
+      const heroCard = document.getElementById('status-hero-card');
+      const heroPill = document.getElementById('status-hero-pill-text');
+      const heroTitle = document.getElementById('status-hero-title');
+      const heroDesc = document.getElementById('status-hero-desc');
+      const feedbackBox = document.getElementById('status-feedback-box');
+      const navBadgeStatus = document.getElementById('nav-badge-status');
+
+      const cardPending = document.getElementById('step-card-pending');
+      const cardAccepted = document.getElementById('step-card-accepted');
+      const cardRejected = document.getElementById('step-card-rejected');
+
+      const badgePending = document.getElementById('badge-step-pending');
+      const badgeAccepted = document.getElementById('badge-step-accepted');
+      const badgeRejected = document.getElementById('badge-step-rejected');
+
+      // Reset step opacity & border
+      [cardPending, cardAccepted, cardRejected].forEach(c => {
+        c.style.opacity = '0.5';
+        c.style.borderLeft = '1px solid var(--border)';
+      });
+      badgePending.className = badgeAccepted.className = badgeRejected.className = 'badge badge-muted';
+      badgePending.innerText = badgeAccepted.innerText = badgeRejected.innerText = '-';
+
+      if (st === 'pending') {
+        heroCard.className = 'status-hero pending';
+        heroPill.innerText = 'STATUS: PENDING (MENUNGGU)';
+        heroPill.previousElementSibling.setAttribute('data-lucide', 'clock');
+        heroPill.previousElementSibling.style.color = '#d97706';
+        heroTitle.innerText = 'Pendaftaran Anda Sedang Dalam Proses Peninjauan';
+        heroDesc.innerText = 'Berkas Anda telah diterima oleh sistem dan sedang diverifikasi oleh Tim Koordinator MBKM Fakultas Ilmu Komputer. Proses verifikasi biasanya memakan waktu 1 - 3 hari kerja.';
+        feedbackBox.style.display = 'none';
+
+        cardPending.style.opacity = '1';
+        cardPending.style.borderLeft = '4px solid #d97706';
+        badgePending.className = 'badge badge-warning';
+        badgePending.innerText = 'Sedang Berjalan';
+
+        navBadgeStatus.className = 'badge badge-warning nav-badge';
+        navBadgeStatus.innerText = 'Pending';
+
+        // Dashboard quick status
+        document.getElementById('dash-status-label').innerText = 'Pending (Menunggu Verifikasi)';
+        document.getElementById('dash-status-label').style.color = '#92400e';
+        document.getElementById('dash-status-box').style.background = '#fffbeb';
+        document.getElementById('dash-status-box').style.borderColor = '#fde68a';
+      } else if (st === 'accepted') {
+        heroCard.className = 'status-hero accepted';
+        heroPill.innerText = 'STATUS: ACCEPTED (DITERIMA)';
+        heroPill.previousElementSibling.setAttribute('data-lucide', 'check-circle-2');
+        heroPill.previousElementSibling.style.color = '#16a34a';
+        heroTitle.innerText = 'Selamat! Pendaftaran MBKM Anda Telah Diterima';
+        heroDesc.innerText = 'Koordinator MBKM FIK telah menyetujui pendaftaran mandiri Anda. Surat Rekomendasi Resmi dan penetapan Dosen Pembimbing Lapangan (DPL) telah diterbitkan.';
+
+        feedbackBox.style.display = 'block';
+        feedbackBox.style.background = '#dcfce7';
+        feedbackBox.style.border = '1px solid #bbf7d0';
+        feedbackBox.style.color = '#14532d';
+        feedbackBox.innerHTML = '<strong>Catatan Koordinator:</strong> Berkas Transkrip dan CV lengkap & relevan dengan mitra. Dosen Pembimbing Lapangan (DPL): Dr. Ir. Edi Mulyanto, M.Kom.';
+
+        cardAccepted.style.opacity = '1';
+        cardAccepted.style.borderLeft = '4px solid #16a34a';
+        badgeAccepted.className = 'badge badge-success';
+        badgeAccepted.innerText = 'Diterima';
+
+        navBadgeStatus.className = 'badge badge-success nav-badge';
+        navBadgeStatus.innerText = 'Accepted';
+
+        // Dashboard quick status
+        document.getElementById('dash-status-label').innerText = 'Accepted (Diterima)';
+        document.getElementById('dash-status-label').style.color = '#166534';
+        document.getElementById('dash-status-box').style.background = '#f0fdf4';
+        document.getElementById('dash-status-box').style.borderColor = '#bbf7d0';
+      } else if (st === 'rejected') {
+        heroCard.className = 'status-hero rejected';
+        heroPill.innerText = 'STATUS: REJECTED (DITOLAK)';
+        heroPill.previousElementSibling.setAttribute('data-lucide', 'x-circle');
+        heroPill.previousElementSibling.style.color = '#dc2626';
+        heroTitle.innerText = 'Mohon Maaf, Pendaftaran Anda Belum Disetujui';
+        heroDesc.innerText = 'Setelah diteliti oleh Koordinator MBKM, pendaftaran Anda belum memenuhi kualifikasi atau kelengkapan berkas yang disyaratkan.';
+
+        feedbackBox.style.display = 'block';
+        feedbackBox.style.background = '#fee2e2';
+        feedbackBox.style.border = '1px solid #fecaca';
+        feedbackBox.style.color = '#7f1d1d';
+        feedbackBox.innerHTML = '<strong>Alasan Penolakan:</strong> Transkrip Nilai yang diunggah belum memuat cap legalisir BAAK resmi dan tanggal mulai program berbenturan dengan KRS reguler. Silakan perbaiki dan daftar ulang.';
+
+        cardRejected.style.opacity = '1';
+        cardRejected.style.borderLeft = '4px solid #dc2626';
+        badgeRejected.className = 'badge badge-danger';
+        badgeRejected.innerText = 'Ditolak';
+
+        navBadgeStatus.className = 'badge badge-danger nav-badge';
+        navBadgeStatus.innerText = 'Rejected';
+
+        // Dashboard quick status
+        document.getElementById('dash-status-label').innerText = 'Rejected (Ditolak)';
+        document.getElementById('dash-status-label').style.color = '#991b1b';
+        document.getElementById('dash-status-box').style.background = '#fef2f2';
+        document.getElementById('dash-status-box').style.borderColor = '#fecaca';
+      }
+
+      // Update Detail Text
+      document.getElementById('detail-status-program').innerText = reg.program;
+      document.getElementById('detail-status-mitra').innerText = reg.mitra;
+      document.getElementById('detail-status-posisi').innerText = reg.posisi;
+      document.getElementById('detail-status-durasi').innerText = reg.durasi;
+      document.getElementById('status-file-transkrip').innerText = reg.transkripName;
+      document.getElementById('status-file-cv').innerText = reg.cvName;
+      document.getElementById('dash-status-program').innerText = reg.program + ' — ' + reg.mitra;
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // ─── Simulator Setter Functions ───────────────────────────
+    function setEligibility(isPass) {
+      appState.isEligible = isPass;
+      if (isPass) {
+        appState.student.smt = 6;
+        appState.student.ipk = 3.72;
+        appState.student.sks = 104;
+      } else {
+        // Simulasi tidak lolos: Smt 4, IPK 2.85, SKS 72 (< 100 SKS)
+        appState.student.smt = 4;
+        appState.student.ipk = 2.85;
+        appState.student.sks = 72;
+      }
+
+      // Update button active state (if exists)
+      const btnPass = document.getElementById('btn-sim-pass');
+      const btnFail = document.getElementById('btn-sim-fail');
+      if (btnPass) btnPass.className = isPass ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline';
+      if (btnFail) btnFail.className = !isPass ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline';
+
+      updateUI();
+    }
+
+    function setTrackingStatus(status) {
+      appState.trackingStatus = status;
+      updateTrackingUI();
+    }
+
+    // ─── File Upload Handler ──────────────────────────────────
+    function handleFileChange(input, boxId, infoId, nameId) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (!file.name.toLowerCase().endsWith('.pdf')) {
+          alert('Hanya berkas format .PDF yang diperbolehkan sesuai persyaratan.');
+          input.value = '';
+          return;
+        }
+        document.getElementById(boxId)?.classList.add('has-file');
+        const info = document.getElementById(infoId);
+        if (info) info.style.display = 'flex';
+        const nameEl = document.getElementById(nameId);
+        if (nameEl) nameEl.innerText = file.name;
+      }
+    }
+
+    // ─── Form Pendaftaran Submit ──────────────────────────────
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      if (!appState.isEligible) {
+        alert('Pendaftaran tidak dapat diproses karena Anda belum memenuhi syarat validasi DB.');
+        return;
+      }
+
+      // Ambil nilai form
+      const program = document.getElementById('reg-program').value;
+      const mitra = document.getElementById('reg-mitra').value;
+      const posisi = document.getElementById('reg-posisi').value;
+      const durasi = document.getElementById('reg-durasi').value;
+      const transkripFile = document.getElementById('name-transkrip').innerText;
+      const cvFile = document.getElementById('name-cv').innerText;
+
+      appState.registration = {
+        program,
+        mitra,
+        posisi,
+        durasi,
+        transkripName: transkripFile,
+        cvName: cvFile,
+        tanggal: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+      };
+
+      // Status masuk ke 'Pending (Menunggu)' sesuai flowchart
+      appState.trackingStatus = 'pending';
+      updateUI();
+
+      alert('Pendaftaran Berhasil Dikirim!\nStatus pengajuan Anda saat ini adalah: Pending (Menunggu Verifikasi).');
+
+      // Arahkan otomatis ke Menu Status Saya
+      window.location.hash = '#status';
+    }
+  </script>
+
+</body>
+
+</html>
