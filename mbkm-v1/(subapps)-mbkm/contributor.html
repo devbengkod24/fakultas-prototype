@@ -1,0 +1,2646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Contributor | Kampus Berdampak FIK UDINUS</title>
+
+  <!-- Google Fonts: Inter (Standar Resmi FIK Apps & DESIGN.md) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN (v3.4+) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#0655a7',
+              dark: '#114d91',
+              light: '#f1f7fe'
+            },
+            primary: {
+              50: '#F1F7FE',
+              100: '#E2EEFC',
+              200: '#BFDBF8',
+              300: '#86BEF3',
+              400: '#1E7FD9',
+              500: '#1E7FD9',
+              600: '#1063B9',
+              700: '#114D91',
+              800: '#10447C',
+              900: '#133A67',
+            },
+            secondary: {
+              500: '#F3BC45',
+            }
+          },
+          boxShadow: {
+            '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    *, ::before, ::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .nav-item .active-indicator { transition: opacity 0.15s ease-in-out; }
+  </style>
+</head>
+<body class="font-sans bg-[#fafafa] text-[#09090b] antialiased min-h-screen flex selection:bg-primary-100 selection:text-primary-800">
+  <div class="flex min-h-screen w-full bg-[#fafafa]">
+
+    <!-- ======================================================== -->
+    <!-- 1. SIDEBAR SUB-APP (STANDAR BAB 15.2 & FAKULTAS-FE)      -->
+    <!-- ======================================================== -->
+    <aside id="mainSidebar" class="w-64 shrink-0 min-h-screen flex flex-col justify-between p-2 bg-[#fafafa] border-r border-[#e4e4e7] transition-all duration-200">
+      <div class="flex flex-col gap-2">
+        <!-- Logo Institusi UDINUS -->
+        <div class="flex items-center gap-2.5 p-2 mb-1">
+          <img src="../../assets/logo.png" alt="Logo UDINUS" class="w-9 h-9 object-contain" />
+          <div class="flex flex-col leading-tight font-extrabold uppercase tracking-wide text-[#114D91]">
+            <span class="text-[12px]">UNIVERSITAS</span>
+            <span class="text-[12px]">DIAN NUSWANTORO</span>
+          </div>
+        </div>
+
+        <!-- Kartu Identitas Modul / Sub-App Switcher -->
+        <div class="w-full h-12 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-2xs">
+          <div class="flex items-center gap-2.5 overflow-hidden">
+            <div class="w-8 h-8 rounded bg-[#114d91] text-white flex items-center justify-center shrink-0 shadow-2xs">
+              <i data-lucide="award" class="w-4 h-4"></i>
+            </div>
+            <div class="flex flex-col leading-tight overflow-hidden">
+              <span class="text-[14px] font-semibold text-[#3f3f46] truncate">Kampus Berdampak</span>
+              <span class="text-[12px] text-[#71717a] truncate">Portal Contributor</span>
+            </div>
+          </div>
+          <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+        </div>
+
+        <!-- Daftar Menu Navigasi Utama Sidebar (Bersih tanpa badge pill) -->
+        <nav class="flex flex-col gap-1 mt-2" id="sidebarNav">
+          <!-- 1. Dashboard -->
+          <button type="button" onclick="switchNavView('dashboard')" id="nav-dashboard" class="nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#0655a7] font-medium bg-transparent hover:bg-black/5 transition-colors w-full text-left">
+            <span class="active-indicator absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+            <div class="flex items-center gap-3 truncate">
+              <i data-lucide="layout-dashboard" class="nav-icon w-4 h-4 text-[#0655a7] shrink-0"></i>
+              <span class="truncate">Dashboard</span>
+            </div>
+          </button>
+
+          <!-- 2. Kelola Program (CMS) -->
+          <button type="button" onclick="switchNavView('program')" id="nav-program" class="nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left">
+            <span class="active-indicator hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+            <div class="flex items-center gap-3 truncate">
+              <i data-lucide="folder-kanban" class="nav-icon w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Kelola Program</span>
+            </div>
+          </button>
+
+          <!-- 3. Form Pendaftaran -->
+          <button type="button" onclick="switchNavView('form')" id="nav-form" class="nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left">
+            <span class="active-indicator hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+            <div class="flex items-center gap-3 truncate">
+              <i data-lucide="clipboard-list" class="nav-icon w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Form Pendaftaran</span>
+            </div>
+          </button>
+
+          <!-- 4. Group Anggota (Collapsible Accordion) -->
+          <div class="space-y-0.5">
+            <button type="button" onclick="toggleNavGroup('anggota')" id="group-anggota-btn" class="w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors text-left">
+              <div class="flex items-center gap-3 truncate">
+                <i data-lucide="users" class="nav-icon w-4 h-4 text-[#71717a] shrink-0"></i>
+                <span class="truncate">Anggota</span>
+              </div>
+              <i id="group-anggota-arrow" data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] shrink-0 transition-transform duration-200"></i>
+            </button>
+            <div id="group-anggota-sub" class="pl-4 space-y-0.5">
+              <!-- Sub 1: Dosen -->
+              <button type="button" onclick="switchNavView('dosen')" id="nav-dosen" class="nav-item relative flex items-center px-4 py-2 rounded-lg text-[13px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left">
+                <span class="active-indicator hidden absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md"></span>
+                <div class="flex items-center gap-2.5 truncate">
+                  <i data-lucide="graduation-cap" class="nav-icon w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">Dosen</span>
+                </div>
+              </button>
+              <!-- Sub 2: Mahasiswa -->
+              <button type="button" onclick="switchNavView('mahasiswa')" id="nav-mahasiswa" class="nav-item relative flex items-center px-4 py-2 rounded-lg text-[13px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left">
+                <span class="active-indicator hidden absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md"></span>
+                <div class="flex items-center gap-2.5 truncate">
+                  <i data-lucide="user" class="nav-icon w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">Mahasiswa</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. Seleksi Pendaftar -->
+          <button type="button" onclick="switchNavView('seleksi')" id="nav-seleksi" class="nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left">
+            <span class="active-indicator hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+            <div class="flex items-center gap-3 truncate">
+              <i data-lucide="user-check" class="nav-icon w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Seleksi Pendaftar</span>
+            </div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Footer Profil Pengguna Sidebar -->
+      <div class="mt-auto pt-2">
+        <div class="w-full p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-2xs">
+          <div class="flex items-center gap-2.5 overflow-hidden">
+            <div class="w-8 h-8 rounded-full bg-[#f4f4f5] text-[#3f3f46] font-medium text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+              RA
+            </div>
+            <div class="flex flex-col leading-tight overflow-hidden">
+              <span class="text-[13px] font-medium text-[#3f3f46] truncate">Dr. Ricardus Anggi, M.Kom.</span>
+              <span class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate">
+                Dosen Pembimbing
+              </span>
+            </div>
+          </div>
+          <a href="../(roots)/apps/apps.html" title="Kembali ke Portal Apps" class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded-md hover:bg-gray-100 transition-colors">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================== -->
+    <!-- 2. MAIN CONTENT AREA (KARTU KANVAS UTAMA BAB 15.2)        -->
+    <!-- ======================================================== -->
+    <main class="flex-1 min-h-screen flex flex-col p-3 md:p-4 pl-0">
+      <div class="w-full flex-1 flex flex-col p-4 md:p-6 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs">
+
+        <!-- Header Kartu: Toggle, Breadcrumb, & Global Role Switcher -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2">
+            <button id="sidebarToggle" type="button" class="w-7 h-7 flex items-center justify-center rounded-[6px] border border-[#e4e4e7] text-[#09090b] hover:bg-gray-50 transition-colors" title="Toggle Sidebar">
+              <i data-lucide="panel-left" class="w-4 h-4"></i>
+            </button>
+            <div class="w-[1px] h-4 bg-[#e4e4e7]"></div>
+            <div class="flex items-center gap-2 text-xs text-[#71717a]">
+              <a href="../(roots)/apps/apps.html" class="hover:text-[#0655a7] transition-colors flex items-center gap-1 font-medium no-underline text-[#71717a]">
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                <span>Portal Apps</span>
+              </a>
+              <span>/</span>
+              <div id="breadcrumbBadge" class="px-2 py-1 bg-[#fafafa] border border-[#e4e4e7] rounded-[8px] text-[13px] leading-[20px] text-[#09090b] font-normal">
+                Dashboard
+              </div>
+            </div>
+          </div>
+
+          <!-- Global Role Switcher Demo (Sesuai Bab 15.2 & PRD Bab 6.3) -->
+          <div class="flex items-center gap-1 bg-[#f4f4f5] p-1 rounded-lg text-xs border border-[#e4e4e7]">
+            <span class="px-2 py-0.5 font-medium text-[#71717a]">Demo Role:</span>
+            <a href="mahasiswa.html" class="px-2 py-0.5 rounded font-medium text-[#71717a] hover:bg-white hover:text-[#09090b] transition-colors no-underline">Mahasiswa</a>
+            <span class="px-2 py-0.5 rounded font-semibold bg-white text-[#114D91] shadow-2xs">Dosen</span>
+            <a href="admin.html" class="px-2 py-0.5 rounded font-medium text-[#71717a] hover:bg-white hover:text-[#09090b] transition-colors no-underline">Admin</a>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 1: DASHBOARD                                        -->
+        <!-- ======================================================== -->
+        <section id="view-dashboard" class="view-panel mt-5 space-y-6">
+          <!-- Page Header (Standar Typography ta-subapps-koordinator) -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Dashboard Contributor</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa.</p>
+            </div>
+            <button type="button" onclick="openDirectAssignModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Direct Assign Mahasiswa</span>
+            </button>
+          </div>
+
+          <!-- 4 KPI Metric Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Mahasiswa Binaan</span>
+                <i data-lucide="users" class="w-4 h-4 text-[#1063B9]"></i>
+              </div>
+              <div class="text-[24px] font-bold text-[#09090b]" id="statMahasiswaCount">6</div>
+              <span class="text-[12px] text-[#71717a] mt-1">Aktif bimbingan 20 SKS</span>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Pendaftar Masuk</span>
+                <i data-lucide="user-check" class="w-4 h-4 text-amber-600"></i>
+              </div>
+              <div class="text-[24px] font-bold text-amber-700" id="statPendingCount">3</div>
+              <span class="text-[12px] text-amber-700 font-medium mt-1">Perlu verifikasi seleksi</span>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Keterisian Kuota</span>
+                <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-600"></i>
+              </div>
+              <div class="text-[24px] font-bold text-[#09090b]"><span id="statFilledQuota">6</span> / 10</div>
+              <span class="text-[12px] text-emerald-700 font-medium mt-1">Sisa kuota: 4 mahasiswa</span>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Status Pendaftaran</span>
+                <i data-lucide="calendar-clock" class="w-4 h-4 text-[#1063B9]"></i>
+              </div>
+              <div class="text-[14px] font-semibold text-emerald-700 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Buka (Periode Gasal)
+              </div>
+              <span class="text-[12px] text-[#71717a] mt-1">Hingga 25 Okt 2026</span>
+            </div>
+          </div>
+
+          <!-- Section: Pendaftar Baru Perlu Tindakan -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+              <div>
+                <h3 class="text-[14px] font-semibold text-[#09090b]">Pendaftar Masuk Menunggu Keputusan</h3>
+                <p class="text-[12px] text-[#71717a]">Mahasiswa yang mengajukan diri melalui formulir pendaftaran terbuka.</p>
+              </div>
+              <button type="button" onclick="switchNavView('seleksi')" class="text-xs text-[#1063B9] font-medium hover:underline flex items-center gap-1">
+                <span>Lihat Semua di Seleksi</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-2.5 px-3">Mahasiswa</th>
+                    <th class="py-2.5 px-3">Akademik</th>
+                    <th class="py-2.5 px-3">Berkas</th>
+                    <th class="py-2.5 px-3">Status</th>
+                    <th class="py-2.5 px-3 text-right">Keputusan Cepat</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-3">
+                      <div class="font-medium text-[13px] text-[#09090b]">Muhammad Raihan Pratama</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14920 • TI-S1</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="font-medium text-[#09090b]">IPK: 3.72</span>
+                      <div class="text-[12px] text-[#71717a]">104 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'transkrip')" class="text-[#1063B9] hover:underline flex items-center gap-1">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Transkrip &amp; CV
+                      </button>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3 px-3 text-right">
+                      <div class="inline-flex items-center gap-1.5">
+                        <button type="button" onclick="quickAccept(this, 'Muhammad Raihan Pratama', 'A11.2023.14920')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors">
+                          Terima
+                        </button>
+                        <button type="button" onclick="quickReject(this, 'Muhammad Raihan Pratama')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-3">
+                      <div class="font-medium text-[13px] text-[#09090b]">Annisa Nabila Rahma</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14885 • TI-S1</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="font-medium text-[#09090b]">IPK: 3.80</span>
+                      <div class="text-[12px] text-[#71717a]">108 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'transkrip')" class="text-[#1063B9] hover:underline flex items-center gap-1">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Transkrip &amp; CV
+                      </button>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3 px-3 text-right">
+                      <div class="inline-flex items-center gap-1.5">
+                        <button type="button" onclick="quickAccept(this, 'Annisa Nabila Rahma', 'A11.2023.14885')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors">
+                          Terima
+                        </button>
+                        <button type="button" onclick="quickReject(this, 'Annisa Nabila Rahma')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 2: KELOLA PROGRAM (CMS KONTEN DETAIL PUBLIK)        -->
+        <!-- ======================================================== -->
+        <section id="view-program" class="view-panel mt-5 space-y-6 hidden">
+          <!-- Top Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Kelola Program Binaan</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Kelola informasi utama hero, showcase hasil karya proyek mahasiswa, dan formasi lowongan track yang tampil pada halaman detail publik.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="../(roots)/(landing)-mbkm/detail-mbkm.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i>
+                <span>Lihat Halaman Detail</span>
+              </a>
+              <button type="button" onclick="saveProgramContent()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>Simpan Perubahan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CARD 1: INFORMASI UTAMA & HERO DETAIL -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="layout-template" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Informasi Utama &amp; Hero Detail</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Pengaturan judul program, mitra industri, lokasi, narasi pembuka, keunggulan, dan koordinator program.</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <!-- Baris 1: Judul Program & Klaster -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Nama / Judul Program MBKM <span class="text-red-500">*</span></label>
+                  <input type="text" id="progTitle" value="Studi Independen Bersertifikat — Dicoding ASAH 2026" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Klaster Program MBKM <span class="text-red-500">*</span></label>
+                  <select id="progCluster" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+                    <option selected>Studi Independen Bersertifikat</option>
+                    <option>Internal Lab Riset</option>
+                    <option>Riset Bersama Bidang Kajian</option>
+                    <option>Magang Industri Bersertifikat</option>
+                    <option>Joint Project</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Baris 2: Mitra Industri, Pelaksanaan & Periode -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Mitra Industri / Instansi Penyelenggara <span class="text-red-500">*</span></label>
+                  <input type="text" id="progPartner" value="PT. Presentologics (Dicoding Indonesia)" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Moda &amp; Lokasi Pelaksanaan <span class="text-red-500">*</span></label>
+                  <input type="text" id="progLocation" value="Hybrid (Daring &amp; Lab FIK UDINUS)" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Periode Semester MBKM <span class="text-red-500">*</span></label>
+                  <input type="text" id="progPeriod" value="Semester Gasal 2026/2027" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+              </div>
+
+              <!-- Baris 3: Konversi SKS, Highlight Badge, & Deadline -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Bobot Konversi SKS <span class="text-red-500">*</span></label>
+                  <input type="text" id="progSks" value="Konversi Penuh 20 SKS" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Badge Highlight Program</label>
+                  <input type="text" id="progBadge" value="Program Unggulan Nasional" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Batas Akhir Pendaftaran</label>
+                  <input type="text" id="progDeadline" value="25 Oktober 2026 • 23:59 WIB" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+              </div>
+
+              <!-- Baris 4: Deskripsi Narasi Utama Hero -->
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Deskripsi Narasi Hero (Tampil di Kotak Utama Halaman Detail) <span class="text-red-500">*</span></label>
+                <textarea id="progDescription" rows="4" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none leading-relaxed">Program Dicoding ASAH (Akselerasi Talenta AI &amp; Software Engineering) merupakan program studi independen terakreditasi Kampus Berdampak FIK UDINUS yang dirancang untuk membekali mahasiswa dengan keahlian industri tingkat lanjut di bidang Machine Learning, Full-Stack Engineering, dan Cloud Infrastructure.
+
+Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mentor industri kelas dunia, menyelesaikan modul praktikum berbasis proyek nyata, serta memperoleh hak konversi akademik otomatis hingga 20 SKS ke mata kuliah pilihan dan konsentrasi program studi.</textarea>
+              </div>
+
+              <!-- Baris 5: 3 Poin Keunggulan / Fasilitas -->
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">3 Poin Keunggulan / Fasilitas Utama Mahasiswa</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="relative">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="progBenefit1" value="Sertifikasi Global Dicoding &amp; Partner" class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="relative">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="progBenefit2" value="Uang Saku Pembinaan Mitra" class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="relative">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="progBenefit3" value="Kelas Khusus MBKM Pra-KRS" class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Baris 6: Profil Koordinator Program -->
+              <div class="pt-3 border-t border-gray-100">
+                <h4 class="text-xs font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+                  <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+                  <span>Profil Koordinator Program (Tampil Siluet di Sisi Kanan Hero)</span>
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold text-gray-700">Nama Lengkap Koordinator <span class="text-red-500">*</span></label>
+                    <input type="text" id="coordName" value="Jane Doe" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold text-gray-700">Jabatan / Posisi <span class="text-red-500">*</span></label>
+                    <input type="text" id="coordRole" value="Koordinator Kampus Berdampak FIK UDINUS" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold text-gray-700">URL Foto Koordinator (PNG Transparan)</label>
+                    <input type="text" id="coordPhoto" value="https://pngimg.com/uploads/girls/girls_PNG6454.png" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: SHOWCASE KARYA PROYEK MAHASISWA -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="folder-git-2" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Showcase Hasil Karya Proyek Mahasiswa</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Portofolio capstone project yang dikembangkan mahasiswa binaan untuk dipamerkan di halaman detail.</p>
+              </div>
+              <button type="button" onclick="openShowcaseModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>Tambah Proyek Showcase</span>
+              </button>
+            </div>
+
+            <!-- List Showcase Proyek -->
+            <div id="showcaseListContainer" class="space-y-4">
+              <!-- Item 1 -->
+              <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-01">
+                <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Smart Energy" class="w-full h-full object-cover" />
+                  <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">IoT &amp; ML</span>
+                </div>
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 6</span>
+                      <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-01</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <h4 class="text-sm font-bold text-gray-900 item-title">Smart Energy &amp; Air Quality Monitoring Campus FIK</h4>
+                  <p class="text-xs text-gray-600 leading-relaxed item-desc">Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.</p>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Python</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">TensorFlow</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">React.js</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Google Cloud</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-02">
+                <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+                  <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Attendance AI" class="w-full h-full object-cover" />
+                  <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">Computer Vision</span>
+                </div>
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 5</span>
+                      <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-02</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <h4 class="text-sm font-bold text-gray-900 item-title">Vision-Based Automated Academic Attendance &amp; Fraud Detection</h4>
+                  <p class="text-xs text-gray-600 leading-relaxed item-desc">Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.</p>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Python</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">PyTorch</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">YOLOv8</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">FastAPI</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-03">
+                <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+                  <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" alt="Robotics" class="w-full h-full object-cover" />
+                  <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">Robotics &amp; AI</span>
+                </div>
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 5</span>
+                      <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-03</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <h4 class="text-sm font-bold text-gray-900 item-title">Autonomous Robotic Trash Segregator for Green Campus</h4>
+                  <p class="text-xs text-gray-600 leading-relaxed item-desc">Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.</p>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">ROS2</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">OpenCV</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Edge TPU</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">C++</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: FORMASI TRACK & LOWONGAN TERBUKA -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="briefcase" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Formasi Track &amp; Lowongan Terbuka</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Daftar formasi spesialisasi yang dapat dipilih mahasiswa pendaftar beserta kuota dan kualifikasinya.</p>
+              </div>
+              <button type="button" onclick="openTrackModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>Tambah Formasi Track</span>
+              </button>
+            </div>
+
+            <!-- List Formasi Track -->
+            <div id="tracksListContainer" class="space-y-3">
+              <!-- Track 1 -->
+              <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Dibuka (Open)
+                      </span>
+                      <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
+                        <span>Sisa Kuota: <strong>12</strong> / 20 Mahasiswa</span>
+                      </span>
+                      <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                        Konversi 20 SKS
+                      </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 track-title">Machine Learning &amp; AI Development Track</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Spesialisasi penguasaan deep learning, computer vision, natural language processing, serta implementasi deployment model cerdas pada arsitektur edge &amp; cloud computing.</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                      <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Transkrip (PDF) &amp; Surekom</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+                  <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+                    Tutup Jalur
+                  </button>
+                  <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Track 2 -->
+              <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="cloud" class="w-5 h-5"></i>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Dibuka (Open)
+                      </span>
+                      <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
+                        <span>Sisa Kuota: <strong>8</strong> / 15 Mahasiswa</span>
+                      </span>
+                      <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                        Konversi 20 SKS
+                      </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 track-title">Cloud Architecture &amp; Backend Engineering Track</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Fokus pada perancangan sistem terdistribusi, microservices, container orchestration Kubernetes, CI/CD pipeline, dan optimasi database skala besar.</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                      <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Portofolio &amp; Transkrip</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+                  <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+                    Tutup Jalur
+                  </button>
+                  <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Track 3 -->
+              <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="smartphone" class="w-5 h-5"></i>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Dibuka (Open)
+                      </span>
+                      <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
+                        <span>Sisa Kuota: <strong>6</strong> / 15 Mahasiswa</span>
+                      </span>
+                      <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                        Konversi 20 SKS
+                      </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 track-title">Multiplatform &amp; Mobile Application Track</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Pengembangan aplikasi mobile modern cross-platform berbasis Flutter/React Native dengan standar clean architecture dan integrasi REST/GraphQL API.</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                      <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Portofolio GitHub &amp; Transkrip</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+                  <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+                    Tutup Jalur
+                  </button>
+                  <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 3: FORM PENDAFTARAN                                 -->
+        <!-- ======================================================== -->
+        <section id="view-form" class="view-panel mt-5 space-y-6 hidden">
+          <!-- Top Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Manajemen Formulir Pendaftaran</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Konfigurasi kelayakan pelamar, dokumen persyaratan, paket mata kuliah konversi 20 SKS, dan pakta komitmen mahasiswa.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="../(roots)/(landing)-mbkm/pendaftaran-mahasiswa.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i>
+                <span>Lihat Formulir Publik</span>
+              </a>
+              <button type="button" onclick="saveFormConfig()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>Simpan Pengaturan Form</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CARD 1: PERIODE, KUOTA & VALIDASI AKADEMIK (STEP 1 PENDAFTARAN) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="calendar" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Periode Pendaftaran &amp; Syarat Kelayakan Akademik (Step 1)</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Atur jadwal intake, batas kuota pendaftaran, dan parameter evaluasi otomatis SIAKAD UDINUS.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Tanggal Mulai Pendaftaran <span class="text-red-500">*</span></label>
+                <input type="date" value="2026-10-01" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Tanggal Batas Akhir (Deadline) <span class="text-red-500">*</span></label>
+                <input type="date" value="2026-10-25" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Total Kuota Pendaftar Mahasiswa <span class="text-red-500">*</span></label>
+                <input type="number" value="20" min="1" max="100" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              </div>
+            </div>
+
+            <!-- Syarat Kelayakan Otomatis SIAKAD -->
+            <div class="pt-3 border-t border-gray-100 space-y-3">
+              <h4 class="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Syarat Validasi Otomatis SIAKAD (Eligibility Checker Pelamar)</span>
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-gray-700">Semester Minimal Mahasiswa</label>
+                  <select class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+                    <option>Semester 5</option>
+                    <option selected>Semester 6 (Rekomendasi Resmi FIK)</option>
+                    <option>Semester 7</option>
+                  </select>
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-gray-700">IPK Kumulatif Minimal (Skala 4.00)</label>
+                  <input type="text" value="3.00" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-gray-700">SKS Lulus Minimum Tempuh</label>
+                  <input type="number" value="100" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: DOKUMEN PERSYARATAN & PORTOFOLIO (STEP 2 PENDAFTARAN) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="file-check-2" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Dokumen Persyaratan &amp; Portofolio Pelamar (Step 2)</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Konfigurasi berkas yang wajib diunggah pelamar beserta batas ukuran dan template dokumen.</p>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Dokumen 1 -->
+              <div class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-gray-900 block">Transkrip Nilai Akademik Terakhir</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Format: PDF • Batas Maks. 2MB • Transkrip resmi ber-barcode SIAKAD UDINUS</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                  <span class="text-xs text-gray-500">Maks. 2MB</span>
+                  <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]" />
+                </div>
+              </div>
+
+              <!-- Dokumen 2 -->
+              <div class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="file-badge" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-gray-900 block">Curriculum Vitae (CV) Terkini</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Format: PDF • Batas Maks. 2MB • Memuat riwayat proyek, skill teknologi, dan pengalaman</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                  <span class="text-xs text-gray-500">Maks. 2MB</span>
+                  <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]" />
+                </div>
+              </div>
+
+              <!-- Dokumen 3 -->
+              <div class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="file-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-gray-900 block">Draft Surat Rekomendasi (Surekom) Template Mitra</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Format: PDF / DOCX • Maks. 2MB • Ditandatangani Dekan FIK setelah validasi Koordinator</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                  <span class="text-xs text-gray-500">Maks. 2MB</span>
+                  <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]" />
+                </div>
+              </div>
+
+              <!-- Input Portofolio Tambahan -->
+              <div class="pt-3 border-t border-gray-100">
+                <h4 class="text-xs font-bold text-gray-900 mb-2">Tautan Portofolio &amp; Media Eksternal:</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-white">
+                    <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9]" />
+                    <span class="font-medium text-gray-800">Tautan GitHub / GitLab Repository</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-white">
+                    <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9]" />
+                    <span class="font-medium text-gray-800">Tautan LinkedIn / Website Portofolio Pribadi</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: PAKET MATA KULIAH KONVERSI 20 SKS (STEP 3 PENDAFTARAN) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="book-open" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Daftar Mata Kuliah Pilihan Konversi 20 SKS (Step 3)</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Daftar mata kuliah kurikulum TI-S1 yang tampil pada Step 3 formulir pendaftaran mahasiswa untuk dipilih dalam paket konversi.</p>
+              </div>
+              <div class="flex items-center gap-2.5 shrink-0">
+                <span class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg font-semibold text-xs">
+                  Total Tersedia: <strong id="totalSksTersedia">20</strong> SKS (6 Matkul)
+                </span>
+                <button type="button" onclick="openMatkulModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors">
+                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                  <span>Tambah Matkul</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabel Mata Kuliah Konversi -->
+            <div class="overflow-x-auto border border-[#e4e4e7] rounded-xl overflow-hidden">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Kode Matkul</th>
+                    <th class="py-3 px-4">Nama Mata Kuliah</th>
+                    <th class="py-3 px-4">Bobot</th>
+                    <th class="py-3 px-4">Deskripsi Capaian Pembelajaran</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="matkulTableBody" class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54601</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Proyek Perangkat Lunak Terapan</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">4 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Penyetaraan capaian pembelajaran capstone project industri Dicoding.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54702</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Pembelajaran Mesin Lanjut (Deep Learning)</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">4 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Mata kuliah konsentrasi Intelligent Systems &amp; Computer Vision.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54804</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Komputasi Awan &amp; DevOps Terapan</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">4 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Mata kuliah konsentrasi Jaringan &amp; Arsitektur Cloud.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54901</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Kapita Selekta Komputasi Cerdas</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">3 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Penyetaraan materi workshop dan seminar teknologi mutakhir mitra.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54905</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Komunikasi Profesional &amp; Etika Profesi TI</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">3 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Soft skills kerja tim, presentasi proyek capstone, dan etika industri.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54910</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Penulisan Karya Ilmiah Terapan</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">2 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Penyusunan laporan akhir komprehensif MBKM dan draft publikasi jurnal.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 4: SELEKSI PENDAFTAR                                -->
+        <!-- ======================================================== -->
+        <section id="view-seleksi" class="view-panel mt-5 space-y-6 hidden">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Seleksi Pendaftar Mahasiswa</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Verifikasi data akademik, transkrip, dan CV mahasiswa pendaftar sebelum menetapkan kelulusan.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-500">Total Menunggu: <strong class="text-amber-700 font-semibold" id="seleksiCountHeader">3 Mahasiswa</strong></span>
+            </div>
+          </div>
+
+          <!-- Filter & Search Toolbar (Bab 9) -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="inline-flex p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs">
+              <button type="button" onclick="filterSeleksiTable('semua', this)" class="filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs">
+                Semua Pendaftar (3)
+              </button>
+              <button type="button" onclick="filterSeleksiTable('menunggu', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Menunggu (3)
+              </button>
+              <button type="button" onclick="filterSeleksiTable('diterima', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Diterima (0)
+              </button>
+              <button type="button" onclick="filterSeleksiTable('ditolak', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Ditolak (0)
+              </button>
+            </div>
+
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="searchSeleksiInput" onkeyup="searchSeleksi()" placeholder="Cari nama atau NIM..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            </div>
+          </div>
+
+          <!-- Tabel Seleksi Pendaftar (Bab 13) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Mahasiswa</th>
+                    <th class="py-3 px-4">Kualifikasi Akademik</th>
+                    <th class="py-3 px-4">Dokumen Persyaratan</th>
+                    <th class="py-3 px-4">Tanggal Daftar</th>
+                    <th class="py-3 px-4">Status</th>
+                    <th class="py-3 px-4 text-right">Keputusan Seleksi</th>
+                  </tr>
+                </thead>
+                <tbody id="seleksiTableBody" class="divide-y divide-gray-100">
+                  <!-- Row 1 -->
+                  <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Muhammad Raihan Pratama" data-nim="A11.2023.14920">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">Muhammad Raihan Pratama</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14920 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs">
+                      <div class="font-medium text-[#09090b]">IPK: 3.72</div>
+                      <div class="text-[12px] text-[#71717a]">104 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
+                        </button>
+                        <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
+                        </button>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-[#71717a]">
+                      12 Okt 2026, 09:30 WIB
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="action-cell inline-flex items-center gap-1.5">
+                        <button type="button" onclick="handleDecision(this, 'accept', 'Muhammad Raihan Pratama', 'A11.2023.14920')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
+                          Terima
+                        </button>
+                        <button type="button" onclick="handleDecision(this, 'reject', 'Muhammad Raihan Pratama')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Annisa Nabila Rahma" data-nim="A11.2023.14885">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">Annisa Nabila Rahma</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14885 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs">
+                      <div class="font-medium text-[#09090b]">IPK: 3.80</div>
+                      <div class="text-[12px] text-[#71717a]">108 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
+                        </button>
+                        <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
+                        </button>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-[#71717a]">
+                      12 Okt 2026, 11:15 WIB
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="action-cell inline-flex items-center gap-1.5">
+                        <button type="button" onclick="handleDecision(this, 'accept', 'Annisa Nabila Rahma', 'A11.2023.14885')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
+                          Terima
+                        </button>
+                        <button type="button" onclick="handleDecision(this, 'reject', 'Annisa Nabila Rahma')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Bima Arya Kusuma" data-nim="A11.2023.15102">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">Bima Arya Kusuma</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.15102 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs">
+                      <div class="font-medium text-[#09090b]">IPK: 3.65</div>
+                      <div class="text-[12px] text-[#71717a]">102 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="previewDoc('Bima Arya Kusuma', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
+                        </button>
+                        <button type="button" onclick="previewDoc('Bima Arya Kusuma', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
+                        </button>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-[#71717a]">
+                      13 Okt 2026, 08:20 WIB
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="action-cell inline-flex items-center gap-1.5">
+                        <button type="button" onclick="handleDecision(this, 'accept', 'Bima Arya Kusuma', 'A11.2023.15102')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
+                          Terima
+                        </button>
+                        <button type="button" onclick="handleDecision(this, 'reject', 'Bima Arya Kusuma')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 5: MAHASISWA BINAAN (ANGGOTA MAHASISWA)             -->
+        <!-- ======================================================== -->
+        <section id="view-mahasiswa" class="view-panel mt-5 space-y-6 hidden">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Data Mahasiswa Binaan</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Daftar mahasiswa aktif bimbingan tugas akhir dan riset lab yang telah terdaftar dalam program binaan.</p>
+            </div>
+            <button type="button" onclick="openDirectAssignModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Direct Assign Mahasiswa</span>
+            </button>
+          </div>
+
+          <!-- Toolbar Filter & Search -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="inline-flex p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs">
+              <button type="button" onclick="filterMahasiswaTable('semua', this)" class="mhs-filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs">
+                Semua Mahasiswa (<span id="countMhsAll">6</span>)
+              </button>
+              <button type="button" onclick="filterMahasiswaTable('direct', this)" class="mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Direct Assign (3)
+              </button>
+              <button type="button" onclick="filterMahasiswaTable('mandiri', this)" class="mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Lolos Mandiri (3)
+              </button>
+            </div>
+
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="searchMahasiswaInput" onkeyup="searchMahasiswa()" placeholder="Cari nama atau NIM..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            </div>
+          </div>
+
+          <!-- Tabel Data Mahasiswa Binaan -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Mahasiswa</th>
+                    <th class="py-3 px-4">Jalur Intake</th>
+                    <th class="py-3 px-4">Fokus Riset / Tugas Akhir</th>
+                    <th class="py-3 px-4">Paket SKS</th>
+                    <th class="py-3 px-4">Status Prodi</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="mahasiswaTableBody" class="divide-y divide-gray-100">
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-intake="direct" data-name="Dimas Wahyu Saputra" data-nim="A11.2022.14101">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b]">Dimas Wahyu Saputra</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2022.14101 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                        Direct Assign
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Deteksi Cacat Permukaan Logam Menggunakan YOLOv8</span>
+                      <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Disetujui Prodi
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik Dimas Wahyu Saputra')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Rincian
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-intake="direct" data-name="Siti Nurhaliza" data-nim="A11.2022.14150">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b]">Siti Nurhaliza</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2022.14150 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                        Direct Assign
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Segmentasi Citra Medis USG Tiroid dengan Attention U-Net</span>
+                      <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Disetujui Prodi
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik Siti Nurhaliza')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Rincian
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-intake="mandiri" data-name="Bagus Wicaksono" data-nim="A11.2022.14205">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b]">Bagus Wicaksono</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2022.14205 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        Lolos Mandiri
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Optimasi Hyperparameter Transformer untuk NLP Bahasa Jawa</span>
+                      <div class="text-[#71717a] text-[11px]">Riset Mandiri Lab</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Disetujui Prodi
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik Bagus Wicaksono')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Rincian
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 6: DOSEN PEMBINA (ANGGOTA DOSEN)                    -->
+        <!-- ======================================================== -->
+        <section id="view-dosen" class="view-panel mt-5 space-y-6 hidden">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Data Dosen Pembina</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Daftar dosen pembimbing akademik dan riset yang ditugaskan mengampu program binaan ini.</p>
+            </div>
+            <button type="button" onclick="openAddDosenModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Tambah Dosen Pembina</span>
+            </button>
+          </div>
+
+          <!-- Tabel Dosen Pembina -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Dosen Pembimbing</th>
+                    <th class="py-3 px-4">NPP / NIDN</th>
+                    <th class="py-3 px-4">Bidang Kajian Utama</th>
+                    <th class="py-3 px-4">Alokasi Kuota Bimbingan</th>
+                    <th class="py-3 px-4">Status Pengampu</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="dosenTableBody" class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+                          RA
+                        </div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dr. Ricardus Anggi, M.Kom.</div>
+                          <div class="text-[11px] text-[#71717a]">ricardus.anggi@dsn.dinus.ac.id</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      0686.11.2001.289
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-800">
+                      Computer Vision &amp; Deep Learning
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-[#09090b]">4 / 6 Mahasiswa</span>
+                        <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa 2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Koordinator Lab
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Data Dosen', 'Membuka pengaturan bimbingan dosen')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Kelola
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+                          AK
+                        </div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dr. Aris Kusumawati, M.Cs.</div>
+                          <div class="text-[11px] text-[#71717a]">aris.kusumawati@dsn.dinus.ac.id</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      0686.11.2005.312
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-800">
+                      Natural Language Processing &amp; Text Mining
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-[#09090b]">2 / 4 Mahasiswa</span>
+                        <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa 2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Pembimbing Riset
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Data Dosen', 'Membuka pengaturan bimbingan dosen')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Kelola
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: DIRECT ASSIGN NIM MAHASISWA                     -->
+  <!-- ======================================================== -->
+  <div id="directAssignModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="user-plus" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Direct Assign Mahasiswa Binaan</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Penugasan langsung mahasiswa bimbingan Tugas Akhir ke program binaan.</p>
+        </div>
+        <button type="button" onclick="closeDirectAssignModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="directAssignForm" onsubmit="handleDirectAssignSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Nomor Induk Mahasiswa (NIM) <span class="text-red-500">*</span></label>
+          <div class="flex gap-2">
+            <input type="text" id="inputNim" required placeholder="Contoh: A11.2023.14999" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <button type="button" onclick="verifyNimSiakad()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors shrink-0">
+              Cek SIAKAD
+            </button>
+          </div>
+        </div>
+
+        <!-- Box Verifikasi SIAKAD -->
+        <div id="siakadResultBox" class="p-3 bg-gray-50 rounded-lg border border-gray-200 text-xs space-y-1">
+          <div class="flex justify-between">
+            <span class="text-gray-500">Nama Mahasiswa:</span>
+            <span class="font-semibold text-gray-900" id="verifiedName">-</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Program Studi:</span>
+            <span class="font-medium text-gray-800" id="verifiedProdi">-</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Status Validasi:</span>
+            <span class="font-semibold text-gray-500" id="verifiedStatusText">Masukkan NIM untuk verifikasi</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Topik Bimbingan Riset / Judul Tugas Akhir <span class="text-red-500">*</span></label>
+          <input type="text" id="assignTopic" required placeholder="Contoh: Implementasi YOLOv8 untuk Deteksi Kerusakan Jalan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Dosen Pembimbing yang Ditugaskan <span class="text-red-500">*</span></label>
+          <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+            <option>Dr. Ricardus Anggi, M.Kom. (Sisa Kuota: 2)</option>
+            <option>Dr. Aris Kusumawati, M.Cs. (Sisa Kuota: 2)</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeDirectAssignModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Tugaskan Mahasiswa
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: PREVIEW DOKUMEN (TRANSKRIP / CV)                 -->
+  <!-- ======================================================== -->
+  <div id="previewDocModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 class="text-sm font-bold text-gray-900" id="previewModalTitle">Preview Berkas Mahasiswa</h3>
+          <p class="text-xs text-gray-500 mt-0.5" id="previewFileName">Dokumen_Akademik.pdf</p>
+        </div>
+        <button type="button" onclick="closePreviewDocModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="p-8 border border-dashed border-gray-200 rounded-xl bg-gray-50 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-[#1063B9] mx-auto flex items-center justify-center">
+          <i data-lucide="file-text" class="w-6 h-6"></i>
+        </div>
+        <div class="text-xs text-gray-600">
+          <p class="font-semibold text-gray-900">Dokumen PDF Terverifikasi SIAKAD</p>
+          <p class="text-gray-500 mt-1">Ukuran berkas: 1.4 MB • Format valid</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2.5 pt-4 mt-4 border-t border-gray-100">
+        <button type="button" onclick="closePreviewDocModal()" class="px-4 py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-50">
+          Tutup
+        </button>
+        <button type="button" onclick="showToast('Unduh Dokumen', 'Berkas PDF berhasil diunduh.')" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs">
+          Unduh File Asli
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: TAMBAH DOSEN PEMBINA                            -->
+  <!-- ======================================================== -->
+  <div id="addDosenModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Tambah Dosen Pembina</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Tugaskan dosen baru ke dalam tim pengampu program binaan ini.</p>
+        </div>
+        <button type="button" onclick="closeAddDosenModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="addDosenForm" onsubmit="handleAddDosenSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Nama Lengkap &amp; Gelar Dosen <span class="text-red-500">*</span></label>
+          <input type="text" id="inputDosenName" required placeholder="Contoh: Dr. Suprianto, M.Kom." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">NPP / NIDN <span class="text-red-500">*</span></label>
+          <input type="text" id="inputDosenNpp" required placeholder="Contoh: 0686.11.2009.412" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Bidang Keahlian / Kajian Riset <span class="text-red-500">*</span></label>
+          <input type="text" id="inputDosenBidang" required placeholder="Contoh: Artificial Intelligence &amp; Robotics" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Maksimal Alokasi Kuota Bimbingan <span class="text-red-500">*</span></label>
+          <input type="number" id="inputDosenKuota" required value="4" min="1" max="15" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeAddDosenModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Tambahkan Dosen
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: TAMBAH / EDIT SHOWCASE PROYEK MAHASISWA         -->
+  <!-- ======================================================== -->
+  <div id="showcaseModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 id="showcaseModalTitle" class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="folder-git-2" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Tambah Proyek Showcase</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Dokumentasi hasil karya capstone project mahasiswa untuk halaman detail.</p>
+        </div>
+        <button type="button" onclick="closeShowcaseModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="showcaseForm" onsubmit="handleShowcaseSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="showcaseEditIndex" value="" />
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Judul Hasil Proyek <span class="text-red-500">*</span></label>
+          <input type="text" id="inputShowcaseTitle" required placeholder="Contoh: Smart Energy & Air Quality Monitoring Campus FIK" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">ID Proyek <span class="text-red-500">*</span></label>
+            <input type="text" id="inputShowcaseId" required placeholder="PRJ-2026-04" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Batch / Angkatan <span class="text-red-500">*</span></label>
+            <input type="text" id="inputShowcaseBatch" required placeholder="Capstone Project Batch 6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Kategori Bidang <span class="text-red-500">*</span></label>
+            <input type="text" id="inputShowcaseCategory" required placeholder="IoT & Machine Learning" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Tech Stack (Pisahkan Koma) <span class="text-red-500">*</span></label>
+            <input type="text" id="inputShowcaseTags" required placeholder="Python, TensorFlow, React.js, GCP" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Deskripsi Ringkas Proyek <span class="text-red-500">*</span></label>
+          <textarea id="inputShowcaseDesc" rows="3" required placeholder="Jelaskan fungsionalitas dan dampak sistem proyek..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none leading-relaxed"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">URL Gambar Thumbnail (Unsplash / CDN)</label>
+          <input type="text" id="inputShowcaseImg" placeholder="https://images.unsplash.com/photo-..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeShowcaseModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Simpan Proyek
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 4: TAMBAH / EDIT FORMASI TRACK & LOWONGAN          -->
+  <!-- ======================================================== -->
+  <div id="trackModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 id="trackModalTitle" class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="briefcase" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Tambah Formasi Track</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Formasi spesialisasi jalur pendaftaran yang dapat dipilih mahasiswa.</p>
+        </div>
+        <button type="button" onclick="closeTrackModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="trackForm" onsubmit="handleTrackSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="trackEditIndex" value="" />
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Nama Formasi Track Spesialisasi <span class="text-red-500">*</span></label>
+          <input type="text" id="inputTrackTitle" required placeholder="Contoh: Cybersecurity & Digital Forensics Track" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Total Kuota <span class="text-red-500">*</span></label>
+            <input type="number" id="inputTrackTotal" required value="20" min="1" max="100" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Sisa Kuota <span class="text-red-500">*</span></label>
+            <input type="number" id="inputTrackRemaining" required value="15" min="0" max="100" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Durasi Program <span class="text-red-500">*</span></label>
+            <input type="text" id="inputTrackDuration" required value="5 Bulan Penuh" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Syarat Berkas Mahasiswa <span class="text-red-500">*</span></label>
+            <input type="text" id="inputTrackReqs" required value="Transkrip Nilai (PDF) & Draft Surekom" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Kualifikasi Akademik <span class="text-red-500">*</span></label>
+            <input type="text" id="inputTrackQuals" required value="Smt 6-8 • IPK ≥ 3.00" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Deskripsi Kompetensi Track <span class="text-red-500">*</span></label>
+          <textarea id="inputTrackDesc" rows="3" required placeholder="Jelaskan fokus kompetensi yang dipelajari pada track ini..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none leading-relaxed"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeTrackModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Simpan Track
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 5: TAMBAH / EDIT MATA KULIAH KONVERSI              -->
+  <!-- ======================================================== -->
+  <div id="matkulModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 id="matkulModalTitle" class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="book-open" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Tambah Mata Kuliah Konversi</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Mata kuliah yang dapat dipilih pelamar mahasiswa dalam paket 20 SKS.</p>
+        </div>
+        <button type="button" onclick="closeMatkulModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="matkulForm" onsubmit="handleMatkulSubmit(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="matkulEditIndex" value="" />
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">Kode Matkul <span class="text-red-500">*</span></label>
+            <input type="text" id="inputMatkulCode" required placeholder="A11.54xxx" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+          <div class="col-span-2">
+            <label class="block font-semibold text-gray-700 mb-1">Nama Mata Kuliah <span class="text-red-500">*</span></label>
+            <input type="text" id="inputMatkulName" required placeholder="Contoh: Pengolahan Bahasa Alami Terapan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Bobot SKS <span class="text-red-500">*</span></label>
+          <select id="inputMatkulSks" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+            <option value="4" selected>4 SKS</option>
+            <option value="3">3 SKS</option>
+            <option value="2">2 SKS</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Deskripsi Capaian Pembelajaran Matkul <span class="text-red-500">*</span></label>
+          <textarea id="inputMatkulDesc" rows="3" required placeholder="Jelaskan kesetaraan capaian pembelajaran pada program ini..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none leading-relaxed"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeMatkulModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Simpan Matkul
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- FLOATING TOAST NOTIFICATION (BAB 14.2)                   -->
+  <!-- ======================================================== -->
+  <div id="toastNotification" class="hidden fixed bottom-5 right-5 z-50 flex items-center gap-3 bg-gray-900 text-white px-4 py-3 rounded-xl shadow-xl border border-gray-800 transition-all">
+    <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+      <i data-lucide="check-circle" class="w-4 h-4"></i>
+    </div>
+    <div class="text-xs">
+      <p class="font-semibold" id="toastTitle">Berhasil</p>
+      <p class="text-gray-400" id="toastMessage">Operasi selesai dieksekusi.</p>
+    </div>
+    <button type="button" onclick="hideToast()" class="text-gray-400 hover:text-white ml-2 p-1">
+      <i data-lucide="x" class="w-3.5 h-3.5"></i>
+    </button>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                   -->
+  <!-- ======================================================== -->
+  <script>
+    // Inisialisasi Otomatis Ikon Lucide
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      setupSidebarToggle();
+    });
+
+    // Sidebar Toggle Mobile/Desktop
+    function setupSidebarToggle() {
+      const toggleBtn = document.getElementById("sidebarToggle");
+      const sidebar = document.getElementById("mainSidebar");
+      if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("hidden");
+        });
+      }
+    }
+
+    // Toggle Collapsible Nav Group (Anggota)
+    function toggleNavGroup(groupName) {
+      const sub = document.getElementById(`group-${groupName}-sub`);
+      const arrow = document.getElementById(`group-${groupName}-arrow`);
+      if (sub) {
+        const isHidden = sub.classList.toggle("hidden");
+        if (arrow) {
+          if (isHidden) {
+            arrow.classList.remove("rotate-180");
+          } else {
+            arrow.classList.add("rotate-180");
+          }
+        }
+      }
+    }
+
+    // SPA View Switcher Utama
+    function switchNavView(viewName) {
+      // 1. Sembunyikan semua panel konten
+      document.querySelectorAll(".view-panel").forEach(panel => {
+        panel.classList.add("hidden");
+      });
+
+      // 2. Tampilkan panel yang dituju
+      const targetPanel = document.getElementById(`view-${viewName}`);
+      if (targetPanel) {
+        targetPanel.classList.remove("hidden");
+      }
+
+      // 3. Reset semua styling menu navigasi
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.className = "nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left";
+        const indicator = item.querySelector(".active-indicator");
+        if (indicator) indicator.classList.add("hidden");
+        const icon = item.querySelector(".nav-icon");
+        if (icon) {
+          icon.classList.remove("text-[#0655a7]");
+          icon.classList.add("text-[#71717a]");
+        }
+      });
+
+      // 4. Set menu yang aktif
+      const activeNav = document.getElementById(`nav-${viewName}`);
+      if (activeNav) {
+        activeNav.className = "nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#0655a7] font-medium bg-transparent hover:bg-black/5 transition-colors w-full text-left";
+        const indicator = activeNav.querySelector(".active-indicator");
+        if (indicator) indicator.classList.remove("hidden");
+        const icon = activeNav.querySelector(".nav-icon");
+        if (icon) {
+          icon.classList.remove("text-[#71717a]");
+          icon.classList.add("text-[#0655a7]");
+        }
+      }
+
+      // Pastikan accordion Anggota terbuka jika view dosen/mahasiswa aktif
+      if (viewName === 'dosen' || viewName === 'mahasiswa') {
+        const sub = document.getElementById("group-anggota-sub");
+        const arrow = document.getElementById("group-anggota-arrow");
+        if (sub && sub.classList.contains("hidden")) {
+          sub.classList.remove("hidden");
+          if (arrow) arrow.classList.add("rotate-180");
+        }
+      }
+
+      // 5. Update Breadcrumb Badge
+      const breadcrumbNames = {
+        'dashboard': 'Dashboard',
+        'program': 'Kelola Program Binaan',
+        'form': 'Formulir Pendaftaran',
+        'seleksi': 'Seleksi Pendaftar',
+        'mahasiswa': 'Anggota / Mahasiswa',
+        'dosen': 'Anggota / Dosen'
+      };
+      const badge = document.getElementById("breadcrumbBadge");
+      if (badge && breadcrumbNames[viewName]) {
+        badge.textContent = breadcrumbNames[viewName];
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    // Filter Tabel Seleksi Pendaftar
+    function filterSeleksiTable(status, btn) {
+      document.querySelectorAll(".filter-btn").forEach(b => {
+        b.className = "filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900";
+      });
+      btn.className = "filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs";
+
+      const rows = document.querySelectorAll(".seleksi-row");
+      rows.forEach(row => {
+        if (status === 'semua' || row.getAttribute("data-status") === status) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // Search Tabel Seleksi
+    function searchSeleksi() {
+      const q = document.getElementById("searchSeleksiInput").value.toLowerCase();
+      document.querySelectorAll(".seleksi-row").forEach(row => {
+        const name = (row.getAttribute("data-name") || "").toLowerCase();
+        const nim = (row.getAttribute("data-nim") || "").toLowerCase();
+        if (name.includes(q) || nim.includes(q)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // Handle Keputusan Seleksi (Terima / Tolak)
+    function handleDecision(btn, decision, name, nim) {
+      const row = btn.closest(".seleksi-row");
+      const statusCell = row.querySelector(".status-cell");
+      const actionCell = row.querySelector(".action-cell");
+
+      if (decision === 'accept') {
+        row.setAttribute("data-status", "diterima");
+        statusCell.className = "status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+        statusCell.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600"></i> Diterima`;
+        actionCell.innerHTML = `<span class="text-xs text-emerald-700 font-semibold">Telah Diterima</span>`;
+
+        // Tambah ke tabel Mahasiswa Binaan
+        addAcceptedToMahasiswaTable(name, nim);
+        showToast("Pendaftar Diterima", `${name} resmi bergabung ke program binaan.`);
+      } else {
+        row.setAttribute("data-status", "ditolak");
+        statusCell.className = "status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-rose-50 text-rose-800 border border-rose-200";
+        statusCell.innerHTML = `<i data-lucide="x-circle" class="w-3 h-3 text-rose-600"></i> Ditolak`;
+        actionCell.innerHTML = `<span class="text-xs text-rose-600 font-medium">Telah Ditolak</span>`;
+        showToast("Pendaftar Ditolak", `Pendaftaran ${name} tidak diloloskan.`);
+      }
+      lucide.createIcons();
+    }
+
+    function quickAccept(btn, name, nim) {
+      btn.parentElement.innerHTML = `<span class="text-xs text-emerald-700 font-semibold">Diterima</span>`;
+      addAcceptedToMahasiswaTable(name, nim);
+      showToast("Pendaftar Diterima", `${name} berhasil diterima.`);
+      lucide.createIcons();
+    }
+
+    function quickReject(btn, name) {
+      btn.parentElement.innerHTML = `<span class="text-xs text-rose-600 font-medium">Ditolak</span>`;
+      showToast("Pendaftar Ditolak", `Pendaftaran ${name} ditolak.`);
+      lucide.createIcons();
+    }
+
+    // Sinkronisasi Mahasiswa Diterima ke Tabel Mahasiswa Binaan
+    function addAcceptedToMahasiswaTable(name, nim) {
+      const tbody = document.getElementById("mahasiswaTableBody");
+      if (!tbody) return;
+
+      const newRow = document.createElement("tr");
+      newRow.className = "mhs-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
+      newRow.setAttribute("data-intake", "mandiri");
+      newRow.setAttribute("data-name", name);
+      newRow.setAttribute("data-nim", nim);
+      newRow.innerHTML = `
+        <td class="py-3.5 px-4">
+          <div class="font-medium text-[13px] text-[#09090b]">${name}</div>
+          <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+            Lolos Mandiri
+          </span>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="font-medium text-gray-800">Riset Terapan Machine Learning</span>
+          <div class="text-[#71717a] text-[11px]">Bimbingan Lab</div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="font-semibold text-[#1063B9]">20 SKS</span>
+          <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Siap Plotting Prodi
+          </span>
+        </td>
+        <td class="py-3.5 px-4 text-right">
+          <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik ${name}')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+            Rincian
+          </button>
+        </td>
+      `;
+      tbody.prepend(newRow);
+
+      // Update counters
+      const countEl = document.getElementById("statMahasiswaCount");
+      const countAll = document.getElementById("countMhsAll");
+      const filledQuota = document.getElementById("statFilledQuota");
+
+      if (countEl) countEl.textContent = parseInt(countEl.textContent || 6) + 1;
+      if (countAll) countAll.textContent = parseInt(countAll.textContent || 6) + 1;
+      if (filledQuota) filledQuota.textContent = parseInt(filledQuota.textContent || 6) + 1;
+    }
+
+    // Filter Tabel Mahasiswa Binaan
+    function filterMahasiswaTable(intake, btn) {
+      document.querySelectorAll(".mhs-filter-btn").forEach(b => {
+        b.className = "mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900";
+      });
+      btn.className = "mhs-filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs";
+
+      const rows = document.querySelectorAll(".mhs-row");
+      rows.forEach(row => {
+        if (intake === 'semua' || row.getAttribute("data-intake") === intake) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // Search Tabel Mahasiswa
+    function searchMahasiswa() {
+      const q = document.getElementById("searchMahasiswaInput").value.toLowerCase();
+      document.querySelectorAll(".mhs-row").forEach(row => {
+        const name = (row.getAttribute("data-name") || "").toLowerCase();
+        const nim = (row.getAttribute("data-nim") || "").toLowerCase();
+        if (name.includes(q) || nim.includes(q)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // Verifikasi NIM SIAKAD (Modal Direct Assign)
+    function verifyNimSiakad() {
+      const nim = document.getElementById("inputNim").value.trim();
+      const statusText = document.getElementById("verifiedStatusText");
+      const nameText = document.getElementById("verifiedName");
+      const prodiText = document.getElementById("verifiedProdi");
+      const box = document.getElementById("siakadResultBox");
+
+      if (!nim) {
+        alert("Silakan ketikkan NIM terlebih dahulu.");
+        return;
+      }
+
+      statusText.innerHTML = `<span class="text-emerald-700 font-bold flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Terverifikasi SIAKAD (Memenuhi Syarat MBKM)</span>`;
+      nameText.textContent = "Arya Wicaksana Dewanto";
+      prodiText.textContent = "Teknik Informatika (S1) • Semester 7";
+      box.className = "p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs space-y-1";
+      lucide.createIcons();
+    }
+
+    // Submit Direct Assign Mahasiswa
+    function handleDirectAssignSubmit(e) {
+      e.preventDefault();
+      const nim = document.getElementById("inputNim").value;
+      const name = document.getElementById("verifiedName").textContent !== "-" ? document.getElementById("verifiedName").textContent : "Arya Wicaksana Dewanto";
+      const topic = document.getElementById("assignTopic").value;
+
+      const tbody = document.getElementById("mahasiswaTableBody");
+      const newRow = document.createElement("tr");
+      newRow.className = "mhs-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
+      newRow.setAttribute("data-intake", "direct");
+      newRow.setAttribute("data-name", name);
+      newRow.setAttribute("data-nim", nim);
+      newRow.innerHTML = `
+        <td class="py-3.5 px-4">
+          <div class="font-medium text-[13px] text-[#09090b]">${name}</div>
+          <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
+            Direct Assign
+          </span>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="font-medium text-gray-800">${topic}</span>
+          <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="font-semibold text-[#1063B9]">20 SKS</span>
+          <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Siap Plotting Prodi
+          </span>
+        </td>
+        <td class="py-3.5 px-4 text-right">
+          <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik ${name}')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+            Rincian
+          </button>
+        </td>
+      `;
+      tbody.prepend(newRow);
+
+      // Update counters
+      const countEl = document.getElementById("statMahasiswaCount");
+      const countAll = document.getElementById("countMhsAll");
+      const filledQuota = document.getElementById("statFilledQuota");
+
+      if (countEl) countEl.textContent = parseInt(countEl.textContent || 6) + 1;
+      if (countAll) countAll.textContent = parseInt(countAll.textContent || 6) + 1;
+      if (filledQuota) filledQuota.textContent = parseInt(filledQuota.textContent || 6) + 1;
+
+      closeDirectAssignModal();
+      showToast("Mahasiswa Berhasil Ditugaskan", `${name} (${nim}) telah ditambahkan ke Mahasiswa Binaan.`);
+      lucide.createIcons();
+    }
+
+    // Submit Tambah Dosen Pembina
+    function handleAddDosenSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("inputDosenName").value;
+      const npp = document.getElementById("inputDosenNpp").value;
+      const bidang = document.getElementById("inputDosenBidang").value;
+      const kuota = document.getElementById("inputDosenKuota").value;
+
+      const initials = name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
+      const tbody = document.getElementById("dosenTableBody");
+      const newRow = document.createElement("tr");
+      newRow.className = "hover:bg-gray-50/70 transition-colors animate-in fade-in";
+      newRow.innerHTML = `
+        <td class="py-3.5 px-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+              ${initials}
+            </div>
+            <div>
+              <div class="font-medium text-[13px] text-[#09090b] leading-tight">${name}</div>
+              <div class="text-[11px] text-[#71717a]">Dosen Pembimbing</div>
+            </div>
+          </div>
+        </td>
+        <td class="py-3.5 px-4 text-xs text-[#71717a]">${npp}</td>
+        <td class="py-3.5 px-4 text-gray-800">${bidang}</td>
+        <td class="py-3.5 px-4">
+          <div class="flex items-center gap-2">
+            <span class="font-medium text-[#09090b]">0 / ${kuota} Mahasiswa</span>
+            <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa ${kuota}</span>
+          </div>
+        </td>
+        <td class="py-3.5 px-4">
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Pembimbing Riset
+          </span>
+        </td>
+        <td class="py-3.5 px-4 text-right">
+          <button type="button" onclick="showToast('Data Dosen', 'Membuka pengaturan bimbingan dosen')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+            Kelola
+          </button>
+        </td>
+      `;
+      tbody.prepend(newRow);
+
+      closeAddDosenModal();
+      showToast("Dosen Pembina Ditambahkan", `${name} berhasil didaftarkan ke tim pengampu.`);
+      lucide.createIcons();
+    }
+
+    // Modal Handlers
+    function openDirectAssignModal() {
+      document.getElementById("directAssignModal").classList.remove("hidden");
+    }
+    function closeDirectAssignModal() {
+      document.getElementById("directAssignModal").classList.add("hidden");
+    }
+
+    function openAddDosenModal() {
+      document.getElementById("addDosenModal").classList.remove("hidden");
+    }
+    function closeAddDosenModal() {
+      document.getElementById("addDosenModal").classList.add("hidden");
+    }
+
+    function previewDoc(name, type) {
+      document.getElementById("previewModalTitle").textContent = `Berkas: ${name}`;
+      document.getElementById("previewFileName").textContent = type === 'transkrip' ? "Transkrip_Akademik_SIAKAD.pdf" : "Curriculum_Vitae_Terbaru.pdf";
+      document.getElementById("previewDocModal").classList.remove("hidden");
+    }
+    function closePreviewDocModal() {
+      document.getElementById("previewDocModal").classList.add("hidden");
+    }
+
+    // ========================================================
+    // CMS KELOLA PROGRAM BINAAN CONTROLLERS
+    // ========================================================
+
+    // Simpan Seluruh Konten Program Binaan (Card 1)
+    function saveProgramContent() {
+      const title = document.getElementById("progTitle").value;
+      showToast("Perubahan Disimpan", `Konten "${title}" berhasil diperbarui untuk halaman detail.`);
+    }
+
+    // Modal Showcase Handlers
+    let currentEditShowcaseEl = null;
+
+    function openShowcaseModal(editEl = null) {
+      currentEditShowcaseEl = editEl;
+      const modal = document.getElementById("showcaseModal");
+      const titleEl = document.getElementById("showcaseModalTitle");
+      const form = document.getElementById("showcaseForm");
+
+      if (editEl) {
+        titleEl.innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-[#1063B9]"></i><span>Edit Proyek Showcase</span>`;
+        const item = editEl.closest(".showcase-item");
+        document.getElementById("inputShowcaseTitle").value = item.querySelector(".item-title").textContent.trim();
+        document.getElementById("inputShowcaseId").value = item.getAttribute("data-id") || "PRJ-2026-01";
+        document.getElementById("inputShowcaseBatch").value = "Capstone Project Batch 6";
+        document.getElementById("inputShowcaseCategory").value = item.querySelector(".bg-gray-900\\/80") ? item.querySelector(".bg-gray-900\\/80").textContent.trim() : "IoT & AI";
+        const tags = Array.from(item.querySelectorAll(".item-tags span")).map(s => s.textContent.trim()).join(", ");
+        document.getElementById("inputShowcaseTags").value = tags;
+        document.getElementById("inputShowcaseDesc").value = item.querySelector(".item-desc").textContent.trim();
+        const img = item.querySelector("img");
+        document.getElementById("inputShowcaseImg").value = img ? img.src : "";
+      } else {
+        titleEl.innerHTML = `<i data-lucide="folder-git-2" class="w-5 h-5 text-[#1063B9]"></i><span>Tambah Proyek Showcase</span>`;
+        form.reset();
+        document.getElementById("inputShowcaseId").value = `PRJ-2026-0${document.querySelectorAll(".showcase-item").length + 1}`;
+        document.getElementById("inputShowcaseBatch").value = "Capstone Project Batch 6";
+        document.getElementById("inputShowcaseImg").value = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80";
+      }
+      modal.classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeShowcaseModal() {
+      document.getElementById("showcaseModal").classList.add("hidden");
+      currentEditShowcaseEl = null;
+    }
+
+    function editShowcaseItem(btn) {
+      openShowcaseModal(btn);
+    }
+
+    function deleteShowcaseItem(btn) {
+      if (confirm("Apakah Anda yakin ingin menghapus proyek showcase ini?")) {
+        const item = btn.closest(".showcase-item");
+        const title = item.querySelector(".item-title").textContent.trim();
+        item.remove();
+        showToast("Proyek Dihapus", `Showcase "${title}" berhasil dihapus.`);
+      }
+    }
+
+    function handleShowcaseSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById("inputShowcaseTitle").value;
+      const id = document.getElementById("inputShowcaseId").value;
+      const batch = document.getElementById("inputShowcaseBatch").value;
+      const category = document.getElementById("inputShowcaseCategory").value;
+      const tagsStr = document.getElementById("inputShowcaseTags").value;
+      const desc = document.getElementById("inputShowcaseDesc").value;
+      const img = document.getElementById("inputShowcaseImg").value || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80";
+
+      const tagsArray = tagsStr.split(",").map(t => t.trim()).filter(Boolean);
+      const tagsHtml = tagsArray.map(t => `<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">${t}</span>`).join(" ");
+
+      if (currentEditShowcaseEl) {
+        const item = currentEditShowcaseEl.closest(".showcase-item");
+        item.setAttribute("data-id", id);
+        item.querySelector(".item-title").textContent = title;
+        item.querySelector(".item-desc").textContent = desc;
+        item.querySelector(".item-tags").innerHTML = tagsHtml;
+        const catBadge = item.querySelector(".bg-gray-900\\/80");
+        if (catBadge) catBadge.textContent = category;
+        const imgEl = item.querySelector("img");
+        if (imgEl) imgEl.src = img;
+        showToast("Proyek Diperbarui", `Showcase "${title}" berhasil diperbarui.`);
+      } else {
+        const container = document.getElementById("showcaseListContainer");
+        const newItem = document.createElement("div");
+        newItem.className = "showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start animate-in fade-in";
+        newItem.setAttribute("data-id", id);
+        newItem.innerHTML = `
+          <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+            <img src="${img}" alt="${title}" class="w-full h-full object-cover" />
+            <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">${category}</span>
+          </div>
+          <div class="flex-1 space-y-1.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">${batch}</span>
+                <span class="text-xs text-gray-500 font-medium">ID: ${id}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                </button>
+                <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+            <h4 class="text-sm font-bold text-gray-900 item-title">${title}</h4>
+            <p class="text-xs text-gray-600 leading-relaxed item-desc">${desc}</p>
+            <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+              ${tagsHtml}
+            </div>
+          </div>
+        `;
+        container.prepend(newItem);
+        showToast("Proyek Ditambahkan", `Showcase "${title}" berhasil ditambahkan.`);
+      }
+
+      closeShowcaseModal();
+      lucide.createIcons();
+    }
+
+    // Modal Formasi Track Handlers
+    let currentEditTrackEl = null;
+
+    function openTrackModal(editEl = null) {
+      currentEditTrackEl = editEl;
+      const modal = document.getElementById("trackModal");
+      const titleEl = document.getElementById("trackModalTitle");
+      const form = document.getElementById("trackForm");
+
+      if (editEl) {
+        titleEl.innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-[#1063B9]"></i><span>Edit Formasi Track</span>`;
+        const item = editEl.closest(".track-item");
+        document.getElementById("inputTrackTitle").value = item.querySelector(".track-title").textContent.trim();
+        document.getElementById("inputTrackDesc").value = item.querySelector(".track-desc").textContent.trim();
+      } else {
+        titleEl.innerHTML = `<i data-lucide="briefcase" class="w-5 h-5 text-[#1063B9]"></i><span>Tambah Formasi Track</span>`;
+        form.reset();
+        document.getElementById("inputTrackTotal").value = "20";
+        document.getElementById("inputTrackRemaining").value = "15";
+        document.getElementById("inputTrackDuration").value = "5 Bulan Penuh";
+        document.getElementById("inputTrackReqs").value = "Transkrip Nilai (PDF) & Draft Surekom";
+        document.getElementById("inputTrackQuals").value = "Smt 6-8 • IPK ≥ 3.00";
+      }
+      modal.classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeTrackModal() {
+      document.getElementById("trackModal").classList.add("hidden");
+      currentEditTrackEl = null;
+    }
+
+    function editTrackItem(btn) {
+      openTrackModal(btn);
+    }
+
+    function deleteTrackItem(btn) {
+      if (confirm("Apakah Anda yakin ingin menghapus formasi track ini?")) {
+        const item = btn.closest(".track-item");
+        const title = item.querySelector(".track-title").textContent.trim();
+        item.remove();
+        showToast("Track Dihapus", `Formasi "${title}" berhasil dihapus.`);
+      }
+    }
+
+    function toggleTrackStatus(btn) {
+      const item = btn.closest(".track-item");
+      const badge = item.querySelector(".track-status-badge");
+      const title = item.querySelector(".track-title").textContent.trim();
+
+      if (btn.textContent.includes("Tutup")) {
+        btn.textContent = "Buka Jalur";
+        btn.className = "track-toggle-btn px-2.5 py-1 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-lg transition-colors";
+        badge.className = "track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-700 border border-gray-200";
+        badge.textContent = "Ditutup";
+        showToast("Jalur Ditutup", `Formasi "${title}" telah dinonaktifkan.`);
+      } else {
+        btn.textContent = "Tutup Jalur";
+        btn.className = "track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors";
+        badge.className = "track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200";
+        badge.textContent = "Dibuka (Open)";
+        showToast("Jalur Dibuka", `Formasi "${title}" siap menerima pendaftaran mahasiswa.`);
+      }
+    }
+
+    function handleTrackSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById("inputTrackTitle").value;
+      const total = document.getElementById("inputTrackTotal").value;
+      const remaining = document.getElementById("inputTrackRemaining").value;
+      const duration = document.getElementById("inputTrackDuration").value;
+      const reqs = document.getElementById("inputTrackReqs").value;
+      const quals = document.getElementById("inputTrackQuals").value;
+      const desc = document.getElementById("inputTrackDesc").value;
+
+      if (currentEditTrackEl) {
+        const item = currentEditTrackEl.closest(".track-item");
+        item.querySelector(".track-title").textContent = title;
+        item.querySelector(".track-desc").textContent = desc;
+        showToast("Track Diperbarui", `Formasi "${title}" berhasil diperbarui.`);
+      } else {
+        const container = document.getElementById("tracksListContainer");
+        const newItem = document.createElement("div");
+        newItem.className = "track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4 animate-in fade-in";
+        newItem.innerHTML = `
+          <div class="flex items-start gap-3.5">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="layers" class="w-5 h-5"></i>
+            </div>
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Dibuka (Open)
+                </span>
+                <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                  <i data-lucide="users" class="w-3 h-3 text-gray-400"></i>
+                  <span>Sisa Kuota: <strong>${remaining}</strong> / ${total} Mahasiswa</span>
+                </span>
+                <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                  Konversi 20 SKS
+                </span>
+              </div>
+              <h4 class="text-sm font-bold text-gray-900 track-title">${title}</h4>
+              <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">${desc}</p>
+              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: ${duration}</span>
+                <span>•</span>
+                <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: ${reqs}</span>
+                <span>•</span>
+                <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> ${quals}</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+            <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+              Tutup Jalur
+            </button>
+            <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+              <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+            </button>
+            <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        container.prepend(newItem);
+        showToast("Track Ditambahkan", `Formasi "${title}" berhasil dibuka.`);
+      }
+
+      closeTrackModal();
+      lucide.createIcons();
+    }
+
+    // ========================================================
+    // CMS FORM PENDAFTARAN CONTROLLERS
+    // ========================================================
+
+    // Simpan Pengaturan Form Pendaftaran
+    function saveFormConfig() {
+      showToast("Pengaturan Disimpan", "Konfigurasi periode, syarat kelayakan, dan dokumen berhasil diperbarui.");
+    }
+
+    // Modal Mata Kuliah Konversi Handlers
+    let currentEditMatkulEl = null;
+
+    function openMatkulModal(editEl = null) {
+      currentEditMatkulEl = editEl;
+      const modal = document.getElementById("matkulModal");
+      const titleEl = document.getElementById("matkulModalTitle");
+      const form = document.getElementById("matkulForm");
+
+      if (editEl) {
+        titleEl.innerHTML = `<i data-lucide="pencil" class="w-5 h-5 text-[#1063B9]"></i><span>Edit Mata Kuliah Konversi</span>`;
+        const row = editEl.closest("tr");
+        document.getElementById("inputMatkulCode").value = row.querySelector(".matkul-code").textContent.trim();
+        document.getElementById("inputMatkulName").value = row.querySelector(".matkul-name").textContent.trim();
+        const sksText = row.querySelector(".matkul-sks").textContent.trim();
+        const sksNum = sksText.replace(/\D/g, "");
+        document.getElementById("inputMatkulSks").value = sksNum || "4";
+        document.getElementById("inputMatkulDesc").value = row.querySelector(".matkul-desc").textContent.trim();
+      } else {
+        titleEl.innerHTML = `<i data-lucide="book-open" class="w-5 h-5 text-[#1063B9]"></i><span>Tambah Mata Kuliah Konversi</span>`;
+        form.reset();
+        document.getElementById("inputMatkulCode").value = "A11.54xxx";
+        document.getElementById("inputMatkulSks").value = "4";
+      }
+      modal.classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function closeMatkulModal() {
+      document.getElementById("matkulModal").classList.add("hidden");
+      currentEditMatkulEl = null;
+    }
+
+    function editMatkulRow(btn) {
+      openMatkulModal(btn);
+    }
+
+    function deleteMatkulRow(btn) {
+      if (confirm("Apakah Anda yakin ingin menghapus mata kuliah konversi ini?")) {
+        const row = btn.closest("tr");
+        const name = row.querySelector(".matkul-name").textContent.trim();
+        row.remove();
+        recalculateMatkulSks();
+        showToast("Matkul Dihapus", `Mata kuliah "${name}" berhasil dihapus.`);
+      }
+    }
+
+    function recalculateMatkulSks() {
+      const rows = document.querySelectorAll("#matkulTableBody tr");
+      let total = 0;
+      rows.forEach(r => {
+        const sksCell = r.querySelector(".matkul-sks");
+        if (sksCell) {
+          const num = parseInt(sksCell.textContent.replace(/\D/g, "") || 0, 10);
+          total += num;
+        }
+      });
+      const badge = document.getElementById("totalSksTersedia");
+      if (badge) {
+        badge.textContent = total;
+      }
+    }
+
+    function handleMatkulSubmit(e) {
+      e.preventDefault();
+      const code = document.getElementById("inputMatkulCode").value;
+      const name = document.getElementById("inputMatkulName").value;
+      const sks = document.getElementById("inputMatkulSks").value;
+      const desc = document.getElementById("inputMatkulDesc").value;
+
+      if (currentEditMatkulEl) {
+        const row = currentEditMatkulEl.closest("tr");
+        row.querySelector(".matkul-code").textContent = code;
+        row.querySelector(".matkul-name").textContent = name;
+        row.querySelector(".matkul-sks").textContent = `${sks} SKS`;
+        row.querySelector(".matkul-desc").textContent = desc;
+        showToast("Matkul Diperbarui", `Mata kuliah "${name}" berhasil diperbarui.`);
+      } else {
+        const tbody = document.getElementById("matkulTableBody");
+        const newRow = document.createElement("tr");
+        newRow.className = "hover:bg-gray-50/70 transition-colors animate-in fade-in";
+        newRow.innerHTML = `
+          <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">${code}</td>
+          <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">${name}</td>
+          <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">${sks} SKS</td>
+          <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">${desc}</td>
+          <td class="py-3 px-4 text-right">
+            <div class="inline-flex items-center gap-1">
+              <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+              <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.prepend(newRow);
+        showToast("Matkul Ditambahkan", `Mata kuliah "${name}" berhasil ditambahkan.`);
+      }
+
+      recalculateMatkulSks();
+      closeMatkulModal();
+      lucide.createIcons();
+    }
+
+    // Floating Toast Utility
+    let toastTimeout;
+    function showToast(title, message) {
+      const toast = document.getElementById("toastNotification");
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastMessage").textContent = message;
+      toast.classList.remove("hidden");
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        hideToast();
+      }, 3500);
+      lucide.createIcons();
+    }
+    function hideToast() {
+      const toast = document.getElementById("toastNotification");
+      if (toast) toast.classList.add("hidden");
+    }
+  </script>
+</body>
+</html>
