@@ -134,84 +134,151 @@
             <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
           </div>
 
-          <!-- Daftar Menu Navigasi Sidebar (Screenshot Ref) -->
+          <!-- Daftar Menu Navigasi Sidebar (Issue #16: 11 Menu Standar MBKM Koordinator) -->
           <nav class="flex flex-col gap-1 mt-2">
-            <!-- 1. Dashboard -->
+            <!-- 1. Dashboard [Bagian 2 - ditoow] -->
             <button
               type="button"
               onclick="switchTab('dashboard')"
               id="nav-dashboard"
               class="nav-item nav-active relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
             >
-              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <span class="active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
               <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#71717a] shrink-0"></i>
               <span class="truncate">Dashboard</span>
             </button>
 
-            <!-- 2. Program dengan Sub-menu Dropdown -->
+            <!-- 2. Pengumuman [Bagian 2 - ditoow] -->
+            <button
+              type="button"
+              onclick="switchTab('pengumuman')"
+              id="nav-pengumuman"
+              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+            >
+              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <i data-lucide="megaphone" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Pengumuman</span>
+            </button>
+
+            <!-- 3. Periode Ajaran [Bagian 2 - ditoow] -->
+            <button
+              type="button"
+              onclick="switchTab('periode')"
+              id="nav-periode"
+              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+            >
+              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <i data-lucide="calendar-range" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Periode Ajaran</span>
+            </button>
+
+            <!-- 4. Mitra [Bagian 2 - ditoow] -->
+            <button
+              type="button"
+              onclick="switchTab('mitra')"
+              id="nav-mitra"
+              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+            >
+              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <i data-lucide="building-2" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Mitra</span>
+            </button>
+
+            <!-- 5. Mahasiswa (Sub-menu: Rekomendasi, Pelamar, Semua Mahasiswa) [Bagian 2 - ditoow] -->
             <div class="flex flex-col">
               <button
                 type="button"
-                onclick="toggleProgramSubmenu()"
-                id="nav-program"
+                onclick="toggleMahasiswaSubmenu()"
+                id="nav-mahasiswa"
                 class="nav-item relative flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
               >
                 <div class="flex items-center gap-3">
                   <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
-                  <i data-lucide="book-open" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-                  <span class="truncate">Program</span>
+                  <i data-lucide="graduation-cap" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">Mahasiswa</span>
                 </div>
                 <i
-                  id="program-chevron"
+                  id="mahasiswa-chevron"
                   data-lucide="chevron-down"
                   class="w-3.5 h-3.5 text-[#71717a] transition-transform duration-200"
                 ></i>
               </button>
-              <div id="submenu-program" class="flex flex-col gap-1 py-1 pr-2 pl-9">
+              <div id="submenu-mahasiswa" class="hidden flex flex-col gap-1 py-1 pr-2 pl-9">
                 <button
                   type="button"
-                  onclick="showProgramListView()"
-                  id="nav-sub-daftar-program"
-                  class="px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
+                  onclick="switchTab('mhs-rekomendasi')"
+                  id="nav-sub-mhs-rekomendasi"
+                  class="nav-sub-item px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
                 >
-                  Daftar Program
+                  Rekomendasi
                 </button>
                 <button
                   type="button"
-                  onclick="showKategoriManagementView()"
-                  id="nav-sub-kategori-program"
-                  class="px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
+                  onclick="switchTab('mhs-pelamar')"
+                  id="nav-sub-mhs-pelamar"
+                  class="nav-sub-item px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
                 >
-                  Manajemen Kategori Program
+                  Pelamar
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('mhs-semua')"
+                  id="nav-sub-mhs-semua"
+                  class="nav-sub-item px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
+                >
+                  Semua Mahasiswa
                 </button>
               </div>
             </div>
 
-            <!-- 3. Koordinator -->
-            <button
-              type="button"
-              onclick="switchTab('koordinator')"
-              id="nav-koordinator"
-              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
-            >
-              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
-              <i data-lucide="users" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Koordinator</span>
-            </button>
+            <!-- 6. Dosen Pembimbing (Sub-menu: Data Dosen, Kuota Dosen, Update Dospem) [Bagian 1 - Mahdanaa] -->
+            <div class="flex flex-col">
+              <button
+                type="button"
+                onclick="toggleDosenSubmenu()"
+                id="nav-dosen"
+                class="nav-item relative flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+              >
+                <div class="flex items-center gap-3">
+                  <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+                  <i data-lucide="user-check" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">Dosen Pembimbing</span>
+                </div>
+                <i
+                  id="dosen-chevron"
+                  data-lucide="chevron-down"
+                  class="w-3.5 h-3.5 text-[#71717a] transition-transform duration-200"
+                ></i>
+              </button>
+              <div id="submenu-dosen" class="hidden flex flex-col gap-1 py-1 pr-2 pl-9">
+                <button
+                  type="button"
+                  onclick="switchTab('dosen-data')"
+                  id="nav-sub-dosen-data"
+                  class="nav-sub-item px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
+                >
+                  Data Dosen
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('dosen-kuota')"
+                  id="nav-sub-dosen-kuota"
+                  class="nav-sub-item px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
+                >
+                  Kuota Dosen
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('dosen-update')"
+                  id="nav-sub-dosen-update"
+                  class="nav-sub-item px-2.5 py-1.5 rounded-md text-xs text-[#71717a] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors"
+                >
+                  Update Dospem
+                </button>
+              </div>
+            </div>
 
-            <!-- 4. Validasi Surekom -->
-            <button
-              type="button"
-              onclick="switchTab('surekom')"
-              id="nav-surekom"
-              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
-            >
-              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
-              <i data-lucide="badge-check" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Validasi Surekom</span>
-            </button>
-
-            <!-- 5. Data Logbook -->
+            <!-- 7. Logbook Mahasiswa [Bagian 1 - Mahdanaa] -->
             <button
               type="button"
               onclick="switchTab('logbook')"
@@ -220,19 +287,55 @@
             >
               <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
               <i data-lucide="book-marked" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Data LogBook</span>
+              <span class="truncate">Logbook Mahasiswa</span>
             </button>
 
-            <!-- 6. Laporan Akhir -->
+            <!-- 8. Konversi SKS [Bagian 1 - Mahdanaa] -->
             <button
               type="button"
-              onclick="switchTab('laporan')"
-              id="nav-laporan"
+              onclick="switchTab('konversi')"
+              id="nav-konversi"
               class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
             >
               <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
-              <i data-lucide="file-text" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Laporan Akhir</span>
+              <i data-lucide="arrow-left-right" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Konversi SKS</span>
+            </button>
+
+            <!-- 9. Sidang [Bagian 1 - Mahdanaa] -->
+            <button
+              type="button"
+              onclick="switchTab('sidang')"
+              id="nav-sidang"
+              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+            >
+              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <i data-lucide="award" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Sidang</span>
+            </button>
+
+            <!-- 10. Sertifikat [Bagian 1 - Mahdanaa] -->
+            <button
+              type="button"
+              onclick="switchTab('sertifikat')"
+              id="nav-sertifikat"
+              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+            >
+              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Sertifikat</span>
+            </button>
+
+            <!-- 11. Log Aktivitas [Bagian 1 - Mahdanaa] -->
+            <button
+              type="button"
+              onclick="switchTab('log-aktivitas')"
+              id="nav-log-aktivitas"
+              class="nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 transition-colors text-left w-full"
+            >
+              <span class="active-bar hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"></span>
+              <i data-lucide="history" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Log Aktivitas</span>
             </button>
           </nav>
         </div>
@@ -1980,6 +2083,176 @@
               </div>
             </div>
           </section>
+
+          <!-- ================================================== -->
+          <!-- TAB PENGUMUMAN [Bagian 2 - Issue #18]             -->
+          <!-- ================================================== -->
+          <section id="section-pengumuman" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Pengumuman MBKM</h2>
+                <p class="text-[11px] text-[#71717a]">Broadcast siaran informasi resmi MBKM tingkat prodi/fakultas.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="megaphone" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Pengumuman</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB PERIODE AJARAN [Bagian 2 - Issue #18]         -->
+          <!-- ================================================== -->
+          <section id="section-periode" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Periode Ajaran MBKM</h2>
+                <p class="text-[11px] text-[#71717a]">Kalender semester aktif, pengaturan tanggal pembukaan, dan cut-off seleksi.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="calendar-range" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Periode Ajaran</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB MITRA [Bagian 2 - Issue #18]                  -->
+          <!-- ================================================== -->
+          <section id="section-mitra" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Direktori Mitra MBKM</h2>
+                <p class="text-[11px] text-[#71717a]">Manajemen akun PIC mitra (invite-only) dan detail bertab Program, Dosen, Mahasiswa.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="building-2" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Mitra</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB MAHASISWA / PELAMAR [Bagian 2 - Issue #18]    -->
+          <!-- ================================================== -->
+          <section id="section-mhs-pelamar" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Pelamar MBKM (Rekomendasi Mitra)</h2>
+                <p class="text-[11px] text-[#71717a]">Antrean final approval pelamar yang lolos rekomendasi seleksi mitra.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="graduation-cap" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Pelamar Mahasiswa</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB MAHASISWA / SEMUA [Bagian 2 - Issue #18]      -->
+          <!-- ================================================== -->
+          <section id="section-mhs-semua" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Semua Mahasiswa MBKM</h2>
+                <p class="text-[11px] text-[#71717a]">Direktori seluruh mahasiswa aktif yang sedang menjalani program MBKM di mitra.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="users" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Semua Mahasiswa</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB DOSEN PEMBIMBING / KUOTA [Bagian 1 - Issue #17]-->
+          <!-- ================================================== -->
+          <section id="section-dosen-kuota" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Kuota Dosen Pembimbing</h2>
+                <p class="text-[11px] text-[#71717a]">Monitoring beban bimbingan maksimal per dosen per semester.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="user-check" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Kuota Dosen</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 1 (branch: <code>feat/v2/dashboard-koordinator-1</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB DOSEN PEMBIMBING / UPDATE DOSPEM [Bagian 1 - Issue #17]-->
+          <!-- ================================================== -->
+          <section id="section-dosen-update" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Update Dosen Pembimbing Lapangan (Plotting)</h2>
+                <p class="text-[11px] text-[#71717a]">Alokasi dan plotting DPL ke mahasiswa yang diterima di mitra.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="user-plus" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Update Dospem</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 1 (branch: <code>feat/v2/dashboard-koordinator-1</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB KONVERSI SKS [Bagian 1 - Issue #17]           -->
+          <!-- ================================================== -->
+          <section id="section-konversi" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Konversi SKS</h2>
+                <p class="text-[11px] text-[#71717a]">Penyetujuan, revisi, dan penguncian konversi matkul/SKS mahasiswa terhadap CPL.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="arrow-left-right" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Konversi SKS</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 1 (branch: <code>feat/v2/dashboard-koordinator-1</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB SERTIFIKAT [Bagian 1 - Issue #17]             -->
+          <!-- ================================================== -->
+          <section id="section-sertifikat" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Sertifikat & Luaran Wajib</h2>
+                <p class="text-[11px] text-[#71717a]">Validasi bukti luaran wajib (Publikasi Ilmiah / Sertifikat Mitra) sebelum sinkronisasi KHS.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="badge-check" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Sertifikat</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 1 (branch: <code>feat/v2/dashboard-koordinator-1</code>)</div>
+            </div>
+          </section>
+
+          <!-- ================================================== -->
+          <!-- TAB LOG AKTIVITAS [Bagian 1 - Issue #17]          -->
+          <!-- ================================================== -->
+          <section id="section-log-aktivitas" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Log Aktivitas Sistem</h2>
+                <p class="text-[11px] text-[#71717a]">Audit trail riwayat aksi perubahan data penting pada sistem.</p>
+              </div>
+            </div>
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="history" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Modul Log Aktivitas</div>
+              <div class="mt-1">Lingkup pengerjaan Bagian 1 (branch: <code>feat/v2/dashboard-koordinator-1</code>)</div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
@@ -2316,97 +2589,144 @@
       // Inisialisasi ikon
       lucide.createIcons();
 
-      // Data label navigasi
+      // Data label navigasi (11 Menu Standar MBKM Koordinator - Issue #16)
       const navMeta = {
         dashboard: { label: 'Dashboard', icon: 'layout-dashboard' },
+        pengumuman: { label: 'Pengumuman', icon: 'megaphone' },
+        periode: { label: 'Periode Ajaran', icon: 'calendar-range' },
+        mitra: { label: 'Mitra', icon: 'building-2' },
+        'mhs-rekomendasi': { label: 'Mahasiswa / Rekomendasi (SuReKom)', icon: 'graduation-cap', parent: 'mahasiswa' },
+        'mhs-pelamar': { label: 'Mahasiswa / Pelamar', icon: 'graduation-cap', parent: 'mahasiswa' },
+        'mhs-semua': { label: 'Mahasiswa / Semua Mahasiswa', icon: 'graduation-cap', parent: 'mahasiswa' },
+        'dosen-data': { label: 'Dosen Pembimbing / Data Dosen', icon: 'user-check', parent: 'dosen' },
+        'dosen-kuota': { label: 'Dosen Pembimbing / Kuota Dosen', icon: 'user-check', parent: 'dosen' },
+        'dosen-update': { label: 'Dosen Pembimbing / Update Dospem', icon: 'user-check', parent: 'dosen' },
+        logbook: { label: 'Logbook Mahasiswa', icon: 'book-marked' },
+        konversi: { label: 'Konversi SKS', icon: 'arrow-left-right' },
+        sidang: { label: 'Sidang', icon: 'award' },
+        sertifikat: { label: 'Sertifikat', icon: 'badge-check' },
+        'log-aktivitas': { label: 'Log Aktivitas', icon: 'history' },
+        // Fallback untuk fungsi lama
         program: { label: 'Program', icon: 'book-open' },
-        koordinator: { label: 'Koordinator', icon: 'users' },
-        surekom: { label: 'Validasi Surekom', icon: 'badge-check' },
-        logbook: { label: 'Data LogBook', icon: 'book-marked' },
-        laporan: { label: 'Laporan Akhir', icon: 'file-text' },
+        koordinator: { label: 'Dosen Pembimbing / Data Dosen', icon: 'user-check' },
+        surekom: { label: 'Mahasiswa / Rekomendasi (SuReKom)', icon: 'graduation-cap' },
+        laporan: { label: 'Sidang', icon: 'award' },
       };
+
+      // State & Helper Toggle Submenu Mahasiswa & Dosen
+      let mahasiswaSubmenuOpen = false;
+      let dosenSubmenuOpen = false;
+
+      function toggleMahasiswaSubmenu(forceOpen) {
+        const submenu = document.getElementById('submenu-mahasiswa');
+        const chevron = document.getElementById('mahasiswa-chevron');
+        if (!submenu) return;
+        mahasiswaSubmenuOpen = forceOpen !== undefined ? forceOpen : !mahasiswaSubmenuOpen;
+        if (mahasiswaSubmenuOpen) {
+          submenu.classList.remove('hidden');
+          if (chevron) chevron.classList.add('rotate-180');
+        } else {
+          submenu.classList.add('hidden');
+          if (chevron) chevron.classList.remove('rotate-180');
+        }
+      }
+
+      function toggleDosenSubmenu(forceOpen) {
+        const submenu = document.getElementById('submenu-dosen');
+        const chevron = document.getElementById('dosen-chevron');
+        if (!submenu) return;
+        dosenSubmenuOpen = forceOpen !== undefined ? forceOpen : !dosenSubmenuOpen;
+        if (dosenSubmenuOpen) {
+          submenu.classList.remove('hidden');
+          if (chevron) chevron.classList.add('rotate-180');
+        } else {
+          submenu.classList.add('hidden');
+          if (chevron) chevron.classList.remove('rotate-180');
+        }
+      }
 
       // Fungsi ganti tab utama
       function switchTab(tabKey) {
-        // Sembunyikan semua tab
+        // Sembunyikan semua tab content
         document.querySelectorAll('.tab-content').forEach((el) => el.classList.add('hidden'));
 
-        // Tampilkan tab target
-        const targetSec = document.getElementById('section-' + tabKey);
+        // Resolusi target section dengan alias ke section fungsional eksisting
+        let targetId = 'section-' + tabKey;
+        if (tabKey === 'mhs-rekomendasi' && !document.getElementById('section-mhs-rekomendasi')) {
+          targetId = 'section-surekom';
+        } else if (tabKey === 'dosen-data' && !document.getElementById('section-dosen-data')) {
+          targetId = 'section-koordinator';
+        } else if (tabKey === 'sidang' && !document.getElementById('section-sidang')) {
+          targetId = 'section-laporan';
+        }
+
+        const targetSec = document.getElementById(targetId);
         if (targetSec) targetSec.classList.remove('hidden');
 
-        // Update styling sidebar aktif
+        // Reset styling semua item menu navigasi
         document.querySelectorAll('.nav-item').forEach((el) => {
           el.classList.remove('nav-active');
           const bar = el.querySelector('.active-bar');
           if (bar) bar.classList.add('hidden');
         });
+        document.querySelectorAll('.nav-sub-item').forEach((el) => {
+          el.classList.remove('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80');
+          el.classList.add('text-[#71717a]');
+        });
 
-        const activeBtn = document.getElementById('nav-' + tabKey);
-        if (activeBtn) {
-          activeBtn.classList.add('nav-active');
-          const bar = activeBtn.querySelector('.active-bar');
-          if (bar) bar.classList.remove('hidden');
-        }
+        // Set status aktif pada sidebar item
+        const meta = navMeta[tabKey];
+        if (meta && meta.parent) {
+          const parentBtn = document.getElementById('nav-' + meta.parent);
+          if (parentBtn) {
+            parentBtn.classList.add('nav-active');
+            const bar = parentBtn.querySelector('.active-bar');
+            if (bar) bar.classList.remove('hidden');
+          }
+          if (meta.parent === 'mahasiswa') toggleMahasiswaSubmenu(true);
+          if (meta.parent === 'dosen') toggleDosenSubmenu(true);
 
-        // Update breadcrumb
-        if (navMeta[tabKey]) {
-          document.getElementById('breadcrumb-text').textContent =
-            tabKey === 'program' ? 'Program / Daftar Program' : navMeta[tabKey].label;
-          const iconSpan = document.querySelector('#breadcrumb-badge i');
-          if (iconSpan) {
-            iconSpan.setAttribute('data-lucide', navMeta[tabKey].icon);
-            lucide.createIcons();
+          const subBtn = document.getElementById('nav-sub-' + tabKey);
+          if (subBtn) {
+            subBtn.classList.remove('text-[#71717a]');
+            subBtn.classList.add('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80');
+          }
+        } else {
+          const activeBtn = document.getElementById('nav-' + tabKey);
+          if (activeBtn) {
+            activeBtn.classList.add('nav-active');
+            const bar = activeBtn.querySelector('.active-bar');
+            if (bar) bar.classList.remove('hidden');
           }
         }
 
-        // Reset subviews jika ada
+        // Update breadcrumb
+        if (meta) {
+          document.getElementById('breadcrumb-text').textContent = meta.label;
+          const iconSpan = document.querySelector('#breadcrumb-badge i');
+          if (iconSpan) {
+            iconSpan.setAttribute('data-lucide', meta.icon);
+          }
+        }
+        if (window.lucide) window.lucide.createIcons();
+
+        // Reset & inisialisasi view fungsional jika relevan
         hideSubviews();
         if (tabKey === 'dashboard') {
-          updateProgramSubmenuActive('');
           renderDashboardKoordinatorWidget();
-          if (window.lucide) window.lucide.createIcons();
-        } else if (tabKey === 'program') {
-          updateProgramSubmenuActive('daftar');
-          renderProgramTable();
-          populateProgramDosenDropdown();
-        } else if (tabKey === 'koordinator') {
-          updateProgramSubmenuActive('');
+        } else if (tabKey === 'dosen-data' || tabKey === 'koordinator') {
           renderKoordinatorTable();
-        } else {
-          updateProgramSubmenuActive('');
+        } else if (tabKey === 'mhs-rekomendasi' || tabKey === 'surekom') {
+          renderSurekomTable();
+        } else if (tabKey === 'logbook') {
+          renderLogbookTable();
+        } else if (tabKey === 'sidang' || tabKey === 'laporan') {
+          renderLaporanTable();
         }
         hideSurekomDetail();
         hideLogbookDetail();
 
-        // Progressive Dynamic Fetch for Option 1
-        const fileMap = {
-          'dashboard': 'dashboard.html',
-          'program': 'program.html',
-          'koordinator': 'koordinator.html',
-          'surekom': 'surekom.html',
-          'logbook': 'logbook.html',
-          'laporan': 'laporan.html'
-        };
-        if (fileMap[tabKey]) {
-          fetch(fileMap[tabKey])
-            .then(res => res.ok ? res.text() : null)
-            .then(html => {
-              if (html && targetSec) {
-                targetSec.innerHTML = html;
-                if (window.lucide) window.lucide.createIcons();
-                if (tabKey === 'dashboard') { renderDashboardKoordinatorWidget(); }
-                else if (tabKey === 'program') { renderProgramTable(); populateProgramDosenDropdown(); }
-                else if (tabKey === 'koordinator') { renderKoordinatorTable(); }
-                else if (tabKey === 'surekom') { renderSurekomTable(); }
-                else if (tabKey === 'logbook') { renderLogbookTable(); }
-                else if (tabKey === 'laporan') { renderLaporanTable(); }
-              }
-            })
-            .catch(() => {});
-        }
-
-        // Update URL hash smoothly
+        // Update URL hash
         if (window.location.hash !== '#' + tabKey) {
           history.replaceState(null, '', '#' + tabKey);
         }
