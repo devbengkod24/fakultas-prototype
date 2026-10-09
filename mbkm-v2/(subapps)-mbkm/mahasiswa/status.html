@@ -1,0 +1,156 @@
+<!-- Status Hero Dynamic Box -->
+            <div id="status-hero-card" class="status-hero pending">
+              <div>
+                <div
+                  style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:#fff;border-radius:9999px;font-size:11px;font-weight:700;margin-bottom:8px;"
+                  id="status-hero-pill">
+                  <i data-lucide="clock" style="width:14px;height:14px;color:#d97706;"></i>
+                  <span id="status-hero-pill-text">STATUS: PENDING (MENUNGGU)</span>
+                </div>
+                <h2 style="font-size:20px;font-weight:700;margin-bottom:4px;" id="status-hero-title">
+                  Pendaftaran Anda Sedang Dalam Proses Peninjauan
+                </h2>
+                <p style="font-size:13px;color:#6b7280;max-width:680px;" id="status-hero-desc">
+                  Berkas Anda telah diterima oleh sistem dan sedang diverifikasi oleh Tim Koordinator MBKM Fakultas Ilmu
+                  Komputer. Proses verifikasi biasanya memakan waktu 1 &ndash; 3 hari kerja.
+                </p>
+              </div>
+
+              <!-- Dynamic Action Buttons -->
+              <div id="status-hero-actions" style="flex-shrink:0;">
+                <button class="btn btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Cetak
+                  Bukti</button>
+              </div>
+            </div>
+
+            <!-- 3 Status Visual Timeline Cards -->
+            <div class="tracking-steps">
+              <!-- Step 1: Pending (Menunggu) -->
+              <div class="step-card" id="step-card-pending" style="border-left:4px solid #d97706;">
+                <div class="step-icon" style="background:#fef3c7;color:#d97706;">
+                  <i data-lucide="clock"></i>
+                </div>
+                <div>
+                  <div class="step-title">1. Pending (Menunggu)</div>
+                  <div class="step-desc">Berkas pendaftaran berhasil disubmit dan menunggu antrean verifikasi fakultas.
+                  </div>
+                  <span class="badge badge-warning" style="margin-top:8px;" id="badge-step-pending">Aktif</span>
+                </div>
+              </div>
+
+              <!-- Step 2: Accepted (Diterima) -->
+              <div class="step-card" id="step-card-accepted" style="opacity:0.6;">
+                <div class="step-icon" style="background:#dcfce7;color:#16a34a;">
+                  <i data-lucide="check-circle-2"></i>
+                </div>
+                <div>
+                  <div class="step-title">2. Accepted (Diterima)</div>
+                  <div class="step-desc">Pendaftaran disetujui, penerbitan Surat Tugas dan penetapan Dosen Pembimbing
+                    (DPL).</div>
+                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-accepted">Menunggu</span>
+                </div>
+              </div>
+
+              <!-- Step 3: Rejected (Ditolak) -->
+              <div class="step-card" id="step-card-rejected" style="opacity:0.6;">
+                <div class="step-icon" style="background:#fee2e2;color:#dc2626;">
+                  <i data-lucide="x-circle"></i>
+                </div>
+                <div>
+                  <div class="step-title">3. Rejected (Ditolak)</div>
+                  <div class="step-desc">Pendaftaran ditolak apabila berkas tidak valid atau tidak memenuhi kualifikasi
+                    mitra.</div>
+                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-rejected">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detail Berkas & Data yang Diajukan -->
+            <div class="grid grid-2">
+              <!-- Data Pengajuan -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="file-spreadsheet" style="color:var(--primary);"></i> Rincian
+                    Pengajuan MBKM</span>
+                  <span class="badge badge-primary">ID: MBKM-2025-0841</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Nama Program:</span>
+                    <span style="font-weight:600;" id="detail-status-program">Magang Mandiri</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Instansi Mitra:</span>
+                    <span style="font-weight:600;" id="detail-status-mitra">PT Telkom Indonesia (Persero) Tbk</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Posisi / Peran:</span>
+                    <span style="font-weight:600;" id="detail-status-posisi">Software Engineer Intern</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Durasi Kegiatan:</span>
+                    <span style="font-weight:600;" id="detail-status-durasi">1 Semester (6 Bulan)</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:#64748b;">Tanggal Pengajuan:</span>
+                    <span style="font-weight:600;" id="detail-status-tanggal">10 Oktober 2025</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dokumen yang Terlampir -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="folder-check" style="color:var(--primary);"></i> Dokumen
+                    Terlampir</span>
+                  <span class="badge badge-success">Terverifikasi Sistem</span>
+                </div>
+                <p class="card-description" style="margin-bottom:14px;">
+                  Berkas PDF yang berhasil Anda lampirkan saat pendaftaran:
+                </p>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <!-- Berkas 1: Transkrip Nilai -->
+                  <div
+                    style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div
+                        style="width:32px;height:32px;border-radius:6px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">
+                        PDF</div>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;" id="status-file-transkrip">
+                          Transkrip_Nilai_Ahmad_Rizky.pdf</div>
+                        <div style="font-size:11px;color:#64748b;">Dokumen Transkrip Nilai Terlegalisir</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline"
+                      onclick="alert('Membuka pratinjau berkas Transkrip Nilai (PDF)')"><i data-lucide="eye"></i>
+                      Lihat</button>
+                  </div>
+
+                  <!-- Berkas 2: CV -->
+                  <div
+                    style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div
+                        style="width:32px;height:32px;border-radius:6px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">
+                        PDF</div>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;" id="status-file-cv">CV_Ahmad_Rizky_Pratama.pdf
+                        </div>
+                        <div style="font-size:11px;color:#64748b;">Curriculum Vitae / Resume</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="alert('Membuka pratinjau berkas CV (PDF)')"><i
+                        data-lucide="eye"></i> Lihat</button>
+                  </div>
+                </div>
+
+                <!-- Notes & Feedback box for Rejected or Accepted -->
+                <div id="status-feedback-box"
+                  style="display:none;margin-top:14px;padding:12px;border-radius:8px;font-size:12px;"></div>
+              </div>
+            </div>

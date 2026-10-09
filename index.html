@@ -2,13 +2,19 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=/mbkm-v1/landingpage.html">
+  <meta http-equiv="refresh" content="0; url=mbkm-v2/landingpage.html">
   <title>FIK UDINUS - Kampus Berdampak</title>
   <script>
-    window.location.replace("/mbkm-v1/landingpage.html");
+    // Gunakan URL relatif (tanpa leading slash) agar tidak membuang sub-direktori /fakultas-prototype/ di Live Server
+    window.location.replace("mbkm-v2/landingpage.html");
   </script>
 </head>
-<body style="font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #fafafa;">
-  <p style="color: #64748b;">Mengalihkan...</p>
+<body style="font-family: system-ui, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #fafafa; gap: 12px;">
+  <p style="color: #64748b; margin: 0;">Mengalihkan ke Kampus Berdampak MBKM v2...</p>
+  <div style="display: flex; gap: 12px; font-size: 14px;">
+    <a href="mbkm-v2/landingpage.html" style="color: #0655a7; text-decoration: none; font-weight: 600;">Buka MBKM v2 &rarr;</a>
+    <span style="color: #cbd5e1;">|</span>
+    <a href="mbkm-v1/landingpage.html" style="color: #64748b; text-decoration: none;">Buka MBKM v1 (Arsip)</a>
+  </div>
 </body>
 </html>

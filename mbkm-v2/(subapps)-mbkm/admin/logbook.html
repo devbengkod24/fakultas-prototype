@@ -1,0 +1,227 @@
+<!-- View 5.A: Rekap Logbook Mahasiswa (Screenshot 9) -->
+            <div id="subview-logbook-list" class="flex flex-col gap-2.5">
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 class="text-base font-semibold text-[#09090b]">Data Pengisian Logbook</h2>
+                  <p class="text-[11px] text-[#71717a]">
+                    Monitoring pengisian catatan berkala dan aktivitas harian peserta.
+                  </p>
+                </div>
+                <!-- Action Export Bar (Screenshot 9: Copy, CSV, PDF, Print) -->
+                <div class="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onclick="alert('Data disalin ke clipboard')"
+                    class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
+                  >
+                    Copy
+                  </button>
+                  <button
+                    type="button"
+                    onclick="alert('Export CSV dimulai')"
+                    class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
+                  >
+                    CSV
+                  </button>
+                  <button
+                    type="button"
+                    onclick="alert('Export PDF dimulai')"
+                    class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
+                  >
+                    PDF
+                  </button>
+                  <button
+                    type="button"
+                    onclick="window.print()"
+                    class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
+                  >
+                    Print
+                  </button>
+                </div>
+              </div>
+
+              <!-- Toolbar Search -->
+              <div class="flex items-center justify-end">
+                <div class="flex items-center gap-1.5">
+                  <label for="search-logbook" class="text-[11px] text-[#71717a]">Search:</label>
+                  <input
+                    type="text"
+                    id="search-logbook"
+                    oninput="handleSearchLogbook(this.value)"
+                    placeholder="Cari nama/NIM..."
+                    class="px-2.5 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-52"
+                  />
+                </div>
+              </div>
+
+              <!-- Tabel Rekap Logbook (Screenshot 9) -->
+              <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                    <tr>
+                      <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Nama Mahasiswa</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">NIM Mahasiswa</th>
+                      <th class="w-28 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="logbook-table-tbody" class="divide-y divide-[#e4e4e7] bg-white">
+                    <!-- Populated dynamically via renderLogbookTable() -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Footer Informasi & Pagination di Kanan Bawah -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+                <div id="logbook-table-info" class="text-[11px] text-[#71717a]">Showing entries</div>
+                <div id="logbook-pagination-controls" class="flex items-center self-end gap-1 sm:self-auto">
+                  <!-- Pagination buttons generated dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- View 5.B: Detail Aktivitas Logbook Mahasiswa (Screenshot 10) -->
+            <div id="subview-logbook-detail" class="flex flex-col hidden gap-4">
+              <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+                <div>
+                  <h2 id="logbook-mhs-nama" class="text-lg font-semibold text-[#09090b]">Tarissa Aura Azzahra</h2>
+                  <p id="logbook-mhs-nim" class="text-xs font-mono text-[#71717a]">NIM: A11.2020.13158</p>
+                </div>
+                <button
+                  type="button"
+                  onclick="hideLogbookDetail()"
+                  class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-xs font-medium text-[#71717a] hover:bg-gray-50 flex items-center gap-1"
+                >
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                  <span>Kembali</span>
+                </button>
+              </div>
+
+              <!-- Tabel Rincian Entri Logbook (Screenshot 10) -->
+              <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                    <tr>
+                      <th class="w-12 px-3 py-3 font-semibold text-center">No</th>
+                      <th class="px-4 py-3 font-semibold">Nama Mahasiswa</th>
+                      <th class="px-4 py-3 font-semibold">NIM Mahasiswa</th>
+                      <th class="px-4 py-3 font-semibold">Tanggal Kegiatan</th>
+                      <th class="px-4 py-3 font-semibold">Deskripsi Kegiatan</th>
+                      <th class="w-24 px-4 py-3 font-semibold text-center">Foto Kegiatan</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[#e4e4e7] bg-white">
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">1</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">11 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">Mencari data dari berita untuk penelitian</td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">2</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">12 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">Melanjutkan mencari data dan mengubah menjadi bentuk txt</td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">3</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">13 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">
+                        Mencari data di berita detik.com lalu mengubahnya menjadi txt
+                      </td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">4</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">14 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">Mencari data dari kompas.com lalu mengubah ke bentuk txt</td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">5</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">15 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">
+                        Mencari 10 data dari berita online CNN lalu mengubahnya menjadi bentuk txt
+                      </td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">6</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">18 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">
+                        Mengecek dan mengubah typo pada setiap txt berita online detik.com
+                      </td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr class="transition-colors hover:bg-gray-50/80">
+                      <td class="py-3 px-3 text-center text-[#71717a]">7</td>
+                      <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
+                      <td class="py-3 px-4 font-mono text-[#09090b]">A11.2020.13158</td>
+                      <td class="py-3 px-4 text-[#71717a]">19 September, 2023</td>
+                      <td class="py-3 px-4 text-[#3f3f46]">Mengecek dan mengubah typo pada berita online CNN</td>
+                      <td class="px-4 py-3 text-center">
+                        <div
+                          class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
+                        >
+                          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>

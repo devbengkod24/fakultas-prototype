@@ -1,0 +1,197 @@
+<!-- KONDISI A: TIDAK LOLOS SYARAT (TERKUNCI / DISABLED) -->
+            <div id="pendaftaran-locked-container" style="display:none;">
+              <div class="alert alert-destructive">
+                <i data-lucide="lock" style="width:20px;height:20px;"></i>
+                <div>
+                  <div class="alert-title">Pendaftaran Terkunci (Disabled)</div>
+                  <div class="alert-desc">
+                    <strong>Notifikasi: Anda Belum Memenuhi Syarat Pendaftaran MBKM.</strong><br />
+                    Sistem database mendeteksi data akademik Anda belum memenuhi ambang batas minimum yang ditentukan
+                    fakultas:
+                    <ul style="margin:8px 0 4px 18px;list-style:disc;font-size:12px;">
+                      <li id="lock-reason-smt">Semester Anda belum mencapai Semester 6 &ndash; 8</li>
+                      <li id="lock-reason-ipk">IPK Kumulatif Anda kurang dari 3.00</li>
+                      <li id="lock-reason-sks">Beban SKS ditempuh belum mencapai 100 SKS (Min. 100 SKS)</li>
+                    </ul>
+                    Silakan hubungi Dosen Pembimbing Akademik (DPA) atau Koordinator MBKM jika terdapat kekeliruan data.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form dalam keadaan disabled / terkunci -->
+              <div class="card" style="opacity:0.6;pointer-events:none;filter:grayscale(30%);position:relative;">
+                <div style="position:absolute;top:16px;right:16px;">
+                  <span class="badge badge-danger"><i data-lucide="lock" style="width:12px;height:12px;"></i> Form
+                    Terkunci</span>
+                </div>
+                <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Formulir Pendaftaran Mandiri</h3>
+                <div class="grid grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Nama Mahasiswa</label>
+                    <input type="text" class="form-control" value="Ahmad Rizky Pratama" disabled />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">NIM</label>
+                    <input type="text" class="form-control" value="A11.2022.14253" disabled />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nama Mitra / Perusahaan</label>
+                  <input type="text" class="form-control" placeholder="Form dinonaktifkan..." disabled />
+                </div>
+                <button class="btn btn-primary" disabled style="cursor:not-allowed;">
+                  <i data-lucide="lock"></i> Pendaftaran Terkunci
+                </button>
+              </div>
+            </div>
+
+            <!-- KONDISI B: LOLOS SYARAT (FORM TERBUKA) -->
+            <div id="pendaftaran-form-container">
+              <div class="alert alert-success">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <div class="alert-title">Lolos Syarat Validasi DB</div>
+                  <div class="alert-desc">
+                    Selamat! Anda memenuhi syarat MBKM (Semester 6&ndash;8, IPK &ge; 3.00, SKS &ge; 100). Silakan
+                    lengkapi form pendaftaran mandiri dan unggah berkas persyaratan di bawah ini.
+                  </div>
+                </div>
+              </div>
+
+              <form id="form-pendaftaran" onsubmit="handleFormSubmit(event)">
+                <div class="card" style="margin-bottom:16px;">
+                  <h3
+                    style="font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="user-check" style="color:var(--primary);width:18px;height:18px;"></i>
+                    1. Data Akademik Pelamar
+                  </h3>
+                  <div class="grid grid-3">
+                    <div class="form-group">
+                      <label class="form-label">Nama Lengkap</label>
+                      <input type="text" class="form-control" value="Ahmad Rizky Pratama" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">NIM</label>
+                      <input type="text" class="form-control" value="A11.2022.14253" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Program Studi</label>
+                      <input type="text" class="form-control" value="Teknik Informatika - S1" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Semester Aktif</label>
+                      <input type="text" class="form-control" id="form-display-smt" value="Semester 6" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">IPK Kumulatif</label>
+                      <input type="text" class="form-control" id="form-display-ipk" value="3.72" readonly />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Total SKS Diperoleh</label>
+                      <input type="text" class="form-control" id="form-display-sks" value="104 SKS" readonly />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Detail Program Mandiri -->
+                <div class="card" style="margin-bottom:16px;">
+                  <h3
+                    style="font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="briefcase" style="color:var(--primary);width:18px;height:18px;"></i>
+                    2. Detail Pendaftaran Mandiri
+                  </h3>
+                  <div class="grid grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Jenis Program MBKM <span class="required">*</span></label>
+                      <select class="form-control" id="reg-program" required>
+                        <option value="Magang Mandiri">Magang Mandiri</option>
+                        <option value="Studi Independen Mandiri">Studi Independen Mandiri</option>
+                        <option value="Riset Mandiri">Riset / Penelitian Mandiri</option>
+                        <option value="Kewirausahaan Mandiri">Kewirausahaan Mandiri</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Nama Perusahaan / Instansi Mitra <span class="required">*</span></label>
+                      <input type="text" class="form-control" id="reg-mitra"
+                        placeholder="Contoh: PT Telkom Indonesia, GoTo, Bank Mandiri"
+                        value="PT Telkom Indonesia (Persero) Tbk" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Posisi / Peran yang Didaftar <span class="required">*</span></label>
+                      <input type="text" class="form-control" id="reg-posisi"
+                        placeholder="Contoh: Frontend Engineer Intern, UI/UX Designer" value="Software Engineer Intern"
+                        required />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Durasi Pelaksanaan <span class="required">*</span></label>
+                      <select class="form-control" id="reg-durasi" required>
+                        <option value="1 Semester (6 Bulan)">1 Semester (6 Bulan)</option>
+                        <option value="2 Semester (1 Tahun)">2 Semester (1 Tahun)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Upload Berkas: Transkrip Nilai & CV (PDF) Sesuai Flowchart -->
+                <div class="card" style="margin-bottom:20px;">
+                  <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-up" style="color:var(--primary);width:18px;height:18px;"></i>
+                    3. Unggah Dokumen Wajib (Format PDF)
+                  </h3>
+                  <p class="card-description" style="margin-bottom:16px;">
+                    Sesuai flowchart, unggah berkas <strong>Transkrip Nilai</strong> dan <strong>CV (Curriculum
+                      Vitae)</strong> dalam format <strong>PDF</strong> (Maks. 5MB per file).
+                  </p>
+
+                  <div class="grid grid-2">
+                    <!-- Upload 1: Transkrip Nilai -->
+                    <div class="upload-card" id="upload-box-transkrip">
+                      <input type="file" id="file-transkrip" accept=".pdf"
+                        onchange="handleFileChange(this, 'upload-box-transkrip', 'info-transkrip', 'name-transkrip')" />
+                      <div class="upload-icon-box">
+                        <i data-lucide="file-text" style="width:22px;height:22px;"></i>
+                      </div>
+                      <div class="upload-title">Transkrip Nilai (PDF) <span class="required">*</span></div>
+                      <div class="upload-hint">Klik atau drag file PDF ke sini (Maks 5MB)</div>
+                      <div class="file-selected-info" id="info-transkrip" style="display:flex;">
+                        <i data-lucide="check" style="width:14px;height:14px;"></i>
+                        <span id="name-transkrip">Transkrip_Nilai_Ahmad_Rizky.pdf</span>
+                      </div>
+                    </div>
+
+                    <!-- Upload 2: CV -->
+                    <div class="upload-card" id="upload-box-cv">
+                      <input type="file" id="file-cv" accept=".pdf"
+                        onchange="handleFileChange(this, 'upload-box-cv', 'info-cv', 'name-cv')" />
+                      <div class="upload-icon-box">
+                        <i data-lucide="user-check" style="width:22px;height:22px;"></i>
+                      </div>
+                      <div class="upload-title">Curriculum Vitae / CV (PDF) <span class="required">*</span></div>
+                      <div class="upload-hint">Klik atau drag file PDF ke sini (Maks 5MB)</div>
+                      <div class="file-selected-info" id="info-cv" style="display:flex;">
+                        <i data-lucide="check" style="width:14px;height:14px;"></i>
+                        <span id="name-cv">CV_Ahmad_Rizky_Pratama.pdf</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Checkbox komitmen -->
+                  <div style="margin-top:16px;display:flex;align-items:flex-start;gap:8px;">
+                    <input type="checkbox" id="check-pernyataan" required style="margin-top:3px;cursor:pointer;"
+                      checked />
+                    <label for="check-pernyataan" style="font-size:12px;color:#475569;cursor:pointer;">
+                      Saya menyatakan bahwa data yang saya isikan dan dokumen PDF yang diunggah adalah benar, sah, dan
+                      sesuai dengan ketentuan MBKM FIK Udinus.
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;">
+                  <a href="#dashboard" class="btn btn-secondary">Batal</a>
+                  <button type="submit" class="btn btn-primary btn-lg" id="btn-submit-pendaftaran">
+                    <i data-lucide="send"></i> Ajukan Pendaftaran Mandiri
+                  </button>
+                </div>
+              </form>
+            </div>
