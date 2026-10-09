@@ -1,0 +1,289 @@
+<!-- View 4.A: Tabel Validasi Surekom (Screenshot 7) -->
+            <div id="subview-surekom-list" class="flex flex-col gap-2.5">
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 class="text-base font-semibold text-[#09090b]">Validasi Surat Rekomendasi</h2>
+                  <p class="text-[11px] text-[#71717a]">
+                    Verifikasi dan setujui permohonan surat rekomendasi mitra mahasiswa.
+                  </p>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <label for="search-surekom" class="text-[11px] text-[#71717a]">Search:</label>
+                  <input
+                    type="text"
+                    id="search-surekom"
+                    oninput="handleSearchSurekom(this.value)"
+                    placeholder="Cari nama/NIM..."
+                    class="px-2.5 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-52"
+                  />
+                </div>
+              </div>
+
+              <!-- Tabel Surekom (Screenshot 7) -->
+              <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                    <tr>
+                      <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Nama</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">NIM</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">NIK</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Prodi</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Program</th>
+                      <th class="w-28 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="surekom-table-tbody" class="divide-y divide-[#e4e4e7] bg-white">
+                    <!-- Populated dynamically via renderSurekomTable() -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Footer Informasi & Pagination di Kanan Bawah -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+                <div id="surekom-table-info" class="text-[11px] text-[#71717a]">Showing entries</div>
+                <div id="surekom-pagination-controls" class="flex items-center self-end gap-1 sm:self-auto">
+                  <!-- Pagination buttons generated dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- View 4.B: Form Detail Surat Rekomendasi (Dirombak: Berkas Preview Langsung) -->
+            <div id="subview-surekom-detail" class="flex flex-col hidden gap-3">
+              <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+                <div>
+                  <h2 class="text-base font-semibold text-[#09090b]">Validasi Berkas Surat Rekomendasi</h2>
+                  <p class="text-[11px] text-[#71717a]">
+                    Periksa pratinjau berkas pendaftar dan tentukan status persetujuan surat rekomendasi.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onclick="hideSurekomDetail()"
+                  class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] text-xs font-medium text-[#71717a] hover:bg-gray-50 flex items-center gap-1"
+                >
+                  <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                  <span>Kembali</span>
+                </button>
+              </div>
+
+              <!-- Header Ringkas Mahasiswa & Program -->
+              <div
+                class="p-3 bg-[#fafafa] rounded-xl border border-[#e4e4e7] flex flex-wrap items-center justify-between gap-3 text-xs"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-9 h-9 rounded-full bg-[#0655a7]/10 text-[#0655a7] font-bold flex items-center justify-center shrink-0"
+                  >
+                    CR
+                  </div>
+                  <div>
+                    <div class="font-bold text-[#09090b]">calvin revianto</div>
+                    <div class="text-[11px] text-[#71717a] font-mono">A11.2021.13782 • Teknik Informatika S1</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span
+                    class="px-2.5 py-1 rounded-lg bg-blue-50 text-[#0655a7] border border-blue-200 font-medium text-[11px]"
+                  >
+                    Kegiatan Wirausaha (Inkubator Bisnis FIK)
+                  </span>
+                  <span
+                    class="px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-[11px]"
+                  >
+                    IPK: 3.42 • SKS: 112
+                  </span>
+                </div>
+              </div>
+
+              <!-- Dokumen Berkas Khusus Surat Rekomendasi (Klik Langsung Lihat) -->
+              <div class="flex flex-col gap-2">
+                <label class="text-xs font-semibold text-[#09090b]"
+                  >Dokumen Surat Rekomendasi (Klik untuk melihat berkas):</label
+                >
+                <div>
+                  <!-- File Tunggal Surat Rekomendasi -->
+                  <div
+                    onclick="
+                      viewSurekomDoc(
+                        'Draft Surat Rekomendasi Fakultas (MBKM)',
+                        'SURAT REKOMENDASI DEKAN\nNomor: 412/A.11/FIK/UDINUS/2023\n\nYang bertanda tangan di bawah ini:\nNama : Dr. Guruh Fajar Shidik, S.Kom, M.Cs\nJabatan : Dekan Fakultas Ilmu Komputer\n\nMemberikan rekomendasi penuh kepada:\nNama : calvin revianto\nNIM : A11.2021.13782\nProdi : S1 Teknik Informatika (Semester 5)\nIPK : 3.42 / SKS Lulus: 112\n\nUntuk mengikuti program Kegiatan Wirausaha Kampus Merdeka di Mitra Inkubator Bisnis FIK.\n\nDemikian surat rekomendasi ini diterbitkan untuk dipergunakan sebagaimana mestinya.'
+                      )
+                    "
+                    class="p-3.5 rounded-xl border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/30 cursor-pointer transition-all flex items-center justify-between group shadow-2xs max-w-xl"
+                  >
+                    <div class="flex items-center min-w-0 gap-3">
+                      <div
+                        class="w-10 h-10 rounded-lg bg-blue-100/70 text-[#0655a7] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform"
+                      >
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                      </div>
+                      <div class="truncate">
+                        <div class="font-semibold text-xs text-[#09090b] group-hover:text-[#0655a7] truncate">
+                          Draft Surat Rekomendasi MBKM.pdf
+                        </div>
+                        <div class="text-[11px] text-[#71717a] mt-0.5">
+                          Surat resmi permohonan rekomendasi Dekanat • 245 KB
+                        </div>
+                      </div>
+                    </div>
+                    <span
+                      class="px-3 py-1 rounded-lg text-xs font-semibold bg-[#0655a7] text-white flex items-center gap-1.5 shrink-0 shadow-2xs"
+                    >
+                      <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                      <span>Lihat Berkas</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form Aksi Validasi & Catatan Alasan / Pesan - Pesan -->
+              <form
+                onsubmit="handleSurekomSubmit(event)"
+                class="flex flex-col gap-3 pt-3 border-t border-[#e4e4e7] text-xs"
+              >
+                <div class="grid grid-cols-1 gap-3.5 md:grid-cols-12 items-start">
+                  <!-- Segmented Radio Cards Keputusan Validasi -->
+                  <div class="md:col-span-5 flex flex-col gap-1.5">
+                    <label class="font-semibold text-[#09090b] flex items-center justify-between">
+                      <span>Keputusan Validasi *</span>
+                      <span
+                        id="surekom-decision-badge"
+                        class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      >
+                        Setujui
+                      </span>
+                    </label>
+
+                    <div class="grid grid-cols-2 gap-2">
+                      <!-- Option: Setujui -->
+                      <label
+                        id="card-surekom-setujui"
+                        class="relative flex items-center gap-2 p-2.5 rounded-xl border-2 cursor-pointer transition-all border-emerald-500 bg-emerald-50/50 text-emerald-900 shadow-2xs"
+                      >
+                        <input
+                          type="radio"
+                          name="surekom_status"
+                          id="radio-surekom-setujui"
+                          value="Setujui"
+                          checked
+                          onchange="handleSurekomDecisionChange(this.value)"
+                          class="w-4 h-4 border-gray-300 cursor-pointer text-emerald-600 focus:ring-emerald-500"
+                        />
+                        <div class="flex items-center min-w-0 gap-2">
+                          <div
+                            class="flex items-center justify-center w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 shrink-0"
+                          >
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                          </div>
+                          <div class="flex flex-col">
+                            <span class="text-xs font-bold">Setujui</span>
+                            <span class="text-[10px] text-emerald-700/80">Terbitkan Surat</span>
+                          </div>
+                        </div>
+                      </label>
+
+                      <!-- Option: Tolak -->
+                      <label
+                        id="card-surekom-tolak"
+                        class="relative flex items-center gap-2 p-2.5 rounded-xl border-2 cursor-pointer transition-all border-[#e4e4e7] bg-white text-[#3f3f46] hover:border-rose-300 hover:bg-rose-50/20"
+                      >
+                        <input
+                          type="radio"
+                          name="surekom_status"
+                          id="radio-surekom-tolak"
+                          value="Tolak"
+                          onchange="handleSurekomDecisionChange(this.value)"
+                          class="w-4 h-4 border-gray-300 cursor-pointer text-rose-600 focus:ring-rose-500"
+                        />
+                        <div class="flex items-center min-w-0 gap-2">
+                          <div
+                            class="flex items-center justify-center w-6 h-6 rounded-lg bg-rose-100 text-rose-700 shrink-0"
+                          >
+                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                          </div>
+                          <div class="flex flex-col">
+                            <span class="text-xs font-bold">Tolak</span>
+                            <span class="text-[10px] text-[#71717a]">Minta Revisi</span>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Alasan atau Pesan - Pesan -->
+                  <div class="md:col-span-7 flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between">
+                      <label id="surekom-alasan-label" class="font-semibold text-[#09090b]">
+                        Alasan atau Pesan (Opsional)
+                      </label>
+                      <span id="surekom-alasan-hint" class="text-[11px] text-[#71717a]"> Opsional jika disetujui </span>
+                    </div>
+                    <div class="relative">
+                      <input
+                        type="text"
+                        id="surekom-alasan"
+                        placeholder="Tuliskan catatan atau instruksi tambahan untuk mahasiswa (opsional)..."
+                        class="w-full px-3 py-2.5 text-xs rounded-xl border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none transition-all placeholder:text-[#a1a1aa]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 pt-1">
+                  <button
+                    type="submit"
+                    id="surekom-submit-btn"
+                    class="px-5 py-2 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold transition-colors shadow-2xs flex items-center gap-1.5"
+                  >
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    <span>Kirim Validasi</span>
+                  </button>
+                  <button
+                    type="button"
+                    onclick="hideSurekomDetail()"
+                    class="px-4 py-2 rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 transition-colors"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Modal Viewer Dokumen Langsung (Bukan Download) -->
+            <div
+              id="modal-surekom-doc-viewer"
+              class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/50"
+            >
+              <div
+                class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150"
+              >
+                <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="file-text" class="w-4 h-4 text-[#0655a7]"></i>
+                    <h3 id="modal-doc-viewer-title" class="text-sm font-bold text-[#09090b]">Pratinjau Dokumen</h3>
+                  </div>
+                  <button type="button" onclick="closeSurekomDocModal()" class="text-[#71717a] hover:text-[#09090b]">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                  </button>
+                </div>
+
+                <!-- Konten Pratinjau Dokumen -->
+                <div
+                  class="p-4 rounded-xl border border-[#e4e4e7] bg-[#fafafa] font-mono text-xs text-[#09090b] whitespace-pre-wrap max-h-80 overflow-y-auto leading-relaxed shadow-inner"
+                  id="modal-doc-viewer-content"
+                >
+                  <!-- Text preview inserted dynamically -->
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+                  <button
+                    type="button"
+                    onclick="closeSurekomDocModal()"
+                    class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold transition-colors"
+                  >
+                    Tutup Pratinjau
+                  </button>
+                </div>
+              </div>
+            </div>

@@ -1,0 +1,146 @@
+<!-- Page Header (Standar Typography ta-subapps-koordinator) -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Dashboard Contributor</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa.</p>
+            </div>
+            <button type="button" onclick="openDirectAssignModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Direct Assign Mahasiswa</span>
+            </button>
+          </div>
+
+          <!-- 4 KPI Metric Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Mahasiswa Binaan</span>
+                <i data-lucide="users" class="w-4 h-4 text-[#1063B9]"></i>
+              </div>
+              <div class="text-[24px] font-bold text-[#09090b]" id="statMahasiswaCount">6</div>
+              <span class="text-[12px] text-[#71717a] mt-1">Aktif bimbingan 20 SKS</span>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Pendaftar Masuk</span>
+                <i data-lucide="user-check" class="w-4 h-4 text-amber-600"></i>
+              </div>
+              <div class="text-[24px] font-bold text-amber-700" id="statPendingCount">3</div>
+              <span class="text-[12px] text-amber-700 font-medium mt-1">Perlu verifikasi seleksi</span>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Keterisian Kuota</span>
+                <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-600"></i>
+              </div>
+              <div class="text-[24px] font-bold text-[#09090b]"><span id="statFilledQuota">6</span> / 10</div>
+              <span class="text-[12px] text-emerald-700 font-medium mt-1">Sisa kuota: 4 mahasiswa</span>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+                <span>Status Pendaftaran</span>
+                <i data-lucide="calendar-clock" class="w-4 h-4 text-[#1063B9]"></i>
+              </div>
+              <div class="text-[14px] font-semibold text-emerald-700 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Buka (Periode Gasal)
+              </div>
+              <span class="text-[12px] text-[#71717a] mt-1">Hingga 25 Okt 2026</span>
+            </div>
+          </div>
+
+          <!-- Section: Pendaftar Baru Perlu Tindakan -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+              <div>
+                <h3 class="text-[14px] font-semibold text-[#09090b]">Pendaftar Masuk Menunggu Keputusan</h3>
+                <p class="text-[12px] text-[#71717a]">Mahasiswa yang mengajukan diri melalui formulir pendaftaran terbuka.</p>
+              </div>
+              <button type="button" onclick="switchNavView('seleksi')" class="text-xs text-[#1063B9] font-medium hover:underline flex items-center gap-1">
+                <span>Lihat Semua di Seleksi</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-2.5 px-3">Mahasiswa</th>
+                    <th class="py-2.5 px-3">Akademik</th>
+                    <th class="py-2.5 px-3">Berkas</th>
+                    <th class="py-2.5 px-3">Status</th>
+                    <th class="py-2.5 px-3 text-right">Keputusan Cepat</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-3">
+                      <div class="font-medium text-[13px] text-[#09090b]">Muhammad Raihan Pratama</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14920 • TI-S1</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="font-medium text-[#09090b]">IPK: 3.72</span>
+                      <div class="text-[12px] text-[#71717a]">104 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'transkrip')" class="text-[#1063B9] hover:underline flex items-center gap-1">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Transkrip &amp; CV
+                      </button>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3 px-3 text-right">
+                      <div class="inline-flex items-center gap-1.5">
+                        <button type="button" onclick="quickAccept(this, 'Muhammad Raihan Pratama', 'A11.2023.14920')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors">
+                          Terima
+                        </button>
+                        <button type="button" onclick="quickReject(this, 'Muhammad Raihan Pratama')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-3">
+                      <div class="font-medium text-[13px] text-[#09090b]">Annisa Nabila Rahma</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14885 • TI-S1</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="font-medium text-[#09090b]">IPK: 3.80</span>
+                      <div class="text-[12px] text-[#71717a]">108 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3 px-3">
+                      <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'transkrip')" class="text-[#1063B9] hover:underline flex items-center gap-1">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Transkrip &amp; CV
+                      </button>
+                    </td>
+                    <td class="py-3 px-3">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3 px-3 text-right">
+                      <div class="inline-flex items-center gap-1.5">
+                        <button type="button" onclick="quickAccept(this, 'Annisa Nabila Rahma', 'A11.2023.14885')" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors">
+                          Terima
+                        </button>
+                        <button type="button" onclick="quickReject(this, 'Annisa Nabila Rahma')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
