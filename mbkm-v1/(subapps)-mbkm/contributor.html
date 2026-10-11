@@ -2435,21 +2435,13 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                 <h2
                   class="text-[20px] leading-[28px] font-normal text-[#09090b]"
                 >
-                  Data Mahasiswa Binaan
+                  Anggota Mahasiswa
                 </h2>
                 <p class="text-[14px] leading-[20px] text-[#71717a]">
-                  Daftar mahasiswa aktif bimbingan tugas akhir dan riset lab
-                  yang telah terdaftar dalam program binaan.
+                  Mahasiswa bimbingan yang telah resmi diterima dan aktif
+                  berkegiatan di mitra ini.
                 </p>
               </div>
-              <button
-                type="button"
-                onclick="openDirectAssignModal()"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
-              >
-                <i data-lucide="user-plus" class="w-4 h-4"></i>
-                <span>+ Direct Assign Mahasiswa</span>
-              </button>
             </div>
 
             <!-- Toolbar Filter & Search -->
@@ -2464,21 +2456,21 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                   onclick="filterMahasiswaTable('semua', this)"
                   class="mhs-filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs"
                 >
-                  Semua Mahasiswa (<span id="countMhsAll">6</span>)
+                  Semua (<span id="countMhsAll">0</span>)
                 </button>
                 <button
                   type="button"
-                  onclick="filterMahasiswaTable('direct', this)"
+                  onclick="filterMahasiswaTable('Aktif', this)"
                   class="mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
                 >
-                  Direct Assign (3)
+                  Aktif (<span id="countMhsAktif">0</span>)
                 </button>
                 <button
                   type="button"
-                  onclick="filterMahasiswaTable('mandiri', this)"
+                  onclick="filterMahasiswaTable('Selesai', this)"
                   class="mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
                 >
-                  Lolos Mandiri (3)
+                  Selesai (<span id="countMhsSelesai">0</span>)
                 </button>
               </div>
 
@@ -2497,7 +2489,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
               </div>
             </div>
 
-            <!-- Tabel Data Mahasiswa Binaan -->
+            <!-- Tabel Mahasiswa Bimbingan -->
             <div
               class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
             >
@@ -2508,207 +2500,57 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                       class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]"
                     >
                       <th class="py-3 px-4">Mahasiswa</th>
-                      <th class="py-3 px-4">Jalur Intake</th>
-                      <th class="py-3 px-4">Fokus Riset / Tugas Akhir</th>
-                      <th class="py-3 px-4">Paket SKS</th>
-                      <th class="py-3 px-4">Status Prodi</th>
+                      <th class="py-3 px-4">Prodi</th>
+                      <th class="py-3 px-4">Posisi / Program</th>
+                      <th class="py-3 px-4">DPL Pendamping</th>
+                      <th class="py-3 px-4">Tanggal Mulai</th>
+                      <th class="py-3 px-4">Status</th>
                       <th class="py-3 px-4 text-right">Aksi</th>
                     </tr>
                   </thead>
                   <tbody
-                    id="mahasiswaTableBody"
+                    id="anggotaMhsBody"
                     class="divide-y divide-gray-100"
-                  >
-                    <tr
-                      class="mhs-row hover:bg-gray-50/70 transition-colors"
-                      data-intake="direct"
-                      data-name="Dimas Wahyu Saputra"
-                      data-nim="A11.2022.14101"
-                    >
-                      <td class="py-3.5 px-4">
-                        <div class="font-medium text-[13px] text-[#09090b]">
-                          Dimas Wahyu Saputra
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2022.14101 • TI-S1
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200"
-                        >
-                          Direct Assign
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="font-medium text-gray-800"
-                          >Deteksi Cacat Permukaan Logam Menggunakan
-                          YOLOv8</span
-                        >
-                        <div class="text-[#71717a] text-[11px]">
-                          Bimbingan Tugas Akhir
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="font-semibold text-[#1063B9]">20 SKS</span>
-                        <div class="text-[#71717a] text-[11px]">
-                          5 Mata Kuliah
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200"
-                        >
-                          <i
-                            data-lucide="check"
-                            class="w-3 h-3 text-emerald-600"
-                          ></i>
-                          Disetujui Prodi
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <button
-                          type="button"
-                          onclick="
-                            showToast(
-                              'Rincian Mahasiswa',
-                              'Membuka profil akademik Dimas Wahyu Saputra',
-                            )
-                          "
-                          class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium"
-                        >
-                          Rincian
-                        </button>
-                      </td>
-                    </tr>
-
-                    <tr
-                      class="mhs-row hover:bg-gray-50/70 transition-colors"
-                      data-intake="direct"
-                      data-name="Siti Nurhaliza"
-                      data-nim="A11.2022.14150"
-                    >
-                      <td class="py-3.5 px-4">
-                        <div class="font-medium text-[13px] text-[#09090b]">
-                          Siti Nurhaliza
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2022.14150 • TI-S1
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200"
-                        >
-                          Direct Assign
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="font-medium text-gray-800"
-                          >Segmentasi Citra Medis USG Tiroid dengan Attention
-                          U-Net</span
-                        >
-                        <div class="text-[#71717a] text-[11px]">
-                          Bimbingan Tugas Akhir
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="font-semibold text-[#1063B9]">20 SKS</span>
-                        <div class="text-[#71717a] text-[11px]">
-                          5 Mata Kuliah
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200"
-                        >
-                          <i
-                            data-lucide="check"
-                            class="w-3 h-3 text-emerald-600"
-                          ></i>
-                          Disetujui Prodi
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <button
-                          type="button"
-                          onclick="
-                            showToast(
-                              'Rincian Mahasiswa',
-                              'Membuka profil akademik Siti Nurhaliza',
-                            )
-                          "
-                          class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium"
-                        >
-                          Rincian
-                        </button>
-                      </td>
-                    </tr>
-
-                    <tr
-                      class="mhs-row hover:bg-gray-50/70 transition-colors"
-                      data-intake="mandiri"
-                      data-name="Bagus Wicaksono"
-                      data-nim="A11.2022.14205"
-                    >
-                      <td class="py-3.5 px-4">
-                        <div class="font-medium text-[13px] text-[#09090b]">
-                          Bagus Wicaksono
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2022.14205 • TI-S1
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200"
-                        >
-                          Lolos Mandiri
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="font-medium text-gray-800"
-                          >Optimasi Hyperparameter Transformer untuk NLP Bahasa
-                          Jawa</span
-                        >
-                        <div class="text-[#71717a] text-[11px]">
-                          Riset Mandiri Lab
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="font-semibold text-[#1063B9]">20 SKS</span>
-                        <div class="text-[#71717a] text-[11px]">
-                          5 Mata Kuliah
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200"
-                        >
-                          <i
-                            data-lucide="check"
-                            class="w-3 h-3 text-emerald-600"
-                          ></i>
-                          Disetujui Prodi
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <button
-                          type="button"
-                          onclick="
-                            showToast(
-                              'Rincian Mahasiswa',
-                              'Membuka profil akademik Bagus Wicaksono',
-                            )
-                          "
-                          class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium"
-                        >
-                          Rincian
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
+                  ></tbody>
                 </table>
+              </div>
+            </div>
+
+            <!-- Modal Detail Profil Mahasiswa -->
+            <div
+              id="mhsDetailModal"
+              class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs"
+            >
+              <div
+                class="bg-white rounded-2xl border border-gray-200 max-w-md w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto"
+              >
+                <div
+                  class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4"
+                >
+                  <h3
+                    class="text-base font-bold text-gray-900 flex items-center gap-2"
+                  >
+                    <i data-lucide="user" class="w-5 h-5 text-[#1063B9]"></i>
+                    <span>Profil Mahasiswa</span>
+                  </h3>
+                  <button
+                    type="button"
+                    onclick="closeMhsDetail()"
+                    class="text-gray-400 hover:text-gray-600 p-1 rounded-lg"
+                  >
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <dl id="mhsDetailBody" class="space-y-3 text-xs"></dl>
+                <div class="flex justify-end mt-6">
+                  <button
+                    type="button"
+                    onclick="closeMhsDetail()"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50"
+                  >
+                    Tutup
+                  </button>
+                </div>
               </div>
             </div>
           </section>
@@ -2722,24 +2564,22 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                 <h2
                   class="text-[20px] leading-[28px] font-normal text-[#09090b]"
                 >
-                  Data Dosen Pembina
+                  Anggota Dosen
                 </h2>
                 <p class="text-[14px] leading-[20px] text-[#71717a]">
-                  Daftar dosen pembimbing akademik dan riset yang ditugaskan
-                  mengampu program binaan ini.
+                  Dosen Pembimbing Lapangan (DPL) resmi UDI yang ditempatkan
+                  oleh Koordinator MBKM di mitra ini.
                 </p>
               </div>
-              <button
-                type="button"
-                onclick="openAddDosenModal()"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
+              <span
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-gray-50 text-[#71717a] border border-[#e4e4e7]"
               >
-                <i data-lucide="user-plus" class="w-4 h-4"></i>
-                <span>+ Tambah Dosen Pembina</span>
-              </button>
+                <i data-lucide="lock" class="w-3 h-3"></i>
+                Read-only &mdash; diatur Koordinator
+              </span>
             </div>
 
-            <!-- Tabel Dosen Pembina -->
+            <!-- Tabel Dosen Pembimbing -->
             <div
               class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
             >
@@ -2750,140 +2590,17 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                       class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]"
                     >
                       <th class="py-3 px-4">Dosen Pembimbing</th>
-                      <th class="py-3 px-4">NPP / NIDN</th>
-                      <th class="py-3 px-4">Bidang Kajian Utama</th>
-                      <th class="py-3 px-4">Alokasi Kuota Bimbingan</th>
-                      <th class="py-3 px-4">Status Pengampu</th>
-                      <th class="py-3 px-4 text-right">Aksi</th>
+                      <th class="py-3 px-4">NIDN</th>
+                      <th class="py-3 px-4">Prodi Homebase</th>
+                      <th class="py-3 px-4">Program Didampingi</th>
+                      <th class="py-3 px-4">Mahasiswa Bimbingan</th>
+                      <th class="py-3 px-4 text-right">Kontak</th>
                     </tr>
                   </thead>
-                  <tbody id="dosenTableBody" class="divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-2.5">
-                          <div
-                            class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200"
-                          >
-                            RA
-                          </div>
-                          <div>
-                            <div
-                              class="font-medium text-[13px] text-[#09090b] leading-tight"
-                            >
-                              Dr. Ricardus Anggi, M.Kom.
-                            </div>
-                            <div class="text-[11px] text-[#71717a]">
-                              ricardus.anggi@dsn.dinus.ac.id
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-xs text-[#71717a]">
-                        0686.11.2001.289
-                      </td>
-                      <td class="py-3.5 px-4 text-gray-800">
-                        Computer Vision &amp; Deep Learning
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-2">
-                          <span class="font-medium text-[#09090b]"
-                            >4 / 6 Mahasiswa</span
-                          >
-                          <span
-                            class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200"
-                            >Sisa 2</span
-                          >
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200"
-                        >
-                          <span
-                            class="w-1.5 h-1.5 rounded-full bg-emerald-500"
-                          ></span>
-                          Koordinator Lab
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <button
-                          type="button"
-                          onclick="
-                            showToast(
-                              'Data Dosen',
-                              'Membuka pengaturan bimbingan dosen',
-                            )
-                          "
-                          class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium"
-                        >
-                          Kelola
-                        </button>
-                      </td>
-                    </tr>
-
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-2.5">
-                          <div
-                            class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200"
-                          >
-                            AK
-                          </div>
-                          <div>
-                            <div
-                              class="font-medium text-[13px] text-[#09090b] leading-tight"
-                            >
-                              Dr. Aris Kusumawati, M.Cs.
-                            </div>
-                            <div class="text-[11px] text-[#71717a]">
-                              aris.kusumawati@dsn.dinus.ac.id
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-xs text-[#71717a]">
-                        0686.11.2005.312
-                      </td>
-                      <td class="py-3.5 px-4 text-gray-800">
-                        Natural Language Processing &amp; Text Mining
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-2">
-                          <span class="font-medium text-[#09090b]"
-                            >2 / 4 Mahasiswa</span
-                          >
-                          <span
-                            class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200"
-                            >Sisa 2</span
-                          >
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200"
-                        >
-                          <span
-                            class="w-1.5 h-1.5 rounded-full bg-blue-500"
-                          ></span>
-                          Pembimbing Riset
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <button
-                          type="button"
-                          onclick="
-                            showToast(
-                              'Data Dosen',
-                              'Membuka pengaturan bimbingan dosen',
-                            )
-                          "
-                          class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium"
-                        >
-                          Kelola
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody
+                    id="anggotaDosenBody"
+                    class="divide-y divide-gray-100"
+                  ></tbody>
                 </table>
               </div>
             </div>
@@ -4934,44 +4651,207 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
           filledQuota.textContent = parseInt(filledQuota.textContent || 6) + 1;
       }
 
-      // Filter Tabel Mahasiswa Binaan
-      function filterMahasiswaTable(intake, btn) {
+      // ===== Anggota: Dosen (read-only) & Mahasiswa =====
+      const anggotaDosen = [
+        {
+          nama: "Dr. Ricardus Anggi, M.Kom.",
+          email: "ricardus.anggi@dsn.dinus.ac.id",
+          nidn: "0625038401",
+          prodi: "Teknik Informatika (S1)",
+          program: ["Peneliti Muda Computer Vision"],
+          wa: "6281234567801",
+        },
+        {
+          nama: "Dr. Aris Kusumawati, M.Cs.",
+          email: "aris.kusumawati@dsn.dinus.ac.id",
+          nidn: "0611078502",
+          prodi: "Teknik Informatika (S1)",
+          program: [
+            "Asisten Praktikum Basis Data",
+            "Asisten Pengembang Aplikasi Mobile",
+          ],
+          wa: "6281234567802",
+        },
+      ];
+
+      const anggotaMhs = [
+        { nim: "A11.2022.14101", nama: "Dimas Wahyu Saputra", prodi: "Teknik Informatika (S1)", program: "Peneliti Muda Computer Vision", dpl: "Dr. Ricardus Anggi, M.Kom.", mulai: "01 Sep 2026", status: "Aktif", berkas: "https://drive.google.com/" },
+        { nim: "A11.2022.14150", nama: "Siti Nurhaliza", prodi: "Teknik Informatika (S1)", program: "Peneliti Muda Computer Vision", dpl: "Dr. Ricardus Anggi, M.Kom.", mulai: "01 Sep 2026", status: "Aktif", berkas: "https://drive.google.com/" },
+        { nim: "A11.2023.14702", nama: "Dewi Kartika Sari", prodi: "Teknik Informatika (S1)", program: "Asisten Praktikum Basis Data", dpl: "Dr. Aris Kusumawati, M.Cs.", mulai: "08 Sep 2026", status: "Aktif", berkas: "https://drive.google.com/" },
+        { nim: "A11.2023.14655", nama: "Fajar Nugroho", prodi: "Teknik Informatika (S1)", program: "Asisten Pengembang Aplikasi Mobile", dpl: "Dr. Aris Kusumawati, M.Cs.", mulai: "08 Sep 2026", status: "Aktif", berkas: "https://drive.google.com/" },
+        { nim: "A11.2023.14611", nama: "Rina Marlina", prodi: "Teknik Informatika (S1)", program: "Asisten Pengembang Aplikasi Mobile", dpl: "Dr. Aris Kusumawati, M.Cs.", mulai: "08 Sep 2026", status: "Aktif", berkas: "https://drive.google.com/" },
+        { nim: "A11.2023.14588", nama: "Bagas Prakoso", prodi: "Teknik Informatika (S1)", program: "Peneliti Muda Computer Vision", dpl: "Dr. Ricardus Anggi, M.Kom.", mulai: "01 Sep 2026", status: "Aktif", berkas: "https://drive.google.com/" },
+        { nim: "A11.2022.14033", nama: "Galih Pratama", prodi: "Teknik Informatika (S1)", program: "Asisten Praktikum Basis Data", dpl: "Dr. Aris Kusumawati, M.Cs.", mulai: "03 Feb 2026", status: "Selesai", berkas: "https://drive.google.com/" },
+      ];
+      let mhsStatusFilter = "semua";
+
+      function initials(nama) {
+        return nama
+          .replace(/^(Dr\.|Prof\.|Ir\.)\s*/i, "")
+          .split(/\s+/)
+          .slice(0, 2)
+          .map((w) => w[0])
+          .join("")
+          .toUpperCase();
+      }
+
+      function renderAnggotaDosen() {
+        const tbody = document.getElementById("anggotaDosenBody");
+        if (!tbody) return;
+        tbody.innerHTML = anggotaDosen
+          .map((d, i) => {
+            const jumlah = anggotaMhs.filter(
+              (m) => m.dpl === d.nama && m.status === "Aktif",
+            ).length;
+            return `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">${initials(d.nama)}</div>
+                    <div>
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">${escProgram(d.nama)}</div>
+                      <div class="text-[11px] text-[#71717a]">${escProgram(d.email)}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 text-[#71717a]">${escProgram(d.nidn)}</td>
+                <td class="py-3.5 px-4 text-gray-800">${escProgram(d.prodi)}</td>
+                <td class="py-3.5 px-4 text-gray-800">${d.program.map((p) => `<div>${escProgram(p)}</div>`).join("")}</td>
+                <td class="py-3.5 px-4"><span class="font-medium text-[#09090b]">${jumlah} Mahasiswa</span></td>
+                <td class="py-3.5 px-4">
+                  <div class="text-right inline-flex gap-1.5">
+                    <button type="button" onclick="copyEmailDosen(${i})" title="Salin email" class="inline-flex items-center gap-1 px-2.5 py-1 text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium"><i data-lucide="copy" class="w-3 h-3"></i>Email</button>
+                    <button type="button" onclick="openWaDosen(${i})" title="Hubungi via WhatsApp" class="inline-flex items-center gap-1 px-2.5 py-1 text-emerald-700 hover:bg-emerald-50 rounded border border-emerald-200 font-medium"><i data-lucide="message-circle" class="w-3 h-3"></i>WhatsApp</button>
+                  </div>
+                </td>
+              </tr>`;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      function copyEmailDosen(i) {
+        const email = anggotaDosen[i].email;
+        const done = () =>
+          showToast("Email Disalin", `${email} disalin ke clipboard.`);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(done, () => {
+            showToast("Gagal Menyalin", "Salin manual: " + email);
+          });
+        } else {
+          showToast("Gagal Menyalin", "Salin manual: " + email);
+        }
+      }
+
+      function openWaDosen(i) {
+        const d = anggotaDosen[i];
+        window.open(
+          `https://wa.me/${d.wa}?text=${encodeURIComponent("Halo, saya dari mitra Kampus Berdampak.")}`,
+          "_blank",
+          "noopener",
+        );
+      }
+
+      function renderAnggotaMhs() {
+        const tbody = document.getElementById("anggotaMhsBody");
+        if (!tbody) return;
+        const q = (
+          document.getElementById("searchMahasiswaInput")?.value || ""
+        )
+          .trim()
+          .toLowerCase();
+        const rows = anggotaMhs
+          .map((m, i) => ({ m, i }))
+          .filter(
+            ({ m }) =>
+              (mhsStatusFilter === "semua" || m.status === mhsStatusFilter) &&
+              (!q ||
+                m.nama.toLowerCase().includes(q) ||
+                m.nim.toLowerCase().includes(q)),
+          );
+        document.getElementById("countMhsAll").textContent = anggotaMhs.length;
+        document.getElementById("countMhsAktif").textContent = anggotaMhs.filter(
+          (m) => m.status === "Aktif",
+        ).length;
+        document.getElementById("countMhsSelesai").textContent =
+          anggotaMhs.filter((m) => m.status === "Selesai").length;
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="7" class="py-8 px-4 text-center text-[#71717a]">Tidak ada mahasiswa yang cocok.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = rows
+          .map(({ m, i }) => {
+            const badge =
+              m.status === "Aktif"
+                ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                : "bg-gray-100 text-gray-700 border-gray-200";
+            return `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4">
+                  <div class="font-medium text-[13px] text-[#09090b]">${escProgram(m.nama)}</div>
+                  <div class="text-[12px] text-[#71717a]">${escProgram(m.nim)}</div>
+                </td>
+                <td class="py-3.5 px-4 text-gray-800">${escProgram(m.prodi)}</td>
+                <td class="py-3.5 px-4 text-gray-800">${escProgram(m.program)}</td>
+                <td class="py-3.5 px-4 text-gray-800">${escProgram(m.dpl)}</td>
+                <td class="py-3.5 px-4 text-gray-800">${escProgram(m.mulai)}</td>
+                <td class="py-3.5 px-4"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium border ${badge}">${m.status}</span></td>
+                <td class="py-3.5 px-4">
+                  <div class="text-right inline-flex gap-1.5">
+                    <button type="button" onclick="openMhsDetail(${i})" class="px-2.5 py-1 text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">Detail</button>
+                    <a href="${escProgram(m.berkas)}" target="_blank" rel="noopener" title="Berkas administrasi" class="inline-flex items-center gap-1 px-2.5 py-1 text-gray-700 hover:bg-gray-50 rounded border border-gray-200 font-medium no-underline"><i data-lucide="folder-open" class="w-3 h-3"></i>Berkas</a>
+                  </div>
+                </td>
+              </tr>`;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      function openMhsDetail(i) {
+        const m = anggotaMhs[i];
+        const row = (k, v) =>
+          `<div class="flex justify-between gap-4 pb-2 border-b border-gray-100"><dt class="text-[#71717a]">${k}</dt><dd class="font-medium text-[#09090b] text-right">${v}</dd></div>`;
+        document.getElementById("mhsDetailBody").innerHTML = [
+          row("Nama", escProgram(m.nama)),
+          row("NIM", escProgram(m.nim)),
+          row("Prodi", escProgram(m.prodi)),
+          row("Posisi / Program", escProgram(m.program)),
+          row("DPL Pendamping", escProgram(m.dpl)),
+          row("Tanggal Mulai", escProgram(m.mulai)),
+          row("Status", escProgram(m.status)),
+          row(
+            "Berkas Administrasi",
+            `<a href="${escProgram(m.berkas)}" target="_blank" rel="noopener" class="text-[#1063B9] hover:underline">Buka Google Drive</a>`,
+          ),
+        ].join("");
+        document.getElementById("mhsDetailModal").classList.remove("hidden");
+      }
+      function closeMhsDetail() {
+        document.getElementById("mhsDetailModal").classList.add("hidden");
+      }
+
+      // Filter Tabel Mahasiswa (Semua / Aktif / Selesai)
+      function filterMahasiswaTable(status, btn) {
         document.querySelectorAll(".mhs-filter-btn").forEach((b) => {
           b.className =
             "mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900";
         });
         btn.className =
           "mhs-filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs";
-
-        const rows = document.querySelectorAll(".mhs-row");
-        rows.forEach((row) => {
-          if (
-            intake === "semua" ||
-            row.getAttribute("data-intake") === intake
-          ) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
-          }
-        });
+        mhsStatusFilter = status;
+        renderAnggotaMhs();
       }
 
       // Search Tabel Mahasiswa
       function searchMahasiswa() {
-        const q = document
-          .getElementById("searchMahasiswaInput")
-          .value.toLowerCase();
-        document.querySelectorAll(".mhs-row").forEach((row) => {
-          const name = (row.getAttribute("data-name") || "").toLowerCase();
-          const nim = (row.getAttribute("data-nim") || "").toLowerCase();
-          if (name.includes(q) || nim.includes(q)) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
-          }
-        });
+        renderAnggotaMhs();
       }
 
+      document.addEventListener("DOMContentLoaded", () => {
+        renderAnggotaDosen();
+        renderAnggotaMhs();
+      });
       // Verifikasi NIM SIAKAD (Modal Direct Assign)
       function verifyNimSiakad() {
         const nim = document.getElementById("inputNim").value.trim();
