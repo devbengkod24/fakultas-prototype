@@ -925,7 +925,7 @@
                 </div>
                 <button
                   type="button"
-                  onclick="openTrackModal()"
+                  onclick="openProgramModal()"
                   class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
                 >
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i
@@ -948,113 +948,7 @@
                         <th class="py-3 px-4 text-right">Aksi</th>
                       </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
-                      <tr class="hover:bg-gray-50/70 transition-colors">
-                        <td class="py-3.5 px-4">
-                          <div
-                            class="font-medium text-[13px] text-[#09090b] leading-tight"
-                          >
-                            Asisten Pengembang Aplikasi Mobile
-                          </div>
-                          <div class="text-[12px] text-[#71717a]">
-                            Skema Proyek
-                          </div>
-                        </td>
-                        <td class="py-3.5 px-4">1 Semester</td>
-                        <td class="py-3.5 px-4">8 / 15</td>
-                        <td class="py-3.5 px-4">
-                          <span
-                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                            >Tayang</span
-                          >
-                        </td>
-                        <td class="py-3.5 px-4">
-                          <div class="text-right inline-flex gap-1.5">
-                            <button
-                              type="button"
-                              onclick="switchNavView('form')"
-                              class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"
-                            >
-                              <i
-                                data-lucide="clipboard-list"
-                                class="w-3 h-3"
-                              ></i
-                              >Form Pendaftaran
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr class="hover:bg-gray-50/70 transition-colors">
-                        <td class="py-3.5 px-4">
-                          <div
-                            class="font-medium text-[13px] text-[#09090b] leading-tight"
-                          >
-                            Peneliti Muda Computer Vision
-                          </div>
-                          <div class="text-[12px] text-[#71717a]">
-                            Skema Riset
-                          </div>
-                        </td>
-                        <td class="py-3.5 px-4">2 Semester</td>
-                        <td class="py-3.5 px-4">3 / 5</td>
-                        <td class="py-3.5 px-4">
-                          <span
-                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                            >Tayang</span
-                          >
-                        </td>
-                        <td class="py-3.5 px-4">
-                          <div class="text-right inline-flex gap-1.5">
-                            <button
-                              type="button"
-                              onclick="switchNavView('form')"
-                              class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"
-                            >
-                              <i
-                                data-lucide="clipboard-list"
-                                class="w-3 h-3"
-                              ></i
-                              >Form Pendaftaran
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr class="hover:bg-gray-50/70 transition-colors">
-                        <td class="py-3.5 px-4">
-                          <div
-                            class="font-medium text-[13px] text-[#09090b] leading-tight"
-                          >
-                            Asisten Praktikum Basis Data
-                          </div>
-                          <div class="text-[12px] text-[#71717a]">
-                            Skema Asistensi
-                          </div>
-                        </td>
-                        <td class="py-3.5 px-4">1 Semester</td>
-                        <td class="py-3.5 px-4">2 / 4</td>
-                        <td class="py-3.5 px-4">
-                          <span
-                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200"
-                            >Draft</span
-                          >
-                        </td>
-                        <td class="py-3.5 px-4">
-                          <div class="text-right inline-flex gap-1.5">
-                            <button
-                              type="button"
-                              onclick="switchNavView('form')"
-                              class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"
-                            >
-                              <i
-                                data-lucide="clipboard-list"
-                                class="w-3 h-3"
-                              ></i
-                              >Form Pendaftaran
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
+                    <tbody id="programTableBody" class="divide-y divide-gray-100"></tbody>
                   </table>
                 </div>
               </div>
@@ -1947,617 +1841,174 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
             <!-- Top Action Bar -->
             <div class="flex flex-wrap items-center justify-between gap-4">
               <div>
+                <button
+                  type="button"
+                  onclick="switchNavView('program')"
+                  class="inline-flex items-center gap-1 text-xs text-[#71717a] hover:text-[#1063B9] mb-1"
+                >
+                  <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                  <span>Kembali ke Kelola Program</span>
+                </button>
                 <h2
                   class="text-[20px] leading-[28px] font-normal text-[#09090b]"
                 >
-                  Manajemen Formulir Pendaftaran
+                  Form Pendaftaran
                 </h2>
                 <p class="text-[14px] leading-[20px] text-[#71717a]">
-                  Konfigurasi kelayakan pelamar, dokumen persyaratan, paket mata
-                  kuliah konversi 20 SKS, dan pakta komitmen mahasiswa.
+                  Atur berkas dan pertanyaan khusus untuk program
+                  <strong
+                    id="formProgramName"
+                    class="font-semibold text-[#09090b]"
+                    >-</strong
+                  >.
                 </p>
               </div>
-              <div class="flex items-center gap-2">
-                <a
-                  href="../(roots)/(landing)-mbkm/pendaftaran-mahasiswa.html"
-                  target="_blank"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline"
-                >
-                  <i
-                    data-lucide="external-link"
-                    class="w-3.5 h-3.5 text-gray-500"
-                  ></i>
-                  <span>Lihat Formulir Publik</span>
-                </a>
-                <button
-                  type="button"
-                  onclick="saveFormConfig()"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
-                >
-                  <i data-lucide="save" class="w-3.5 h-3.5"></i>
-                  <span>Simpan Pengaturan Form</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onclick="saveFormConfig()"
+                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
+              >
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>Simpan Form</span>
+              </button>
             </div>
 
-            <!-- CARD 1: PERIODE, KUOTA & VALIDASI AKADEMIK (STEP 1 PENDAFTARAN) -->
-            <div
-              class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5"
-            >
-              <div
-                class="flex items-start justify-between border-b border-[#e4e4e7] pb-4"
-              >
-                <div>
-                  <h3
-                    class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2"
-                  >
-                    <i
-                      data-lucide="calendar"
-                      class="w-4 h-4 text-[#1063B9]"
-                    ></i>
-                    <span
-                      >Periode Pendaftaran &amp; Syarat Kelayakan Akademik (Step
-                      1)</span
-                    >
-                  </h3>
-                  <p class="text-xs text-[#71717a] mt-0.5">
-                    Atur jadwal intake, batas kuota pendaftaran, dan parameter
-                    evaluasi otomatis SIAKAD UDINUS.
-                  </p>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="space-y-1.5">
-                  <label class="block text-xs font-semibold text-gray-700"
-                    >Tanggal Mulai Pendaftaran
-                    <span class="text-red-500">*</span></label
-                  >
-                  <input
-                    type="date"
-                    value="2026-10-01"
-                    class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
-                  />
-                </div>
-                <div class="space-y-1.5">
-                  <label class="block text-xs font-semibold text-gray-700"
-                    >Tanggal Batas Akhir (Deadline)
-                    <span class="text-red-500">*</span></label
-                  >
-                  <input
-                    type="date"
-                    value="2026-10-25"
-                    class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
-                  />
-                </div>
-                <div class="space-y-1.5">
-                  <label class="block text-xs font-semibold text-gray-700"
-                    >Total Kuota Pendaftar Mahasiswa
-                    <span class="text-red-500">*</span></label
-                  >
-                  <input
-                    type="number"
-                    value="20"
-                    min="1"
-                    max="100"
-                    class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
-                  />
-                </div>
-              </div>
-
-              <!-- Syarat Kelayakan Otomatis SIAKAD -->
-              <div class="pt-3 border-t border-gray-100 space-y-3">
-                <h4
-                  class="text-xs font-bold text-gray-900 flex items-center gap-1.5"
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              <!-- KOLOM KIRI: KONFIGURASI -->
+              <div class="space-y-6">
+                <!-- Berkas yang diminta -->
+                <div
+                  class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4"
                 >
-                  <i
-                    data-lucide="check-circle-2"
-                    class="w-3.5 h-3.5 text-emerald-600"
-                  ></i>
-                  <span
-                    >Syarat Validasi Otomatis SIAKAD (Eligibility Checker
-                    Pelamar)</span
-                  >
-                </h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div class="space-y-1.5">
-                    <label class="block text-xs font-medium text-gray-700"
-                      >Semester Minimal Mahasiswa</label
-                    >
-                    <select
-                      class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
-                    >
-                      <option>Semester 5</option>
-                      <option selected>
-                        Semester 6 (Rekomendasi Resmi FIK)
-                      </option>
-                      <option>Semester 7</option>
-                    </select>
+                  <div class="pb-3 border-b border-[#e4e4e7]">
+                    <h3 class="text-[14px] font-semibold text-[#09090b]">
+                      Berkas Pendaftaran
+                    </h3>
+                    <p class="text-[12px] text-[#71717a]">
+                      Aktifkan berkas yang wajib dilampirkan mahasiswa
+                      (tautan Google Drive).
+                    </p>
                   </div>
-                  <div class="space-y-1.5">
-                    <label class="block text-xs font-medium text-gray-700"
-                      >IPK Kumulatif Minimal (Skala 4.00)</label
+                  <div class="space-y-3 text-xs">
+                    <label
+                      class="flex items-center justify-between gap-3 p-3 border border-[#e4e4e7] rounded-lg cursor-pointer hover:bg-gray-50"
                     >
+                      <span>
+                        <span class="block font-semibold text-[#09090b]"
+                          >CV</span
+                        >
+                        <span class="text-[#71717a]"
+                          >Tautan CV terbaru mahasiswa</span
+                        >
+                      </span>
+                      <input
+                        id="fcCv"
+                        type="checkbox"
+                        onchange="renderFormPreview()"
+                        class="w-4 h-4 accent-[#1063B9]"
+                      />
+                    </label>
+                    <label
+                      class="flex items-center justify-between gap-3 p-3 border border-[#e4e4e7] rounded-lg cursor-pointer hover:bg-gray-50"
+                    >
+                      <span>
+                        <span class="block font-semibold text-[#09090b]"
+                          >Portofolio</span
+                        >
+                        <span class="text-[#71717a]"
+                          >Tautan portofolio karya / proyek</span
+                        >
+                      </span>
+                      <input
+                        id="fcPortofolio"
+                        type="checkbox"
+                        onchange="renderFormPreview()"
+                        class="w-4 h-4 accent-[#1063B9]"
+                      />
+                    </label>
+                    <label
+                      class="flex items-center justify-between gap-3 p-3 border border-[#e4e4e7] rounded-lg cursor-pointer hover:bg-gray-50"
+                    >
+                      <span>
+                        <span class="block font-semibold text-[#09090b]"
+                          >Transkrip Nilai</span
+                        >
+                        <span class="text-[#71717a]"
+                          >Tautan transkrip sementara</span
+                        >
+                      </span>
+                      <input
+                        id="fcTranskrip"
+                        type="checkbox"
+                        onchange="renderFormPreview()"
+                        class="w-4 h-4 accent-[#1063B9]"
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Pertanyaan Kustom -->
+                <div
+                  class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4"
+                >
+                  <div class="pb-3 border-b border-[#e4e4e7]">
+                    <h3 class="text-[14px] font-semibold text-[#09090b]">
+                      Pertanyaan Kustom Mitra
+                    </h3>
+                    <p class="text-[12px] text-[#71717a]">
+                      Pertanyaan tambahan yang dijawab mahasiswa saat mendaftar.
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-2 text-xs">
                     <input
+                      id="fcQuestionInput"
                       type="text"
-                      value="3.00"
-                      class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
+                      placeholder="Tulis pertanyaan, mis. Mengapa tertarik pada program ini?"
+                      onkeydown="if (event.key === 'Enter') { event.preventDefault(); addFormQuestion(); }"
+                      class="flex-1 min-w-[200px] px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
                     />
-                  </div>
-                  <div class="space-y-1.5">
-                    <label class="block text-xs font-medium text-gray-700"
-                      >SKS Lulus Minimum Tempuh</label
-                    >
-                    <input
-                      type="number"
-                      value="100"
-                      class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- CARD 2: DOKUMEN PERSYARATAN & PORTOFOLIO (STEP 2 PENDAFTARAN) -->
-            <div
-              class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5"
-            >
-              <div
-                class="flex items-start justify-between border-b border-[#e4e4e7] pb-4"
-              >
-                <div>
-                  <h3
-                    class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2"
-                  >
-                    <i
-                      data-lucide="file-check-2"
-                      class="w-4 h-4 text-[#1063B9]"
-                    ></i>
-                    <span
-                      >Dokumen Persyaratan &amp; Portofolio Pelamar (Step
-                      2)</span
-                    >
-                  </h3>
-                  <p class="text-xs text-[#71717a] mt-0.5">
-                    Konfigurasi berkas yang wajib diunggah pelamar beserta batas
-                    ukuran dan template dokumen.
-                  </p>
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <!-- Dokumen 1 -->
-                <div
-                  class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                >
-                  <div class="flex items-start gap-3">
-                    <div
-                      class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center shrink-0 mt-0.5"
-                    >
-                      <i data-lucide="file-text" class="w-4 h-4"></i>
-                    </div>
-                    <div>
-                      <span class="text-xs font-bold text-gray-900 block"
-                        >Transkrip Nilai Akademik Terakhir</span
-                      >
-                      <p class="text-[11px] text-gray-500 mt-0.5">
-                        Format: PDF • Batas Maks. 2MB • Transkrip resmi
-                        ber-barcode SIAKAD UDINUS
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2 self-end sm:self-center">
-                    <span class="text-xs text-gray-500">Maks. 2MB</span>
-                    <input
-                      type="checkbox"
-                      checked
-                      class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
-                    />
-                  </div>
-                </div>
-
-                <!-- Dokumen 2 -->
-                <div
-                  class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                >
-                  <div class="flex items-start gap-3">
-                    <div
-                      class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5"
-                    >
-                      <i data-lucide="file-badge" class="w-4 h-4"></i>
-                    </div>
-                    <div>
-                      <span class="text-xs font-bold text-gray-900 block"
-                        >Curriculum Vitae (CV) Terkini</span
-                      >
-                      <p class="text-[11px] text-gray-500 mt-0.5">
-                        Format: PDF • Batas Maks. 2MB • Memuat riwayat proyek,
-                        skill teknologi, dan pengalaman
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2 self-end sm:self-center">
-                    <span class="text-xs text-gray-500">Maks. 2MB</span>
-                    <input
-                      type="checkbox"
-                      checked
-                      class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
-                    />
-                  </div>
-                </div>
-
-                <!-- Dokumen 3 -->
-                <div
-                  class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                >
-                  <div class="flex items-start gap-3">
-                    <div
-                      class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5"
-                    >
-                      <i data-lucide="file-check" class="w-4 h-4"></i>
-                    </div>
-                    <div>
-                      <span class="text-xs font-bold text-gray-900 block"
-                        >Draft Surat Rekomendasi (Surekom) Template Mitra</span
-                      >
-                      <p class="text-[11px] text-gray-500 mt-0.5">
-                        Format: PDF / DOCX • Maks. 2MB • Ditandatangani Dekan
-                        FIK setelah validasi Koordinator
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2 self-end sm:self-center">
-                    <span class="text-xs text-gray-500">Maks. 2MB</span>
-                    <input
-                      type="checkbox"
-                      checked
-                      class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
-                    />
-                  </div>
-                </div>
-
-                <!-- Input Portofolio Tambahan -->
-                <div class="pt-3 border-t border-gray-100">
-                  <h4 class="text-xs font-bold text-gray-900 mb-2">
-                    Tautan Portofolio &amp; Media Eksternal:
-                  </h4>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <label
-                      class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-white"
-                    >
-                      <input
+                    <label class="inline-flex items-center gap-1.5 text-gray-700"
+                      ><input
+                        id="fcQuestionRequired"
                         type="checkbox"
                         checked
-                        class="rounded border-gray-300 text-[#1063B9]"
+                        class="accent-[#1063B9]"
                       />
-                      <span class="font-medium text-gray-800"
-                        >Tautan GitHub / GitLab Repository</span
-                      >
-                    </label>
-                    <label
-                      class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-white"
+                      Wajib</label
                     >
-                      <input
-                        type="checkbox"
-                        checked
-                        class="rounded border-gray-300 text-[#1063B9]"
-                      />
-                      <span class="font-medium text-gray-800"
-                        >Tautan LinkedIn / Website Portofolio Pribadi</span
-                      >
-                    </label>
+                    <button
+                      type="button"
+                      onclick="addFormQuestion()"
+                      class="px-3 py-2 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded-lg font-semibold"
+                    >
+                      + Tambah
+                    </button>
                   </div>
+                  <ul id="fcQuestionList" class="space-y-2 text-xs"></ul>
                 </div>
               </div>
-            </div>
 
-            <!-- CARD 3: PAKET MATA KULIAH KONVERSI 20 SKS (STEP 3 PENDAFTARAN) -->
-            <div
-              class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5"
-            >
+              <!-- KOLOM KANAN: PRATINJAU -->
               <div
-                class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4"
+                class="bg-[#fafafa] border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4 lg:sticky lg:top-4"
               >
-                <div>
-                  <h3
-                    class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2"
-                  >
-                    <i
-                      data-lucide="book-open"
-                      class="w-4 h-4 text-[#1063B9]"
-                    ></i>
-                    <span
-                      >Daftar Mata Kuliah Pilihan Konversi 20 SKS (Step 3)</span
-                    >
-                  </h3>
-                  <p class="text-xs text-[#71717a] mt-0.5">
-                    Daftar mata kuliah kurikulum TI-S1 yang tampil pada Step 3
-                    formulir pendaftaran mahasiswa untuk dipilih dalam paket
-                    konversi.
-                  </p>
-                </div>
-                <div class="flex items-center gap-2.5 shrink-0">
+                <div
+                  class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]"
+                >
+                  <div>
+                    <h3 class="text-[14px] font-semibold text-[#09090b]">
+                      Pratinjau Form Mahasiswa
+                    </h3>
+                    <p class="text-[12px] text-[#71717a]">
+                      Tampilan form yang akan diisi pelamar.
+                    </p>
+                  </div>
                   <span
-                    class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg font-semibold text-xs"
+                    class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-white text-[#71717a] border border-[#e4e4e7]"
+                    ><i data-lucide="eye" class="w-3 h-3"></i>Pratinjau</span
                   >
-                    Total Tersedia:
-                    <strong id="totalSksTersedia">20</strong> SKS (6 Matkul)
-                  </span>
-                  <button
-                    type="button"
-                    onclick="openMatkulModal()"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors"
-                  >
-                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                    <span>Tambah Matkul</span>
-                  </button>
                 </div>
-              </div>
-
-              <!-- Tabel Mata Kuliah Konversi -->
-              <div
-                class="overflow-x-auto border border-[#e4e4e7] rounded-xl overflow-hidden"
-              >
-                <table class="w-full text-left text-xs border-collapse">
-                  <thead>
-                    <tr
-                      class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]"
-                    >
-                      <th class="py-3 px-4">Kode Matkul</th>
-                      <th class="py-3 px-4">Nama Mata Kuliah</th>
-                      <th class="py-3 px-4">Bobot</th>
-                      <th class="py-3 px-4">Deskripsi Capaian Pembelajaran</th>
-                      <th class="py-3 px-4 text-right">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody id="matkulTableBody" class="divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td
-                        class="py-3 px-4 font-semibold text-[#09090b] matkul-code"
-                      >
-                        A11.54601
-                      </td>
-                      <td
-                        class="py-3 px-4 font-medium text-[#09090b] matkul-name"
-                      >
-                        Proyek Perangkat Lunak Terapan
-                      </td>
-                      <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">
-                        4 SKS
-                      </td>
-                      <td
-                        class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc"
-                      >
-                        Penyetaraan capaian pembelajaran capstone project
-                        industri Dicoding.
-                      </td>
-                      <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onclick="editMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                          </button>
-                          <button
-                            type="button"
-                            onclick="deleteMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                            title="Hapus"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td
-                        class="py-3 px-4 font-semibold text-[#09090b] matkul-code"
-                      >
-                        A11.54702
-                      </td>
-                      <td
-                        class="py-3 px-4 font-medium text-[#09090b] matkul-name"
-                      >
-                        Pembelajaran Mesin Lanjut (Deep Learning)
-                      </td>
-                      <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">
-                        4 SKS
-                      </td>
-                      <td
-                        class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc"
-                      >
-                        Mata kuliah konsentrasi Intelligent Systems &amp;
-                        Computer Vision.
-                      </td>
-                      <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onclick="editMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                          </button>
-                          <button
-                            type="button"
-                            onclick="deleteMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                            title="Hapus"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td
-                        class="py-3 px-4 font-semibold text-[#09090b] matkul-code"
-                      >
-                        A11.54804
-                      </td>
-                      <td
-                        class="py-3 px-4 font-medium text-[#09090b] matkul-name"
-                      >
-                        Komputasi Awan &amp; DevOps Terapan
-                      </td>
-                      <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">
-                        4 SKS
-                      </td>
-                      <td
-                        class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc"
-                      >
-                        Mata kuliah konsentrasi Jaringan &amp; Arsitektur Cloud.
-                      </td>
-                      <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onclick="editMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                          </button>
-                          <button
-                            type="button"
-                            onclick="deleteMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                            title="Hapus"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td
-                        class="py-3 px-4 font-semibold text-[#09090b] matkul-code"
-                      >
-                        A11.54901
-                      </td>
-                      <td
-                        class="py-3 px-4 font-medium text-[#09090b] matkul-name"
-                      >
-                        Kapita Selekta Komputasi Cerdas
-                      </td>
-                      <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">
-                        3 SKS
-                      </td>
-                      <td
-                        class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc"
-                      >
-                        Penyetaraan materi workshop dan seminar teknologi
-                        mutakhir mitra.
-                      </td>
-                      <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onclick="editMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                          </button>
-                          <button
-                            type="button"
-                            onclick="deleteMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                            title="Hapus"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td
-                        class="py-3 px-4 font-semibold text-[#09090b] matkul-code"
-                      >
-                        A11.54905
-                      </td>
-                      <td
-                        class="py-3 px-4 font-medium text-[#09090b] matkul-name"
-                      >
-                        Komunikasi Profesional &amp; Etika Profesi TI
-                      </td>
-                      <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">
-                        3 SKS
-                      </td>
-                      <td
-                        class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc"
-                      >
-                        Soft skills kerja tim, presentasi proyek capstone, dan
-                        etika industri.
-                      </td>
-                      <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onclick="editMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                          </button>
-                          <button
-                            type="button"
-                            onclick="deleteMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                            title="Hapus"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td
-                        class="py-3 px-4 font-semibold text-[#09090b] matkul-code"
-                      >
-                        A11.54910
-                      </td>
-                      <td
-                        class="py-3 px-4 font-medium text-[#09090b] matkul-name"
-                      >
-                        Penulisan Karya Ilmiah Terapan
-                      </td>
-                      <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">
-                        2 SKS
-                      </td>
-                      <td
-                        class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc"
-                      >
-                        Penyusunan laporan akhir komprehensif MBKM dan draft
-                        publikasi jurnal.
-                      </td>
-                      <td class="py-3 px-4 text-right">
-                        <div class="inline-flex items-center gap-1">
-                          <button
-                            type="button"
-                            onclick="editMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                            title="Edit"
-                          >
-                            <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                          </button>
-                          <button
-                            type="button"
-                            onclick="deleteMatkulRow(this)"
-                            class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                            title="Hapus"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div id="fcPreview" class="space-y-3 text-xs"></div>
               </div>
             </div>
           </section>
@@ -4707,6 +4158,226 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
     </div>
 
     <!-- ======================================================== -->
+    <!-- MODAL: TAMBAH / EDIT PROGRAM (INVENTARIS LOWONGAN)       -->
+    <!-- ======================================================== -->
+    <div
+      id="programModal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs"
+    >
+      <div
+        class="bg-white rounded-2xl border border-gray-200 max-w-xl w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto"
+      >
+        <div
+          class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4"
+        >
+          <div>
+            <h3
+              class="text-base font-bold text-gray-900 flex items-center gap-2"
+            >
+              <i data-lucide="folder-kanban" class="w-5 h-5 text-[#1063B9]"></i>
+              <span id="prgModalTitle">Tambah Program</span>
+            </h3>
+            <p class="text-xs text-gray-500 mt-0.5">
+              Lowongan yang tampil bagi mahasiswa pada katalog Kampus Berdampak.
+            </p>
+          </div>
+          <button
+            type="button"
+            onclick="closeProgramModal()"
+            class="text-gray-400 hover:text-gray-600 p-1 rounded-lg"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form
+          id="programForm"
+          onsubmit="handleProgramSubmit(event)"
+          class="space-y-4 text-xs"
+        >
+          <div>
+            <label
+              for="prgNama"
+              class="block font-semibold text-gray-700 mb-1"
+              >Nama Posisi <span class="text-red-500">*</span></label
+            >
+            <input
+              id="prgNama"
+              type="text"
+              required
+              placeholder="Contoh: Asisten Praktikum Basis Data"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label
+                for="prgSkema"
+                class="block font-semibold text-gray-700 mb-1"
+                >Skema <span class="text-red-500">*</span></label
+              >
+              <select
+                id="prgSkema"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              >
+                <option>Asistensi</option>
+                <option>Proyek</option>
+                <option>Riset</option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="prgDurasi"
+                class="block font-semibold text-gray-700 mb-1"
+                >Durasi <span class="text-red-500">*</span></label
+              >
+              <select
+                id="prgDurasi"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              >
+                <option>1 Semester</option>
+                <option>2 Semester</option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="prgKuota"
+                class="block font-semibold text-gray-700 mb-1"
+                >Kuota <span class="text-red-500">*</span></label
+              >
+              <input
+                id="prgKuota"
+                type="number"
+                min="1"
+                max="100"
+                value="5"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <fieldset>
+              <legend class="block font-semibold text-gray-700 mb-1.5">
+                Kewajiban Mahasiswa
+              </legend>
+              <div class="space-y-1.5 text-gray-700">
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgKewajiban" value="Hadir sesuai jadwal mitra" checked class="accent-[#1063B9]" />
+                  Hadir sesuai jadwal mitra</label
+                >
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgKewajiban" value="Mengisi logbook mingguan" checked class="accent-[#1063B9]" />
+                  Mengisi logbook mingguan</label
+                >
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgKewajiban" value="Menyusun laporan akhir" class="accent-[#1063B9]" />
+                  Menyusun laporan akhir</label
+                >
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgKewajiban" value="Mengikuti sidang evaluasi" class="accent-[#1063B9]" />
+                  Mengikuti sidang evaluasi</label
+                >
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="block font-semibold text-gray-700 mb-1.5">
+                Fasilitas &amp; Hak
+              </legend>
+              <div class="space-y-1.5 text-gray-700">
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgFasilitas" value="Sertifikat kegiatan" checked class="accent-[#1063B9]" />
+                  Sertifikat kegiatan</label
+                >
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgFasilitas" value="Mentoring dari mitra" class="accent-[#1063B9]" />
+                  Mentoring dari mitra</label
+                >
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgFasilitas" value="Uang saku / insentif" class="accent-[#1063B9]" />
+                  Uang saku / insentif</label
+                >
+                <label class="flex items-center gap-2"
+                  ><input type="checkbox" name="prgFasilitas" value="Akses fasilitas / lab" class="accent-[#1063B9]" />
+                  Akses fasilitas / lab</label
+                >
+              </div>
+            </fieldset>
+          </div>
+
+          <div>
+            <label
+              for="prgSkillInput"
+              class="block font-semibold text-gray-700 mb-1"
+              >Skill Tags</label
+            >
+            <div
+              class="flex flex-wrap items-center gap-1.5 px-2 py-1.5 border border-gray-300 rounded-lg focus-within:border-[#1063B9]"
+            >
+              <span id="prgSkillChips" class="contents"></span>
+              <input
+                id="prgSkillInput"
+                type="text"
+                placeholder="Ketik skill lalu tekan Enter"
+                onkeydown="handleSkillKey(event)"
+                class="flex-1 min-w-[140px] px-1 py-1 outline-none bg-transparent"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label
+                for="prgGrup"
+                class="block font-semibold text-gray-700 mb-1"
+                >Tautan Grup WA / Telegram</label
+              >
+              <input
+                id="prgGrup"
+                type="url"
+                placeholder="https://chat.whatsapp.com/..."
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
+              />
+            </div>
+            <div>
+              <label
+                for="prgStatus"
+                class="block font-semibold text-gray-700 mb-1"
+                >Status Tayang</label
+              >
+              <select
+                id="prgStatus"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              >
+                <option>Draft</option>
+                <option>Tayang</option>
+              </select>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100"
+          >
+            <button
+              type="button"
+              onclick="closeProgramModal()"
+              class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs"
+            >
+              Simpan Program
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- ======================================================== -->
     <!-- MODAL 4: TAMBAH / EDIT FORMASI TRACK & LOWONGAN          -->
     <!-- ======================================================== -->
     <div
@@ -5637,6 +5308,211 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         lucide.createIcons();
       }
 
+      // ===== Inventaris Lowongan (Kelola Program) =====
+      const programData = [
+        {
+          id: 1,
+          nama: "Asisten Pengembang Aplikasi Mobile",
+          skema: "Proyek",
+          durasi: "1 Semester",
+          kuota: 15,
+          terisi: 8,
+          status: "Tayang",
+          kewajiban: ["Hadir sesuai jadwal mitra", "Mengisi logbook mingguan"],
+          fasilitas: ["Sertifikat kegiatan"],
+          skills: ["Flutter", "REST API"],
+          grup: "",
+        },
+        {
+          id: 2,
+          nama: "Peneliti Muda Computer Vision",
+          skema: "Riset",
+          durasi: "2 Semester",
+          kuota: 5,
+          terisi: 3,
+          status: "Tayang",
+          kewajiban: ["Mengisi logbook mingguan", "Menyusun laporan akhir"],
+          fasilitas: ["Sertifikat kegiatan", "Akses fasilitas / lab"],
+          skills: ["Python", "OpenCV"],
+          grup: "",
+        },
+        {
+          id: 3,
+          nama: "Asisten Praktikum Basis Data",
+          skema: "Asistensi",
+          durasi: "1 Semester",
+          kuota: 4,
+          terisi: 2,
+          status: "Draft",
+          kewajiban: ["Hadir sesuai jadwal mitra"],
+          fasilitas: ["Sertifikat kegiatan"],
+          skills: ["SQL"],
+          grup: "",
+        },
+      ];
+      let programEditId = null;
+      let programNextId = 4;
+      let programSkills = [];
+
+      function escProgram(s) {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+
+      function renderProgramTable() {
+        const tbody = document.getElementById("programTableBody");
+        if (!tbody) return;
+        if (!programData.length) {
+          tbody.innerHTML = `<tr><td colspan="5" class="py-8 px-4 text-center text-[#71717a]">Belum ada program. Klik "Tambah Program" untuk membuat lowongan.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = programData
+          .map((p) => {
+            const badge =
+              p.status === "Tayang"
+                ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                : "bg-amber-50 text-amber-800 border-amber-200";
+            return `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4">
+                  <div class="font-medium text-[13px] text-[#09090b] leading-tight">${escProgram(p.nama)}</div>
+                  <div class="text-[12px] text-[#71717a]">Skema ${escProgram(p.skema)}</div>
+                </td>
+                <td class="py-3.5 px-4">${escProgram(p.durasi)}</td>
+                <td class="py-3.5 px-4">${p.terisi} / ${p.kuota}</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border ${badge}">${p.status}</span>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="text-right inline-flex gap-1.5">
+                    <button type="button" onclick="openFormConfig(${p.id})" class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"><i data-lucide="clipboard-list" class="w-3 h-3"></i>Form Pendaftaran</button>
+                    <button type="button" onclick="openProgramModal(${p.id})" title="Edit" class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                    <button type="button" onclick="deleteProgram(${p.id})" title="Hapus" class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                  </div>
+                </td>
+              </tr>`;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      function renderSkillChips() {
+        document.getElementById("prgSkillChips").innerHTML = programSkills
+          .map(
+            (s, i) =>
+              `<span class="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-[#1063B9] border border-blue-200 rounded-full">${escProgram(s)}<button type="button" onclick="removeSkill(${i})" class="hover:text-rose-600" title="Hapus">&times;</button></span>`,
+          )
+          .join("");
+      }
+      function handleSkillKey(e) {
+        if (e.key !== "Enter" && e.key !== ",") return;
+        e.preventDefault();
+        const v = e.target.value.trim();
+        if (v && !programSkills.includes(v)) programSkills.push(v);
+        e.target.value = "";
+        renderSkillChips();
+      }
+      function removeSkill(i) {
+        programSkills.splice(i, 1);
+        renderSkillChips();
+      }
+
+      function setChecks(name, values) {
+        document
+          .querySelectorAll(`input[name="${name}"]`)
+          .forEach((c) => (c.checked = values.includes(c.value)));
+      }
+      function getChecks(name) {
+        return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(
+          (c) => c.value,
+        );
+      }
+
+      function openProgramModal(id) {
+        programEditId = typeof id === "number" ? id : null;
+        const d = programData.find((p) => p.id === programEditId);
+        document.getElementById("prgModalTitle").textContent = d
+          ? "Edit Program"
+          : "Tambah Program";
+        document.getElementById("prgNama").value = d ? d.nama : "";
+        document.getElementById("prgSkema").value = d ? d.skema : "Asistensi";
+        document.getElementById("prgDurasi").value = d ? d.durasi : "1 Semester";
+        document.getElementById("prgKuota").value = d ? d.kuota : 5;
+        document.getElementById("prgGrup").value = d ? d.grup : "";
+        document.getElementById("prgStatus").value = d ? d.status : "Draft";
+        setChecks(
+          "prgKewajiban",
+          d
+            ? d.kewajiban
+            : ["Hadir sesuai jadwal mitra", "Mengisi logbook mingguan"],
+        );
+        setChecks("prgFasilitas", d ? d.fasilitas : ["Sertifikat kegiatan"]);
+        programSkills = d ? [...d.skills] : [];
+        document.getElementById("prgSkillInput").value = "";
+        renderSkillChips();
+        document.getElementById("programModal").classList.remove("hidden");
+        lucide.createIcons();
+      }
+      function closeProgramModal() {
+        document.getElementById("programModal").classList.add("hidden");
+        programEditId = null;
+      }
+
+      function handleProgramSubmit(e) {
+        e.preventDefault();
+        const pending = document.getElementById("prgSkillInput").value.trim();
+        if (pending && !programSkills.includes(pending)) programSkills.push(pending);
+        const existing = programData.find((p) => p.id === programEditId);
+        const kuota = parseInt(document.getElementById("prgKuota").value, 10);
+        if (existing && kuota < existing.terisi) {
+          showToast(
+            "Kuota Tidak Valid",
+            `Kuota tidak boleh kurang dari mahasiswa terisi (${existing.terisi}).`,
+          );
+          return;
+        }
+        const payload = {
+          nama: document.getElementById("prgNama").value.trim(),
+          skema: document.getElementById("prgSkema").value,
+          durasi: document.getElementById("prgDurasi").value,
+          kuota,
+          status: document.getElementById("prgStatus").value,
+          kewajiban: getChecks("prgKewajiban"),
+          fasilitas: getChecks("prgFasilitas"),
+          skills: [...programSkills],
+          grup: document.getElementById("prgGrup").value.trim(),
+        };
+        if (existing) {
+          Object.assign(existing, payload);
+        } else {
+          programData.unshift({ id: programNextId++, terisi: 0, ...payload });
+        }
+        closeProgramModal();
+        renderProgramTable();
+        showToast(
+          existing ? "Program Diperbarui" : "Program Ditambahkan",
+          `"${payload.nama}" berstatus ${payload.status}.`,
+        );
+      }
+
+      function deleteProgram(id) {
+        const idx = programData.findIndex((p) => p.id === id);
+        if (idx < 0) return;
+        if (!confirm(`Hapus program "${programData[idx].nama}"?`)) return;
+        programData.splice(idx, 1);
+        renderProgramTable();
+        showToast("Program Dihapus", "Program berhasil dihapus.");
+      }
+      document.addEventListener("DOMContentLoaded", renderProgramTable);
       // Modal Formasi Track Handlers
       let currentEditTrackEl = null;
 
@@ -5791,11 +5667,115 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
       // CMS FORM PENDAFTARAN CONTROLLERS
       // ========================================================
 
+      // Konfigurasi Form Pendaftaran per Program
+      const formConfigs = {};
+      let formConfigProgramId = null;
+
+      function getFormConfig(id) {
+        if (!formConfigs[id]) {
+          formConfigs[id] = {
+            cv: true,
+            portofolio: true,
+            transkrip: false,
+            questions: [
+              { text: "Mengapa Anda tertarik pada program ini?", wajib: true },
+            ],
+          };
+        }
+        return formConfigs[id];
+      }
+
+      function openFormConfig(id) {
+        formConfigProgramId = id;
+        const prog = programData.find((p) => p.id === id);
+        const cfg = getFormConfig(id);
+        document.getElementById("formProgramName").textContent = prog
+          ? prog.nama
+          : "-";
+        document.getElementById("fcCv").checked = cfg.cv;
+        document.getElementById("fcPortofolio").checked = cfg.portofolio;
+        document.getElementById("fcTranskrip").checked = cfg.transkrip;
+        document.getElementById("fcQuestionInput").value = "";
+        renderFormQuestions();
+        renderFormPreview();
+        switchNavView("form");
+      }
+
+      function renderFormQuestions() {
+        const cfg = getFormConfig(formConfigProgramId);
+        const ul = document.getElementById("fcQuestionList");
+        if (!cfg.questions.length) {
+          ul.innerHTML = `<li class="text-[#71717a]">Belum ada pertanyaan kustom.</li>`;
+          return;
+        }
+        ul.innerHTML = cfg.questions
+          .map(
+            (q, i) => `
+            <li class="flex items-center justify-between gap-3 p-2.5 border border-[#e4e4e7] rounded-lg">
+              <span class="text-[#09090b]">${escProgram(q.text)}${q.wajib ? "" : ' <span class="text-[#71717a]">(opsional)</span>'}</span>
+              <button type="button" onclick="removeFormQuestion(${i})" title="Hapus" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            </li>`,
+          )
+          .join("");
+        lucide.createIcons();
+      }
+
+      function addFormQuestion() {
+        const input = document.getElementById("fcQuestionInput");
+        const text = input.value.trim();
+        if (!text) return;
+        getFormConfig(formConfigProgramId).questions.push({
+          text,
+          wajib: document.getElementById("fcQuestionRequired").checked,
+        });
+        input.value = "";
+        renderFormQuestions();
+        renderFormPreview();
+      }
+
+      function removeFormQuestion(i) {
+        getFormConfig(formConfigProgramId).questions.splice(i, 1);
+        renderFormQuestions();
+        renderFormPreview();
+      }
+
+      function renderFormPreview() {
+        if (formConfigProgramId === null) return;
+        const cfg = getFormConfig(formConfigProgramId);
+        cfg.cv = document.getElementById("fcCv").checked;
+        cfg.portofolio = document.getElementById("fcPortofolio").checked;
+        cfg.transkrip = document.getElementById("fcTranskrip").checked;
+
+        const field = (label, wajib, body) => `
+          <div>
+            <label class="block font-semibold text-gray-700 mb-1">${escProgram(label)}${wajib ? ' <span class="text-red-500">*</span>' : ""}</label>
+            ${body}
+          </div>`;
+        const input = (ph) =>
+          `<input disabled placeholder="${ph}" class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-400" />`;
+
+        let html = field("Mahasiswa", false, input("Terisi otomatis dari SIADIN (nama, NIM, prodi, IPK, SKS)"));
+        if (cfg.cv) html += field("Tautan CV (Google Drive)", true, input("https://drive.google.com/..."));
+        if (cfg.portofolio) html += field("Tautan Portofolio (Google Drive)", true, input("https://drive.google.com/..."));
+        if (cfg.transkrip) html += field("Tautan Transkrip Nilai (Google Drive)", true, input("https://drive.google.com/..."));
+        cfg.questions.forEach((q) => {
+          html += field(
+            q.text,
+            q.wajib,
+            `<textarea disabled rows="2" placeholder="Jawaban mahasiswa" class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-400"></textarea>`,
+          );
+        });
+        html += `<button type="button" disabled class="w-full px-4 py-2 bg-[#1063B9] text-white font-semibold rounded-lg opacity-60 cursor-not-allowed">Kirim Pendaftaran</button>`;
+        document.getElementById("fcPreview").innerHTML = html;
+      }
+
       // Simpan Pengaturan Form Pendaftaran
       function saveFormConfig() {
+        renderFormPreview();
+        const prog = programData.find((p) => p.id === formConfigProgramId);
         showToast(
-          "Pengaturan Disimpan",
-          "Konfigurasi periode, syarat kelayakan, dan dokumen berhasil diperbarui.",
+          "Form Disimpan",
+          `Konfigurasi form pendaftaran ${prog ? `"${prog.nama}"` : "program"} berhasil diperbarui.`,
         );
       }
 
