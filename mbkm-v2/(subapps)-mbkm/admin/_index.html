@@ -438,7 +438,7 @@
           <!-- TAB 1: DASHBOARD (4 QUICK INFO SESUAI TA SUBAPPS)  -->
           <!-- ================================================== -->
           <section id="section-dashboard" class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
-<!-- Header Ucapan Selamat Datang & Periode Akademik Aktif -->
+            <!-- Header Ucapan Selamat Datang & Periode Akademik Aktif -->
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#e4e4e7] shrink-0"
             >
@@ -451,17 +451,88 @@
                 </p>
               </div>
 
-              <!-- Periode Akademik Aktif (Dipertahankan di Sisi Kanan Header) -->
-              <div
-                class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-[#e4e4e7] bg-white shadow-2xs shrink-0 self-start sm:self-auto"
-              >
-                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
-                  <i data-lucide="calendar" class="w-4 h-4"></i>
+              <div class="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto">
+                <!-- Periode Akademik Aktif -->
+                <div
+                  class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-[#e4e4e7] bg-white shadow-2xs"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-[10px] text-[#71717a] font-medium leading-none">Periode Akademik Aktif</span>
+                    <span class="text-xs font-semibold text-[#09090b] mt-1 leading-none">Semester Gasal 2024/2025</span>
+                  </div>
                 </div>
-                <div class="flex flex-col">
-                  <span class="text-[10px] text-[#71717a] font-medium leading-none">Periode Akademik Aktif</span>
-                  <span class="text-xs font-semibold text-[#09090b] mt-1 leading-none">Semester Gasal 2024/2025</span>
+
+                <!-- Hitung Mundur / Countdown Cut-off Pendaftaran -->
+                <div
+                  class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50/70 shadow-2xs"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-[10px] text-amber-800 font-semibold leading-none">Batas Pendaftaran & Seleksi</span>
+                    <div id="dash-countdown-timer" class="text-xs font-bold text-amber-900 mt-1 font-mono tracking-tight leading-none">
+                      14h 08j 24m 10d
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Pintasan Aksi Cepat (Quick Action Bar) -->
+            <div class="p-3 bg-[#fafafa] rounded-xl border border-[#e4e4e7] flex flex-wrap items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-[#0655a7]/10 text-[#0655a7] flex items-center justify-center shrink-0">
+                  <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                </div>
+                <span class="text-xs font-semibold text-[#09090b]">Pintasan Aksi Cepat:</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onclick="switchTab('mhs-rekomendasi')"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Verifikasi SuReKom</span>
+                  <span class="px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">1</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('mhs-pelamar')"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="check-check" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Review Pelamar Mitra</span>
+                  <span class="px-1.5 py-0.2 rounded-full bg-blue-100 text-[#0655a7] text-[10px] font-bold">4</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('pengumuman'); showBuatPengumumanModal();"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="megaphone" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>+ Buat Pengumuman</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('mitra'); showTambahMitraModal();"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="building-2" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>+ Tambah Mitra</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('periode')"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Atur Periode Ajaran</span>
+                </button>
               </div>
             </div>
 
@@ -2088,16 +2159,70 @@
           <!-- TAB PENGUMUMAN [Bagian 2 - Issue #18]             -->
           <!-- ================================================== -->
           <section id="section-pengumuman" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <!-- Header -->
             <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
               <div>
                 <h2 class="text-base font-semibold text-[#09090b]">Pengumuman MBKM</h2>
-                <p class="text-[11px] text-[#71717a]">Broadcast siaran informasi resmi MBKM tingkat prodi/fakultas.</p>
+                <p class="text-[11px] text-[#71717a]">Broadcast siaran informasi resmi MBKM tingkat prodi dan fakultas.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="showBuatPengumumanModal()"
+                  class="px-3 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                  <span>+ Buat Pengumuman</span>
+                </button>
               </div>
             </div>
-            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
-              <i data-lucide="megaphone" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
-              <div class="font-semibold text-[#09090b]">Modul Pengumuman</div>
-              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+
+            <!-- Filter & Search Toolbar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
+              <div class="relative w-full sm:w-80">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input
+                  type="text"
+                  id="search-pengumuman"
+                  oninput="handleSearchPengumuman(this.value)"
+                  placeholder="Cari judul atau isi pengumuman..."
+                  class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                />
+              </div>
+              <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <select
+                  id="filter-pengumuman-sasaran"
+                  onchange="handleFilterPengumumanSasaran(this.value)"
+                  class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                >
+                  <option value="semua">Semua Sasaran</option>
+                  <option value="semua_mhs">Semua Mahasiswa MBKM</option>
+                  <option value="mitra_dpl">Mitra & DPL</option>
+                  <option value="magang">Peserta Magang Industri</option>
+                  <option value="studi_independen">Peserta Studi Independen</option>
+                </select>
+                <select
+                  id="filter-pengumuman-status"
+                  onchange="handleFilterPengumumanStatus(this.value)"
+                  class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                >
+                  <option value="semua">Semua Status</option>
+                  <option value="published">Dipublikasikan</option>
+                  <option value="draft">Draf</option>
+                  <option value="archived">Diarsipkan</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Cards View Container -->
+            <div id="pengumuman-cards-container" class="grid grid-cols-1 gap-3">
+              <!-- Populated dynamically via renderPengumumanCards() -->
+            </div>
+
+            <!-- Footer Pagination / Info -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 text-[11px] text-[#71717a]">
+              <div id="pengumuman-table-info">Menampilkan pengumuman</div>
+              <div id="pengumuman-pagination-controls" class="flex items-center gap-1"></div>
             </div>
           </section>
 
@@ -2105,16 +2230,160 @@
           <!-- TAB PERIODE AJARAN [Bagian 2 - Issue #18]         -->
           <!-- ================================================== -->
           <section id="section-periode" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <!-- Header -->
             <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
               <div>
                 <h2 class="text-base font-semibold text-[#09090b]">Periode Ajaran MBKM</h2>
-                <p class="text-[11px] text-[#71717a]">Kalender semester aktif, pengaturan tanggal pembukaan, dan cut-off seleksi.</p>
+                <p class="text-[11px] text-[#71717a]">Kalender semester aktif, konfigurasi tanggal pendaftaran, dan batas cut-off seleksi.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="syncPeriodeSiadin()"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Sinkronisasi SIADIN</span>
+                </button>
               </div>
             </div>
-            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
-              <i data-lucide="calendar-range" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
-              <div class="font-semibold text-[#09090b]">Modul Periode Ajaran</div>
-              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+
+            <!-- Banner Status Semester Aktif & Stepper Timeline -->
+            <div class="p-4 bg-gradient-to-r from-blue-50/90 via-white to-blue-50/40 rounded-xl border border-blue-200/80 shadow-2xs flex flex-col gap-3.5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-[#0655a7] text-white flex items-center justify-center shadow-xs">
+                    <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h3 class="text-sm font-bold text-[#09090b]">Semester Gasal 2024/2025</h3>
+                      <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Aktif Berjalan
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-[#71717a] mt-0.5">Kode Periode: <strong class="font-mono text-[#09090b]">20241</strong> • Durasi: 01 Ags 2026 s.d. 31 Jan 2027</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white border border-amber-200 shadow-2xs self-start sm:self-auto">
+                  <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+                  <div class="flex flex-col">
+                    <span class="text-[10px] text-amber-800 font-medium">Batas Cut-off Seleksi Mitra:</span>
+                    <span id="periode-countdown" class="text-xs font-bold text-amber-900 font-mono">14 Hari 08 Jam Tersisa</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stepper Tracker Tahapan Semester -->
+              <div class="flex flex-col gap-1.5">
+                <div class="text-[11px] font-semibold text-[#3f3f46]">Progres Tahapan Operasional Semester:</div>
+                <div class="grid grid-cols-2 sm:grid-cols-6 gap-2">
+                  <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 flex flex-col">
+                    <span class="text-[10px] text-emerald-700 font-semibold">1. Pendaftaran</span>
+                    <span class="text-[10px] text-emerald-800 font-medium mt-0.5">Selesai (25 Ags)</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 flex flex-col">
+                    <span class="text-[10px] text-emerald-700 font-semibold">2. SuReKom</span>
+                    <span class="text-[10px] text-emerald-800 font-medium mt-0.5">Selesai (20 Ags)</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-blue-50 border border-blue-300 flex flex-col ring-1 ring-blue-400">
+                    <span class="text-[10px] text-[#0655a7] font-bold">3. Seleksi Mitra</span>
+                    <span class="text-[10px] text-blue-700 font-semibold mt-0.5">Sedang Berjalan</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex flex-col opacity-75">
+                    <span class="text-[10px] text-[#71717a] font-medium">4. Kegiatan MBKM</span>
+                    <span class="text-[10px] text-[#71717a] mt-0.5">05 Sep - 15 Jan</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex flex-col opacity-75">
+                    <span class="text-[10px] text-[#71717a] font-medium">5. Logbook & Monev</span>
+                    <span class="text-[10px] text-[#71717a] mt-0.5">Mingguan</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex flex-col opacity-75">
+                    <span class="text-[10px] text-[#71717a] font-medium">6. Konversi & KHS</span>
+                    <span class="text-[10px] text-[#71717a] mt-0.5">Cut-off 20 Jan</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Pengaturan Tanggal & Cut-off Periode Aktif -->
+            <div class="p-4 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs flex flex-col gap-3.5">
+              <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+                <div>
+                  <h3 class="text-xs font-semibold text-[#09090b]">Konfigurasi Batas Waktu & Cut-off Semester Aktif</h3>
+                  <p class="text-[11px] text-[#71717a]">Atur rentang tanggal penting siklus pendaftaran, verifikasi, dan penyetaraan SKS.</p>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-200">
+                  Role Koordinator MBKM
+                </span>
+              </div>
+
+              <form onsubmit="handleSavePeriodeConfig(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Pembukaan Pendaftaran Mahasiswa</label>
+                  <input type="date" id="cfg-tgl-buka-daftar" value="2026-08-01" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Penutupan Pendaftaran Mahasiswa</label>
+                  <input type="date" id="cfg-tgl-tutup-daftar" value="2026-08-25" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Batas Permohonan SuReKom</label>
+                  <input type="date" id="cfg-tgl-cutoff-surekom" value="2026-08-20" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Batas Seleksi & Rekomendasi Mitra</label>
+                  <input type="date" id="cfg-tgl-cutoff-seleksi" value="2026-08-30" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Tanggal Mulai Kegiatan MBKM</label>
+                  <input type="date" id="cfg-tgl-mulai-kegiatan" value="2026-09-05" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Tanggal Selesai Kegiatan MBKM</label>
+                  <input type="date" id="cfg-tgl-selesai-kegiatan" value="2027-01-15" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Batas Akhir Upload Logbook</label>
+                  <input type="date" id="cfg-tgl-cutoff-logbook" value="2027-01-10" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-medium text-[#3f3f46]">Batas Pengesahan Konversi SKS</label>
+                  <input type="date" id="cfg-tgl-cutoff-konversi" value="2027-01-20" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+                </div>
+                <div class="flex items-end">
+                  <button type="submit" class="w-full px-3 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-medium text-xs shadow-2xs flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                    <span>Simpan Konfigurasi Jadwal</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Riwayat Periode Ajaran Sebelumnya -->
+            <div class="flex flex-col gap-2 bg-white rounded-xl border border-[#e4e4e7] p-3 shadow-2xs">
+              <div class="flex items-center justify-between pb-1">
+                <h3 class="text-xs font-semibold text-[#09090b]">Riwayat Periode Ajaran MBKM</h3>
+                <span class="text-[11px] text-[#71717a]">Arsip periode semester lampau</span>
+              </div>
+              <div class="overflow-x-auto rounded-lg border border-[#e4e4e7]">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                    <tr>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Kode</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Tahun Ajaran</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Rentang Waktu</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Total Peserta</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Total Mitra</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="periode-history-tbody" class="divide-y divide-[#e4e4e7]">
+                    <!-- Populated dynamically via renderPeriodeHistory() -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
 
@@ -2122,16 +2391,201 @@
           <!-- TAB MITRA [Bagian 2 - Issue #18]                  -->
           <!-- ================================================== -->
           <section id="section-mitra" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
-            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
-              <div>
-                <h2 class="text-base font-semibold text-[#09090b]">Direktori Mitra MBKM</h2>
-                <p class="text-[11px] text-[#71717a]">Manajemen akun PIC mitra (invite-only) dan detail bertab Program, Dosen, Mahasiswa.</p>
+            <!-- Subview 1: Direktori Mitra -->
+            <div id="subview-mitra-list" class="flex flex-col gap-3">
+              <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+                <div>
+                  <h2 class="text-base font-semibold text-[#09090b]">Direktori Mitra MBKM</h2>
+                  <p class="text-[11px] text-[#71717a]">Manajemen akun PIC mitra (invite-only) dan monitoring program, dosen, serta mahasiswa.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onclick="showTambahMitraModal()"
+                    class="px-3 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-2xs flex items-center gap-1.5 transition-all"
+                  >
+                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                    <span>+ Tambah Mitra</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Filter & Toolbar -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
+                <div class="relative w-full sm:w-72">
+                  <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+                  <input
+                    type="text"
+                    id="search-mitra"
+                    oninput="handleSearchMitra(this.value)"
+                    placeholder="Cari nama mitra atau PIC..."
+                    class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                  />
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                  <select
+                    id="filter-mitra-status"
+                    onchange="handleFilterMitraStatus(this.value)"
+                    class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                  >
+                    <option value="semua">Semua Status Akun</option>
+                    <option value="aktif">Akun Aktif</option>
+                    <option value="pending">Pending Undangan</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Tabel Mitra -->
+              <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                    <tr>
+                      <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Nama Mitra & Sektor</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">PIC (Person In Charge)</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Role Akun</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Program</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Mhs Aktif</th>
+                      <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+                      <th class="w-32 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mitra-table-tbody" class="divide-y divide-[#e4e4e7]">
+                    <!-- Populated dynamically via renderMitraTable() -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
+                <div id="mitra-table-info">Menampilkan mitra</div>
+                <div id="mitra-pagination-controls" class="flex items-center gap-1"></div>
               </div>
             </div>
-            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
-              <i data-lucide="building-2" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
-              <div class="font-semibold text-[#09090b]">Modul Mitra</div>
-              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+
+            <!-- Subview 2: Detail Mitra Bertab (CustomTabs) -->
+            <div id="subview-mitra-detail" class="flex flex-col hidden gap-3.5">
+              <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+                <div class="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onclick="hideMitraDetail()"
+                    class="p-1.5 rounded-lg border border-[#e4e4e7] text-[#71717a] hover:bg-gray-50 flex items-center justify-center transition-colors"
+                  >
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                  </button>
+                  <div>
+                    <h2 id="mitra-detail-title" class="text-base font-semibold text-[#09090b]">Detail Mitra</h2>
+                    <p id="mitra-detail-subtitle" class="text-[11px] text-[#71717a]">Profil operasional, program lowongan, dosen pembina, dan mahasiswa binaan.</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="mitra-detail-status-badge" class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    Akun Aktif
+                  </span>
+                </div>
+              </div>
+
+              <!-- Ringkasan Profil Mitra -->
+              <div class="p-3.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-3">
+                  <div id="mitra-detail-avatar" class="w-11 h-11 rounded-xl bg-[#0655a7]/10 text-[#0655a7] font-bold flex items-center justify-center text-sm border border-blue-200 shrink-0">
+                    BK
+                  </div>
+                  <div>
+                    <div id="mitra-detail-name" class="font-bold text-[#09090b] text-sm">PT Bengkel Koding Nusantara</div>
+                    <div id="mitra-detail-pic" class="text-[11px] text-[#71717a]">PIC: Dimas Wicaksono (dimas@bengkod.id • 08123456789)</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="mitra-detail-mou" class="px-2.5 py-1 rounded-lg bg-blue-50 text-[#0655a7] border border-blue-200 font-medium text-[11px]">
+                    MoU: 042/MoU/FIK-UDINUS/2026
+                  </span>
+                </div>
+              </div>
+
+              <!-- Navigasi CustomTabs: Tab Program, Tab Dosen, Tab Mahasiswa -->
+              <div class="flex border-b border-[#e4e4e7] gap-2 pt-1">
+                <button
+                  type="button"
+                  id="mitra-tab-btn-program"
+                  onclick="switchMitraTab('program')"
+                  class="mitra-tab-btn px-3.5 py-2 text-xs font-semibold border-b-2 border-[#0655a7] text-[#0655a7] flex items-center gap-2 transition-colors"
+                >
+                  <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+                  <span>Tab Program & Lowongan</span>
+                </button>
+                <button
+                  type="button"
+                  id="mitra-tab-btn-dosen"
+                  onclick="switchMitraTab('dosen')"
+                  class="mitra-tab-btn px-3.5 py-2 text-xs font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] flex items-center gap-2 transition-colors"
+                >
+                  <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+                  <span>Tab Dosen Pembina (DPL)</span>
+                </button>
+                <button
+                  type="button"
+                  id="mitra-tab-btn-mhs"
+                  onclick="switchMitraTab('mhs')"
+                  class="mitra-tab-btn px-3.5 py-2 text-xs font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] flex items-center gap-2 transition-colors"
+                >
+                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                  <span>Tab Mahasiswa Aktif</span>
+                </button>
+              </div>
+
+              <!-- Konten Tab 1: Tab Program -->
+              <div id="mitra-tab-content-program" class="mitra-tab-pane flex flex-col gap-2">
+                <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+                  <table class="w-full text-xs text-left border-collapse">
+                    <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                      <tr>
+                        <th class="px-3 py-2 font-semibold text-[11px]">Nama Lowongan / Track</th>
+                        <th class="px-3 py-2 font-semibold text-center text-[11px]">Kuota</th>
+                        <th class="px-3 py-2 font-semibold text-center text-[11px]">Terisi</th>
+                        <th class="px-3 py-2 font-semibold text-center text-[11px]">Pelamar Masuk</th>
+                        <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="mitra-detail-program-tbody" class="divide-y divide-[#e4e4e7]"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Konten Tab 2: Tab Dosen -->
+              <div id="mitra-tab-content-dosen" class="mitra-tab-pane hidden flex flex-col gap-2">
+                <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+                  <table class="w-full text-xs text-left border-collapse">
+                    <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                      <tr>
+                        <th class="px-3 py-2 font-semibold text-[11px]">Nama Dosen Pembina</th>
+                        <th class="px-3 py-2 font-semibold text-[11px]">NIDN / NPP</th>
+                        <th class="px-3 py-2 font-semibold text-[11px]">Homebase Prodi</th>
+                        <th class="px-3 py-2 font-semibold text-center text-[11px]">Mahasiswa Binaan</th>
+                      </tr>
+                    </thead>
+                    <tbody id="mitra-detail-dosen-tbody" class="divide-y divide-[#e4e4e7]"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Konten Tab 3: Tab Mahasiswa -->
+              <div id="mitra-tab-content-mhs" class="mitra-tab-pane hidden flex flex-col gap-2">
+                <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+                  <table class="w-full text-xs text-left border-collapse">
+                    <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                      <tr>
+                        <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+                        <th class="px-3 py-2 font-semibold text-[11px]">Prodi</th>
+                        <th class="px-3 py-2 font-semibold text-[11px]">Track / Posisi</th>
+                        <th class="px-3 py-2 font-semibold text-[11px]">DPL Pendamping</th>
+                        <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Kegiatan</th>
+                      </tr>
+                    </thead>
+                    <tbody id="mitra-detail-mhs-tbody" class="divide-y divide-[#e4e4e7]"></tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -2139,16 +2593,75 @@
           <!-- TAB MAHASISWA / PELAMAR [Bagian 2 - Issue #18]    -->
           <!-- ================================================== -->
           <section id="section-mhs-pelamar" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <!-- Header -->
             <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
               <div>
                 <h2 class="text-base font-semibold text-[#09090b]">Pelamar MBKM (Rekomendasi Mitra)</h2>
-                <p class="text-[11px] text-[#71717a]">Antrean final approval pelamar yang lolos rekomendasi seleksi mitra.</p>
+                <p class="text-[11px] text-[#71717a]">Antrean final approval daftar mahasiswa yang lolos rekomendasi seleksi awal mitra sebelum resmi menjadi peserta aktif.</p>
               </div>
             </div>
-            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
-              <i data-lucide="graduation-cap" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
-              <div class="font-semibold text-[#09090b]">Modul Pelamar Mahasiswa</div>
-              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+
+            <!-- Filter & Toolbar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
+              <div class="relative w-full sm:w-72">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input
+                  type="text"
+                  id="search-pelamar"
+                  oninput="handleSearchPelamar(this.value)"
+                  placeholder="Cari nama atau NIM pelamar..."
+                  class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                />
+              </div>
+              <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <select
+                  id="filter-pelamar-mitra"
+                  onchange="handleFilterPelamarMitra(this.value)"
+                  class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                >
+                  <option value="semua">Semua Mitra</option>
+                  <option value="Bengkel Koding">Bengkel Koding</option>
+                  <option value="PT Matic Edukasi Mandiri">PT Matic Edukasi Mandiri</option>
+                  <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
+                  <option value="IDSS Laboratory">IDSS Laboratory</option>
+                </select>
+                <select
+                  id="filter-pelamar-status"
+                  onchange="handleFilterPelamarStatus(this.value)"
+                  class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                >
+                  <option value="semua">Semua Status Approval</option>
+                  <option value="pending">Menunggu Persetujuan</option>
+                  <option value="approved">Disetujui</option>
+                  <option value="rejected">Ditolak</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tabel Pelamar -->
+            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                  <tr>
+                    <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Prodi</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra Penempatan</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Posisi / Formasi</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Rekomendasi Mitra</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Approval</th>
+                    <th class="w-36 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
+                  <!-- Populated dynamically via renderPelamarTable() -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
+              <div id="pelamar-table-info">Menampilkan pelamar</div>
+              <div id="pelamar-pagination-controls" class="flex items-center gap-1"></div>
             </div>
           </section>
 
@@ -2156,16 +2669,85 @@
           <!-- TAB MAHASISWA / SEMUA [Bagian 2 - Issue #18]      -->
           <!-- ================================================== -->
           <section id="section-mhs-semua" class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content">
+            <!-- Header -->
             <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
               <div>
                 <h2 class="text-base font-semibold text-[#09090b]">Semua Mahasiswa MBKM</h2>
-                <p class="text-[11px] text-[#71717a]">Direktori seluruh mahasiswa aktif yang sedang menjalani program MBKM di mitra.</p>
+                <p class="text-[11px] text-[#71717a]">Direktori seluruh mahasiswa yang sedang aktif menjalani kegiatan MBKM di mitra.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="exportDataMahasiswa()"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Export Data (Excel)</span>
+                </button>
               </div>
             </div>
-            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
-              <i data-lucide="users" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
-              <div class="font-semibold text-[#09090b]">Modul Semua Mahasiswa</div>
-              <div class="mt-1">Lingkup pengerjaan Bagian 2 (branch: <code>feat/v2/dashboard-koordinator-2</code>)</div>
+
+            <!-- Filter & Toolbar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
+              <div class="relative w-full sm:w-72">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input
+                  type="text"
+                  id="search-semua-mhs"
+                  oninput="handleSearchSemuaMhs(this.value)"
+                  placeholder="Cari nama, NIM, atau DPL..."
+                  class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                />
+              </div>
+              <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <select
+                  id="filter-semua-mhs-mitra"
+                  onchange="handleFilterSemuaMhsMitra(this.value)"
+                  class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                >
+                  <option value="semua">Semua Mitra</option>
+                  <option value="Bengkel Koding">Bengkel Koding</option>
+                  <option value="PT Matic Edukasi Mandiri">PT Matic Edukasi Mandiri</option>
+                  <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
+                  <option value="IDSS Laboratory">IDSS Laboratory</option>
+                </select>
+                <select
+                  id="filter-semua-mhs-prodi"
+                  onchange="handleFilterSemuaMhsProdi(this.value)"
+                  class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                >
+                  <option value="semua">Semua Prodi</option>
+                  <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
+                  <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
+                  <option value="S1 DKV">S1 DKV</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tabel Semua Mahasiswa -->
+            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                  <tr>
+                    <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Kontak</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra & Posisi</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Dosen Pembimbing (DPL)</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Progres Logbook</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+                    <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="semua-mhs-table-tbody" class="divide-y divide-[#e4e4e7]">
+                  <!-- Populated dynamically via renderSemuaMhsTable() -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
+              <div id="semua-mhs-table-info">Menampilkan mahasiswa</div>
+              <div id="semua-mhs-pagination-controls" class="flex items-center gap-1"></div>
             </div>
           </section>
 
@@ -2257,7 +2839,327 @@
       </main>
     </div>
 
-    <!-- Modal / Dialog: Tambah/Edit Kategori Program (Global Modal) -->
+    <!-- ================================================== -->
+    <!-- MODALS UNTUK BAGIAN 2 [Issue #18]                 -->
+    <!-- ================================================== -->
+
+    <!-- 1. Modal Buat / Edit Pengumuman -->
+    <div id="modal-buat-pengumuman" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2">
+            <i data-lucide="megaphone" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 id="modal-pengumuman-title" class="text-sm font-bold text-[#09090b]">Buat Pengumuman Baru</h3>
+          </div>
+          <button type="button" onclick="closeBuatPengumumanModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <form onsubmit="handleSavePengumuman(event)" class="flex flex-col gap-3">
+          <input type="hidden" id="modal-pengumuman-id" value="" />
+          <div class="flex flex-col gap-1">
+            <label class="font-medium text-[#3f3f46]">Judul Pengumuman *</label>
+            <input
+              type="text"
+              id="modal-pengumuman-judul"
+              required
+              placeholder="Contoh: Sosialisasi Pengajuan Surat Rekomendasi MBKM Batch 1"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1">
+              <label class="font-medium text-[#3f3f46]">Sasaran Penerima *</label>
+              <select
+                id="modal-pengumuman-sasaran"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              >
+                <option value="semua_mhs">Semua Mahasiswa MBKM</option>
+                <option value="mitra_dpl">Mitra & DPL</option>
+                <option value="magang">Peserta Magang Industri</option>
+                <option value="studi_independen">Peserta Studi Independen</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="font-medium text-[#3f3f46]">Status Publikasi *</label>
+              <select
+                id="modal-pengumuman-status"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              >
+                <option value="published">Langsung Publikasikan</option>
+                <option value="draft">Simpan Sebagai Draf</option>
+                <option value="archived">Diarsipkan</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-medium text-[#3f3f46]">Isi Pengumuman / Pesan Broadcast *</label>
+            <textarea
+              id="modal-pengumuman-isi"
+              rows="4"
+              required
+              placeholder="Tuliskan detail pengumuman resmi..."
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none leading-relaxed"
+            ></textarea>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-medium text-[#3f3f46]">Tautan / Lampiran Dokumen Resmi (Opsional)</label>
+            <input
+              type="text"
+              id="modal-pengumuman-file"
+              placeholder="Contoh: Panduan_MBKM_FIK_2026.pdf atau link Google Drive / Zoom"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+            <button
+              type="button"
+              onclick="closeBuatPengumumanModal()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] hover:bg-gray-50 text-[#71717a] font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-medium shadow-2xs flex items-center gap-1.5"
+            >
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              <span>Simpan Pengumuman</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. Modal Hapus Pengumuman -->
+    <div id="modal-delete-pengumuman" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex items-center gap-2 text-rose-600">
+          <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          <h3 class="text-sm font-bold text-[#09090b]">Konfirmasi Hapus</h3>
+        </div>
+        <p id="modal-delete-pengumuman-text" class="text-[#71717a] leading-relaxed">
+          Apakah Anda yakin ingin menghapus pengumuman ini? Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            onclick="closeDeletePengumumanModal()"
+            class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] hover:bg-gray-50 text-[#71717a] font-medium"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            id="btn-confirm-delete-pengumuman"
+            class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-medium shadow-2xs"
+          >
+            Hapus Pengumuman
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Modal Tambah Mitra (Invite PIC) -->
+    <div id="modal-tambah-mitra" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2">
+            <i data-lucide="building-2" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 id="modal-mitra-title" class="text-sm font-bold text-[#09090b]">Tambah Mitra Baru (Undang PIC)</h3>
+          </div>
+          <button type="button" onclick="closeTambahMitraModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <form onsubmit="handleSaveMitra(event)" class="flex flex-col gap-3">
+          <input type="hidden" id="modal-mitra-id" value="" />
+          <div class="flex flex-col gap-1">
+            <label class="font-medium text-[#3f3f46]">Nama Perusahaan / Institusi Mitra *</label>
+            <input
+              type="text"
+              id="modal-mitra-nama"
+              required
+              placeholder="Contoh: PT Bengkel Koding Nusantara"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1">
+              <label class="font-medium text-[#3f3f46]">Sektor Industri *</label>
+              <select
+                id="modal-mitra-sektor"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              >
+                <option value="Teknologi Informasi & Software">Teknologi & Software</option>
+                <option value="Edutech & Pelatihan">Edutech & Pelatihan</option>
+                <option value="Laboratorium & Riset AI">Laboratorium & Riset AI</option>
+                <option value="Startup & Inkubator Bisnis">Startup & Inkubator</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="font-medium text-[#3f3f46]">No. Dokumen MoU / Kerjasama *</label>
+              <input
+                type="text"
+                id="modal-mitra-mou"
+                required
+                placeholder="Contoh: 042/MoU/FIK-UDINUS/2026"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] font-mono focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              />
+            </div>
+          </div>
+          <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-200/70 flex flex-col gap-2.5">
+            <div class="flex items-center gap-1.5 text-[#0655a7] font-semibold text-[11px]">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+              <span>Data Akun PIC Mitra (Invite-Only — Role: mbkm_contributor)</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="flex flex-col gap-1">
+                <label class="font-medium text-[#3f3f46] text-[11px]">Nama Lengkap PIC *</label>
+                <input
+                  type="text"
+                  id="modal-mitra-pic-nama"
+                  required
+                  placeholder="Contoh: Dimas Wicaksono, M.T."
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none text-xs"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <label class="font-medium text-[#3f3f46] text-[11px]">Nomor WhatsApp PIC *</label>
+                <input
+                  type="text"
+                  id="modal-mitra-pic-phone"
+                  required
+                  placeholder="Contoh: 081234567890"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none text-xs"
+                />
+              </div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="font-medium text-[#3f3f46] text-[11px]">Email Resmi PIC (Link Undangan Akun) *</label>
+              <input
+                type="email"
+                id="modal-mitra-pic-email"
+                required
+                placeholder="Contoh: pic@mitra.co.id"
+                class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none text-xs"
+              />
+              <span class="text-[10px] text-[#71717a]">
+                Sistem akan otomatis mengirimkan email token aktivasi login untuk akses dashboard contributor.
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+            <button
+              type="button"
+              onclick="closeTambahMitraModal()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] hover:bg-gray-50 text-[#71717a] font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-medium shadow-2xs flex items-center gap-1.5"
+            >
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+              <span>Generate Akun & Kirim Undangan</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- 4. Modal Detail Pelamar & Final Approval -->
+    <div id="modal-detail-pelamar" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2">
+            <i data-lucide="user-check" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-bold text-[#09090b]">Final Approval Pelamar Mitra</h3>
+          </div>
+          <button type="button" onclick="closePelamarDetailModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="flex flex-col gap-3">
+          <!-- Profil Mahasiswa -->
+          <div class="p-3 bg-[#fafafa] rounded-xl border border-[#e4e4e7] flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div id="modal-pelamar-avatar" class="w-10 h-10 rounded-full bg-blue-100 text-[#0655a7] font-bold flex items-center justify-center text-xs">
+                MHS
+              </div>
+              <div>
+                <div id="modal-pelamar-nama" class="font-bold text-[#09090b] text-sm">-</div>
+                <div id="modal-pelamar-meta" class="text-[11px] text-[#71717a] font-mono">-</div>
+              </div>
+            </div>
+            <div id="modal-pelamar-status-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+              Menunggu Approval
+            </div>
+          </div>
+
+          <!-- Rincian Mitra & Formasi -->
+          <div class="grid grid-cols-2 gap-2 p-3 bg-white rounded-xl border border-[#e4e4e7]">
+            <div>
+              <span class="text-[10px] text-[#71717a] font-medium">Mitra Penempatan</span>
+              <div id="modal-pelamar-mitra" class="font-semibold text-[#09090b] mt-0.5">-</div>
+            </div>
+            <div>
+              <span class="text-[10px] text-[#71717a] font-medium">Posisi / Formasi</span>
+              <div id="modal-pelamar-posisi" class="font-semibold text-[#09090b] mt-0.5">-</div>
+            </div>
+          </div>
+
+          <!-- Hasil Rekomendasi Mitra -->
+          <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-200 flex flex-col gap-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] text-emerald-800 font-semibold">Hasil Seleksi Internal Mitra:</span>
+              <span id="modal-pelamar-skor" class="text-xs font-bold font-mono text-emerald-700">Skor: 92/100</span>
+            </div>
+            <p id="modal-pelamar-catatan-mitra" class="text-[11px] text-emerald-900 leading-relaxed italic">
+              "Mahasiswa menunjukkan portofolio memuaskan dan lolos live coding challenge."
+            </p>
+          </div>
+
+          <!-- Catatan / Input Keputusan Koordinator -->
+          <div class="flex flex-col gap-1">
+            <label class="font-medium text-[#3f3f46]">Catatan Koordinator MBKM (Opsional):</label>
+            <textarea
+              id="modal-pelamar-catatan-koor"
+              rows="2"
+              placeholder="Tambahkan catatan resmi persetujuan/penolakan..."
+              class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            onclick="closePelamarDetailModal()"
+            class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] hover:bg-gray-50 text-[#71717a] font-medium"
+          >
+            Tutup
+          </button>
+          <button
+            type="button"
+            id="btn-modal-pelamar-tolak"
+            class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 font-medium flex items-center gap-1"
+          >
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            <span>Tolak Pelamar</span>
+          </button>
+          <button
+            type="button"
+            id="btn-modal-pelamar-setujui"
+            class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-2xs flex items-center gap-1"
+          >
+            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            <span>Setujui (Final Approval)</span>
+          </button>
+        </div>
+      </div>
+    </div>
     <div id="modal-crud-kategori" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
       <div
         class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150"
@@ -2714,6 +3616,16 @@
         hideSubviews();
         if (tabKey === 'dashboard') {
           renderDashboardKoordinatorWidget();
+        } else if (tabKey === 'pengumuman') {
+          renderPengumumanCards();
+        } else if (tabKey === 'periode') {
+          renderPeriodeData();
+        } else if (tabKey === 'mitra') {
+          renderMitraTable();
+        } else if (tabKey === 'mhs-pelamar') {
+          renderPelamarTable();
+        } else if (tabKey === 'mhs-semua') {
+          renderSemuaMhsTable();
         } else if (tabKey === 'dosen-data' || tabKey === 'koordinator') {
           renderKoordinatorTable();
         } else if (tabKey === 'mhs-rekomendasi' || tabKey === 'surekom') {
@@ -2725,6 +3637,45 @@
         }
         hideSurekomDetail();
         hideLogbookDetail();
+        hideMitraDetail();
+
+        // Progressive Dynamic Fetch (Standar Modular v2)
+        const fileMap = {
+          dashboard: 'dashboard.html',
+          program: 'program.html',
+          pengumuman: 'pengumuman.html',
+          periode: 'periode.html',
+          mitra: 'mitra.html',
+          'mhs-pelamar': 'pelamar.html',
+          'mhs-semua': 'semua-mahasiswa.html',
+          'mhs-rekomendasi': 'surekom.html',
+          surekom: 'surekom.html',
+          koordinator: 'koordinator.html',
+          'dosen-data': 'koordinator.html',
+          logbook: 'logbook.html',
+          laporan: 'laporan.html',
+          sidang: 'laporan.html',
+        };
+        if (fileMap[tabKey] && targetSec) {
+          fetch(fileMap[tabKey])
+            .then((res) => (res.ok ? res.text() : null))
+            .then((html) => {
+              if (html) {
+                targetSec.innerHTML = html;
+                if (window.lucide) window.lucide.createIcons();
+                if (tabKey === 'pengumuman') renderPengumumanCards();
+                else if (tabKey === 'periode') renderPeriodeData();
+                else if (tabKey === 'mitra') renderMitraTable();
+                else if (tabKey === 'mhs-pelamar') renderPelamarTable();
+                else if (tabKey === 'mhs-semua') renderSemuaMhsTable();
+                else if (tabKey === 'dashboard') renderDashboardKoordinatorWidget();
+                else if (tabKey === 'mhs-rekomendasi' || tabKey === 'surekom') renderSurekomTable();
+                else if (tabKey === 'logbook') renderLogbookTable();
+                else if (tabKey === 'sidang' || tabKey === 'laporan') renderLaporanTable();
+              }
+            })
+            .catch(() => {});
+        }
 
         // Update URL hash
         if (window.location.hash !== '#' + tabKey) {
@@ -5204,6 +6155,11 @@
       renderSurekomTable();
       renderLogbookTable();
       renderLaporanTable();
+      renderPengumumanCards();
+      renderPeriodeData();
+      renderMitraTable();
+      renderPelamarTable();
+      renderSemuaMhsTable();
       populateProgramKategoriDropdown();
 
       document.addEventListener('DOMContentLoaded', () => {
@@ -5213,6 +6169,11 @@
         renderSurekomTable();
         renderLogbookTable();
         renderLaporanTable();
+        renderPengumumanCards();
+        renderPeriodeData();
+        renderMitraTable();
+        renderPelamarTable();
+        renderSemuaMhsTable();
         populateProgramKategoriDropdown();
       });
 
@@ -5378,6 +6339,1533 @@
         const detail = document.getElementById('subview-logbook-detail');
         if (list) list.classList.remove('hidden');
         if (detail) detail.classList.add('hidden');
+      }
+
+      // ====================================================
+      // MODUL BAGIAN 2: CONTROLLER & MOCK DATA [Issue #18]
+      // ====================================================
+
+      // 1. COUNTDOWN TIMER SEMESTER AKTIF
+      let countdownTarget = new Date();
+      countdownTarget.setDate(countdownTarget.getDate() + 14);
+      countdownTarget.setHours(countdownTarget.getHours() + 8);
+      countdownTarget.setMinutes(countdownTarget.getMinutes() + 24);
+
+      function updateCountdownTimer() {
+        const now = new Date();
+        const diff = countdownTarget - now;
+        if (diff <= 0) {
+          const el1 = document.getElementById('dash-countdown-timer');
+          const el2 = document.getElementById('periode-countdown');
+          if (el1) el1.textContent = 'Pendaftaran Ditutup';
+          if (el2) el2.textContent = 'Pendaftaran Ditutup';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        const pad = (n) => String(n).padStart(2, '0');
+        const strShort = `${days}h ${pad(hours)}j ${pad(minutes)}m ${pad(seconds)}d`;
+        const strLong = `${days} Hari ${pad(hours)} Jam ${pad(minutes)} Menit ${pad(seconds)} Detik`;
+
+        const el1 = document.getElementById('dash-countdown-timer');
+        const el2 = document.getElementById('periode-countdown');
+        if (el1) el1.textContent = strShort;
+        if (el2) el2.textContent = strLong;
+      }
+      setInterval(updateCountdownTimer, 1000);
+      updateCountdownTimer();
+
+      // 2. MODUL PENGUMUMAN
+      let pengumumanListData = [
+        {
+          id: 1,
+          judul: 'Sosialisasi Alur Pengajuan Surat Rekomendasi (SuReKom) MBKM 2026',
+          sasaran: 'semua_mhs',
+          sasaranLabel: 'Semua Mahasiswa MBKM',
+          status: 'published',
+          tgl: '08 Okt 2026',
+          author: 'Nurul Anisa S.W., M.Cs (Koordinator MBKM)',
+          isi: 'Diberitahukan kepada seluruh mahasiswa calon peserta MBKM Semester Gasal 2024/2025 bahwa pengajuan Surat Rekomendasi (SuReKom) wajib memenuhi batas IPK minimal 3.00 dan telah menempuh minimal 80 SKS. Pengajuan dilakukan secara mandiri melalui menu Rekomendasi.',
+          file: 'Panduan_SuReKom_MBKM_FIK_2026.pdf',
+          pinned: true
+        },
+        {
+          id: 2,
+          judul: 'Batas Akhir Seleksi Administrasi & Rekomendasi Mitra Industri Batch 1',
+          sasaran: 'mitra_dpl',
+          sasaranLabel: 'Mitra & DPL',
+          status: 'published',
+          tgl: '05 Okt 2026',
+          author: 'Koordinator MBKM FIK',
+          isi: 'Batas akhir pengunggahan hasil seleksi internal mitra dan pengiriman daftar pelamar yang direkomendasikan adalah tanggal 30 Agustus 2026 pukul 23:59 WIB. Mohon PIC mitra segera melakukan finalisasi daftar pelamar.',
+          file: '',
+          pinned: false
+        },
+        {
+          id: 3,
+          judul: 'Pembukaan Kuota Formasi Baru Magang di Bengkel Koding & PT Matic',
+          sasaran: 'magang',
+          sasaranLabel: 'Peserta Magang Industri',
+          status: 'published',
+          tgl: '01 Okt 2026',
+          author: 'Nurul Anisa S.W., M.Cs',
+          isi: 'Telah dibuka 25 kuota formasi baru untuk track Fullstack Web dan Mobile Developer di PT Bengkel Koding dan PT Matic Edukasi Mandiri. Mahasiswa yang telah mengantongi SuReKom dipersilakan mendaftar.',
+          file: 'Silabus_Bengkel_Koding_2026.pdf',
+          pinned: false
+        },
+        {
+          id: 4,
+          judul: 'Draf Jadwal Coaching Clinic Konversi 20 SKS MBKM',
+          sasaran: 'semua_mhs',
+          sasaranLabel: 'Semua Mahasiswa MBKM',
+          status: 'draft',
+          tgl: '28 Sep 2026',
+          author: 'Koordinator MBKM FIK',
+          isi: 'Coaching clinic konversi mata kuliah terhadap CPL prodi akan dilaksanakan secara daring melalui Zoom Meeting. Tautan akan disiarkan setelah jadwal final disetujui Kaprodi.',
+          file: '',
+          pinned: false
+        },
+        {
+          id: 5,
+          judul: 'Arsip Panduan Monev & Format Logbook MBKM Semester Genap 2023/2024',
+          sasaran: 'semua_mhs',
+          sasaranLabel: 'Semua Mahasiswa MBKM',
+          status: 'archived',
+          tgl: '15 Jan 2026',
+          author: 'Koordinator MBKM FIK',
+          isi: 'Dokumentasi arsip pelaksanaan monitoring dan evaluasi MBKM periode lampau untuk referensi format pengisian rekap kegiatan mingguan.',
+          file: 'Arsip_Format_Logbook_2024.pdf',
+          pinned: false
+        }
+      ];
+
+      let pengumumanSearchQuery = '';
+      let pengumumanFilterSasaran = 'semua';
+      let pengumumanFilterStatus = 'semua';
+      let pengumumanCurrentPage = 1;
+      const pengumumanItemsPerPage = 5;
+      let activeDeletePengumumanId = null;
+
+      function handleSearchPengumuman(query) {
+        pengumumanSearchQuery = (query || '').toLowerCase().trim();
+        pengumumanCurrentPage = 1;
+        renderPengumumanCards();
+      }
+
+      function handleFilterPengumumanSasaran(val) {
+        pengumumanFilterSasaran = val;
+        pengumumanCurrentPage = 1;
+        renderPengumumanCards();
+      }
+
+      function handleFilterPengumumanStatus(val) {
+        pengumumanFilterStatus = val;
+        pengumumanCurrentPage = 1;
+        renderPengumumanCards();
+      }
+
+      function getFilteredPengumumanData() {
+        return pengumumanListData.filter((item) => {
+          const matchQuery =
+            !pengumumanSearchQuery ||
+            item.judul.toLowerCase().includes(pengumumanSearchQuery) ||
+            item.isi.toLowerCase().includes(pengumumanSearchQuery);
+          const matchSasaran =
+            pengumumanFilterSasaran === 'semua' || item.sasaran === pengumumanFilterSasaran;
+          const matchStatus =
+            pengumumanFilterStatus === 'semua' || item.status === pengumumanFilterStatus;
+          return matchQuery && matchSasaran && matchStatus;
+        });
+      }
+
+      function renderPengumumanCards() {
+        const container = document.getElementById('pengumuman-cards-container');
+        const infoEl = document.getElementById('pengumuman-table-info');
+        const paginationEl = document.getElementById('pengumuman-pagination-controls');
+        if (!container) return;
+
+        const filtered = getFilteredPengumumanData();
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / pengumumanItemsPerPage) || 1;
+        if (pengumumanCurrentPage > totalPages) pengumumanCurrentPage = totalPages;
+
+        const startIndex = (pengumumanCurrentPage - 1) * pengumumanItemsPerPage;
+        const endIndex = Math.min(startIndex + pengumumanItemsPerPage, totalItems);
+        const currentSlice = filtered.slice(startIndex, endIndex);
+
+        if (currentSlice.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center bg-white border border-dashed border-[#e4e4e7] rounded-xl text-xs text-[#71717a]">
+              <i data-lucide="megaphone-off" class="w-8 h-8 mx-auto mb-2 text-[#71717a]"></i>
+              <div class="font-semibold text-[#09090b]">Tidak ada pengumuman ditemukan</div>
+              <p class="mt-1">Coba sesuaikan kata kunci pencarian atau filter status pengumuman.</p>
+            </div>
+          `;
+        } else {
+          container.innerHTML = currentSlice
+            .map((item) => {
+              const statusBadges = {
+                published: '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Dipublikasikan</span>',
+                draft: '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">Draf</span>',
+                archived: '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-[#71717a] border border-gray-200">Diarsipkan</span>'
+              };
+              const badge = statusBadges[item.status] || statusBadges.published;
+
+              return `
+              <div class="p-4 rounded-xl border border-[#e4e4e7] bg-white shadow-2xs hover:border-[#0655a7]/50 transition-all flex flex-col gap-2.5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    ${item.pinned ? '<span class="px-2 py-0.5 rounded bg-blue-50 text-[#0655a7] border border-blue-200 font-bold text-[10px] flex items-center gap-1"><i data-lucide="pin" class="w-3 h-3"></i> Disematkan</span>' : ''}
+                    <span class="px-2 py-0.5 rounded-full bg-blue-50 text-[#0655a7] border border-blue-100 text-[10px] font-medium">
+                      ${item.sasaranLabel}
+                    </span>
+                    ${badge}
+                  </div>
+                  <div class="flex items-center gap-2 text-[11px] text-[#71717a]">
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> ${item.tgl}</span>
+                    <span>•</span>
+                    <span class="flex items-center gap-1"><i data-lucide="user" class="w-3 h-3"></i> ${item.author}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="text-sm font-semibold text-[#09090b] hover:text-[#0655a7] transition-colors">${item.judul}</h3>
+                  <p class="text-xs text-[#3f3f46] mt-1 leading-relaxed">${item.isi}</p>
+                </div>
+
+                ${item.file ? `
+                  <div class="flex items-center gap-2 p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] w-fit text-xs text-[#0655a7] hover:underline cursor-pointer" onclick="alert('Mengunduh lampiran resmi: ${item.file}')">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                    <span class="font-medium">${item.file}</span>
+                  </div>
+                ` : ''}
+
+                <div class="flex items-center justify-between pt-2 border-t border-[#e4e4e7] text-xs">
+                  <div class="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onclick="showBuatPengumumanModal(${item.id})"
+                      class="px-2.5 py-1 rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#3f3f46] text-[11px] font-medium flex items-center gap-1"
+                    >
+                      <i data-lucide="pencil" class="w-3 h-3 text-[#0655a7]"></i>
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      type="button"
+                      onclick="toggleArchivePengumuman(${item.id})"
+                      class="px-2.5 py-1 rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#3f3f46] text-[11px] font-medium flex items-center gap-1"
+                    >
+                      <i data-lucide="${item.status === 'archived' ? 'archive-restore' : 'archive'}" class="w-3 h-3 text-[#71717a]"></i>
+                      <span>${item.status === 'archived' ? 'Aktifkan' : 'Arsipkan'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onclick="showDeletePengumumanModal(${item.id})"
+                      class="px-2.5 py-1 rounded-md border border-rose-200 bg-rose-50/50 hover:bg-rose-100/70 text-rose-700 text-[11px] font-medium flex items-center gap-1"
+                    >
+                      <i data-lucide="trash-2" class="w-3 h-3 text-rose-600"></i>
+                      <span>Hapus</span>
+                    </button>
+                  </div>
+                  <span class="text-[10px] text-[#71717a]">ID: #${item.id}</span>
+                </div>
+              </div>
+            `;
+            })
+            .join('');
+        }
+
+        if (infoEl) {
+          infoEl.textContent = totalItems === 0
+            ? 'Menampilkan 0 pengumuman'
+            : `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} pengumuman`;
+        }
+
+        if (paginationEl) {
+          let html = '';
+          html += `
+            <button
+              type="button"
+              onclick="goToPengumumanPage(${pengumumanCurrentPage - 1})"
+              ${pengumumanCurrentPage === 1 ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Prev
+            </button>
+          `;
+          for (let p = 1; p <= totalPages; p++) {
+            const isActive = p === pengumumanCurrentPage;
+            html += `
+              <button
+                type="button"
+                onclick="goToPengumumanPage(${p})"
+                class="w-6 h-6 flex items-center justify-center text-[11px] font-medium rounded transition-colors ${
+                  isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50'
+                }"
+              >
+                ${p}
+              </button>
+            `;
+          }
+          html += `
+            <button
+              type="button"
+              onclick="goToPengumumanPage(${pengumumanCurrentPage + 1})"
+              ${pengumumanCurrentPage === totalPages ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Next
+            </button>
+          `;
+          paginationEl.innerHTML = html;
+        }
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function goToPengumumanPage(p) {
+        const totalPages = Math.ceil(getFilteredPengumumanData().length / pengumumanItemsPerPage) || 1;
+        if (p < 1 || p > totalPages) return;
+        pengumumanCurrentPage = p;
+        renderPengumumanCards();
+      }
+
+      function showBuatPengumumanModal(editId) {
+        const modal = document.getElementById('modal-buat-pengumuman');
+        const title = document.getElementById('modal-pengumuman-title');
+        const idInput = document.getElementById('modal-pengumuman-id');
+        const judulInput = document.getElementById('modal-pengumuman-judul');
+        const sasaranInput = document.getElementById('modal-pengumuman-sasaran');
+        const statusInput = document.getElementById('modal-pengumuman-status');
+        const isiInput = document.getElementById('modal-pengumuman-isi');
+        const fileInput = document.getElementById('modal-pengumuman-file');
+
+        if (editId) {
+          const item = pengumumanListData.find((p) => p.id === editId);
+          if (item) {
+            if (title) title.textContent = 'Edit Pengumuman';
+            if (idInput) idInput.value = item.id;
+            if (judulInput) judulInput.value = item.judul;
+            if (sasaranInput) sasaranInput.value = item.sasaran;
+            if (statusInput) statusInput.value = item.status;
+            if (isiInput) isiInput.value = item.isi;
+            if (fileInput) fileInput.value = item.file || '';
+          }
+        } else {
+          if (title) title.textContent = 'Buat Pengumuman Baru';
+          if (idInput) idInput.value = '';
+          if (judulInput) judulInput.value = '';
+          if (sasaranInput) sasaranInput.value = 'semua_mhs';
+          if (statusInput) statusInput.value = 'published';
+          if (isiInput) isiInput.value = '';
+          if (fileInput) fileInput.value = '';
+        }
+
+        if (modal) modal.classList.remove('hidden');
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closeBuatPengumumanModal() {
+        const modal = document.getElementById('modal-buat-pengumuman');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      function handleSavePengumuman(e) {
+        e.preventDefault();
+        const idVal = document.getElementById('modal-pengumuman-id').value;
+        const judul = document.getElementById('modal-pengumuman-judul').value.trim();
+        const sasaran = document.getElementById('modal-pengumuman-sasaran').value;
+        const status = document.getElementById('modal-pengumuman-status').value;
+        const isi = document.getElementById('modal-pengumuman-isi').value.trim();
+        const file = document.getElementById('modal-pengumuman-file').value.trim();
+
+        const sasaranLabels = {
+          semua_mhs: 'Semua Mahasiswa MBKM',
+          mitra_dpl: 'Mitra & DPL',
+          magang: 'Peserta Magang Industri',
+          studi_independen: 'Peserta Studi Independen'
+        };
+
+        if (idVal) {
+          const idx = pengumumanListData.findIndex((p) => p.id === Number(idVal));
+          if (idx !== -1) {
+            pengumumanListData[idx] = {
+              ...pengumumanListData[idx],
+              judul,
+              sasaran,
+              sasaranLabel: sasaranLabels[sasaran] || sasaran,
+              status,
+              isi,
+              file
+            };
+          }
+          alert('Pengumuman berhasil diperbarui!');
+        } else {
+          const newId = pengumumanListData.length > 0 ? Math.max(...pengumumanListData.map((p) => p.id)) + 1 : 1;
+          pengumumanListData.unshift({
+            id: newId,
+            judul,
+            sasaran,
+            sasaranLabel: sasaranLabels[sasaran] || sasaran,
+            status,
+            tgl: 'Hari ini',
+            author: 'Nurul Anisa S.W., M.Cs (Koordinator MBKM)',
+            isi,
+            file,
+            pinned: false
+          });
+          alert('Pengumuman resmi berhasil diterbitkan ke civitas MBKM!');
+        }
+
+        closeBuatPengumumanModal();
+        renderPengumumanCards();
+      }
+
+      function toggleArchivePengumuman(id) {
+        const item = pengumumanListData.find((p) => p.id === id);
+        if (item) {
+          item.status = item.status === 'archived' ? 'published' : 'archived';
+          alert(`Status pengumuman diubah menjadi: ${item.status === 'archived' ? 'Diarsipkan' : 'Dipublikasikan'}`);
+          renderPengumumanCards();
+        }
+      }
+
+      function showDeletePengumumanModal(id) {
+        activeDeletePengumumanId = id;
+        const modal = document.getElementById('modal-delete-pengumuman');
+        const textEl = document.getElementById('modal-delete-pengumuman-text');
+        const item = pengumumanListData.find((p) => p.id === id);
+        if (textEl && item) {
+          textEl.textContent = `Apakah Anda yakin ingin menghapus pengumuman "${item.judul}"?`;
+        }
+        const confirmBtn = document.getElementById('btn-confirm-delete-pengumuman');
+        if (confirmBtn) {
+          confirmBtn.onclick = confirmDeletePengumuman;
+        }
+        if (modal) modal.classList.remove('hidden');
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closeDeletePengumumanModal() {
+        const modal = document.getElementById('modal-delete-pengumuman');
+        if (modal) modal.classList.add('hidden');
+        activeDeletePengumumanId = null;
+      }
+
+      function confirmDeletePengumuman() {
+        if (!activeDeletePengumumanId) return;
+        pengumumanListData = pengumumanListData.filter((p) => p.id !== activeDeletePengumumanId);
+        closeDeletePengumumanModal();
+        alert('Pengumuman berhasil dihapus.');
+        renderPengumumanCards();
+      }
+
+      // 3. MODUL PERIODE AJARAN
+      const periodeHistoryData = [
+        { kode: '20232', tahun: '2023/2024 Genap', rentang: '01 Feb 2024 - 15 Jul 2024', peserta: 52, mitra: 5, status: 'Selesai' },
+        { kode: '20231', tahun: '2023/2024 Ganjil', rentang: '01 Ags 2023 - 20 Jan 2024', peserta: 45, mitra: 4, status: 'Selesai' },
+        { kode: '20222', tahun: '2022/2023 Genap', rentang: '01 Feb 2023 - 10 Jul 2023', peserta: 38, mitra: 3, status: 'Selesai' }
+      ];
+
+      function renderPeriodeData() {
+        const tbody = document.getElementById('periode-history-tbody');
+        if (!tbody) return;
+
+        tbody.innerHTML = periodeHistoryData
+          .map((item) => `
+            <tr class="hover:bg-gray-50/80 transition-colors">
+              <td class="py-2 px-3 font-mono font-medium text-[#09090b] text-[11px]">${item.kode}</td>
+              <td class="py-2 px-3 text-[#09090b] font-medium text-[11px]">${item.tahun}</td>
+              <td class="py-2 px-3 text-[#71717a] text-[11px]">${item.rentang}</td>
+              <td class="py-2 px-3 text-center font-mono text-[#09090b] text-[11px]">${item.peserta} Mhs</td>
+              <td class="py-2 px-3 text-center font-mono text-[#09090b] text-[11px]">${item.mitra} Mitra</td>
+              <td class="py-2 px-3 text-center text-[11px]">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-100 text-[#71717a] border border-gray-200">
+                  ${item.status}
+                </span>
+              </td>
+            </tr>
+          `)
+          .join('');
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function handleSavePeriodeConfig(e) {
+        e.preventDefault();
+        const buka = document.getElementById('cfg-tgl-buka-daftar').value;
+        const tutup = document.getElementById('cfg-tgl-tutup-daftar').value;
+        const cutoffSurekom = document.getElementById('cfg-tgl-cutoff-surekom').value;
+        const cutoffSeleksi = document.getElementById('cfg-tgl-cutoff-seleksi').value;
+
+        alert(`Konfigurasi jadwal operasional MBKM berhasil disimpan!\nPendaftaran: ${buka} s.d. ${tutup}\nCut-off SuReKom: ${cutoffSurekom}\nCut-off Seleksi: ${cutoffSeleksi}`);
+      }
+
+      function syncPeriodeSiadin() {
+        alert('Sinkronisasi data kalender akademik SIADIN berhasil diperbarui!');
+      }
+
+      // 4. MODUL MITRA
+      let mitraListData = [
+        {
+          id: 1,
+          nama: 'PT Bengkel Koding Nusantara',
+          sektor: 'Teknologi Informasi & Software',
+          picNama: 'Dimas Wicaksono, M.T.',
+          picEmail: 'dimas@bengkod.id',
+          picPhone: '0812-3456-7890',
+          role: 'mbkm_contributor',
+          status: 'aktif',
+          mou: '042/MoU/FIK-UDINUS/2026',
+          avatar: 'BK',
+          programs: [
+            { nama: 'Fullstack Web Developer Track', kuota: 15, terisi: 8, pelamar: 24, status: 'Buka' },
+            { nama: 'Cyber Security & Network Defense', kuota: 10, terisi: 6, pelamar: 18, status: 'Buka' }
+          ],
+          dosen: [
+            { nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 5 },
+            { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
+          ],
+          mhs: [
+            { nama: 'Calvin Revianto', nim: 'A11.2021.13782', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dpl: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
+            { nama: 'Salwa Salsabila', nim: 'A11.2020.12864', prodi: 'S1 Teknik Informatika', posisi: 'Cyber Security & Network', dpl: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
+            { nama: 'Fakhrurrozi', nim: 'A11.2020.12592', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dpl: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' }
+          ]
+        },
+        {
+          id: 2,
+          nama: 'PT Matic Edukasi Mandiri',
+          sektor: 'Edutech & Pelatihan',
+          picNama: 'Rian Pratama, S.Kom',
+          picEmail: 'rian@matic.co.id',
+          picPhone: '0813-9876-5432',
+          role: 'mbkm_contributor',
+          status: 'aktif',
+          mou: '051/MoU/FIK-UDINUS/2026',
+          avatar: 'ME',
+          programs: [
+            { nama: 'Mobile Application Developer (Flutter)', kuota: 12, terisi: 5, pelamar: 16, status: 'Buka' }
+          ],
+          dosen: [
+            { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
+          ],
+          mhs: [
+            { nama: "SYIFA AIN'NUR MANZILA", nim: 'A11.2019.12233', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dpl: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' },
+            { nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dpl: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' }
+          ]
+        },
+        {
+          id: 3,
+          nama: 'Ryuje Tech Studio',
+          sektor: 'Startup & Game Dev',
+          picNama: 'Arya Putra, S.Ds',
+          picEmail: 'arya@ryuje.studio',
+          picPhone: '0821-4567-8901',
+          role: 'mbkm_contributor',
+          status: 'pending',
+          mou: '058/MoU/FIK-UDINUS/2026',
+          avatar: 'RT',
+          programs: [
+            { nama: 'UI/UX & Product Design Specialist', kuota: 8, terisi: 3, pelamar: 12, status: 'Buka' }
+          ],
+          dosen: [
+            { nama: 'Ahmad Zainul, M.Kom', nidn: '0686.11.2012.003', prodi: 'S1 Desain Komunikasi Visual', mhsCount: 4 }
+          ],
+          mhs: [
+            { nama: 'Dewi Lestari', nim: 'A14.2020.03456', prodi: 'S1 DKV', posisi: 'UI/UX & Product Design', dpl: 'Ahmad Zainul, M.Kom', status: 'Aktif' }
+          ]
+        },
+        {
+          id: 4,
+          nama: 'IDSS Laboratory FIK',
+          sektor: 'Laboratorium & Riset AI',
+          picNama: 'Dr. Ricardus Anggi, M.Kom',
+          picEmail: 'ricardus@dinus.ac.id',
+          picPhone: '0811-2233-4455',
+          role: 'mbkm_contributor',
+          status: 'aktif',
+          mou: '012/Internal/FIK-UDINUS/2026',
+          avatar: 'ID',
+          programs: [
+            { nama: 'AI & Data Science Researcher', kuota: 10, terisi: 6, pelamar: 15, status: 'Buka' }
+          ],
+          dosen: [
+            { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
+          ],
+          mhs: [
+            { nama: 'Ahmad Fauzi', nim: 'A11.2021.13890', prodi: 'S1 Teknik Informatika', posisi: 'AI & Data Science Researcher', dpl: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' },
+            { nama: 'Khalivio Rahmiyanto Putra', nim: 'A11.2020.12969', prodi: 'S1 Teknik Informatika', posisi: 'AI Researcher', dpl: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' }
+          ]
+        }
+      ];
+
+      let mitraSearchQuery = '';
+      let mitraFilterStatus = 'semua';
+      let mitraCurrentPage = 1;
+      const mitraItemsPerPage = 10;
+      let activeDetailMitraId = null;
+
+      function handleSearchMitra(val) {
+        mitraSearchQuery = (val || '').toLowerCase().trim();
+        mitraCurrentPage = 1;
+        renderMitraTable();
+      }
+
+      function handleFilterMitraStatus(val) {
+        mitraFilterStatus = val;
+        mitraCurrentPage = 1;
+        renderMitraTable();
+      }
+
+      function getFilteredMitraData() {
+        return mitraListData.filter((m) => {
+          const matchQuery =
+            !mitraSearchQuery ||
+            m.nama.toLowerCase().includes(mitraSearchQuery) ||
+            m.picNama.toLowerCase().includes(mitraSearchQuery) ||
+            m.sektor.toLowerCase().includes(mitraSearchQuery);
+          const matchStatus =
+            mitraFilterStatus === 'semua' || m.status === mitraFilterStatus;
+          return matchQuery && matchStatus;
+        });
+      }
+
+      function renderMitraTable() {
+        const tbody = document.getElementById('mitra-table-tbody');
+        const infoEl = document.getElementById('mitra-table-info');
+        const paginationEl = document.getElementById('mitra-pagination-controls');
+        if (!tbody) return;
+
+        const filtered = getFilteredMitraData();
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / mitraItemsPerPage) || 1;
+        if (mitraCurrentPage > totalPages) mitraCurrentPage = totalPages;
+
+        const startIndex = (mitraCurrentPage - 1) * mitraItemsPerPage;
+        const endIndex = Math.min(startIndex + mitraItemsPerPage, totalItems);
+        const currentSlice = filtered.slice(startIndex, endIndex);
+
+        if (currentSlice.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="py-6 text-center text-xs text-[#71717a]">
+                Tidak ada data mitra yang cocok dengan pencarian.
+              </td>
+            </tr>
+          `;
+        } else {
+          tbody.innerHTML = currentSlice
+            .map((item, idx) => {
+              const rowNum = startIndex + idx + 1;
+              const statusBadge =
+                item.status === 'aktif'
+                  ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Aktif</span>'
+                  : '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">Pending Invite</span>';
+
+              const totalProg = item.programs.length;
+              const totalMhs = item.mhs.length;
+
+              return `
+              <tr class="hover:bg-gray-50/80 transition-colors">
+                <td class="py-2.5 px-2.5 text-center text-[#71717a] text-[11px]">${rowNum}</td>
+                <td class="py-2.5 px-3">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] font-bold text-xs flex items-center justify-center shrink-0 border border-blue-100">
+                      ${item.avatar}
+                    </div>
+                    <div>
+                      <div class="font-semibold text-[#09090b] text-[11px]">${item.nama}</div>
+                      <div class="text-[10px] text-[#71717a]">${item.sektor}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-2.5 px-3">
+                  <div class="font-medium text-[#09090b] text-[11px]">${item.picNama}</div>
+                  <div class="text-[10px] text-[#71717a] font-mono">${item.picEmail}</div>
+                </td>
+                <td class="py-2.5 px-3 text-center">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    ${item.role}
+                  </span>
+                </td>
+                <td class="py-2.5 px-3 text-center font-mono font-medium text-[#09090b] text-[11px]">${totalProg} Program</td>
+                <td class="py-2.5 px-3 text-center font-mono font-medium text-[#09090b] text-[11px]">${totalMhs} Mhs</td>
+                <td class="py-2.5 px-3 text-center text-[11px]">${statusBadge}</td>
+                <td class="py-2.5 px-3 text-center">
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button
+                      type="button"
+                      onclick="showMitraDetail(${item.id})"
+                      class="px-2 py-1 rounded bg-[#0655a7] hover:bg-[#114d91] text-white text-[11px] font-medium shadow-2xs flex items-center gap-1 transition-colors"
+                      title="Lihat Detail Bertab"
+                    >
+                      <i data-lucide="eye" class="w-3 h-3"></i>
+                      <span>Detail</span>
+                    </button>
+                    ${
+                      item.status === 'pending'
+                        ? `<button
+                            type="button"
+                            onclick="resendInviteMitra(${item.id})"
+                            class="p-1 rounded text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200"
+                            title="Kirim Ulang Undangan"
+                          >
+                            <i data-lucide="send" class="w-3 h-3"></i>
+                          </button>`
+                        : ''
+                    }
+                  </div>
+                </td>
+              </tr>
+            `;
+            })
+            .join('');
+        }
+
+        if (infoEl) {
+          infoEl.textContent = totalItems === 0
+            ? 'Menampilkan 0 mitra'
+            : `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} mitra`;
+        }
+
+        if (paginationEl) {
+          let html = '';
+          html += `
+            <button
+              type="button"
+              onclick="goToMitraPage(${mitraCurrentPage - 1})"
+              ${mitraCurrentPage === 1 ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Prev
+            </button>
+          `;
+          for (let p = 1; p <= totalPages; p++) {
+            const isActive = p === mitraCurrentPage;
+            html += `
+              <button
+                type="button"
+                onclick="goToMitraPage(${p})"
+                class="w-6 h-6 flex items-center justify-center text-[11px] font-medium rounded transition-colors ${
+                  isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50'
+                }"
+              >
+                ${p}
+              </button>
+            `;
+          }
+          html += `
+            <button
+              type="button"
+              onclick="goToMitraPage(${mitraCurrentPage + 1})"
+              ${mitraCurrentPage === totalPages ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Next
+            </button>
+          `;
+          paginationEl.innerHTML = html;
+        }
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function goToMitraPage(p) {
+        const totalPages = Math.ceil(getFilteredMitraData().length / mitraItemsPerPage) || 1;
+        if (p < 1 || p > totalPages) return;
+        mitraCurrentPage = p;
+        renderMitraTable();
+      }
+
+      function showTambahMitraModal() {
+        const modal = document.getElementById('modal-tambah-mitra');
+        if (modal) modal.classList.remove('hidden');
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closeTambahMitraModal() {
+        const modal = document.getElementById('modal-tambah-mitra');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      function handleSaveMitra(e) {
+        e.preventDefault();
+        const nama = document.getElementById('modal-mitra-nama').value.trim();
+        const sektor = document.getElementById('modal-mitra-sektor').value;
+        const picNama = document.getElementById('modal-mitra-pic-nama').value.trim();
+        const picEmail = document.getElementById('modal-mitra-pic-email').value.trim();
+        const picPhone = document.getElementById('modal-mitra-pic-phone').value.trim();
+        const mou = document.getElementById('modal-mitra-mou').value.trim();
+
+        const newId = mitraListData.length > 0 ? Math.max(...mitraListData.map((m) => m.id)) + 1 : 1;
+        const avatar = nama.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+
+        mitraListData.unshift({
+          id: newId,
+          nama,
+          sektor,
+          picNama,
+          picEmail,
+          picPhone,
+          role: 'mbkm_contributor',
+          status: 'pending',
+          mou,
+          avatar,
+          programs: [],
+          dosen: [],
+          mhs: []
+        });
+
+        closeTambahMitraModal();
+        alert(`Mitra "${nama}" berhasil didaftarkan!\nEmail undangan token aktivasi role mbkm_contributor telah dikirim ke: ${picEmail}`);
+        renderMitraTable();
+      }
+
+      function resendInviteMitra(id) {
+        const item = mitraListData.find((m) => m.id === id);
+        if (item) {
+          alert(`Link undangan aktivasi akun telah dikirim ulang ke email PIC: ${item.picEmail}`);
+        }
+      }
+
+      function showMitraDetail(id) {
+        const item = mitraListData.find((m) => m.id === id);
+        if (!item) return;
+
+        activeDetailMitraId = id;
+        document.getElementById('subview-mitra-list').classList.add('hidden');
+        const detailView = document.getElementById('subview-mitra-detail');
+        detailView.classList.remove('hidden');
+
+        document.getElementById('mitra-detail-name').textContent = item.nama;
+        document.getElementById('mitra-detail-pic').textContent = `PIC: ${item.picNama} (${item.picEmail} • ${item.picPhone})`;
+        document.getElementById('mitra-detail-mou').textContent = `MoU: ${item.mou}`;
+        document.getElementById('mitra-detail-avatar').textContent = item.avatar;
+
+        const badge = document.getElementById('mitra-detail-status-badge');
+        if (badge) {
+          if (item.status === 'aktif') {
+            badge.className = 'px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+            badge.textContent = 'Akun Aktif';
+          } else {
+            badge.className = 'px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200';
+            badge.textContent = 'Pending Undangan';
+          }
+        }
+
+        // Render 3 Tabs Content
+        // Tab 1: Program
+        const progTbody = document.getElementById('mitra-detail-program-tbody');
+        if (progTbody) {
+          if (item.programs.length === 0) {
+            progTbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-xs text-[#71717a]">Mitra ini belum membuka formasi lowongan program.</td></tr>`;
+          } else {
+            progTbody.innerHTML = item.programs.map((p) => `
+              <tr class="hover:bg-gray-50/80 transition-colors">
+                <td class="py-2.5 px-3 font-semibold text-[#09090b] text-[11px]">${p.nama}</td>
+                <td class="py-2.5 px-3 text-center font-mono text-[#09090b] text-[11px]">${p.kuota} Slot</td>
+                <td class="py-2.5 px-3 text-center font-mono text-[#09090b] text-[11px]">${p.terisi} Terisi</td>
+                <td class="py-2.5 px-3 text-center font-mono text-[#0655a7] text-[11px] font-semibold">${p.pelamar} Pelamar</td>
+                <td class="py-2.5 px-3 text-center">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">${p.status}</span>
+                </td>
+              </tr>
+            `).join('');
+          }
+        }
+
+        // Tab 2: Dosen
+        const dosTbody = document.getElementById('mitra-detail-dosen-tbody');
+        if (dosTbody) {
+          if (item.dosen.length === 0) {
+            dosTbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#71717a]">Belum ada DPL yang dialokasikan ke mitra ini.</td></tr>`;
+          } else {
+            dosTbody.innerHTML = item.dosen.map((d) => `
+              <tr class="hover:bg-gray-50/80 transition-colors">
+                <td class="py-2.5 px-3 font-semibold text-[#09090b] text-[11px]">${d.nama}</td>
+                <td class="py-2.5 px-3 font-mono text-[#71717a] text-[11px]">${d.nidn}</td>
+                <td class="py-2.5 px-3 text-[#3f3f46] text-[11px]">${d.prodi}</td>
+                <td class="py-2.5 px-3 text-center font-mono text-[#0655a7] font-semibold text-[11px]">${d.mhsCount} Mahasiswa</td>
+              </tr>
+            `).join('');
+          }
+        }
+
+        // Tab 3: Mahasiswa
+        const mhsTbody = document.getElementById('mitra-detail-mhs-tbody');
+        if (mhsTbody) {
+          if (item.mhs.length === 0) {
+            mhsTbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-xs text-[#71717a]">Belum ada mahasiswa aktif di mitra ini.</td></tr>`;
+          } else {
+            mhsTbody.innerHTML = item.mhs.map((m) => `
+              <tr class="hover:bg-gray-50/80 transition-colors">
+                <td class="py-2.5 px-3">
+                  <div class="font-semibold text-[#09090b] text-[11px]">${m.nama}</div>
+                  <div class="font-mono text-[#71717a] text-[10px]">${m.nim}</div>
+                </td>
+                <td class="py-2.5 px-3 text-[#3f3f46] text-[11px]">${m.prodi}</td>
+                <td class="py-2.5 px-3 font-medium text-[#0655a7] text-[11px]">${m.posisi}</td>
+                <td class="py-2.5 px-3 text-[#3f3f46] text-[11px]">${m.dpl}</td>
+                <td class="py-2.5 px-3 text-center">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">${m.status}</span>
+                </td>
+              </tr>
+            `).join('');
+          }
+        }
+
+        switchMitraTab('program');
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function hideMitraDetail() {
+        const list = document.getElementById('subview-mitra-list');
+        const detail = document.getElementById('subview-mitra-detail');
+        if (list) list.classList.remove('hidden');
+        if (detail) detail.classList.add('hidden');
+        activeDetailMitraId = null;
+      }
+
+      function switchMitraTab(tabKey) {
+        document.querySelectorAll('.mitra-tab-pane').forEach((el) => el.classList.add('hidden'));
+        document.querySelectorAll('.mitra-tab-btn').forEach((el) => {
+          el.classList.remove('border-[#0655a7]', 'text-[#0655a7]', 'font-semibold');
+          el.classList.add('border-transparent', 'text-[#71717a]', 'font-medium');
+        });
+
+        const activePane = document.getElementById('mitra-tab-content-' + tabKey);
+        const activeBtn = document.getElementById('mitra-tab-btn-' + tabKey);
+        if (activePane) activePane.classList.remove('hidden');
+        if (activeBtn) {
+          activeBtn.classList.remove('border-transparent', 'text-[#71717a]', 'font-medium');
+          activeBtn.classList.add('border-[#0655a7]', 'text-[#0655a7]', 'font-semibold');
+        }
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      // 5. MODUL MAHASISWA - PELAMAR (FINAL APPROVAL REKOMENDASI MITRA)
+      let pelamarListData = [
+        {
+          id: 1,
+          nama: 'Budi Santoso',
+          nim: 'A11.2021.13201',
+          prodi: 'S1 Teknik Informatika',
+          mitra: 'Bengkel Koding',
+          posisi: 'Fullstack Web Developer',
+          skor: '94/100',
+          catatan: 'Lolos live coding challenge & interview mentor dengan nilai memuaskan. Direkomendasikan diterima.',
+          status: 'pending'
+        },
+        {
+          id: 2,
+          nama: 'Siti Aminah',
+          nim: 'A12.2022.06543',
+          prodi: 'S1 Sistem Informasi',
+          mitra: 'PT Matic Edukasi Mandiri',
+          posisi: 'Mobile Application Developer (Flutter)',
+          skor: '89/100',
+          catatan: 'Kemampuan logika dasar & state management baik, memahami alur kerja REST API.',
+          status: 'pending'
+        },
+        {
+          id: 3,
+          nama: 'Rizky Pratama',
+          nim: 'A15.2021.01988',
+          prodi: 'S1 Ilmu Komunikasi',
+          mitra: 'Ryuje Tech Studio',
+          posisi: 'UI/UX & Product Design',
+          skor: '91/100',
+          catatan: 'Portofolio Figma konsisten dan kemampuan komunikasi tim sangat mendukung proyek.',
+          status: 'pending'
+        },
+        {
+          id: 4,
+          nama: 'Fajar Nugraha',
+          nim: 'A11.2021.13400',
+          prodi: 'S1 Teknik Informatika',
+          mitra: 'IDSS Laboratory',
+          posisi: 'AI & Data Science Researcher',
+          skor: '88/100',
+          catatan: 'Memahami dasar machine learning Python dan analisis data pandas.',
+          status: 'pending'
+        },
+        {
+          id: 5,
+          nama: 'Nabila Putri',
+          nim: 'A12.2022.06712',
+          prodi: 'S1 Sistem Informasi',
+          mitra: 'Bengkel Koding',
+          posisi: 'Cyber Security & Network Defense',
+          skor: '95/100',
+          catatan: 'Memiliki sertifikat kompetensi ethical hacking tingkat dasar.',
+          status: 'approved'
+        },
+        {
+          id: 6,
+          nama: 'Dimas Anggara',
+          nim: 'A11.2020.12908',
+          prodi: 'S1 Teknik Informatika',
+          mitra: 'PT Matic Edukasi Mandiri',
+          posisi: 'Mobile Application Developer (Flutter)',
+          skor: '65/100',
+          catatan: 'Kurang menguasai konsep dasar async programming pada evaluasi teknis.',
+          status: 'rejected'
+        }
+      ];
+
+      let pelamarSearchQuery = '';
+      let pelamarFilterMitra = 'semua';
+      let pelamarFilterStatus = 'semua';
+      let pelamarCurrentPage = 1;
+      const pelamarItemsPerPage = 10;
+      let activeModalPelamarId = null;
+
+      function handleSearchPelamar(val) {
+        pelamarSearchQuery = (val || '').toLowerCase().trim();
+        pelamarCurrentPage = 1;
+        renderPelamarTable();
+      }
+
+      function handleFilterPelamarMitra(val) {
+        pelamarFilterMitra = val;
+        pelamarCurrentPage = 1;
+        renderPelamarTable();
+      }
+
+      function handleFilterPelamarStatus(val) {
+        pelamarFilterStatus = val;
+        pelamarCurrentPage = 1;
+        renderPelamarTable();
+      }
+
+      function getFilteredPelamarData() {
+        return pelamarListData.filter((p) => {
+          const matchQuery =
+            !pelamarSearchQuery ||
+            p.nama.toLowerCase().includes(pelamarSearchQuery) ||
+            p.nim.toLowerCase().includes(pelamarSearchQuery);
+          const matchMitra =
+            pelamarFilterMitra === 'semua' || p.mitra === pelamarFilterMitra;
+          const matchStatus =
+            pelamarFilterStatus === 'semua' || p.status === pelamarFilterStatus;
+          return matchQuery && matchMitra && matchStatus;
+        });
+      }
+
+      function renderPelamarTable() {
+        const tbody = document.getElementById('pelamar-table-tbody');
+        const infoEl = document.getElementById('pelamar-table-info');
+        const paginationEl = document.getElementById('pelamar-pagination-controls');
+        if (!tbody) return;
+
+        const filtered = getFilteredPelamarData();
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / pelamarItemsPerPage) || 1;
+        if (pelamarCurrentPage > totalPages) pelamarCurrentPage = totalPages;
+
+        const startIndex = (pelamarCurrentPage - 1) * pelamarItemsPerPage;
+        const endIndex = Math.min(startIndex + pelamarItemsPerPage, totalItems);
+        const currentSlice = filtered.slice(startIndex, endIndex);
+
+        if (currentSlice.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="py-6 text-center text-xs text-[#71717a]">
+                Tidak ada data pelamar yang cocok dengan kriteria filter.
+              </td>
+            </tr>
+          `;
+        } else {
+          tbody.innerHTML = currentSlice
+            .map((item, idx) => {
+              const rowNum = startIndex + idx + 1;
+              const statusBadges = {
+                pending: '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">Menunggu Approval</span>',
+                approved: '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Disetujui</span>',
+                rejected: '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">Ditolak</span>'
+              };
+              const badge = statusBadges[item.status] || statusBadges.pending;
+
+              return `
+              <tr class="hover:bg-gray-50/80 transition-colors">
+                <td class="py-2.5 px-2.5 text-center text-[#71717a] text-[11px]">${rowNum}</td>
+                <td class="py-2.5 px-3">
+                  <div class="font-semibold text-[#09090b] text-[11px]">${item.nama}</div>
+                  <div class="font-mono text-[#71717a] text-[10px]">${item.nim}</div>
+                </td>
+                <td class="py-2.5 px-3 text-[#3f3f46] text-[11px]">${item.prodi}</td>
+                <td class="py-2.5 px-3 font-medium text-[#09090b] text-[11px]">${item.mitra}</td>
+                <td class="py-2.5 px-3 text-[#0655a7] font-medium text-[11px]">${item.posisi}</td>
+                <td class="py-2.5 px-3 text-center">
+                  <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    ${item.skor}
+                  </span>
+                </td>
+                <td class="py-2.5 px-3 text-center text-[11px]">${badge}</td>
+                <td class="py-2.5 px-3 text-center">
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button
+                      type="button"
+                      onclick="showPelamarDetailModal(${item.id})"
+                      class="px-2 py-1 rounded border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#3f3f46] text-[11px] font-medium shadow-2xs flex items-center gap-1"
+                      title="Lihat Detail & Keputusan"
+                    >
+                      <i data-lucide="eye" class="w-3 h-3 text-[#0655a7]"></i>
+                      <span>Detail</span>
+                    </button>
+                    ${
+                      item.status === 'pending'
+                        ? `
+                          <button
+                            type="button"
+                            onclick="handleQuickApprovePelamar(${item.id})"
+                            class="p-1 rounded bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+                            title="Setujui Cepat"
+                          >
+                            <i data-lucide="check" class="w-3 h-3"></i>
+                          </button>
+                          <button
+                            type="button"
+                            onclick="handleQuickRejectPelamar(${item.id})"
+                            class="p-1 rounded bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200"
+                            title="Tolak Cepat"
+                          >
+                            <i data-lucide="x" class="w-3 h-3"></i>
+                          </button>
+                        `
+                        : ''
+                    }
+                  </div>
+                </td>
+              </tr>
+            `;
+            })
+            .join('');
+        }
+
+        if (infoEl) {
+          infoEl.textContent = totalItems === 0
+            ? 'Menampilkan 0 pelamar'
+            : `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} pelamar`;
+        }
+
+        if (paginationEl) {
+          let html = '';
+          html += `
+            <button
+              type="button"
+              onclick="goToPelamarPage(${pelamarCurrentPage - 1})"
+              ${pelamarCurrentPage === 1 ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Prev
+            </button>
+          `;
+          for (let p = 1; p <= totalPages; p++) {
+            const isActive = p === pelamarCurrentPage;
+            html += `
+              <button
+                type="button"
+                onclick="goToPelamarPage(${p})"
+                class="w-6 h-6 flex items-center justify-center text-[11px] font-medium rounded transition-colors ${
+                  isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50'
+                }"
+              >
+                ${p}
+              </button>
+            `;
+          }
+          html += `
+            <button
+              type="button"
+              onclick="goToPelamarPage(${pelamarCurrentPage + 1})"
+              ${pelamarCurrentPage === totalPages ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Next
+            </button>
+          `;
+          paginationEl.innerHTML = html;
+        }
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function goToPelamarPage(p) {
+        const totalPages = Math.ceil(getFilteredPelamarData().length / pelamarItemsPerPage) || 1;
+        if (p < 1 || p > totalPages) return;
+        pelamarCurrentPage = p;
+        renderPelamarTable();
+      }
+
+      function showPelamarDetailModal(id) {
+        const item = pelamarListData.find((p) => p.id === id);
+        if (!item) return;
+
+        activeModalPelamarId = id;
+        const modal = document.getElementById('modal-detail-pelamar');
+        document.getElementById('modal-pelamar-nama').textContent = item.nama;
+        document.getElementById('modal-pelamar-meta').textContent = `NIM: ${item.nim} • ${item.prodi}`;
+        document.getElementById('modal-pelamar-mitra').textContent = item.mitra;
+        document.getElementById('modal-pelamar-posisi').textContent = item.posisi;
+        document.getElementById('modal-pelamar-skor').textContent = `Skor: ${item.skor}`;
+        document.getElementById('modal-pelamar-catatan-mitra').textContent = `"${item.catatan}"`;
+        document.getElementById('modal-pelamar-catatan-koor').value = '';
+
+        const badge = document.getElementById('modal-pelamar-status-badge');
+        if (badge) {
+          if (item.status === 'approved') {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+            badge.textContent = 'Disetujui';
+          } else if (item.status === 'rejected') {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+            badge.textContent = 'Ditolak';
+          } else {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200';
+            badge.textContent = 'Menunggu Approval';
+          }
+        }
+
+        const btnSetujui = document.getElementById('btn-modal-pelamar-setujui');
+        const btnTolak = document.getElementById('btn-modal-pelamar-tolak');
+        if (btnSetujui) btnSetujui.onclick = () => handleDecisionPelamarFromModal('approved');
+        if (btnTolak) btnTolak.onclick = () => handleDecisionPelamarFromModal('rejected');
+
+        if (modal) modal.classList.remove('hidden');
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closePelamarDetailModal() {
+        const modal = document.getElementById('modal-detail-pelamar');
+        if (modal) modal.classList.add('hidden');
+        activeModalPelamarId = null;
+      }
+
+      function handleDecisionPelamarFromModal(decision) {
+        if (!activeModalPelamarId) return;
+        const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+        if (item) {
+          item.status = decision;
+          const catatan = document.getElementById('modal-pelamar-catatan-koor').value.trim();
+          alert(`Keputusan disimpan!\nMahasiswa: ${item.nama}\nStatus: ${decision === 'approved' ? 'Disetujui (Peserta Aktif)' : 'Ditolak'}\nCatatan: ${catatan || '-'}`);
+        }
+        closePelamarDetailModal();
+        renderPelamarTable();
+      }
+
+      function handleQuickApprovePelamar(id) {
+        const item = pelamarListData.find((p) => p.id === id);
+        if (item) {
+          item.status = 'approved';
+          alert(`Pelamar ${item.nama} berhasil disetujui sebagai peserta resmi MBKM di ${item.mitra}!`);
+          renderPelamarTable();
+        }
+      }
+
+      function handleQuickRejectPelamar(id) {
+        const item = pelamarListData.find((p) => p.id === id);
+        if (item) {
+          item.status = 'rejected';
+          alert(`Pelamar ${item.nama} ditolak.`);
+          renderPelamarTable();
+        }
+      }
+
+      // 6. MODUL SEMUA MAHASISWA (DIREKTORI PESERTA AKTIF)
+      let semuaMhsListData = [
+        {
+          id: 1,
+          nama: 'Calvin Revianto',
+          nim: 'A11.2021.13782',
+          prodi: 'S1 Teknik Informatika',
+          email: 'calvin@mhs.dinus.ac.id',
+          phone: '0812-3456-7890',
+          mitra: 'Bengkel Koding',
+          posisi: 'Fullstack Web Developer',
+          dpl: 'Nurul Anisa S.W., M.Cs',
+          logbookFilled: 12,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 2,
+          nama: 'Salwa Salsabila',
+          nim: 'A11.2020.12864',
+          prodi: 'S1 Teknik Informatika',
+          email: 'salwa@mhs.dinus.ac.id',
+          phone: '0813-1122-3344',
+          mitra: 'Bengkel Koding',
+          posisi: 'Cyber Security Specialist',
+          dpl: 'Nurul Anisa S.W., M.Cs',
+          logbookFilled: 14,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 3,
+          nama: "SYIFA AIN'NUR MANZILA",
+          nim: 'A11.2019.12233',
+          prodi: 'S1 Teknik Informatika',
+          email: 'syifa@mhs.dinus.ac.id',
+          phone: '0812-9988-7766',
+          mitra: 'PT Matic Edukasi Mandiri',
+          posisi: 'Mobile Application Developer',
+          dpl: 'Dr. Muljono, S.Si, M.Kom',
+          logbookFilled: 10,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 4,
+          nama: 'Dewi Lestari',
+          nim: 'A14.2020.03456',
+          prodi: 'S1 DKV',
+          email: 'dewi@mhs.dinus.ac.id',
+          phone: '0815-4433-2211',
+          mitra: 'Ryuje Tech Studio',
+          posisi: 'UI/UX & Product Design',
+          dpl: 'Ahmad Zainul, M.Kom',
+          logbookFilled: 13,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 5,
+          nama: 'Ahmad Fauzi',
+          nim: 'A11.2021.13890',
+          prodi: 'S1 Teknik Informatika',
+          email: 'fauzi@mhs.dinus.ac.id',
+          phone: '0819-0011-2233',
+          mitra: 'IDSS Laboratory',
+          posisi: 'AI & Data Science Researcher',
+          dpl: 'Dr. Ricardus Anggi, M.Kom',
+          logbookFilled: 12,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 6,
+          nama: 'Fakhrurrozi',
+          nim: 'A11.2020.12592',
+          prodi: 'S1 Teknik Informatika',
+          email: 'fakhrur@mhs.dinus.ac.id',
+          phone: '0821-3344-5566',
+          mitra: 'Bengkel Koding',
+          posisi: 'Fullstack Web Developer',
+          dpl: 'Dr. Muljono, S.Si, M.Kom',
+          logbookFilled: 11,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 7,
+          nama: 'Tarissa Aura Azzahra',
+          nim: 'A11.2020.13158',
+          prodi: 'S1 Teknik Informatika',
+          email: 'tarissa@mhs.dinus.ac.id',
+          phone: '0822-7788-9900',
+          mitra: 'PT Matic Edukasi Mandiri',
+          posisi: 'Mobile Application Developer',
+          dpl: 'Nurul Anisa S.W., M.Cs',
+          logbookFilled: 14,
+          logbookTotal: 16,
+          status: 'Aktif'
+        },
+        {
+          id: 8,
+          nama: 'Khalivio Rahmiyanto Putra',
+          nim: 'A11.2020.12969',
+          prodi: 'S1 Teknik Informatika',
+          email: 'khalivio@mhs.dinus.ac.id',
+          phone: '0813-5566-7788',
+          mitra: 'IDSS Laboratory',
+          posisi: 'AI Researcher',
+          dpl: 'Dr. Ricardus Anggi, M.Kom',
+          logbookFilled: 12,
+          logbookTotal: 16,
+          status: 'Aktif'
+        }
+      ];
+
+      let semuaMhsSearchQuery = '';
+      let semuaMhsFilterMitra = 'semua';
+      let semuaMhsFilterProdi = 'semua';
+      let semuaMhsCurrentPage = 1;
+      const semuaMhsItemsPerPage = 10;
+
+      function handleSearchSemuaMhs(val) {
+        semuaMhsSearchQuery = (val || '').toLowerCase().trim();
+        semuaMhsCurrentPage = 1;
+        renderSemuaMhsTable();
+      }
+
+      function handleFilterSemuaMhsMitra(val) {
+        semuaMhsFilterMitra = val;
+        semuaMhsCurrentPage = 1;
+        renderSemuaMhsTable();
+      }
+
+      function handleFilterSemuaMhsProdi(val) {
+        semuaMhsFilterProdi = val;
+        semuaMhsCurrentPage = 1;
+        renderSemuaMhsTable();
+      }
+
+      function getFilteredSemuaMhsData() {
+        return semuaMhsListData.filter((m) => {
+          const matchQuery =
+            !semuaMhsSearchQuery ||
+            m.nama.toLowerCase().includes(semuaMhsSearchQuery) ||
+            m.nim.toLowerCase().includes(semuaMhsSearchQuery) ||
+            m.dpl.toLowerCase().includes(semuaMhsSearchQuery);
+          const matchMitra =
+            semuaMhsFilterMitra === 'semua' || m.mitra === semuaMhsFilterMitra;
+          const matchProdi =
+            semuaMhsFilterProdi === 'semua' || m.prodi === semuaMhsFilterProdi;
+          return matchQuery && matchMitra && matchProdi;
+        });
+      }
+
+      function renderSemuaMhsTable() {
+        const tbody = document.getElementById('semua-mhs-table-tbody');
+        const infoEl = document.getElementById('semua-mhs-table-info');
+        const paginationEl = document.getElementById('semua-mhs-pagination-controls');
+        if (!tbody) return;
+
+        const filtered = getFilteredSemuaMhsData();
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / semuaMhsItemsPerPage) || 1;
+        if (semuaMhsCurrentPage > totalPages) semuaMhsCurrentPage = totalPages;
+
+        const startIndex = (semuaMhsCurrentPage - 1) * semuaMhsItemsPerPage;
+        const endIndex = Math.min(startIndex + semuaMhsItemsPerPage, totalItems);
+        const currentSlice = filtered.slice(startIndex, endIndex);
+
+        if (currentSlice.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="py-6 text-center text-xs text-[#71717a]">
+                Tidak ada data mahasiswa aktif yang ditemukan.
+              </td>
+            </tr>
+          `;
+        } else {
+          tbody.innerHTML = currentSlice
+            .map((item, idx) => {
+              const rowNum = startIndex + idx + 1;
+              const pct = Math.round((item.logbookFilled / item.logbookTotal) * 100);
+
+              return `
+              <tr class="hover:bg-gray-50/80 transition-colors">
+                <td class="py-2.5 px-2.5 text-center text-[#71717a] text-[11px]">${rowNum}</td>
+                <td class="py-2.5 px-3">
+                  <div class="font-semibold text-[#09090b] text-[11px]">${item.nama}</div>
+                  <div class="font-mono text-[#71717a] text-[10px]">${item.nim} • ${item.prodi}</div>
+                </td>
+                <td class="py-2.5 px-3">
+                  <div class="text-[11px] text-[#09090b] flex items-center gap-1">
+                    <i data-lucide="mail" class="w-3 h-3 text-[#71717a]"></i>
+                    <span>${item.email}</span>
+                  </div>
+                  <div class="text-[10px] text-[#71717a] flex items-center gap-1 mt-0.5 font-mono">
+                    <i data-lucide="phone" class="w-3 h-3 text-[#71717a]"></i>
+                    <span>${item.phone}</span>
+                  </div>
+                </td>
+                <td class="py-2.5 px-3">
+                  <div class="font-semibold text-[#09090b] text-[11px]">${item.mitra}</div>
+                  <div class="text-[10px] text-[#0655a7] font-medium">${item.posisi}</div>
+                </td>
+                <td class="py-2.5 px-3 text-[#3f3f46] text-[11px] font-medium">${item.dpl}</td>
+                <td class="py-2.5 px-3 text-center">
+                  <div class="flex flex-col items-center gap-1">
+                    <span class="text-[10px] font-mono font-semibold text-[#09090b]">${item.logbookFilled}/${item.logbookTotal} Mgg (${pct}%)</span>
+                    <div class="w-20 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-[#0655a7] rounded-full" style="width: ${pct}%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-2.5 px-3 text-center">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">${item.status}</span>
+                </td>
+                <td class="py-2.5 px-3 text-center">
+                  <button
+                    type="button"
+                    onclick="switchTab('logbook')"
+                    class="px-2 py-1 rounded border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#0655a7] text-[11px] font-medium shadow-2xs flex items-center gap-1 transition-colors mx-auto"
+                    title="Buka Logbook Mahasiswa"
+                  >
+                    <i data-lucide="book-open" class="w-3 h-3"></i>
+                    <span>Logbook</span>
+                  </button>
+                </td>
+              </tr>
+            `;
+            })
+            .join('');
+        }
+
+        if (infoEl) {
+          infoEl.textContent = totalItems === 0
+            ? 'Menampilkan 0 mahasiswa'
+            : `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} mahasiswa`;
+        }
+
+        if (paginationEl) {
+          let html = '';
+          html += `
+            <button
+              type="button"
+              onclick="goToSemuaMhsPage(${semuaMhsCurrentPage - 1})"
+              ${semuaMhsCurrentPage === 1 ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Prev
+            </button>
+          `;
+          for (let p = 1; p <= totalPages; p++) {
+            const isActive = p === semuaMhsCurrentPage;
+            html += `
+              <button
+                type="button"
+                onclick="goToSemuaMhsPage(${p})"
+                class="w-6 h-6 flex items-center justify-center text-[11px] font-medium rounded transition-colors ${
+                  isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50'
+                }"
+              >
+                ${p}
+              </button>
+            `;
+          }
+          html += `
+            <button
+              type="button"
+              onclick="goToSemuaMhsPage(${semuaMhsCurrentPage + 1})"
+              ${semuaMhsCurrentPage === totalPages ? 'disabled' : ''}
+              class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 transition-colors"
+            >
+              Next
+            </button>
+          `;
+          paginationEl.innerHTML = html;
+        }
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function goToSemuaMhsPage(p) {
+        const totalPages = Math.ceil(getFilteredSemuaMhsData().length / semuaMhsItemsPerPage) || 1;
+        if (p < 1 || p > totalPages) return;
+        semuaMhsCurrentPage = p;
+        renderSemuaMhsTable();
+      }
+
+      function exportDataMahasiswa() {
+        alert('Mengunduh rekap direktori seluruh mahasiswa aktif MBKM (Format: XLSX Spreadsheet)...');
       }
     </script>
   </body>

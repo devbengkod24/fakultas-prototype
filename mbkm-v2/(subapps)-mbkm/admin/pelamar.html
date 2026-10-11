@@ -1,0 +1,70 @@
+<!-- Header -->
+<div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+  <div>
+    <h2 class="text-base font-semibold text-[#09090b]">Pelamar MBKM (Rekomendasi Mitra)</h2>
+    <p class="text-[11px] text-[#71717a]">Antrean final approval daftar mahasiswa yang lolos rekomendasi seleksi awal mitra sebelum resmi menjadi peserta aktif.</p>
+  </div>
+</div>
+
+<!-- Filter & Toolbar -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
+  <div class="relative w-full sm:w-72">
+    <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+    <input
+      type="text"
+      id="search-pelamar"
+      oninput="handleSearchPelamar(this.value)"
+      placeholder="Cari nama atau NIM pelamar..."
+      class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    />
+  </div>
+  <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+    <select
+      id="filter-pelamar-mitra"
+      onchange="handleFilterPelamarMitra(this.value)"
+      class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    >
+      <option value="semua">Semua Mitra</option>
+      <option value="Bengkel Koding">Bengkel Koding</option>
+      <option value="PT Matic Edukasi Mandiri">PT Matic Edukasi Mandiri</option>
+      <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
+      <option value="IDSS Laboratory">IDSS Laboratory</option>
+    </select>
+    <select
+      id="filter-pelamar-status"
+      onchange="handleFilterPelamarStatus(this.value)"
+      class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    >
+      <option value="semua">Semua Status Approval</option>
+      <option value="pending">Menunggu Persetujuan</option>
+      <option value="approved">Disetujui</option>
+      <option value="rejected">Ditolak</option>
+    </select>
+  </div>
+</div>
+
+<!-- Tabel Pelamar -->
+<div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+  <table class="w-full text-xs text-left border-collapse">
+    <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+      <tr>
+        <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+        <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+        <th class="px-3 py-2 font-semibold text-[11px]">Prodi</th>
+        <th class="px-3 py-2 font-semibold text-[11px]">Mitra Penempatan</th>
+        <th class="px-3 py-2 font-semibold text-[11px]">Posisi / Formasi</th>
+        <th class="px-3 py-2 font-semibold text-center text-[11px]">Rekomendasi Mitra</th>
+        <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Approval</th>
+        <th class="w-36 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
+      <!-- Populated dynamically via renderPelamarTable() -->
+    </tbody>
+  </table>
+</div>
+
+<div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
+  <div id="pelamar-table-info">Menampilkan pelamar</div>
+  <div id="pelamar-pagination-controls" class="flex items-center gap-1"></div>
+</div>

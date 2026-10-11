@@ -11,17 +11,88 @@
                 </p>
               </div>
 
-              <!-- Periode Akademik Aktif (Dipertahankan di Sisi Kanan Header) -->
-              <div
-                class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-[#e4e4e7] bg-white shadow-2xs shrink-0 self-start sm:self-auto"
-              >
-                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
-                  <i data-lucide="calendar" class="w-4 h-4"></i>
+              <div class="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto">
+                <!-- Periode Akademik Aktif -->
+                <div
+                  class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-[#e4e4e7] bg-white shadow-2xs"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-[10px] text-[#71717a] font-medium leading-none">Periode Akademik Aktif</span>
+                    <span class="text-xs font-semibold text-[#09090b] mt-1 leading-none">Semester Gasal 2024/2025</span>
+                  </div>
                 </div>
-                <div class="flex flex-col">
-                  <span class="text-[10px] text-[#71717a] font-medium leading-none">Periode Akademik Aktif</span>
-                  <span class="text-xs font-semibold text-[#09090b] mt-1 leading-none">Semester Gasal 2024/2025</span>
+
+                <!-- Hitung Mundur / Countdown Cut-off Pendaftaran -->
+                <div
+                  class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50/70 shadow-2xs"
+                >
+                  <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-[10px] text-amber-800 font-semibold leading-none">Batas Pendaftaran & Seleksi</span>
+                    <div id="dash-countdown-timer" class="text-xs font-bold text-amber-900 mt-1 font-mono tracking-tight leading-none">
+                      14h 08j 24m 10d
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Pintasan Aksi Cepat (Quick Action Bar) -->
+            <div class="p-3 bg-[#fafafa] rounded-xl border border-[#e4e4e7] flex flex-wrap items-center justify-between gap-2.5">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-[#0655a7]/10 text-[#0655a7] flex items-center justify-center shrink-0">
+                  <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                </div>
+                <span class="text-xs font-semibold text-[#09090b]">Pintasan Aksi Cepat:</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onclick="switchTab('mhs-rekomendasi')"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Verifikasi SuReKom</span>
+                  <span class="px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">1</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('mhs-pelamar')"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="check-check" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Review Pelamar Mitra</span>
+                  <span class="px-1.5 py-0.2 rounded-full bg-blue-100 text-[#0655a7] text-[10px] font-bold">4</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('pengumuman'); showBuatPengumumanModal();"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="megaphone" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>+ Buat Pengumuman</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('mitra'); showTambahMitraModal();"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="building-2" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>+ Tambah Mitra</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchTab('periode')"
+                  class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:text-[#0655a7] text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+                >
+                  <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span>Atur Periode Ajaran</span>
+                </button>
               </div>
             </div>
 

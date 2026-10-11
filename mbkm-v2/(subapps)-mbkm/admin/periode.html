@@ -1,0 +1,155 @@
+<!-- Header -->
+<div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+  <div>
+    <h2 class="text-base font-semibold text-[#09090b]">Periode Ajaran MBKM</h2>
+    <p class="text-[11px] text-[#71717a]">Kalender semester aktif, konfigurasi tanggal pendaftaran, dan batas cut-off seleksi.</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <button
+      type="button"
+      onclick="syncPeriodeSiadin()"
+      class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
+    >
+      <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+      <span>Sinkronisasi SIADIN</span>
+    </button>
+  </div>
+</div>
+
+<!-- Banner Status Semester Aktif & Stepper Timeline -->
+<div class="p-4 bg-gradient-to-r from-blue-50/90 via-white to-blue-50/40 rounded-xl border border-blue-200/80 shadow-2xs flex flex-col gap-3.5">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-100">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-[#0655a7] text-white flex items-center justify-center shadow-xs">
+        <i data-lucide="calendar-check" class="w-5 h-5"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h3 class="text-sm font-bold text-[#09090b]">Semester Gasal 2024/2025</h3>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Aktif Berjalan
+          </span>
+        </div>
+        <p class="text-[11px] text-[#71717a] mt-0.5">Kode Periode: <strong class="font-mono text-[#09090b]">20241</strong> • Durasi: 01 Ags 2026 s.d. 31 Jan 2027</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white border border-amber-200 shadow-2xs self-start sm:self-auto">
+      <i data-lucide="clock" class="w-4 h-4 text-amber-600"></i>
+      <div class="flex flex-col">
+        <span class="text-[10px] text-amber-800 font-medium">Batas Cut-off Seleksi Mitra:</span>
+        <span id="periode-countdown" class="text-xs font-bold text-amber-900 font-mono">14 Hari 08 Jam Tersisa</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stepper Tracker Tahapan Semester -->
+  <div class="flex flex-col gap-1.5">
+    <div class="text-[11px] font-semibold text-[#3f3f46]">Progres Tahapan Operasional Semester:</div>
+    <div class="grid grid-cols-2 sm:grid-cols-6 gap-2">
+      <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 flex flex-col">
+        <span class="text-[10px] text-emerald-700 font-semibold">1. Pendaftaran</span>
+        <span class="text-[10px] text-emerald-800 font-medium mt-0.5">Selesai (25 Ags)</span>
+      </div>
+      <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 flex flex-col">
+        <span class="text-[10px] text-emerald-700 font-semibold">2. SuReKom</span>
+        <span class="text-[10px] text-emerald-800 font-medium mt-0.5">Selesai (20 Ags)</span>
+      </div>
+      <div class="p-2 rounded-lg bg-blue-50 border border-blue-300 flex flex-col ring-1 ring-blue-400">
+        <span class="text-[10px] text-[#0655a7] font-bold">3. Seleksi Mitra</span>
+        <span class="text-[10px] text-blue-700 font-semibold mt-0.5">Sedang Berjalan</span>
+      </div>
+      <div class="p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex flex-col opacity-75">
+        <span class="text-[10px] text-[#71717a] font-medium">4. Kegiatan MBKM</span>
+        <span class="text-[10px] text-[#71717a] mt-0.5">05 Sep - 15 Jan</span>
+      </div>
+      <div class="p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex flex-col opacity-75">
+        <span class="text-[10px] text-[#71717a] font-medium">5. Logbook & Monev</span>
+        <span class="text-[10px] text-[#71717a] mt-0.5">Mingguan</span>
+      </div>
+      <div class="p-2 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex flex-col opacity-75">
+        <span class="text-[10px] text-[#71717a] font-medium">6. Konversi & KHS</span>
+        <span class="text-[10px] text-[#71717a] mt-0.5">Cut-off 20 Jan</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form Pengaturan Tanggal & Cut-off Periode Aktif -->
+<div class="p-4 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs flex flex-col gap-3.5">
+  <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+    <div>
+      <h3 class="text-xs font-semibold text-[#09090b]">Konfigurasi Batas Waktu & Cut-off Semester Aktif</h3>
+      <p class="text-[11px] text-[#71717a]">Atur rentang tanggal penting siklus pendaftaran, verifikasi, dan penyetaraan SKS.</p>
+    </div>
+    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-200">
+      Role Koordinator MBKM
+    </span>
+  </div>
+
+  <form onsubmit="handleSavePeriodeConfig(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Pembukaan Pendaftaran Mahasiswa</label>
+      <input type="date" id="cfg-tgl-buka-daftar" value="2026-08-01" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Penutupan Pendaftaran Mahasiswa</label>
+      <input type="date" id="cfg-tgl-tutup-daftar" value="2026-08-25" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Batas Permohonan SuReKom</label>
+      <input type="date" id="cfg-tgl-cutoff-surekom" value="2026-08-20" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Batas Seleksi & Rekomendasi Mitra</label>
+      <input type="date" id="cfg-tgl-cutoff-seleksi" value="2026-08-30" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Tanggal Mulai Kegiatan MBKM</label>
+      <input type="date" id="cfg-tgl-mulai-kegiatan" value="2026-09-05" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Tanggal Selesai Kegiatan MBKM</label>
+      <input type="date" id="cfg-tgl-selesai-kegiatan" value="2027-01-15" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Batas Akhir Upload Logbook</label>
+      <input type="date" id="cfg-tgl-cutoff-logbook" value="2027-01-10" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium text-[#3f3f46]">Batas Pengesahan Konversi SKS</label>
+      <input type="date" id="cfg-tgl-cutoff-konversi" value="2027-01-20" class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none" />
+    </div>
+    <div class="flex items-end">
+      <button type="submit" class="w-full px-3 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-medium text-xs shadow-2xs flex items-center justify-center gap-1.5 transition-all">
+        <i data-lucide="save" class="w-3.5 h-3.5"></i>
+        <span>Simpan Konfigurasi Jadwal</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Riwayat Periode Ajaran Sebelumnya -->
+<div class="flex flex-col gap-2 bg-white rounded-xl border border-[#e4e4e7] p-3 shadow-2xs">
+  <div class="flex items-center justify-between pb-1">
+    <h3 class="text-xs font-semibold text-[#09090b]">Riwayat Periode Ajaran MBKM</h3>
+    <span class="text-[11px] text-[#71717a]">Arsip periode semester lampau</span>
+  </div>
+  <div class="overflow-x-auto rounded-lg border border-[#e4e4e7]">
+    <table class="w-full text-xs text-left border-collapse">
+      <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+        <tr>
+          <th class="px-3 py-2 font-semibold text-[11px]">Kode</th>
+          <th class="px-3 py-2 font-semibold text-[11px]">Tahun Ajaran</th>
+          <th class="px-3 py-2 font-semibold text-[11px]">Rentang Waktu</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Total Peserta</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Total Mitra</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+        </tr>
+      </thead>
+      <tbody id="periode-history-tbody" class="divide-y divide-[#e4e4e7]">
+        <!-- Populated dynamically via renderPeriodeHistory() -->
+      </tbody>
+    </table>
+  </div>
+</div>

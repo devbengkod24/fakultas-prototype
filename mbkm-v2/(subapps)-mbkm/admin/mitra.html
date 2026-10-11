@@ -1,0 +1,196 @@
+<!-- Subview 1: Direktori Mitra -->
+<div id="subview-mitra-list" class="flex flex-col gap-3">
+  <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+    <div>
+      <h2 class="text-base font-semibold text-[#09090b]">Direktori Mitra MBKM</h2>
+      <p class="text-[11px] text-[#71717a]">Manajemen akun PIC mitra (invite-only) dan monitoring program, dosen, serta mahasiswa.</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        onclick="showTambahMitraModal()"
+        class="px-3 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-2xs flex items-center gap-1.5 transition-all"
+      >
+        <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+        <span>+ Tambah Mitra</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter & Toolbar -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
+    <div class="relative w-full sm:w-72">
+      <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        type="text"
+        id="search-mitra"
+        oninput="handleSearchMitra(this.value)"
+        placeholder="Cari nama mitra atau PIC..."
+        class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      />
+    </div>
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <select
+        id="filter-mitra-status"
+        onchange="handleFilterMitraStatus(this.value)"
+        class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="semua">Semua Status Akun</option>
+        <option value="aktif">Akun Aktif</option>
+        <option value="pending">Pending Undangan</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabel Mitra -->
+  <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+    <table class="w-full text-xs text-left border-collapse">
+      <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+        <tr>
+          <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+          <th class="px-3 py-2 font-semibold text-[11px]">Nama Mitra & Sektor</th>
+          <th class="px-3 py-2 font-semibold text-[11px]">PIC (Person In Charge)</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Role Akun</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Program</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Mhs Aktif</th>
+          <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+          <th class="w-32 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="mitra-table-tbody" class="divide-y divide-[#e4e4e7]">
+        <!-- Populated dynamically via renderMitraTable() -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
+    <div id="mitra-table-info">Menampilkan mitra</div>
+    <div id="mitra-pagination-controls" class="flex items-center gap-1"></div>
+  </div>
+</div>
+
+<!-- Subview 2: Detail Mitra Bertab (CustomTabs) -->
+<div id="subview-mitra-detail" class="flex flex-col hidden gap-3.5">
+  <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        onclick="hideMitraDetail()"
+        class="p-1.5 rounded-lg border border-[#e4e4e7] text-[#71717a] hover:bg-gray-50 flex items-center justify-center transition-colors"
+      >
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      </button>
+      <div>
+        <h2 id="mitra-detail-title" class="text-base font-semibold text-[#09090b]">Detail Mitra</h2>
+        <p id="mitra-detail-subtitle" class="text-[11px] text-[#71717a]">Profil operasional, program lowongan, dosen pembina, dan mahasiswa binaan.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="mitra-detail-status-badge" class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        Akun Aktif
+      </span>
+    </div>
+  </div>
+
+  <!-- Ringkasan Profil Mitra -->
+  <div class="p-3.5 rounded-xl border border-[#e4e4e7] bg-[#fafafa] flex flex-wrap items-center justify-between gap-3 text-xs">
+    <div class="flex items-center gap-3">
+      <div id="mitra-detail-avatar" class="w-11 h-11 rounded-xl bg-[#0655a7]/10 text-[#0655a7] font-bold flex items-center justify-center text-sm border border-blue-200 shrink-0">
+        BK
+      </div>
+      <div>
+        <div id="mitra-detail-name" class="font-bold text-[#09090b] text-sm">PT Bengkel Koding Nusantara</div>
+        <div id="mitra-detail-pic" class="text-[11px] text-[#71717a]">PIC: Dimas Wicaksono (dimas@bengkod.id • 08123456789)</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="mitra-detail-mou" class="px-2.5 py-1 rounded-lg bg-blue-50 text-[#0655a7] border border-blue-200 font-medium text-[11px]">
+        MoU: 042/MoU/FIK-UDINUS/2026
+      </span>
+    </div>
+  </div>
+
+  <!-- Navigasi CustomTabs: Tab Program, Tab Dosen, Tab Mahasiswa -->
+  <div class="flex border-b border-[#e4e4e7] gap-2 pt-1">
+    <button
+      type="button"
+      id="mitra-tab-btn-program"
+      onclick="switchMitraTab('program')"
+      class="mitra-tab-btn px-3.5 py-2 text-xs font-semibold border-b-2 border-[#0655a7] text-[#0655a7] flex items-center gap-2 transition-colors"
+    >
+      <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+      <span>Tab Program & Lowongan</span>
+    </button>
+    <button
+      type="button"
+      id="mitra-tab-btn-dosen"
+      onclick="switchMitraTab('dosen')"
+      class="mitra-tab-btn px-3.5 py-2 text-xs font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] flex items-center gap-2 transition-colors"
+    >
+      <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+      <span>Tab Dosen Pembina (DPL)</span>
+    </button>
+    <button
+      type="button"
+      id="mitra-tab-btn-mhs"
+      onclick="switchMitraTab('mhs')"
+      class="mitra-tab-btn px-3.5 py-2 text-xs font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] flex items-center gap-2 transition-colors"
+    >
+      <i data-lucide="users" class="w-3.5 h-3.5"></i>
+      <span>Tab Mahasiswa Aktif</span>
+    </button>
+  </div>
+
+  <!-- Konten Tab 1: Tab Program -->
+  <div id="mitra-tab-content-program" class="mitra-tab-pane flex flex-col gap-2">
+    <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+      <table class="w-full text-xs text-left border-collapse">
+        <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+          <tr>
+            <th class="px-3 py-2 font-semibold text-[11px]">Nama Lowongan / Track</th>
+            <th class="px-3 py-2 font-semibold text-center text-[11px]">Kuota</th>
+            <th class="px-3 py-2 font-semibold text-center text-[11px]">Terisi</th>
+            <th class="px-3 py-2 font-semibold text-center text-[11px]">Pelamar Masuk</th>
+            <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+          </tr>
+        </thead>
+        <tbody id="mitra-detail-program-tbody" class="divide-y divide-[#e4e4e7]"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Konten Tab 2: Tab Dosen -->
+  <div id="mitra-tab-content-dosen" class="mitra-tab-pane hidden flex flex-col gap-2">
+    <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+      <table class="w-full text-xs text-left border-collapse">
+        <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+          <tr>
+            <th class="px-3 py-2 font-semibold text-[11px]">Nama Dosen Pembina</th>
+            <th class="px-3 py-2 font-semibold text-[11px]">NIDN / NPP</th>
+            <th class="px-3 py-2 font-semibold text-[11px]">Homebase Prodi</th>
+            <th class="px-3 py-2 font-semibold text-center text-[11px]">Mahasiswa Binaan</th>
+          </tr>
+        </thead>
+        <tbody id="mitra-detail-dosen-tbody" class="divide-y divide-[#e4e4e7]"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Konten Tab 3: Tab Mahasiswa -->
+  <div id="mitra-tab-content-mhs" class="mitra-tab-pane hidden flex flex-col gap-2">
+    <div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
+      <table class="w-full text-xs text-left border-collapse">
+        <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+          <tr>
+            <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+            <th class="px-3 py-2 font-semibold text-[11px]">Prodi</th>
+            <th class="px-3 py-2 font-semibold text-[11px]">Track / Posisi</th>
+            <th class="px-3 py-2 font-semibold text-[11px]">DPL Pendamping</th>
+            <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Kegiatan</th>
+          </tr>
+        </thead>
+        <tbody id="mitra-detail-mhs-tbody" class="divide-y divide-[#e4e4e7]"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
