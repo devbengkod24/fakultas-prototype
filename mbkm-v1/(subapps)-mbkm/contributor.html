@@ -2022,20 +2022,20 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                 <h2
                   class="text-[20px] leading-[28px] font-normal text-[#09090b]"
                 >
-                  Pendaftar Program
+                  Pendaftar
                 </h2>
                 <p class="text-[14px] leading-[20px] text-[#71717a]">
-                  Verifikasi data akademik, transkrip, dan CV mahasiswa
-                  pendaftar sebelum menetapkan kelulusan.
+                  Review berkas dan jawaban form, perbarui status seleksi
+                  internal, lalu rekomendasikan kandidat lolos ke Koordinator.
                 </p>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-3">
                 <span class="text-xs text-gray-500"
-                  >Total Menunggu:
+                  >Siap direkomendasikan:
                   <strong
-                    class="text-amber-700 font-semibold"
-                    id="seleksiCountHeader"
-                    >3 Mahasiswa</strong
+                    class="text-emerald-700 font-semibold"
+                    id="seleksiReadyCount"
+                    >0 Mahasiswa</strong
                   ></span
                 >
                 <button
@@ -2049,44 +2049,65 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
               </div>
             </div>
 
-            <!-- Filter & Search Toolbar (Bab 9) -->
+            <!-- Filter Program, Status & Search -->
             <div
-              class="flex flex-col sm:flex-row items-center justify-between gap-3"
+              class="flex flex-col lg:flex-row lg:items-center justify-between gap-3"
             >
-              <div
-                class="inline-flex p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs"
-              >
-                <button
-                  type="button"
-                  onclick="filterSeleksiTable('semua', this)"
-                  class="filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs"
+              <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                <select
+                  id="seleksiProgramFilter"
+                  onchange="setSeleksiProgram(this.value)"
+                  class="px-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
                 >
-                  Semua Pendaftar (3)
-                </button>
-                <button
-                  type="button"
-                  onclick="filterSeleksiTable('menunggu', this)"
-                  class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
+                  <option value="semua">Semua Program</option>
+                </select>
+                <div
+                  class="inline-flex flex-wrap p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs"
                 >
-                  Menunggu (3)
-                </button>
-                <button
-                  type="button"
-                  onclick="filterSeleksiTable('diterima', this)"
-                  class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
-                >
-                  Diterima (0)
-                </button>
-                <button
-                  type="button"
-                  onclick="filterSeleksiTable('ditolak', this)"
-                  class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
-                >
-                  Ditolak (0)
-                </button>
+                  <button
+                    type="button"
+                    data-status="semua"
+                    onclick="filterSeleksiTable('semua', this)"
+                    class="filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs"
+                  >
+                    Semua (<span id="cntSemua">0</span>)
+                  </button>
+                  <button
+                    type="button"
+                    data-status="Menunggu Review"
+                    onclick="filterSeleksiTable('Menunggu Review', this)"
+                    class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
+                  >
+                    Menunggu Review (<span id="cntMenunggu">0</span>)
+                  </button>
+                  <button
+                    type="button"
+                    data-status="Wawancara"
+                    onclick="filterSeleksiTable('Wawancara', this)"
+                    class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
+                  >
+                    Wawancara (<span id="cntWawancara">0</span>)
+                  </button>
+                  <button
+                    type="button"
+                    data-status="Lolos Internal"
+                    onclick="filterSeleksiTable('Lolos Internal', this)"
+                    class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
+                  >
+                    Lolos Internal (<span id="cntLolos">0</span>)
+                  </button>
+                  <button
+                    type="button"
+                    data-status="Gugur"
+                    onclick="filterSeleksiTable('Gugur', this)"
+                    class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900"
+                  >
+                    Gugur (<span id="cntGugur">0</span>)
+                  </button>
+                </div>
               </div>
 
-              <div class="relative w-full sm:w-64">
+              <div class="relative w-full lg:w-64">
                 <i
                   data-lucide="search"
                   class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
@@ -2101,7 +2122,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
               </div>
             </div>
 
-            <!-- Tabel Seleksi Pendaftar (Bab 13) -->
+            <!-- Tabel Pendaftar -->
             <div
               class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
             >
@@ -2112,316 +2133,56 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                       class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]"
                     >
                       <th class="py-3 px-4">Mahasiswa</th>
-                      <th class="py-3 px-4">Kualifikasi Akademik</th>
-                      <th class="py-3 px-4">Dokumen Persyaratan</th>
-                      <th class="py-3 px-4">Tanggal Daftar</th>
-                      <th class="py-3 px-4">Status</th>
-                      <th class="py-3 px-4 text-right">Keputusan Seleksi</th>
+                      <th class="py-3 px-4">Program</th>
+                      <th class="py-3 px-4">IPK / SKS</th>
+                      <th class="py-3 px-4">Jawaban Form</th>
+                      <th class="py-3 px-4">Berkas (GDrive)</th>
+                      <th class="py-3 px-4">Status Seleksi</th>
                     </tr>
                   </thead>
-                  <tbody id="seleksiTableBody" class="divide-y divide-gray-100">
-                    <!-- Row 1 -->
-                    <tr
-                      class="seleksi-row hover:bg-gray-50/70 transition-colors"
-                      data-status="menunggu"
-                      data-name="Muhammad Raihan Pratama"
-                      data-nim="A11.2023.14920"
-                    >
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Muhammad Raihan Pratama
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2023.14920 • TI-S1
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-xs">
-                        <div class="font-medium text-[#09090b]">IPK: 3.72</div>
-                        <div class="text-[12px] text-[#71717a]">
-                          104 SKS • Semester 6
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onclick="
-                              previewDoc('Muhammad Raihan Pratama', 'transkrip')
-                            "
-                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors"
-                          >
-                            <i
-                              data-lucide="file-text"
-                              class="w-3 h-3 text-[#1063B9]"
-                            ></i>
-                            Transkrip
-                          </button>
-                          <button
-                            type="button"
-                            onclick="
-                              previewDoc('Muhammad Raihan Pratama', 'cv')
-                            "
-                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors"
-                          >
-                            <i
-                              data-lucide="file-badge"
-                              class="w-3 h-3 text-amber-600"
-                            ></i>
-                            CV
-                          </button>
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-[#71717a]">
-                        12 Okt 2026, 09:30 WIB
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200"
-                        >
-                          <span
-                            class="w-1.5 h-1.5 rounded-full bg-amber-500"
-                          ></span>
-                          Menunggu
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <div
-                          class="action-cell inline-flex items-center gap-1.5"
-                        >
-                          <button
-                            type="button"
-                            onclick="
-                              handleDecision(
-                                this,
-                                'accept',
-                                'Muhammad Raihan Pratama',
-                                'A11.2023.14920',
-                              )
-                            "
-                            class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors"
-                            title="Terima"
-                          >
-                            Terima
-                          </button>
-                          <button
-                            type="button"
-                            onclick="
-                              handleDecision(
-                                this,
-                                'reject',
-                                'Muhammad Raihan Pratama',
-                              )
-                            "
-                            class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors"
-                            title="Tolak"
-                          >
-                            Tolak
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <!-- Row 2 -->
-                    <tr
-                      class="seleksi-row hover:bg-gray-50/70 transition-colors"
-                      data-status="menunggu"
-                      data-name="Annisa Nabila Rahma"
-                      data-nim="A11.2023.14885"
-                    >
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Annisa Nabila Rahma
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2023.14885 • TI-S1
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-xs">
-                        <div class="font-medium text-[#09090b]">IPK: 3.80</div>
-                        <div class="text-[12px] text-[#71717a]">
-                          108 SKS • Semester 6
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onclick="
-                              previewDoc('Annisa Nabila Rahma', 'transkrip')
-                            "
-                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors"
-                          >
-                            <i
-                              data-lucide="file-text"
-                              class="w-3 h-3 text-[#1063B9]"
-                            ></i>
-                            Transkrip
-                          </button>
-                          <button
-                            type="button"
-                            onclick="previewDoc('Annisa Nabila Rahma', 'cv')"
-                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors"
-                          >
-                            <i
-                              data-lucide="file-badge"
-                              class="w-3 h-3 text-amber-600"
-                            ></i>
-                            CV
-                          </button>
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-[#71717a]">
-                        12 Okt 2026, 11:15 WIB
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200"
-                        >
-                          <span
-                            class="w-1.5 h-1.5 rounded-full bg-amber-500"
-                          ></span>
-                          Menunggu
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <div
-                          class="action-cell inline-flex items-center gap-1.5"
-                        >
-                          <button
-                            type="button"
-                            onclick="
-                              handleDecision(
-                                this,
-                                'accept',
-                                'Annisa Nabila Rahma',
-                                'A11.2023.14885',
-                              )
-                            "
-                            class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors"
-                            title="Terima"
-                          >
-                            Terima
-                          </button>
-                          <button
-                            type="button"
-                            onclick="
-                              handleDecision(
-                                this,
-                                'reject',
-                                'Annisa Nabila Rahma',
-                              )
-                            "
-                            class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors"
-                            title="Tolak"
-                          >
-                            Tolak
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-
-                    <!-- Row 3 -->
-                    <tr
-                      class="seleksi-row hover:bg-gray-50/70 transition-colors"
-                      data-status="menunggu"
-                      data-name="Bima Arya Kusuma"
-                      data-nim="A11.2023.15102"
-                    >
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Bima Arya Kusuma
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2023.15102 • TI-S1
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-xs">
-                        <div class="font-medium text-[#09090b]">IPK: 3.65</div>
-                        <div class="text-[12px] text-[#71717a]">
-                          102 SKS • Semester 6
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onclick="
-                              previewDoc('Bima Arya Kusuma', 'transkrip')
-                            "
-                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors"
-                          >
-                            <i
-                              data-lucide="file-text"
-                              class="w-3 h-3 text-[#1063B9]"
-                            ></i>
-                            Transkrip
-                          </button>
-                          <button
-                            type="button"
-                            onclick="previewDoc('Bima Arya Kusuma', 'cv')"
-                            class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors"
-                          >
-                            <i
-                              data-lucide="file-badge"
-                              class="w-3 h-3 text-amber-600"
-                            ></i>
-                            CV
-                          </button>
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4 text-[#71717a]">
-                        13 Okt 2026, 08:20 WIB
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200"
-                        >
-                          <span
-                            class="w-1.5 h-1.5 rounded-full bg-amber-500"
-                          ></span>
-                          Menunggu
-                        </span>
-                      </td>
-                      <td class="py-3.5 px-4 text-right">
-                        <div
-                          class="action-cell inline-flex items-center gap-1.5"
-                        >
-                          <button
-                            type="button"
-                            onclick="
-                              handleDecision(
-                                this,
-                                'accept',
-                                'Bima Arya Kusuma',
-                                'A11.2023.15102',
-                              )
-                            "
-                            class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors"
-                            title="Terima"
-                          >
-                            Terima
-                          </button>
-                          <button
-                            type="button"
-                            onclick="
-                              handleDecision(this, 'reject', 'Bima Arya Kusuma')
-                            "
-                            class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors"
-                            title="Tolak"
-                          >
-                            Tolak
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody
+                    id="seleksiTableBody"
+                    class="divide-y divide-gray-100"
+                  ></tbody>
                 </table>
+              </div>
+            </div>
+
+            <!-- Modal Jawaban Form Pendaftar -->
+            <div
+              id="pendDetailModal"
+              class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs"
+            >
+              <div
+                class="bg-white rounded-2xl border border-gray-200 max-w-lg w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto"
+              >
+                <div
+                  class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4"
+                >
+                  <div>
+                    <h3 class="text-base font-bold text-gray-900">
+                      Jawaban Form Pendaftaran
+                    </h3>
+                    <p id="pendDetailSub" class="text-xs text-gray-500 mt-0.5"></p>
+                  </div>
+                  <button
+                    type="button"
+                    onclick="closePendDetail()"
+                    class="text-gray-400 hover:text-gray-600 p-1 rounded-lg"
+                  >
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <div id="pendDetailBody" class="space-y-4 text-xs"></div>
+                <div class="flex justify-end mt-6">
+                  <button
+                    type="button"
+                    onclick="closePendDetail()"
+                    class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50"
+                  >
+                    Tutup
+                  </button>
+                </div>
               </div>
             </div>
           </section>
@@ -4512,7 +4273,121 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         lucide.createIcons();
       }
 
-      // Filter Tabel Seleksi Pendaftar
+      // ===== Pendaftar: seleksi internal & rekomendasi ke Koordinator =====
+      const STATUS_SELEKSI = [
+        "Menunggu Review",
+        "Wawancara",
+        "Lolos Internal",
+        "Gugur",
+      ];
+      const STATUS_STYLE = {
+        "Menunggu Review": "bg-amber-50 text-amber-800 border-amber-200",
+        Wawancara: "bg-blue-50 text-blue-800 border-blue-200",
+        "Lolos Internal": "bg-emerald-50 text-emerald-800 border-emerald-200",
+        Gugur: "bg-rose-50 text-rose-800 border-rose-200",
+      };
+      const jawabanDefault = (alasan) => [
+        { q: "Mengapa Anda tertarik pada program ini?", a: alasan },
+      ];
+      const pendaftarData = [
+        { nim: "A11.2023.14920", nama: "Muhammad Raihan Pratama", prodi: "TI-S1", program: "Asisten Pengembang Aplikasi Mobile", ipk: "3.72", sks: 104, status: "Menunggu Review", terkirim: false, cv: "https://drive.google.com/", portofolio: "https://drive.google.com/", jawaban: jawabanDefault("Ingin memperdalam pengembangan aplikasi mobile pada proyek nyata.") },
+        { nim: "A11.2023.14885", nama: "Annisa Nabila Rahma", prodi: "TI-S1", program: "Peneliti Muda Computer Vision", ipk: "3.80", sks: 108, status: "Menunggu Review", terkirim: false, cv: "https://drive.google.com/", portofolio: "https://drive.google.com/", jawaban: jawabanDefault("Tertarik pada riset deteksi objek dan sudah pernah mengikuti lomba CV.") },
+        { nim: "A11.2023.14790", nama: "Bima Arya Kusuma", prodi: "TI-S1", program: "Asisten Praktikum Basis Data", ipk: "3.55", sks: 100, status: "Menunggu Review", terkirim: false, cv: "https://drive.google.com/", portofolio: "", jawaban: jawabanDefault("Nilai Basis Data saya A dan ingin membantu praktikum.") },
+        { nim: "A11.2023.14760", nama: "Salsabila Putri", prodi: "TI-S1", program: "Peneliti Muda Computer Vision", ipk: "3.68", sks: 102, status: "Wawancara", terkirim: false, cv: "https://drive.google.com/", portofolio: "https://drive.google.com/", jawaban: jawabanDefault("Ingin melanjutkan topik tugas akhir ke arah segmentasi citra.") },
+        { nim: "A11.2023.14733", nama: "Hendra Saputra", prodi: "TI-S1", program: "Asisten Pengembang Aplikasi Mobile", ipk: "3.61", sks: 106, status: "Lolos Internal", terkirim: false, cv: "https://drive.google.com/", portofolio: "https://drive.google.com/", jawaban: jawabanDefault("Berpengalaman membangun aplikasi Flutter untuk UMKM.") },
+        { nim: "A11.2023.14705", nama: "Yoga Aditya", prodi: "TI-S1", program: "Asisten Praktikum Basis Data", ipk: "3.10", sks: 96, status: "Gugur", terkirim: false, cv: "https://drive.google.com/", portofolio: "", jawaban: jawabanDefault("Ingin menambah pengalaman mengajar.") },
+      ];
+      let seleksiStatusFilter = "semua";
+      let seleksiProgramFilter = "semua";
+
+      function renderSeleksiProgramOptions() {
+        const sel = document.getElementById("seleksiProgramFilter");
+        if (!sel) return;
+        const names = [...new Set(pendaftarData.map((p) => p.program))];
+        sel.innerHTML =
+          `<option value="semua">Semua Program</option>` +
+          names
+            .map((n) => `<option value="${escProgram(n)}">${escProgram(n)}</option>`)
+            .join("");
+      }
+
+      function renderSeleksi() {
+        const tbody = document.getElementById("seleksiTableBody");
+        if (!tbody) return;
+        const count = (s) => pendaftarData.filter((p) => p.status === s).length;
+        document.getElementById("cntSemua").textContent = pendaftarData.length;
+        document.getElementById("cntMenunggu").textContent = count("Menunggu Review");
+        document.getElementById("cntWawancara").textContent = count("Wawancara");
+        document.getElementById("cntLolos").textContent = count("Lolos Internal");
+        document.getElementById("cntGugur").textContent = count("Gugur");
+        const ready = pendaftarData.filter(
+          (p) => p.status === "Lolos Internal" && !p.terkirim,
+        ).length;
+        document.getElementById("seleksiReadyCount").textContent = `${ready} Mahasiswa`;
+        const pending = document.getElementById("statPendingCount");
+        if (pending) pending.textContent = count("Menunggu Review");
+
+        const q = (document.getElementById("searchSeleksiInput")?.value || "")
+          .trim()
+          .toLowerCase();
+        const rows = pendaftarData
+          .map((p, i) => ({ p, i }))
+          .filter(
+            ({ p }) =>
+              (seleksiStatusFilter === "semua" || p.status === seleksiStatusFilter) &&
+              (seleksiProgramFilter === "semua" || p.program === seleksiProgramFilter) &&
+              (!q || p.nama.toLowerCase().includes(q) || p.nim.toLowerCase().includes(q)),
+          );
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-8 px-4 text-center text-[#71717a]">Tidak ada pendaftar yang cocok.</td></tr>`;
+          return;
+        }
+        const link = (url, label) =>
+          url
+            ? `<a href="${escProgram(url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium no-underline">${label}</a>`
+            : `<span class="px-2 py-1 text-[#a1a1aa]">${label} -</span>`;
+        tbody.innerHTML = rows
+          .map(({ p, i }) => {
+            const statusCell = p.terkirim
+              ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"><i data-lucide="send" class="w-3 h-3"></i> Terkirim ke Koordinator</span><div class="text-[11px] text-[#71717a] mt-1">Menunggu Final Approval</div>`
+              : `<select onchange="updateStatusSeleksi(${i}, this.value)" class="px-2 py-1 text-[11px] font-medium rounded-md border ${STATUS_STYLE[p.status]} outline-none cursor-pointer">${STATUS_SELEKSI.map((s) => `<option${s === p.status ? " selected" : ""}>${s}</option>`).join("")}</select>`;
+            return `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4">
+                  <div class="font-medium text-[13px] text-[#09090b] leading-tight">${escProgram(p.nama)}</div>
+                  <div class="text-[12px] text-[#71717a]">${escProgram(p.nim)} • ${escProgram(p.prodi)}</div>
+                </td>
+                <td class="py-3.5 px-4 text-gray-800">${escProgram(p.program)}</td>
+                <td class="py-3.5 px-4">
+                  <div class="font-medium text-[#09090b]">IPK ${escProgram(p.ipk)}</div>
+                  <div class="text-[12px] text-[#71717a]">${p.sks} SKS</div>
+                </td>
+                <td class="py-3.5 px-4">
+                  <button type="button" onclick="openPendDetail(${i})" class="px-2.5 py-1 text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">Lihat Jawaban</button>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="flex items-center gap-1.5">${link(p.cv, "CV")}${link(p.portofolio, "Portofolio")}</div>
+                </td>
+                <td class="py-3.5 px-4">${statusCell}</td>
+              </tr>`;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      function updateStatusSeleksi(i, status) {
+        const p = pendaftarData[i];
+        if (!p || p.terkirim) return;
+        p.status = status;
+        renderSeleksi();
+        showToast("Status Diperbarui", `${p.nama}: ${status}.`);
+      }
+
+      function setSeleksiProgram(v) {
+        seleksiProgramFilter = v;
+        renderSeleksi();
+      }
+
       function filterSeleksiTable(status, btn) {
         document.querySelectorAll(".filter-btn").forEach((b) => {
           b.className =
@@ -4520,137 +4395,59 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         });
         btn.className =
           "filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs";
-
-        const rows = document.querySelectorAll(".seleksi-row");
-        rows.forEach((row) => {
-          if (
-            status === "semua" ||
-            row.getAttribute("data-status") === status
-          ) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
-          }
-        });
+        seleksiStatusFilter = status;
+        renderSeleksi();
       }
 
-      // Search Tabel Seleksi
       function searchSeleksi() {
-        const q = document
-          .getElementById("searchSeleksiInput")
-          .value.toLowerCase();
-        document.querySelectorAll(".seleksi-row").forEach((row) => {
-          const name = (row.getAttribute("data-name") || "").toLowerCase();
-          const nim = (row.getAttribute("data-nim") || "").toLowerCase();
-          if (name.includes(q) || nim.includes(q)) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
-          }
-        });
+        renderSeleksi();
       }
 
-      // Handle Keputusan Seleksi (Terima / Tolak)
-      function handleDecision(btn, decision, name, nim) {
-        const row = btn.closest(".seleksi-row");
-        const statusCell = row.querySelector(".status-cell");
-        const actionCell = row.querySelector(".action-cell");
+      function openPendDetail(i) {
+        const p = pendaftarData[i];
+        document.getElementById("pendDetailSub").textContent =
+          `${p.nama} • ${p.nim} • ${p.program}`;
+        document.getElementById("pendDetailBody").innerHTML = p.jawaban
+          .map(
+            (j) =>
+              `<div><div class="font-semibold text-gray-700 mb-1">${escProgram(j.q)}</div><div class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 leading-relaxed">${escProgram(j.a)}</div></div>`,
+          )
+          .join("");
+        document.getElementById("pendDetailModal").classList.remove("hidden");
+      }
+      function closePendDetail() {
+        document.getElementById("pendDetailModal").classList.add("hidden");
+      }
 
-        if (decision === "accept") {
-          row.setAttribute("data-status", "diterima");
-          statusCell.className =
-            "status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
-          statusCell.innerHTML = `<i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600"></i> Diterima`;
-          actionCell.innerHTML = `<span class="text-xs text-emerald-700 font-semibold">Telah Diterima</span>`;
-
-          // Tambah ke tabel Mahasiswa Binaan
-          addAcceptedToMahasiswaTable(name, nim);
+      function kirimRekomendasi() {
+        const ready = pendaftarData.filter(
+          (p) => p.status === "Lolos Internal" && !p.terkirim,
+        );
+        if (!ready.length) {
           showToast(
-            "Pendaftar Diterima",
-            `${name} resmi bergabung ke program binaan.`,
+            "Belum Ada Kandidat",
+            "Ubah status pendaftar menjadi Lolos Internal terlebih dahulu.",
           );
-        } else {
-          row.setAttribute("data-status", "ditolak");
-          statusCell.className =
-            "status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-rose-50 text-rose-800 border border-rose-200";
-          statusCell.innerHTML = `<i data-lucide="x-circle" class="w-3 h-3 text-rose-600"></i> Ditolak`;
-          actionCell.innerHTML = `<span class="text-xs text-rose-600 font-medium">Telah Ditolak</span>`;
-          showToast(
-            "Pendaftar Ditolak",
-            `Pendaftaran ${name} tidak diloloskan.`,
-          );
+          return;
         }
-        lucide.createIcons();
+        if (
+          !confirm(
+            `Kirim ${ready.length} kandidat lolos ke antrean Final Approval Koordinator MBKM? Status tidak dapat diubah setelah dikirim.`,
+          )
+        )
+          return;
+        ready.forEach((p) => (p.terkirim = true));
+        renderSeleksi();
+        showToast(
+          "Rekomendasi Terkirim",
+          `${ready.length} kandidat masuk antrean Final Approval Koordinator MBKM.`,
+        );
       }
 
-      function quickAccept(btn, name, nim) {
-        btn.parentElement.innerHTML = `<span class="text-xs text-emerald-700 font-semibold">Diterima</span>`;
-        addAcceptedToMahasiswaTable(name, nim);
-        showToast("Pendaftar Diterima", `${name} berhasil diterima.`);
-        lucide.createIcons();
-      }
-
-      function quickReject(btn, name) {
-        btn.parentElement.innerHTML = `<span class="text-xs text-rose-600 font-medium">Ditolak</span>`;
-        showToast("Pendaftar Ditolak", `Pendaftaran ${name} ditolak.`);
-        lucide.createIcons();
-      }
-
-      // Sinkronisasi Mahasiswa Diterima ke Tabel Mahasiswa Binaan
-      function addAcceptedToMahasiswaTable(name, nim) {
-        const tbody = document.getElementById("mahasiswaTableBody");
-        if (!tbody) return;
-
-        const newRow = document.createElement("tr");
-        newRow.className =
-          "mhs-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
-        newRow.setAttribute("data-intake", "mandiri");
-        newRow.setAttribute("data-name", name);
-        newRow.setAttribute("data-nim", nim);
-        newRow.innerHTML = `
-        <td class="py-3.5 px-4">
-          <div class="font-medium text-[13px] text-[#09090b]">${name}</div>
-          <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
-        </td>
-        <td class="py-3.5 px-4">
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
-            Lolos Mandiri
-          </span>
-        </td>
-        <td class="py-3.5 px-4">
-          <span class="font-medium text-gray-800">Riset Terapan Machine Learning</span>
-          <div class="text-[#71717a] text-[11px]">Bimbingan Lab</div>
-        </td>
-        <td class="py-3.5 px-4">
-          <span class="font-semibold text-[#1063B9]">20 SKS</span>
-          <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
-        </td>
-        <td class="py-3.5 px-4">
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Siap Plotting Prodi
-          </span>
-        </td>
-        <td class="py-3.5 px-4 text-right">
-          <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik ${name}')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
-            Rincian
-          </button>
-        </td>
-      `;
-        tbody.prepend(newRow);
-
-        // Update counters
-        const countEl = document.getElementById("statMahasiswaCount");
-        const countAll = document.getElementById("countMhsAll");
-        const filledQuota = document.getElementById("statFilledQuota");
-
-        if (countEl)
-          countEl.textContent = parseInt(countEl.textContent || 6) + 1;
-        if (countAll)
-          countAll.textContent = parseInt(countAll.textContent || 6) + 1;
-        if (filledQuota)
-          filledQuota.textContent = parseInt(filledQuota.textContent || 6) + 1;
-      }
-
+      document.addEventListener("DOMContentLoaded", () => {
+        renderSeleksiProgramOptions();
+        renderSeleksi();
+      });
       // ===== Anggota: Dosen (read-only) & Mahasiswa =====
       const anggotaDosen = [
         {
@@ -5981,12 +5778,6 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         );
       }
 
-      function kirimRekomendasi() {
-        showToast(
-          "Rekomendasi Terkirim",
-          "Kandidat lolos masuk antrean Final Approval Koordinator MBKM.",
-        );
-      }
 
       // Floating Toast Utility
       let toastTimeout;
