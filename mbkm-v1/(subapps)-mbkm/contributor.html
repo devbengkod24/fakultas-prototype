@@ -168,24 +168,81 @@
               </div>
             </button>
 
-            <!-- 3. Kelola Program (CMS) -->
-            <button
-              type="button"
-              onclick="switchNavView('program')"
-              id="nav-program"
-              class="nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left"
-            >
-              <span
-                class="active-indicator hidden absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md"
-              ></span>
-              <div class="flex items-center gap-3 truncate">
+            <!-- 3. Group Kelola Program (Collapsible Accordion) -->
+            <div class="space-y-0.5">
+              <button
+                type="button"
+                onclick="toggleNavGroup('program')"
+                id="group-program-btn"
+                class="w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors text-left"
+              >
+                <div class="flex items-center gap-3 truncate">
+                  <i
+                    data-lucide="folder-kanban"
+                    class="nav-icon w-4 h-4 text-[#71717a] shrink-0"
+                  ></i>
+                  <span class="truncate">Kelola Program</span>
+                </div>
                 <i
-                  data-lucide="folder-kanban"
-                  class="nav-icon w-4 h-4 text-[#71717a] shrink-0"
+                  id="group-program-arrow"
+                  data-lucide="chevron-down"
+                  class="w-4 h-4 text-[#71717a] shrink-0 transition-transform duration-200 rotate-180"
                 ></i>
-                <span class="truncate">Kelola Program</span>
+              </button>
+              <div id="group-program-sub" class="pl-4 space-y-0.5">
+                <button
+                  type="button"
+                  onclick="switchNavView('profil')"
+                  id="nav-profil"
+                  class="nav-item relative flex items-center px-4 py-2 rounded-lg text-[13px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left"
+                >
+                  <span
+                    class="active-indicator hidden absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md"
+                  ></span>
+                  <div class="flex items-center gap-2.5 truncate">
+                    <i
+                      data-lucide="building-2"
+                      class="nav-icon w-3.5 h-3.5 text-[#71717a] shrink-0"
+                    ></i>
+                    <span class="truncate">Profile</span>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchNavView('lowongan')"
+                  id="nav-lowongan"
+                  class="nav-item relative flex items-center px-4 py-2 rounded-lg text-[13px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left"
+                >
+                  <span
+                    class="active-indicator hidden absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md"
+                  ></span>
+                  <div class="flex items-center gap-2.5 truncate">
+                    <i
+                      data-lucide="briefcase"
+                      class="nav-icon w-3.5 h-3.5 text-[#71717a] shrink-0"
+                    ></i>
+                    <span class="truncate">Lowongan</span>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  onclick="switchNavView('showcase')"
+                  id="nav-showcase"
+                  class="nav-item relative flex items-center px-4 py-2 rounded-lg text-[13px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left"
+                >
+                  <span
+                    class="active-indicator hidden absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md"
+                  ></span>
+                  <div class="flex items-center gap-2.5 truncate">
+                    <i
+                      data-lucide="images"
+                      class="nav-icon w-3.5 h-3.5 text-[#71717a] shrink-0"
+                    ></i>
+                    <span class="truncate">Showcase</span>
+                  </div>
+                </button>
               </div>
-            </button>
+            </div>
 
             <!-- 4. Group Anggota (Collapsible Accordion) -->
             <div class="space-y-0.5">
@@ -205,7 +262,7 @@
                 <i
                   id="group-anggota-arrow"
                   data-lucide="chevron-down"
-                  class="w-4 h-4 text-[#71717a] shrink-0 transition-transform duration-200"
+                  class="w-4 h-4 text-[#71717a] shrink-0 transition-transform duration-200 rotate-180"
                 ></i>
               </button>
               <div id="group-anggota-sub" class="pl-4 space-y-0.5">
@@ -871,21 +928,20 @@
           </section>
 
           <!-- ======================================================== -->
-          <!-- VIEW 2: KELOLA PROGRAM (CMS KONTEN DETAIL PUBLIK)        -->
+          <!-- VIEW 2A: KELOLA PROFILE (INFORMASI UTAMA PROGRAM) -->
           <!-- ======================================================== -->
-          <section id="view-program" class="view-panel mt-5 space-y-6 hidden">
+          <section id="view-profil" class="view-panel mt-5 space-y-6 hidden">
             <!-- Top Action Bar -->
             <div class="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h2
                   class="text-[20px] leading-[28px] font-normal text-[#09090b]"
                 >
-                  Kelola Program Binaan
+                  Kelola Profile
                 </h2>
                 <p class="text-[14px] leading-[20px] text-[#71717a]">
-                  Kelola informasi utama hero, showcase hasil karya proyek
-                  mahasiswa, dan formasi lowongan track yang tampil pada halaman
-                  detail publik.
+                  Kelola nama program, deskripsi, dan informasi utama yang tampil pada
+                  halaman detail publik MBKM.
                 </p>
               </div>
               <div class="flex items-center gap-2">
@@ -908,49 +964,6 @@
                   <i data-lucide="save" class="w-3.5 h-3.5"></i>
                   <span>Simpan Perubahan</span>
                 </button>
-              </div>
-            </div>
-
-            <!-- INVENTARIS LOWONGAN MITRA -->
-            <div class="space-y-3">
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h3 class="text-[15px] font-semibold text-[#09090b]">
-                    Inventaris Lowongan
-                  </h3>
-                  <p class="text-xs text-[#71717a]">
-                    Posisi Asistensi, Proyek, dan Riset beserta kuota dan status
-                    tayang.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onclick="openProgramModal()"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
-                >
-                  <i data-lucide="plus" class="w-3.5 h-3.5"></i
-                  ><span>Tambah Program</span>
-                </button>
-              </div>
-              <div
-                class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
-              >
-                <div class="overflow-x-auto">
-                  <table class="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr
-                        class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]"
-                      >
-                        <th class="py-3 px-4">Program / Posisi</th>
-                        <th class="py-3 px-4">Durasi</th>
-                        <th class="py-3 px-4">Kuota Terisi</th>
-                        <th class="py-3 px-4">Status Tayang</th>
-                        <th class="py-3 px-4 text-right">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody id="programTableBody" class="divide-y divide-gray-100"></tbody>
-                  </table>
-                </div>
               </div>
             </div>
 
@@ -1207,284 +1220,64 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
               </div>
             </div>
 
-            <!-- CARD 2: SHOWCASE KARYA PROYEK MAHASISWA -->
-            <div
-              class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5"
-            >
-              <div
-                class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4"
-              >
+          </section>
+
+          <!-- ======================================================== -->
+          <!-- VIEW 2B: KELOLA LOWONGAN (INVENTARIS + FORMASI TRACK) -->
+          <!-- ======================================================== -->
+          <section id="view-lowongan" class="view-panel mt-5 space-y-6 hidden">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2
+                  class="text-[20px] leading-[28px] font-normal text-[#09090b]"
+                >
+                  Kelola Lowongan
+                </h2>
+                <p class="text-[14px] leading-[20px] text-[#71717a]">
+                  Kelola posisi Asistensi, Proyek, dan Riset beserta kuota,
+                  status tayang, dan formulir pendaftarannya.
+                </p>
+              </div>
+            </div>
+            <!-- INVENTARIS LOWONGAN MITRA -->
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h3
-                    class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2"
-                  >
-                    <i
-                      data-lucide="folder-git-2"
-                      class="w-4 h-4 text-[#1063B9]"
-                    ></i>
-                    <span>Showcase Hasil Karya Proyek Mahasiswa</span>
+                  <h3 class="text-[15px] font-semibold text-[#09090b]">
+                    Inventaris Lowongan
                   </h3>
-                  <p class="text-xs text-[#71717a] mt-0.5">
-                    Portofolio capstone project yang dikembangkan mahasiswa
-                    binaan untuk dipamerkan di halaman detail.
+                  <p class="text-xs text-[#71717a]">
+                    Posisi Asistensi, Proyek, dan Riset beserta kuota dan status
+                    tayang.
                   </p>
                 </div>
                 <button
                   type="button"
-                  onclick="openShowcaseModal()"
-                  class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0"
+                  onclick="openProgramModal()"
+                  class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]"
                 >
-                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                  <span>Tambah Proyek Showcase</span>
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i
+                  ><span>Tambah Program</span>
                 </button>
               </div>
-
-              <!-- List Showcase Proyek -->
-              <div id="showcaseListContainer" class="space-y-4">
-                <!-- Item 1 -->
-                <div
-                  class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start"
-                  data-id="PRJ-2026-01"
-                >
-                  <div
-                    class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
-                      alt="Smart Energy"
-                      class="w-full h-full object-cover"
-                    />
-                    <span
-                      class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white"
-                      >IoT &amp; ML</span
-                    >
-                  </div>
-                  <div class="flex-1 space-y-1.5">
-                    <div
-                      class="flex flex-wrap items-center justify-between gap-2"
-                    >
-                      <div class="flex items-center gap-2">
-                        <span
-                          class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100"
-                          >Capstone Project Batch 6</span
-                        >
-                        <span class="text-xs text-gray-500 font-medium"
-                          >ID: PRJ-2026-01</span
-                        >
-                      </div>
-                      <div class="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onclick="editShowcaseItem(this)"
-                          class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                          title="Edit"
-                        >
-                          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                        </button>
-                        <button
-                          type="button"
-                          onclick="deleteShowcaseItem(this)"
-                          class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                          title="Hapus"
-                        >
-                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <h4 class="text-sm font-bold text-gray-900 item-title">
-                      Smart Energy &amp; Air Quality Monitoring Campus FIK
-                    </h4>
-                    <p class="text-xs text-gray-600 leading-relaxed item-desc">
-                      Sistem prediksi konsumsi daya listrik cerdas dan
-                      pemantauan kualitas udara di gedung perkuliahan FIK secara
-                      real-time berbasis sensor ESP32, model prediktif LSTM, dan
-                      dashboard visual analitik.
-                    </p>
-                    <div
-                      class="flex flex-wrap items-center gap-1.5 pt-1 item-tags"
-                    >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >Python</span
+              <div
+                class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
+              >
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr
+                        class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]"
                       >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >TensorFlow</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >React.js</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >Google Cloud</span
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Item 2 -->
-                <div
-                  class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start"
-                  data-id="PRJ-2026-02"
-                >
-                  <div
-                    class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80"
-                      alt="Attendance AI"
-                      class="w-full h-full object-cover"
-                    />
-                    <span
-                      class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white"
-                      >Computer Vision</span
-                    >
-                  </div>
-                  <div class="flex-1 space-y-1.5">
-                    <div
-                      class="flex flex-wrap items-center justify-between gap-2"
-                    >
-                      <div class="flex items-center gap-2">
-                        <span
-                          class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100"
-                          >Capstone Project Batch 5</span
-                        >
-                        <span class="text-xs text-gray-500 font-medium"
-                          >ID: PRJ-2026-02</span
-                        >
-                      </div>
-                      <div class="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onclick="editShowcaseItem(this)"
-                          class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                          title="Edit"
-                        >
-                          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                        </button>
-                        <button
-                          type="button"
-                          onclick="deleteShowcaseItem(this)"
-                          class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                          title="Hapus"
-                        >
-                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <h4 class="text-sm font-bold text-gray-900 item-title">
-                      Vision-Based Automated Academic Attendance &amp; Fraud
-                      Detection
-                    </h4>
-                    <p class="text-xs text-gray-600 leading-relaxed item-desc">
-                      Implementasi sistem absensi presensi wajah otomatis dengan
-                      deteksi liveness anti-spoofing menggunakan kamera CCTV
-                      kelas perkuliahan terintegrasi sistem presensi akademik
-                      FIK.
-                    </p>
-                    <div
-                      class="flex flex-wrap items-center gap-1.5 pt-1 item-tags"
-                    >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >Python</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >PyTorch</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >YOLOv8</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >FastAPI</span
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div
-                  class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start"
-                  data-id="PRJ-2026-03"
-                >
-                  <div
-                    class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
-                      alt="Robotics"
-                      class="w-full h-full object-cover"
-                    />
-                    <span
-                      class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white"
-                      >Robotics &amp; AI</span
-                    >
-                  </div>
-                  <div class="flex-1 space-y-1.5">
-                    <div
-                      class="flex flex-wrap items-center justify-between gap-2"
-                    >
-                      <div class="flex items-center gap-2">
-                        <span
-                          class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100"
-                          >Capstone Project Batch 5</span
-                        >
-                        <span class="text-xs text-gray-500 font-medium"
-                          >ID: PRJ-2026-03</span
-                        >
-                      </div>
-                      <div class="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onclick="editShowcaseItem(this)"
-                          class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
-                          title="Edit"
-                        >
-                          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                        </button>
-                        <button
-                          type="button"
-                          onclick="deleteShowcaseItem(this)"
-                          class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
-                          title="Hapus"
-                        >
-                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <h4 class="text-sm font-bold text-gray-900 item-title">
-                      Autonomous Robotic Trash Segregator for Green Campus
-                    </h4>
-                    <p class="text-xs text-gray-600 leading-relaxed item-desc">
-                      Robot pemilah sampah otomatis berbasis sensor spektrometri
-                      dan vision classifier yang memisahkan sampah organik,
-                      anorganik, dan B3 pada area kantin dan selasar kampus FIK.
-                    </p>
-                    <div
-                      class="flex flex-wrap items-center gap-1.5 pt-1 item-tags"
-                    >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >ROS2</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >OpenCV</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >Edge TPU</span
-                      >
-                      <span
-                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
-                        >C++</span
-                      >
-                    </div>
-                  </div>
+                        <th class="py-3 px-4">Program / Posisi</th>
+                        <th class="py-3 px-4">Durasi</th>
+                        <th class="py-3 px-4">Kuota Terisi</th>
+                        <th class="py-3 px-4">Status Tayang</th>
+                        <th class="py-3 px-4 text-right">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="programTableBody" class="divide-y divide-gray-100"></tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -1835,6 +1628,307 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
           </section>
 
           <!-- ======================================================== -->
+          <!-- VIEW 2C: KELOLA SHOWCASE (KARYA PROYEK MAHASISWA) -->
+          <!-- ======================================================== -->
+          <section id="view-showcase" class="view-panel mt-5 space-y-6 hidden">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2
+                  class="text-[20px] leading-[28px] font-normal text-[#09090b]"
+                >
+                  Kelola Showcase
+                </h2>
+                <p class="text-[14px] leading-[20px] text-[#71717a]">
+                  Kelola hasil karya proyek mahasiswa yang ditampilkan pada
+                  halaman detail publik.
+                </p>
+              </div>
+            </div>
+            <!-- CARD 2: SHOWCASE KARYA PROYEK MAHASISWA -->
+            <div
+              class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5"
+            >
+              <div
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4"
+              >
+                <div>
+                  <h3
+                    class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2"
+                  >
+                    <i
+                      data-lucide="folder-git-2"
+                      class="w-4 h-4 text-[#1063B9]"
+                    ></i>
+                    <span>Showcase Hasil Karya Proyek Mahasiswa</span>
+                  </h3>
+                  <p class="text-xs text-[#71717a] mt-0.5">
+                    Portofolio capstone project yang dikembangkan mahasiswa
+                    binaan untuk dipamerkan di halaman detail.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onclick="openShowcaseModal()"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0"
+                >
+                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                  <span>Tambah Proyek Showcase</span>
+                </button>
+              </div>
+
+              <!-- List Showcase Proyek -->
+              <div id="showcaseListContainer" class="space-y-4">
+                <!-- Item 1 -->
+                <div
+                  class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start"
+                  data-id="PRJ-2026-01"
+                >
+                  <div
+                    class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+                      alt="Smart Energy"
+                      class="w-full h-full object-cover"
+                    />
+                    <span
+                      class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white"
+                      >IoT &amp; ML</span
+                    >
+                  </div>
+                  <div class="flex-1 space-y-1.5">
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-2"
+                    >
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100"
+                          >Capstone Project Batch 6</span
+                        >
+                        <span class="text-xs text-gray-500 font-medium"
+                          >ID: PRJ-2026-01</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onclick="editShowcaseItem(this)"
+                          class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
+                          title="Edit"
+                        >
+                          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button
+                          type="button"
+                          onclick="deleteShowcaseItem(this)"
+                          class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
+                          title="Hapus"
+                        >
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 item-title">
+                      Smart Energy &amp; Air Quality Monitoring Campus FIK
+                    </h4>
+                    <p class="text-xs text-gray-600 leading-relaxed item-desc">
+                      Sistem prediksi konsumsi daya listrik cerdas dan
+                      pemantauan kualitas udara di gedung perkuliahan FIK secara
+                      real-time berbasis sensor ESP32, model prediktif LSTM, dan
+                      dashboard visual analitik.
+                    </p>
+                    <div
+                      class="flex flex-wrap items-center gap-1.5 pt-1 item-tags"
+                    >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >Python</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >TensorFlow</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >React.js</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >Google Cloud</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div
+                  class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start"
+                  data-id="PRJ-2026-02"
+                >
+                  <div
+                    class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80"
+                      alt="Attendance AI"
+                      class="w-full h-full object-cover"
+                    />
+                    <span
+                      class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white"
+                      >Computer Vision</span
+                    >
+                  </div>
+                  <div class="flex-1 space-y-1.5">
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-2"
+                    >
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100"
+                          >Capstone Project Batch 5</span
+                        >
+                        <span class="text-xs text-gray-500 font-medium"
+                          >ID: PRJ-2026-02</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onclick="editShowcaseItem(this)"
+                          class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
+                          title="Edit"
+                        >
+                          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button
+                          type="button"
+                          onclick="deleteShowcaseItem(this)"
+                          class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
+                          title="Hapus"
+                        >
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 item-title">
+                      Vision-Based Automated Academic Attendance &amp; Fraud
+                      Detection
+                    </h4>
+                    <p class="text-xs text-gray-600 leading-relaxed item-desc">
+                      Implementasi sistem absensi presensi wajah otomatis dengan
+                      deteksi liveness anti-spoofing menggunakan kamera CCTV
+                      kelas perkuliahan terintegrasi sistem presensi akademik
+                      FIK.
+                    </p>
+                    <div
+                      class="flex flex-wrap items-center gap-1.5 pt-1 item-tags"
+                    >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >Python</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >PyTorch</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >YOLOv8</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >FastAPI</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div
+                  class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start"
+                  data-id="PRJ-2026-03"
+                >
+                  <div
+                    class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80"
+                      alt="Robotics"
+                      class="w-full h-full object-cover"
+                    />
+                    <span
+                      class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white"
+                      >Robotics &amp; AI</span
+                    >
+                  </div>
+                  <div class="flex-1 space-y-1.5">
+                    <div
+                      class="flex flex-wrap items-center justify-between gap-2"
+                    >
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100"
+                          >Capstone Project Batch 5</span
+                        >
+                        <span class="text-xs text-gray-500 font-medium"
+                          >ID: PRJ-2026-03</span
+                        >
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onclick="editShowcaseItem(this)"
+                          class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"
+                          title="Edit"
+                        >
+                          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button
+                          type="button"
+                          onclick="deleteShowcaseItem(this)"
+                          class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"
+                          title="Hapus"
+                        >
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 item-title">
+                      Autonomous Robotic Trash Segregator for Green Campus
+                    </h4>
+                    <p class="text-xs text-gray-600 leading-relaxed item-desc">
+                      Robot pemilah sampah otomatis berbasis sensor spektrometri
+                      dan vision classifier yang memisahkan sampah organik,
+                      anorganik, dan B3 pada area kantin dan selasar kampus FIK.
+                    </p>
+                    <div
+                      class="flex flex-wrap items-center gap-1.5 pt-1 item-tags"
+                    >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >ROS2</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >OpenCV</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >Edge TPU</span
+                      >
+                      <span
+                        class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200"
+                        >C++</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ======================================================== -->
           <!-- VIEW 3: FORM PENDAFTARAN                                 -->
           <!-- ======================================================== -->
           <section id="view-form" class="view-panel mt-5 space-y-6 hidden">
@@ -1843,11 +1937,11 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
               <div>
                 <button
                   type="button"
-                  onclick="switchNavView('program')"
+                  onclick="switchNavView('lowongan')"
                   class="inline-flex items-center gap-1 text-xs text-[#71717a] hover:text-[#1063B9] mb-1"
                 >
                   <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-                  <span>Kembali ke Kelola Program</span>
+                  <span>Kembali ke Kelola Lowongan</span>
                 </button>
                 <h2
                   class="text-[20px] leading-[28px] font-normal text-[#09090b]"
@@ -4077,7 +4171,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
 
         // 4. Set menu yang aktif
         const activeNav = document.getElementById(
-          `nav-${viewName === "form" ? "program" : viewName}`,
+          `nav-${viewName === "form" ? "lowongan" : viewName}`,
         );
         if (activeNav) {
           activeNav.className =
@@ -4101,12 +4195,24 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
           }
         }
 
+        // Pastikan accordion Kelola Program terbuka jika view terkait aktif
+        if (["profil", "lowongan", "showcase", "form"].includes(viewName)) {
+          const sub = document.getElementById("group-program-sub");
+          const arrow = document.getElementById("group-program-arrow");
+          if (sub && sub.classList.contains("hidden")) {
+            sub.classList.remove("hidden");
+            if (arrow) arrow.classList.add("rotate-180");
+          }
+        }
+
         // 5. Update Breadcrumb Badge
         const breadcrumbNames = {
           dashboard: "Dashboard",
-          program: "Kelola Program Binaan",
+          profil: "Kelola Program / Profile",
+          lowongan: "Kelola Program / Lowongan",
+          showcase: "Kelola Program / Showcase",
           pengumuman: "Pengumuman",
-          form: "Kelola Program / Form Pendaftaran",
+          form: "Kelola Program / Lowongan / Form Pendaftaran",
           seleksi: "Pendaftar",
           logbook: "Logbook Mahasiswa",
           sidang: "Sidang",
