@@ -3482,96 +3482,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                       <th class="py-3 px-4 text-right">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Jadwal Wawancara Gelombang 1
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          Wawancara daring via Google Meet
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">Peserta Diterima</td>
-                      <td class="py-3.5 px-4">10 Okt 2026</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          >Published</span
-                        >
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="text-right inline-flex gap-1.5">
-                          <button
-                            type="button"
-                            onclick="showToast('Pengumuman', 'Membuka editor')"
-                            title="Edit"
-                            class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"
-                          >
-                            <i
-                              data-lucide="pencil"
-                              class="w-3.5 h-3.5"
-                            ></i></button
-                          ><button
-                            type="button"
-                            onclick="
-                              showToast('Pengumuman', 'Pengumuman dihapus')
-                            "
-                            title="Hapus"
-                            class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Pembekalan DPL dan Mahasiswa
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          Lampiran materi di Google Drive
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">Semua</td>
-                      <td class="py-3.5 px-4">12 Okt 2026</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200"
-                          >Draft</span
-                        >
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="text-right inline-flex gap-1.5">
-                          <button
-                            type="button"
-                            onclick="showToast('Pengumuman', 'Membuka editor')"
-                            title="Edit"
-                            class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"
-                          >
-                            <i
-                              data-lucide="pencil"
-                              class="w-3.5 h-3.5"
-                            ></i></button
-                          ><button
-                            type="button"
-                            onclick="
-                              showToast('Pengumuman', 'Pengumuman dihapus')
-                            "
-                            title="Hapus"
-                            class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"
-                          >
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody id="pengumumanTableBody" class="divide-y divide-gray-100"></tbody>
                 </table>
               </div>
             </div>
@@ -4026,7 +3937,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         >
           <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
             <i data-lucide="megaphone" class="w-5 h-5 text-[#1063B9]"></i
-            ><span>Tambah Pengumuman</span>
+            ><span id="pgmModalTitle">Tambah Pengumuman</span>
           </h3>
           <button
             type="button"
@@ -4038,9 +3949,12 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         </div>
         <div class="space-y-4">
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
+            <label
+              for="pgmTitle"
+              class="block text-xs font-semibold text-gray-700"
               >Judul <span class="text-red-500">*</span></label
             ><input
+              id="pgmTitle"
               type="text"
               class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
               placeholder="Judul pengumuman"
@@ -4052,23 +3966,59 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
             >
             <div class="border border-gray-300 rounded-lg">
               <div
-                class="flex gap-2 p-1.5 border-b border-gray-200 bg-gray-50 text-gray-500 rounded-t-lg"
+                class="flex gap-1 p-1.5 border-b border-gray-200 bg-gray-50 text-gray-500 rounded-t-lg"
               >
-                <i data-lucide="bold" class="w-3.5 h-3.5"></i
-                ><i data-lucide="italic" class="w-3.5 h-3.5"></i
-                ><i data-lucide="list" class="w-3.5 h-3.5"></i
-                ><i data-lucide="link" class="w-3.5 h-3.5"></i>
+                <button
+                  type="button"
+                  title="Tebal"
+                  onmousedown="event.preventDefault()"
+                  onclick="formatPengumuman('bold')"
+                  class="p-1 rounded hover:bg-gray-200"
+                >
+                  <i data-lucide="bold" class="w-3.5 h-3.5"></i>
+                </button>
+                <button
+                  type="button"
+                  title="Miring"
+                  onmousedown="event.preventDefault()"
+                  onclick="formatPengumuman('italic')"
+                  class="p-1 rounded hover:bg-gray-200"
+                >
+                  <i data-lucide="italic" class="w-3.5 h-3.5"></i>
+                </button>
+                <button
+                  type="button"
+                  title="Daftar"
+                  onmousedown="event.preventDefault()"
+                  onclick="formatPengumuman('insertUnorderedList')"
+                  class="p-1 rounded hover:bg-gray-200"
+                >
+                  <i data-lucide="list" class="w-3.5 h-3.5"></i>
+                </button>
+                <button
+                  type="button"
+                  title="Tautan"
+                  onmousedown="event.preventDefault()"
+                  onclick="formatPengumuman('createLink')"
+                  class="p-1 rounded hover:bg-gray-200"
+                >
+                  <i data-lucide="link" class="w-3.5 h-3.5"></i>
+                </button>
               </div>
               <div
+                id="pgmBody"
                 contenteditable="true"
                 class="min-h-[96px] p-3 text-xs outline-none"
               ></div>
             </div>
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
+            <label
+              for="pgmTarget"
+              class="block text-xs font-semibold text-gray-700"
               >Sasaran</label
             ><select
+              id="pgmTarget"
               class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
             >
               <option>Semua</option>
@@ -4077,18 +4027,24 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
             </select>
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
+            <label
+              for="pgmLink"
+              class="block text-xs font-semibold text-gray-700"
               >Tautan Lampiran Google Drive</label
             ><input
+              id="pgmLink"
               type="url"
               class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
               placeholder="https://drive.google.com/..."
             />
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
+            <label
+              for="pgmStatus"
+              class="block text-xs font-semibold text-gray-700"
               >Status</label
             ><select
+              id="pgmStatus"
               class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
             >
               <option>Draft</option>
@@ -5967,17 +5923,170 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
       }
 
       // ===== Pengumuman, Logbook, Sidang, Rekomendasi =====
-      function openPengumumanModal() {
+      const pengumumanData = [
+        {
+          id: 1,
+          judul: "Jadwal Wawancara Gelombang 1",
+          isi: "Wawancara daring via Google Meet",
+          sasaran: "Peserta Diterima",
+          lampiran: "",
+          status: "Published",
+          tanggal: "10 Okt 2026",
+        },
+        {
+          id: 2,
+          judul: "Pembekalan DPL dan Mahasiswa",
+          isi: "Lampiran materi di Google Drive",
+          sasaran: "Semua",
+          lampiran: "https://drive.google.com/",
+          status: "Draft",
+          tanggal: "-",
+        },
+      ];
+      let pengumumanEditId = null;
+      let pengumumanNextId = 3;
+
+      function escapePengumuman(s) {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+
+      function stripHtmlPengumuman(html) {
+        const d = document.createElement("div");
+        d.innerHTML = html;
+        return d.textContent.trim();
+      }
+
+      function renderPengumuman() {
+        const tbody = document.getElementById("pengumumanTableBody");
+        if (!tbody) return;
+        if (!pengumumanData.length) {
+          tbody.innerHTML = `<tr><td colspan="5" class="py-8 px-4 text-center text-[#71717a]">Belum ada pengumuman.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = pengumumanData
+          .map((p) => {
+            const badge =
+              p.status === "Published"
+                ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                : "bg-amber-50 text-amber-800 border-amber-200";
+            const ringkas = stripHtmlPengumuman(p.isi).slice(0, 80);
+            return `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4">
+                  <div class="font-medium text-[13px] text-[#09090b] leading-tight">${escapePengumuman(p.judul)}</div>
+                  <div class="text-[12px] text-[#71717a]">${escapePengumuman(ringkas)}</div>
+                </td>
+                <td class="py-3.5 px-4">${escapePengumuman(p.sasaran)}</td>
+                <td class="py-3.5 px-4">${escapePengumuman(p.tanggal)}</td>
+                <td class="py-3.5 px-4">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border ${badge}">${p.status}</span>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="text-right inline-flex gap-1.5">
+                    <button type="button" onclick="openPengumumanModal(${p.id})" title="Edit" class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                    <button type="button" onclick="deletePengumuman(${p.id})" title="Hapus" class="p-1.5 border border-gray-200 hover:bg-gray-50 text-gray-600 rounded-lg"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                  </div>
+                </td>
+              </tr>`;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      function openPengumumanModal(id) {
+        pengumumanEditId = typeof id === "number" ? id : null;
+        const data = pengumumanData.find((p) => p.id === pengumumanEditId);
+        document.getElementById("pgmModalTitle").textContent = data
+          ? "Edit Pengumuman"
+          : "Tambah Pengumuman";
+        document.getElementById("pgmTitle").value = data ? data.judul : "";
+        document.getElementById("pgmBody").innerHTML = data ? data.isi : "";
+        document.getElementById("pgmTarget").value = data
+          ? data.sasaran
+          : "Semua";
+        document.getElementById("pgmLink").value = data ? data.lampiran : "";
+        document.getElementById("pgmStatus").value = data
+          ? data.status
+          : "Draft";
         document.getElementById("pengumumanModal").classList.remove("hidden");
         lucide.createIcons();
       }
       function closePengumumanModal() {
         document.getElementById("pengumumanModal").classList.add("hidden");
       }
-      function savePengumuman() {
-        closePengumumanModal();
-        showToast("Pengumuman Disimpan", "Pengumuman berhasil ditambahkan.");
+      function formatPengumuman(cmd) {
+        document.getElementById("pgmBody").focus();
+        if (cmd === "createLink") {
+          const url = prompt("Masukkan URL tautan:", "https://");
+          if (url) document.execCommand("createLink", false, url);
+        } else {
+          document.execCommand(cmd, false, null);
+        }
       }
+      function savePengumuman() {
+        const judul = document.getElementById("pgmTitle").value.trim();
+        if (!judul) {
+          showToast(
+            "Judul Wajib Diisi",
+            "Isi judul pengumuman terlebih dahulu.",
+          );
+          return;
+        }
+        const status = document.getElementById("pgmStatus").value;
+        const existing = pengumumanData.find((p) => p.id === pengumumanEditId);
+        const hariIni = new Date().toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        const payload = {
+          judul,
+          isi: document.getElementById("pgmBody").innerHTML.trim(),
+          sasaran: document.getElementById("pgmTarget").value,
+          lampiran: document.getElementById("pgmLink").value.trim(),
+          status,
+        };
+        if (existing) {
+          Object.assign(existing, payload);
+          if (status === "Published" && existing.tanggal === "-")
+            existing.tanggal = hariIni;
+          if (status === "Draft") existing.tanggal = "-";
+        } else {
+          pengumumanData.unshift({
+            id: pengumumanNextId++,
+            ...payload,
+            tanggal: status === "Published" ? hariIni : "-",
+          });
+        }
+        closePengumumanModal();
+        renderPengumuman();
+        showToast(
+          existing ? "Pengumuman Diperbarui" : "Pengumuman Disimpan",
+          status === "Published"
+            ? "Pengumuman dipublikasikan."
+            : "Pengumuman disimpan sebagai draft.",
+        );
+      }
+      function deletePengumuman(id) {
+        const idx = pengumumanData.findIndex((p) => p.id === id);
+        if (idx < 0) return;
+        if (!confirm(`Hapus pengumuman "${pengumumanData[idx].judul}"?`))
+          return;
+        pengumumanData.splice(idx, 1);
+        renderPengumuman();
+        showToast("Pengumuman Dihapus", "Pengumuman berhasil dihapus.");
+      }
+      document.addEventListener("DOMContentLoaded", renderPengumuman);
 
       function openLogbookDetail(name, week) {
         document.getElementById("lbModalName").textContent = name;
