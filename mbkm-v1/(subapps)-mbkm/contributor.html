@@ -2610,7 +2610,45 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                   pada sistem.
                 </p>
               </div>
+              <span class="text-xs text-gray-500"
+                >Total aktivitas:
+                <strong id="logTotalCount" class="font-semibold text-[#09090b]"
+                  >0</strong
+                ></span
+              >
             </div>
+
+            <div
+              class="flex flex-col sm:flex-row items-center justify-between gap-3"
+            >
+              <select
+                id="logFilterKategori"
+                onchange="renderLog()"
+                class="w-full sm:w-56 px-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
+              >
+                <option value="semua">Semua Kategori</option>
+                <option>Program</option>
+                <option>Pengumuman</option>
+                <option>Seleksi</option>
+                <option>Rekomendasi</option>
+                <option>Logbook</option>
+                <option>Sidang</option>
+              </select>
+              <div class="relative w-full sm:w-64">
+                <i
+                  data-lucide="search"
+                  class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  type="text"
+                  id="logSearchInput"
+                  onkeyup="renderLog()"
+                  placeholder="Cari aktivitas..."
+                  class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none"
+                />
+              </div>
+            </div>
+
             <div
               class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
             >
@@ -2626,61 +2664,10 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                       <th class="py-3 px-4">Hasil</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">12 Okt 2026, 10:42</td>
-                      <td class="py-3.5 px-4">
-                        Review logbook Annisa Nabila Rahma: Disetujui
-                      </td>
-                      <td class="py-3.5 px-4">Logbook</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          >Berhasil</span
-                        >
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">12 Okt 2026, 09:15</td>
-                      <td class="py-3.5 px-4">
-                        Status pelamar Muhammad Raihan Pratama: Wawancara
-                      </td>
-                      <td class="py-3.5 px-4">Seleksi</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          >Berhasil</span
-                        >
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">11 Okt 2026, 16:20</td>
-                      <td class="py-3.5 px-4">
-                        Perubahan kuota program Peneliti Muda Computer Vision
-                        (5)
-                      </td>
-                      <td class="py-3.5 px-4">Program</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          >Berhasil</span
-                        >
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">11 Okt 2026, 14:05</td>
-                      <td class="py-3.5 px-4">
-                        Input nilai sidang Annisa Nabila Rahma: 88
-                      </td>
-                      <td class="py-3.5 px-4">Sidang</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          >Berhasil</span
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody
+                    id="logTableBody"
+                    class="divide-y divide-gray-100"
+                  ></tbody>
                 </table>
               </div>
             </div>
@@ -4242,6 +4229,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         const p = pendaftarData[i];
         if (!p || p.terkirim) return;
         p.status = status;
+        logActivity("Seleksi", `Status pelamar ${p.nama}: ${status}`);
         renderSeleksi();
         showToast("Status Diperbarui", `${p.nama}: ${status}.`);
       }
@@ -4300,6 +4288,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         )
           return;
         ready.forEach((p) => (p.terkirim = true));
+        logActivity("Rekomendasi", `Kirim ${ready.length} rekomendasi ke Koordinator: ${ready.map((p) => p.nama).join(", ")}`);
         renderSeleksi();
         showToast(
           "Rekomendasi Terkirim",
@@ -5038,6 +5027,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         }
         closeProgramModal();
         renderProgramTable();
+        logActivity("Program", `${existing ? "Perubahan" : "Penambahan"} program ${payload.nama} (${payload.status}, kuota ${payload.kuota})`);
         showToast(
           existing ? "Program Diperbarui" : "Program Ditambahkan",
           `"${payload.nama}" berstatus ${payload.status}.`,
@@ -5048,6 +5038,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         const idx = programData.findIndex((p) => p.id === id);
         if (idx < 0) return;
         if (!confirm(`Hapus program "${programData[idx].nama}"?`)) return;
+        logActivity("Program", `Penghapusan program ${programData[idx].nama}`);
         programData.splice(idx, 1);
         renderProgramTable();
         showToast("Program Dihapus", "Program berhasil dihapus.");
@@ -5313,6 +5304,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
       function saveFormConfig() {
         renderFormPreview();
         const prog = programData.find((p) => p.id === formConfigProgramId);
+        logActivity("Program", `Perubahan form pendaftaran ${prog ? prog.nama : "program"}`);
         showToast(
           "Form Disimpan",
           `Konfigurasi form pendaftaran ${prog ? `"${prog.nama}"` : "program"} berhasil diperbarui.`,
@@ -5589,6 +5581,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
           });
         }
         closePengumumanModal();
+        logActivity("Pengumuman", `${existing ? "Perubahan" : "Penambahan"} pengumuman "${judul}" (${status})`);
         renderPengumuman();
         showToast(
           existing ? "Pengumuman Diperbarui" : "Pengumuman Disimpan",
@@ -5602,6 +5595,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         if (idx < 0) return;
         if (!confirm(`Hapus pengumuman "${pengumumanData[idx].judul}"?`))
           return;
+        logActivity("Pengumuman", `Penghapusan pengumuman "${pengumumanData[idx].judul}"`);
         pengumumanData.splice(idx, 1);
         renderPengumuman();
         showToast("Pengumuman Dihapus", "Pengumuman berhasil dihapus.");
@@ -5716,6 +5710,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         }
         l.status = status;
         l.catatan = catatan;
+        logActivity("Logbook", `Review logbook ${l.nama} (${l.periode}): ${status}`);
         closeLogbookModal();
         renderLogbook();
         showToast(`Logbook ${status}`, `${l.nama} - ${l.periode}.`);
@@ -5857,6 +5852,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         s.beritaAcara = document.getElementById("sdBeritaAcara").value.trim();
         s.status = "Dinilai";
         const n = nilaiAkhirSidang(s);
+        logActivity("Sidang", `Input nilai sidang ${s.nama}: ${n} (${hurufNilai(n)})`);
         closeSidangModal();
         renderSidang();
         showToast("Nilai Sidang Tersimpan", `${s.nama}: ${n} (${hurufNilai(n)}).`);
@@ -5874,12 +5870,76 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         )
           return;
         siap.forEach((s) => (s.status = "Tersinkron"));
+        logActivity("Sidang", `Sinkron ${siap.length} nilai sidang ke Koordinator`);
         renderSidang();
         showToast("Sinkronisasi Berhasil", `${siap.length} nilai akhir dikirim ke Koordinator MBKM.`);
       }
       document.addEventListener("DOMContentLoaded", renderSidang);
 
 
+      // ===== Log Aktivitas (audit trail) =====
+      const LOG_STYLE = {
+        Program: "bg-blue-50 text-blue-800 border-blue-200",
+        Pengumuman: "bg-purple-50 text-purple-800 border-purple-200",
+        Seleksi: "bg-amber-50 text-amber-800 border-amber-200",
+        Rekomendasi: "bg-emerald-50 text-emerald-800 border-emerald-200",
+        Logbook: "bg-cyan-50 text-cyan-800 border-cyan-200",
+        Sidang: "bg-rose-50 text-rose-800 border-rose-200",
+      };
+      const logData = [
+        { waktu: "12 Okt 2026, 10:42", kategori: "Logbook", aktivitas: "Review logbook Rina Marlina (Minggu 5): Disetujui" },
+        { waktu: "12 Okt 2026, 09:15", kategori: "Seleksi", aktivitas: "Status pelamar Salsabila Putri: Wawancara" },
+        { waktu: "11 Okt 2026, 16:20", kategori: "Program", aktivitas: "Perubahan program Peneliti Muda Computer Vision (Tayang, kuota 5)" },
+        { waktu: "11 Okt 2026, 14:05", kategori: "Sidang", aktivitas: "Input nilai sidang Galih Pratama: 88 (A)" },
+        { waktu: "10 Okt 2026, 11:30", kategori: "Pengumuman", aktivitas: 'Penambahan pengumuman "Jadwal Wawancara Gelombang 1" (Published)' },
+      ];
+
+      function logActivity(kategori, aktivitas) {
+        const now = new Date();
+        const tgl = now.toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        const jam = now.toLocaleTimeString("id-ID", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+        logData.unshift({ waktu: `${tgl}, ${jam.replace(".", ":")}`, kategori, aktivitas });
+        renderLog();
+      }
+
+      function renderLog() {
+        const tbody = document.getElementById("logTableBody");
+        if (!tbody) return;
+        const kat = document.getElementById("logFilterKategori").value;
+        const q = (document.getElementById("logSearchInput").value || "")
+          .trim()
+          .toLowerCase();
+        document.getElementById("logTotalCount").textContent = logData.length;
+        const rows = logData.filter(
+          (l) =>
+            (kat === "semua" || l.kategori === kat) &&
+            (!q || l.aktivitas.toLowerCase().includes(q)),
+        );
+        if (!rows.length) {
+          tbody.innerHTML = `<tr><td colspan="4" class="py-8 px-4 text-center text-[#71717a]">Tidak ada aktivitas yang cocok.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = rows
+          .map(
+            (l) => `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4 whitespace-nowrap">${escProgram(l.waktu)}</td>
+                <td class="py-3.5 px-4">${escProgram(l.aktivitas)}</td>
+                <td class="py-3.5 px-4"><span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium border ${LOG_STYLE[l.kategori] || "bg-gray-50 text-gray-700 border-gray-200"}">${escProgram(l.kategori)}</span></td>
+                <td class="py-3.5 px-4"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">Berhasil</span></td>
+              </tr>`,
+          )
+          .join("");
+      }
+      document.addEventListener("DOMContentLoaded", renderLog);
       // Floating Toast Utility
       let toastTimeout;
       function showToast(title, message) {
