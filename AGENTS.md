@@ -1,0 +1,4 @@
+
+Repositori ini memuat 17.516 baris kode HTML monolitik. Agen dilarang membaca berkas HTML secara utuh ke dalam memori. Sebelum membaca atau mengubah kode, agen wajib memeriksa [docs/INDEX.md](docs/INDEX.md) untuk menemukan nomor baris spesifik, ID DOM, dan fungsi JavaScript terkait, lalu mengakses berkas hanya pada rentang baris yang dituju menggunakan parameter offset dan limit. Khusus berkas `mbkm-v1/landingpage.html` pada baris 2708, agen dilarang memuat baris tersebut karena berisi string gambar Base64 lebih dari 9 MB yang dapat menghabiskan kuota token dan memori.
+
+Untuk memahami alur kerja dan aturan bisnis, rujuk [docs/PRD.md](docs/PRD.md). Untuk kepatuhan warna dan komponen visual, rujuk [docs/DESIGN.md](docs/DESIGN.md) yang menggunakan standar Maritime Blue (`#1063B9`) dan Dinus Gold (`#F3BC45`). Setiap modifikasi kode harus dilakukan secara terfokus hanya pada komponen yang diminta tanpa mengubah bagian antarmuka lainnya.

@@ -1,0 +1,171 @@
+<div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Seleksi Pendaftar Mahasiswa</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Verifikasi data akademik, transkrip, dan CV mahasiswa pendaftar sebelum menetapkan kelulusan.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-gray-500">Total Menunggu: <strong class="text-amber-700 font-semibold" id="seleksiCountHeader">3 Mahasiswa</strong></span>
+            </div>
+          </div>
+
+          <!-- Filter & Search Toolbar (Bab 9) -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="inline-flex p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs">
+              <button type="button" onclick="filterSeleksiTable('semua', this)" class="filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs">
+                Semua Pendaftar (3)
+              </button>
+              <button type="button" onclick="filterSeleksiTable('menunggu', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Menunggu (3)
+              </button>
+              <button type="button" onclick="filterSeleksiTable('diterima', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Diterima (0)
+              </button>
+              <button type="button" onclick="filterSeleksiTable('ditolak', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Ditolak (0)
+              </button>
+            </div>
+
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="searchSeleksiInput" onkeyup="searchSeleksi()" placeholder="Cari nama atau NIM..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            </div>
+          </div>
+
+          <!-- Tabel Seleksi Pendaftar (Bab 13) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Mahasiswa</th>
+                    <th class="py-3 px-4">Kualifikasi Akademik</th>
+                    <th class="py-3 px-4">Dokumen Persyaratan</th>
+                    <th class="py-3 px-4">Tanggal Daftar</th>
+                    <th class="py-3 px-4">Status</th>
+                    <th class="py-3 px-4 text-right">Keputusan Seleksi</th>
+                  </tr>
+                </thead>
+                <tbody id="seleksiTableBody" class="divide-y divide-gray-100">
+                  <!-- Row 1 -->
+                  <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Muhammad Raihan Pratama" data-nim="A11.2023.14920">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">Muhammad Raihan Pratama</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14920 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs">
+                      <div class="font-medium text-[#09090b]">IPK: 3.72</div>
+                      <div class="text-[12px] text-[#71717a]">104 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
+                        </button>
+                        <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
+                        </button>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-[#71717a]">
+                      12 Okt 2026, 09:30 WIB
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="action-cell inline-flex items-center gap-1.5">
+                        <button type="button" onclick="handleDecision(this, 'accept', 'Muhammad Raihan Pratama', 'A11.2023.14920')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
+                          Terima
+                        </button>
+                        <button type="button" onclick="handleDecision(this, 'reject', 'Muhammad Raihan Pratama')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 2 -->
+                  <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Annisa Nabila Rahma" data-nim="A11.2023.14885">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">Annisa Nabila Rahma</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.14885 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs">
+                      <div class="font-medium text-[#09090b]">IPK: 3.80</div>
+                      <div class="text-[12px] text-[#71717a]">108 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
+                        </button>
+                        <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
+                        </button>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-[#71717a]">
+                      12 Okt 2026, 11:15 WIB
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="action-cell inline-flex items-center gap-1.5">
+                        <button type="button" onclick="handleDecision(this, 'accept', 'Annisa Nabila Rahma', 'A11.2023.14885')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
+                          Terima
+                        </button>
+                        <button type="button" onclick="handleDecision(this, 'reject', 'Annisa Nabila Rahma')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Bima Arya Kusuma" data-nim="A11.2023.15102">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b] leading-tight">Bima Arya Kusuma</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2023.15102 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs">
+                      <div class="font-medium text-[#09090b]">IPK: 3.65</div>
+                      <div class="text-[12px] text-[#71717a]">102 SKS • Semester 6</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-1.5">
+                        <button type="button" onclick="previewDoc('Bima Arya Kusuma', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
+                        </button>
+                        <button type="button" onclick="previewDoc('Bima Arya Kusuma', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
+                          <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
+                        </button>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-[#71717a]">
+                      13 Okt 2026, 08:20 WIB
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="action-cell inline-flex items-center gap-1.5">
+                        <button type="button" onclick="handleDecision(this, 'accept', 'Bima Arya Kusuma', 'A11.2023.15102')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
+                          Terima
+                        </button>
+                        <button type="button" onclick="handleDecision(this, 'reject', 'Bima Arya Kusuma')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
+                          Tolak
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>

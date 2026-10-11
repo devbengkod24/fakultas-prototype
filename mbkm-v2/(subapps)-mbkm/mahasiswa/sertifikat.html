@@ -1,0 +1,190 @@
+<!-- Sertifikat & Target Luaran Wajib (2 Opsi: Publikasi Ilmiah / Sertifikat Mitra) -->
+<div style="margin-bottom:24px;">
+
+  <!-- Header Section -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="award" style="color:var(--primary);width:20px;height:20px;"></i>
+        Sertifikat &amp; Target Luaran Wajib MBKM
+      </h2>
+      <p style="font-size:13px;color:#64748b;margin-top:2px;">
+        Pemenuhan target luaran akhir terstandarisasi sebagai syarat mutlak penerbitan nilai 20 SKS ke KHS SIADIN.
+      </p>
+    </div>
+    <span class="badge badge-warning"><i data-lucide="alert-circle" style="width:12px;height:12px;"></i> Syarat Mutlak Sebelum Nilai KHS</span>
+  </div>
+
+  <!-- Banner Ketentuan Regulasi -->
+  <div style="background:linear-gradient(135deg,#0655A7,#1e7fd9);color:#fff;padding:18px 22px;border-radius:12px;margin-bottom:22px;">
+    <div style="display:flex;align-items:flex-start;gap:14px;">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i data-lucide="shield-check" style="width:24px;height:24px;"></i>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Ketentuan Luaran Akhir Wajib MBKM — FIK Udinus</div>
+        <div style="font-size:12.5px;opacity:0.9;line-height:1.6;">
+          Nilai konversi 20 SKS <strong>tidak dapat diinput ke KHS SIADIN</strong> sebelum mahasiswa mengunggah dan mendapatkan verifikasi resmi dari Koordinator MBKM atas salah satu dari 2 (dua) opsi luaran berikut: <strong>(A) Bukti Publikasi Ilmiah ber-DOI atau LoA resmi</strong> &mdash; khusus skema Riset/Publikasi, atau <strong>(B) Sertifikat Kelulusan Resmi dari Mitra</strong> &mdash; berlaku untuk semua skema.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPSI LUARAN 1: PUBLIKASI ILMIAH (DOI / LoA) -->
+  <div class="card" style="padding:24px;margin-bottom:20px;border-top:4px solid #7c3aed;">
+    <div class="card-header" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:46px;height:46px;border-radius:12px;background:#f3e8ff;color:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;">A</div>
+        <div>
+          <span class="badge" style="background:#f3e8ff;color:#7c3aed;border:1px solid #e9d5ff;font-size:10px;margin-bottom:4px;">Opsi Luaran 1 — Riset &amp; Publikasi Ilmiah</span>
+          <h3 style="font-size:16px;font-weight:700;color:#0f172a;">Bukti Publikasi Ilmiah (DOI / Letter of Acceptance)</h3>
+        </div>
+      </div>
+      <span class="badge badge-warning"><i data-lucide="clock" style="width:11px;height:11px;"></i> Menunggu Unggah</span>
+    </div>
+
+    <p style="font-size:13px;color:#475569;margin-bottom:18px;line-height:1.5;">
+      Unggah bukti tertulis penerimaan artikel ilmiah di prosiding internasional terindeks (SCOPUS/WoS/Sinta) atau jurnal nasional terakreditasi. Minimal bukti berupa <strong>Letter of Acceptance (LoA)</strong> dari editor resmi atau <strong>tautan DOI artikel</strong> yang sudah diterbitkan.
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="form-group">
+        <label class="form-label">Judul Artikel Ilmiah <span style="color:#dc2626;">*</span></label>
+        <input type="text" class="form-control" id="pub-judul" placeholder="Contoh: Implementasi Machine Learning untuk Prediksi Dropout Mahasiswa..." />
+      </div>
+
+      <div class="grid grid-2" style="gap:14px;">
+        <div class="form-group">
+          <label class="form-label">Nama Jurnal / Konferensi / Prosiding <span style="color:#dc2626;">*</span></label>
+          <input type="text" class="form-control" id="pub-nama-jurnal" placeholder="Contoh: ICACSIS 2025, Jurnal JTIIK, dll." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Jenis Publikasi <span style="color:#dc2626;">*</span></label>
+          <select class="form-control" id="pub-jenis">
+            <option value="">— Pilih Jenis —</option>
+            <option value="prosiding-internasional">Prosiding Internasional (SCOPUS / WoS)</option>
+            <option value="prosiding-nasional">Prosiding Nasional (Sinta 1-3)</option>
+            <option value="jurnal-internasional">Jurnal Internasional Terindeks</option>
+            <option value="jurnal-nasional">Jurnal Nasional Terakreditasi (Sinta 1-4)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="gap:14px;">
+        <div class="form-group">
+          <label class="form-label">Tautan Naskah (Preprint / Halaman Jurnal / GDrive)</label>
+          <div style="position:relative;">
+            <i data-lucide="link" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#64748b;"></i>
+            <input type="url" class="form-control" id="pub-tautan-naskah" placeholder="https://..." style="padding-left:36px;" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">DOI Artikel (Jika Sudah Diterbitkan)</label>
+          <div style="position:relative;">
+            <i data-lucide="hash" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:#64748b;"></i>
+            <input type="text" class="form-control" id="pub-doi" placeholder="10.1234/example.2025.001" style="padding-left:36px;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Unggah LoA atau DOI PDF -->
+      <div class="form-group">
+        <label class="form-label">Unggah Dokumen Letter of Acceptance (LoA) atau Bukti DOI — Format PDF <span style="color:#dc2626;">*</span></label>
+        <div style="border:2px dashed #e9d5ff;border-radius:10px;padding:20px;text-align:center;cursor:pointer;background:#faf5ff;transition:border-color 0.2s;" onclick="document.getElementById('file-loa').click()">
+          <div style="width:44px;height:44px;border-radius:10px;background:#f3e8ff;color:#7c3aed;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+            <i data-lucide="file-text" style="width:22px;height:22px;"></i>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:#1e293b;">Klik untuk Unggah LoA atau Bukti DOI (PDF)</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:4px;">Format PDF, Maks. 10 MB</div>
+          <input type="file" id="file-loa" accept=".pdf" style="display:none;" />
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="btn btn-primary" style="background:#7c3aed;border-color:#7c3aed;" onclick="alert('Data publikasi ilmiah Anda telah dikirim ke Koordinator MBKM untuk diverifikasi.')">
+          <i data-lucide="send"></i> Kirim Bukti Publikasi ke Koordinator
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPSI LUARAN 2: SERTIFIKAT RESMI MITRA -->
+  <div class="card" style="padding:24px;margin-bottom:22px;border-top:4px solid #16a34a;">
+    <div class="card-header" style="margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:46px;height:46px;border-radius:12px;background:#f0fdf4;color:#16a34a;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;">B</div>
+        <div>
+          <span class="badge badge-success" style="font-size:10px;margin-bottom:4px;">Opsi Luaran 2 — Sertifikat Kelulusan Mitra (Berlaku Semua Skema)</span>
+          <h3 style="font-size:16px;font-weight:700;color:#0f172a;">Sertifikat Resmi Mitra ber-Barcode / Nomor Seri</h3>
+        </div>
+      </div>
+      <span class="badge badge-success"><i data-lucide="check-circle" style="width:11px;height:11px;"></i> Diunggah</span>
+    </div>
+
+    <p style="font-size:13px;color:#475569;margin-bottom:18px;line-height:1.5;">
+      Dokumen sertifikat kelulusan resmi yang diterbitkan mitra (Bengkel Koding, IDSS, Matic, atau Ryuje) dengan barcode verifikasi atau nomor seri unik sebagai bukti penyelesaian program secara resmi.
+    </p>
+
+    <!-- Pratinjau Sertifikat yang Sudah Diunggah -->
+    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:16px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:44px;height:44px;border-radius:8px;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;">
+            <i data-lucide="file-check-2" style="width:22px;height:22px;"></i>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:#0f172a;">Sertifikat_Bengkel_Koding_Ahmad_Rizky_2025.pdf</div>
+            <div style="font-size:11.5px;color:#64748b;">Mitra: Bengkel Koding &bull; No. Sertifikat: BK/MBKM/2025/0914 &bull; Diunggah 10 Okt 2025</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="badge badge-success"><i data-lucide="check" style="width:11px;height:11px;"></i> Terverifikasi Koordinator</span>
+          <button class="btn btn-sm btn-outline" onclick="alert('Membuka pratinjau sertifikat mitra...')">
+            <i data-lucide="eye"></i> Lihat
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Unggah Sertifikat Baru -->
+    <div class="form-group" style="margin-bottom:14px;">
+      <label class="form-label">Unggah Ulang / Perbarui Sertifikat (Jika Ada Versi Terbaru)</label>
+      <div style="border:2px dashed #bbf7d0;border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#f0fdf4;" onclick="document.getElementById('file-sertifikat-mitra').click()">
+        <div style="font-size:13px;font-weight:600;color:#166534;">+ Unggah Sertifikat Resmi Mitra (PDF)</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:4px;">Format PDF, Maks. 10 MB &bull; Pastikan barcode/nomor seri terlihat jelas</div>
+        <input type="file" id="file-sertifikat-mitra" accept=".pdf" style="display:none;" />
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;">
+      <button class="btn btn-outline" style="border-color:#16a34a;color:#16a34a;" onclick="alert('Sertifikat mitra terbaru dikirim ulang ke Koordinator MBKM untuk diverifikasi.')">
+        <i data-lucide="refresh-cw"></i> Kirim Ulang Sertifikat
+      </button>
+    </div>
+  </div>
+
+  <!-- Status Validasi oleh Koordinator MBKM -->
+  <div class="card" style="padding:20px;">
+    <div class="card-header" style="margin-bottom:14px;">
+      <span class="card-title" style="font-size:15px;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="clipboard-check" style="color:var(--primary);width:18px;height:18px;"></i>
+        Status Validasi Luaran oleh Koordinator MBKM
+      </span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;">
+        <span style="font-weight:600;color:#0f172a;">Sertifikat Resmi Mitra (Bengkel Koding)</span>
+        <span class="badge badge-success"><i data-lucide="check-circle" style="width:11px;height:11px;"></i> Terverifikasi — 10 Okt 2025</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;opacity:0.6;">
+        <span style="font-weight:600;color:#475569;">Bukti Publikasi Ilmiah (LoA / DOI)</span>
+        <span class="badge badge-muted"><i data-lucide="clock" style="width:11px;height:11px;"></i> Belum Diunggah</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:12px;background:#f0fdf4;border-radius:8px;font-size:12px;color:#166534;display:flex;align-items:center;gap:8px;">
+      <i data-lucide="check-circle-2" style="width:16px;height:16px;"></i>
+      <strong>Catatan Koordinator (Nurul Anisa Sri Winarsih, M.Cs):</strong> Sertifikat dari Bengkel Koding valid dan memenuhi standar. Nilai KHS siap diproses pasca sidang akhir.
+    </div>
+  </div>
+
+</div>

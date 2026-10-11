@@ -1,0 +1,263 @@
+<!-- Top Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Manajemen Formulir Pendaftaran</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Konfigurasi kelayakan pelamar, dokumen persyaratan, paket mata kuliah konversi 20 SKS, dan pakta komitmen mahasiswa.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="../../(roots)/(landing)-mbkm/pendaftaran-mahasiswa.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i>
+                <span>Lihat Formulir Publik</span>
+              </a>
+              <button type="button" onclick="saveFormConfig()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>Simpan Pengaturan Form</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CARD 1: PERIODE, KUOTA & VALIDASI AKADEMIK (STEP 1 PENDAFTARAN) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="calendar" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Periode Pendaftaran &amp; Syarat Kelayakan Akademik (Step 1)</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Atur jadwal intake, batas kuota pendaftaran, dan parameter evaluasi otomatis SIAKAD UDINUS.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Tanggal Mulai Pendaftaran <span class="text-red-500">*</span></label>
+                <input type="date" value="2026-10-01" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Tanggal Batas Akhir (Deadline) <span class="text-red-500">*</span></label>
+                <input type="date" value="2026-10-25" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Total Kuota Pendaftar Mahasiswa <span class="text-red-500">*</span></label>
+                <input type="number" value="20" min="1" max="100" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              </div>
+            </div>
+
+            <!-- Syarat Kelayakan Otomatis SIAKAD -->
+            <div class="pt-3 border-t border-gray-100 space-y-3">
+              <h4 class="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Syarat Validasi Otomatis SIAKAD (Eligibility Checker Pelamar)</span>
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-gray-700">Semester Minimal Mahasiswa</label>
+                  <select class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+                    <option>Semester 5</option>
+                    <option selected>Semester 6 (Rekomendasi Resmi FIK)</option>
+                    <option>Semester 7</option>
+                  </select>
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-gray-700">IPK Kumulatif Minimal (Skala 4.00)</label>
+                  <input type="text" value="3.00" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-gray-700">SKS Lulus Minimum Tempuh</label>
+                  <input type="number" value="100" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: DOKUMEN PERSYARATAN & PORTOFOLIO (STEP 2 PENDAFTARAN) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="file-check-2" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Dokumen Persyaratan &amp; Portofolio Pelamar (Step 2)</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Konfigurasi berkas yang wajib diunggah pelamar beserta batas ukuran dan template dokumen.</p>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Dokumen 1 -->
+              <div class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-gray-900 block">Transkrip Nilai Akademik Terakhir</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Format: PDF • Batas Maks. 2MB • Transkrip resmi ber-barcode SIAKAD UDINUS</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                  <span class="text-xs text-gray-500">Maks. 2MB</span>
+                  <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]" />
+                </div>
+              </div>
+
+              <!-- Dokumen 2 -->
+              <div class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="file-badge" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-gray-900 block">Curriculum Vitae (CV) Terkini</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Format: PDF • Batas Maks. 2MB • Memuat riwayat proyek, skill teknologi, dan pengalaman</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                  <span class="text-xs text-gray-500">Maks. 2MB</span>
+                  <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]" />
+                </div>
+              </div>
+
+              <!-- Dokumen 3 -->
+              <div class="p-3.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="file-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs font-bold text-gray-900 block">Draft Surat Rekomendasi (Surekom) Template Mitra</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Format: PDF / DOCX • Maks. 2MB • Ditandatangani Dekan FIK setelah validasi Koordinator</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                  <span class="text-xs text-gray-500">Maks. 2MB</span>
+                  <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]" />
+                </div>
+              </div>
+
+              <!-- Input Portofolio Tambahan -->
+              <div class="pt-3 border-t border-gray-100">
+                <h4 class="text-xs font-bold text-gray-900 mb-2">Tautan Portofolio &amp; Media Eksternal:</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-white">
+                    <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9]" />
+                    <span class="font-medium text-gray-800">Tautan GitHub / GitLab Repository</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200 bg-white">
+                    <input type="checkbox" checked class="rounded border-gray-300 text-[#1063B9]" />
+                    <span class="font-medium text-gray-800">Tautan LinkedIn / Website Portofolio Pribadi</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: PAKET MATA KULIAH KONVERSI 20 SKS (STEP 3 PENDAFTARAN) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="book-open" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Daftar Mata Kuliah Pilihan Konversi 20 SKS (Step 3)</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Daftar mata kuliah kurikulum TI-S1 yang tampil pada Step 3 formulir pendaftaran mahasiswa untuk dipilih dalam paket konversi.</p>
+              </div>
+              <div class="flex items-center gap-2.5 shrink-0">
+                <span class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg font-semibold text-xs">
+                  Total Tersedia: <strong id="totalSksTersedia">20</strong> SKS (6 Matkul)
+                </span>
+                <button type="button" onclick="openMatkulModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors">
+                  <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                  <span>Tambah Matkul</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabel Mata Kuliah Konversi -->
+            <div class="overflow-x-auto border border-[#e4e4e7] rounded-xl overflow-hidden">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Kode Matkul</th>
+                    <th class="py-3 px-4">Nama Mata Kuliah</th>
+                    <th class="py-3 px-4">Bobot</th>
+                    <th class="py-3 px-4">Deskripsi Capaian Pembelajaran</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="matkulTableBody" class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54601</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Proyek Perangkat Lunak Terapan</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">4 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Penyetaraan capaian pembelajaran capstone project industri Dicoding.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54702</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Pembelajaran Mesin Lanjut (Deep Learning)</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">4 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Mata kuliah konsentrasi Intelligent Systems &amp; Computer Vision.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54804</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Komputasi Awan &amp; DevOps Terapan</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">4 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Mata kuliah konsentrasi Jaringan &amp; Arsitektur Cloud.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54901</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Kapita Selekta Komputasi Cerdas</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">3 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Penyetaraan materi workshop dan seminar teknologi mutakhir mitra.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54905</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Komunikasi Profesional &amp; Etika Profesi TI</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">3 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Soft skills kerja tim, presentasi proyek capstone, dan etika industri.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-[#09090b] matkul-code">A11.54910</td>
+                    <td class="py-3 px-4 font-medium text-[#09090b] matkul-name">Penulisan Karya Ilmiah Terapan</td>
+                    <td class="py-3 px-4 font-bold text-[#1063B9] matkul-sks">2 SKS</td>
+                    <td class="py-3 px-4 text-[#71717a] text-[11px] matkul-desc">Penyusunan laporan akhir komprehensif MBKM dan draft publikasi jurnal.</td>
+                    <td class="py-3 px-4 text-right">
+                      <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="editMatkulRow(this)" class="p-1 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button type="button" onclick="deleteMatkulRow(this)" class="p-1 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>

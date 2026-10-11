@@ -1,0 +1,101 @@
+<div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Data Dosen Pembina</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Daftar dosen pembimbing akademik dan riset yang ditugaskan mengampu program binaan ini.</p>
+            </div>
+            <button type="button" onclick="openAddDosenModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Tambah Dosen Pembina</span>
+            </button>
+          </div>
+
+          <!-- Tabel Dosen Pembina -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Dosen Pembimbing</th>
+                    <th class="py-3 px-4">NPP / NIDN</th>
+                    <th class="py-3 px-4">Bidang Kajian Utama</th>
+                    <th class="py-3 px-4">Alokasi Kuota Bimbingan</th>
+                    <th class="py-3 px-4">Status Pengampu</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="dosenTableBody" class="divide-y divide-gray-100">
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+                          RA
+                        </div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dr. Ricardus Anggi, M.Kom.</div>
+                          <div class="text-[11px] text-[#71717a]">ricardus.anggi@dsn.dinus.ac.id</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      0686.11.2001.289
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-800">
+                      Computer Vision &amp; Deep Learning
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-[#09090b]">4 / 6 Mahasiswa</span>
+                        <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa 2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Koordinator Lab
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Data Dosen', 'Membuka pengaturan bimbingan dosen')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Kelola
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="hover:bg-gray-50/70 transition-colors">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+                          AK
+                        </div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dr. Aris Kusumawati, M.Cs.</div>
+                          <div class="text-[11px] text-[#71717a]">aris.kusumawati@dsn.dinus.ac.id</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      0686.11.2005.312
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-800">
+                      Natural Language Processing &amp; Text Mining
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-[#09090b]">2 / 4 Mahasiswa</span>
+                        <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa 2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Pembimbing Riset
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Data Dosen', 'Membuka pengaturan bimbingan dosen')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Kelola
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>

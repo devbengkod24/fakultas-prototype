@@ -1,0 +1,396 @@
+<!-- Top Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Kelola Program Binaan</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Kelola informasi utama hero, showcase hasil karya proyek mahasiswa, dan formasi lowongan track yang tampil pada halaman detail publik.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <a href="../../(roots)/(landing)-mbkm/detail-mbkm.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i>
+                <span>Lihat Halaman Detail</span>
+              </a>
+              <button type="button" onclick="saveProgramContent()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                <span>Simpan Perubahan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- CARD 1: INFORMASI UTAMA & HERO DETAIL -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="layout-template" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Informasi Utama &amp; Hero Detail</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Pengaturan judul program, mitra industri, lokasi, narasi pembuka, keunggulan, dan koordinator program.</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <!-- Baris 1: Judul Program & Klaster -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2 space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Nama / Judul Program MBKM <span class="text-red-500">*</span></label>
+                  <input type="text" id="progTitle" value="Studi Independen Bersertifikat — Dicoding ASAH 2026" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Klaster Program MBKM <span class="text-red-500">*</span></label>
+                  <select id="progCluster" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+                    <option selected>Studi Independen Bersertifikat</option>
+                    <option>Internal Lab Riset</option>
+                    <option>Riset Bersama Bidang Kajian</option>
+                    <option>Magang Industri Bersertifikat</option>
+                    <option>Joint Project</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Baris 2: Mitra Industri, Pelaksanaan & Periode -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Mitra Industri / Instansi Penyelenggara <span class="text-red-500">*</span></label>
+                  <input type="text" id="progPartner" value="PT. Presentologics (Dicoding Indonesia)" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Moda &amp; Lokasi Pelaksanaan <span class="text-red-500">*</span></label>
+                  <input type="text" id="progLocation" value="Hybrid (Daring &amp; Lab FIK UDINUS)" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Periode Semester MBKM <span class="text-red-500">*</span></label>
+                  <input type="text" id="progPeriod" value="Semester Gasal 2026/2027" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+              </div>
+
+              <!-- Baris 3: Konversi SKS, Highlight Badge, & Deadline -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Bobot Konversi SKS <span class="text-red-500">*</span></label>
+                  <input type="text" id="progSks" value="Konversi Penuh 20 SKS" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Badge Highlight Program</label>
+                  <input type="text" id="progBadge" value="Program Unggulan Nasional" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Batas Akhir Pendaftaran</label>
+                  <input type="text" id="progDeadline" value="25 Oktober 2026 • 23:59 WIB" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                </div>
+              </div>
+
+              <!-- Baris 4: Deskripsi Narasi Utama Hero -->
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">Deskripsi Narasi Hero (Tampil di Kotak Utama Halaman Detail) <span class="text-red-500">*</span></label>
+                <textarea id="progDescription" rows="4" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none leading-relaxed">Program Dicoding ASAH (Akselerasi Talenta AI &amp; Software Engineering) merupakan program studi independen terakreditasi Kampus Berdampak FIK UDINUS yang dirancang untuk membekali mahasiswa dengan keahlian industri tingkat lanjut di bidang Machine Learning, Full-Stack Engineering, dan Cloud Infrastructure.
+
+Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mentor industri kelas dunia, menyelesaikan modul praktikum berbasis proyek nyata, serta memperoleh hak konversi akademik otomatis hingga 20 SKS ke mata kuliah pilihan dan konsentrasi program studi.</textarea>
+              </div>
+
+              <!-- Baris 5: 3 Poin Keunggulan / Fasilitas -->
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-gray-700">3 Poin Keunggulan / Fasilitas Utama Mahasiswa</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="relative">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="progBenefit1" value="Sertifikasi Global Dicoding &amp; Partner" class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="relative">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="progBenefit2" value="Uang Saku Pembinaan Mitra" class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="relative">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="progBenefit3" value="Kelas Khusus MBKM Pra-KRS" class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Baris 6: Profil Koordinator Program -->
+              <div class="pt-3 border-t border-gray-100">
+                <h4 class="text-xs font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+                  <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+                  <span>Profil Koordinator Program (Tampil Siluet di Sisi Kanan Hero)</span>
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold text-gray-700">Nama Lengkap Koordinator <span class="text-red-500">*</span></label>
+                    <input type="text" id="coordName" value="Jane Doe" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold text-gray-700">Jabatan / Posisi <span class="text-red-500">*</span></label>
+                    <input type="text" id="coordRole" value="Koordinator Kampus Berdampak FIK UDINUS" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-semibold text-gray-700">URL Foto Koordinator (PNG Transparan)</label>
+                    <input type="text" id="coordPhoto" value="https://pngimg.com/uploads/girls/girls_PNG6454.png" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: SHOWCASE KARYA PROYEK MAHASISWA -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="folder-git-2" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Showcase Hasil Karya Proyek Mahasiswa</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Portofolio capstone project yang dikembangkan mahasiswa binaan untuk dipamerkan di halaman detail.</p>
+              </div>
+              <button type="button" onclick="openShowcaseModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>Tambah Proyek Showcase</span>
+              </button>
+            </div>
+
+            <!-- List Showcase Proyek -->
+            <div id="showcaseListContainer" class="space-y-4">
+              <!-- Item 1 -->
+              <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-01">
+                <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Smart Energy" class="w-full h-full object-cover" />
+                  <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">IoT &amp; ML</span>
+                </div>
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 6</span>
+                      <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-01</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <h4 class="text-sm font-bold text-gray-900 item-title">Smart Energy &amp; Air Quality Monitoring Campus FIK</h4>
+                  <p class="text-xs text-gray-600 leading-relaxed item-desc">Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.</p>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Python</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">TensorFlow</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">React.js</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Google Cloud</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-02">
+                <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+                  <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Attendance AI" class="w-full h-full object-cover" />
+                  <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">Computer Vision</span>
+                </div>
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 5</span>
+                      <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-02</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <h4 class="text-sm font-bold text-gray-900 item-title">Vision-Based Automated Academic Attendance &amp; Fraud Detection</h4>
+                  <p class="text-xs text-gray-600 leading-relaxed item-desc">Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.</p>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Python</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">PyTorch</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">YOLOv8</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">FastAPI</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-03">
+                <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
+                  <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" alt="Robotics" class="w-full h-full object-cover" />
+                  <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">Robotics &amp; AI</span>
+                </div>
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 5</span>
+                      <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-03</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      </button>
+                      <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <h4 class="text-sm font-bold text-gray-900 item-title">Autonomous Robotic Trash Segregator for Green Campus</h4>
+                  <p class="text-xs text-gray-600 leading-relaxed item-desc">Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.</p>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">ROS2</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">OpenCV</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Edge TPU</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">C++</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: FORMASI TRACK & LOWONGAN TERBUKA -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+              <div>
+                <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
+                  <i data-lucide="briefcase" class="w-4 h-4 text-[#1063B9]"></i>
+                  <span>Formasi Track &amp; Lowongan Terbuka</span>
+                </h3>
+                <p class="text-xs text-[#71717a] mt-0.5">Daftar formasi spesialisasi yang dapat dipilih mahasiswa pendaftar beserta kuota dan kualifikasinya.</p>
+              </div>
+              <button type="button" onclick="openTrackModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>Tambah Formasi Track</span>
+              </button>
+            </div>
+
+            <!-- List Formasi Track -->
+            <div id="tracksListContainer" class="space-y-3">
+              <!-- Track 1 -->
+              <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Dibuka (Open)
+                      </span>
+                      <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
+                        <span>Sisa Kuota: <strong>12</strong> / 20 Mahasiswa</span>
+                      </span>
+                      <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                        Konversi 20 SKS
+                      </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 track-title">Machine Learning &amp; AI Development Track</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Spesialisasi penguasaan deep learning, computer vision, natural language processing, serta implementasi deployment model cerdas pada arsitektur edge &amp; cloud computing.</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                      <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Transkrip (PDF) &amp; Surekom</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+                  <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+                    Tutup Jalur
+                  </button>
+                  <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Track 2 -->
+              <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="cloud" class="w-5 h-5"></i>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Dibuka (Open)
+                      </span>
+                      <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
+                        <span>Sisa Kuota: <strong>8</strong> / 15 Mahasiswa</span>
+                      </span>
+                      <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                        Konversi 20 SKS
+                      </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 track-title">Cloud Architecture &amp; Backend Engineering Track</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Fokus pada perancangan sistem terdistribusi, microservices, container orchestration Kubernetes, CI/CD pipeline, dan optimasi database skala besar.</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                      <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Portofolio &amp; Transkrip</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+                  <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+                    Tutup Jalur
+                  </button>
+                  <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Track 3 -->
+              <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-start gap-3.5">
+                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="smartphone" class="w-5 h-5"></i>
+                  </div>
+                  <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        Dibuka (Open)
+                      </span>
+                      <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
+                        <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
+                        <span>Sisa Kuota: <strong>6</strong> / 15 Mahasiswa</span>
+                      </span>
+                      <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
+                        Konversi 20 SKS
+                      </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-gray-900 track-title">Multiplatform &amp; Mobile Application Track</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Pengembangan aplikasi mobile modern cross-platform berbasis Flutter/React Native dengan standar clean architecture dan integrasi REST/GraphQL API.</p>
+                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
+                      <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Portofolio GitHub &amp; Transkrip</span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
+                  <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
+                    Tutup Jalur
+                  </button>
+                  <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
+                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>

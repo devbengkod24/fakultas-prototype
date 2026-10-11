@@ -1,0 +1,130 @@
+<!-- View 3.A: Daftar Dosen Koordinator MBKM -->
+            <div id="subview-koordinator-main" class="flex flex-col gap-3">
+              <!-- Header Bar & Primary Action -->
+              <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+                <div>
+                  <h2 class="text-base font-semibold text-[#09090b]">Daftar Dosen Koordinator MBKM</h2>
+                  <p class="text-[11px] text-[#71717a]">
+                    Kelola data dosen koordinator fakultas dan alokasi program MBKM yang diampu (1 koordinator dapat
+                    mengampu lebih dari 1 program).
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onclick="showAddKoordinatorModal()"
+                  class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0 self-start sm:self-auto"
+                >
+                  <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                  <span>Tambah Koordinator</span>
+                </button>
+              </div>
+
+              <!-- Quick Info / Stat Cards Koordinator -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-[#71717a] font-medium">Total Koordinator</div>
+                    <div id="stat-total-koordinator" class="text-sm font-bold text-[#09090b]">0 Dosen</div>
+                  </div>
+                </div>
+                <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                  <div
+                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 shrink-0"
+                  >
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-[#71717a] font-medium">Aktif Mengampu</div>
+                    <div id="stat-aktif-koordinator" class="text-sm font-bold text-[#09090b]">0 Dosen</div>
+                  </div>
+                </div>
+                <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                  <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 shrink-0">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-[#71717a] font-medium">Belum Ditugaskan</div>
+                    <div id="stat-kosong-koordinator" class="text-sm font-bold text-[#09090b]">0 Dosen</div>
+                  </div>
+                </div>
+                <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                  <div
+                    class="flex items-center justify-center w-8 h-8 text-indigo-600 rounded-lg bg-indigo-50 shrink-0"
+                  >
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-[#71717a] font-medium">Total Program MBKM</div>
+                    <div id="stat-program-tercover" class="text-sm font-bold text-[#09090b]">0 Program</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toolbar Pencarian & Filter (Diatas Tabel) -->
+              <div class="flex flex-col justify-between gap-2 pt-1 sm:flex-row sm:items-center">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-[#09090b]">Data Penugasan</span>
+                  <span class="text-[11px] text-[#a1a1aa]">•</span>
+                  <span class="text-[11px] text-[#71717a]">Relasi 1 dosen mengampu 1 atau banyak program</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <div class="relative">
+                    <select
+                      id="filter-koordinator-prodi"
+                      onchange="handleFilterKoordinatorProdi(this.value)"
+                      class="h-8 pl-2.5 pr-7 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#09090b] font-medium focus:outline-none focus:ring-1 focus:ring-[#0655a7] transition-all"
+                    >
+                      <option value="">Semua Homebase Prodi</option>
+                      <option value="Teknik Informatika">Teknik Informatika</option>
+                      <option value="Sistem Informasi">Sistem Informasi</option>
+                      <option value="Desain Komunikasi Visual">DKV</option>
+                      <option value="Ilmu Komunikasi">Ilmu Komunikasi</option>
+                      <option value="Film dan Televisi">Film & TV</option>
+                    </select>
+                  </div>
+                  <div class="relative flex items-center">
+                    <i
+                      data-lucide="search"
+                      class="w-3.5 h-3.5 text-[#a1a1aa] absolute left-2.5 pointer-events-none"
+                    ></i>
+                    <input
+                      type="text"
+                      id="search-koordinator"
+                      oninput="handleSearchKoordinator(this.value)"
+                      placeholder="Cari dosen, NIDN, program..."
+                      class="h-8 pl-8 pr-3 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#09090b] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-52 sm:w-60 transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tabel Daftar Koordinator -->
+              <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                    <tr>
+                      <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Dosen Koordinator</th>
+                      <th class="w-44 px-3 py-2 font-semibold text-[11px]">Homebase Prodi</th>
+                      <th class="px-3 py-2 font-semibold text-[11px]">Program MBKM Diampu</th>
+                      <th class="w-28 px-3 py-2 font-semibold text-center text-[11px]">Beban Tugas</th>
+                      <th class="w-36 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="koordinator-table-tbody" class="divide-y divide-[#e4e4e7] bg-white">
+                    <!-- Populated dynamically via renderKoordinatorTable() -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Footer Informasi & Pagination di Kanan Bawah -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+                <div id="koordinator-table-info" class="text-[11px] text-[#71717a]">Showing entries</div>
+                <div id="koordinator-pagination-controls" class="flex items-center self-end gap-1 sm:self-auto">
+                  <!-- Pagination buttons generated dynamically -->
+                </div>
+              </div>
+            </div>

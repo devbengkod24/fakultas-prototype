@@ -1,0 +1,139 @@
+<div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Data Mahasiswa Binaan</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Daftar mahasiswa aktif bimbingan tugas akhir dan riset lab yang telah terdaftar dalam program binaan.</p>
+            </div>
+            <button type="button" onclick="openDirectAssignModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Direct Assign Mahasiswa</span>
+            </button>
+          </div>
+
+          <!-- Toolbar Filter & Search -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="inline-flex p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs">
+              <button type="button" onclick="filterMahasiswaTable('semua', this)" class="mhs-filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs">
+                Semua Mahasiswa (<span id="countMhsAll">6</span>)
+              </button>
+              <button type="button" onclick="filterMahasiswaTable('direct', this)" class="mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Direct Assign (3)
+              </button>
+              <button type="button" onclick="filterMahasiswaTable('mandiri', this)" class="mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
+                Lolos Mandiri (3)
+              </button>
+            </div>
+
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="searchMahasiswaInput" onkeyup="searchMahasiswa()" placeholder="Cari nama atau NIM..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            </div>
+          </div>
+
+          <!-- Tabel Data Mahasiswa Binaan -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Mahasiswa</th>
+                    <th class="py-3 px-4">Jalur Intake</th>
+                    <th class="py-3 px-4">Fokus Riset / Tugas Akhir</th>
+                    <th class="py-3 px-4">Paket SKS</th>
+                    <th class="py-3 px-4">Status Prodi</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="mahasiswaTableBody" class="divide-y divide-gray-100">
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-intake="direct" data-name="Dimas Wahyu Saputra" data-nim="A11.2022.14101">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b]">Dimas Wahyu Saputra</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2022.14101 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                        Direct Assign
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Deteksi Cacat Permukaan Logam Menggunakan YOLOv8</span>
+                      <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Disetujui Prodi
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik Dimas Wahyu Saputra')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Rincian
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-intake="direct" data-name="Siti Nurhaliza" data-nim="A11.2022.14150">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b]">Siti Nurhaliza</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2022.14150 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                        Direct Assign
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Segmentasi Citra Medis USG Tiroid dengan Attention U-Net</span>
+                      <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Disetujui Prodi
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik Siti Nurhaliza')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Rincian
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-intake="mandiri" data-name="Bagus Wicaksono" data-nim="A11.2022.14205">
+                    <td class="py-3.5 px-4">
+                      <div class="font-medium text-[13px] text-[#09090b]">Bagus Wicaksono</div>
+                      <div class="text-[12px] text-[#71717a]">A11.2022.14205 • TI-S1</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        Lolos Mandiri
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Optimasi Hyperparameter Transformer untuk NLP Bahasa Jawa</span>
+                      <div class="text-[#71717a] text-[11px]">Riset Mandiri Lab</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Disetujui Prodi
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik Bagus Wicaksono')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Rincian
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
