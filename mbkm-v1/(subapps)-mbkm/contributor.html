@@ -2510,8 +2510,8 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                   Sidang Evaluasi Akhir
                 </h2>
                 <p class="text-[14px] leading-[20px] text-[#71717a]">
-                  Penilaian sidang evaluasi akhir MBKM dan rekap kelulusan
-                  kegiatan.
+                  Penilaian sidang evaluasi akhir MBKM, berita acara, dan rekap
+                  kelulusan kegiatan.
                 </p>
               </div>
               <button
@@ -2523,6 +2523,45 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                 ><span>Sinkron Nilai ke Koordinator</span>
               </button>
             </div>
+
+            <!-- Rekap Nilai Akhir -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div
+                class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs"
+              >
+                <div class="text-xs text-[#71717a] mb-1">Siap Dinilai</div>
+                <div id="sdSumSiap" class="text-[22px] font-bold text-amber-700">
+                  0
+                </div>
+              </div>
+              <div
+                class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs"
+              >
+                <div class="text-xs text-[#71717a] mb-1">Sudah Dinilai</div>
+                <div id="sdSumDinilai" class="text-[22px] font-bold text-[#09090b]">
+                  0
+                </div>
+              </div>
+              <div
+                class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs"
+              >
+                <div class="text-xs text-[#71717a] mb-1">Lulus</div>
+                <div id="sdSumLulus" class="text-[22px] font-bold text-emerald-700">
+                  0
+                </div>
+              </div>
+              <div
+                class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs"
+              >
+                <div class="text-xs text-[#71717a] mb-1">
+                  Tersinkron ke Koordinator
+                </div>
+                <div id="sdSumSync" class="text-[22px] font-bold text-[#1063B9]">
+                  0
+                </div>
+              </div>
+            </div>
+
             <div
               class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden"
             >
@@ -2535,110 +2574,24 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
                       <th class="py-3 px-4">Mahasiswa</th>
                       <th class="py-3 px-4">Program</th>
                       <th class="py-3 px-4">Status Durasi</th>
+                      <th class="py-3 px-4">Jadwal Sidang</th>
                       <th class="py-3 px-4">Nilai Akhir</th>
                       <th class="py-3 px-4">Status</th>
                       <th class="py-3 px-4 text-right">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-gray-100">
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Annisa Nabila Rahma
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2023.14885
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">Peneliti Muda Computer Vision</td>
-                      <td class="py-3.5 px-4">Durasi selesai</td>
-                      <td class="py-3.5 px-4">88 (A)</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          >Dinilai</span
-                        >
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="text-right inline-flex gap-1.5">
-                          <button
-                            type="button"
-                            onclick="openSidangForm('Annisa Nabila Rahma')"
-                            class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"
-                          >
-                            <i data-lucide="pencil" class="w-3 h-3"></i>Ubah
-                            Nilai
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Muhammad Raihan Pratama
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2023.14920
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        Asisten Pengembang Aplikasi Mobile
-                      </td>
-                      <td class="py-3.5 px-4">Durasi selesai</td>
-                      <td class="py-3.5 px-4">-</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200"
-                          >Siap Dinilai</span
-                        >
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <div class="text-right inline-flex gap-1.5">
-                          <button
-                            type="button"
-                            onclick="openSidangForm('Muhammad Raihan Pratama')"
-                            class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"
-                          >
-                            <i data-lucide="clipboard-check" class="w-3 h-3"></i
-                            >Input Nilai
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                      <td class="py-3.5 px-4">
-                        <div
-                          class="font-medium text-[13px] text-[#09090b] leading-tight"
-                        >
-                          Dimas Aji Saputra
-                        </div>
-                        <div class="text-[12px] text-[#71717a]">
-                          A11.2023.14702
-                        </div>
-                      </td>
-                      <td class="py-3.5 px-4">
-                        Asisten Pengembang Aplikasi Mobile
-                      </td>
-                      <td class="py-3.5 px-4">Berjalan (Minggu 3/16)</td>
-                      <td class="py-3.5 px-4">-</td>
-                      <td class="py-3.5 px-4">
-                        <span
-                          class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium bg-blue-50 text-blue-800 border border-blue-200"
-                          >Belum Waktunya</span
-                        >
-                      </td>
-                      <td class="py-3.5 px-4">
-                        <span class="text-[#71717a]">-</span>
-                      </td>
-                    </tr>
-                  </tbody>
+                  <tbody
+                    id="sidangTableBody"
+                    class="divide-y divide-gray-100"
+                  ></tbody>
                 </table>
               </div>
             </div>
+            <p class="text-[12px] text-[#71717a]">
+              Bobot rubrik: Kinerja Lapangan/Industri 40%, Laporan Akhir 30%,
+              Presentasi 30%. Lulus jika nilai akhir &ge; 55 (C). Konversi SKS
+              dilakukan oleh Koordinator MBKM.
+            </p>
           </section>
 
           <!-- ======================================================== -->
@@ -2978,7 +2931,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         >
           <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
             <i data-lucide="gavel" class="w-5 h-5 text-[#1063B9]"></i
-            ><span>Form Penilaian Sidang</span>
+            ><span id="sdModalTitle">Form Penilaian Sidang</span>
           </h3>
           <button
             type="button"
@@ -2988,46 +2941,60 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
-        <div class="space-y-4">
-          <div class="text-xs text-gray-600">
+        <div class="space-y-4 text-xs">
+          <div class="text-gray-600">
             Mahasiswa: <strong id="sdModalName">-</strong>
+            <div id="sdModalProgram" class="text-[#71717a] mt-0.5"></div>
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
-              >Kinerja Lapangan / Industri (0-100)</label
+            <label for="sdKinerja" class="block font-semibold text-gray-700"
+              >Kinerja Lapangan / Industri (0-100) &middot; bobot 40%</label
             ><input
+              id="sdKinerja"
               type="number"
               min="0"
               max="100"
-              class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              oninput="updateSidangPreview()"
+              class="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white disabled:bg-gray-50"
             />
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
-              >Laporan Akhir (0-100)</label
+            <label for="sdLaporan" class="block font-semibold text-gray-700"
+              >Laporan Akhir (0-100) &middot; bobot 30%</label
             ><input
+              id="sdLaporan"
               type="number"
               min="0"
               max="100"
-              class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              oninput="updateSidangPreview()"
+              class="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white disabled:bg-gray-50"
             />
           </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
-              >Presentasi (0-100)</label
+            <label for="sdPresentasi" class="block font-semibold text-gray-700"
+              >Presentasi (0-100) &middot; bobot 30%</label
             ><input
+              id="sdPresentasi"
               type="number"
               min="0"
               max="100"
-              class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              oninput="updateSidangPreview()"
+              class="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white disabled:bg-gray-50"
             />
           </div>
+          <div
+            class="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg"
+          >
+            <span class="font-semibold text-[#114D91]">Nilai Akhir</span>
+            <span id="sdPreview" class="font-bold text-[#114D91]">-</span>
+          </div>
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700"
+            <label for="sdBeritaAcara" class="block font-semibold text-gray-700"
               >Catatan Berita Acara Sidang</label
             ><textarea
+              id="sdBeritaAcara"
               rows="3"
-              class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white"
+              class="w-full px-3.5 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white disabled:bg-gray-50"
             ></textarea>
           </div>
         </div>
@@ -3037,9 +3004,10 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
             onclick="closeSidangModal()"
             class="px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50"
           >
-            Batal
+            Tutup
           </button>
           <button
+            id="sdSaveBtn"
             type="button"
             onclick="saveSidangNilai()"
             class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-sm font-semibold rounded-lg shadow-sm"
@@ -5757,24 +5725,159 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
         renderLogbook();
       });
 
-      function openSidangForm(name) {
-        document.getElementById("sdModalName").textContent = name;
+      // ===== Sidang evaluasi akhir: rubrik, berita acara, rekap, sinkron =====
+      const SD_BOBOT = { kinerja: 0.4, laporan: 0.3, presentasi: 0.3 };
+      const SD_STYLE = {
+        "Belum Waktunya": "bg-blue-50 text-blue-800 border-blue-200",
+        "Siap Dinilai": "bg-amber-50 text-amber-800 border-amber-200",
+        Dinilai: "bg-emerald-50 text-emerald-800 border-emerald-200",
+        Tersinkron: "bg-gray-100 text-gray-700 border-gray-300",
+      };
+      const sidangData = [
+        { nim: "A11.2022.14101", nama: "Dimas Wahyu Saputra", program: "Peneliti Muda Computer Vision", durasi: "Durasi selesai", jadwal: "14 Des 2026", status: "Siap Dinilai", kinerja: null, laporan: null, presentasi: null, beritaAcara: "" },
+        { nim: "A11.2022.14150", nama: "Siti Nurhaliza", program: "Peneliti Muda Computer Vision", durasi: "Durasi selesai", jadwal: "14 Des 2026", status: "Siap Dinilai", kinerja: null, laporan: null, presentasi: null, beritaAcara: "" },
+        { nim: "A11.2022.14033", nama: "Galih Pratama", program: "Asisten Praktikum Basis Data", durasi: "Durasi selesai", jadwal: "16 Feb 2026", status: "Dinilai", kinerja: 90, laporan: 85, presentasi: 88, beritaAcara: "Presentasi runtut, laporan lengkap, kinerja sangat baik." },
+        { nim: "A11.2023.14702", nama: "Dewi Kartika Sari", program: "Asisten Praktikum Basis Data", durasi: "Berjalan (Minggu 6/16)", jadwal: "-", status: "Belum Waktunya", kinerja: null, laporan: null, presentasi: null, beritaAcara: "" },
+        { nim: "A11.2023.14655", nama: "Fajar Nugroho", program: "Asisten Pengembang Aplikasi Mobile", durasi: "Berjalan (Minggu 6/16)", jadwal: "-", status: "Belum Waktunya", kinerja: null, laporan: null, presentasi: null, beritaAcara: "" },
+      ];
+      let sdActiveIndex = null;
+
+      function hitungNilaiSidang(k, l, p) {
+        return Math.round(k * SD_BOBOT.kinerja + l * SD_BOBOT.laporan + p * SD_BOBOT.presentasi);
+      }
+      function hurufNilai(n) {
+        if (n >= 85) return "A";
+        if (n >= 80) return "A-";
+        if (n >= 75) return "B+";
+        if (n >= 70) return "B";
+        if (n >= 65) return "B-";
+        if (n >= 60) return "C+";
+        if (n >= 55) return "C";
+        if (n >= 40) return "D";
+        return "E";
+      }
+      function nilaiAkhirSidang(s) {
+        return s.kinerja === null ? null : hitungNilaiSidang(s.kinerja, s.laporan, s.presentasi);
+      }
+
+      function renderSidang() {
+        const tbody = document.getElementById("sidangTableBody");
+        if (!tbody) return;
+        const lulus = sidangData.filter((s) => {
+          const n = nilaiAkhirSidang(s);
+          return n !== null && n >= 55;
+        }).length;
+        document.getElementById("sdSumSiap").textContent = sidangData.filter((s) => s.status === "Siap Dinilai").length;
+        document.getElementById("sdSumDinilai").textContent = sidangData.filter((s) => s.status === "Dinilai" || s.status === "Tersinkron").length;
+        document.getElementById("sdSumLulus").textContent = lulus;
+        document.getElementById("sdSumSync").textContent = sidangData.filter((s) => s.status === "Tersinkron").length;
+
+        tbody.innerHTML = sidangData
+          .map((s, i) => {
+            const n = nilaiAkhirSidang(s);
+            const nilai =
+              n === null
+                ? "-"
+                : `<span class="font-semibold text-[#09090b]">${n} (${hurufNilai(n)})</span> <span class="${n >= 55 ? "text-emerald-700" : "text-rose-700"} text-[11px]">${n >= 55 ? "Lulus" : "Tidak Lulus"}</span>`;
+            let aksi = `<span class="text-[#71717a]">-</span>`;
+            if (s.status === "Siap Dinilai")
+              aksi = `<button type="button" onclick="openSidangForm(${i})" class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"><i data-lucide="clipboard-check" class="w-3 h-3"></i>Input Nilai</button>`;
+            else if (s.status === "Dinilai")
+              aksi = `<button type="button" onclick="openSidangForm(${i})" class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 rounded font-semibold transition-colors"><i data-lucide="pencil" class="w-3 h-3"></i>Ubah Nilai</button>`;
+            else if (s.status === "Tersinkron")
+              aksi = `<button type="button" onclick="openSidangForm(${i})" class="inline-flex items-center gap-1 px-2.5 py-1 text-gray-700 hover:bg-gray-50 border border-gray-200 rounded font-medium"><i data-lucide="eye" class="w-3 h-3"></i>Lihat</button>`;
+            return `
+              <tr class="hover:bg-gray-50/70 transition-colors">
+                <td class="py-3.5 px-4">
+                  <div class="font-medium text-[13px] text-[#09090b] leading-tight">${escProgram(s.nama)}</div>
+                  <div class="text-[12px] text-[#71717a]">${escProgram(s.nim)}</div>
+                </td>
+                <td class="py-3.5 px-4">${escProgram(s.program)}</td>
+                <td class="py-3.5 px-4">${escProgram(s.durasi)}</td>
+                <td class="py-3.5 px-4">${escProgram(s.jadwal)}</td>
+                <td class="py-3.5 px-4">${nilai}</td>
+                <td class="py-3.5 px-4"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-medium border ${SD_STYLE[s.status]}">${s.status}</span></td>
+                <td class="py-3.5 px-4"><div class="text-right inline-flex gap-1.5">${aksi}</div></td>
+              </tr>`;
+          })
+          .join("");
+        lucide.createIcons();
+      }
+
+      function updateSidangPreview() {
+        const v = (id) => document.getElementById(id).value;
+        const el = document.getElementById("sdPreview");
+        if (v("sdKinerja") === "" || v("sdLaporan") === "" || v("sdPresentasi") === "") {
+          el.textContent = "-";
+          return;
+        }
+        const n = hitungNilaiSidang(+v("sdKinerja"), +v("sdLaporan"), +v("sdPresentasi"));
+        el.textContent = `${n} (${hurufNilai(n)}) - ${n >= 55 ? "Lulus" : "Tidak Lulus"}`;
+      }
+
+      function openSidangForm(i) {
+        const s = sidangData[i];
+        sdActiveIndex = i;
+        const locked = s.status === "Tersinkron";
+        document.getElementById("sdModalTitle").textContent = locked
+          ? "Detail Penilaian Sidang"
+          : "Form Penilaian Sidang";
+        document.getElementById("sdModalName").textContent = s.nama;
+        document.getElementById("sdModalProgram").textContent = `${s.nim} • ${s.program}`;
+        document.getElementById("sdKinerja").value = s.kinerja ?? "";
+        document.getElementById("sdLaporan").value = s.laporan ?? "";
+        document.getElementById("sdPresentasi").value = s.presentasi ?? "";
+        document.getElementById("sdBeritaAcara").value = s.beritaAcara;
+        ["sdKinerja", "sdLaporan", "sdPresentasi", "sdBeritaAcara"].forEach(
+          (id) => (document.getElementById(id).disabled = locked),
+        );
+        document.getElementById("sdSaveBtn").classList.toggle("hidden", locked);
+        updateSidangPreview();
         document.getElementById("sidangModal").classList.remove("hidden");
         lucide.createIcons();
       }
       function closeSidangModal() {
         document.getElementById("sidangModal").classList.add("hidden");
+        sdActiveIndex = null;
       }
       function saveSidangNilai() {
+        const s = sidangData[sdActiveIndex];
+        if (!s) return;
+        const k = document.getElementById("sdKinerja").value;
+        const l = document.getElementById("sdLaporan").value;
+        const p = document.getElementById("sdPresentasi").value;
+        const valid = [k, l, p].every((x) => x !== "" && +x >= 0 && +x <= 100);
+        if (!valid) {
+          showToast("Nilai Tidak Valid", "Isi ketiga nilai rubrik dengan angka 0-100.");
+          return;
+        }
+        s.kinerja = +k;
+        s.laporan = +l;
+        s.presentasi = +p;
+        s.beritaAcara = document.getElementById("sdBeritaAcara").value.trim();
+        s.status = "Dinilai";
+        const n = nilaiAkhirSidang(s);
         closeSidangModal();
-        showToast("Nilai Sidang Tersimpan", "Rekap nilai siap disinkronkan.");
+        renderSidang();
+        showToast("Nilai Sidang Tersimpan", `${s.nama}: ${n} (${hurufNilai(n)}).`);
       }
       function sinkronNilaiSidang() {
-        showToast(
-          "Sinkronisasi Berhasil",
-          "Nilai akhir dikirim ke Koordinator MBKM.",
-        );
+        const siap = sidangData.filter((s) => s.status === "Dinilai");
+        if (!siap.length) {
+          showToast("Tidak Ada Nilai", "Belum ada nilai baru yang siap disinkronkan.");
+          return;
+        }
+        if (
+          !confirm(
+            `Sinkronkan ${siap.length} nilai akhir ke Koordinator MBKM untuk konversi SKS? Nilai tidak dapat diubah setelah disinkronkan.`,
+          )
+        )
+          return;
+        siap.forEach((s) => (s.status = "Tersinkron"));
+        renderSidang();
+        showToast("Sinkronisasi Berhasil", `${siap.length} nilai akhir dikirim ke Koordinator MBKM.`);
       }
+      document.addEventListener("DOMContentLoaded", renderSidang);
 
 
       // Floating Toast Utility
