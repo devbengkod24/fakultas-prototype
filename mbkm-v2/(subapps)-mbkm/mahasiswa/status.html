@@ -1,272 +1,156 @@
-<!-- Status Pengajuan MBKM (Tabel Pelacakan Transparan & Alur 5 Tahap) -->
-<div style="margin-bottom:24px;">
+<!-- Status Hero Dynamic Box -->
+            <div id="status-hero-card" class="status-hero pending">
+              <div>
+                <div
+                  style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:#fff;border-radius:9999px;font-size:11px;font-weight:700;margin-bottom:8px;"
+                  id="status-hero-pill">
+                  <i data-lucide="clock" style="width:14px;height:14px;color:#d97706;"></i>
+                  <span id="status-hero-pill-text">STATUS: PENDING (MENUNGGU)</span>
+                </div>
+                <h2 style="font-size:20px;font-weight:700;margin-bottom:4px;" id="status-hero-title">
+                  Pendaftaran Anda Sedang Dalam Proses Peninjauan
+                </h2>
+                <p style="font-size:13px;color:#6b7280;max-width:680px;" id="status-hero-desc">
+                  Berkas Anda telah diterima oleh sistem dan sedang diverifikasi oleh Tim Koordinator MBKM Fakultas Ilmu
+                  Komputer. Proses verifikasi biasanya memakan waktu 1 &ndash; 3 hari kerja.
+                </p>
+              </div>
 
-  <!-- Controller Simulasi Status Pengajuan -->
-  <div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;">
-    <div style="display:flex;align-items:center;gap:6px;color:#475569;">
-      <i data-lucide="sliders" style="width:14px;height:14px;color:var(--primary);"></i>
-      <span><strong>Simulator Alur 5 Tahap:</strong> Uji status verifikasi pengajuan</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <button class="btn btn-sm btn-outline" id="sim-status-btn-3" onclick="setApplicationStatus(3)" style="background:#fef3c7;color:#92400e;border-color:#fde68a;font-weight:600;">
-        Tahap 3: Seleksi Internal Mitra (Aktif)
-      </button>
-      <button class="btn btn-sm btn-outline" id="sim-status-btn-rev" onclick="setApplicationStatus('revisi')" style="color:#b91c1c;border-color:#fecaca;font-weight:600;">
-        Simulasi Ditolak / Perlu Revisi
-      </button>
-      <button class="btn btn-sm btn-outline" id="sim-status-btn-5" onclick="setApplicationStatus(5)" style="color:#047857;border-color:#a7f3d0;font-weight:600;">
-        Tahap 5: Final Approval (Diterima)
-      </button>
-    </div>
-  </div>
-
-  <!-- Hero Status Card (Dinamis Berdasarkan State) -->
-  <div id="status-hero-card" style="margin-bottom:20px;border-left:4px solid #d97706;padding:20px;background:#fffbeb;border-radius:12px;border:1px solid #fde68a;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-    <div>
-      <div style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:#fff;border-radius:9999px;font-size:11px;font-weight:700;margin-bottom:8px;border:1px solid #fde68a;" id="status-hero-pill">
-        <i data-lucide="clock" style="width:14px;height:14px;color:#d97706;"></i>
-        <span id="status-hero-pill-text" style="color:#92400e;">TAHAP 3: SELEKSI INTERNAL MITRA</span>
-      </div>
-      <h2 style="font-size:20px;font-weight:700;margin-bottom:4px;color:#78350f;" id="status-hero-title">
-        SuReKom Diterbitkan &mdash; Sedang Dinilai Mitra Bengkel Koding
-      </h2>
-      <p style="font-size:13px;color:#92400e;max-width:680px;" id="status-hero-desc">
-        Surat Rekomendasi (SuReKom) Dekanat resmi telah diterbitkan. Berkas portofolio Anda sedang ditinjau dalam proses seleksi teknis &amp; wawancara internal mitra.
-      </p>
-    </div>
-
-    <!-- Tombol Unduh SuReKom Digital (PDF) -->
-    <div style="display:flex;align-items:center;gap:10px;" id="status-action-btns">
-      <button class="btn btn-primary" onclick="unduhSurekomPDF()"><i data-lucide="download"></i> Unduh SuReKom Digital (PDF)</button>
-      <button class="btn btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Cetak Bukti</button>
-    </div>
-  </div>
-
-  <!-- KOTAK CATATAN EVALUASI RESMI (Hanya Muncul Jika Ditolak / Perlu Revisi) -->
-  <div id="box-catatan-evaluasi" style="display:none;margin-bottom:20px;">
-    <div class="alert alert-destructive" style="padding:18px;border-radius:10px;background:#fff1f2;border:1px solid #fecdd3;border-left:4px solid #e11d48;">
-      <div style="display:flex;gap:14px;align-items:flex-start;">
-        <div style="width:40px;height:40px;border-radius:8px;background:#fee2e2;color:#e11d48;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i data-lucide="message-square-warning" style="width:22px;height:22px;"></i>
-        </div>
-        <div style="flex:1;">
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
-            <div style="font-size:15px;font-weight:700;color:#9f1239;">
-              Catatan Evaluasi Resmi &mdash; Permohonan Perlu Perbaikan Berkas
+              <!-- Dynamic Action Buttons -->
+              <div id="status-hero-actions" style="flex-shrink:0;">
+                <button class="btn btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Cetak
+                  Bukti</button>
+              </div>
             </div>
-            <span class="badge" style="background:#ffe4e6;color:#9f1239;border:1px solid #fecdd3;">Pengirim: Koordinator MBKM Prodi (Bu Nurul)</span>
-          </div>
-          <div style="background:#fff;border:1px solid #fecdd3;border-radius:6px;padding:12px 16px;margin:8px 0;font-size:13px;color:#881337;line-height:1.6;">
-            <strong>Catatan Reviewer:</strong><br />
-            "Tautan Google Drive folder berkas yang Anda lampirkan masih berada dalam mode <em>Restricted / Akses Dibatasi</em> sehingga asesor mitra Bengkel Koding tidak dapat mengakses portofolio dan CV ATS Anda. Mohon segera perbarui izin akses menjadi <strong>'Anyone with the link can view'</strong> dan kirimkan ulang pembaruan sebelum 14 Oktober 2025 pukul 23:59 WIB agar berkas Anda dapat dilanjutkan ke tahap seleksi teknis."
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:12px;">
-            <span style="font-size:12px;color:#9f1239;">Batas Waktu Revisi: <strong>14 Oktober 2025, 23:59 WIB</strong></span>
-            <div style="display:flex;gap:8px;">
-              <a href="#form-pendaftaran" class="btn btn-sm btn-primary" style="background:#e11d48;border-color:#e11d48;">
-                <i data-lucide="edit-3"></i> Perbaiki &amp; Kirim Ulang Berkas
-              </a>
+
+            <!-- 3 Status Visual Timeline Cards -->
+            <div class="tracking-steps">
+              <!-- Step 1: Pending (Menunggu) -->
+              <div class="step-card" id="step-card-pending" style="border-left:4px solid #d97706;">
+                <div class="step-icon" style="background:#fef3c7;color:#d97706;">
+                  <i data-lucide="clock"></i>
+                </div>
+                <div>
+                  <div class="step-title">1. Pending (Menunggu)</div>
+                  <div class="step-desc">Berkas pendaftaran berhasil disubmit dan menunggu antrean verifikasi fakultas.
+                  </div>
+                  <span class="badge badge-warning" style="margin-top:8px;" id="badge-step-pending">Aktif</span>
+                </div>
+              </div>
+
+              <!-- Step 2: Accepted (Diterima) -->
+              <div class="step-card" id="step-card-accepted" style="opacity:0.6;">
+                <div class="step-icon" style="background:#dcfce7;color:#16a34a;">
+                  <i data-lucide="check-circle-2"></i>
+                </div>
+                <div>
+                  <div class="step-title">2. Accepted (Diterima)</div>
+                  <div class="step-desc">Pendaftaran disetujui, penerbitan Surat Tugas dan penetapan Dosen Pembimbing
+                    (DPL).</div>
+                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-accepted">Menunggu</span>
+                </div>
+              </div>
+
+              <!-- Step 3: Rejected (Ditolak) -->
+              <div class="step-card" id="step-card-rejected" style="opacity:0.6;">
+                <div class="step-icon" style="background:#fee2e2;color:#dc2626;">
+                  <i data-lucide="x-circle"></i>
+                </div>
+                <div>
+                  <div class="step-title">3. Rejected (Ditolak)</div>
+                  <div class="step-desc">Pendaftaran ditolak apabila berkas tidak valid atau tidak memenuhi kualifikasi
+                    mitra.</div>
+                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-rejected">-</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Stepper Visual Alur 5 Tahap Transparan -->
-  <div class="card" style="padding:22px;margin-bottom:20px;">
-    <h3 style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
-      <i data-lucide="git-merge" style="color:var(--primary);width:18px;height:18px;"></i>
-      Alur Pelacakan 5 Tahap Transparan MBKM
-    </h3>
+            <!-- Detail Berkas & Data yang Diajukan -->
+            <div class="grid grid-2">
+              <!-- Data Pengajuan -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="file-spreadsheet" style="color:var(--primary);"></i> Rincian
+                    Pengajuan MBKM</span>
+                  <span class="badge badge-primary">ID: MBKM-2025-0841</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Nama Program:</span>
+                    <span style="font-weight:600;" id="detail-status-program">Magang Mandiri</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Instansi Mitra:</span>
+                    <span style="font-weight:600;" id="detail-status-mitra">PT Telkom Indonesia (Persero) Tbk</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Posisi / Peran:</span>
+                    <span style="font-weight:600;" id="detail-status-posisi">Software Engineer Intern</span>
+                  </div>
+                  <div
+                    style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
+                    <span style="color:#64748b;">Durasi Kegiatan:</span>
+                    <span style="font-weight:600;" id="detail-status-durasi">1 Semester (6 Bulan)</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;">
+                    <span style="color:#64748b;">Tanggal Pengajuan:</span>
+                    <span style="font-weight:600;" id="detail-status-tanggal">10 Oktober 2025</span>
+                  </div>
+                </div>
+              </div>
 
-    <div class="tracking-steps" id="stepper-5-tahap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
-      
-      <!-- Tahap 1: Terkirim -->
-      <div class="step-card" id="step-card-1" style="border-left:4px solid #16a34a;padding:14px;background:#f8fafc;border-radius:8px;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span style="width:24px;height:24px;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">✓</span>
-          <span style="font-size:13px;font-weight:700;color:#0f172a;">1. Terkirim</span>
-        </div>
-        <div style="font-size:11.5px;color:#64748b;line-height:1.4;">Formulir &amp; data EWS disubmit mahasiswa.</div>
-        <span class="badge badge-success" style="margin-top:8px;">09 Okt 2025</span>
-      </div>
+              <!-- Dokumen yang Terlampir -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="folder-check" style="color:var(--primary);"></i> Dokumen
+                    Terlampir</span>
+                  <span class="badge badge-success">Terverifikasi Sistem</span>
+                </div>
+                <p class="card-description" style="margin-bottom:14px;">
+                  Berkas PDF yang berhasil Anda lampirkan saat pendaftaran:
+                </p>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <!-- Berkas 1: Transkrip Nilai -->
+                  <div
+                    style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div
+                        style="width:32px;height:32px;border-radius:6px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">
+                        PDF</div>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;" id="status-file-transkrip">
+                          Transkrip_Nilai_Ahmad_Rizky.pdf</div>
+                        <div style="font-size:11px;color:#64748b;">Dokumen Transkrip Nilai Terlegalisir</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline"
+                      onclick="alert('Membuka pratinjau berkas Transkrip Nilai (PDF)')"><i data-lucide="eye"></i>
+                      Lihat</button>
+                  </div>
 
-      <!-- Tahap 2: Review SuReKom Koordinator -->
-      <div class="step-card" id="step-card-2" style="border-left:4px solid #16a34a;padding:14px;background:#f8fafc;border-radius:8px;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span style="width:24px;height:24px;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">✓</span>
-          <span style="font-size:13px;font-weight:700;color:#0f172a;">2. Review SuReKom</span>
-        </div>
-        <div style="font-size:11.5px;color:#64748b;line-height:1.4;">Koordinator MBKM menyetujui &amp; menerbitkan SuReKom.</div>
-        <span class="badge badge-success" style="margin-top:8px;">10 Okt 2025</span>
-      </div>
+                  <!-- Berkas 2: CV -->
+                  <div
+                    style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div
+                        style="width:32px;height:32px;border-radius:6px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">
+                        PDF</div>
+                      <div>
+                        <div style="font-size:13px;font-weight:600;" id="status-file-cv">CV_Ahmad_Rizky_Pratama.pdf
+                        </div>
+                        <div style="font-size:11px;color:#64748b;">Curriculum Vitae / Resume</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline" onclick="alert('Membuka pratinjau berkas CV (PDF)')"><i
+                        data-lucide="eye"></i> Lihat</button>
+                  </div>
+                </div>
 
-      <!-- Tahap 3: Seleksi Internal Mitra -->
-      <div class="step-card" id="step-card-3" style="border-left:4px solid #d97706;padding:14px;background:#fffbeb;border-radius:8px;border-top:1px solid #fde68a;border-right:1px solid #fde68a;border-bottom:1px solid #fde68a;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span id="step-badge-icon-3" style="width:24px;height:24px;border-radius:50%;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">3</span>
-          <span style="font-size:13px;font-weight:700;color:#92400e;">3. Seleksi Internal Mitra</span>
-        </div>
-        <div style="font-size:11.5px;color:#78350f;line-height:1.4;" id="step-card-desc-3">Penilaian teknis &amp; wawancara asesor Bengkel Koding.</div>
-        <span class="badge badge-warning" id="step-badge-status-3" style="margin-top:8px;">Sedang Berjalan</span>
-      </div>
-
-      <!-- Tahap 4: Rekomendasi Mitra Terkirim -->
-      <div class="step-card" id="step-card-4" style="border-left:4px solid #94a3b8;padding:14px;background:#f8fafc;border-radius:8px;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;opacity:0.75;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span id="step-badge-icon-4" style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;color:#64748b;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">4</span>
-          <span style="font-size:13px;font-weight:700;color:#475569;">4. Rekomendasi Mitra</span>
-        </div>
-        <div style="font-size:11.5px;color:#64748b;line-height:1.4;">Hasil seleksi &amp; kuota dikirim mitra ke fakultas.</div>
-        <span class="badge" id="step-badge-status-4" style="background:#e2e8f0;color:#64748b;margin-top:8px;">Menunggu Tahap 3</span>
-      </div>
-
-      <!-- Tahap 5: Final Approval Koordinator -->
-      <div class="step-card" id="step-card-5" style="border-left:4px solid #94a3b8;padding:14px;background:#f8fafc;border-radius:8px;border-top:1px solid #e2e8f0;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;opacity:0.75;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <span id="step-badge-icon-5" style="width:24px;height:24px;border-radius:50%;background:#e2e8f0;color:#64748b;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">5</span>
-          <span style="font-size:13px;font-weight:700;color:#475569;">5. Final Approval</span>
-        </div>
-        <div style="font-size:11.5px;color:#64748b;line-height:1.4;">Pengesahan SK dekanat &amp; plotting dosen DPL.</div>
-        <span class="badge" id="step-badge-status-5" style="background:#e2e8f0;color:#64748b;margin-top:8px;">Menunggu Tahap 4</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- TABEL PELACAKAN RIWAYAT PERMOHONAN MBKM MAHASISWA -->
-  <div class="card" style="padding:22px;margin-bottom:20px;">
-    <div class="card-header" style="margin-bottom:16px;">
-      <div>
-        <span class="card-title" style="font-size:15px;display:flex;align-items:center;gap:8px;">
-          <i data-lucide="history" style="color:var(--primary);width:18px;height:18px;"></i>
-          Tabel Pelacakan Riwayat Permohonan MBKM
-        </span>
-        <p class="card-description" style="margin-top:2px;">
-          Audit trail transparan pelacakan status permohonan pendaftaran program mitra dan penerbitan SuReKom.
-        </p>
-      </div>
-      <span class="badge badge-primary">Aturan: 1 Pendaftaran Aktif</span>
-    </div>
-
-    <div style="border:1px solid #e2e8f0;border-radius:8px;overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
-        <thead>
-          <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;color:#475569;">
-            <th style="padding:10px 14px;">ID Registrasi</th>
-            <th style="padding:10px 14px;">Program &amp; Mitra</th>
-            <th style="padding:10px 14px;">Skema &amp; Durasi</th>
-            <th style="padding:10px 14px;">Tanggal Pengajuan</th>
-            <th style="padding:10px 14px;">Status Alur 5 Tahap</th>
-            <th style="padding:10px 14px;text-align:center;">Dokumen &amp; Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Baris Aplikasi Aktif -->
-          <tr style="border-bottom:1px solid #f1f5f9;background:#fbfcfe;" id="table-row-app-1">
-            <td style="padding:12px 14px;font-family:monospace;font-weight:700;color:var(--primary);">
-              MBKM-2025-0914
-            </td>
-            <td style="padding:12px 14px;">
-              <strong style="color:#0f172a;display:block;">Bengkel Koding &mdash; Proyek Web &amp; Mobile</strong>
-              <span style="font-size:11.5px;color:#64748b;">Mitra: Lab Bengkel Koding FIK</span>
-            </td>
-            <td style="padding:12px 14px;">
-              <span class="badge badge-primary" style="font-size:10.5px;">Proyek</span>
-              <span style="font-size:11.5px;color:#475569;margin-left:4px;">1 Smt (20 SKS)</span>
-            </td>
-            <td style="padding:12px 14px;color:#475569;">
-              09 Oktober 2025<br />
-              <small style="color:#94a3b8;">14:32 WIB</small>
-            </td>
-            <td style="padding:12px 14px;" id="table-status-cell">
-              <span class="badge badge-warning" style="display:inline-flex;align-items:center;gap:4px;">
-                <i data-lucide="loader-2" style="width:12px;height:12px;"></i> 3. Seleksi Internal Mitra
-              </span>
-              <div style="font-size:11px;color:#92400e;margin-top:2px;">Wawancara &amp; portofolio</div>
-            </td>
-            <td style="padding:12px 14px;text-align:center;" id="table-action-cell">
-              <button class="btn btn-sm btn-outline" onclick="unduhSurekomPDF()" title="Unduh SuReKom Digital PDF" style="display:inline-flex;align-items:center;gap:4px;">
-                <i data-lucide="download" style="width:13px;height:13px;color:var(--primary);"></i> SuReKom (PDF)
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Detail SuReKom Digital & Ringkasan Berkas -->
-  <div class="grid grid-2" style="gap:18px;">
-    <!-- Dokumen SuReKom Dekanat Digital -->
-    <div class="card" style="padding:20px;">
-      <div class="card-header" style="margin-bottom:14px;">
-        <span class="card-title" style="display:flex;align-items:center;gap:8px;font-size:15px;">
-          <i data-lucide="file-check-2" style="color:var(--primary);"></i> Surat Rekomendasi Dekanat (SuReKom Digital)
-        </span>
-        <span class="badge badge-success"><i data-lucide="check" style="width:11px;height:11px;"></i> Diterbitkan</span>
-      </div>
-
-      <div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:16px;margin-bottom:16px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <span style="font-size:12px;color:#64748b;">Nomor Surat Dekanat:</span>
-          <span style="font-size:12px;font-family:monospace;font-weight:700;color:#0f172a;">421/B.12/FIK-UDINUS/X/2025</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <span style="font-size:12px;color:#64748b;">Pejabat Pengesah:</span>
-          <span style="font-size:12px;font-weight:600;color:#0f172a;">Dekan Fakultas Ilmu Komputer</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <span style="font-size:12px;color:#64748b;">Verifikator Koordinator:</span>
-          <span style="font-size:12px;font-weight:600;color:#0f172a;">Nurul Anisa Sri Winarsih, M.Cs</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:12px;color:#64748b;">Keabsahan:</span>
-          <span style="font-size:12px;color:#16a34a;font-weight:600;">Valid TTE Digital &bull; QR Code UDI</span>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:12px;color:#64748b;"><i data-lucide="shield" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> Terenkripsi Database UDI</span>
-        <button class="btn btn-sm btn-primary" onclick="unduhSurekomPDF()"><i data-lucide="download"></i> Download SuReKom PDF</button>
-      </div>
-    </div>
-
-    <!-- Ringkasan Paket Pengajuan Mahasiswa -->
-    <div class="card" style="padding:20px;">
-      <div class="card-header" style="margin-bottom:14px;">
-        <span class="card-title" style="display:flex;align-items:center;gap:8px;font-size:15px;">
-          <i data-lucide="clipboard-list" style="color:var(--primary);"></i> Rincian Paket Usulan Mahasiswa
-        </span>
-        <span class="badge badge-primary">ID: MBKM-2025-0914</span>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">Program &amp; Mitra:</span>
-          <span style="font-weight:600;color:#0f172a;">Bengkel Koding &mdash; Proyek Web &amp; Mobile</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">Skema &amp; Durasi:</span>
-          <span style="font-weight:600;color:#0f172a;">Proyek Industri &bull; 1 Semester (6 Bulan)</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">PIC Mitra:</span>
-          <span style="font-weight:600;color:#0f172a;">Dr. Ricardus Anggi, M.Kom</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">Draf Konversi SKS:</span>
-          <span style="font-weight:700;color:var(--primary);">20 SKS (5 Mata Kuliah Ekuivalensi)</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;">
-          <span style="color:#64748b;">Tautan Berkas GDrive:</span>
-          <a href="https://drive.google.com/drive/folders/1aBcD-EfgHiJkLmNoPqRsTuVwXyZ" target="_blank" style="color:var(--primary);text-decoration:none;display:inline-flex;align-items:center;gap:4px;font-weight:600;">
-            <i data-lucide="external-link" style="width:12px;height:12px;"></i> Buka Google Drive
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
+                <!-- Notes & Feedback box for Rejected or Accepted -->
+                <div id="status-feedback-box"
+                  style="display:none;margin-top:14px;padding:12px;border-radius:8px;font-size:12px;"></div>
+              </div>
+            </div>

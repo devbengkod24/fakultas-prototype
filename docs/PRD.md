@@ -16,6 +16,9 @@
 **Target Pembaca:** Frontend Developer, Backend Developer, QA Engineer, UI/UX Designer, Koordinator MBKM, Mitra  
 **Dokumen Pendukung UI:** `docs/DESIGN.md` (Strict UI Design Contract)  
 **Dokumen Indeks Baris Kode:** `docs/INDEX.md` (Master Index & Line Function Mapping)
+<<<<<<< HEAD
+>>>>>>> 05897fd0167b9777da69d20160e9697afe820838
+=======
 >>>>>>> 05897fd0167b9777da69d20160e9697afe820838
 
 ---
@@ -116,6 +119,7 @@ Sistem MBKM FIK Apps mengintegrasikan **3 Peran Utama** (*Three Core Roles*) yan
 │     Koordinator MBKM    │   │        Mahasiswa        │   │    Contributor Mitra    │
 │  (Bu Nurul / Per-Prodi) │   │ (Basis Data EWS 50.000) │   │  (Bengkod, Matic, dsb)  │
 └─────────────────────────┘   └─────────────────────────┘   └─────────────────────────┘
+<<<<<<< HEAD
 >>>>>>> 05897fd0167b9777da69d20160e9697afe820838
 ```
 
@@ -235,10 +239,23 @@ Untuk versi prototipe HTML statis ini:
   └── Status Pendaftaran
   └── Unggah Berkas
 📓 Logbook & Laporan
+=======
+>>>>>>> 05897fd0167b9777da69d20160e9697afe820838
 ```
 
----
+### 2.1 Koordinator MBKM (Regulator Fakultas / Prodi)
+- **Karakteristik Akun**: Akun regulator tingkat program studi / fakultas (arsitektur siap-SaaS multi-prodi), dipegang oleh Koordinator MBKM (Bu Nurul).
+- **Kewenangan & Tanggung Jawab**:
+  1. **Timeline & Periode**: Mengatur kalender pembukaan, cut-off permohonan SuReKom, batas seleksi mitra, hingga batas input nilai akhir semester.
+  2. **Manajemen Akun Mitra**: Membuat dan meng-generate akun PIC Mitra secara *invite-only* via tombol toolbar `+ Tambah Mitra` (Nama Mitra, Nama PIC, Email PIC).
+  3. **Validasi SuReKom**: Memverifikasi antrean permohonan Surat Rekomendasi (SuReKom) mahasiswa berbasis validasi syarat akademik otomatis dari database akademik.
+  4. **Final Approval Pendaftar**: Menyetujui pendaftar yang telah dinyatakan lolos rekomendasi awal oleh mitra sebelum resmi menjadi peserta aktif.
+  5. **Penugasan Dospem (DPL)**: Mengalokasikan Dosen Pembimbing Lapangan resmi (data ditarik langsung dari database UDI) ke mahasiswa yang diterima di mitra.
+  6. **Persetujuan & Penguncian Konversi SKS**: Memeriksa usulan draf mata kuliah konversi mahasiswa terhadap Capaian Pembelajaran Lulusan (CPL), menyetujui, dan mengunci beban konversi (maksimal 20 SKS per semester).
+  7. **Visibilitas Portal**: Mengatur toggle visibilitas menu MBKM pada portal utama `apps.html`.
+  8. **Evaluasi Akhir & Luaran**: Mengawasi kepatuhan logbook makro, mengelola jadwal sidang evaluasi, dan memvalidasi luaran wajib (Publikasi/Sertifikat) sebelum disinkronkan ke KHS.
 
+<<<<<<< HEAD
 ## 10. Rencana Iterasi
 
 | Versi | Scope |
@@ -278,6 +295,34 @@ Untuk versi prototipe HTML statis ini:
 
 ## 3. Taksonomi 3 Skema Baku Program Mitra
 
+=======
+### 2.2 Mahasiswa (Pelamar & Peserta Aktif)
+- **Karakteristik Akun**: Menggunakan akun Single Sign-On (SSO) terintegrasi basis data EWS (telah mencakup ±50.000 akun mahasiswa aktif).
+- **Kewenangan & Tanggung Jawab**:
+  1. **Eksplorasi Katalog**: Menjelajahi katalog program resmi mitra dengan filter kategori 3 skema baku (Asistensi, Proyek, Riset/Publikasi).
+  2. **Pendaftaran 3-Tahap Mandatori**: Mengisi formulir pendaftaran terpadu (Validasi Syarat Akademik EWS ➔ Input Tautan Google Drive Portofolio ➔ Kesepakatan Hak & Kewajiban + Draf Konversi SKS + Permohonan SuReKom).
+  3. **Aturan Satu Pendaftaran Aktif (*Single-Application Active*)**: Hanya dapat memiliki 1 permohonan aktif pada satu periode semester (analog dengan aturan pemilihan dosen TA/Skripsi).
+  4. **Pelacakan Status Transparan**: Memantau 5 fase seleksi (*Terkirim ➔ Review SuReKom Koordinator ➔ Seleksi Internal Mitra ➔ Rekomendasi Mitra Terkirim ➔ Final Approval Koordinator*).
+  5. **Transisi Dashboard Dinamis**:
+     - *Saat Mendaftar*: Tampilan berfokus pada katalog, form pendaftaran 3 tahap, dan pelacakan status.
+     - *Setelah Diterima*: Form pendaftaran **dihilangkan otomatis**, tampilan berganti penuh ke modul operasional kegiatan (Tautan WhatsApp Group resmi mitra, profil DPL UDI, jurnal logbook mingguan, tabel konversi SKS terkunci, pendaftaran sidang, dan unggah dokumen luaran wajib).
+
+### 2.3 Contributor Mitra (Operator Industri & Lab Riset)
+- **Karakteristik Akun**: Entitas akun pengguna mandiri (*bukan akun dosen biasa*), dibuat secara *invite-only* oleh Koordinator MBKM / Admin FIK (misal: PIC Bengkel Koding, Matic, Ryuje, IDSS, atau Mitra Industri).
+- **Kewenangan & Tanggung Jawab**:
+  1. **Kelola Lowongan Program (CMS Mitra)**: Membuat dan menerbitkan program kegiatan (skema Asistensi, Proyek, Riset), kapasitas kuota, durasi kegiatan (1 atau 2 semester), tag keahlian, dan tautan resmi grup koordinasi (WhatsApp/Telegram).
+  2. **Konfigurasi Hak & Kewajiban**: Menjabarkan butir-butir kewajiban program secara detail dalam bentuk toggle/checklist yang wajib disetujui mahasiswa.
+  3. **Pencatatan Dosen Pembina Mitra**: Mencatat nama-nama kontributor/dosen pembina internal yang membina program tersebut.
+  4. **Seleksi Pelamar**: Meninjau berkas pelamar masuk (pratinjau IPK/SKS, jawaban formulir khusus, berkas CV/Portofolio Google Drive), mengelola status seleksi internal (*Menunggu Review, Wawancara, Lolos Internal, Gugur*).
+  5. **Pengiriman Rekomendasi**: Mengunci kandidat yang lolos seleksi internal dan mengirimkan rekomendasi resmi ke Koordinator MBKM melalui tombol toolbar **`Kirim Rekomendasi ke Koordinator`**.
+  6. **Mentoring & Bimbingan Lapangan**: Mengawasi aktivitas lapangan, memverifikasi jurnal logbook mingguan, memberikan catatan review, serta menginput rubrik nilai evaluasi sidang akhir kegiatan (kinerja industri & laporan).
+  7. **Batasan Keamanan Kaku (*Strict Boundary*)**: Mitra **sama sekali TIDAK memiliki akses** ke data kurikulum akademik, riwayat KRS, atau pengelolaan mata kuliah mahasiswa.
+
+---
+
+## 3. Taksonomi 3 Skema Baku Program Mitra
+
+>>>>>>> 05897fd0167b9777da69d20160e9697afe820838
 Seluruh program yang ditawarkan mitra diwajibkan masuk ke dalam **3 Skema Baku Terstandarisasi** untuk menyederhanakan klasifikasi dan konversi:
 
 | No | Skema Program Baku | Karakteristik Kegiatan | Contoh Penerapan Mitra | Target Luaran Wajib |
@@ -398,4 +443,7 @@ Sesuai dengan standarisasi arsitektur antarmuka dan pemetaan pada [`docs/INDEX.m
    - Mitra tidak boleh memiliki akses HTTP endpoint atau UI kurikulum mata kuliah.
    - Pendaftaran dibatasi ketat 1 pengajuan aktif per mahasiswa per semester.
    - Form pendaftaran mahasiswa terkunci permanen jika syarat akademik database tidak terpenuhi.
+<<<<<<< HEAD
+>>>>>>> 05897fd0167b9777da69d20160e9697afe820838
+=======
 >>>>>>> 05897fd0167b9777da69d20160e9697afe820838
