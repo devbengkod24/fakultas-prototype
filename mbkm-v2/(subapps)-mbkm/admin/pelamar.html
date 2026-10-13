@@ -1,70 +1,154 @@
-<!-- Header -->
-<div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
-  <div>
-    <h2 class="text-base font-semibold text-[#09090b]">Pelamar MBKM (Rekomendasi Mitra)</h2>
-    <p class="text-[11px] text-[#71717a]">Antrean final approval daftar mahasiswa yang lolos rekomendasi seleksi awal mitra sebelum resmi menjadi peserta aktif.</p>
-  </div>
-</div>
+<!-- ==================================================== -->
+<!-- FRAGMEN BERKAS MANDIRI: PENDAFTAR MAHASISWA (MBKM V2)-->
+<!-- Tampilan Kartu & Tabel Pendaftar (Sesuai Gambar TA)  -->
+<!-- ==================================================== -->
 
-<!-- Filter & Toolbar -->
-<div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
-  <div class="relative w-full sm:w-72">
-    <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-    <input
-      type="text"
-      id="search-pelamar"
-      oninput="handleSearchPelamar(this.value)"
-      placeholder="Cari nama atau NIM pelamar..."
-      class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-    />
-  </div>
-  <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-    <select
-      id="filter-pelamar-mitra"
-      onchange="handleFilterPelamarMitra(this.value)"
-      class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-    >
-      <option value="semua">Semua Mitra</option>
-      <option value="Bengkel Koding">Bengkel Koding</option>
-      <option value="PT Matic Edukasi Mandiri">PT Matic Edukasi Mandiri</option>
-      <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
-      <option value="IDSS Laboratory">IDSS Laboratory</option>
-    </select>
-    <select
-      id="filter-pelamar-status"
-      onchange="handleFilterPelamarStatus(this.value)"
-      class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-    >
-      <option value="semua">Semua Status Approval</option>
-      <option value="pending">Menunggu Persetujuan</option>
-      <option value="approved">Disetujui</option>
-      <option value="rejected">Ditolak</option>
-    </select>
-  </div>
-</div>
+<div class="space-y-4">
+  <!-- Status Tabs Row (Sesuai Gambar Tugas Akhir Pengajuan Mahasiswa) -->
+  <div class="border-b border-[#e4e4e7] mb-2">
+    <div class="flex items-center gap-6 overflow-x-auto pb-0">
+      <button
+        type="button"
+        id="tab-pendaftar-baru"
+        onclick="switchPendaftarStatusTab('baru')"
+        class="flex items-center gap-2 pb-3 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors"
+      >
+        <i data-lucide="inbox" class="w-4 h-4"></i>
+        <span>Baru</span>
+        <span id="badge-count-pendaftar-baru" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-[#0655a7]">10</span>
+      </button>
 
-<!-- Tabel Pelamar -->
-<div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
-  <table class="w-full text-xs text-left border-collapse">
-    <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
-      <tr>
-        <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Prodi</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Mitra Penempatan</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Posisi / Formasi</th>
-        <th class="px-3 py-2 font-semibold text-center text-[11px]">Rekomendasi Mitra</th>
-        <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Approval</th>
-        <th class="w-36 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
-      <!-- Populated dynamically via renderPelamarTable() -->
-    </tbody>
-  </table>
-</div>
+      <button
+        type="button"
+        id="tab-pendaftar-diterima"
+        onclick="switchPendaftarStatusTab('diterima')"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="check" class="w-4 h-4"></i>
+        <span>Diterima</span>
+        <span id="badge-count-pendaftar-diterima" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700">0</span>
+      </button>
 
-<div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
-  <div id="pelamar-table-info">Menampilkan pelamar</div>
-  <div id="pelamar-pagination-controls" class="flex items-center gap-1"></div>
+      <button
+        type="button"
+        id="tab-pendaftar-ditolak"
+        onclick="switchPendaftarStatusTab('ditolak')"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+        <span>Ditolak</span>
+        <span id="badge-count-pendaftar-ditolak" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-red-50 text-red-700">0</span>
+      </button>
+
+      <button
+        type="button"
+        id="tab-pendaftar-dibatalkan"
+        onclick="switchPendaftarStatusTab('dibatalkan')"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="ban" class="w-4 h-4"></i>
+        <span>Dibatalkan</span>
+        <span id="badge-count-pendaftar-dibatalkan" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-700">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter & Search Toolbar (Sesuai Gambar Pengajuan Mahasiswa) -->
+  <div class="mb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+    <!-- Search Box -->
+    <div class="relative w-full lg:w-96">
+      <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        type="text"
+        id="search-pelamar"
+        oninput="handleSearchPelamar(this.value)"
+        placeholder="Cari berdasarkan nama, NIM, atau judul..."
+        class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      />
+    </div>
+
+    <!-- Controls Group: View Mode, Sort, Filters -->
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- View Mode Dropdown -->
+      <select
+        id="select-pendaftar-view"
+        onchange="switchPendaftarViewMode(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="kartu" selected>⊞ Kartu</option>
+        <option value="tabel">☰ Tabel</option>
+      </select>
+
+      <!-- Sort Dropdown -->
+      <select
+        id="select-pendaftar-sort"
+        onchange="handleSortPendaftar(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="terbaru" selected>⏱ Terbaru</option>
+        <option value="ipk-tinggi">🎖 IPK Tertinggi</option>
+        <option value="nama-asc">🔤 Nama (A - Z)</option>
+      </select>
+
+      <!-- Filter Kategori / Mitra -->
+      <select
+        id="filter-pelamar-mitra"
+        onchange="handleFilterPelamarMitra(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="semua">Semua Mitra</option>
+        <option value="eksternal" selected>Mitra Eksternal (Koordinator)</option>
+        <option value="internal">Mitra Internal (Read-Only)</option>
+        <option value="Dicoding Indonesia">Dicoding Indonesia</option>
+        <option value="Bangkit Academy">Bangkit Academy</option>
+        <option value="PT Telkom Indonesia">PT Telkom Indonesia</option>
+        <option value="Bengkel Koding">Bengkel Koding</option>
+        <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
+        <option value="IDSS Laboratory">IDSS Laboratory</option>
+      </select>
+
+      <!-- Filter Program Studi / Bidang -->
+      <select
+        id="filter-pelamar-prodi"
+        onchange="handleFilterPelamarProdi(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="semua" selected>Semua Bidang / Prodi</option>
+        <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
+        <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
+        <option value="S1 DKV">S1 DKV</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Container Tampilan Kartu (Default - Sama Persis Gambar) -->
+  <div id="pendaftar-cards-container" class="space-y-4">
+    <!-- Rendered via renderPelamarTable() -->
+  </div>
+
+  <!-- Container Tampilan Tabel (Sesuai DataTable Standar) -->
+  <div id="pendaftar-table-container" class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white hidden">
+    <table class="w-full text-sm">
+      <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+        <tr>
+          <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program & Mitra MBKM</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Akademik</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Matakuliah Diambil</th>
+          <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
+          <th class="h-10 w-36 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
+        <!-- Populated dynamically via renderPelamarTable() -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Footer -->
+  <div class="pt-2 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
+    <div id="pelamar-table-info">Menampilkan pendaftar</div>
+    <div id="pelamar-pagination-controls" class="flex items-center gap-1"></div>
+  </div>
 </div>

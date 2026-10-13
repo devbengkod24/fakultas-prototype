@@ -1,38 +1,20 @@
-<!-- Header -->
-<div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
-  <div>
-    <h2 class="text-base font-semibold text-[#09090b]">Semua Mahasiswa MBKM</h2>
-    <p class="text-[11px] text-[#71717a]">Direktori seluruh mahasiswa yang sedang aktif menjalani kegiatan MBKM di mitra.</p>
-  </div>
-  <div class="flex items-center gap-2">
-    <button
-      type="button"
-      onclick="exportDataMahasiswa()"
-      class="px-2.5 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-xs font-medium text-[#3f3f46] shadow-2xs flex items-center gap-1.5 transition-all"
-    >
-      <i data-lucide="download" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-      <span>Export Data (Excel)</span>
-    </button>
-  </div>
-</div>
-
-<!-- Filter & Toolbar -->
-<div class="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-3 bg-white rounded-xl border border-[#e4e4e7] shadow-2xs">
-  <div class="relative w-full sm:w-72">
-    <i data-lucide="search" class="w-3.5 h-3.5 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-    <input
-      type="text"
-      id="search-semua-mhs"
-      oninput="handleSearchSemuaMhs(this.value)"
-      placeholder="Cari nama, NIM, atau DPL..."
-      class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-[#fafafa] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-    />
-  </div>
+<!-- Filter & Search Toolbar (Sesuai Standar SearchControl fakultas-fe) -->
+<div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
   <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+    <div class="relative w-full sm:w-72 md:w-80">
+      <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        type="text"
+        id="search-semua-mhs"
+        oninput="handleSearchSemuaMhs(this.value)"
+        placeholder="Cari mahasiswa, NIM, atau DPL..."
+        class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      />
+    </div>
     <select
       id="filter-semua-mhs-mitra"
       onchange="handleFilterSemuaMhsMitra(this.value)"
-      class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
     >
       <option value="semua">Semua Mitra</option>
       <option value="Bengkel Koding">Bengkel Koding</option>
@@ -43,9 +25,9 @@
     <select
       id="filter-semua-mhs-prodi"
       onchange="handleFilterSemuaMhsProdi(this.value)"
-      class="px-2.5 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
     >
-      <option value="semua">Semua Prodi</option>
+      <option value="semua">Semua Program Studi</option>
       <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
       <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
       <option value="S1 DKV">S1 DKV</option>
@@ -53,19 +35,19 @@
   </div>
 </div>
 
-<!-- Tabel Semua Mahasiswa -->
-<div class="overflow-x-auto rounded-xl border border-[#e4e4e7] bg-white shadow-2xs">
-  <table class="w-full text-xs text-left border-collapse">
-    <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+<!-- Tabel Semua Mahasiswa (Sesuai DataTable di semua-mahasiswa fakultas-fe) -->
+<div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+  <table class="w-full text-sm">
+    <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
       <tr>
-        <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Kontak</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Mitra & Posisi</th>
-        <th class="px-3 py-2 font-semibold text-[11px]">Dosen Pembimbing (DPL)</th>
-        <th class="px-3 py-2 font-semibold text-center text-[11px]">Progres Logbook</th>
-        <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
-        <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+        <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Kontak</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mitra & Posisi</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Dosen Pembimbing (DPL)</th>
+        <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Progres Logbook</th>
+        <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
+        <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
       </tr>
     </thead>
     <tbody id="semua-mhs-table-tbody" class="divide-y divide-[#e4e4e7]">
@@ -74,7 +56,8 @@
   </table>
 </div>
 
-<div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5 text-[11px] text-[#71717a]">
+<!-- Pagination Footer -->
+<div class="pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
   <div id="semua-mhs-table-info">Menampilkan mahasiswa</div>
   <div id="semua-mhs-pagination-controls" class="flex items-center gap-1"></div>
 </div>
