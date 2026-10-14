@@ -1,0 +1,47 @@
+<!-- Filter & Search Toolbar (Sesuai Standar SearchControl fakultas-fe) -->
+<div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+  <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+    <div class="relative w-full sm:w-72 md:w-80">
+      <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        type="text"
+        id="search-pengumuman"
+        oninput="handleSearchPengumuman(this.value)"
+        placeholder="Cari pengumuman..."
+        class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      />
+    </div>
+    <select
+      id="filter-pengumuman-sasaran"
+      onchange="handleFilterPengumumanSasaran(this.value)"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    >
+      <option value="semua">Semua Sasaran</option>
+      <option value="semua_mhs">Semua Mahasiswa MBKM</option>
+      <option value="mitra_dpl">Mitra & DPL</option>
+      <option value="magang">Peserta Magang Industri</option>
+      <option value="studi_independen">Peserta Studi Independen</option>
+    </select>
+    <select
+      id="filter-pengumuman-status"
+      onchange="handleFilterPengumumanStatus(this.value)"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    >
+      <option value="semua">Semua Status</option>
+      <option value="published">Dipublikasikan</option>
+      <option value="draft">Draf</option>
+      <option value="archived">Diarsipkan</option>
+    </select>
+  </div>
+</div>
+
+<!-- Cards View Container (Sesuai PengumumanCards di fakultas-fe) -->
+<div id="pengumuman-cards-container" class="grid lg:grid-cols-1 gap-4">
+  <!-- Populated dynamically via renderPengumumanCards() -->
+</div>
+
+<!-- Footer Pagination / Info (Sesuai DataTable Footer) -->
+<div class="pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
+  <div id="pengumuman-table-info">Menampilkan pengumuman</div>
+  <div id="pengumuman-pagination-controls" class="flex items-center gap-1"></div>
+</div>

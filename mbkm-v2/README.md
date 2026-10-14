@@ -13,23 +13,27 @@ mbkm-v2/
 │
 ├── (roots)/                            # Rute publik & portal institusi
 │   ├── (landing)-mbkm/
-│   │   ├── _index.html                 # Index katalog program MBKM
+│   │   ├── __index.html                # Index katalog program MBKM (teratas)
 │   │   ├── mbkm.html                   # Katalog terbuka program MBKM publik
 │   │   ├── detail-mbkm.html            # Detail silabus program & tautan pendaftaran
 │   │   └── pendaftaran-mahasiswa.html  # Formulir pendaftaran publik terpadu
 │   └── apps/
-│       ├── _index.html                 # Launcher Single Sign-On (SSO) Portal Apps
+│       ├── __index.html                # Launcher Single Sign-On (SSO) Portal Apps (teratas)
 │       └── apps.html                   # Halaman portal modul institusi FIK
 │
 └── (subapps)-mbkm/                     # Dashboard modular 3 peran utama
     ├── mahasiswa/                      # Sub-App Mahasiswa Pelamar & Aktif
-    │   ├── _index.html                 # Master App Shell (Sidebar, Header, Router)
+    │   ├── __index.html                # Master App Shell (teratas di explorer)
+    │   ├── _mock-data.js               # Data dummy profil & status mahasiswa
+    │   ├── _controller.js              # Logika form submit & evaluasi SIADIN
     │   ├── dashboard.html              # Fragmen Dashboard & validasi syarat DB
     │   ├── pendaftaran.html            # Fragmen Formulir Pendaftaran Mandiri & Upload PDF
     │   └── status.html                 # Fragmen Pelacakan Status & Linimasa Verifikasi
     │
     ├── contributor/                    # Sub-App Contributor Mitra & Dosen Pembimbing
-    │   ├── _index.html                 # Master App Shell (Sidebar, Header, 6 Modal, Router)
+    │   ├── __index.html                # Master App Shell (teratas di explorer)
+    │   ├── _mock-data.js               # Data dummy showcase, formasi & matkul
+    │   ├── _controller.js              # Logika seleksi & CMS formasi riset
     │   ├── dashboard.html              # Fragmen Dashboard operasional & quick stats
     │   ├── program.html                # Fragmen CMS Kelola Program Binaan & Lowongan
     │   ├── form.html                   # Fragmen Builder Formulir Pendaftaran
@@ -38,7 +42,9 @@ mbkm-v2/
     │   └── dosen.html                  # Fragmen Data Dosen Pembina
     │
     └── admin/                          # Sub-App Master Koordinator MBKM & Admin
-        ├── _index.html                 # Master App Shell (Sidebar, Header, 5 Modal, Router)
+        ├── __index.html                # Master App Shell (teratas di explorer)
+        ├── _mock-data.js               # Kumpulan 18 variabel data dummy array
+        ├── _controller.js              # Logika controller interaktif, Alpine store & router
         ├── dashboard.html              # Fragmen Dashboard Koordinator (Ringkasan eksekutif)
         ├── program.html                # Fragmen Daftar Program & Manajemen Kategori
         ├── koordinator.html            # Fragmen Penugasan Dosen Koordinator
