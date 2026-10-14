@@ -419,6 +419,84 @@
       overflow: hidden;
     }
 
+    /* Sub-menu styling (Pola KP/BK) */
+    .nav-link-collapse {
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      text-align: left;
+    }
+    .nav-link-chevron {
+      width: 16px;
+      height: 16px;
+      margin-left: auto;
+      transition: transform 0.2s ease;
+      color: #94a3b8;
+    }
+    .nav-item.open .nav-link-chevron {
+      transform: rotate(90deg);
+    }
+    .nav-sub-menu {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      margin-left: 20px;
+      padding-left: 10px;
+      border-left: 2px solid #e2e8f0;
+      margin-top: 4px;
+      margin-bottom: 6px;
+    }
+    .nav-item.open .nav-sub-menu {
+      display: flex;
+    }
+    .nav-sub-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: #4b5563;
+      text-decoration: none;
+      transition: var(--transition-fast);
+      position: relative;
+    }
+    .nav-sub-link:hover {
+      background: var(--muted-bg);
+      color: var(--foreground);
+    }
+    .nav-sub-link.active {
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .nav-sub-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+    .nav-sub-link.active .nav-sub-bullet {
+      background: var(--primary);
+    }
+    .sidebar.collapsed .nav-sub-menu,
+    .sidebar.collapsed .nav-link-chevron {
+      display: none !important;
+    }
+    .nav-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 12px 10px 4px 10px;
+    }
+    .sidebar.collapsed .nav-group-label {
+      display: none !important;
+    }
+
     /* User Card */
     .sidebar-footer {
       padding: var(--space-3);
@@ -1317,28 +1395,100 @@
         </div>
       </div>
 
-      <!-- Navigation Menu MBKM Mahasiswa Sesuai Flowchart -->
+      <!-- Navigation Menu MBKM Mahasiswa (Pola Eksisting KP & BK) -->
       <nav class="sidebar-nav" aria-label="Menu Navigasi MBKM Mahasiswa">
+        <!-- 1. Dashboard -->
         <div class="nav-item">
           <a href="#dashboard" class="nav-link active" id="nav-dashboard">
             <span class="nav-link-icon"><i data-lucide="home"></i></span>
             <span class="nav-link-label">Dashboard</span>
           </a>
         </div>
+
+        <!-- 2. Pengumuman -->
         <div class="nav-item">
-          <a href="#pendaftaran" class="nav-link" id="nav-pendaftaran">
-            <span class="nav-link-icon"><i data-lucide="file-edit"></i></span>
-            <span class="nav-link-label">Pendaftaran</span>
-            <span id="nav-badge-pendaftaran" class="badge badge-success nav-badge"
-              style="font-size:10px;padding:1px 6px;margin-left:auto;">Buka</span>
+          <a href="#pengumuman" class="nav-link" id="nav-pengumuman">
+            <span class="nav-link-icon"><i data-lucide="megaphone"></i></span>
+            <span class="nav-link-label">Pengumuman</span>
+            <span class="badge badge-primary nav-badge" style="font-size:10px;padding:1px 6px;margin-left:auto;">Baru</span>
           </a>
         </div>
+
+        <!-- 3. Pendaftaran MBKM (Collapsible Group - Aktif Fase Pendaftar) -->
+        <div class="nav-item has-sub open" id="nav-item-pendaftaran">
+          <button type="button" class="nav-link nav-link-collapse" id="nav-pendaftaran-parent" onclick="toggleSubmenu('nav-item-pendaftaran')">
+            <span class="nav-link-icon"><i data-lucide="folder-kanban"></i></span>
+            <span class="nav-link-label">Pendaftaran MBKM</span>
+            <i data-lucide="chevron-right" class="nav-link-chevron"></i>
+          </button>
+          <div class="nav-sub-menu" id="nav-sub-pendaftaran">
+            <a href="#katalog" class="nav-sub-link" id="nav-katalog">
+              <span class="nav-sub-bullet"></span>
+              <span class="nav-sub-label">Katalog Program</span>
+            </a>
+            <a href="#form-pendaftaran" class="nav-sub-link" id="nav-form-pendaftaran">
+              <span class="nav-sub-bullet"></span>
+              <span class="nav-sub-label">Form Pendaftaran</span>
+            </a>
+            <a href="#status-pengajuan" class="nav-sub-link" id="nav-status-pengajuan">
+              <span class="nav-sub-bullet"></span>
+              <span class="nav-sub-label">Status Pengajuan</span>
+              <span id="nav-badge-status" class="badge badge-warning" style="font-size:10px;padding:1px 5px;margin-left:auto;">Pending</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Group: Kegiatan MBKM (Fase Peserta Aktif) -->
+        <div class="nav-group-label">Kegiatan MBKM</div>
+
+        <!-- 4. Dosen Pembimbing (Sama persis KP) -->
         <div class="nav-item">
-          <a href="#status" class="nav-link" id="nav-status">
-            <span class="nav-link-icon"><i data-lucide="clock"></i></span>
-            <span class="nav-link-label">Status Saya</span>
-            <span id="nav-badge-status" class="badge badge-warning nav-badge"
-              style="font-size:10px;padding:1px 6px;margin-left:auto;">Pending</span>
+          <a href="#dosen-pembimbing" class="nav-link" id="nav-dosen-pembimbing">
+            <span class="nav-link-icon"><i data-lucide="graduation-cap"></i></span>
+            <span class="nav-link-label">Dosen Pembimbing</span>
+          </a>
+        </div>
+
+        <!-- 5. Logbook Kegiatan (Sama persis KP) -->
+        <div class="nav-item">
+          <a href="#logbook" class="nav-link" id="nav-logbook">
+            <span class="nav-link-icon"><i data-lucide="book-open"></i></span>
+            <span class="nav-link-label">Logbook Kegiatan</span>
+          </a>
+        </div>
+
+        <!-- 6. Konversi SKS (Khusus MBKM) -->
+        <div class="nav-item">
+          <a href="#konversi-sks" class="nav-link" id="nav-konversi-sks">
+            <span class="nav-link-icon"><i data-lucide="layers"></i></span>
+            <span class="nav-link-label">Konversi SKS</span>
+          </a>
+        </div>
+
+        <!-- 7. Sidang (Sama persis KP) -->
+        <div class="nav-item">
+          <a href="#sidang" class="nav-link" id="nav-sidang">
+            <span class="nav-link-icon"><i data-lucide="calendar-check"></i></span>
+            <span class="nav-link-label">Sidang</span>
+          </a>
+        </div>
+
+        <!-- 8. Sertifikat (Sama persis BK) -->
+        <div class="nav-item">
+          <a href="#sertifikat" class="nav-link" id="nav-sertifikat">
+            <span class="nav-link-icon"><i data-lucide="award"></i></span>
+            <span class="nav-link-label">Sertifikat</span>
+          </a>
+        </div>
+
+        <!-- Group: Riwayat -->
+        <div class="nav-group-label">Riwayat &amp; Audit</div>
+
+        <!-- 9. Log Aktivitas (Sama persis KP & BK) -->
+        <div class="nav-item">
+          <a href="#log-aktivitas" class="nav-link" id="nav-log-aktivitas">
+            <span class="nav-link-icon"><i data-lucide="history"></i></span>
+            <span class="nav-link-label">Log Aktivitas</span>
           </a>
         </div>
       </nav>
@@ -1610,9 +1760,314 @@
           </div>
 
           <!-- ═══════════════════════════════════════════════════
-           VIEW 2: PENDAFTARAN
+             VIEW 2: PENGUMUMAN
+             ═══════════════════════════════════════════════════ -->
+          <div id="view-pengumuman" class="tab-view">
+            <!-- Search & Filter Toolbar -->
+            <div class="card" style="margin-bottom:20px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:280px;">
+                  <div style="position:relative;width:100%;">
+                    <i data-lucide="search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8;"></i>
+                    <input type="text" class="form-control" placeholder="Cari judul pengumuman, pengirim, atau kata kunci..." style="padding-left:36px;" oninput="searchAnnouncements(this.value)">
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                  <span style="font-size:12px;font-weight:600;color:#64748b;">Filter Pengirim:</span>
+                  <button class="btn btn-sm btn-primary filter-announcement-btn active" onclick="filterAnnouncements('all', this)">Semua</button>
+                  <button class="btn btn-sm btn-outline filter-announcement-btn" onclick="filterAnnouncements('fakultas', this)"><i data-lucide="building-2" style="width:12px;height:12px;"></i> Koordinator MBKM</button>
+                  <button class="btn btn-sm btn-outline filter-announcement-btn" onclick="filterAnnouncements('mitra', this)"><i data-lucide="briefcase" style="width:12px;height:12px;"></i> Mitra MBKM</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- List Pengumuman -->
+            <div style="display:flex;flex-direction:column;gap:16px;" id="announcement-list">
+              <!-- Item 1: Koordinator MBKM -->
+              <div class="card announcement-item" data-category="fakultas">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:8px;background:var(--primary-subtle);color:var(--primary);display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="megaphone" style="width:18px;height:18px;"></i>
+                    </div>
+                    <div>
+                      <h3 style="font-size:15px;font-weight:700;color:#1e293b;">Batas Akhir Permohonan SuReKom Dekanat &amp; Seleksi MBKM Genap 2025/2026</h3>
+                      <div style="display:flex;align-items:center;gap:8px;margin-top:2px;font-size:11px;color:#64748b;">
+                        <span><i data-lucide="user" style="width:12px;height:12px;display:inline;"></i> Koordinator MBKM FIK (Bu Nurul)</span>
+                        <span>&bull;</span>
+                        <span><i data-lucide="calendar" style="width:12px;height:12px;display:inline;"></i> 08 Oktober 2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="badge badge-primary">Semua Pendaftar</span>
+                </div>
+
+                <p style="font-size:13px;color:#475569;line-height:1.6;margin-bottom:14px;">
+                  Diberitahukan kepada seluruh mahasiswa calon pendaftar program MBKM Mandiri dan Mitra Industri Periode Genap 2025/2026, bahwa batas pengajuan Surat Rekomendasi (SuReKom) Dekanat ditutup pada tanggal <strong>20 Oktober 2025 pukul 23:59 WIB</strong>. Pastikan syarat IPK ≥ 3.00 dan SKS tempuh ≥ 100 telah tervalidasi pada sistem database sebelum batas akhir.
+                </p>
+
+                <!-- Lampiran Dokumen -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:4px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:16px;height:16px;color:#dc2626;"></i>
+                    <span style="font-size:12px;font-weight:600;color:#1e293b;">Panduan_Operasional_Baku_MBKM_FIK_2026.pdf</span>
+                    <span style="font-size:11px;color:#94a3b8;">(1.2 MB)</span>
+                  </div>
+                  <button class="btn btn-sm btn-outline" onclick="alert('Mengunduh Panduan_Operasional_Baku_MBKM_FIK_2026.pdf')">
+                    <i data-lucide="download"></i> Unduh Lampiran
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item 2: Mitra PT Telkom -->
+              <div class="card announcement-item" data-category="mitra">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:8px;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="briefcase" style="width:18px;height:18px;"></i>
+                    </div>
+                    <div>
+                      <h3 style="font-size:15px;font-weight:700;color:#1e293b;">Informasi Jadwal Wawancara Teknis Program Intern PT Telkom Indonesia</h3>
+                      <div style="display:flex;align-items:center;gap:8px;margin-top:2px;font-size:11px;color:#64748b;">
+                        <span><i data-lucide="user" style="width:12px;height:12px;display:inline;"></i> Tim Rekrutmen PT Telkom</span>
+                        <span>&bull;</span>
+                        <span><i data-lucide="calendar" style="width:12px;height:12px;display:inline;"></i> 05 Oktober 2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="badge badge-warning">Peserta Aktif Mitra</span>
+                </div>
+
+                <p style="font-size:13px;color:#475569;line-height:1.6;margin-bottom:14px;">
+                  Bagi pendaftar posisi Software Engineer Intern yang lolos seleksi berkas awal, sesi wawancara teknis dan pengenalan tim akan dilaksanakan secara daring melalui Microsoft Teams mulai tanggal <strong>12 s/d 14 Oktober 2025</strong>. Jadwal spesifik per mahasiswa dapat dilihat pada dokumen terlampir.
+                </p>
+
+                <!-- Lampiran Dokumen -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:4px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-spreadsheet" style="width:16px;height:16px;color:#16a34a;"></i>
+                    <span style="font-size:12px;font-weight:600;color:#1e293b;">Jadwal_Interview_Teknis_Telkom_Batch1.pdf</span>
+                    <span style="font-size:11px;color:#94a3b8;">(540 KB)</span>
+                  </div>
+                  <button class="btn btn-sm btn-outline" onclick="alert('Mengunduh Jadwal_Interview_Teknis_Telkom_Batch1.pdf')">
+                    <i data-lucide="download"></i> Unduh Lampiran
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item 3: Bengkel Koding -->
+              <div class="card announcement-item" data-category="mitra">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;border-radius:8px;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;">
+                      <i data-lucide="code" style="width:18px;height:18px;"></i>
+                    </div>
+                    <div>
+                      <h3 style="font-size:15px;font-weight:700;color:#1e293b;">Sosialisasi Penugasan Instruktur &amp; Pelatihan Teaching Bengkel Koding</h3>
+                      <div style="display:flex;align-items:center;gap:8px;margin-top:2px;font-size:11px;color:#64748b;">
+                        <span><i data-lucide="user" style="width:12px;height:12px;display:inline;"></i> Pengelola Bengkel Koding</span>
+                        <span>&bull;</span>
+                        <span><i data-lucide="calendar" style="width:12px;height:12px;display:inline;"></i> 01 Oktober 2025</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="badge badge-success">Peserta Aktif Mitra</span>
+                </div>
+
+                <p style="font-size:13px;color:#475569;line-height:1.6;margin-bottom:14px;">
+                  Mahasiswa yang telah diterima dalam skema Asistensi Bengkel Koding diwajibkan menghadiri workshop pembekalan silabus dan standarisasi pengajaran lab. Kehadiran bersifat wajib sebagai syarat pengesahan kontrak asistensi.
+                </p>
+
+                <!-- Lampiran Dokumen -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:4px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <i data-lucide="file-text" style="width:16px;height:16px;color:#dc2626;"></i>
+                    <span style="font-size:12px;font-weight:600;color:#1e293b;">Silabus_Standar_Asistensi_Bengkod_2026.pdf</span>
+                    <span style="font-size:11px;color:#94a3b8;">(820 KB)</span>
+                  </div>
+                  <button class="btn btn-sm btn-outline" onclick="alert('Mengunduh Silabus_Standar_Asistensi_Bengkod_2026.pdf')">
+                    <i data-lucide="download"></i> Unduh Lampiran
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+             VIEW 3: KATALOG PROGRAM
+             ═══════════════════════════════════════════════════ -->
+          <div id="view-katalog" class="tab-view">
+            <!-- Filter & Search Toolbar -->
+            <div class="card" style="margin-bottom:20px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:280px;">
+                  <div style="position:relative;width:100%;">
+                    <i data-lucide="search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8;"></i>
+                    <input type="text" class="form-control" placeholder="Cari program, nama mitra, atau keterampilan..." style="padding-left:36px;">
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                  <span style="font-size:12px;font-weight:600;color:#64748b;">Skema Baku:</span>
+                  <button class="btn btn-sm btn-primary">Semua Skema</button>
+                  <button class="btn btn-sm btn-outline"><i data-lucide="user-check" style="width:12px;height:12px;"></i> Asistensi</button>
+                  <button class="btn btn-sm btn-outline"><i data-lucide="briefcase" style="width:12px;height:12px;"></i> Proyek</button>
+                  <button class="btn btn-sm btn-outline"><i data-lucide="flask-conical" style="width:12px;height:12px;"></i> Publikasi / Riset</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Program Cards Grid -->
+            <div class="grid grid-2" style="gap:20px;">
+              <!-- Card 1: Asistensi Bengkel Koding -->
+              <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+                    <div>
+                      <span class="badge badge-primary" style="margin-bottom:6px;"><i data-lucide="user-check" style="width:10px;height:10px;"></i> Asistensi</span>
+                      <h3 style="font-size:16px;font-weight:700;color:#1e293b;">Instruktur &amp; Asisten Praktikum Lab</h3>
+                      <div style="font-size:12px;color:var(--primary);font-weight:600;margin-top:2px;">Bengkel Koding FIK Udinus</div>
+                    </div>
+                    <span class="badge badge-success">Kuota: 12 / 15 Sisa</span>
+                  </div>
+
+                  <!-- Details -->
+                  <div style="font-size:12px;color:#475569;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <i data-lucide="clock" style="width:14px;height:14px;color:#64748b;"></i>
+                      <span>Durasi: <strong>1 Semester (6 Bulan)</strong></span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <i data-lucide="users" style="width:14px;height:14px;color:#64748b;"></i>
+                      <span>Dosen Pembina: <strong>Fikri Budiman, M.Kom. &amp; Tim Lab</strong></span>
+                    </div>
+                  </div>
+
+                  <!-- Kewajiban & Hak Checklist -->
+                  <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:12px;font-size:12px;">
+                    <div style="font-weight:700;color:#1e293b;margin-bottom:6px;">Kewajiban &amp; Fasilitas Hak:</div>
+                    <ul style="display:flex;flex-direction:column;gap:4px;color:#475569;padding-left:16px;list-style:disc;">
+                      <li>Mengawal praktikum mata kuliah Pemrograman Web &amp; Daspro.</li>
+                      <li>Mendapatkan insentif bulanan &amp; ekuivalensi 20 SKS Konversi.</li>
+                      <li>Sertifikat Pengajar / Instruktur Resmi dari Bengkel Koding.</li>
+                    </ul>
+                  </div>
+
+                  <!-- Tags -->
+                  <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;">
+                    <span style="font-size:10px;padding:2px 8px;background:#eff6ff;color:#1e40af;border-radius:4px;font-weight:600;">HTML/CSS</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#eff6ff;color:#1e40af;border-radius:4px;font-weight:600;">JavaScript</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#eff6ff;color:#1e40af;border-radius:4px;font-weight:600;">PHP / Laravel</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#eff6ff;color:#1e40af;border-radius:4px;font-weight:600;">Public Speaking</span>
+                  </div>
+                </div>
+
+                <a href="#form-pendaftaran" class="btn btn-primary" style="width:100%;">
+                  <i data-lucide="file-plus"></i> Ajukan Pendaftaran
+                </a>
+              </div>
+
+              <!-- Card 2: Proyek Telkom -->
+              <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+                    <div>
+                      <span class="badge badge-warning" style="margin-bottom:6px;"><i data-lucide="briefcase" style="width:10px;height:10px;"></i> Proyek (Project)</span>
+                      <h3 style="font-size:16px;font-weight:700;color:#1e293b;">Software Engineer Intern - Merchant Platform</h3>
+                      <div style="font-size:12px;color:var(--primary);font-weight:600;margin-top:2px;">PT Telkom Indonesia (Persero) Tbk</div>
+                    </div>
+                    <span class="badge badge-success">Kuota: 3 / 5 Sisa</span>
+                  </div>
+
+                  <!-- Details -->
+                  <div style="font-size:12px;color:#475569;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <i data-lucide="clock" style="width:14px;height:14px;color:#64748b;"></i>
+                      <span>Durasi: <strong>1 Semester (6 Bulan)</strong></span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <i data-lucide="users" style="width:14px;height:14px;color:#64748b;"></i>
+                      <span>Dosen Pembina: <strong>Haryadi Gunawan, S.Kom. (PIC Telkom)</strong></span>
+                    </div>
+                  </div>
+
+                  <!-- Kewajiban & Hak Checklist -->
+                  <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:12px;font-size:12px;">
+                    <div style="font-weight:700;color:#1e293b;margin-bottom:6px;">Kewajiban &amp; Fasilitas Hak:</div>
+                    <ul style="display:flex;flex-direction:column;gap:4px;color:#475569;padding-left:16px;list-style:disc;">
+                      <li>Pengembangan sistem payment gateway &amp; dashboard merchant.</li>
+                      <li>Uang saku industri, sertifikat resmi, &amp; bimbingan mentor 1-on-1.</li>
+                      <li>Laporan Proyek Final sebagai syarat konversi 20 SKS.</li>
+                    </ul>
+                  </div>
+
+                  <!-- Tags -->
+                  <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;">
+                    <span style="font-size:10px;padding:2px 8px;background:#fef3c7;color:#92400e;border-radius:4px;font-weight:600;">React.js</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#fef3c7;color:#92400e;border-radius:4px;font-weight:600;">Node.js</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#fef3c7;color:#92400e;border-radius:4px;font-weight:600;">TypeScript</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#fef3c7;color:#92400e;border-radius:4px;font-weight:600;">REST API</span>
+                  </div>
+                </div>
+
+                <a href="#form-pendaftaran" class="btn btn-primary" style="width:100%;">
+                  <i data-lucide="file-plus"></i> Ajukan Pendaftaran
+                </a>
+              </div>
+
+              <!-- Card 3: Riset IDSS / Intelligent Systems -->
+              <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;">
+                <div>
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+                    <div>
+                      <span class="badge badge-danger" style="margin-bottom:6px;"><i data-lucide="flask-conical" style="width:10px;height:10px;"></i> Publikasi / Riset</span>
+                      <h3 style="font-size:16px;font-weight:700;color:#1e293b;">Riset Computer Vision &amp; Deep Learning</h3>
+                      <div style="font-size:12px;color:var(--primary);font-weight:600;margin-top:2px;">Lab Intelligent Systems (IntSys) &amp; IDSS Lab</div>
+                    </div>
+                    <span class="badge badge-success">Kuota: 2 / 4 Sisa</span>
+                  </div>
+
+                  <!-- Details -->
+                  <div style="font-size:12px;color:#475569;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <i data-lucide="clock" style="width:14px;height:14px;color:#64748b;"></i>
+                      <span>Durasi: <strong>2 Semester (1 Tahun)</strong></span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <i data-lucide="users" style="width:14px;height:14px;color:#64748b;"></i>
+                      <span>Dosen Pembina: <strong>Dr. Muljono, M.Kom. &amp; Dr. Ricardus Anggi</strong></span>
+                    </div>
+                  </div>
+
+                  <!-- Kewajiban & Hak Checklist -->
+                  <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:12px;font-size:12px;">
+                    <div style="font-weight:700;color:#1e293b;margin-bottom:6px;">Kewajiban &amp; Fasilitas Hak:</div>
+                    <ul style="display:flex;flex-direction:column;gap:4px;color:#475569;padding-left:16px;list-style:disc;">
+                      <li>Eksperimen model deteksi objek &amp; pengolahan citra medis.</li>
+                      <li>Target wajib: Naskah Publikasi Ilmiah Jurnal (LoA ber-DOI).</li>
+                      <li>Akses GPU Lab Riset &amp; Bebas Tugas Akhir (Konversi Skripsi).</li>
+                    </ul>
+                  </div>
+
+                  <!-- Tags -->
+                  <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px;">
+                    <span style="font-size:10px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-weight:600;">Python</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-weight:600;">PyTorch</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-weight:600;">OpenCV</span>
+                    <span style="font-size:10px;padding:2px 8px;background:#fee2e2;color:#991b1b;border-radius:4px;font-weight:600;">YOLOv8</span>
+                  </div>
+                </div>
+
+                <a href="#form-pendaftaran" class="btn btn-primary" style="width:100%;">
+                  <i data-lucide="file-plus"></i> Ajukan Pendaftaran
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 4: FORM PENDAFTARAN (Pola 3 Tahap)
            ═══════════════════════════════════════════════════ -->
-          <div id="view-pendaftaran" class="tab-view">
+          <div id="view-form-pendaftaran" class="tab-view">
 <!-- KONDISI A: TIDAK LOLOS SYARAT (TERKUNCI / DISABLED) -->
             <div id="pendaftaran-locked-container" style="display:none;">
               <div class="alert alert-destructive">
@@ -1813,9 +2268,9 @@
           </div>
 
           <!-- ═══════════════════════════════════════════════════
-           VIEW 3: STATUS SAYA (TRACKING STATUS PENDAFTARAN)
+           VIEW 5: STATUS PENGAJUAN (Pola KP)
            ═══════════════════════════════════════════════════ -->
-          <div id="view-status" class="tab-view">
+          <div id="view-status-pengajuan" class="tab-view">
 <!-- Status Hero Dynamic Box -->
             <div id="status-hero-card" class="status-hero pending">
               <div>
@@ -1823,63 +2278,61 @@
                   style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;background:#fff;border-radius:9999px;font-size:11px;font-weight:700;margin-bottom:8px;"
                   id="status-hero-pill">
                   <i data-lucide="clock" style="width:14px;height:14px;color:#d97706;"></i>
-                  <span id="status-hero-pill-text">STATUS: PENDING (MENUNGGU)</span>
+                  <span id="status-hero-pill-text">STATUS: TAHAP 2 - REVIEW SUREKOM KOORDINATOR</span>
                 </div>
                 <h2 style="font-size:20px;font-weight:700;margin-bottom:4px;" id="status-hero-title">
-                  Pendaftaran Anda Sedang Dalam Proses Peninjauan
+                  Pelacakan Transparan Alur Permohonan MBKM
                 </h2>
-                <p style="font-size:13px;color:#6b7280;max-width:680px;" id="status-hero-desc">
-                  Berkas Anda telah diterima oleh sistem dan sedang diverifikasi oleh Tim Koordinator MBKM Fakultas Ilmu
-                  Komputer. Proses verifikasi biasanya memakan waktu 1 &ndash; 3 hari kerja.
+                <p style="font-size:13px;color:#6b7280;max-width:720px;" id="status-hero-desc">
+                  Permohonan Anda sedang melalui 5 tahap verifikasi baku mulai dari pengiriman awal hingga final approval dekanat dan penerbitan SuReKom digital.
                 </p>
               </div>
 
               <!-- Dynamic Action Buttons -->
-              <div id="status-hero-actions" style="flex-shrink:0;">
-                <button class="btn btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Cetak
-                  Bukti</button>
+              <div id="status-hero-actions" style="flex-shrink:0;display:flex;gap:8px;">
+                <button class="btn btn-outline" onclick="window.print()"><i data-lucide="printer"></i> Cetak Bukti</button>
+                <button class="btn btn-primary" id="btn-download-surekom" style="display:none;" onclick="alert('Mengunduh Surat Rekomendasi (SuReKom) Digital ber-Barcode (PDF)')">
+                  <i data-lucide="download"></i> Unduh SuReKom Digital (PDF)
+                </button>
               </div>
             </div>
 
-            <!-- 3 Status Visual Timeline Cards -->
-            <div class="tracking-steps">
-              <!-- Step 1: Pending (Menunggu) -->
-              <div class="step-card" id="step-card-pending" style="border-left:4px solid #d97706;">
-                <div class="step-icon" style="background:#fef3c7;color:#d97706;">
-                  <i data-lucide="clock"></i>
-                </div>
-                <div>
-                  <div class="step-title">1. Pending (Menunggu)</div>
-                  <div class="step-desc">Berkas pendaftaran berhasil disubmit dan menunggu antrean verifikasi fakultas.
-                  </div>
-                  <span class="badge badge-warning" style="margin-top:8px;" id="badge-step-pending">Aktif</span>
-                </div>
+            <!-- 5 Tahap Alur Timeline Cards -->
+            <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:10px;margin-bottom:20px;">
+              <!-- Tahap 1 -->
+              <div class="card" id="step-5-1" style="padding:12px;border-left:4px solid #16a34a;background:#f0fdf4;">
+                <div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px;">TAHAP 1</div>
+                <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px;">Terkirim</div>
+                <div style="font-size:11px;color:#64748b;">Form &amp; berkas berhasil masuk sistem.</div>
+                <span class="badge badge-success" style="margin-top:6px;font-size:10px;">Selesai</span>
               </div>
-
-              <!-- Step 2: Accepted (Diterima) -->
-              <div class="step-card" id="step-card-accepted" style="opacity:0.6;">
-                <div class="step-icon" style="background:#dcfce7;color:#16a34a;">
-                  <i data-lucide="check-circle-2"></i>
-                </div>
-                <div>
-                  <div class="step-title">2. Accepted (Diterima)</div>
-                  <div class="step-desc">Pendaftaran disetujui, penerbitan Surat Tugas dan penetapan Dosen Pembimbing
-                    (DPL).</div>
-                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-accepted">Menunggu</span>
-                </div>
+              <!-- Tahap 2 -->
+              <div class="card" id="step-5-2" style="padding:12px;border-left:4px solid #d97706;background:#fffbeb;">
+                <div style="font-size:11px;font-weight:700;color:#92400e;margin-bottom:4px;">TAHAP 2</div>
+                <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px;">Review SuReKom</div>
+                <div style="font-size:11px;color:#64748b;">Verifikasi syarat akademik oleh Koordinator.</div>
+                <span class="badge badge-warning" style="margin-top:6px;font-size:10px;" id="badge-tahap-2">Sedang Berjalan</span>
               </div>
-
-              <!-- Step 3: Rejected (Ditolak) -->
-              <div class="step-card" id="step-card-rejected" style="opacity:0.6;">
-                <div class="step-icon" style="background:#fee2e2;color:#dc2626;">
-                  <i data-lucide="x-circle"></i>
-                </div>
-                <div>
-                  <div class="step-title">3. Rejected (Ditolak)</div>
-                  <div class="step-desc">Pendaftaran ditolak apabila berkas tidak valid atau tidak memenuhi kualifikasi
-                    mitra.</div>
-                  <span class="badge badge-muted" style="margin-top:8px;" id="badge-step-rejected">-</span>
-                </div>
+              <!-- Tahap 3 -->
+              <div class="card" id="step-5-3" style="padding:12px;border-left:4px solid #e2e8f0;background:#ffffff;opacity:0.6;">
+                <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">TAHAP 3</div>
+                <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px;">Seleksi Mitra</div>
+                <div style="font-size:11px;color:#64748b;">Review portofolio &amp; wawancara oleh PIC Mitra.</div>
+                <span class="badge badge-muted" style="margin-top:6px;font-size:10px;" id="badge-tahap-3">Menunggu</span>
+              </div>
+              <!-- Tahap 4 -->
+              <div class="card" id="step-5-4" style="padding:12px;border-left:4px solid #e2e8f0;background:#ffffff;opacity:0.6;">
+                <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">TAHAP 4</div>
+                <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px;">Rekomendasi Mitra</div>
+                <div style="font-size:11px;color:#64748b;">Mitra mengirim daftar kandidat lolos.</div>
+                <span class="badge badge-muted" style="margin-top:6px;font-size:10px;" id="badge-tahap-4">Menunggu</span>
+              </div>
+              <!-- Tahap 5 -->
+              <div class="card" id="step-5-5" style="padding:12px;border-left:4px solid #e2e8f0;background:#ffffff;opacity:0.6;">
+                <div style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">TAHAP 5</div>
+                <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px;">Final Approval</div>
+                <div style="font-size:11px;color:#64748b;">Pengesahan akhir &amp; alokasi DPL.</div>
+                <span class="badge badge-muted" style="margin-top:6px;font-size:10px;" id="badge-tahap-5">Menunggu</span>
               </div>
             </div>
 
@@ -1970,6 +2423,441 @@
                 <!-- Notes & Feedback box for Rejected or Accepted -->
                 <div id="status-feedback-box"
                   style="display:none;margin-top:14px;padding:12px;border-radius:8px;font-size:12px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 6: DOSEN PEMBIMBING (Sama Persis KP)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-dosen-pembimbing" class="tab-view">
+            <div class="grid grid-3" style="margin-bottom:20px;">
+              <!-- Profile DPL Card -->
+              <div class="card" style="grid-column: span 1;">
+                <div style="text-align:center;padding:10px 0;">
+                  <div style="width:80px;height:80px;border-radius:50%;background:#0655A7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;margin:0 auto 12px;border:3px solid #bfdbf8;">
+                    DR
+                  </div>
+                  <h3 style="font-size:16px;font-weight:700;color:#1e293b;">Dr. Ricardus Anggi, M.Kom.</h3>
+                  <p style="font-size:12px;color:#64748b;margin-top:2px;">Dosen Pembimbing Lapangan (DPL)</p>
+                  <span class="badge badge-success" style="margin-top:8px;"><i data-lucide="check-circle-2" style="width:12px;height:12px;"></i> Resmi Ditetapkan</span>
+                </div>
+                <div style="border-top:1px solid #e2e8f0;margin-top:16px;padding-top:16px;display:flex;flex-direction:column;gap:10px;font-size:12px;">
+                  <div>
+                    <span style="color:#64748b;display:block;font-size:11px;">NIDN / NPP</span>
+                    <strong style="color:#1e293b;">0615088901 / 0686.11.2012.432</strong>
+                  </div>
+                  <div>
+                    <span style="color:#64748b;display:block;font-size:11px;">Program Studi Homebase</span>
+                    <strong style="color:#1e293b;">S1 Teknik Informatika</strong>
+                  </div>
+                  <div>
+                    <span style="color:#64748b;display:block;font-size:11px;">Email Institusi</span>
+                    <strong style="color:#1e293b;">ricardus.anggi@dsn.dinus.ac.id</strong>
+                  </div>
+                </div>
+                <div style="margin-top:16px;">
+                  <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-primary" style="width:100%;background:#25D366;border-color:#25D366;">
+                    <i data-lucide="message-circle"></i> WhatsApp Coordination
+                  </a>
+                </div>
+              </div>
+
+              <!-- Schedule & Notes -->
+              <div style="grid-column: span 2;display:flex;flex-direction:column;gap:20px;">
+                <!-- Schedule Card -->
+                <div class="card">
+                  <div class="card-header">
+                    <span class="card-title"><i data-lucide="calendar" style="color:var(--primary);"></i> Jadwal Bimbingan Mingguan</span>
+                    <span class="badge badge-primary">Periode Genap 2025/2026</span>
+                  </div>
+                  <div class="grid grid-2" style="gap:12px;">
+                    <div style="padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                      <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;">Bimbingan Daring (Google Meet)</div>
+                      <div style="font-size:14px;font-weight:700;color:#1e293b;margin-top:4px;">Setiap Selasa &bull; 13:00 - 15:00 WIB</div>
+                      <a href="https://meet.google.com/abc-defg-hij" target="_blank" style="font-size:12px;color:var(--primary);display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-weight:600;">
+                        <i data-lucide="video" style="width:14px;height:14px;"></i> Tautan Google Meet
+                      </a>
+                    </div>
+                    <div style="padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                      <div style="font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;">Bimbingan Luring (Tatap Muka)</div>
+                      <div style="font-size:14px;font-weight:700;color:#1e293b;margin-top:4px;">Setiap Kamis &bull; 09:00 - 11:00 WIB</div>
+                      <span style="font-size:12px;color:#64748b;display:inline-flex;align-items:center;gap:4px;margin-top:6px;">
+                        <i data-lucide="map-pin" style="width:14px;height:14px;"></i> Ruang Dosen H.1.2 Udinus
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Consultation History -->
+                <div class="card">
+                  <div class="card-header">
+                    <span class="card-title"><i data-lucide="history" style="color:var(--primary);"></i> Riwayat Catatan Konsultasi</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="padding:10px 12px;background:#f8fafc;border-left:3px solid var(--primary);border-radius:0 8px 8px 0;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                        <span style="font-size:12px;font-weight:700;color:#1e293b;">Review Logbook Minggu ke-4</span>
+                        <span style="font-size:11px;color:#64748b;">08 Oktober 2025</span>
+                      </div>
+                      <p style="font-size:12px;color:#475569;">"Laporan kemajuan fitur Payment Gateway sudah bagus. Lanjutkan ke pengujian unit test dan pastikan dokumentasi API diperbarui."</p>
+                    </div>
+                    <div style="padding:10px 12px;background:#f8fafc;border-left:3px solid var(--primary);border-radius:0 8px 8px 0;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                        <span style="font-size:12px;font-weight:700;color:#1e293b;">Bimbingan Awal &amp; Ekuivalensi Matkul</span>
+                        <span style="font-size:11px;color:#64748b;">25 September 2025</span>
+                      </div>
+                      <p style="font-size:12px;color:#475569;">"Draf konversi SKS telah disetujui. Fokus pada pencapaian CPL Rekayasa Perangkat Lunak selama magang di Telkom."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 7: LOGBOOK KEGIATAN (Sama Persis KP)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-logbook" class="tab-view">
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title"><i data-lucide="book-open" style="color:var(--primary);"></i> Jurnal Logbook Mingguan</h3>
+                  <p class="card-description">Isi dan pantau catatan aktivitas mingguan Anda selama pelaksanaan MBKM.</p>
+                </div>
+                <button class="btn btn-primary" onclick="alert('Membuka modal Form Isi Logbook Mingguan')">
+                  <i data-lucide="plus"></i> Isi Logbook Mingguan
+                </button>
+              </div>
+
+              <!-- Table Logbook -->
+              <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
+                  <thead>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;color:#64748b;">
+                      <th style="padding:10px 12px;">Minggu</th>
+                      <th style="padding:10px 12px;">Rentang Tanggal</th>
+                      <th style="padding:10px 12px;">Rincian Aktivitas &amp; Pekerjaan</th>
+                      <th style="padding:10px 12px;">Kendala &amp; Solusi</th>
+                      <th style="padding:10px 12px;">Bukti GDrive</th>
+                      <th style="padding:10px 12px;">Status DPL</th>
+                      <th style="padding:10px 12px;">Catatan DPL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-weight:700;color:#1e293b;">Minggu 4</td>
+                      <td style="padding:12px;color:#64748b;font-size:12px;">01 Oct - 05 Oct 2025</td>
+                      <td style="padding:12px;max-width:220px;">Integrasi API Payment Gateway dengan Merchant Service Telkom.</td>
+                      <td style="padding:12px;max-width:180px;color:#64748b;font-size:12px;">Meringkas latency callback, diselesaikan dengan caching Redis.</td>
+                      <td style="padding:12px;">
+                        <a href="https://drive.google.com" target="_blank" class="btn btn-sm btn-outline"><i data-lucide="external-link"></i> Drive</a>
+                      </td>
+                      <td style="padding:12px;"><span class="badge badge-success">Disetujui</span></td>
+                      <td style="padding:12px;font-size:12px;color:#475569;">Bagus, tingkatkan pengujian edge cases.</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-weight:700;color:#1e293b;">Minggu 3</td>
+                      <td style="padding:12px;color:#64748b;font-size:12px;">24 Sep - 28 Sep 2025</td>
+                      <td style="padding:12px;max-width:220px;">Slicing UI dashboard merchant dan penyesuaian state management Redux.</td>
+                      <td style="padding:12px;max-width:180px;color:#64748b;font-size:12px;">Typing TypeScript error, disesuaikan dengan interface backend.</td>
+                      <td style="padding:12px;">
+                        <a href="https://drive.google.com" target="_blank" class="btn btn-sm btn-outline"><i data-lucide="external-link"></i> Drive</a>
+                      </td>
+                      <td style="padding:12px;"><span class="badge badge-success">Disetujui</span></td>
+                      <td style="padding:12px;font-size:12px;color:#475569;">Sesuai target mingguan.</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-weight:700;color:#1e293b;">Minggu 2</td>
+                      <td style="padding:12px;color:#64748b;font-size:12px;">17 Sep - 21 Sep 2025</td>
+                      <td style="padding:12px;max-width:220px;">Setup environment lokal, studi literatur arsitektur microservices Telkom.</td>
+                      <td style="padding:12px;max-width:180px;color:#64748b;font-size:12px;">Akses VPN internal, dibantu oleh Mentor Lapangan.</td>
+                      <td style="padding:12px;">
+                        <a href="https://drive.google.com" target="_blank" class="btn btn-sm btn-outline"><i data-lucide="external-link"></i> Drive</a>
+                      </td>
+                      <td style="padding:12px;"><span class="badge badge-warning">Menunggu</span></td>
+                      <td style="padding:12px;font-size:12px;color:#94a3b8;"><em>Belum direview DPL</em></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 8: KONVERSI SKS (Khusus MBKM)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-konversi-sks" class="tab-view">
+            <div class="card" style="margin-bottom:20px;">
+              <div class="card-header">
+                <div>
+                  <h3 class="card-title"><i data-lucide="layers" style="color:var(--primary);"></i> Matriks Konversi SKS Official</h3>
+                  <p class="card-description">Daftar mata kuliah ekuivalensi yang disahkan Koordinator MBKM &amp; Kaprodi (Maksimal 20 SKS).</p>
+                </div>
+                <span class="badge badge-success" style="font-size:12px;padding:6px 12px;"><i data-lucide="lock" style="width:12px;height:12px;"></i> SKS Terkunci (20 SKS)</span>
+              </div>
+
+              <!-- Table Konversi -->
+              <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
+                  <thead>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;color:#64748b;">
+                      <th style="padding:10px 12px;">Kode Matkul</th>
+                      <th style="padding:10px 12px;">Nama Mata Kuliah Lokal</th>
+                      <th style="padding:10px 12px;">SKS</th>
+                      <th style="padding:10px 12px;">Capaian Pembelajaran Lulusan (CPL)</th>
+                      <th style="padding:10px 12px;">Dosen Penanggung Jawab</th>
+                      <th style="padding:10px 12px;">Status Nilai</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-family:monospace;font-weight:700;color:var(--primary);">A11.54301</td>
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Rekayasa Perangkat Lunak Lanjut</td>
+                      <td style="padding:12px;font-weight:700;">4 SKS</td>
+                      <td style="padding:12px;font-size:12px;color:#475569;">CPL-03: Mampu merancang &amp; membangun Perangkat Lunak tingkat enterprise.</td>
+                      <td style="padding:12px;font-size:12px;color:#1e293b;">Dr. Muljono, M.Kom.</td>
+                      <td style="padding:12px;"><span class="badge badge-warning">Menunggu Nilai Sidang</span></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-family:monospace;font-weight:700;color:var(--primary);">A11.54302</td>
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Pemrograman Web Enterprise</td>
+                      <td style="padding:12px;font-weight:700;">4 SKS</td>
+                      <td style="padding:12px;font-size:12px;color:#475569;">CPL-04: Menguasai framework web &amp; integrasi API backend.</td>
+                      <td style="padding:12px;font-size:12px;color:#1e293b;">Fikri Budiman, M.Kom.</td>
+                      <td style="padding:12px;"><span class="badge badge-warning">Menunggu Nilai Sidang</span></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-family:monospace;font-weight:700;color:var(--primary);">A11.54401</td>
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Kerja Praktek / Industri</td>
+                      <td style="padding:12px;font-weight:700;">4 SKS</td>
+                      <td style="padding:12px;font-size:12px;color:#475569;">CPL-08: Pengalaman kerja nyata dan etika profesi di industri.</td>
+                      <td style="padding:12px;font-size:12px;color:#1e293b;">Dr. Ricardus Anggi, M.Kom.</td>
+                      <td style="padding:12px;"><span class="badge badge-warning">Menunggu Nilai Sidang</span></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-family:monospace;font-weight:700;color:var(--primary);">A11.54402</td>
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Proyek Softskill &amp; Kapita Selekta</td>
+                      <td style="padding:12px;font-weight:700;">8 SKS</td>
+                      <td style="padding:12px;font-size:12px;color:#475569;">CPL-09: Komunikasi profesional, kerja tim, dan kepemimpinan.</td>
+                      <td style="padding:12px;font-size:12px;color:#1e293b;">Nurul Anisa S.W, M.Cs.</td>
+                      <td style="padding:12px;"><span class="badge badge-warning">Menunggu Nilai Sidang</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 9: SIDANG (Sama Persis KP)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-sidang" class="tab-view">
+            <div class="grid grid-3" style="gap:20px;margin-bottom:20px;">
+              <!-- Registration Status -->
+              <div class="card" style="grid-column: span 2;">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="calendar-check" style="color:var(--primary);"></i> Status Pendaftaran Sidang</span>
+                  <span class="badge badge-success">Terdaftar</span>
+                </div>
+                <div class="grid grid-2" style="gap:16px;">
+                  <div>
+                    <div style="font-size:12px;color:#64748b;margin-bottom:4px;">Tanggal &amp; Waktu Sidang</div>
+                    <div style="font-size:16px;font-weight:700;color:#1e293b;">15 Desember 2025, 09:00 - 12:00 WIB</div>
+                  </div>
+                  <div>
+                    <div style="font-size:12px;color:#64748b;margin-bottom:4px;">Tempat Sidang</div>
+                    <div style="font-size:16px;font-weight:700;color:#1e293b;">Ruang Sidang B.3.1 Fakultas Ilmu Komputer</div>
+                  </div>
+                </div>
+                <div style="margin-top:16px;">
+                  <button class="btn btn-outline">
+                    <i data-lucide="printer"></i> Cetak Jadwal Sidang
+                  </button>
+                  <button class="btn btn-outline" style="margin-left:8px;">
+                    <i data-lucide="download"></i> Unduh Laporan Final
+                  </button>
+                </div>
+              </div>
+
+              <!-- Examiners Info -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="users" style="color:var(--primary);"></i> Panel Penguji Sidang</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:32px;height:32px;background:var(--primary-subtle);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">1</div>
+                    <div>
+                      <div style="font-size:13px;font-weight:700;color:#1e293b;">Dr. Ricardus Anggi, M.Kom.</div>
+                      <div style="font-size:11px;color:#64748b;">Ketua Penguji &amp; DPL</div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:32px;height:32px;background:var(--primary-subtle);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">2</div>
+                    <div>
+                      <div style="font-size:13px;font-weight:700;color:#1e293b;">Haryadi Gunawan, S.Kom., M.Cs.</div>
+                      <div style="font-size:11px;color:#64748b;">Perwakilan Industri (Telkom)</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grading Preview -->
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i data-lucide="award" style="color:var(--primary);"></i> Pratinjau Rekapitulasi Nilai</span>
+                <span class="badge badge-warning">Tahap Penilaian Sidang</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
+                  <thead>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;color:#64748b;">
+                      <th style="padding:10px 12px;">Komponen Penilaian</th>
+                      <th style="padding:10px 12px;">Bobot</th>
+                      <th style="padding:10px 12px;">Nilai Mentoring</th>
+                      <th style="padding:10px 12px;">Nilai Laporan</th>
+                      <th style="padding:10px 12px;">Nilai Presentasi</th>
+                      <th style="padding:10px 12px;">Nilai Final</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Kinerja Industri (Telkom)</td>
+                      <td style="padding:12px;">40%</td>
+                      <td style="padding:12px;">85</td>
+                      <td style="padding:12px;">88</td>
+                      <td style="padding:12px;">-</td>
+                      <td style="padding:12px;"><strong style="color:var(--primary);">86.5</strong></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Laporan Final</td>
+                      <td style="padding:12px;">35%</td>
+                      <td style="padding:12px;">-</td>
+                      <td style="padding:12px;">87</td>
+                      <td style="padding:12px;">-</td>
+                      <td style="padding:12px;"><strong style="color:var(--primary);">87</strong></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;font-weight:600;color:#1e293b;">Presentasi Sidang</td>
+                      <td style="padding:12px;">25%</td>
+                      <td style="padding:12px;">-</td>
+                      <td style="padding:12px;">-</td>
+                      <td style="padding:12px;">-</td>
+                      <td style="padding:12px;"><strong style="color:#94a3b8;"><em>Belum dilaksanakan</em></strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 10: SERTIFIKAT (Sama Persis BK)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-sertifikat" class="tab-view">
+            <div class="grid grid-2" style="gap:20px;margin-bottom:20px;">
+              <!-- Certificate Upload -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="upload" style="color:var(--primary);"></i> Unggah Bukti Luaran Wajib</span>
+                  <span class="badge badge-danger" style="font-size:11px;">Wajib Sebelum Penilaian</span>
+                </div>
+                <div style="margin-top:16px;">
+                  <div style="margin-bottom:12px;">
+                    <label style="font-size:13px;font-weight:600;color:#1e293b;display:block;margin-bottom:6px;">
+                      Bukti Publikasi Ilmiah (PDF) <span style="color:var(--destructive);">*</span>
+                    </label>
+                    <input type="file" accept=".pdf" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;font-size:13px;">
+                    <div style="font-size:11px;color:#64748b;margin-top:4px;">Format PDF, maks. 10 MB. Contoh: LoA Jurnal ber-DOI, Prosiding</div>
+                  </div>
+                  <div style="margin-bottom:12px;">
+                    <label style="font-size:13px;font-weight:600;color:#1e293b;display:block;margin-bottom:6px;">
+                      Sertifikat Kelulusan Resmi Mitra (PDF/Image)
+                    </label>
+                    <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;font-size:13px;">
+                    <div style="font-size:11px;color:#64748b;margin-top:4px;">Sertifikat resmi dari Telkom yang menandakan kelulusan MBKM</div>
+                  </div>
+                  <button class="btn btn-primary" style="width:100%;">
+                    <i data-lucide="upload-cloud"></i> Kirim Dokumen Luaran
+                  </button>
+                </div>
+              </div>
+
+              <!-- Certificate Status -->
+              <div class="card">
+                <div class="card-header">
+                  <span class="card-title"><i data-lucide="check-circle-2" style="color:var(--primary);"></i> Status Validasi Luaran</span>
+                </div>
+                <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div>
+                      <div style="font-size:13px;font-weight:700;color:#1e293b;">Publikasi Ilmiah</div>
+                      <div style="font-size:11px;color:#64748b;">LoA Jurnal IJCCS ber-DOI</div>
+                    </div>
+                    <span class="badge badge-warning">Menunggu Upload</span>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div>
+                      <div style="font-size:13px;font-weight:700;color:#1e293b;">Sertifikat Industri</div>
+                      <div style="font-size:11px;color:#64748b;">Sertifikat MBKM Telkom</div>
+                    </div>
+                    <span class="badge badge-success">Terverifikasi</span>
+                  </div>
+                </div>
+                <div style="margin-top:16px;padding:12px;background:#eff6ff;border-left:4px solid var(--primary);border-radius:0 8px 8px 0;">
+                  <div style="font-size:12px;color:#1e40af;font-weight:600;">
+                    <i data-lucide="info" style="width:14px;height:14px;"></i> Persyaratan KHS
+                  </div>
+                  <div style="font-size:11px;color:#64748b;margin-top:4px;">
+                    Validasi dokumen luaran wajib diselesaikan sebelum nilai konversi SKS disinkronkan ke KHS oleh Koordinator MBKM.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════
+           VIEW 11: LOG AKTIVITAS (Sama Persis KP & BK)
+           ═══════════════════════════════════════════════════ -->
+          <div id="view-log-aktivitas" class="tab-view">
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i data-lucide="history" style="color:var(--primary);"></i> Audit Trail Aktivitas Sistem</span>
+                <span class="badge badge-muted">Terakhir diupdate: 10 Oct 2025</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:left;">
+                  <thead>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;color:#64748b;">
+                      <th style="padding:10px 12px;">Tanggal &amp; Waktu</th>
+                      <th style="padding:10px 12px;">Jenis Aktivitas</th>
+                      <th style="padding:10px 12px;">Deskripsi</th>
+                      <th style="padding:10px 12px;">IP Address</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;color:#64748b;font-family:monospace;">10 Oct 2025 14:23</td>
+                      <td style="padding:12px;"><span class="badge badge-primary">Pendaftaran</span></td>
+                      <td style="padding:12px;">Submit pendaftaran MBKM ke PT Telkom Indonesia</td>
+                      <td style="padding:12px;font-family:monospace;color:#64748b;">192.168.1.105</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;color:#64748b;font-family:monospace;">08 Oct 2025 10:45</td>
+                      <td style="padding:12px;"><span class="badge badge-success">Validasi DB</span></td>
+                      <td style="padding:12px;">Verifikasi syarat akademik berhasil (IPK: 3.72, SKS: 104)</td>
+                      <td style="padding:12px;font-family:monospace;color:#64748b;">172.16.20.15</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:12px;color:#64748b;font-family:monospace;">05 Oct 2025 09:15</td>
+                      <td style="padding:12px;"><span class="badge badge-muted">Login Sistem</span></td>
+                      <td style="padding:12px;">Akses dashboard mahasiswa via SSO FIK Apps</td>
+                      <td style="padding:12px;font-family:monospace;color:#64748b;">10.0.0.123</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
