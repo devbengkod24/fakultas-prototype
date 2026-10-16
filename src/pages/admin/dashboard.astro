@@ -1,0 +1,239 @@
+---
+import AdminShell from '../../layouts/AdminShell.astro';
+import ActionNavCard from '../../components/ui/ActionNavCard.astro';
+import BorderInfoCard from '../../components/ui/BorderInfoCard.astro';
+import QuotaCard from '../../components/ui/QuotaCard.astro';
+import QuickActionsCard from '../../components/ui/QuickActionsCard.astro';
+import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
+---
+
+<AdminShell currentTab="dashboard">
+  <section
+    id="section-dashboard"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  >
+<!-- Main Dashboard Grid: 8 Cols Kiri + 4 Cols Kanan (Sesuai tugas-akhir & kerja-praktek fakultas-fe) -->
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-12 items-stretch">
+  <!-- SISI KIRI (8 Kolom) -->
+  <div class="flex min-w-0 flex-col lg:col-span-8 space-y-4">
+    <!-- 3 Menu Cards Grid (Diekstrak ke Global Component ActionNavCard) -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <!-- Card 1: Pengajuan Mahasiswa / SuReKom -->
+      <ActionNavCard
+        title="Pengajuan Mahasiswa"
+        subtitle="Pengajuan bimbingan mahasiswa"
+        icon="user"
+        iconColor="text-orange-500"
+        onclick="switchTab('mhs-rekomendasi')"
+      />
+
+      <!-- Card 2: Logbook Mahasiswa -->
+      <ActionNavCard
+        title="Logbook Mahasiswa"
+        subtitle="Progress logbook mahasiswa"
+        icon="book-open"
+        iconColor="text-amber-500"
+        onclick="switchTab('logbook')"
+      />
+
+      <!-- Card 3: Mahasiswa Sidang / Pelamar Mitra -->
+      <ActionNavCard
+        title="Mahasiswa Sidang"
+        subtitle="Pengajuan sidang mahasiswa"
+        icon="folder"
+        iconColor="text-emerald-500"
+        onclick="switchTab('mhs-pelamar')"
+      />
+    </div>
+
+    <!-- Charts Row (Statistik Logbook & Distribusi Mahasiswa) -->
+    <div class="grid gap-4 xl:grid-cols-12">
+      <!-- Statistik Logbook -->
+      <div class="col-span-12 xl:col-span-6 rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col justify-between shadow-none">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-sm text-[#09090b]">Statistik Logbook</h3>
+          <span class="text-xs text-[#71717a]">M-1 s.d. M-6</span>
+        </div>
+        <!-- Bar chart -->
+        <div class="h-32 flex items-end justify-between gap-2.5 px-2 pt-3 border-b border-[#e4e4e7]">
+          <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+            <span class="text-[10px] text-[#71717a]">18</span>
+            <div class="w-full max-w-[34px] bg-blue-100 hover:bg-blue-200 rounded-t transition-all h-[40%]"></div>
+            <span class="text-[10px] text-[#71717a]">M-1</span>
+          </div>
+          <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+            <span class="text-[10px] text-[#71717a]">24</span>
+            <div class="w-full max-w-[34px] bg-blue-200 hover:bg-blue-300 rounded-t transition-all h-[55%]"></div>
+            <span class="text-[10px] text-[#71717a]">M-2</span>
+          </div>
+          <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+            <span class="text-[10px] text-[#71717a]">31</span>
+            <div class="w-full max-w-[34px] bg-blue-300 hover:bg-blue-400 rounded-t transition-all h-[70%]"></div>
+            <span class="text-[10px] text-[#71717a]">M-3</span>
+          </div>
+          <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+            <span class="text-[10px] text-[#0655a7] font-semibold">42</span>
+            <div class="w-full max-w-[34px] bg-[#0655a7] rounded-t transition-all h-[95%]"></div>
+            <span class="text-[10px] font-semibold text-[#0655a7]">M-4</span>
+          </div>
+          <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+            <span class="text-[10px] text-[#71717a]">29</span>
+            <div class="w-full max-w-[34px] bg-blue-300 hover:bg-blue-400 rounded-t transition-all h-[65%]"></div>
+            <span class="text-[10px] text-[#71717a]">M-5</span>
+          </div>
+          <div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+            <span class="text-[10px] text-[#71717a]">13</span>
+            <div class="w-full max-w-[34px] bg-blue-100 hover:bg-blue-200 rounded-t transition-all h-[30%]"></div>
+            <span class="text-[10px] text-[#71717a]">M-6</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs text-[#71717a] pt-3">
+          <span>Rata-rata tepat waktu: <strong class="text-green-700">92%</strong></span>
+          <button type="button" onclick="switchTab('logbook')" class="text-[#0655a7] hover:underline font-medium">Rekap &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Distribusi Mahasiswa -->
+      <div class="col-span-12 xl:col-span-6 rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col justify-between shadow-none">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-sm text-[#09090b]">Distribusi Mahasiswa MBKM</h3>
+          <span class="text-xs text-[#71717a]">48 Mahasiswa</span>
+        </div>
+        <div class="space-y-3 pt-2">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-[#3f3f46]">Magang Berdampak & Industri</span>
+              <span class="font-semibold text-[#09090b]">20 Mhs (42%)</span>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-[#0655a7] rounded-full" style="width: 42%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-[#3f3f46]">Studi Independen Bersertifikat</span>
+              <span class="font-semibold text-[#09090b]">14 Mhs (29%)</span>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-sky-500 rounded-full" style="width: 29%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-[#3f3f46]">Riset, Bela Negara & Wirausaha</span>
+              <span class="font-semibold text-[#09090b]">9 Mhs (19%)</span>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full" style="width: 19%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-[#3f3f46]">Kampus Mengajar & Desa</span>
+              <span class="font-semibold text-[#09090b]">5 Mhs (10%)</span>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-amber-500 rounded-full" style="width: 10%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs text-[#71717a] pt-3 border-t border-[#e4e4e7] mt-3">
+          <span>Dominasi: <strong class="text-[#09090b]">Teknik Informatika</strong></span>
+          <span class="font-medium text-[#0655a7]">5 Prodi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section: Data Permohonan SuReKom Terbaru (Sesuai Card Data Pengajuan Bimbingan) -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-6 shadow-none">
+      <div class="mb-4">
+        <h2 class="font-semibold text-base text-[#09090b]">Data Permohonan SuReKom</h2>
+        <p class="text-sm text-gray-500 mt-0.5">Berikut adalah data permohonan surat rekomendasi terbaru yang diajukan oleh mahasiswa</p>
+      </div>
+      <div class="rounded-md border border-[#e4e4e7] overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+            <tr>
+              <th class="h-10 px-4 text-left font-medium text-xs text-[#71717a]">Nama Mahasiswa</th>
+              <th class="h-10 px-4 text-left font-medium text-xs text-[#71717a]">Program / Mitra</th>
+              <th class="h-10 px-4 text-left font-medium text-xs text-[#71717a]">Akademik</th>
+              <th class="h-10 px-4 text-center font-medium text-xs text-[#71717a]">Status</th>
+              <th class="h-10 px-4 text-center font-medium text-xs text-[#71717a]">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7]">
+            <tr class="h-12 hover:bg-[#f4f4f5]/60 transition-colors">
+              <td class="px-4">
+                <div class="font-medium text-sm text-[#09090b]">Calvin Revianto</div>
+                <div class="text-xs text-[#71717a]">A11.2021.13782</div>
+              </td>
+              <td class="px-4 text-sm text-[#71717a]">Kegiatan Wirausaha (Inkubator Bisnis FIK)</td>
+              <td class="px-4 text-xs text-[#71717a]">IPK: 3.42 • 112 SKS</td>
+              <td class="px-4 text-center">
+                <span class="inline-flex items-center rounded-md border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-800">Menunggu</span>
+              </td>
+              <td class="px-4 text-center">
+                <button type="button" onclick="switchTab('mhs-rekomendasi')" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  <span>Tinjau</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SISI KANAN (4 Kolom) (Diekstrak ke Global Components) -->
+  <div class="flex flex-col gap-3 lg:col-span-4">
+    <!-- Periode Aktif Card -->
+    <BorderInfoCard
+      label="Periode Aktif"
+      value="2026/2027"
+      icon="calendar"
+      variant="blue"
+    />
+
+    <!-- Gelombang Aktif / Cut-off Card -->
+    <BorderInfoCard
+      label="Gelombang Aktif"
+      value="14h 08j 23m 37d"
+      valueId="dash-countdown-timer"
+      valueClass="text-sm italic text-gray-500 font-normal"
+      icon="waves"
+      variant="gray"
+    />
+
+    <!-- Informasi Kuota Bimbingan -->
+    <QuotaCard
+      title="Informasi Kuota Bimbingan"
+      total={60}
+      totalLabel="Total Alokasi"
+      used={48}
+      usedLabel="Kuota Terpakai"
+    />
+
+    <!-- Pintasan Operasional Cepat -->
+    <QuickActionsCard
+      title="Aksi Cepat"
+      items={[
+        { label: 'Buat Pengumuman', icon: 'megaphone', onclick: "switchTab('pengumuman'); showBuatPengumumanModal();" },
+        { label: 'Tambah Mitra', icon: 'building-2', onclick: "switchTab('mitra'); showTambahMitraModal();" },
+        { label: 'Atur Periode Ajaran', icon: 'calendar-range', onclick: "switchTab('periode');" },
+      ]}
+    />
+
+    <!-- Aktivitas Terkini -->
+    <ActivityFeedCard
+      title="Aktivitas Terkini"
+      activities={[
+        { text: 'SuReKom Calvin Revianto masuk antrean', time: '10 menit lalu', color: 'blue' },
+        { text: 'Budi Santoso direkomendasikan mitra', time: '1 jam lalu', color: 'green' },
+      ]}
+    />
+  </div>
+</div>
+
+  </section>
+</AdminShell>

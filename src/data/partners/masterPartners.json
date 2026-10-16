@@ -1,0 +1,82 @@
+[
+  {
+    "id": 101,
+    "nama": "PT Telekomunikasi Selular (Telkomsel)",
+    "deskripsi": "Operator telekomunikasi digital terdepan di Indonesia untuk track Cyber Security & Big Data Analytics.",
+    "email": "partnership@telkomsel.co.id",
+    "picNama": "Budi Santoso, M.Kom",
+    "sektor": "Telekomunikasi & Jaringan",
+    "alamat": "Jl. Jend. Gatot Subroto Kav. 52, Jakarta Selatan",
+    "avatar": "TS"
+  },
+  {
+    "id": 102,
+    "nama": "PT Bank Central Asia Tbk (BCA)",
+    "deskripsi": "Institusi perbankan swasta terbesar nasional dengan divisi IT inovasi perbankan digital & Core Banking.",
+    "email": "career.it@bca.co.id",
+    "picNama": "Maya Kartika, S.T.",
+    "sektor": "Fintech & Perbankan",
+    "alamat": "Menara BCA Grand Indonesia, Jakarta Pusat",
+    "avatar": "BC"
+  },
+  {
+    "id": 103,
+    "nama": "PT Tokopedia (GoTo Group)",
+    "deskripsi": "Perusahaan teknologi terkemuka Indonesia di bidang e-commerce dan ekosistem marketplace digital skala besar.",
+    "email": "campus.relations@tokopedia.com",
+    "picNama": "Agus Setiawan, S.Kom",
+    "sektor": "E-Commerce & Digital Platform",
+    "alamat": "Tokopedia Tower, Jl. Prof. DR. Satrio, Jakarta Selatan",
+    "avatar": "TK"
+  },
+  {
+    "id": 104,
+    "nama": "PT Astra International Tbk",
+    "deskripsi": "Konglomerat multinasional dengan unit bisnis digital transformation & otomasi logistik manufaktur.",
+    "email": "talent.mbkm@astra.co.id",
+    "picNama": "Hendro Wijaya, S.T.",
+    "sektor": "Manufaktur & Transformasi Digital",
+    "alamat": "Menara Astra, Jl. Jend. Sudirman Kav. 5-6, Jakarta Pusat",
+    "avatar": "AI"
+  },
+  {
+    "id": 105,
+    "nama": "Badan Siber dan Sandi Negara (BSSN)",
+    "deskripsi": "Lembaga pemerintah non-kementerian di bidang keamanan siber, kriptografi, dan ketahanan siber nasional.",
+    "email": "kerjasama.akademik@bssn.go.id",
+    "picNama": "Kol. Ir. Wahyu Hidayat, M.T.",
+    "sektor": "Keamanan Siber & Pemerintah",
+    "alamat": "Jl. Harsono RM No. 70, Ragunan, Jakarta Selatan",
+    "avatar": "BS"
+  },
+  {
+    "id": 106,
+    "nama": "PT Djarum Indonesia (Djarum Group)",
+    "deskripsi": "Divisi Business Technology & Information System untuk supply chain dan enterprise ERP.",
+    "email": "recruitment.ti@djarum.com",
+    "picNama": "Dra. Ratna Juwita, M.M.",
+    "sektor": "Enterprise & Supply Chain",
+    "alamat": "Jl. Ahmad Yani No. 28, Kudus, Jawa Tengah",
+    "avatar": "DJ"
+  },
+  {
+    "id": 107,
+    "nama": "PT Shopee International Indonesia (Sea Group)",
+    "deskripsi": "Platform e-commerce global terkemuka untuk pengembangan talenta software engineering dan machine learning.",
+    "email": "sea.labs@shopee.co.id",
+    "picNama": "Kevin Jonathan, B.Sc",
+    "sektor": "E-Commerce & AI",
+    "alamat": "Pacific Century Place, SCBD Lot 10, Jakarta Selatan",
+    "avatar": "SH"
+  },
+  {
+    "id": 108,
+    "nama": "PT Indosat Ooredoo Hutchison",
+    "deskripsi": "Penyedia telekomunikasi digital inovatif dengan fokus cloud computing dan IoT enterprise.",
+    "email": "academy@ioh.co.id",
+    "picNama": "Faisal Ramadhan, M.T.",
+    "sektor": "Telekomunikasi & Cloud",
+    "alamat": "Jl. Medan Merdeka Barat No. 21, Jakarta Pusat",
+    "avatar": "IO"
+  }
+]

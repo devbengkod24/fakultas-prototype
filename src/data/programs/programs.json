@@ -1,0 +1,100 @@
+[
+  {
+    "id": "prog_1",
+    "nama": "Bengkel Koding Skema Machine Learning",
+    "dosen": "Dr. Muljono, S.Si, M.Kom",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_2",
+    "nama": "Bengkel Koding Skema Android Programming",
+    "dosen": "Nurul Anisa S.W., M.Cs",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_3",
+    "nama": "Bengkel Koding Skema Game Programming",
+    "dosen": "Ahmad Zainul, M.Kom",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "PENDING"
+  },
+  {
+    "id": "prog_4",
+    "nama": "Bengkel Koding Skema Web Programming",
+    "dosen": "Budi Setiawan, M.Cs",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_5",
+    "nama": "Bengkel Koding Skema Computational Intelligence",
+    "dosen": "Dr. Muljono, S.Si, M.Kom",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "DISAPPROVED"
+  },
+  {
+    "id": "prog_6",
+    "nama": "Bengkel Koding Skema Computer Vision",
+    "dosen": "Nurul Anisa S.W., M.Cs",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_7",
+    "nama": "Bengkel Koding Skema Security Data",
+    "dosen": "Ahmad Zainul, M.Kom",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_8",
+    "nama": "Bengkel Koding Skema Internet of Things",
+    "dosen": "Retno Kusumaningrum, M.Kom",
+    "kategori": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "status": "PENDING"
+  },
+  {
+    "id": "prog_9",
+    "nama": "Dicoding - Mobile & Cloud Computing Architect",
+    "dosen": "Dewi Puspitasari, M.Kom",
+    "kategori": "MBKM Eksternal - Studi Independen (Dicoding, Vinix)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_10",
+    "nama": "Vinix - AI & Fullstack Web Developer",
+    "dosen": "Budi Setiawan, M.Cs",
+    "kategori": "MBKM Eksternal - Studi Independen (Dicoding, Vinix)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_11",
+    "nama": "Magang Industri Software Engineer di Telkom Corp",
+    "dosen": "Dr. Muljono, S.Si, M.Kom",
+    "kategori": "MBKM Eksternal - Magang Kuliah Kerja Industri (KKI)",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_12",
+    "nama": "Pengajaran Komputer Cerdas SMA/SMK Negeri 1",
+    "dosen": "Nurul Anisa S.W., M.Cs",
+    "kategori": "MBKM Eksternal - Magang Berdampak di Sekolah",
+    "status": "PENDING"
+  },
+  {
+    "id": "prog_13",
+    "nama": "Student Exchange Semester 6 Fakultas Ilmu Komputer UGM",
+    "dosen": "Retno Kusumaningrum, M.Kom",
+    "kategori": "MBKM Internal - Student Mobility ke UGM",
+    "status": "APPROVED"
+  },
+  {
+    "id": "prog_14",
+    "nama": "Riset Kolaboratif Big Data & Intelligent Decision Support",
+    "dosen": "Ahmad Zainul, M.Kom",
+    "kategori": "MBKM Internal - Riset Bersama Bidang Kajian (IDSS, Matics)",
+    "status": "APPROVED"
+  }
+]

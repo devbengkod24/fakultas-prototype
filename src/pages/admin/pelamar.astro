@@ -1,0 +1,166 @@
+---
+import AdminShell from '../../layouts/AdminShell.astro';
+---
+
+<AdminShell currentTab="pelamar">
+  <section
+    id="section-mhs-pelamar"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  >
+<!-- ==================================================== -->
+<!-- FRAGMEN BERKAS MANDIRI: PENDAFTAR MAHASISWA (MBKM V2)-->
+<!-- Tampilan Kartu & Tabel Pendaftar (Sesuai Gambar TA)  -->
+<!-- ==================================================== -->
+
+<div class="space-y-4">
+  <!-- Status Tabs Row (Sesuai Gambar Tugas Akhir Pengajuan Mahasiswa) -->
+  <div class="border-b border-[#e4e4e7] mb-2">
+    <div class="flex items-center gap-6 overflow-x-auto pb-0">
+      <button
+        type="button"
+        id="tab-pendaftar-baru"
+        onclick="switchPendaftarStatusTab('baru')"
+        class="flex items-center gap-2 pb-3 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors"
+      >
+        <i data-lucide="inbox" class="w-4 h-4"></i>
+        <span>Baru</span>
+        <span id="badge-count-pendaftar-baru" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-[#0655a7]">10</span>
+      </button>
+
+      <button
+        type="button"
+        id="tab-pendaftar-diterima"
+        onclick="switchPendaftarStatusTab('diterima')"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="check" class="w-4 h-4"></i>
+        <span>Diterima</span>
+        <span id="badge-count-pendaftar-diterima" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700">0</span>
+      </button>
+
+      <button
+        type="button"
+        id="tab-pendaftar-ditolak"
+        onclick="switchPendaftarStatusTab('ditolak')"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+        <span>Ditolak</span>
+        <span id="badge-count-pendaftar-ditolak" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-red-50 text-red-700">0</span>
+      </button>
+
+      <button
+        type="button"
+        id="tab-pendaftar-dibatalkan"
+        onclick="switchPendaftarStatusTab('dibatalkan')"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="ban" class="w-4 h-4"></i>
+        <span>Dibatalkan</span>
+        <span id="badge-count-pendaftar-dibatalkan" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-700">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter & Search Toolbar (Sesuai Gambar Pengajuan Mahasiswa) -->
+  <div class="mb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+    <!-- Search Box -->
+    <div class="relative w-full lg:w-96">
+      <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        type="text"
+        id="search-pelamar"
+        oninput="handleSearchPelamar(this.value)"
+        placeholder="Cari berdasarkan nama, NIM, atau judul..."
+        class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      />
+    </div>
+
+    <!-- Controls Group: View Mode, Sort, Filters -->
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- View Mode Dropdown -->
+      <select
+        id="select-pendaftar-view"
+        onchange="switchPendaftarViewMode(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="kartu" selected>⊞ Kartu</option>
+        <option value="tabel">☰ Tabel</option>
+      </select>
+
+      <!-- Sort Dropdown -->
+      <select
+        id="select-pendaftar-sort"
+        onchange="handleSortPendaftar(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="terbaru" selected>⏱ Terbaru</option>
+        <option value="ipk-tinggi">🎖 IPK Tertinggi</option>
+        <option value="nama-asc">🔤 Nama (A - Z)</option>
+      </select>
+
+      <!-- Filter Kategori / Mitra -->
+      <select
+        id="filter-pelamar-mitra"
+        onchange="handleFilterPelamarMitra(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="semua">Semua Mitra</option>
+        <option value="eksternal" selected>Mitra Eksternal (Koordinator)</option>
+        <option value="internal">Mitra Internal (Read-Only)</option>
+        <option value="Dicoding Indonesia">Dicoding Indonesia</option>
+        <option value="Bangkit Academy">Bangkit Academy</option>
+        <option value="PT Telkom Indonesia">PT Telkom Indonesia</option>
+        <option value="Bengkel Koding">Bengkel Koding</option>
+        <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
+        <option value="IDSS Laboratory">IDSS Laboratory</option>
+      </select>
+
+      <!-- Filter Program Studi / Bidang -->
+      <select
+        id="filter-pelamar-prodi"
+        onchange="handleFilterPelamarProdi(this.value)"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="semua" selected>Semua Bidang / Prodi</option>
+        <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
+        <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
+        <option value="S1 DKV">S1 DKV</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Container Tampilan Kartu (Default - Sama Persis Gambar) -->
+  <div id="pendaftar-cards-container" class="space-y-4">
+    <!-- Rendered via renderPelamarTable() -->
+  </div>
+
+  <!-- Container Tampilan Tabel (Sesuai DataTable Standar) -->
+  <div id="pendaftar-table-container" class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white hidden">
+    <table class="w-full text-sm">
+      <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+        <tr>
+          <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program & Mitra MBKM</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Akademik</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Matakuliah Diambil</th>
+          <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
+          <th class="h-10 w-36 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
+        <!-- Populated dynamically via renderPelamarTable() -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Footer -->
+  <div class="pt-2 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
+    <div id="pelamar-table-info">Menampilkan pendaftar</div>
+    <div id="pelamar-pagination-controls" class="flex items-center gap-1"></div>
+  </div>
+</div>
+
+  </section>
+</AdminShell>

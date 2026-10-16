@@ -1,0 +1,81 @@
+---
+import Modal from '../../ui/Modal.astro';
+import Button from '../../ui/Button.astro';
+import categories from '../../../data/programs/categories.json';
+
+interface Props {
+  openVar?: string;
+}
+
+const { openVar = 'openAddProgramModal' } = Astro.props;
+---
+
+<Modal
+  openVar={openVar}
+  title="Tambah Program MBKM Baru"
+  subtitle="Daftarkan skema program MBKM baru tingkat fakultas atau prodi."
+  maxWidth="lg"
+>
+  <form class="space-y-4 text-sm" @submit.prevent={`${openVar} = false`}>
+    <div class="space-y-1.5">
+      <label class="block font-medium text-slate-700 text-xs">Nama Skema / Program <span class="text-rose-500">*</span></label>
+      <input
+        type="text"
+        required
+        placeholder="Contoh: Bengkel Koding Skema Cloud Architecture"
+        class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+      />
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="block font-medium text-slate-700 text-xs">Kategori Skema <span class="text-rose-500">*</span></label>
+      <select
+        required
+        class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+      >
+        {categories && categories.map((cat: any) => (
+          <option value={cat.nama || cat}>{cat.nama || cat}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="space-y-1.5">
+        <label class="block font-medium text-slate-700 text-xs">Dosen Penanggung Jawab <span class="text-rose-500">*</span></label>
+        <input
+          type="text"
+          required
+          placeholder="Nama Dosen Pembina"
+          class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label class="block font-medium text-slate-700 text-xs">Kuota Mahasiswa <span class="text-rose-500">*</span></label>
+        <input
+          type="number"
+          min="1"
+          placeholder="20"
+          class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="block font-medium text-slate-700 text-xs">Deskripsi Singkat & Capaian</label>
+      <textarea
+        rows="3"
+        placeholder="Penjelasan sasaran kompetensi atau luaran program..."
+        class="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+      ></textarea>
+    </div>
+  </form>
+
+  <div slot="footer" class="flex items-center gap-2">
+    <Button variant="ghost" size="sm" @click={`${openVar} = false`}>
+      Batal
+    </Button>
+    <Button variant="primary" size="sm" @click={`${openVar} = false`}>
+      Simpan Program
+    </Button>
+  </div>
+</Modal>

@@ -1,0 +1,86 @@
+{
+  "internal_bengkel": [
+    {
+      "id": "skema_1",
+      "nama": "Bengkel Koding Skema Machine Learning",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_2",
+      "nama": "Bengkel Koding Skema Android Programming",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_3",
+      "nama": "Bengkel Koding Skema Game Programming",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_4",
+      "nama": "Bengkel Koding Skema Web Programming",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_5",
+      "nama": "Bengkel Koding Skema Computational Intelligence",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_6",
+      "nama": "Bengkel Koding Skema Computer Vision",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_7",
+      "nama": "Bengkel Koding Skema Security Data",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_8",
+      "nama": "Bengkel Koding Skema Internet of Things",
+      "prodi": "A11",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "internal",
+      "pendanaan": "sudah"
+    }
+  ],
+  "eksternal_studi": [
+    {
+      "id": "skema_studi_1",
+      "nama": "Dicoding - Mobile & Cloud Computing",
+      "prodi": "A11",
+      "dosen": "Drs. Supriyono, M.Kom",
+      "skemaType": "eksternal",
+      "pendanaan": "sudah"
+    },
+    {
+      "id": "skema_studi_2",
+      "nama": "Vinix - AI & Fullstack Development",
+      "prodi": "A12",
+      "dosen": "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+      "skemaType": "eksternal",
+      "pendanaan": "sudah"
+    }
+  ]
+}

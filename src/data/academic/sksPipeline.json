@@ -1,0 +1,37 @@
+{
+  "10": {
+    "request": "12 Mhs",
+    "review": "11 Mhs",
+    "mapping": "10 Mhs",
+    "sk": "10 Mhs",
+    "totalText": "100 / 120 SKS (83%)"
+  },
+  "12": {
+    "request": "16 Mhs",
+    "review": "14 Mhs",
+    "mapping": "12 Mhs",
+    "sk": "12 Mhs",
+    "totalText": "144 / 192 SKS (75%)"
+  },
+  "15": {
+    "request": "20 Mhs",
+    "review": "18 Mhs",
+    "mapping": "17 Mhs",
+    "sk": "16 Mhs",
+    "totalText": "240 / 300 SKS (80%)"
+  },
+  "20": {
+    "request": "48 Mhs",
+    "review": "42 Mhs",
+    "mapping": "38 Mhs",
+    "sk": "35 Mhs",
+    "totalText": "912 / 960 SKS (95%)"
+  },
+  "24": {
+    "request": "8 Mhs",
+    "review": "7 Mhs",
+    "mapping": "6 Mhs",
+    "sk": "5 Mhs",
+    "totalText": "120 / 192 SKS (63%)"
+  }
+}

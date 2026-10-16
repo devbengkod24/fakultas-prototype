@@ -1,0 +1,53 @@
+---
+// src/components/ui/QuickActionsCard.astro
+export interface QuickActionItem {
+  label: string;
+  icon?: string;
+  href?: string;
+  onclick?: string;
+}
+
+interface Props {
+  title?: string;
+  items: QuickActionItem[];
+  class?: string;
+}
+
+const {
+  title = 'Aksi Cepat',
+  items = [],
+  class: className = '',
+} = Astro.props;
+---
+
+<div class={`rounded-xl border border-[#e4e4e7] bg-white p-3 shadow-none space-y-2 ${className}`}>
+  <p class="text-sm font-medium text-[#09090b] mb-1">{title}</p>
+  <div class="space-y-1 text-xs">
+    {items.map((item) => (
+      item.href ? (
+        <a
+          href={item.href}
+          class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-[#3f3f46] hover:text-[#0655a7] transition-colors cursor-pointer"
+        >
+          <span class="flex items-center gap-2">
+            {item.icon && <i data-lucide={item.icon} class="w-4 h-4 text-[#71717a]"></i>}
+            <span>{item.label}</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a]"></i>
+        </a>
+      ) : (
+        <button
+          type="button"
+          onclick={item.onclick}
+          class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-[#3f3f46] hover:text-[#0655a7] transition-colors cursor-pointer text-left"
+        >
+          <span class="flex items-center gap-2">
+            {item.icon && <i data-lucide={item.icon} class="w-4 h-4 text-[#71717a]"></i>}
+            <span>{item.label}</span>
+          </span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a]"></i>
+        </button>
+      )
+    ))}
+  </div>
+</div>

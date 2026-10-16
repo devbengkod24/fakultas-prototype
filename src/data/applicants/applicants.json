@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "nama": "Muhammad Hafizh Izzuddin",
+    "nim": "A11.2020.13188",
+    "email": "111202013188@mhs.dinus.ac.id",
+    "noHp": "0882003419451",
+    "foto": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Teknik Informatika",
+    "mitra": "Dicoding Indonesia",
+    "kategoriMitra": "eksternal",
+    "program": "Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing",
+    "status": "baru",
+    "ipk": "3.82",
+    "sksLulus": 114,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Projek ini merancang infrastruktur cloud native untuk microservices menggunakan Infrastructure as Code (IaC). Fokusnya pada otomatisasi deployment, auto-scaling, serta peningkatan keandalan dan efisiensi biaya operasional aplikasi.",
+    "matkulDiambil": [
+      {
+        "kode": "A11.54801",
+        "nama": "Praktik Kerja Lapangan MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A11.54802",
+        "nama": "Proyek Perangkat Lunak Terapan",
+        "sks": 6
+      },
+      {
+        "kode": "A11.54803",
+        "nama": "Cloud Computing & DevOps",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Cloud Computing",
+      "DevOps"
+    ],
+    "tanggalPengajuan": "Kamis, 24 September 2026, 17:33"
+  },
+  {
+    "id": 2,
+    "nama": "Adhitya Nugraha",
+    "nim": "A11.2021.13450",
+    "email": "111202113450@mhs.dinus.ac.id",
+    "noHp": "081298765432",
+    "foto": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Teknik Informatika",
+    "mitra": "Bangkit Academy",
+    "kategoriMitra": "eksternal",
+    "program": "Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort",
+    "status": "baru",
+    "ipk": "3.75",
+    "sksLulus": 108,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Fokus pada pengembangan model deep learning computer vision untuk deteksi anomali pada citra satelit dan deployment model ke arsitektur mobile edge menggunakan TensorFlow Lite.",
+    "matkulDiambil": [
+      {
+        "kode": "A11.54801",
+        "nama": "Praktik Kerja Lapangan MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A11.54804",
+        "nama": "Machine Learning Lanjut",
+        "sks": 6
+      },
+      {
+        "kode": "A11.54805",
+        "nama": "Deep Learning Terapan",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Machine Learning",
+      "Computer Vision"
+    ],
+    "tanggalPengajuan": "Jumat, 25 September 2026, 09:15"
+  },
+  {
+    "id": 3,
+    "nama": "Anindya Putri Maharani",
+    "nim": "A12.2021.06642",
+    "email": "112202106642@mhs.dinus.ac.id",
+    "noHp": "082155443322",
+    "foto": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Sistem Informasi",
+    "mitra": "PT Telkom Indonesia",
+    "kategoriMitra": "eksternal",
+    "program": "Digital Amoeba Telkom — Business Process Digitalization & IT Analyst",
+    "status": "baru",
+    "ipk": "3.88",
+    "sksLulus": 118,
+    "semester": "Semester 6",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Analisis rekayasa proses bisnis enterprise dan perancangan arsitektur data warehouse untuk mendukung sistem intelijen bisnis pemantauan performa layanan telekomunikasi regional.",
+    "matkulDiambil": [
+      {
+        "kode": "A12.54801",
+        "nama": "Magang Industri Sistem Informasi",
+        "sks": 8
+      },
+      {
+        "kode": "A12.54802",
+        "nama": "Business Intelligence & Big Data",
+        "sks": 6
+      },
+      {
+        "kode": "A12.54803",
+        "nama": "Enterprise Architecture",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Business Analysis",
+      "Data Warehouse"
+    ],
+    "tanggalPengajuan": "Senin, 28 September 2026, 14:20"
+  },
+  {
+    "id": 4,
+    "nama": "Fauzan Akbar Rabbani",
+    "nim": "A11.2021.13902",
+    "email": "111202113902@mhs.dinus.ac.id",
+    "noHp": "085712345678",
+    "foto": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Teknik Informatika",
+    "mitra": "Dicoding Indonesia",
+    "kategoriMitra": "eksternal",
+    "program": "Dicoding ASAH 2026 — Multi-Platform Web & Mobile App Engineering",
+    "status": "baru",
+    "ipk": "3.65",
+    "sksLulus": 98,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Membangun aplikasi mobile cross-platform berbasis Flutter terintegrasi microservice backend Node.js dan PostgreSQL dengan pengujian unit test dan pipeline CI/CD otomatis.",
+    "matkulDiambil": [
+      {
+        "kode": "A11.54801",
+        "nama": "Praktik Kerja Lapangan MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A11.54806",
+        "nama": "Pemrograman Mobile Framework",
+        "sks": 6
+      },
+      {
+        "kode": "A11.54807",
+        "nama": "Arsitektur Perangkat Lunak",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Mobile Development",
+      "Flutter"
+    ],
+    "tanggalPengajuan": "Selasa, 29 September 2026, 11:05"
+  },
+  {
+    "id": 5,
+    "nama": "Budi Santoso",
+    "nim": "A11.2021.13201",
+    "email": "111202113201@mhs.dinus.ac.id",
+    "noHp": "081324567890",
+    "foto": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Teknik Informatika",
+    "mitra": "Bengkel Koding",
+    "kategoriMitra": "internal",
+    "program": "Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak",
+    "status": "baru",
+    "ipk": "3.70",
+    "sksLulus": 104,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Pengembangan modul e-commerce terintegrasi payment gateway dan webhook otomatis untuk UMKM binaan kampus FIK.",
+    "matkulDiambil": [
+      {
+        "kode": "A11.54801",
+        "nama": "Praktik Kerja Lapangan MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A11.54802",
+        "nama": "Proyek Perangkat Lunak Terapan",
+        "sks": 6
+      },
+      {
+        "kode": "A11.54803",
+        "nama": "Cloud Computing & DevOps",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Fullstack Web",
+      "Laravel & React"
+    ],
+    "tanggalPengajuan": "Rabu, 30 September 2026, 16:45"
+  },
+  {
+    "id": 6,
+    "nama": "Siti Aminah",
+    "nim": "A12.2022.06543",
+    "email": "112202206543@mhs.dinus.ac.id",
+    "noHp": "087811223344",
+    "foto": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Sistem Informasi",
+    "mitra": "PT Matic Edukasi Mandiri",
+    "kategoriMitra": "internal",
+    "program": "Matic Edukasi — EduTech System & LMS Platform Engineering",
+    "status": "baru",
+    "ipk": "3.62",
+    "sksLulus": 92,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Pengembangan fitur gamifikasi dan interactive quiz real-time berbasis WebSockets pada aplikasi pembelajaran daring.",
+    "matkulDiambil": [
+      {
+        "kode": "A12.54801",
+        "nama": "Magang Industri Sistem Informasi",
+        "sks": 8
+      },
+      {
+        "kode": "A12.54804",
+        "nama": "Pengembangan Aplikasi Web Lanjut",
+        "sks": 6
+      },
+      {
+        "kode": "A12.54805",
+        "nama": "Interaksi Manusia dan Komputer",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Frontend",
+      "Edutech"
+    ],
+    "tanggalPengajuan": "Kamis, 01 Oktober 2026, 13:10"
+  },
+  {
+    "id": 7,
+    "nama": "Rizky Pratama",
+    "nim": "A15.2021.01988",
+    "email": "115202101988@mhs.dinus.ac.id",
+    "noHp": "089677889900",
+    "foto": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 DKV",
+    "mitra": "Ryuje Tech Studio",
+    "kategoriMitra": "internal",
+    "program": "Ryuje Studio — 3D Asset Design & Interactive Animation",
+    "status": "baru",
+    "ipk": "3.78",
+    "sksLulus": 106,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Pembuatan aset karakter 3D low-poly dan animasi mekanik interaktif untuk aplikasi edukasi virtual reality kampus.",
+    "matkulDiambil": [
+      {
+        "kode": "A15.54801",
+        "nama": "Proyek Desain Komunikasi MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A15.54802",
+        "nama": "Animasi 3D Karakter",
+        "sks": 6
+      },
+      {
+        "kode": "A15.54803",
+        "nama": "Desain Interaktif & VR",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "3D Modeling",
+      "Blender"
+    ],
+    "tanggalPengajuan": "Jumat, 02 Oktober 2026, 10:30"
+  },
+  {
+    "id": 8,
+    "nama": "Nabila Putri Cahyani",
+    "nim": "A12.2022.06712",
+    "email": "112202206712@mhs.dinus.ac.id",
+    "noHp": "081233445566",
+    "foto": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Sistem Informasi",
+    "mitra": "Dicoding Indonesia",
+    "kategoriMitra": "eksternal",
+    "program": "Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing",
+    "status": "diterima",
+    "ipk": "3.91",
+    "sksLulus": 116,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Pengembangan data pipeline ETL dan dashboard visualisasi performa model analitik berbasis cloud BigQuery.",
+    "matkulDiambil": [
+      {
+        "kode": "A12.54801",
+        "nama": "Magang Industri Sistem Informasi",
+        "sks": 8
+      },
+      {
+        "kode": "A12.54802",
+        "nama": "Business Intelligence & Big Data",
+        "sks": 6
+      },
+      {
+        "kode": "A12.54803",
+        "nama": "Enterprise Architecture",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Data Engineering",
+      "BigQuery"
+    ],
+    "tanggalPengajuan": "Senin, 21 September 2026, 08:30"
+  },
+  {
+    "id": 9,
+    "nama": "Farhan Maulana",
+    "nim": "A11.2021.13880",
+    "email": "111202113880@mhs.dinus.ac.id",
+    "noHp": "082244668800",
+    "foto": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Teknik Informatika",
+    "mitra": "Bangkit Academy",
+    "kategoriMitra": "eksternal",
+    "program": "Bangkit Academy 2026 — Cloud Computing Track",
+    "status": "diterima",
+    "ipk": "3.80",
+    "sksLulus": 110,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Implementasi arsitektur serverless microservices di Google Cloud Platform menggunakan Cloud Run dan Firestore.",
+    "matkulDiambil": [
+      {
+        "kode": "A11.54801",
+        "nama": "Praktik Kerja Lapangan MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A11.54802",
+        "nama": "Proyek Perangkat Lunak Terapan",
+        "sks": 6
+      },
+      {
+        "kode": "A11.54803",
+        "nama": "Cloud Computing & DevOps",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Cloud Architecture",
+      "GCP"
+    ],
+    "tanggalPengajuan": "Selasa, 22 September 2026, 14:00"
+  },
+  {
+    "id": 10,
+    "nama": "Dimas Anggara Kusuma",
+    "nim": "A11.2020.12908",
+    "email": "111202012908@mhs.dinus.ac.id",
+    "noHp": "081399887766",
+    "foto": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=256",
+    "prodi": "S1 Teknik Informatika",
+    "mitra": "PT Telkom Indonesia",
+    "kategoriMitra": "eksternal",
+    "program": "Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense",
+    "status": "ditolak",
+    "ipk": "2.85",
+    "sksLulus": 76,
+    "semester": "Semester 5",
+    "semesterAjaran": "Gasal 2026/2027",
+    "deskripsi": "Pendaftaran belum memenuhi batas ambang minimal IPK 3.00 dan SKS lulus 80 SKS sesuai regulasi MBKM.",
+    "matkulDiambil": [
+      {
+        "kode": "A11.54801",
+        "nama": "Praktik Kerja Lapangan MBKM",
+        "sks": 8
+      },
+      {
+        "kode": "A11.54802",
+        "nama": "Proyek Perangkat Lunak Terapan",
+        "sks": 6
+      },
+      {
+        "kode": "A11.54803",
+        "nama": "Cloud Computing & DevOps",
+        "sks": 6
+      }
+    ],
+    "minat": [
+      "Cyber Security",
+      "Network"
+    ],
+    "tanggalPengajuan": "Rabu, 23 September 2026, 11:20"
+  }
+]

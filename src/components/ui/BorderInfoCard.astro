@@ -1,0 +1,61 @@
+---
+// src/components/ui/BorderInfoCard.astro
+interface Props {
+  label: string;
+  value: string;
+  icon?: string;
+  valueId?: string;
+  valueClass?: string;
+  variant?: 'blue' | 'gray' | 'green' | 'amber';
+  class?: string;
+}
+
+const {
+  label,
+  value,
+  icon = 'calendar',
+  valueId,
+  valueClass = '',
+  variant = 'blue',
+  class: className = '',
+} = Astro.props;
+
+const variants = {
+  blue: {
+    border: 'border-l-blue-500',
+    iconBg: 'bg-blue-100',
+    iconColor: 'text-blue-600',
+  },
+  gray: {
+    border: 'border-l-gray-400',
+    iconBg: 'bg-gray-100',
+    iconColor: 'text-gray-500',
+  },
+  green: {
+    border: 'border-l-emerald-500',
+    iconBg: 'bg-emerald-100',
+    iconColor: 'text-emerald-600',
+  },
+  amber: {
+    border: 'border-l-amber-500',
+    iconBg: 'bg-amber-100',
+    iconColor: 'text-amber-600',
+  },
+};
+
+const v = variants[variant] || variants.blue;
+---
+
+<div class={`overflow-hidden rounded-xl border border-[#e4e4e7] bg-white border-l-4 ${v.border} shadow-none ${className}`}>
+  <div class="p-3">
+    <div class="flex items-center space-x-3">
+      <div class={`flex h-10 w-10 items-center justify-center rounded-full ${v.iconBg} shrink-0`}>
+        <i data-lucide={icon} class={`w-4 h-4 ${v.iconColor}`}></i>
+      </div>
+      <div class="min-w-0">
+        <p class="text-sm text-muted-foreground text-[#71717a]">{label}</p>
+        <p id={valueId} class={`text-lg font-semibold text-[#09090b] truncate ${valueClass}`}>{value}</p>
+      </div>
+    </div>
+  </div>
+</div>

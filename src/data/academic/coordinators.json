@@ -1,0 +1,51 @@
+[
+  {
+    "id": "kord_1",
+    "nama": "Dr. Muljono, S.Si, M.Kom",
+    "nidn": "0686.11.1993.001",
+    "prodi": "S1 Teknik Informatika",
+    "email": "muljono@fik.dinus.ac.id"
+  },
+  {
+    "id": "kord_2",
+    "nama": "Nurul Anisa S.W., M.Cs",
+    "nidn": "0686.11.2008.354",
+    "prodi": "S1 Tenik Informatika",
+    "email": "nurul.anisa@fik.dinus.ac.id"
+  },
+  {
+    "id": "kord_3",
+    "nama": "Ahmad Zainul, M.Kom",
+    "nidn": "0686.11.2012.441",
+    "prodi": "S1 Teknik Informatika",
+    "email": "ahmad.zainul@fik.dinus.ac.id"
+  },
+  {
+    "id": "kord_4",
+    "nama": "Retno Kusumaningrum, M.Kom",
+    "nidn": "0686.11.2015.512",
+    "prodi": "S1 Desain Komunikasi Visual",
+    "email": "retno.k@fik.dinus.ac.id"
+  },
+  {
+    "id": "kord_5",
+    "nama": "Budi Setiawan, M.Cs",
+    "nidn": "0686.11.2018.631",
+    "prodi": "S1 Ilmu Komunikasi",
+    "email": "budi.setiawan@fik.dinus.ac.id"
+  },
+  {
+    "id": "kord_6",
+    "nama": "Dewi Puspitasari, M.Kom",
+    "nidn": "0686.11.2020.719",
+    "prodi": "S1 Film dan Televisi",
+    "email": "dewi.puspita@fik.dinus.ac.id"
+  },
+  {
+    "id": "kord_7",
+    "nama": "Eko Hari Rachmawanto, M.Kom",
+    "nidn": "0686.11.2016.589",
+    "prodi": "S1 Teknik Informatika",
+    "email": "eko.hari@fik.dinus.ac.id"
+  }
+]
