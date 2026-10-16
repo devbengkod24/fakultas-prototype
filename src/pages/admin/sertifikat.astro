@@ -1,0 +1,161 @@
+---
+// src/pages/admin/sertifikat.astro
+import AdminShell from "../../layouts/AdminShell.astro";
+---
+
+<AdminShell currentTab="sertifikat">
+<section
+            id="section-sertifikat" x-show="$store.mbkm.currentSection === 'sertifikat'"
+            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+          >
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Validasi Sertifikat & Luaran Wajib MBKM</h2>
+                <p class="text-[11px] text-[#71717a]">
+                  Verifikasi kelayakan bukti luaran akhir (Sertifikat Resmi Mitra / LoA Publikasi Ilmiah) sebelum
+                  sinkronisasi nilai ke KHS SIADIN.
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="validasiSemuaSertifikatLolos()"
+                  class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
+                >
+                  <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
+                  <span>Validasi Berkas Terpilih</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabel Sertifikat -->
+            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                  <tr>
+                    <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">
+                      <input
+                        type="checkbox"
+                        onchange="toggleSelectAllSertifikat(this)"
+                        class="rounded text-[#0655a7]"
+                      />
+                    </th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa & Prodi</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra MBKM</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Jenis Luaran Wajib</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Dokumen Berkas</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Tgl Unggah</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status KHS</th>
+                    <th class="w-32 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="sertifikat-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
+                  <tr class="transition-colors hover:bg-blue-50/30">
+                    <td class="px-2.5 py-2.5 text-center">
+                      <input
+                        type="checkbox"
+                        class="check-sertifikat-row rounded text-[#0655a7]"
+                        value="A11.2022.13901"
+                      />
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
+                      <div class="text-[10px] text-[#71717a]">A11.2022.13901 • Teknik Informatika</div>
+                    </td>
+                    <td class="px-3 py-2.5 text-[#3f3f46]">
+                      <div class="font-semibold">Bengkel Koding</div>
+                      <div class="text-[10px] text-[#71717a]">Magang MSIB Batch 6</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#0655a7] border border-blue-200"
+                      >
+                        Sertifikat Mitra Resmi
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <button
+                        type="button"
+                        onclick="
+                          previewDokumenLuaran('Sertifikat_Faisal_BK.pdf', 'Sertifikat Mitra Resmi', 'Faisal Rahman')
+                        "
+                        class="flex items-center gap-1.5 text-xs font-semibold text-[#0655a7] hover:underline"
+                      >
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                        <span>Lihat PDF</span>
+                      </button>
+                    </td>
+                    <td class="px-3 py-2.5 text-[#71717a]">10 Jul 2025</td>
+                    <td class="px-3 py-2.5 text-center">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200"
+                      >
+                        Menunggu Verifikasi
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-center">
+                      <div class="flex items-center justify-center gap-1">
+                        <button
+                          type="button"
+                          onclick="verifikasiSertifikatIndividu('A11.2022.13901', 'Faisal Rahman', true)"
+                          class="px-2 py-1 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[11px] shadow-2xs"
+                        >
+                          Setujui
+                        </button>
+                        <button
+                          type="button"
+                          onclick="mintaRevisiSertifikat('A11.2022.13901', 'Faisal Rahman')"
+                          class="px-2 py-1 rounded-md border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold text-[11px]"
+                        >
+                          Revisi
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination & Info -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+              <div class="text-[11px] text-[#71717a]">Menampilkan 1 - 4 dari 182 berkas luaran</div>
+              <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1">
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Sebelumnya"
+                  >
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0655a7] text-white font-semibold text-xs shadow-2xs"
+                  >
+                    1
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Selanjutnya"
+                  >
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <div class="relative">
+                  <select
+                    class="appearance-none pl-3 pr-8 py-1.5 text-xs font-medium text-[#09090b] bg-white border border-[#0655a7] rounded-lg focus:outline-none cursor-pointer"
+                  >
+                    <option value="10">Show 10 items</option>
+                    <option value="25">Show 25 items</option>
+                    <option value="50">Show 50 items</option>
+                  </select>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-[#09090b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </section>
+</AdminShell>

@@ -1,14 +1,16 @@
 ---
+// src/pages/mahasiswa/dashboard.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
 ---
 
 <MahasiswaShell
   title="Dashboard Mahasiswa | Kampus Berdampak - FIK Udinus"
-  pageTitle="Dashboard Mahasiswa"
-  subtitle="Verifikasi data akademik Anda dari database dan mulai pendaftaran program MBKM."
-  breadcrumb="Dashboard"
   activeNav="dashboard"
+  pageTitle="Dashboard Mahasiswa"
+  breadcrumb="Dashboard"
+  subtitle="Verifikasi data akademik Anda dari database dan mulai pendaftaran program MBKM."
 >
+  <div id="view-dashboard" class="w-full">
 <!-- Banner Selamat Datang & Status Kelayakan -->
             <div id="dashboard-hero-banner" class="status-hero"
               style="background:linear-gradient(135deg,#0655A7 0%,#1e7fd9 100%);color:#fff;border:none;">
@@ -26,7 +28,7 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
                 </p>
               </div>
               <div style="flex-shrink:0;">
-                <a href="#pendaftaran" class="btn btn-lg" id="btn-hero-action"
+                <a href="/mahasiswa/pendaftaran" class="btn btn-lg" id="btn-hero-action"
                   style="background:#fff;color:#0655A7;font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,0.15);">
                   <i data-lucide="file-edit"></i> Buka Pendaftaran Mandiri
                 </a>
@@ -143,7 +145,7 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
                 <div class="card-header">
                   <span class="card-title"><i data-lucide="clipboard-check" style="color:#d97706;"></i> Status
                     Pendaftaran Aktif</span>
-                  <a href="#status" class="btn btn-sm btn-outline">Lihat Detail &rarr;</a>
+                  <a href="/mahasiswa/status" class="btn btn-sm btn-outline">Lihat Detail &rarr;</a>
                 </div>
                 <div id="dash-status-box"
                   style="padding:16px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;margin-bottom:14px;">
@@ -180,4 +182,5 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
               </div>
             </div>
 
+  </div>
 </MahasiswaShell>

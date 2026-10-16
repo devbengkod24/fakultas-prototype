@@ -1,0 +1,240 @@
+---
+// src/pages/mahasiswa/dosen-pembimbing.astro
+import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+---
+
+<MahasiswaShell
+  title="Dosen Pembimbing & Mentor | Mahasiswa - FIK Udinus"
+  activeNav="dosen-pembimbing"
+  pageTitle="Dosen Pembimbing Lapangan (DPL) & Mentor Mitra"
+  breadcrumb="Dosen Pembimbing"
+  subtitle="Profil resmi Dosen Pembimbing Lapangan dari basis data UDI dan mentor pendamping mitra."
+>
+  <div id="view-dosen-pembimbing" class="w-full">
+<!-- Dosen Pembimbing Lapangan (DPL) & Mentor Mitra — Profil Resmi dari Basis Data UDI -->
+<div style="margin-bottom:24px;">
+
+  <!-- Header Section -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="graduation-cap" style="color:var(--primary);width:20px;height:20px;"></i>
+        Dosen Pembimbing Lapangan (DPL) &amp; Mentor Mitra
+      </h2>
+      <p style="font-size:13px;color:#64748b;margin-top:2px;">
+        Profil resmi DPL dari basis data UDI yang ditetapkan Koordinator MBKM, beserta mentor mitra kegiatan dan jadwal bimbingan.
+      </p>
+    </div>
+    <span class="badge badge-success"><i data-lucide="shield-check" style="width:12px;height:12px;"></i> SK Dekanat Berlaku Genap 2025/2026</span>
+  </div>
+
+  <!-- ═══ Kartu Profil DPL Resmi UDI (Dosen Pembimbing Lapangan Formal) ═══ -->
+  <div class="grid grid-2" style="gap:18px;margin-bottom:22px;">
+
+    <!-- Card Profil DPL Utama -->
+    <div class="card" style="padding:22px;border-top:4px solid var(--primary);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,#0655A7,#1e7fd9);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;">
+            RA
+          </div>
+          <div>
+            <span class="badge badge-primary" style="font-size:10px;margin-bottom:4px;">DPL Resmi — Dari Basis Data UDI</span>
+            <h3 style="font-size:16px;font-weight:700;color:#0f172a;">Dr. Ricardus Anggi Pramunendar, M.Kom</h3>
+            <p style="font-size:12px;color:#64748b;margin-top:2px;">Lektor Kepala &bull; Program Studi Teknik Informatika &bull; FIK UDINUS</p>
+          </div>
+        </div>
+        <span class="badge badge-success"><i data-lucide="check" style="width:11px;height:11px;"></i> Aktif</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;border-top:1px solid #f1f5f9;padding-top:14px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="fingerprint" style="width:13px;height:13px;"></i> NIDN / NPP:</span>
+          <span style="font-weight:700;font-family:monospace;color:#0f172a;">0622118101 / 0686.11.2008.341</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="home" style="width:13px;height:13px;"></i> Homebase Prodi:</span>
+          <span style="font-weight:600;color:#0f172a;">S1 Teknik Informatika &bull; FIK</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="cpu" style="width:13px;height:13px;"></i> Bidang Riset:</span>
+          <span style="font-weight:600;color:#0f172a;">Software Architecture, Cloud &amp; AI Systems</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="mail" style="width:13px;height:13px;"></i> Email Institusi:</span>
+          <a href="mailto:ricardus.anggi@dsn.dinus.ac.id" style="font-weight:600;color:var(--primary);text-decoration:none;">ricardus.anggi@dsn.dinus.ac.id</a>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="map-pin" style="width:13px;height:13px;"></i> Ruang Kerja:</span>
+          <span style="font-weight:600;color:#0f172a;">Gedung D Lantai 2 — Lab. Bengkel Koding</span>
+        </div>
+      </div>
+
+      <!-- Tombol Kontak WhatsApp Koordinasi Bimbingan -->
+      <div style="display:flex;gap:10px;">
+        <a href="https://wa.me/6281234567891?text=Halo%20Bapak%20Dr.%20Ricardus%2C%20saya%20Ahmad%20Rizky%20(A11.2022.14123)%20mahasiswa%20MBKM%20Bengkel%20Koding.%20Mohon%20izin%20menjadwalkan%20sesi%20bimbingan." target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;background:#16a34a;border-color:#16a34a;">
+          <i data-lucide="message-circle"></i> WhatsApp Koordinasi
+        </a>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-jadwal-dpl').style.display='flex'" style="flex:1;justify-content:center;">
+          <i data-lucide="calendar"></i> Lihat Jadwal
+        </button>
+      </div>
+    </div>
+
+    <!-- Card Profil Mentor Mitra -->
+    <div class="card" style="padding:22px;border-top:4px solid #d97706;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,#d97706,#f59e0b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;">
+            FN
+          </div>
+          <div>
+            <span class="badge badge-warning" style="font-size:10px;margin-bottom:4px;">Mentor Mitra — Bengkel Koding</span>
+            <h3 style="font-size:16px;font-weight:700;color:#0f172a;">Fajar Nugraha, S.Kom., M.T.</h3>
+            <p style="font-size:12px;color:#64748b;margin-top:2px;">Project Manager &bull; Laboratorium Bengkel Koding FIK</p>
+          </div>
+        </div>
+        <span class="badge badge-warning">PIC Mitra</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;border-top:1px solid #f1f5f9;padding-top:14px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="briefcase" style="width:13px;height:13px;"></i> Peran di Mitra:</span>
+          <span style="font-weight:600;color:#0f172a;">Project Manager &amp; Asesor Teknis</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="mail" style="width:13px;height:13px;"></i> Email Kontak:</span>
+          <a href="mailto:fajar.nugraha@bengkelkoding.com" style="font-weight:600;color:var(--primary);text-decoration:none;">fajar.nugraha@bengkelkoding.com</a>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="layers" style="width:13px;height:13px;"></i> Keahlian Teknis:</span>
+          <span style="font-weight:600;color:#0f172a;">Full-stack Web, DevOps, Agile Scrum</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="git-pull-request" style="width:13px;height:13px;"></i> Kanal Kerja:</span>
+          <a href="#" style="font-weight:600;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:4px;"><i data-lucide="external-link" style="width:12px;height:12px;"></i> GitHub Organization</a>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#64748b;display:flex;align-items:center;gap:4px;"><i data-lucide="calendar-clock" style="width:13px;height:13px;"></i> Sprint Review:</span>
+          <span style="font-weight:600;color:#0f172a;">Setiap Jumat, 16:00 — 17:30 WIB</span>
+        </div>
+      </div>
+
+      <a href="https://wa.me/6289876543210?text=Halo%20Pak%20Fajar%2C%20saya%20Ahmad%20Rizky%20MBKM%20Bengkel%20Koding." target="_blank" class="btn btn-outline" style="width:100%;justify-content:center;border-color:#d97706;color:#d97706;">
+        <i data-lucide="message-circle"></i> WhatsApp Mentor Mitra
+      </a>
+    </div>
+  </div>
+
+  <!-- Jadwal Bimbingan Daring/Luring Mingguan -->
+  <div class="card" style="padding:22px;margin-bottom:22px;">
+    <div class="card-header" style="margin-bottom:16px;">
+      <span class="card-title" style="font-size:15px;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="calendar-days" style="color:var(--primary);width:18px;height:18px;"></i>
+        Jadwal Bimbingan Daring/Luring Mingguan (DPL &amp; Mentor Mitra)
+      </span>
+      <span class="badge badge-primary">Semester Genap 2025/2026</span>
+    </div>
+
+    <div class="grid grid-3" style="gap:12px;">
+      <!-- Senin -->
+      <div style="padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid var(--primary);border-radius:8px;">
+        <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;margin-bottom:4px;">Senin</div>
+        <div style="font-size:13px;font-weight:700;color:#0f172a;">10:00 — 11:30 WIB</div>
+        <div style="font-size:11.5px;color:#64748b;margin-top:4px;">Konsultasi Progres Proyek</div>
+        <span class="badge badge-primary" style="margin-top:8px;font-size:10px;">Microsoft Teams (Daring)</span>
+      </div>
+      <!-- Rabu -->
+      <div style="padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #16a34a;border-radius:8px;">
+        <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;margin-bottom:4px;">Rabu</div>
+        <div style="font-size:13px;font-weight:700;color:#0f172a;">13:00 — 14:00 WIB</div>
+        <div style="font-size:11.5px;color:#64748b;margin-top:4px;">Review Logbook &amp; DPL Check-in</div>
+        <span class="badge badge-success" style="margin-top:8px;font-size:10px;">Ruang D.2.B (Luring)</span>
+      </div>
+      <!-- Jumat -->
+      <div style="padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #d97706;border-radius:8px;">
+        <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;margin-bottom:4px;">Jumat</div>
+        <div style="font-size:13px;font-weight:700;color:#0f172a;">16:00 — 17:30 WIB</div>
+        <div style="font-size:11.5px;color:#64748b;margin-top:4px;">Sprint Review &amp; Demo Mitra</div>
+        <span class="badge badge-warning" style="margin-top:8px;font-size:10px;">Lab Bengkel Koding (Luring)</span>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;">
+      <a href="https://teams.microsoft.com" target="_blank" class="btn btn-sm btn-outline">
+        <i data-lucide="video"></i> Buka Teams Bimbingan
+      </a>
+      <a href="#" class="btn btn-sm btn-primary">
+        <i data-lucide="calendar-plus"></i> Ajukan Jadwal Tambahan
+      </a>
+    </div>
+  </div>
+
+  <!-- Riwayat Catatan Konsultasi Bimbingan -->
+  <div class="card" style="padding:22px;">
+    <div class="card-header" style="margin-bottom:16px;">
+      <span class="card-title" style="font-size:15px;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="notebook-text" style="color:var(--primary);width:18px;height:18px;"></i>
+        Riwayat Catatan Konsultasi Bimbingan
+      </span>
+      <span class="badge badge-primary">3 Sesi Tercatat</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <!-- Konsultasi 1 -->
+      <div style="border:1px solid #e2e8f0;border-radius:10px;padding:14px;background:#f8fafc;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+          <div>
+            <span class="badge badge-primary" style="font-size:10px;margin-bottom:4px;">Senin, 06 Okt 2025</span>
+            <div style="font-size:13px;font-weight:700;color:#0f172a;">Kick-off Proyek &amp; Orientasi Kegiatan MBKM</div>
+          </div>
+          <span class="badge badge-success"><i data-lucide="check" style="width:11px;height:11px;"></i> Selesai</span>
+        </div>
+        <div style="font-size:12.5px;color:#475569;line-height:1.5;">
+          Pembahasan roadmap proyek 6 bulan, distribusi task tim, setup repositori GitHub Organization, dan penjelasan mekanisme penilaian MBKM serta target luaran akhir wajib.
+        </div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:4px;">
+          <i data-lucide="user" style="width:11px;height:11px;"></i> Dr. Ricardus Anggi + Fajar Nugraha &bull; Microsoft Teams (Daring)
+        </div>
+      </div>
+
+      <!-- Konsultasi 2 -->
+      <div style="border:1px solid #e2e8f0;border-radius:10px;padding:14px;background:#f8fafc;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+          <div>
+            <span class="badge badge-primary" style="font-size:10px;margin-bottom:4px;">Rabu, 08 Okt 2025</span>
+            <div style="font-size:13px;font-weight:700;color:#0f172a;">Review Logbook Minggu 1 &amp; Penyesuaian Sprint Goal</div>
+          </div>
+          <span class="badge badge-success"><i data-lucide="check" style="width:11px;height:11px;"></i> Selesai</span>
+        </div>
+        <div style="font-size:12.5px;color:#475569;line-height:1.5;">
+          DPL meninjau logbook minggu pertama. Terdapat catatan perbaikan: deskripsi aktivitas perlu lebih spesifik dengan mencantumkan nama fitur atau modul yang dikerjakan. Sprint goal disepakati untuk 2 minggu ke depan.
+        </div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:4px;">
+          <i data-lucide="user" style="width:11px;height:11px;"></i> Dr. Ricardus Anggi &bull; Ruang D.2.B (Luring)
+        </div>
+      </div>
+
+      <!-- Konsultasi 3 -->
+      <div style="border:1px solid #fde68a;border-radius:10px;padding:14px;background:#fffbeb;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+          <div>
+            <span class="badge badge-warning" style="font-size:10px;margin-bottom:4px;">Senin, 13 Okt 2025 — Mendatang</span>
+            <div style="font-size:13px;font-weight:700;color:#0f172a;">Konsultasi Rencana Publikasi &amp; Target Luaran Akhir</div>
+          </div>
+          <span class="badge badge-warning"><i data-lucide="clock" style="width:11px;height:11px;"></i> Terjadwal</span>
+        </div>
+        <div style="font-size:12.5px;color:#78350f;line-height:1.5;">
+          Diskusi pemilihan konferensi atau jurnal target untuk publikasi ilmiah sebagai luaran akhir wajib, sekaligus review perkembangan pembuatan paper/artikel.
+        </div>
+        <div style="font-size:11px;color:#b45309;margin-top:8px;display:flex;align-items:center;gap:4px;">
+          <i data-lucide="clock" style="width:11px;height:11px;"></i> 10:00 WIB &bull; Microsoft Teams (Daring)
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  </div>
+</MahasiswaShell>

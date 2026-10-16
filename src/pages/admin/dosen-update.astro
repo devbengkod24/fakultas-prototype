@@ -1,0 +1,233 @@
+---
+// src/pages/admin/dosen-update.astro
+import AdminShell from "../../layouts/AdminShell.astro";
+---
+
+<AdminShell currentTab="dosen-update">
+<section
+            id="section-dosen-update" x-show="$store.mbkm.currentSection === 'dosen-update'"
+            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+          >
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Alokasi & Update Dospem (Plotting)</h2>
+                <p class="text-[11px] text-[#71717a]">
+                  Antrean mahasiswa diterima mitra yang siap di-plotting ke Dosen Pembimbing Lapangan (DPL) resmi
+                  berdasarkan kesesuaian kepakaran.
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="autoAssignDplBatch()"
+                  class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
+                >
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>Auto-Assign Kepakaran Cerdas</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="simpanSemuaPlotting()"
+                  class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
+                >
+                  <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                  <span>Simpan Plotting Terpilih</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Info / Stat Cards Plotting -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 shrink-0">
+                  <i data-lucide="clock" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="text-[10px] text-[#71717a] font-medium">Antrean Belum Di-Plot</div>
+                  <div class="text-sm font-bold text-amber-700">14 Mahasiswa</div>
+                </div>
+              </div>
+              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                <div
+                  class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 shrink-0"
+                >
+                  <i data-lucide="user-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="text-[10px] text-[#71717a] font-medium">Sudah Selesai Di-Plot</div>
+                  <div class="text-sm font-bold text-[#09090b]">186 Mahasiswa</div>
+                </div>
+              </div>
+              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
+                  <i data-lucide="building-2" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="text-[10px] text-[#71717a] font-medium">Mitra Terhubung</div>
+                  <div class="text-sm font-bold text-[#09090b]">18 Industri</div>
+                </div>
+              </div>
+              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
+                <div class="flex items-center justify-center w-8 h-8 text-indigo-600 rounded-lg bg-indigo-50 shrink-0">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <div class="text-[10px] text-[#71717a] font-medium">Rekomendasi Cocok</div>
+                  <div class="text-sm font-bold text-[#09090b]">14 Rekomendasi</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tabel Antrean Plotting -->
+            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                  <tr>
+                    <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">
+                      <input type="checkbox" onchange="toggleSelectAllPlotting(this)" class="rounded text-[#0655a7]" />
+                    </th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra & Posisi</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Bidang / Track</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Rekomendasi Kepakaran</th>
+                    <th class="w-64 px-3 py-2 font-semibold text-[11px]">Plotting Dospem (Real-time Slot)</th>
+                    <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="dosen-update-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
+                  <tr class="transition-colors hover:bg-blue-50/30">
+                    <td class="px-2.5 py-2.5 text-center">
+                      <input type="checkbox" class="check-plotting-row rounded text-[#0655a7]" value="A11.2022.13901" />
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
+                      <div class="text-[10px] text-[#71717a]">A11.2022.13901 • TI (S1)</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#3f3f46]">Bengkel Koding</div>
+                      <div class="text-[10px] text-[#71717a]">Fullstack Web Developer</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-100"
+                      >
+                        Web Architecture & DB
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-[#3f3f46]">
+                      <div class="flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Dr. M. Arief Soeleman, M.Kom</span>
+                      </div>
+                      <div class="text-[10px] text-[#71717a]">Kesesuaian 95% (Slot: 2)</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <select
+                        class="w-full px-2 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                      >
+                        <option value="arief" selected>Dr. M. Arief Soeleman, M.Kom (Sisa: 2)</option>
+                        <option value="eko">Eko Hari Rachmawanto, M.Kom (Sisa: 3)</option>
+                        <option value="atika">Christy Atika Sari, M.Kom (Sisa: 4)</option>
+                      </select>
+                    </td>
+                    <td class="px-3 py-2.5 text-center">
+                      <button
+                        type="button"
+                        onclick="saveIndividualPlotting('A11.2022.13901', 'Faisal Rahman')"
+                        class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold text-[11px] shadow-2xs"
+                      >
+                        Simpan
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="transition-colors hover:bg-blue-50/30">
+                    <td class="px-2.5 py-2.5 text-center">
+                      <input type="checkbox" class="check-plotting-row rounded text-[#0655a7]" value="A12.2022.09842" />
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#09090b]">Nabila Zahra Putri</div>
+                      <div class="text-[10px] text-[#71717a]">A12.2022.09842 • SI (S1)</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#3f3f46]">Ryuje Tech</div>
+                      <div class="text-[10px] text-[#71717a]">Business Analyst & ERP Intern</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-100"
+                      >
+                        ERP & Business Process
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-[#3f3f46]">
+                      <div class="flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Christy Atika Sari, M.Kom</span>
+                      </div>
+                      <div class="text-[10px] text-[#71717a]">Kesesuaian 92% (Slot: 4)</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <select
+                        class="w-full px-2 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                      >
+                        <option value="atika" selected>Christy Atika Sari, M.Kom (Sisa: 4)</option>
+                        <option value="arief">Dr. M. Arief Soeleman, M.Kom (Sisa: 2)</option>
+                      </select>
+                    </td>
+                    <td class="px-3 py-2.5 text-center">
+                      <button
+                        type="button"
+                        onclick="saveIndividualPlotting('A12.2022.09842', 'Nabila Zahra Putri')"
+                        class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold text-[11px] shadow-2xs"
+                      >
+                        Simpan
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination & Info -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+              <div class="text-[11px] text-[#71717a]">Menampilkan 4 dari 14 antrean plotting</div>
+              <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1">
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Sebelumnya"
+                  >
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0655a7] text-white font-semibold text-xs shadow-2xs"
+                  >
+                    1
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Selanjutnya"
+                  >
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <div class="relative">
+                  <select
+                    class="appearance-none pl-3 pr-8 py-1.5 text-xs font-medium text-[#09090b] bg-white border border-[#0655a7] rounded-lg focus:outline-none cursor-pointer"
+                  >
+                    <option value="10">Show 10 items</option>
+                    <option value="25">Show 25 items</option>
+                    <option value="50">Show 50 items</option>
+                  </select>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-[#09090b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </section>
+</AdminShell>

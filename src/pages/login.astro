@@ -1,0 +1,412 @@
+---
+// src/pages/login.astro
+import { DEMO_ACCOUNTS } from "../data/auth/users";
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login FIK Apps | Universitas Dian Nuswantoro</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN -->
+  <script is:inline src="https://cdn.tailwindcss.com"></script>
+  <script is:inline>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+          },
+          colors: {
+            primary: {
+              50: "#F1F7FE",
+              100: "#E2EEFC",
+              200: "#BFDBF8",
+              300: "#86BEF3",
+              400: "#1E7FD9",
+              500: "#1E7FD9",
+              600: "#1063B9",
+              700: "#114D91",
+              800: "#10447C",
+              900: "#133A67",
+              950: "#0D2544",
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons -->
+  <script is:inline src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4 font-sans text-[#09090b] antialiased">
+
+  <div class="w-full max-w-6xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row transition-all duration-300 hover:shadow-xl border border-gray-100">
+    
+    <!-- ========================================================= -->
+    <!-- KOLOM KIRI: LOGIN FORM (PERSIS fakultas-fe)               -->
+    <!-- ========================================================= -->
+    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-between">
+      <div>
+        <!-- Logo Institusi UDINUS -->
+        <div class="mb-8">
+          <a href="/" class="inline-flex items-center gap-3">
+            <img
+              src="/assets/logo.png"
+              alt="Logo STI"
+              class="object-contain w-14 h-14"
+              onerror="this.src='https://dinus.ac.id/img/logo-dinus.png'"
+            />
+            <div class="flex flex-col leading-tight font-extrabold uppercase tracking-wide text-[#114D91]">
+              <span class="text-base sm:text-lg">UNIVERSITAS</span>
+              <span class="text-base sm:text-lg">DIAN NUSWANTORO</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Heading Selamat Datang -->
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold mb-2 text-[#09090b]">
+            Selamat datang di <span class="text-[#114D91]">FIK Apps</span>
+          </h1>
+          <p class="text-gray-500 text-sm">
+            Silahkan masuk untuk mengakses layanan dari website Fakultas Ilmu Komputer!
+          </p>
+        </div>
+
+
+        <!-- Form Login -->
+        <form id="loginForm" class="space-y-4">
+          <!-- Input Email -->
+          <div class="space-y-1 relative group">
+            <i data-lucide="mail" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-[#114D91] transition-colors duration-200"></i>
+            <input
+              id="email"
+              type="email"
+              required
+              placeholder="Masukkan alamat email"
+              class="w-full pl-10 pr-3 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:border-[#114D91] focus:ring-1 focus:ring-[#114D91] outline-none transition-all duration-200"
+            />
+          </div>
+
+          <!-- Input Password -->
+          <div class="space-y-1 relative group">
+            <i data-lucide="lock" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-[#114D91] transition-colors duration-200"></i>
+            <input
+              id="password"
+              type="password"
+              required
+              placeholder="Password"
+              class="w-full pl-10 pr-10 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:border-[#114D91] focus:ring-1 focus:ring-[#114D91] outline-none transition-all duration-200"
+            />
+            <button
+              id="togglePassword"
+              type="button"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#114D91] transition-colors duration-200"
+              aria-label="Toggle password visibility"
+            >
+              <i data-lucide="eye" id="eyeIcon" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Tombol Submit Login -->
+          <button
+            type="submit"
+            id="loginSubmitBtn"
+            class="w-full bg-[#114D91] hover:bg-blue-800 text-white text-sm font-medium py-2.5 px-4 rounded-lg flex items-center justify-center space-x-2 transition-colors shadow-sm"
+          >
+            <span>Login</span>
+          </button>
+        </form>
+
+        <!-- Divider Atau Login Dengan -->
+        <div class="relative flex items-center justify-center my-4">
+          <div class="border-t border-gray-200 w-full absolute"></div>
+          <span class="bg-white px-3 text-xs text-gray-500 relative">
+            Atau login dengan
+          </span>
+        </div>
+
+        <!-- Tombol Google Login -->
+        <button
+          type="button"
+          onclick="selectAccount('mahasiswa@dinus.ac.id', true)"
+          class="w-full border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-xs font-semibold py-2 px-4 rounded-lg flex items-center justify-center transition-all duration-300 text-gray-700 shadow-2xs"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48" class="mr-2">
+            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+          </svg>
+          Login dengan Google
+        </button>
+
+        <!-- Opsi 3 Peran: Mahasiswa, Contributor, Koordinator (Abu-abu, tanpa title, tanpa deskripsi, tanpa titik) -->
+        <div class="mt-5 pt-4 border-t border-gray-100">
+          <div class="grid grid-cols-3 gap-2">
+            <!-- 1. Mahasiswa -->
+            <button
+              type="button"
+              onclick="selectAccount('mahasiswa@dinus.ac.id', false)"
+              class="py-2 px-3 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+            >
+              Mahasiswa
+            </button>
+
+            <!-- 2. Contributor -->
+            <button
+              type="button"
+              onclick="selectAccount('mitra@dinus.ac.id', false)"
+              class="py-2 px-3 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+            >
+              Contributor
+            </button>
+
+            <!-- 3. Koordinator -->
+            <button
+              type="button"
+              onclick="selectAccount('admin@dinus.ac.id', false)"
+              class="py-2 px-3 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+            >
+              Koordinator
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Copyright -->
+      <div class="mt-8 flex justify-center text-xs text-gray-400">
+        <p>2023-2026 FIK Universitas Dian Nuswantoro All rights reserved.</p>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- KOLOM KANAN: APP SHOWCASE (PERSIS fakultas-fe)            -->
+    <!-- ========================================================= -->
+    <div class="hidden md:block md:w-1/2 bg-gradient-to-br from-[#114D91] to-blue-600 p-12 text-white relative overflow-hidden flex flex-col justify-between">
+      <!-- Background SVG Grid Watermark Pattern -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#grid)" />
+        </svg>
+      </div>
+
+      <div class="relative z-10 h-full flex flex-col justify-between">
+        <!-- Header Info -->
+        <div>
+          <h2 class="text-3xl font-bold mb-2 tracking-tight">Fakultas Ilmu Komputer</h2>
+          <p class="mb-6 opacity-90 text-sm font-light">Universitas Dian Nuswantoro</p>
+          
+          <!-- Frosted Quote Card dengan Auto-Rotator -->
+          <div class="bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/20 shadow-xl mb-8">
+            <p id="quote-text" class="text-sm leading-relaxed transition-opacity duration-300 italic opacity-100">
+              "Pendidikan adalah senjata paling ampuh yang dapat Anda gunakan untuk mengubah dunia."
+            </p>
+            <p id="quote-author" class="text-xs mt-3 text-right font-medium text-white/80 transition-opacity duration-300">
+              - Nelson Mandela
+            </p>
+          </div>
+        </div>
+
+        <!-- Carousel Slider STI Apps -->
+        <div class="w-full">
+          <div class="relative h-24 overflow-hidden mb-4">
+            <!-- Slide 0: Tugas Akhir -->
+            <div id="slide-0" class="slide-item absolute inset-0 transition-all duration-700 ease-in-out flex items-center translate-x-0 opacity-100">
+              <div class="bg-orange-500 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shadow-lg shrink-0">
+                <i data-lucide="book-check" class="w-6 h-6 text-white"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-base">Tugas Akhir</h4>
+                <p class="text-xs text-white/80 mt-0.5">Kelola progres dan data Tugas Akhir mahasiswa dengan mudah dan terstruktur!</p>
+              </div>
+            </div>
+
+            <!-- Slide 1: Kerja Praktek -->
+            <div id="slide-1" class="slide-item absolute inset-0 transition-all duration-700 ease-in-out flex items-center translate-x-full opacity-0">
+              <div class="bg-blue-400 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shadow-lg shrink-0">
+                <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-base">Kerja Praktek</h4>
+                <p class="text-xs text-white/80 mt-0.5">Atur dan pantau pelaksanaan Kerja Praktek mahasiswa secara efisien!</p>
+              </div>
+            </div>
+
+            <!-- Slide 2: Kampus Berdampak / MBKM -->
+            <div id="slide-2" class="slide-item absolute inset-0 transition-all duration-700 ease-in-out flex items-center translate-x-full opacity-0">
+              <div class="bg-yellow-500 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shadow-lg shrink-0">
+                <i data-lucide="graduation-cap" class="w-6 h-6 text-white"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-base">Kampus Berdampak (MBKM)</h4>
+                <p class="text-xs text-white/80 mt-0.5">Portal integrasi program magang industri, studi independen, dan bimbingan!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carousel Dots Pagination -->
+          <div class="flex justify-center space-x-2">
+            <button type="button" onclick="setSlide(0)" id="dot-0" class="w-2 h-2 rounded-full bg-white scale-125 transition-all" aria-label="Go to app 1"></button>
+            <button type="button" onclick="setSlide(1)" id="dot-1" class="w-2 h-2 rounded-full bg-white/40 transition-all" aria-label="Go to app 2"></button>
+            <button type="button" onclick="setSlide(2)" id="dot-2" class="w-2 h-2 rounded-full bg-white/40 transition-all" aria-label="Go to app 3"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Runtime Logic Client -->
+  <script is:inline>
+    // 1. Data Akun Terdaftar
+    const ACCOUNTS = {
+      "admin@dinus.ac.id": {
+        role: "admin",
+        name: "Nurul Anisa Sri Winarsih, S.Kom, M.Cs",
+        redirect: "/admin/dashboard",
+        avatar: "NA"
+      },
+      "mitra@dinus.ac.id": {
+        role: "mitra",
+        name: "Dr. Ricardus Anggi, M.Kom.",
+        redirect: "/mitra/dashboard",
+        avatar: "RA"
+      },
+      "mahasiswa@dinus.ac.id": {
+        role: "mahasiswa",
+        name: "Ahmad Rizky Pratama",
+        redirect: "/mahasiswa/dashboard",
+        avatar: "AR"
+      }
+    };
+
+    // 2. Fungsi Pilih Akun Cepat
+    function selectAccount(email, autoSubmit) {
+      document.getElementById("email").value = email;
+      document.getElementById("password").value = "password";
+      if (autoSubmit) {
+        document.getElementById("loginForm").dispatchEvent(new Event("submit"));
+      }
+    }
+
+    // 3. Handler Form Login (Instan tanpa delay & tanpa badge)
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim().toLowerCase();
+
+      // Cek akun
+      if (ACCOUNTS[email]) {
+        try {
+          localStorage.setItem("fik_auth_user", JSON.stringify(ACCOUNTS[email]));
+        } catch (e) {}
+
+        // Langsung alihkan instan tanpa delay
+        window.location.href = ACCOUNTS[email].redirect;
+      } else {
+        alert("Email atau password tidak terdaftar. Pilih salah satu tombol akun di bawah.");
+      }
+    });
+
+    // 4. Toggle Visibility Password
+    document.getElementById("togglePassword").addEventListener("click", function() {
+      const pwdInput = document.getElementById("password");
+      const eyeIcon = document.getElementById("eyeIcon");
+      if (pwdInput.type === "password") {
+        pwdInput.type = "text";
+        eyeIcon.setAttribute("data-lucide", "eye-off");
+      } else {
+        pwdInput.type = "password";
+        eyeIcon.setAttribute("data-lucide", "eye");
+      }
+      if (window.lucide) window.lucide.createIcons();
+    });
+
+    // 5. Quotes Rotator (Sesuai Quotes di fakultas-fe)
+    const quotes = [
+      {
+        text: "Pendidikan adalah senjata paling ampuh yang dapat Anda gunakan untuk mengubah dunia.",
+        author: "Nelson Mandela"
+      },
+      {
+        text: "Jangan takut akan kegagalan. Ini adalah bagian penting dari perjalanan menuju keberhasilan.",
+        author: "Barack Obama"
+      },
+      {
+        text: "Semua impian dapat terwujud jika kita memiliki keberanian untuk mengejarnya.",
+        author: "Walt Disney"
+      },
+      {
+        text: "Pressure Is A Privilege",
+        author: "UG-23"
+      }
+    ];
+
+    let currentQuote = 0;
+    setInterval(function() {
+      const qText = document.getElementById("quote-text");
+      const qAuthor = document.getElementById("quote-author");
+      if (!qText || !qAuthor) return;
+
+      qText.classList.add("opacity-0");
+      qAuthor.classList.add("opacity-0");
+
+      setTimeout(function() {
+        currentQuote = (currentQuote + 1) % quotes.length;
+        qText.textContent = "\"" + quotes[currentQuote].text + "\"";
+        qAuthor.textContent = "- " + quotes[currentQuote].author;
+        qText.classList.remove("opacity-0");
+        qAuthor.classList.remove("opacity-0");
+      }, 300);
+    }, 5000);
+
+    // 6. Apps Showcase Carousel (Auto-rotate tiap 4 detik)
+    let currentSlide = 0;
+    function setSlide(index) {
+      currentSlide = index;
+      for (let i = 0; i < 3; i++) {
+        const slide = document.getElementById("slide-" + i);
+        const dot = document.getElementById("dot-" + i);
+        if (!slide || !dot) continue;
+
+        if (i === currentSlide) {
+          slide.className = "slide-item absolute inset-0 transition-all duration-700 ease-in-out flex items-center translate-x-0 opacity-100";
+          dot.className = "w-2 h-2 rounded-full bg-white scale-125 transition-all";
+        } else if (i < currentSlide) {
+          slide.className = "slide-item absolute inset-0 transition-all duration-700 ease-in-out flex items-center -translate-x-full opacity-0";
+          dot.className = "w-2 h-2 rounded-full bg-white/40 transition-all";
+        } else {
+          slide.className = "slide-item absolute inset-0 transition-all duration-700 ease-in-out flex items-center translate-x-full opacity-0";
+          dot.className = "w-2 h-2 rounded-full bg-white/40 transition-all";
+        }
+      }
+    }
+
+    setInterval(function() {
+      setSlide((currentSlide + 1) % 3);
+    }, 4000);
+
+    // Init Lucide
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.lucide) window.lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

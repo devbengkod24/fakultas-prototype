@@ -1,0 +1,124 @@
+---
+// src/pages/admin/log-aktivitas.astro
+import AdminShell from "../../layouts/AdminShell.astro";
+---
+
+<AdminShell currentTab="log-aktivitas">
+<section
+            id="section-log-aktivitas" x-show="$store.mbkm.currentSection === 'log-aktivitas'"
+            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+          >
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Audit Trail & Log Aktivitas Sistem</h2>
+                <p class="text-[11px] text-[#71717a]">
+                  Catatan rekam jejak kronologis seluruh transaksi penting Koordinator MBKM, DPL, dan Tim Kurikulum
+                  fakultas.
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="exportLogAktivitasCsv()"
+                  class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span>Unduh Log (CSV)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabel Log Aktivitas -->
+            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                  <tr>
+                    <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                    <th class="w-40 px-3 py-2 font-semibold text-[11px]">Waktu & Tanggal</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Aktor / Pengguna</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Modul & Aksi</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Rincian Transaksi Data</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">IP Address</th>
+                    <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="log-aktivitas-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
+                  <tr class="transition-colors hover:bg-blue-50/30">
+                    <td class="px-2.5 py-2.5 text-center text-[#71717a]">1</td>
+                    <td class="px-3 py-2.5 text-[11px] text-[#3f3f46]">
+                      <div>10 Jul 2025, 14:22:15</div>
+                      <div class="text-[10px] text-[#71717a]">WIB</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#09090b]">Nurul Anisa, M.Cs</div>
+                      <div class="text-[10px] text-[#71717a]">Koordinator MBKM • 0601028301</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      >
+                        Kunci Konversi SKS
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-[#3f3f46]">
+                      <div>
+                        Mengesahkan & mengunci konversi <span class="font-semibold text-[#09090b]">20 SKS</span> untuk
+                        mahasiswa <span class="font-semibold text-[#0655a7]">A11.2022.13901</span>
+                      </div>
+                    </td>
+                    <td class="px-3 py-2.5 text-center text-[10px] text-[#71717a]">10.15.22.84</td>
+                    <td class="px-3 py-2.5 text-center">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700"
+                      >
+                        Sukses
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination & Info -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+              <div class="text-[11px] text-[#71717a]">Menampilkan 1 - 4 dari 42 transaksi log sistem</div>
+              <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1">
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Sebelumnya"
+                  >
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0655a7] text-white font-semibold text-xs shadow-2xs"
+                  >
+                    1
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Selanjutnya"
+                  >
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <div class="relative">
+                  <select
+                    class="appearance-none pl-3 pr-8 py-1.5 text-xs font-medium text-[#09090b] bg-white border border-[#0655a7] rounded-lg focus:outline-none cursor-pointer"
+                  >
+                    <option value="10">Show 10 items</option>
+                    <option value="25">Show 25 items</option>
+                    <option value="50">Show 50 items</option>
+                  </select>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-[#09090b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </section>
+</AdminShell>

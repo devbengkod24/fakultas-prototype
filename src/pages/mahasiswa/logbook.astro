@@ -1,14 +1,16 @@
 ---
+// src/pages/mahasiswa/logbook.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
 ---
 
 <MahasiswaShell
-  title="Logbook Kegiatan Mingguan | Kampus Berdampak - FIK Udinus"
-  pageTitle="Logbook Kegiatan Mingguan"
-  subtitle="Jurnal mingguan, unggah tautan bukti kerja GDrive, & catatan review DPL."
-  breadcrumb="Logbook Kegiatan"
+  title="Logbook Kegiatan Mingguan | Mahasiswa - FIK Udinus"
   activeNav="logbook"
+  pageTitle="Logbook Kegiatan Mingguan MBKM"
+  breadcrumb="Logbook Kegiatan"
+  subtitle="Pencatatan aktivitas mingguan, jurnal harian, dan rekap verifikasi/catatan dari DPL."
 >
+  <div id="view-logbook" class="w-full">
 <!-- Logbook Kegiatan Mingguan (Sama Persis Pola KP: Jurnal Mingguan + Review DPL) -->
 <div style="margin-bottom:24px;">
 
@@ -226,4 +228,5 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
   </div>
 </div>
 
+  </div>
 </MahasiswaShell>
