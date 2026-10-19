@@ -1,14 +1,15 @@
 ---
 interface Props {
-  currentRole: 'admin' | 'mahasiswa' | 'mitra';
+  currentRole: 'admin' | 'mahasiswa' | 'mitra' | 'contributor' | 'dosen';
 }
 
 const { currentRole } = Astro.props;
 
 const roles = [
   { id: 'admin', label: 'Admin/Koor', href: '/admin/dashboard', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+  { id: 'dosen', label: 'Dosen DPL', href: '/dosen/dashboard', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+  { id: 'contributor', label: 'Kontributor', href: '/contributor/dashboard', color: 'bg-amber-50 text-amber-700 border-amber-200' },
   { id: 'mahasiswa', label: 'Mahasiswa', href: '/mahasiswa/dashboard', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  { id: 'mitra', label: 'Mitra', href: '/mitra/dashboard', color: 'bg-amber-50 text-amber-700 border-amber-200' },
 ];
 ---
 

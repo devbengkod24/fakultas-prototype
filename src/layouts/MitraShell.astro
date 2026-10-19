@@ -158,7 +158,7 @@ const {
         <nav class="flex flex-col gap-1 mt-2">
           <!-- 1. Dashboard -->
           <a
-            href="/mitra/dashboard"
+            href="/contributor/dashboard"
             id="nav-dashboard"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'dashboard' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -171,7 +171,7 @@ const {
 
           <!-- 2. Kelola Program -->
           <a
-            href="/mitra/program"
+            href="/contributor/program"
             id="nav-program"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'program' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -184,7 +184,7 @@ const {
 
           <!-- 3. Form Pendaftaran -->
           <a
-            href="/mitra/form"
+            href="/contributor/form"
             id="nav-form"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'form' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -214,7 +214,7 @@ const {
             <div id="group-anggota-sub" class={`pl-3 space-y-0.5 ${['dosen', 'mahasiswa'].includes(activeNav) ? '' : 'hidden'}`}>
               <!-- Sub 1: Dosen -->
               <a
-                href="/mitra/dosen"
+                href="/contributor/dosen"
                 id="nav-dosen"
                 class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
                   activeNav === 'dosen' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -226,7 +226,7 @@ const {
               </a>
               <!-- Sub 2: Mahasiswa -->
               <a
-                href="/mitra/mahasiswa"
+                href="/contributor/mahasiswa"
                 id="nav-mahasiswa"
                 class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
                   activeNav === 'mahasiswa' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -241,7 +241,7 @@ const {
 
           <!-- 5. Seleksi Pendaftar -->
           <a
-            href="/mitra/seleksi"
+            href="/contributor/seleksi"
             id="nav-seleksi"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'seleksi' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -762,12 +762,12 @@ const {
     // SPA / Multi-Page View Switcher Utama
     function switchNavView(viewName) {
       const routes = {
-        'dashboard': '/mitra/dashboard',
-        'program': '/mitra/program',
-        'form': '/mitra/form',
-        'seleksi': '/mitra/seleksi',
-        'mahasiswa': '/mitra/mahasiswa',
-        'dosen': '/mitra/dosen'
+        'dashboard': '/contributor/dashboard',
+        'program': '/contributor/program',
+        'form': '/contributor/form',
+        'seleksi': '/contributor/seleksi',
+        'mahasiswa': '/contributor/mahasiswa',
+        'dosen': '/contributor/dosen'
       };
 
       const targetPanel = document.getElementById(`view-${viewName}`);

@@ -153,14 +153,14 @@ import { DEMO_ACCOUNTS } from "../data/auth/users";
           Login dengan Google
         </button>
 
-        <!-- Opsi 3 Peran: Mahasiswa, Contributor, Koordinator (Abu-abu, tanpa title, tanpa deskripsi, tanpa titik) -->
+        <!-- Opsi 4 Peran: Mahasiswa, Contributor, Dosen DPL, Koordinator -->
         <div class="mt-5 pt-4 border-t border-gray-100">
-          <div class="grid grid-cols-3 gap-2">
+          <div class="grid grid-cols-4 gap-2">
             <!-- 1. Mahasiswa -->
             <button
               type="button"
               onclick="selectAccount('mahasiswa@dinus.ac.id', false)"
-              class="py-2 px-3 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+              class="py-2 px-2 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
             >
               Mahasiswa
             </button>
@@ -169,16 +169,25 @@ import { DEMO_ACCOUNTS } from "../data/auth/users";
             <button
               type="button"
               onclick="selectAccount('mitra@dinus.ac.id', false)"
-              class="py-2 px-3 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+              class="py-2 px-2 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
             >
               Contributor
             </button>
 
-            <!-- 3. Koordinator -->
+            <!-- 3. Dosen DPL -->
+            <button
+              type="button"
+              onclick="selectAccount('dosen_a11@dev', false)"
+              class="py-2 px-2 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+            >
+              Dosen DPL
+            </button>
+
+            <!-- 4. Koordinator -->
             <button
               type="button"
               onclick="selectAccount('admin@dinus.ac.id', false)"
-              class="py-2 px-3 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
+              class="py-2 px-2 bg-[#f4f4f5] hover:bg-gray-200 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#3f3f46] hover:text-[#09090b] text-center transition-colors cursor-pointer"
             >
               Koordinator
             </button>
@@ -285,10 +294,16 @@ import { DEMO_ACCOUNTS } from "../data/auth/users";
         avatar: "NA"
       },
       "mitra@dinus.ac.id": {
-        role: "mitra",
+        role: "contributor",
         name: "Dr. Ricardus Anggi, M.Kom.",
-        redirect: "/mitra/dashboard",
+        redirect: "/contributor/dashboard",
         avatar: "RA"
+      },
+      "dosen_a11@dev": {
+        role: "dosen",
+        name: "Dr. Muljono, S.Si, M.Kom",
+        redirect: "/dosen/dashboard",
+        avatar: "MJ"
       },
       "mahasiswa@dinus.ac.id": {
         role: "mahasiswa",

@@ -52,12 +52,36 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
     role: "mitra",
     roleTitle: "Mitra & Kontributor",
     items: [
-      { id: "dashboard", label: "Dashboard", href: "/mitra/dashboard", icon: "layout-dashboard" },
-      { id: "program", label: "Kelola Program", href: "/mitra/program", icon: "folder-kanban" },
-      { id: "form", label: "Form Pendaftaran", href: "/mitra/form", icon: "clipboard-list" },
-      { id: "dosen", label: "Dosen Pembina", href: "/mitra/dosen", icon: "graduation-cap" },
-      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/mitra/mahasiswa", icon: "user" },
-      { id: "seleksi", label: "Seleksi Pendaftar", href: "/mitra/seleksi", icon: "user-check" },
+      { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
+      { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
+      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
+      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
+      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
+      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+    ]
+  },
+  contributor: {
+    role: "contributor",
+    roleTitle: "Kontributor Mitra Industri",
+    items: [
+      { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
+      { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
+      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
+      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
+      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
+      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+    ]
+  },
+  dosen: {
+    role: "dosen",
+    roleTitle: "Dosen Pembimbing Lapangan (DPL)",
+    items: [
+      { id: "dashboard", label: "Dashboard", href: "/dosen/dashboard", icon: "layout-dashboard" },
+      { id: "pengumuman", label: "Pengumuman", href: "/dosen/pengumuman", icon: "megaphone" },
+      { id: "mahasiswa", label: "Mahasiswa Bimbingan", href: "/dosen/mahasiswa", icon: "users" },
+      { id: "logbook", label: "Logbook Mahasiswa", href: "/dosen/logbook", icon: "book-open" },
+      { id: "sidang", label: "Sidang Evaluasi", href: "/dosen/sidang", icon: "calendar-check" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/dosen/log-aktivitas", icon: "history" },
     ]
   }
 };
