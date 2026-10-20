@@ -1,0 +1,449 @@
+---
+// src/pages/admin/hasil-sidang.astro
+import AdminShell from '../../layouts/AdminShell.astro';
+---
+
+<AdminShell currentTab="hasil-sidang">
+  <section
+    id="section-hasil-sidang"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    x-data="{
+      searchQuery: '',
+      gelombangFilter: 'semua',
+      isDownloadOpen: false,
+      isPreviewTtdOpen: false,
+      isTambahTtdOpen: false,
+      ttdSignatureUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=koor-mbkm-ttd',
+      hasilList: [
+        {
+          id: 1,
+          nama: 'AL-IZZA NAZARUDDIN FIRDAUS',
+          nim: 'A11.2020.12887',
+          pembimbing: 'YANI PARTI ASTUTI S.Si, M.Kom',
+          gelombang: 'cth1',
+          nilaiPenyelia: '90.00',
+          nilaiPembimbing: '90.00',
+          nilaiPenguji1: '85.00',
+          nilaiPenguji2: null,
+          nilaiPenguji3: null,
+          nilaiAkhir: '88.50',
+          status: 'Selesai'
+        },
+        {
+          id: 2,
+          nama: 'DEMO MHS CIHUY',
+          nim: 'A11.2026.99999',
+          pembimbing: 'YANI PARTI ASTUTI S.Si, M.Kom',
+          gelombang: 'cth1',
+          nilaiPenyelia: '90.00',
+          nilaiPembimbing: '90.00',
+          nilaiPenguji1: '90.00',
+          nilaiPenguji2: null,
+          nilaiPenguji3: null,
+          nilaiAkhir: '90.00',
+          status: 'Selesai'
+        },
+        {
+          id: 3,
+          nama: 'FAISAL RAHMAN',
+          nim: 'A11.2022.13901',
+          pembimbing: 'Dr. M. Arief Soeleman, M.Kom',
+          gelombang: 'cth1',
+          nilaiPenyelia: '92.00',
+          nilaiPembimbing: '88.00',
+          nilaiPenguji1: '85.00',
+          nilaiPenguji2: null,
+          nilaiPenguji3: null,
+          nilaiAkhir: '88.50',
+          status: 'Selesai'
+        },
+        {
+          id: 4,
+          nama: 'TARISSA AURA AZZAHRA',
+          nim: 'A11.2020.13158',
+          pembimbing: 'Affandy, Ph.D',
+          gelombang: 'cth1',
+          nilaiPenyelia: '95.00',
+          nilaiPembimbing: '92.00',
+          nilaiPenguji1: '90.00',
+          nilaiPenguji2: null,
+          nilaiPenguji3: null,
+          nilaiAkhir: '93.10',
+          status: 'Selesai'
+        },
+        {
+          id: 5,
+          nama: 'RIZKY ADITYA PRATAMA',
+          nim: 'A11.2022.14012',
+          pembimbing: 'Eko Hari Rachmawanto, M.Kom',
+          gelombang: 'cth2',
+          nilaiPenyelia: '88.00',
+          nilaiPembimbing: '85.00',
+          nilaiPenguji1: null,
+          nilaiPenguji2: null,
+          nilaiPenguji3: null,
+          nilaiAkhir: null,
+          status: 'Belum'
+        }
+      ],
+      get filteredHasil() {
+        return this.hasilList.filter(h => {
+          const matchSearch = h.nama.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                              h.nim.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                              h.pembimbing.toLowerCase().includes(this.searchQuery.toLowerCase());
+          const matchGelombang = this.gelombangFilter === 'semua' || h.gelombang === this.gelombangFilter;
+          return matchSearch && matchGelombang;
+        });
+      },
+      updateNilai(item, key, val) {
+        item[key] = val;
+        const p1 = parseFloat(item.nilaiPenguji1);
+        const pb = parseFloat(item.nilaiPembimbing);
+        const py = parseFloat(item.nilaiPenyelia);
+        if (!isNaN(p1) && !isNaN(pb) && !isNaN(py)) {
+          item.nilaiAkhir = ((py * 0.4) + (pb * 0.3) + (p1 * 0.3)).toFixed(2);
+          item.status = 'Selesai';
+        }
+      },
+      downloadExcel() {
+        alert('Mengekspor rekap nilai hasil sidang MBKM dalam format Excel (.xlsx)...');
+        this.isDownloadOpen = false;
+      },
+      downloadAllPdf() {
+        alert('Mengunduh seluruh berkas berita acara sidang MBKM (.pdf)...');
+        this.isDownloadOpen = false;
+      }
+    }"
+  >
+    <!-- Toolbar Persis Sesuai Screenshot KP Koordinator -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+      <!-- Search Input -->
+      <div class="relative w-full sm:w-72 md:w-80">
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input
+          type="text"
+          x-model="searchQuery"
+          placeholder="Cari mahasiswa..."
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+      </div>
+
+      <!-- Action Group Kanan -->
+      <div class="flex items-center gap-2 ml-auto flex-wrap">
+        <!-- Gelombang Selector -->
+        <div class="w-[180px] sm:w-[200px] flex-shrink-0">
+          <select
+            x-model="gelombangFilter"
+            class="h-9 w-full px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="semua">Semua Gelombang</option>
+            <option value="cth1">cth1</option>
+            <option value="cth2">cth2</option>
+          </select>
+        </div>
+
+        <!-- Tombol Dropdown Download -->
+        <div class="relative" @click.outside="isDownloadOpen = false">
+          <button
+            type="button"
+            @click="isDownloadOpen = !isDownloadOpen"
+            class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-none"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Download</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5 transition-transform" :class="isDownloadOpen ? 'rotate-90' : ''"></i>
+          </button>
+
+          <!-- Dropdown Menu Download -->
+          <div
+            x-show="isDownloadOpen"
+            x-cloak
+            class="absolute right-0 mt-1.5 w-48 rounded-md bg-white border border-[#e4e4e7] shadow-lg py-1 z-30 text-xs"
+          >
+            <button
+              type="button"
+              @click="downloadExcel()"
+              class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+            >
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
+              <span>Export Excel</span>
+            </button>
+            <button
+              type="button"
+              @click="downloadAllPdf()"
+              class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#f4f4f5] text-[#09090b] transition-colors border-t border-[#e4e4e7]/60"
+            >
+              <i data-lucide="file-text" class="w-4 h-4 text-rose-600"></i>
+              <span>Download All PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tombol Preview TTD Koor -->
+        <button
+          type="button"
+          @click="isPreviewTtdOpen = true"
+          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-none"
+        >
+          <i data-lucide="eye" class="w-4 h-4"></i>
+          <span>Preview TTD Koor</span>
+        </button>
+
+        <!-- Tombol Tambah TTD Koor -->
+        <button
+          type="button"
+          @click="isTambahTtdOpen = true"
+          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-none"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Tambah TTD Koor</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabel Hasil Sidang Persis Sesuai Screenshot KP Koordinator -->
+    <div class="rounded-xl border border-[#e4e4e7] overflow-hidden bg-white shadow-2xs">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+            <tr>
+              <th class="h-10 w-10 px-2 text-left font-semibold text-[#71717a]">No</th>
+              <th class="h-10 px-3 font-semibold text-[#71717a] min-w-[170px]">Mahasiswa</th>
+              <th class="h-10 px-3 font-semibold text-[#71717a] min-w-[150px]">Pembimbing</th>
+              <th class="h-10 px-2 text-left font-semibold text-[#71717a] min-w-[95px]">Gelombang</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penyelia</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[95px]">Nilai Pembimbing</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penguji 1</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penguji 2</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penguji 3</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[80px]">Nilai Akhir</th>
+              <th class="h-10 px-3 text-center font-semibold text-[#71717a] min-w-[80px]">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7] bg-white">
+            <template x-for="(h, idx) in filteredHasil" :key="h.id">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <!-- No -->
+                <td class="h-14 px-2 text-left text-[#09090b] font-medium" x-text="idx + 1"></td>
+
+                <!-- Mahasiswa (Nama Bold Uppercase & NIM di bawah) -->
+                <td class="h-14 px-3 py-2.5">
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-bold text-[#09090b] text-xs uppercase tracking-tight" x-text="h.nama"></span>
+                    <span class="text-xs text-[#71717a] mt-0.5" x-text="h.nim"></span>
+                  </div>
+                </td>
+
+                <!-- Pembimbing -->
+                <td class="h-14 px-3 py-2.5 text-xs text-[#09090b] font-medium" x-text="h.pembimbing"></td>
+
+                <!-- Gelombang -->
+                <td class="h-14 px-2 text-left text-xs text-[#71717a]" x-text="h.gelombang"></td>
+
+                <!-- Nilai Penyelia (Rounded Input Box persis seperti screenshot KP) -->
+                <td class="h-14 px-2 text-center">
+                  <input
+                    type="text"
+                    :value="h.nilaiPenyelia || ''"
+                    @change="updateNilai(h, 'nilaiPenyelia', $event.target.value)"
+                    placeholder="-"
+                    class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
+                  />
+                </td>
+
+                <!-- Nilai Pembimbing -->
+                <td class="h-14 px-2 text-center">
+                  <input
+                    type="text"
+                    :value="h.nilaiPembimbing || ''"
+                    @change="updateNilai(h, 'nilaiPembimbing', $event.target.value)"
+                    placeholder="-"
+                    class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
+                  />
+                </td>
+
+                <!-- Nilai Penguji 1 -->
+                <td class="h-14 px-2 text-center">
+                  <input
+                    type="text"
+                    :value="h.nilaiPenguji1 || ''"
+                    @change="updateNilai(h, 'nilaiPenguji1', $event.target.value)"
+                    placeholder="-"
+                    class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
+                  />
+                </td>
+
+                <!-- Nilai Penguji 2 (Tampil '-' jika kosong seperti screenshot) -->
+                <td class="h-14 px-2 text-center">
+                  <template x-if="h.nilaiPenguji2 !== null">
+                    <input
+                      type="text"
+                      :value="h.nilaiPenguji2"
+                      @change="updateNilai(h, 'nilaiPenguji2', $event.target.value)"
+                      class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
+                    />
+                  </template>
+                  <template x-if="h.nilaiPenguji2 === null">
+                    <span class="text-xs text-[#71717a] font-normal">-</span>
+                  </template>
+                </td>
+
+                <!-- Nilai Penguji 3 (Tampil '-' jika kosong seperti screenshot) -->
+                <td class="h-14 px-2 text-center">
+                  <template x-if="h.nilaiPenguji3 !== null">
+                    <input
+                      type="text"
+                      :value="h.nilaiPenguji3"
+                      @change="updateNilai(h, 'nilaiPenguji3', $event.target.value)"
+                      class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
+                    />
+                  </template>
+                  <template x-if="h.nilaiPenguji3 === null">
+                    <span class="text-xs text-[#71717a] font-normal">-</span>
+                  </template>
+                </td>
+
+                <!-- Nilai Akhir (Bold) -->
+                <td class="h-14 px-2 text-center">
+                  <span class="font-bold text-[#09090b] text-xs" x-text="h.nilaiAkhir || '-'"></span>
+                </td>
+
+                <!-- Status (Badge Hijau Selesai / Gray Belum) -->
+                <td class="h-14 px-3 text-center">
+                  <span
+                    class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
+                    :class="h.status === 'Selesai' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-gray-100 text-gray-600 border-gray-200'"
+                    x-text="h.status"
+                  ></span>
+                </td>
+              </tr>
+            </template>
+
+            <template x-if="filteredHasil.length === 0">
+              <tr>
+                <td colspan="11" class="h-32 text-center text-xs text-[#71717a]">
+                  Tidak ada data sidang yang cocok.
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Style Persis Screenshot KP Koordinator -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-white">
+        <div class="text-xs text-[#71717a]">
+          Page 1 of 1 (<span x-text="filteredHasil.length"></span> total items)
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+          >
+            1
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+          <select
+            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] ml-1"
+          >
+            <option value="10">Show 10 items</option>
+            <option value="25">Show 25 items</option>
+            <option value="50">Show 50 items</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Preview TTD Koordinator -->
+    <div
+      x-show="isPreviewTtdOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      @keydown.escape.window="isPreviewTtdOpen = false"
+    >
+      <div
+        @click.outside="isPreviewTtdOpen = false"
+        class="bg-white rounded-xl max-w-sm w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+      >
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
+          <h3 class="text-sm font-semibold text-[#09090b]">Tanda Tangan Koordinator MBKM</h3>
+          <button @click="isPreviewTtdOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="p-6 flex flex-col items-center justify-center">
+          <div class="border border-[#e4e4e7] rounded-lg p-4 w-48 h-48 flex items-center justify-center bg-[#fafafa]">
+            <img :src="ttdSignatureUrl" alt="Tanda Tangan Koordinator" class="max-w-full max-h-full object-contain" />
+          </div>
+          <span class="text-xs text-[#71717a] mt-3">Tanda tangan digital aktif tersimpan di sistem</span>
+        </div>
+        <div class="flex items-center justify-end px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+          <button
+            type="button"
+            @click="isPreviewTtdOpen = false"
+            class="h-8 px-4 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] hover:bg-gray-50"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Tambah / Unggah TTD Koordinator -->
+    <div
+      x-show="isTambahTtdOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      @keydown.escape.window="isTambahTtdOpen = false"
+    >
+      <div
+        @click.outside="isTambahTtdOpen = false"
+        class="bg-white rounded-xl max-w-sm w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+      >
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
+          <h3 class="text-sm font-semibold text-[#09090b]">Unggah Tanda Tangan Koordinator</h3>
+          <button @click="isTambahTtdOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="p-5 space-y-3 text-xs">
+          <div class="border-2 border-dashed border-[#e4e4e7] hover:border-[#0655a7] rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-[#fafafa]">
+            <i data-lucide="upload" class="w-8 h-8 text-[#71717a] mb-2"></i>
+            <span class="font-medium text-[#09090b]">Pilih berkas tanda tangan</span>
+            <span class="text-[11px] text-[#71717a] mt-0.5">Format PNG atau JPG transparan (Maks. 2MB)</span>
+            <input type="file" accept="image/*" class="hidden" id="file-ttd-upload" />
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+          <button
+            type="button"
+            @click="isTambahTtdOpen = false"
+            class="h-8 px-4 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] hover:bg-gray-50"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="isTambahTtdOpen = false; alert('Tanda tangan Koordinator berhasil diperbarui!')"
+            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
+          >
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</AdminShell>

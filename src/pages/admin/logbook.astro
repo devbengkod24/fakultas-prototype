@@ -1,4 +1,5 @@
 ---
+// src/pages/admin/logbook.astro
 import AdminShell from '../../layouts/AdminShell.astro';
 ---
 
@@ -6,234 +7,235 @@ import AdminShell from '../../layouts/AdminShell.astro';
   <section
     id="section-logbook"
     class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    x-data="{
+      viewMode: 'master', // 'master' or 'detail'
+      searchQuery: '',
+      selectedDosen: null,
+      dosenList: [
+        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', npp: '0612047801', bab1: 8, bab2: 8, bab3: 6, bab4: 4, bab5: 2, pending: 3, totalMhs: 8 },
+        { id: 2, nama: 'Affandy, Ph.D', npp: '0617087502', bab1: 8, bab2: 7, bab3: 7, bab4: 5, bab5: 4, pending: 1, totalMhs: 8 },
+        { id: 3, nama: 'Christy Atika Sari, M.Kom', npp: '0629038401', bab1: 6, bab2: 5, bab3: 4, bab4: 2, bab5: 1, pending: 2, totalMhs: 6 },
+        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', npp: '0615028201', bab1: 7, bab2: 6, bab3: 5, bab4: 3, bab5: 2, pending: 0, totalMhs: 7 },
+        { id: 5, nama: 'Ajib Susanto, M.Kom', npp: '0621057901', bab1: 5, bab2: 4, bab3: 3, bab4: 2, bab5: 1, pending: 4, totalMhs: 5 },
+      ],
+      studentDetails: [
+        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', babTerakhir: 'Bab 4', totalBimbingan: 12, progress: 80, status: 'Aktif' },
+        { no: 2, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', babTerakhir: 'Bab 5', totalBimbingan: 16, progress: 100, status: 'Siap Sidang' },
+        { no: 3, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', babTerakhir: 'Bab 3', totalBimbingan: 9, progress: 60, status: 'Aktif' },
+        { no: 4, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', babTerakhir: 'Bab 4', totalBimbingan: 11, progress: 75, status: 'Aktif' },
+      ],
+      openDetail(dosen) {
+        this.selectedDosen = dosen;
+        this.viewMode = 'detail';
+      },
+      backToMaster() {
+        this.selectedDosen = null;
+        this.viewMode = 'master';
+      }
+    }"
   >
-<!-- Fragmen: Menu Logbook Mahasiswa (Issue #17 Bagian 1 - Monitoring Kepatuhan Logbook Se-Fakultas) -->
-<div id="subview-logbook-container" class="flex flex-col gap-3">
-  <!-- View 5.A: Rekap Logbook Mahasiswa -->
-  <div id="subview-logbook-list" class="flex flex-col gap-2.5">
-    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 class="text-base font-semibold text-[#09090b]">Monitoring Logbook Mahasiswa Se-Fakultas</h2>
-        <p class="text-[11px] text-[#71717a]">
-          Pemantauan kepatuhan pengisian catatan harian berkala dan status verifikasi Dosen Pembimbing Lapangan (DPL).
-        </p>
-      </div>
-      <!-- Action Export Bar -->
-      <div class="flex items-center gap-1.5">
-        <button
-          type="button"
-          onclick="alert('Data logbook disalin ke clipboard')"
-          class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
-        >
-          Copy
-        </button>
-        <button
-          type="button"
-          onclick="alert('Export CSV dimulai')"
-          class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
-        >
-          CSV
-        </button>
-        <button
-          type="button"
-          onclick="alert('Export PDF dimulai')"
-          class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
-        >
-          PDF
-        </button>
-        <button
-          type="button"
-          onclick="window.print()"
-          class="px-2.5 py-1 rounded-lg border border-[#e4e4e7] bg-white text-[11px] font-medium text-[#3f3f46] hover:bg-gray-50"
-        >
-          Print
-        </button>
-      </div>
-    </div>
-
-    <!-- Quick Info / Stat Cards Kepatuhan Logbook -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 shrink-0">
-          <i data-lucide="check-circle" class="w-4 h-4"></i>
-        </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Tingkat Kepatuhan</div>
-          <div class="text-sm font-bold text-emerald-700">94.2%</div>
-        </div>
-      </div>
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
-          <i data-lucide="book-open" class="w-4 h-4"></i>
-        </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Total Entri Masuk</div>
-          <div class="text-sm font-bold text-[#09090b]">1.240 Entri</div>
-        </div>
-      </div>
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 shrink-0">
-          <i data-lucide="clock" class="w-4 h-4"></i>
-        </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Menunggu ACC DPL</div>
-          <div class="text-sm font-bold text-amber-700">18 Berkas</div>
-        </div>
-      </div>
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-        <div class="flex items-center justify-center w-8 h-8 text-rose-600 rounded-lg bg-rose-50 shrink-0">
-          <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-        </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Bolong &gt; 2 Minggu</div>
-          <div class="text-sm font-bold text-rose-700">3 Mahasiswa</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Toolbar Filter & Search -->
-    <div class="flex flex-col justify-between gap-2 pt-1 sm:flex-row sm:items-center">
-      <div class="flex items-center gap-2">
-        <span class="text-xs font-semibold text-[#09090b]">Daftar Kepatuhan</span>
-        <span class="text-[11px] text-[#a1a1aa]">•</span>
-        <span class="text-[11px] text-[#71717a]">Semester Genap 2024/2025</span>
-      </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <select
-          id="filter-logbook-mitra"
-          onchange="handleFilterLogbookMitra(this.value)"
-          class="px-2.5 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        >
-          <option value="">Semua Mitra</option>
-          <option value="Bengkel Koding">Bengkel Koding</option>
-          <option value="PT Matic">PT Matic</option>
-          <option value="Dicoding Indonesia">Dicoding Indonesia</option>
-          <option value="Ryuje Tech">Ryuje Tech</option>
-          <option value="PT Telkom Indonesia">PT Telkom Indonesia</option>
-          <option value="Tokopedia">Tokopedia</option>
-        </select>
-        <div class="flex items-center gap-1.5">
+    <!-- View 1: Master Rekap DPL Style KP -->
+    <div x-show="viewMode === 'master'" class="flex flex-col gap-4">
+      <!-- Toolbar Filter & Search -->
+      <div class="flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
+        <div class="relative w-full sm:w-72 md:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
           <input
             type="text"
-            id="search-logbook"
-            oninput="handleSearchLogbook(this.value)"
-            placeholder="Cari nama/NIM..."
-            class="px-2.5 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-52"
+            x-model="searchQuery"
+            placeholder="Cari dosen pembimbing..."
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
           />
         </div>
       </div>
-    </div>
 
-    <!-- Tabel Rekap Logbook -->
-    <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
-      <table class="w-full text-xs text-left border-collapse">
-        <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
-          <tr>
-            <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
-            <th class="px-3 py-2 font-semibold text-[11px]">Nama Mahasiswa</th>
-            <th class="px-3 py-2 font-semibold text-[11px]">NIM Mahasiswa</th>
-            <th class="px-3 py-2 font-semibold text-[11px]">Mitra Penempatan</th>
-            <th class="px-3 py-2 font-semibold text-[11px]">Dosen Pembimbing</th>
-            <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Kepatuhan</th>
-            <th class="w-28 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
-          </tr>
-        </thead>
-        <tbody id="logbook-table-tbody" class="divide-y divide-[#e4e4e7] bg-white">
-          <!-- Populated dynamically via renderLogbookTable() -->
-        </tbody>
-      </table>
-    </div>
+      <!-- Tabel Master 10 Kolom Style KP -->
+      <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+        <table class="w-full text-sm">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+            <tr>
+              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No.</th>
+              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama Dosen</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Logbook Mhs.</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 1</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 2</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 3</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 4</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 5</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Pending</th>
+              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Total Mhs.</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7]">
+            <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
+                <td class="h-12 px-4">
+                  <div class="flex flex-col">
+                    <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
+                    <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
+                  </div>
+                </td>
+                <td class="h-12 px-4 text-center">
+                  <button
+                    type="button"
+                    @click="openDetail(dosen)"
+                    class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium shadow-none transition-colors"
+                  >
+                    <i data-lucide="book-text" class="w-3.5 h-3.5"></i>
+                    <span>Detail Logbook</span>
+                  </button>
+                </td>
+                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab1"></td>
+                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab2"></td>
+                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab3"></td>
+                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab4"></td>
+                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab5"></td>
+                <td class="h-12 px-3 text-center">
+                  <template x-if="dosen.pending > 0">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200" x-text="`${dosen.pending} Pending`"></span>
+                  </template>
+                  <template x-if="dosen.pending === 0">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-50 text-gray-500">0</span>
+                  </template>
+                </td>
+                <td class="h-12 px-3 text-center font-bold text-[#0655a7] text-xs" x-text="`${dosen.totalMhs} Mhs`"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
 
-    <!-- Footer Informasi & Pagination di Kanan Bawah -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
-      <div id="logbook-table-info" class="text-[11px] text-[#71717a]">Showing entries</div>
-      <div id="logbook-pagination-controls" class="flex items-center self-end gap-1 sm:self-auto">
-        <!-- Pagination buttons generated dynamically -->
+      <!-- Standardized Pagination Sesuai Screenshot 1 -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+        <div class="text-xs text-[#71717a]">Menampilkan 1 - 5 dari 48 data</div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+          >
+            1
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+          >
+            2
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+          >
+            3
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+          <select
+            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="10">Show 10 items</option>
+            <option value="25">Show 25 items</option>
+            <option value="50">Show 50 items</option>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- View 5.B: Detail Aktivitas Logbook Mahasiswa -->
-  <div id="subview-logbook-detail" class="flex flex-col hidden gap-4">
-    <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
-      <div>
-        <h2 id="logbook-mhs-nama" class="text-lg font-semibold text-[#09090b]">Tarissa Aura Azzahra</h2>
-        <p id="logbook-mhs-nim" class="text-xs text-[#71717a]">NIM: A11.2020.13158</p>
-        <p id="logbook-mhs-subinfo" class="text-[11px] text-[#71717a] mt-0.5">Teknik Informatika • PT Matic (AI & Machine Learning) • DPL: Dr. Muljono, M.Kom</p>
+    <!-- View 2: Detail Mahasiswa Bimbingan per DPL Style KP -->
+    <div x-show="viewMode === 'detail'" class="flex flex-col gap-4" x-cloak>
+      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            @click="backToMaster()"
+            class="h-8 w-8 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center"
+            title="Kembali ke Rekap Dosen"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div>
+            <h2 class="text-base font-semibold text-[#09090b]" x-text="`Daftar Logbook Mahasiswa Binaan: ${selectedDosen?.nama || ''}`"></h2>
+            <p class="text-xs text-[#71717a]" x-text="`NPP: ${selectedDosen?.npp || '-'} • Total ${selectedDosen?.totalMhs || 0} Mahasiswa Binaan`"></p>
+          </div>
+        </div>
+        <button
+          type="button"
+          @click="backToMaster()"
+          class="px-3 py-1.5 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-[#f4f4f5] flex items-center gap-1.5"
+        >
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          <span>Tutup Detail</span>
+        </button>
       </div>
-      <button
-        type="button"
-        onclick="hideLogbookDetail()"
-        class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-xs font-medium text-[#71717a] hover:bg-gray-50 flex items-center gap-1"
-      >
-        <i data-lucide="x" class="w-3.5 h-3.5"></i>
-        <span>Kembali</span>
-      </button>
+
+      <!-- Tabel Detail 8 Kolom Style KP -->
+      <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+        <table class="w-full text-sm">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+            <tr>
+              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No.</th>
+              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">NIM</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Bab Terakhir</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Total Bimbingan</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Progress</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
+              <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7]">
+            <template x-for="(m, idx) in studentDetails" :key="m.nim">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
+                <td class="h-12 px-4">
+                  <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                      <span x-text="m.nama.charAt(0)"></span>
+                    </div>
+                    <span class="font-medium text-[#09090b] text-sm" x-text="m.nama"></span>
+                  </div>
+                </td>
+                <td class="h-12 px-4 text-center text-xs text-[#71717a]" x-text="m.nim"></td>
+                <td class="h-12 px-4 text-center">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-[#0655a7]" x-text="m.babTerakhir"></span>
+                </td>
+                <td class="h-12 px-4 text-center text-xs font-medium text-[#09090b]" x-text="`${m.totalBimbingan} kali`"></td>
+                <td class="h-12 px-4">
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden">
+                      <div class="h-full bg-[#0655a7] rounded-full" :style="`width: ${m.progress}%`"></div>
+                    </div>
+                    <span class="text-xs font-medium text-[#71717a]" x-text="`${m.progress}%`"></span>
+                  </div>
+                </td>
+                <td class="h-12 px-4 text-center">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700" x-text="m.status"></span>
+                </td>
+                <td class="h-12 px-4 text-center">
+                  <button
+                    type="button"
+                    @click="alert(`Menampilkan rincian entri logbook mahasiswa ${m.nama}`)"
+                    class="h-8 px-2.5 rounded-md border border-[#e4e4e7] hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7]"
+                  >
+                    Rincian
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    <!-- Tabel Rincian Entri Logbook -->
-    <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
-      <table class="w-full text-xs text-left border-collapse">
-        <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
-          <tr>
-            <th class="w-12 px-3 py-3 font-semibold text-center">No</th>
-            <th class="px-4 py-3 font-semibold">Nama Mahasiswa</th>
-            <th class="px-4 py-3 font-semibold">NIM Mahasiswa</th>
-            <th class="px-4 py-3 font-semibold">Tanggal Kegiatan</th>
-            <th class="px-4 py-3 font-semibold">Deskripsi Kegiatan</th>
-            <th class="w-24 px-4 py-3 font-semibold text-center">Foto Kegiatan</th>
-          </tr>
-        </thead>
-        <tbody id="logbook-detail-tbody" class="divide-y divide-[#e4e4e7] bg-white">
-          <tr class="transition-colors hover:bg-gray-50/80">
-            <td class="py-3 px-3 text-center text-[#71717a]">1</td>
-            <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
-            <td class="py-3 px-4 text-[#09090b]">A11.2020.13158</td>
-            <td class="py-3 px-4 text-[#71717a]">11 September, 2023</td>
-            <td class="py-3 px-4 text-[#3f3f46]">Mencari data dari berita untuk penelitian</td>
-            <td class="px-4 py-3 text-center">
-              <div
-                class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
-              >
-                <i data-lucide="image" class="w-3.5 h-3.5"></i>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="transition-colors hover:bg-gray-50/80">
-            <td class="py-3 px-3 text-center text-[#71717a]">2</td>
-            <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
-            <td class="py-3 px-4 text-[#09090b]">A11.2020.13158</td>
-            <td class="py-3 px-4 text-[#71717a]">12 September, 2023</td>
-            <td class="py-3 px-4 text-[#3f3f46]">Melanjutkan mencari data dan mengubah menjadi bentuk txt</td>
-            <td class="px-4 py-3 text-center">
-              <div
-                class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
-              >
-                <i data-lucide="image" class="w-3.5 h-3.5"></i>
-              </div>
-            </td>
-          </tr>
-
-          <tr class="transition-colors hover:bg-gray-50/80">
-            <td class="py-3 px-3 text-center text-[#71717a]">3</td>
-            <td class="py-3 px-4 font-medium text-[#09090b]">Tarissa Aura Azzahra</td>
-            <td class="py-3 px-4 text-[#09090b]">A11.2020.13158</td>
-            <td class="py-3 px-4 text-[#71717a]">13 September, 2023</td>
-            <td class="py-3 px-4 text-[#3f3f46]">Membersihkan data dari karakter non-alfanumerik</td>
-            <td class="px-4 py-3 text-center">
-              <div
-                class="w-7 h-7 mx-auto rounded-full border border-[#e4e4e7] bg-gray-100 flex items-center justify-center text-gray-500"
-              >
-                <i data-lucide="image" class="w-3.5 h-3.5"></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
   </section>
 </AdminShell>

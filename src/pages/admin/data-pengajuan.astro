@@ -1,0 +1,459 @@
+---
+// src/pages/admin/data-pengajuan.astro
+import AdminShell from '../../layouts/AdminShell.astro';
+---
+
+<AdminShell currentTab="data-pengajuan">
+  <section
+    id="section-data-pengajuan"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    x-data="{
+      searchQuery: '',
+      gelombangFilter: 'semua',
+      selectedDokumen: null,
+      selectedVerify: null,
+      pengajuanList: [
+        {
+          id: 1,
+          nama: 'Faisal Rahman',
+          nim: 'A11.2022.13901',
+          prodi: 'Teknik Informatika',
+          mitra: 'PT Telkom Indonesia',
+          posisi: 'Cloud Infrastructure & DevOps Engineer',
+          pembimbing: 'Dr. M. Arief Soeleman, M.Kom',
+          judul: 'Implementasi Automated Multi-Cloud Infrastructure & Observability dengan Terraform dan Kubernetes pada PT Telkom',
+          nilaiPenyelia: 92,
+          gelombang: 'Gelombang 1',
+          tglPengajuan: '2026-06-03',
+          statusVerifikasi: 'Terverifikasi',
+          dokumen: {
+            laporanAkhir: 'Laporan_Akhir_MBKM_Faisal_Rahman.pdf',
+            nilaiPenyeliaDoc: 'Form_Evaluasi_Penyelia_Telkom.pdf',
+            logbookSummary: 'Rekap_Logbook_Mingguan_Telkom.pdf',
+            sertifikatMitra: 'Sertifikat_Kelulusan_Mitra_Telkom.pdf'
+          }
+        },
+        {
+          id: 2,
+          nama: 'Tarissa Aura Azzahra',
+          nim: 'A11.2020.13158',
+          prodi: 'Teknik Informatika',
+          mitra: 'Tokopedia',
+          posisi: 'Backend Software Engineer',
+          pembimbing: 'Affandy, Ph.D',
+          judul: 'Optimasi Latency dan Throughput Microservices Payment Gateway Menggunakan Golang dan gRPC di Tokopedia',
+          nilaiPenyelia: 95,
+          gelombang: 'Gelombang 1',
+          tglPengajuan: '2026-06-05',
+          statusVerifikasi: 'Terverifikasi',
+          dokumen: {
+            laporanAkhir: 'Laporan_Akhir_MBKM_Tarissa_Aura.pdf',
+            nilaiPenyeliaDoc: 'Form_Evaluasi_Penyelia_Tokopedia.pdf',
+            logbookSummary: 'Rekap_Logbook_Mingguan_Tokopedia.pdf',
+            sertifikatMitra: 'Sertifikat_Kelulusan_Mitra_Tokopedia.pdf'
+          }
+        },
+        {
+          id: 3,
+          nama: 'Nabila Zahra Putri',
+          nim: 'A12.2022.09842',
+          prodi: 'Sistem Informasi',
+          mitra: 'Ryuje Tech',
+          posisi: 'Product Design & UX Researcher',
+          pembimbing: 'Christy Atika Sari, M.Kom',
+          judul: 'Perancangan Pengalaman Pengguna Sistem Informasi Manajemen Inventaris Berbasis Design Thinking pada Ryuje Tech',
+          nilaiPenyelia: 88,
+          gelombang: 'Gelombang 1',
+          tglPengajuan: '2026-06-08',
+          statusVerifikasi: 'Terverifikasi',
+          dokumen: {
+            laporanAkhir: 'Laporan_Akhir_MBKM_Nabila_Zahra.pdf',
+            nilaiPenyeliaDoc: 'Form_Evaluasi_Penyelia_Ryuje.pdf',
+            logbookSummary: 'Rekap_Logbook_Mingguan_Ryuje.pdf',
+            sertifikatMitra: 'Sertifikat_Kelulusan_Mitra_Ryuje.pdf'
+          }
+        },
+        {
+          id: 4,
+          nama: 'Rizky Aditya Pratama',
+          nim: 'A11.2022.14012',
+          prodi: 'Teknik Informatika',
+          mitra: 'Diskominfo Jawa Tengah',
+          posisi: 'Cyber Security Analyst',
+          pembimbing: 'Eko Hari Rachmawanto, M.Kom',
+          judul: 'Penerapan Honeytoken dan Intrusion Detection System Berbasis AI untuk Proteksi Server Pemerintahan Daerah',
+          nilaiPenyelia: 90,
+          gelombang: 'Gelombang 2',
+          tglPengajuan: '2026-06-22',
+          statusVerifikasi: 'Menunggu Review',
+          dokumen: {
+            laporanAkhir: 'Laporan_Akhir_MBKM_Rizky_Aditya.pdf',
+            nilaiPenyeliaDoc: 'Form_Evaluasi_Penyelia_Diskominfo.pdf',
+            logbookSummary: 'Rekap_Logbook_Mingguan_Diskominfo.pdf',
+            sertifikatMitra: 'Sertifikat_Diskominfo.pdf'
+          }
+        },
+        {
+          id: 5,
+          nama: 'Dimas Wahyu Nugroho',
+          nim: 'A11.2021.13450',
+          prodi: 'Teknik Informatika',
+          mitra: 'PT Bank Central Asia Tbk',
+          posisi: 'Data Science Specialist',
+          pembimbing: 'Dr. M. Arief Soeleman, M.Kom',
+          judul: 'Analisis Prediksi Fraud Transaksi Kartu Kredit Menggunakan Ensemble Machine Learning di BCA IT Division',
+          nilaiPenyelia: 94,
+          gelombang: 'Gelombang 2',
+          tglPengajuan: '2026-06-23',
+          statusVerifikasi: 'Menunggu Review',
+          dokumen: {
+            laporanAkhir: 'Laporan_Akhir_MBKM_Dimas_Wahyu.pdf',
+            nilaiPenyeliaDoc: 'Form_Evaluasi_Penyelia_BCA.pdf',
+            logbookSummary: 'Rekap_Logbook_Mingguan_BCA.pdf',
+            sertifikatMitra: 'Sertifikat_BCA.pdf'
+          }
+        }
+      ],
+      get filteredList() {
+        return this.pengajuanList.filter(p => {
+          const matchSearch = p.nama.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                              p.nim.includes(this.searchQuery) ||
+                              p.judul.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                              (p.pembimbing && p.pembimbing.toLowerCase().includes(this.searchQuery.toLowerCase()));
+          const matchGelombang = this.gelombangFilter === 'semua' || p.gelombang === this.gelombangFilter;
+          return matchSearch && matchGelombang;
+        });
+      },
+      openDokumen(item) {
+        this.selectedDokumen = item;
+        this.$nextTick(() => {
+          if (window.lucide) window.lucide.createIcons();
+        });
+      },
+      openVerify(item) {
+        this.selectedVerify = item;
+      },
+      verifikasiPengajuan(status) {
+        if (!this.selectedVerify) return;
+        this.selectedVerify.statusVerifikasi = status;
+        alert(`Status berkas pengajuan sidang untuk ${this.selectedVerify.nama} berhasil diubah menjadi: ${status}`);
+        this.selectedVerify = null;
+      }
+    }"
+  >
+    <!-- Toolbar Style KP Koordinator -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+      <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
+        <div class="relative w-full sm:w-72 md:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input
+            type="text"
+            x-model="searchQuery"
+            placeholder="Cari mahasiswa, NIM, judul..."
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-xs text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+        </div>
+        <select
+          x-model="gelombangFilter"
+          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="semua">Semua Gelombang</option>
+          <option value="Gelombang 1">Gelombang 1</option>
+          <option value="Gelombang 2">Gelombang 2</option>
+        </select>
+      </div>
+
+      <div class="flex items-center gap-2 ml-auto">
+        <span class="text-xs text-[#71717a] hidden md:inline">Total: <strong class="text-[#09090b]" x-text="filteredList.length"></strong> Pengajuan</span>
+      </div>
+    </div>
+
+    <!-- Tabel Data Pengajuan Style KP Koordinator -->
+    <div class="rounded-xl border border-[#e4e4e7] overflow-hidden bg-white shadow-2xs">
+      <div class="w-full">
+        <table class="w-full text-left border-collapse text-xs table-auto">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+            <tr>
+              <th class="h-10 w-8 px-2 text-center font-semibold text-[#71717a]">No</th>
+              <th class="h-10 px-2.5 font-semibold text-[#71717a]">Mahasiswa</th>
+              <th class="h-10 px-2.5 font-semibold text-[#71717a]">DPL MBKM</th>
+              <th class="h-10 px-2.5 font-semibold text-[#71717a]">Judul Proyek MBKM</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Dokumen</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Nilai Mitra</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Gelombang</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Tgl Pengajuan</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Status</th>
+              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7] bg-white">
+            <template x-for="(p, idx) in filteredList" :key="p.id">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-12 px-2 text-center text-[#71717a] font-medium" x-text="idx + 1"></td>
+                <td class="h-12 px-2.5 py-2">
+                  <div class="flex items-center gap-2">
+                    <div class="h-7 w-7 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                      <span x-text="p.nama.charAt(0)"></span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                      <span class="font-medium text-[#09090b] text-xs leading-tight" x-text="p.nama"></span>
+                      <span class="text-[11px] text-[#71717a]" x-text="p.nim"></span>
+                    </div>
+                  </div>
+                </td>
+                <td class="h-12 px-2.5 py-2">
+                  <div class="flex flex-col leading-tight">
+                    <span class="font-medium text-[#09090b] text-xs" x-text="p.pembimbing"></span>
+                    <span class="text-[10px] text-[#71717a]" x-text="p.mitra"></span>
+                  </div>
+                </td>
+                <td class="h-12 px-2.5 py-2 max-w-[220px]">
+                  <p class="text-xs text-[#09090b] line-clamp-2 leading-tight" :title="p.judul" x-text="p.judul"></p>
+                </td>
+                <td class="h-12 px-2 text-center whitespace-nowrap">
+                  <button
+                    type="button"
+                    @click="openDokumen(p)"
+                    class="inline-flex items-center gap-1.5 h-7 px-2 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7] transition-colors shadow-2xs"
+                    title="Lihat Dokumen Berkas Sidang"
+                  >
+                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                    <span>Lihat</span>
+                  </button>
+                </td>
+                <td class="h-12 px-2 text-center whitespace-nowrap">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200" x-text="p.nilaiPenyelia"></span>
+                </td>
+                <td class="h-12 px-2 text-center text-xs text-[#71717a] whitespace-nowrap" x-text="p.gelombang"></td>
+                <td class="h-12 px-2 text-center text-xs text-[#71717a] whitespace-nowrap">
+                  <div class="flex items-center justify-center gap-1">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                    <span x-text="p.tglPengajuan"></span>
+                  </div>
+                </td>
+                <td class="h-12 px-2 text-center whitespace-nowrap">
+                  <span
+                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium"
+                    :class="p.statusVerifikasi === 'Terverifikasi' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'"
+                    x-text="p.statusVerifikasi"
+                  ></span>
+                </td>
+                <td class="h-12 px-2 text-center whitespace-nowrap">
+                  <div class="flex items-center justify-center gap-1">
+                    <!-- Action Button 1: Preview Detail / Review -->
+                    <button
+                      type="button"
+                      @click="openVerify(p)"
+                      class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-blue-50/60 text-[#0655a7] hover:border-blue-200 transition-colors shadow-2xs"
+                      title="Verifikasi Kelayakan Berkas"
+                    >
+                      <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <!-- Action Button 2: Unduh Berkas ZIP -->
+                    <button
+                      type="button"
+                      @click="alert(`Mengunduh arsip berkas pendaftaran ${p.nama} (${p.nim}.zip)`)"
+                      class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#71717a] hover:text-[#09090b] transition-colors shadow-2xs"
+                      title="Unduh Berkas ZIP"
+                    >
+                      <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </template>
+            <template x-if="filteredList.length === 0">
+              <tr>
+                <td colspan="10" class="h-32 text-center text-xs text-[#71717a]">
+                  Tidak ada data pengajuan sidang MBKM yang cocok.
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Standardized Pagination Sesuai Screenshot 1 -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <div class="text-xs text-[#71717a]">
+          Menampilkan 1 - <span x-text="filteredList.length"></span> dari <span x-text="filteredList.length"></span> data
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+          >
+            1
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
+          >
+            2
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
+          >
+            3
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+          <select
+            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="10">Show 10 items</option>
+            <option value="25">Show 25 items</option>
+            <option value="50">Show 50 items</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL 1: PREVIEW DOKUMEN MAHASISWA (SESUAI DESAIN)   -->
+    <!-- ==================================================== -->
+    <div
+      x-show="selectedDokumen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      @keydown.escape.window="selectedDokumen = null"
+    >
+      <div
+        @click.outside="selectedDokumen = null"
+        class="bg-white rounded-2xl max-w-sm w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col p-5 space-y-4"
+      >
+        <!-- Header: Title, Subtitle & Close Button -->
+        <div class="flex items-start justify-between">
+          <div class="flex flex-col gap-1">
+            <h3 class="text-base font-bold text-[#09090b]">Dokumen Mahasiswa</h3>
+            <p class="text-xs text-[#71717a]">
+              <span x-text="selectedDokumen?.nama"></span> &mdash; <span x-text="selectedDokumen?.nim"></span>
+            </p>
+          </div>
+          <button
+            type="button"
+            @click="selectedDokumen = null"
+            class="h-7 w-7 flex items-center justify-center rounded-lg border border-[#e4e4e7] text-[#71717a] hover:text-[#09090b] hover:bg-gray-50 transition-colors shrink-0"
+            title="Tutup"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Document List Items (Matching Design Uploaded) -->
+        <div class="flex flex-col gap-2.5">
+          <!-- Card 1: Laporan Akhir -->
+          <div
+            @click="alert(`Membuka Laporan Akhir: ${selectedDokumen?.dokumen?.laporanAkhir || 'Laporan_Akhir.pdf'}`)"
+            class="flex items-center justify-between p-3.5 rounded-xl border border-[#e4e4e7] bg-white hover:bg-slate-50 transition-colors cursor-pointer group"
+          >
+            <div class="flex items-center gap-3">
+              <i data-lucide="file-text" class="w-4 h-4 text-[#0655a7] shrink-0"></i>
+              <span class="text-sm font-medium text-[#09090b]">Laporan Akhir</span>
+            </div>
+            <i data-lucide="external-link" class="w-4 h-4 text-[#71717a] group-hover:text-[#09090b] shrink-0 transition-colors"></i>
+          </div>
+
+          <!-- Card 2: Dokumen Penyelia -->
+          <div
+            @click="alert(`Membuka Dokumen Penyelia: ${selectedDokumen?.dokumen?.nilaiPenyeliaDoc || 'Dokumen_Penyelia.pdf'}`)"
+            class="flex items-center justify-between p-3.5 rounded-xl border border-[#e4e4e7] bg-white hover:bg-slate-50 transition-colors cursor-pointer group"
+          >
+            <div class="flex items-center gap-3">
+              <i data-lucide="file-text" class="w-4 h-4 text-[#0655a7] shrink-0"></i>
+              <span class="text-sm font-medium text-[#09090b]">Dokumen Penyelia</span>
+            </div>
+            <i data-lucide="external-link" class="w-4 h-4 text-[#71717a] group-hover:text-[#09090b] shrink-0 transition-colors"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL 2: VERIFIKASI KELAYAKAN BERKAS PENDAFTARAN     -->
+    <!-- ==================================================== -->
+    <div
+      x-show="selectedVerify"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      @keydown.escape.window="selectedVerify = null"
+    >
+      <div
+        @click.outside="selectedVerify = null"
+        class="bg-white rounded-xl max-w-md w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+      >
+        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">Verifikasi Kelayakan Sidang</h3>
+          </div>
+          <button @click="selectedVerify = null" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="p-5 space-y-3 text-xs" x-if="selectedVerify">
+          <p class="text-[#71717a]">
+            Tentukan status verifikasi berkas pendaftaran sidang evaluasi MBKM untuk mahasiswa berikut:
+          </p>
+
+          <div class="p-3 bg-[#fafafa] rounded-lg border border-[#e4e4e7] space-y-1">
+            <div class="font-semibold text-sm text-[#09090b]" x-text="selectedVerify?.nama"></div>
+            <div class="text-[#71717a]" x-text="`${selectedVerify?.nim} • ${selectedVerify?.mitra}`"></div>
+            <div class="text-[#09090b] mt-1 pt-1 border-t border-[#e4e4e7]">
+              <strong>Nilai Penyelia Mitra:</strong> <span class="text-emerald-700 font-bold" x-text="selectedVerify?.nilaiPenyelia"></span>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 pt-1">
+            <label class="block font-medium text-[#09090b]">Catatan Koordinator (Opsional)</label>
+            <textarea
+              rows="3"
+              placeholder="Tambahkan catatan kelayakan atau alasan perbaikan jika diperlukan..."
+              class="w-full rounded-md border border-[#e4e4e7] p-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+          <button
+            type="button"
+            @click="selectedVerify = null"
+            class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-gray-50"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="verifikasiPengajuan('Perlu Revisi')"
+            class="h-8 px-3 rounded-md bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-medium"
+          >
+            Minta Revisi
+          </button>
+          <button
+            type="button"
+            @click="verifikasiPengajuan('Terverifikasi')"
+            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
+          >
+            Setujui (Lolos Sidang)
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</AdminShell>

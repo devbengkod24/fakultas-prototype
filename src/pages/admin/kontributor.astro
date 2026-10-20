@@ -1,0 +1,18 @@
+---
+// src/pages/admin/kontributor.astro
+import AdminShell from '../../layouts/AdminShell.astro';
+import MitraTable from '../../components/admin/mitra/MitraTable.astro';
+import MitraDetail from '../../components/admin/mitra/MitraDetail.astro';
+import MitraCms from '../../components/admin/mitra/MitraCms.astro';
+---
+
+<AdminShell currentTab="kontributor">
+  <section
+    id="section-mitra"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  >
+    <MitraTable />
+    <MitraDetail />
+    <MitraCms />
+  </section>
+</AdminShell>

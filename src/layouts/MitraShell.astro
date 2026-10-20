@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 interface Props {
   title?: string;
   pageTitle?: string;
@@ -28,6 +30,7 @@ const {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
+  <ClientRouter />
 
   <!-- Google Fonts: Inter (Standar Selaras dengan Admin) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -113,9 +116,30 @@ const {
     .nav-active i {
       color: #0655a7 !important;
     }
+
+    /* Top Progress Bar Loading Indicator (Style NextTopLoader KP) */
+    #top-loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #0655a7, #1E7FD9, #38bdf8);
+      box-shadow: 0 0 10px rgba(6, 85, 167, 0.7), 0 0 5px rgba(30, 127, 217, 0.5);
+      z-index: 99999;
+      pointer-events: none;
+      transition: width 0.35s cubic-bezier(0.1, 0.05, 0.25, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+    #top-loading-bar.loading {
+      opacity: 1;
+    }
   </style>
 </head>
 <body x-data class="min-h-screen bg-[#fafafa] text-[#09090b] antialiased overflow-x-hidden">
+  <!-- Top loading bar indicator -->
+  <div id="top-loading-bar" aria-hidden="true"></div>
+
   <div class="flex min-h-screen w-full bg-[#fafafa]">
 
     <!-- ==================================================== -->
@@ -731,6 +755,47 @@ const {
       initIcons();
       setupSidebarToggle();
     }
+
+    // Astro Page Load Event Listener (menjaga icons tetap render saat ClientRouter navigasi)
+    document.addEventListener("astro:page-load", () => {
+      initIcons();
+      setupSidebarToggle();
+    });
+
+    // Top Loading Progress Bar Controller (selaras NextTopLoader KP)
+    document.addEventListener("astro:before-preparation", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.classList.add("loading");
+        bar.style.width = "30%";
+        setTimeout(() => {
+          if (bar.classList.contains("loading")) {
+            bar.style.width = "75%";
+          }
+        }, 150);
+      }
+    });
+
+    document.addEventListener("astro:after-preparation", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.style.width = "95%";
+      }
+    });
+
+    document.addEventListener("astro:page-load", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.style.width = "100%";
+        setTimeout(() => {
+          bar.classList.remove("loading");
+          bar.style.opacity = "0";
+          setTimeout(() => {
+            bar.style.width = "0%";
+          }, 300);
+        }, 150);
+      }
+    });
 
     // Sidebar Toggle Mobile/Desktop
     function setupSidebarToggle() {

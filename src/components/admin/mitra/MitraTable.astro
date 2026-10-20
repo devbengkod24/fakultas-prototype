@@ -6,26 +6,39 @@ import type { DataTableTab } from '../../../types';
 import { partnersData } from '../../../data/partners/partners';
 
 const tabs: DataTableTab[] = [
-  { id: 'all', label: 'Semua Mitra', count: partnersData.length },
-  { id: 'internal', label: 'Mitra Internal', count: partnersData.filter((p) => p.tipe === 'internal').length },
-  { id: 'eksternal', label: 'Mitra Eksternal', count: partnersData.filter((p) => p.tipe === 'eksternal').length },
+  { id: 'eksternal', label: 'Kontributor Eksternal', count: partnersData.filter((p) => p.tipe === 'eksternal').length },
+  { id: 'all', label: 'Semua Kontributor', count: partnersData.length },
+  { id: 'internal', label: 'Kontributor Internal', count: partnersData.filter((p) => p.tipe === 'internal').length },
 ];
 ---
 
-<!-- Subview 1: Direktori Mitra (Menggunakan Reusable DataTable) -->
-<div id="subview-mitra-list" x-data="{ activeTab: 'all', searchQuery: '' }">
+<!-- Subview 1: Direktori Kontributor (Menggunakan Reusable DataTable) -->
+<div id="subview-mitra-list" x-data="{ activeTab: 'eksternal', searchQuery: '' }">
   <DataTable
     tabs={tabs}
     activeTabModel="activeTab"
-    searchPlaceholder="Cari nama mitra, deskripsi, atau PIC..."
+    searchPlaceholder="Cari nama kontributor, deskripsi, atau PIC..."
     searchModel="searchQuery"
     totalItems={partnersData.length}
-    infoText={`Menampilkan ${partnersData.length} mitra terdaftar`}
+    infoText={`Menampilkan 1 - ${partnersData.length} dari ${partnersData.length} data`}
   >
+    <!-- Actions Slot: Tombol Tambah Kontributor hanya di tab Eksternal dan Internal -->
+    <div slot="actions">
+      <button
+        type="button"
+        x-show="activeTab !== 'all'"
+        @click="window.showTambahMitraModal ? window.showTambahMitraModal(activeTab) : showTambahMitraModal(activeTab)"
+        class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors cursor-pointer"
+      >
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>Tambah Kontributor</span>
+      </button>
+    </div>
+
     <!-- Table Header Slot -->
     <tr slot="head">
       <th class="h-10 w-12 px-3 text-center text-xs">No</th>
-      <th class="h-10 px-4 text-left text-xs">Nama Mitra & Deskripsi</th>
+      <th class="h-10 px-4 text-left text-xs">Nama Kontributor & Deskripsi</th>
       <th class="h-10 px-4 text-left text-xs">Akun & PIC</th>
       <th class="h-10 px-4 text-center text-xs">Dosen DPL</th>
       <th class="h-10 px-4 text-center text-xs">Mahasiswa</th>
@@ -84,5 +97,47 @@ const tabs: DataTableTab[] = [
         </td>
       </tr>
     ))}
+
+    <!-- Standard Pagination Slot (Sesuai Gambar 1) -->
+    <div slot="pagination" class="flex items-center gap-2">
+      <button
+        type="button"
+        disabled
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+      >
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+      >
+        1
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+      >
+        2
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+      >
+        3
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
+      >
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </button>
+      <select
+        class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="10">Show 10 items</option>
+        <option value="25">Show 25 items</option>
+        <option value="50">Show 50 items</option>
+      </select>
+    </div>
   </DataTable>
 </div>

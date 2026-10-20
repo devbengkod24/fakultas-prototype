@@ -199,49 +199,24 @@
       </div>
     </div>
 
-    <!-- 3. Modal Tambah Mitra (YAGNI & Clean Shadcn UI) -->
+    <!-- 3. Modal Tambah Kontributor (YAGNI & Clean Shadcn UI) -->
     <div id="modal-tambah-mitra" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-md w-full p-6 space-y-4 text-sm">
         <!-- Dialog Header -->
         <div class="flex items-start justify-between">
           <div>
-            <h3 class="text-lg font-semibold text-[#09090b]">Tambah Mitra</h3>
-            <p class="text-sm text-[#71717a] mt-0.5">Tambahkan mitra baru untuk program MBKM.</p>
+            <h3 id="modal-mitra-title" class="text-lg font-semibold text-[#09090b]">Tambah Kontributor</h3>
+            <p id="modal-mitra-subtitle" class="text-sm text-[#71717a] mt-0.5">Tambahkan kontributor baru untuk program MBKM.</p>
           </div>
-          <button type="button" onclick="closeTambahMitraModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1">
+          <button type="button" onclick="closeTambahMitraModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <!-- Pilihan Kategori Kemitraan (Radio Bersih Tanpa Icon) -->
-        <div class="flex items-center gap-6 pt-1">
-          <label class="flex items-center gap-2 cursor-pointer text-sm">
-            <input
-              type="radio"
-              name="modalMitraType"
-              value="internal"
-              checked
-              onchange="handleModalMitraTypeChange('internal')"
-              class="h-4 w-4 text-[#0655a7] border-[#e4e4e7] focus:ring-[#0655a7]"
-            />
-            <span class="font-medium text-[#09090b]">Mitra Internal</span>
-          </label>
-          <label class="flex items-center gap-2 cursor-pointer text-sm">
-            <input
-              type="radio"
-              name="modalMitraType"
-              value="eksternal"
-              onchange="handleModalMitraTypeChange('eksternal')"
-              class="h-4 w-4 text-[#0655a7] border-[#e4e4e7] focus:ring-[#0655a7]"
-            />
-            <span class="font-medium text-[#09090b]">Mitra Eksternal</span>
-          </label>
-        </div>
-
-        <!-- FORM INTERNAL: Nama Mitra, Penanggung Jawab, Email Akun, Deskripsi -->
+        <!-- FORM INTERNAL: Nama Kontributor, Penanggung Jawab, Email Akun, Password, Deskripsi -->
         <div id="modal-form-mitra-internal" class="space-y-3 pt-1">
           <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-sm">Nama Mitra <span class="text-red-500">*</span></label>
+            <label class="font-medium text-[#09090b] text-sm">Nama Kontributor <span class="text-red-500">*</span></label>
             <input
               type="text"
               id="modal-internal-nama"
@@ -268,20 +243,29 @@
             />
           </div>
           <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-sm">Password Akun <span class="text-red-500">*</span></label>
+            <input
+              type="password"
+              id="modal-internal-password"
+              placeholder="Masukkan password akun kontributor..."
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+          <div class="space-y-1.5">
             <label class="font-medium text-[#09090b] text-sm">Deskripsi</label>
             <textarea
               id="modal-internal-deskripsi"
               rows="2"
-              placeholder="Deskripsi singkat profil mitra..."
+              placeholder="Deskripsi singkat profil kontributor..."
               class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7] leading-relaxed"
             ></textarea>
           </div>
         </div>
 
-        <!-- FORM EKSTERNAL: Nama Mitra / Instansi, Penanggung Jawab, Deskripsi (Tanpa Email Akun) -->
+        <!-- FORM EKSTERNAL: Nama Kontributor / Instansi, Penanggung Jawab, Deskripsi (Tanpa Email Akun & Password) -->
         <div id="modal-form-mitra-eksternal" class="space-y-3 pt-1 hidden">
           <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-sm">Nama Mitra / Instansi <span class="text-red-500">*</span></label>
+            <label class="font-medium text-[#09090b] text-sm">Nama Kontributor / Instansi <span class="text-red-500">*</span></label>
             <input
               type="text"
               id="modal-eksternal-nama"
