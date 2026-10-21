@@ -1,0 +1,210 @@
+---
+// src/pages/dosen/log-aktivitas.astro
+import DosenShell from '../../layouts/DosenShell.astro';
+
+// Data log aktivitas kronologis persis sesuai screenshot 2
+const activityDays = [
+  {
+    date: "Kamis, 23 Juli 2026",
+    logs: [
+      {
+        id: 1,
+        type: "pengajuan",
+        description: "Mahasiswa YOSEP ALVIN DIONIVIO memperbarui link folder MBKM",
+        time: "22:36"
+      },
+      {
+        id: 2,
+        type: "pengajuan",
+        description: "Mahasiswa YOSEP ALVIN DIONIVIO memperbarui link folder MBKM",
+        time: "22:35"
+      },
+      {
+        id: 3,
+        type: "logbook",
+        description: "Dosen ADHITYA NUGRAHA menerima logbook BAB 5 dari mahasiswa SINDU ADITYA JANADI",
+        time: "03:41"
+      }
+    ]
+  },
+  {
+    date: "Rabu, 15 Juli 2026",
+    logs: [
+      {
+        id: 4,
+        type: "logbook",
+        description: "Dosen ADHITYA NUGRAHA menerima logbook BAB 5 dari mahasiswa YOSEP ALVIN DIONIVIO",
+        time: "02:29"
+      },
+      {
+        id: 5,
+        type: "logbook",
+        description: "Dosen ADHITYA NUGRAHA menerima logbook BAB 4 dari mahasiswa YOSEP ALVIN DIONIVIO",
+        time: "02:29"
+      },
+      {
+        id: 6,
+        type: "logbook",
+        description: "Dosen ADHITYA NUGRAHA menerima logbook BAB 3 dari mahasiswa YOSEP ALVIN DIONIVIO",
+        time: "02:29"
+      },
+      {
+        id: 7,
+        type: "logbook",
+        description: "Dosen ADHITYA NUGRAHA menerima logbook BAB 2 dari mahasiswa YOSEP ALVIN DIONIVIO",
+        time: "02:29"
+      },
+      {
+        id: 8,
+        type: "logbook",
+        description: "Mahasiswa YOSEP ALVIN DIONIVIO menambahkan logbook bab 5 tanggal 2026-07-15",
+        time: "02:22"
+      },
+      {
+        id: 9,
+        type: "logbook",
+        description: "Mahasiswa YOSEP ALVIN DIONIVIO menambahkan logbook bab 4 tanggal 2026-07-01",
+        time: "02:21"
+      },
+      {
+        id: 10,
+        type: "logbook",
+        description: "Mahasiswa YOSEP ALVIN DIONIVIO menambahkan logbook bab 3 tanggal 2026-06-24",
+        time: "02:20"
+      }
+    ]
+  }
+];
+
+const activityDaysJson = JSON.stringify(activityDays);
+---
+
+<DosenShell
+  activeNav="log-aktivitas"
+  breadcrumb="Log Aktivitas"
+  pageTitle="Log Aktivitas"
+  subtitle="Berikut adalah data-data yang dapat Anda akses."
+>
+  <div
+    class="w-full flex flex-col h-full"
+    x-data={`{
+      activeTab: 'all',
+      search: '',
+      activityDays: ${activityDaysJson},
+      get filteredDays() {
+        const q = this.search.toLowerCase().trim();
+        const tab = this.activeTab;
+        return this.activityDays.map(day => {
+          const matchedLogs = day.logs.filter(log => {
+            const matchTab = (tab === 'all') || (log.type === tab);
+            const matchQuery = !q || log.description.toLowerCase().includes(q) || log.time.includes(q);
+            return matchTab && matchQuery;
+          });
+          return { date: day.date, logs: matchedLogs };
+        }).filter(day => day.logs.length > 0);
+      }
+    }`}
+  >
+    <!-- Toolbar: Search Input on Left, CustomSolidTabs on Right (Persis Screenshot 2) -->
+    <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+      <!-- Search Input -->
+      <div class="relative w-full sm:w-80">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#94a3b8]">
+          <i data-lucide="search" class="w-4 h-4"></i>
+        </div>
+        <input
+          type="text"
+          x-model="search"
+          placeholder="Cari aktivitas..."
+          class="w-full pl-9 pr-4 py-2 border border-[#e2e8f0] rounded-md text-sm bg-white placeholder-[#94a3b8] text-[#0f172a] focus:outline-none focus:border-blue-500"
+        />
+      </div>
+
+      <!-- Solid Tabs (CustomSolidTabs persis Screenshot 2) -->
+      <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
+        <!-- Tab 1: Semua -->
+        <button
+          type="button"
+          @click="activeTab = 'all'"
+          :class="activeTab === 'all'
+            ? 'bg-[#0655a7] text-white border-[#0655a7]'
+            : 'bg-white text-gray-700 border-[#e2e8f0] hover:text-[#0655a7] hover:border-[#0655a7]'"
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-medium transition-colors shadow-none"
+        >
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>Semua</span>
+        </button>
+
+        <!-- Tab 2: Pengajuan -->
+        <button
+          type="button"
+          @click="activeTab = 'pengajuan'"
+          :class="activeTab === 'pengajuan'
+            ? 'bg-[#0655a7] text-white border-[#0655a7]'
+            : 'bg-white text-gray-700 border-[#e2e8f0] hover:text-[#0655a7] hover:border-[#0655a7]'"
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-medium transition-colors shadow-none"
+        >
+          <i data-lucide="user" class="w-4 h-4"></i>
+          <span>Pengajuan</span>
+        </button>
+
+        <!-- Tab 3: Logbook -->
+        <button
+          type="button"
+          @click="activeTab = 'logbook'"
+          :class="activeTab === 'logbook'
+            ? 'bg-[#0655a7] text-white border-[#0655a7]'
+            : 'bg-white text-gray-700 border-[#e2e8f0] hover:text-[#0655a7] hover:border-[#0655a7]'"
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-medium transition-colors shadow-none"
+        >
+          <i data-lucide="book-text" class="w-4 h-4"></i>
+          <span>Logbook</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Timeline Content Area Grouped by Date (Persis Screenshot 2) -->
+    <div class="flex-1 flex flex-col">
+      <div class="divide-y divide-[#e2e8f0] border-t border-[#e2e8f0]">
+        <template x-for="(day, dayIdx) in filteredDays" :key="day.date">
+          <div class="w-full">
+            <!-- Full-width Date Header Strip (Persis Screenshot 2) -->
+            <div class="px-4 py-2 text-sm bg-[#f0f7ff] font-medium text-[#0655a7] border-b border-[#e2e8f0]">
+              <span x-text="day.date"></span>
+            </div>
+
+            <!-- List Timeline Items -->
+            <div class="py-2">
+              <template x-for="(log, logIdx) in day.logs" :key="log.id">
+                <div class="relative pl-8 py-2.5 group">
+                  <!-- Vertical Connecting Line -->
+                  <div
+                    class="absolute left-3 top-0 bottom-0 w-[1px] bg-slate-200 group-first:top-3 group-last:bottom-3"
+                  ></div>
+
+                  <!-- Dot -->
+                  <div
+                    class="absolute left-[9px] top-3.5 w-2 h-2 rounded-full bg-[#1063B9] ring-4 ring-white"
+                  ></div>
+
+                  <!-- Description -->
+                  <div class="text-[#0f172a] text-sm font-normal">
+                    <span class="font-medium text-[#0f172a]" x-text="log.description"></span>
+                  </div>
+
+                  <!-- Time -->
+                  <div class="text-[#64748b] text-xs mt-0.5" x-text="log.time"></div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+
+        <!-- Empty state saat pencarian tidak cocok -->
+        <div x-show="filteredDays.length === 0" class="py-16 text-center text-[#64748b] text-sm">
+          Tidak ada aktivitas yang sesuai dengan kriteria pencarian.
+        </div>
+      </div>
+    </div>
+  </div>
+</DosenShell>
