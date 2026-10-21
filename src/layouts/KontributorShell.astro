@@ -5,7 +5,7 @@ interface Props {
   title?: string;
   pageTitle?: string;
   subtitle?: string;
-  activeNav?: 'dashboard' | 'program' | 'form' | 'dosen' | 'mahasiswa' | 'seleksi' | string;
+  activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'form' | 'dosen' | 'mahasiswa' | 'seleksi' | string;
   breadcrumbTitle?: string;
 }
 
@@ -13,6 +13,7 @@ const {
   title = "Portal Contributor | Kampus Berdampak FIK UDINUS",
   activeNav = "dashboard",
   breadcrumbTitle = activeNav === 'dashboard' ? 'Dashboard' :
+                    activeNav === 'pengumuman' ? 'Pengumuman' :
                     activeNav === 'program' ? 'Kelola Program Binaan' :
                     activeNav === 'form' ? 'Formulir Pendaftaran' :
                     activeNav === 'dosen' ? 'Anggota / Dosen Pembina' :
@@ -193,6 +194,19 @@ const {
             <span class="truncate">Dashboard</span>
           </a>
 
+          <!-- 2. Pengumuman -->
+          <a
+            href="/contributor/pengumuman"
+            id="nav-pengumuman"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'pengumuman' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'pengumuman' ? '' : 'hidden'}`}></span>
+            <i data-lucide="megaphone" class={`w-4 h-4 shrink-0 ${activeNav === 'pengumuman' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Pengumuman</span>
+          </a>
+
           <!-- 2. Kelola Program -->
           <a
             href="/contributor/program"
@@ -288,7 +302,7 @@ const {
             <div class="flex flex-col overflow-hidden leading-tight">
               <span class="text-[12px] font-semibold text-[#09090b] truncate">Dr. Ricardus Anggi, M.Kom.</span>
               <span class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5">
-                Dosen Pembimbing
+                Kontributor
               </span>
             </div>
           </div>
@@ -718,6 +732,7 @@ const {
      */
     const breadcrumbNames = {
       dashboard: "Ringkasan Kontributor",
+      pengumuman: "Pengumuman",
       program: "CMS Program & Lowongan",
       form: "Form Builder Pendaftaran",
       seleksi: "Meja Seleksi Pelamar",
@@ -727,6 +742,7 @@ const {
 
     const fileMap = {
       dashboard: "dashboard.html",
+      pengumuman: "pengumuman.html",
       program: "program.html",
       form: "form.html",
       seleksi: "seleksi.html",
@@ -828,6 +844,7 @@ const {
     function switchNavView(viewName) {
       const routes = {
         'dashboard': '/contributor/dashboard',
+        'pengumuman': '/contributor/pengumuman',
         'program': '/contributor/program',
         'form': '/contributor/form',
         'seleksi': '/contributor/seleksi',
