@@ -84,7 +84,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
             <tr>
               <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
               <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status Periode</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
               <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Plotting Mahasiswa</th>
               <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
             </tr>
@@ -104,26 +104,28 @@ import AdminShell from "../../layouts/AdminShell.astro";
                   </div>
                 </div>
               </td>
-              <td class="h-12 px-4 text-center">
-                <button
-                  type="button"
-                  @click="toggleStatus(dosen)"
-                  class="inline-flex items-center justify-center gap-1.5 h-8 min-w-[100px] px-3 rounded-md text-xs font-medium transition-colors"
-                  :class="dosen.aktifPeriode ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-[#f4f4f5]'"
-                >
-                  <template x-if="dosen.aktifPeriode">
-                    <span class="inline-flex items-center gap-1">
-                      <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                      <span>Aktif</span>
-                    </span>
-                  </template>
-                  <template x-if="!dosen.aktifPeriode">
-                    <span class="inline-flex items-center gap-1">
-                      <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
-                      <span>Nonaktif</span>
-                    </span>
-                  </template>
-                </button>
+              <td class="h-12 px-4">
+                <div class="flex items-center justify-center gap-2.5">
+                  <button
+                    type="button"
+                    role="switch"
+                    :aria-checked="dosen.aktifPeriode"
+                    :aria-label="`Ubah status periode ${dosen.nama}`"
+                    @click="toggleStatus(dosen)"
+                    class="relative inline-flex h-[22px] w-[40px] shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2454A1]/40 focus-visible:ring-offset-2"
+                    :class="dosen.aktifPeriode ? 'bg-[#2454A1]' : 'bg-[#d4d4d8]'"
+                  >
+                    <span
+                      class="inline-block h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200"
+                      :class="dosen.aktifPeriode ? 'translate-x-[20px]' : 'translate-x-[2px]'"
+                    ></span>
+                  </button>
+                  <span
+                    class="text-xs font-medium"
+                    :class="dosen.aktifPeriode ? 'text-[#4CA154]' : 'text-[#71717a]'"
+                    x-text="dosen.aktifPeriode ? 'Aktif' : 'Nonaktif'"
+                  ></span>
+                </div>
               </td>
               <td class="h-12 px-4 text-center">
                 <template x-if="dosen.sisaKuota > 0">
