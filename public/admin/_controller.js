@@ -438,7 +438,10 @@ function switchTab(tabKey) {
       if (subBar) subBar.classList.remove('hidden');
     }
   } else {
-    const activeBtn = document.getElementById('nav-' + tabKey);
+    let activeBtn = document.getElementById('nav-' + tabKey);
+    if (!activeBtn && tabKey === 'mitra') {
+      activeBtn = document.getElementById('nav-kontributor');
+    }
     if (activeBtn) {
       activeBtn.classList.add('nav-active');
       const bar = activeBtn.querySelector('.active-bar');
