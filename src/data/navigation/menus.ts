@@ -61,9 +61,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
     items: [
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
-      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
-      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
-      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
+      { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
       { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
     ]
   },
@@ -73,9 +71,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
     items: [
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
-      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
-      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
-      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
+      { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
       { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
     ]
   },

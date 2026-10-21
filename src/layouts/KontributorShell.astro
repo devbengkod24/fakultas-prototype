@@ -5,7 +5,7 @@ interface Props {
   title?: string;
   pageTitle?: string;
   subtitle?: string;
-  activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'form' | 'dosen' | 'mahasiswa' | 'seleksi' | string;
+  activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'anggota' | 'seleksi' | string;
   breadcrumbTitle?: string;
 }
 
@@ -15,9 +15,7 @@ const {
   breadcrumbTitle = activeNav === 'dashboard' ? 'Dashboard' :
                     activeNav === 'pengumuman' ? 'Pengumuman' :
                     activeNav === 'program' ? 'Kelola Program Binaan' :
-                    activeNav === 'form' ? 'Formulir Pendaftaran' :
-                    activeNav === 'dosen' ? 'Anggota / Dosen Pembina' :
-                    activeNav === 'mahasiswa' ? 'Anggota / Mahasiswa Binaan' :
+                    activeNav === 'anggota' ? 'Anggota' :
                     activeNav === 'seleksi' ? 'Seleksi Pendaftar' :
                     'Dashboard',
   pageTitle = breadcrumbTitle,
@@ -220,62 +218,18 @@ const {
             <span class="truncate">Kelola Program</span>
           </a>
 
-          <!-- 3. Form Pendaftaran -->
+          <!-- 3. Anggota (tab Dosen & Mahasiswa di dalam halaman) -->
           <a
-            href="/contributor/form"
-            id="nav-form"
+            href="/contributor/anggota"
+            id="nav-anggota"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'form' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              activeNav === 'anggota' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
             }`}
           >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'form' ? '' : 'hidden'}`}></span>
-            <i data-lucide="clipboard-list" class={`w-4 h-4 shrink-0 ${activeNav === 'form' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Form Pendaftaran</span>
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'anggota' ? '' : 'hidden'}`}></span>
+            <i data-lucide="users" class={`w-4 h-4 shrink-0 ${activeNav === 'anggota' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Anggota</span>
           </a>
-
-          <!-- 4. Group Anggota (Collapsible Accordion Sama Persis v2) -->
-          <div class="space-y-0.5">
-            <button
-              type="button"
-              onclick="document.getElementById('group-anggota-sub').classList.toggle('hidden'); document.getElementById('group-anggota-arrow').classList.toggle('rotate-180')"
-              id="group-anggota-btn"
-              class={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors text-left ${
-                ['dosen', 'mahasiswa'].includes(activeNav) ? 'text-[#0655a7] font-medium' : 'text-[#3f3f46]'
-              }`}
-            >
-              <div class="flex items-center gap-3 truncate">
-                <i data-lucide="users" class={`w-4 h-4 shrink-0 ${['dosen', 'mahasiswa'].includes(activeNav) ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Anggota</span>
-              </div>
-              <i id="group-anggota-arrow" data-lucide="chevron-down" class={`w-4 h-4 shrink-0 transition-transform duration-200 ${['dosen', 'mahasiswa'].includes(activeNav) ? 'rotate-180 text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            </button>
-            <div id="group-anggota-sub" class={`pl-3 space-y-0.5 ${['dosen', 'mahasiswa'].includes(activeNav) ? '' : 'hidden'}`}>
-              <!-- Sub 1: Dosen -->
-              <a
-                href="/contributor/dosen"
-                id="nav-dosen"
-                class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
-                  activeNav === 'dosen' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-                }`}
-              >
-                <span class={`active-bar absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'dosen' ? '' : 'hidden'}`}></span>
-                <i data-lucide="graduation-cap" class={`w-3.5 h-3.5 shrink-0 ${activeNav === 'dosen' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Dosen</span>
-              </a>
-              <!-- Sub 2: Mahasiswa -->
-              <a
-                href="/contributor/mahasiswa"
-                id="nav-mahasiswa"
-                class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
-                  activeNav === 'mahasiswa' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-                }`}
-              >
-                <span class={`active-bar absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'mahasiswa' ? '' : 'hidden'}`}></span>
-                <i data-lucide="user" class={`w-3.5 h-3.5 shrink-0 ${activeNav === 'mahasiswa' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Mahasiswa</span>
-              </a>
-            </div>
-          </div>
 
           <!-- 5. Seleksi Pendaftar -->
           <a
@@ -664,7 +618,6 @@ const {
       dashboard: "Ringkasan Kontributor",
       pengumuman: "Pengumuman",
       program: "CMS Program & Lowongan",
-      form: "Form Builder Pendaftaran",
       seleksi: "Meja Seleksi Pelamar",
       mahasiswa: "Mahasiswa Binaan",
       dosen: "Dosen Pembina"
@@ -674,7 +627,6 @@ const {
       dashboard: "dashboard.html",
       pengumuman: "pengumuman.html",
       program: "program.html",
-      form: "form.html",
       seleksi: "seleksi.html",
       mahasiswa: "mahasiswa.html",
       dosen: "dosen.html"
@@ -776,10 +728,10 @@ const {
         'dashboard': '/contributor/dashboard',
         'pengumuman': '/contributor/pengumuman',
         'program': '/contributor/program',
-        'form': '/contributor/form',
         'seleksi': '/contributor/seleksi',
-        'mahasiswa': '/contributor/mahasiswa',
-        'dosen': '/contributor/dosen'
+        'anggota': '/contributor/anggota',
+        'mahasiswa': '/contributor/anggota#mahasiswa',
+        'dosen': '/contributor/anggota#dosen'
       };
 
       const targetPanel = document.getElementById(`view-${viewName}`);
@@ -825,22 +777,12 @@ const {
         }
       }
 
-      // Pastikan accordion Anggota terbuka jika view dosen/mahasiswa aktif
-      if (viewName === 'dosen' || viewName === 'mahasiswa') {
-        const sub = document.getElementById("group-anggota-sub");
-        const arrow = document.getElementById("group-anggota-arrow");
-        if (sub && sub.classList.contains("hidden")) {
-          sub.classList.remove("hidden");
-          if (arrow) arrow.classList.add("rotate-180");
-        }
-      }
-
       // 5. Update Breadcrumb Badge
       const breadcrumbNames = {
         'dashboard': 'Dashboard',
         'program': 'Kelola Program Binaan',
-        'form': 'Formulir Pendaftaran',
         'seleksi': 'Seleksi Pendaftar',
+        'anggota': 'Anggota',
         'mahasiswa': 'Anggota / Mahasiswa Binaan',
         'dosen': 'Anggota / Dosen Pembina'
       };
@@ -933,18 +875,18 @@ const {
 
       const newRow = document.createElement("tr");
       newRow.className = "mhs-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
-      newRow.setAttribute("data-intake", "mandiri");
       newRow.setAttribute("data-name", name);
       newRow.setAttribute("data-nim", nim);
       newRow.innerHTML = `
         <td class="py-3.5 px-4">
-          <div class="font-medium text-[13px] text-[#09090b]">${name}</div>
-          <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
-        </td>
-        <td class="py-3.5 px-4">
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
-            Lolos Mandiri
-          </span>
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">${name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()}</div>
+            <div>
+              <div class="font-medium text-[13px] text-[#09090b] leading-tight">${name}</div>
+              <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
+            </div>
+          </div>
+
         </td>
         <td class="py-3.5 px-4">
           <span class="font-medium text-gray-800">Riset Terapan Machine Learning</span>
@@ -954,14 +896,9 @@ const {
           <span class="font-semibold text-[#1063B9]">20 SKS</span>
           <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
         </td>
-        <td class="py-3.5 px-4">
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Siap Plotting Prodi
-          </span>
-        </td>
         <td class="py-3.5 px-4 text-right">
-          <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik ${name}')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
-            Rincian
+          <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+            Profil
           </button>
         </td>
       `;
@@ -975,23 +912,6 @@ const {
       if (countEl) countEl.textContent = parseInt(countEl.textContent || '6') + 1;
       if (countAll) countAll.textContent = parseInt(countAll.textContent || '6') + 1;
       if (filledQuota) filledQuota.textContent = parseInt(filledQuota.textContent || '6') + 1;
-    }
-
-    // Filter Tabel Mahasiswa Binaan
-    function filterMahasiswaTable(intake, btn) {
-      document.querySelectorAll(".mhs-filter-btn").forEach(b => {
-        b.className = "mhs-filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900";
-      });
-      btn.className = "mhs-filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs";
-
-      const rows = document.querySelectorAll(".mhs-row");
-      rows.forEach(row => {
-        if (intake === 'semua' || row.getAttribute("data-intake") === intake) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
-      });
     }
 
     // Search Tabel Mahasiswa
@@ -1039,20 +959,20 @@ const {
       if (tbody) {
         const newRow = document.createElement("tr");
         newRow.className = "mhs-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
-        newRow.setAttribute("data-intake", "direct");
         newRow.setAttribute("data-name", name);
         newRow.setAttribute("data-nim", nim);
         newRow.innerHTML = `
           <td class="py-3.5 px-4">
-            <div class="font-medium text-[13px] text-[#09090b]">${name}</div>
-            <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">${name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()}</div>
+              <div>
+                <div class="font-medium text-[13px] text-[#09090b] leading-tight">${name}</div>
+                <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
+              </div>
+            </div>
+
           </td>
-          <td class="py-3.5 px-4">
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200">
-              Direct Assign
-            </span>
-          </td>
-          <td class="py-3.5 px-4">
+            <td class="py-3.5 px-4">
             <span class="font-medium text-gray-800">${topic}</span>
             <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
           </td>
@@ -1060,14 +980,9 @@ const {
             <span class="font-semibold text-[#1063B9]">20 SKS</span>
             <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
           </td>
-          <td class="py-3.5 px-4">
-            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Siap Plotting Prodi
-            </span>
-          </td>
           <td class="py-3.5 px-4 text-right">
-            <button type="button" onclick="showToast('Rincian Mahasiswa', 'Membuka profil akademik ${name}')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
-              Rincian
+            <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+              Profil
             </button>
           </td>
         `;
@@ -1100,7 +1015,9 @@ const {
       const tbody = document.getElementById("dosenTableBody");
       if (tbody) {
         const newRow = document.createElement("tr");
-        newRow.className = "hover:bg-gray-50/70 transition-colors animate-in fade-in";
+        newRow.className = "dsn-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
+        newRow.setAttribute("data-npp", npp);
+        newRow.setAttribute("data-name", name);
         newRow.innerHTML = `
           <td class="py-3.5 px-4">
             <div class="flex items-center gap-2.5">
@@ -1127,8 +1044,8 @@ const {
             </span>
           </td>
           <td class="py-3.5 px-4 text-right">
-            <button type="button" onclick="showToast('Data Dosen', 'Membuka pengaturan bimbingan dosen')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
-              Kelola
+            <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+              Profil
             </button>
           </td>
         `;
