@@ -39,10 +39,10 @@ document.addEventListener('alpine:init', () => {
       this.currentTab = tabKey;
 
       // Sinkronkan state submenu jika tab berada di bawah parent
-      if (['mhs-semua', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tabKey)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota', 'dosen-update'].includes(tabKey)) {
+      if (['dosen-data', 'dosen-kuota'].includes(tabKey)) {
         this.dosenSubmenuOpen = true;
       }
 
@@ -109,11 +109,17 @@ document.addEventListener('alpine:init', () => {
         tab = slugMap[slug] || slug || 'dashboard';
       }
       this.currentTab = tab;
-      if (['mhs-semua', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tab)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota', 'dosen-update'].includes(tab)) {
+      if (['dosen-data', 'dosen-kuota'].includes(tab)) {
         this.dosenSubmenuOpen = true;
+      }
+      if (['form-pendaftaran', 'periode'].includes(tab)) {
+        this.mbkmSubmenuOpen = true;
+      }
+      if (['gelombang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(tab)) {
+        this.sidangSubmenuOpen = true;
       }
       this.refreshIcons();
     }
@@ -233,9 +239,39 @@ document.addEventListener('alpine:init', () => {
 lucide.createIcons();
 
 
-// State & Helper Toggle Submenu Mahasiswa & Dosen
+// State & Helper Toggle Submenu Mahasiswa, Dosen, MBKM & Sidang
 let mahasiswaSubmenuOpen = false;
 let dosenSubmenuOpen = false;
+let mbkmSubmenuOpen = false;
+let sidangSubmenuOpen = false;
+
+function toggleMbkmSubmenu(forceOpen) {
+  const submenu = document.getElementById('submenu-mbkm');
+  const chevron = document.getElementById('mbkm-chevron');
+  if (!submenu) return;
+  mbkmSubmenuOpen = forceOpen !== undefined ? forceOpen : !mbkmSubmenuOpen;
+  if (mbkmSubmenuOpen) {
+    submenu.classList.remove('hidden');
+    if (chevron) chevron.classList.add('rotate-180');
+  } else {
+    submenu.classList.add('hidden');
+    if (chevron) chevron.classList.remove('rotate-180');
+  }
+}
+
+function toggleSidangSubmenu(forceOpen) {
+  const submenu = document.getElementById('submenu-sidang');
+  const chevron = document.getElementById('sidang-chevron');
+  if (!submenu) return;
+  sidangSubmenuOpen = forceOpen !== undefined ? forceOpen : !sidangSubmenuOpen;
+  if (sidangSubmenuOpen) {
+    submenu.classList.remove('hidden');
+    if (chevron) chevron.classList.add('rotate-180');
+  } else {
+    submenu.classList.add('hidden');
+    if (chevron) chevron.classList.remove('rotate-180');
+  }
+}
 
 function toggleMahasiswaSubmenu(forceOpen) {
   const submenu = document.getElementById('submenu-mahasiswa');
@@ -332,13 +368,23 @@ function switchTab(tabKey) {
 
   // Reset styling semua item menu navigasi
   document.querySelectorAll('.nav-item').forEach((el) => {
-    el.classList.remove('nav-active');
+    el.classList.remove('nav-active', 'text-[#0655a7]', 'font-medium');
+    el.classList.add('text-[#3f3f46]');
     const bar = el.querySelector('.active-bar');
     if (bar) bar.classList.add('hidden');
+    const chevron = el.querySelector('[data-lucide="chevron-down"]');
+    if (chevron) chevron.classList.remove('text-[#0655a7]');
+    const icon = el.querySelector('i:not([data-lucide="chevron-down"])');
+    if (icon) {
+      icon.classList.remove('text-[#0655a7]');
+      icon.classList.add('text-[#71717a]');
+    }
   });
   document.querySelectorAll('.nav-sub-item').forEach((el) => {
-    el.classList.remove('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80');
+    el.classList.remove('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80', 'nav-sub-active');
     el.classList.add('text-[#71717a]');
+    const subBar = el.querySelector('.sub-active-bar');
+    if (subBar) subBar.classList.add('hidden');
   });
 
   // Set status aktif pada sidebar item
@@ -346,17 +392,50 @@ function switchTab(tabKey) {
   if (meta && meta.parent) {
     const parentBtn = document.getElementById('nav-' + meta.parent);
     if (parentBtn) {
-      parentBtn.classList.add('nav-active');
+      parentBtn.classList.remove('text-[#3f3f46]');
+      parentBtn.classList.add('text-[#0655a7]', 'font-medium');
       const bar = parentBtn.querySelector('.active-bar');
-      if (bar) bar.classList.remove('hidden');
+      if (bar) bar.classList.add('hidden');
+      const icon = parentBtn.querySelector('i:not([data-lucide="chevron-down"])');
+      if (icon) {
+        icon.classList.remove('text-[#71717a]');
+        icon.classList.add('text-[#0655a7]');
+      }
+      const chevron = parentBtn.querySelector('[data-lucide="chevron-down"]');
+      if (chevron) {
+        chevron.classList.add('text-[#0655a7]');
+      }
     }
+    if (meta.parent === 'mbkm') toggleMbkmSubmenu(true);
     if (meta.parent === 'mahasiswa') toggleMahasiswaSubmenu(true);
     if (meta.parent === 'dosen') toggleDosenSubmenu(true);
+    if (meta.parent === 'sidang') toggleSidangSubmenu(true);
 
-    const subBtn = document.getElementById('nav-sub-' + tabKey);
+    let subBtn = document.getElementById('nav-sub-' + tabKey) ||
+                 document.getElementById('nav-sub-mhs-' + tabKey) ||
+                 document.getElementById('nav-sub-dosen-' + tabKey) ||
+                 document.getElementById('nav-sub-mbkm-' + tabKey) ||
+                 document.getElementById('nav-sub-sidang-' + tabKey);
+    if ((tabKey === 'form-pendaftaran' || tabKey === 'form') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mbkm-form') || document.getElementById('nav-sub-mbkm-form-pendaftaran');
+    }
+    if ((tabKey === 'periode' || tabKey === 'periode-mbkm') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mbkm-periode');
+    }
+    if ((tabKey === 'mhs-data' || tabKey === 'data-mahasiswa') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mhs-data');
+    }
+    if ((tabKey === 'mhs-semua' || tabKey === 'semua-mahasiswa') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mhs-semua');
+    }
+    if ((tabKey === 'dosen-update' || tabKey === 'update-dosen') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mhs-update-dosen');
+    }
     if (subBtn) {
       subBtn.classList.remove('text-[#71717a]');
-      subBtn.classList.add('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80');
+      subBtn.classList.add('nav-sub-active');
+      const subBar = subBtn.querySelector('.sub-active-bar');
+      if (subBar) subBar.classList.remove('hidden');
     }
   } else {
     const activeBtn = document.getElementById('nav-' + tabKey);
@@ -2523,38 +2602,62 @@ function renderLaporanPaginationControls(totalPages) {
       type="button"
       onclick="goToLaporanPage(${laporanCurrentPage - 1})"
       ${prevDisabled ? 'disabled' : ''}
-      class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] ${prevDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#f4f4f5] cursor-pointer'} transition-colors"
+      title="Sebelumnya"
     >
-      Prev
+      <i data-lucide="chevron-left" class="w-4 h-4"></i>
     </button>
   `;
 
-  for (let p = 1; p <= totalPages; p++) {
+  // Sliding 3-page box window (1-3, 4-6, dst)
+  const windowStart = Math.floor((laporanCurrentPage - 1) / 3) * 3 + 1;
+  const windowEnd = Math.min(windowStart + 2, totalPages);
+
+  for (let p = windowStart; p <= windowEnd; p++) {
     const isActive = p === laporanCurrentPage;
     html += `
       <button
         type="button"
         onclick="goToLaporanPage(${p})"
-        class="w-6 h-6 flex items-center justify-center text-[11px] font-medium rounded transition-colors ${ isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50' }"
+        class="h-8 w-8 flex items-center justify-center rounded-md text-xs font-semibold transition-colors cursor-pointer ${
+          isActive
+            ? 'bg-[#0655a7] text-white shadow-none'
+            : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+        }"
       >
         ${p}
       </button>
     `;
   }
 
-  const nextDisabled = laporanCurrentPage === totalPages;
+  const nextDisabled = laporanCurrentPage >= totalPages;
   html += `
     <button
       type="button"
       onclick="goToLaporanPage(${laporanCurrentPage + 1})"
       ${nextDisabled ? 'disabled' : ''}
-      class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] ${nextDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#f4f4f5] cursor-pointer'} transition-colors"
+      title="Selanjutnya"
     >
-      Next
+      <i data-lucide="chevron-right" class="w-4 h-4"></i>
     </button>
+    <select
+      onchange="changeLaporanItemsPerPage(Number(this.value))"
+      class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer ml-1"
+    >
+      <option value="10" ${laporanItemsPerPage === 10 ? 'selected' : ''}>Show 10 items</option>
+      <option value="25" ${laporanItemsPerPage === 25 ? 'selected' : ''}>Show 25 items</option>
+      <option value="50" ${laporanItemsPerPage === 50 ? 'selected' : ''}>Show 50 items</option>
+    </select>
   `;
 
   controls.innerHTML = html;
+}
+
+function changeLaporanItemsPerPage(newLimit) {
+  laporanItemsPerPage = newLimit;
+  laporanCurrentPage = 1;
+  renderLaporanTable();
 }
 
 function goToLaporanPage(page) {
@@ -3978,8 +4081,8 @@ function toggleMitraStatus(id) {
   renderMitraTable();
 }
 
-// Controller Modal Tambah Mitra (YAGNI & Clean Handler)
-function showTambahMitraModal() {
+// Controller Modal Tambah Kontributor (YAGNI & Clean Handler)
+function showTambahMitraModal(type = 'eksternal') {
   const modal = document.getElementById('modal-tambah-mitra');
   if (!modal) return;
 
@@ -3987,10 +4090,12 @@ function showTambahMitraModal() {
   const iNama = document.getElementById('modal-internal-nama');
   const iPicNama = document.getElementById('modal-internal-pic-nama');
   const iPicEmail = document.getElementById('modal-internal-pic-email');
+  const iPass = document.getElementById('modal-internal-password');
   const iDesk = document.getElementById('modal-internal-deskripsi');
   if (iNama) iNama.value = '';
   if (iPicNama) iPicNama.value = '';
   if (iPicEmail) iPicEmail.value = '';
+  if (iPass) iPass.value = '';
   if (iDesk) iDesk.value = '';
 
   const eNama = document.getElementById('modal-eksternal-nama');
@@ -4000,11 +4105,15 @@ function showTambahMitraModal() {
   if (ePicNama) ePicNama.value = '';
   if (eDesk) eDesk.value = '';
 
-  // Sesuaikan dengan tab kategori aktif
-  modalMitraType = mitraCategoryTab;
-  const radioType = document.querySelector(`input[name="modalMitraType"][value="${mitraCategoryTab}"]`);
-  if (radioType) radioType.checked = true;
-  handleModalMitraTypeChange(mitraCategoryTab);
+  // Sesuaikan tipe kontributor
+  modalMitraType = (type === 'internal') ? 'internal' : 'eksternal';
+
+  const titleEl = document.getElementById('modal-mitra-title');
+  if (titleEl) {
+    titleEl.textContent = modalMitraType === 'internal' ? 'Tambah Kontributor Internal' : 'Tambah Kontributor Eksternal';
+  }
+
+  handleModalMitraTypeChange(modalMitraType);
 
   modal.classList.remove('hidden');
   if (window.lucide) window.lucide.createIcons();
@@ -4038,7 +4147,7 @@ function handleSubmitTambahMitra() {
     const deskripsi = document.getElementById('modal-internal-deskripsi')?.value.trim();
 
     if (!nama) {
-      alert('Mohon masukkan Nama Mitra!');
+      alert('Mohon masukkan Nama Kontributor!');
       document.getElementById('modal-internal-nama')?.focus();
       return;
     }
@@ -4076,7 +4185,7 @@ function handleSubmitTambahMitra() {
     });
 
     closeTambahMitraModal();
-    alert(`Mitra Internal "${nama}" berhasil ditambahkan!`);
+    alert(`Kontributor Internal "${nama}" berhasil ditambahkan!`);
     switchMitraCategoryTab('internal');
   } else {
     const nama = document.getElementById('modal-eksternal-nama')?.value.trim();
@@ -4084,7 +4193,7 @@ function handleSubmitTambahMitra() {
     const deskripsi = document.getElementById('modal-eksternal-deskripsi')?.value.trim();
 
     if (!nama) {
-      alert('Mohon masukkan Nama Mitra / Instansi!');
+      alert('Mohon masukkan Nama Kontributor / Instansi!');
       document.getElementById('modal-eksternal-nama')?.focus();
       return;
     }
@@ -4112,7 +4221,7 @@ function handleSubmitTambahMitra() {
     });
 
     closeTambahMitraModal();
-    alert(`Mitra Eksternal "${nama}" berhasil ditambahkan!`);
+    alert(`Kontributor Eksternal "${nama}" berhasil ditambahkan!`);
     switchMitraCategoryTab('eksternal');
   }
 }
@@ -4137,11 +4246,11 @@ function showMitraDetail(id) {
   const detailView = document.getElementById('subview-mitra-detail');
   detailView.classList.remove('hidden');
 
-  // Sembunyikan Header Baris 2 Direktori & Tombol Tambah Mitra
+  // Sembunyikan Header Baris 2 Direktori & Tombol Tambah Kontributor
   const bar2 = document.getElementById('dashboard-header-bar-2');
   if (bar2) bar2.classList.add('hidden');
 
-  updateBreadcrumb(['Mitra', 'Detail']);
+  updateBreadcrumb(['Kontributor', 'Detail']);
 
   // 1. Populate Hero Profile Card
   const avatarEl = document.getElementById('mitra-detail-avatar');
@@ -4149,37 +4258,31 @@ function showMitraDetail(id) {
     avatarEl.className = 'h-14 w-14 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-[#09090b] font-semibold text-lg flex items-center justify-center shrink-0';
     avatarEl.textContent = item.avatar;
   }
-  document.getElementById('mitra-detail-name').textContent = item.nama;
-  document.getElementById('mitra-detail-deskripsi').textContent = item.deskripsi || '-';
-  document.getElementById('mitra-detail-sektor').textContent = item.sektor || 'Industri';
-  document.getElementById('mitra-detail-pic').textContent = item.tipe === 'internal' && item.picEmail
-    ? `${item.picNama} (${item.picEmail})`
-    : item.picNama;
-  document.getElementById('mitra-detail-mou').textContent = item.mou || '-';
+  const nameEl = document.getElementById('mitra-detail-name');
+  if (nameEl) nameEl.textContent = item.nama;
+  const deskEl = document.getElementById('mitra-detail-deskripsi');
+  if (deskEl) deskEl.textContent = item.deskripsi || '-';
+  const picEl = document.getElementById('mitra-detail-pic');
+  if (picEl) {
+    picEl.textContent = item.tipe === 'internal' && item.picEmail
+      ? `${item.picNama} (${item.picEmail})`
+      : item.picNama;
+  }
 
-  // Badge Tipe Mitra (Styling Bersih & Elegan Sesuai Dashboard)
+  // Badge Tipe Kontributor
   const typeBadge = document.getElementById('mitra-detail-type-badge');
   if (typeBadge) {
     typeBadge.className = 'inline-flex items-center gap-1.5 rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#09090b]';
     if (item.tipe === 'internal') {
-      typeBadge.innerHTML = '<i data-lucide="building" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Mitra Internal</span>';
+      typeBadge.innerHTML = '<i data-lucide="building" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Kontributor Internal</span>';
     } else {
-      typeBadge.innerHTML = '<i data-lucide="globe" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Mitra Eksternal (Managed)</span>';
+      typeBadge.innerHTML = '<i data-lucide="globe" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Kontributor Eksternal</span>';
     }
   }
 
-  // 2. Populate 3 Mini KPI Cards
+  // 2. Populate 2 Mini KPI Cards (Dospem & Mahasiswa)
   const totalDosen = item.dosen ? item.dosen.length : 0;
   const totalMhs = item.mhs ? item.mhs.length : 0;
-
-  const kpiLabel1 = document.getElementById('kpi-mitra-label-1');
-  const kpiVal1 = document.getElementById('kpi-mitra-val-1');
-  const kpiSub1 = document.getElementById('kpi-mitra-sub-1');
-  if (kpiLabel1 && kpiVal1 && kpiSub1) {
-    kpiLabel1.textContent = 'Sektor Industri';
-    kpiVal1.textContent = item.sektor || 'Industri';
-    kpiSub1.textContent = item.tipe === 'internal' ? 'Mitra Internal Kampus' : 'Mitra Nasional / MSIB';
-  }
 
   const kpiVal2 = document.getElementById('kpi-mitra-val-2');
   if (kpiVal2) kpiVal2.textContent = `${totalDosen} Dosen`;
@@ -4187,7 +4290,7 @@ function showMitraDetail(id) {
   const kpiVal3 = document.getElementById('kpi-mitra-val-3');
   if (kpiVal3) kpiVal3.textContent = `${totalMhs} Mahasiswa`;
 
-  // 3. Render Tabs Header (Hanya Daftar Mahasiswa & Daftar Dosen + Kelola CMS Mitra)
+  // 3. Render Tabs Header (Hanya Daftar Mahasiswa & Daftar Dosen)
   const tabsHeader = document.getElementById('mitra-detail-tabs-header');
   if (tabsHeader) {
     tabsHeader.innerHTML = `
@@ -4250,7 +4353,7 @@ function showMitraDetail(id) {
     </div>
   `;
 
-  // Helper render tabel dosen bersih (No, Nama Dosen, NIDN, Prodi, Mahasiswa Binaan)
+  // Helper render tabel dosen bersih (No, Nama Dosen, NIDN, Prodi) - Kolom Mahasiswa Binaan Dihapus Sesuai Request
   const renderTableDosen = (dosenList) => `
     <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
       <table class="w-full text-sm">
@@ -4260,17 +4363,15 @@ function showMitraDetail(id) {
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama Dosen</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">NIDN</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
-            <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Mahasiswa Binaan</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#e4e4e7]">
-          ${dosenList.length === 0 ? '<tr><td colspan="5" class="py-6 text-center text-sm text-[#71717a]">Belum ada data dosen teralokasi.</td></tr>' : dosenList.map((d, idx) => `
+          ${dosenList.length === 0 ? '<tr><td colspan="4" class="py-6 text-center text-sm text-[#71717a]">Belum ada data dosen teralokasi.</td></tr>' : dosenList.map((d, idx) => `
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
               <td class="px-3 text-center text-[#71717a] text-xs">${idx + 1}</td>
               <td class="px-4 font-medium text-[#09090b] text-sm">${d.nama}</td>
               <td class="px-4 text-xs text-[#71717a]">${d.nidn}</td>
               <td class="px-4 text-sm text-[#71717a]">${d.prodi}</td>
-              <td class="px-4 text-center font-medium text-sm text-[#0655a7]">${d.mhsCount} Mahasiswa</td>
             </tr>
           `).join('')}
         </tbody>
@@ -4313,11 +4414,11 @@ function hideMitraDetail() {
   if (detail) detail.classList.add('hidden');
   activeDetailMitraId = null;
 
-  // Tampilkan kembali Header Baris 2 Direktori & Tombol Tambah Mitra
+  // Tampilkan kembali Header Baris 2 Direktori & Tombol Tambah Kontributor
   const bar2 = document.getElementById('dashboard-header-bar-2');
   if (bar2) bar2.classList.remove('hidden');
 
-  updateBreadcrumb(['Mitra']);
+  updateBreadcrumb(['Kontributor']);
 }
 
 // Legacy alias for compatibility

@@ -4,268 +4,265 @@ import AdminShell from "../../layouts/AdminShell.astro";
 ---
 
 <AdminShell currentTab="dosen-data">
-<section
-            id="section-dosen-data" x-show="$store.mbkm.currentSection === 'dosen-data'"
-            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  <section
+    id="section-dosen-data"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    x-data="{
+      searchQuery: '',
+      sortOption: 'nama_asc',
+      isSyncing: false,
+      isBulkModalOpen: false,
+      dosenList: [
+        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', npp: '0612047801', aktifPeriode: true, sisaKuota: 2, totalKuota: 8 },
+        { id: 2, nama: 'Affandy, Ph.D', npp: '0617087502', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
+        { id: 3, nama: 'Christy Atika Sari, M.Kom', npp: '0629038401', aktifPeriode: true, sisaKuota: 4, totalKuota: 8 },
+        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', npp: '0615028201', aktifPeriode: true, sisaKuota: 3, totalKuota: 8 },
+        { id: 5, nama: 'Ajib Susanto, M.Kom', npp: '0621057901', aktifPeriode: false, sisaKuota: 8, totalKuota: 8 },
+      ],
+      toggleStatus(dosen) {
+        dosen.aktifPeriode = !dosen.aktifPeriode;
+      },
+      syncData() {
+        this.isSyncing = true;
+        setTimeout(() => {
+          this.isSyncing = false;
+          alert('Sinkronisasi data dosen pembimbing dari SIADIN berhasil.');
+        }, 800);
+      }
+    }"
+  >
+    <!-- Toolbar Style KP -->
+    <div class="flex flex-col md:flex-row gap-2 items-start md:items-center justify-between">
+      <!-- Search Input -->
+      <div class="relative w-full sm:w-72 md:w-80">
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input
+          type="text"
+          x-model="searchQuery"
+          placeholder="Cari Dosen..."
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+      </div>
+
+      <!-- Action Buttons Right -->
+      <div class="flex items-center gap-2 ml-auto flex-wrap">
+        <select
+          x-model="sortOption"
+          class="h-9 rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="nama_asc">Nama (A - Z)</option>
+          <option value="nama_desc">Nama (Z - A)</option>
+          <option value="kuota_asc">Sisa Kuota Terbanyak</option>
+        </select>
+
+        <button
+          type="button"
+          @click="isBulkModalOpen = true"
+          class="inline-flex items-center gap-2 h-9 px-4 text-xs font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white shadow-none transition-colors"
+        >
+          <i data-lucide="list-checks" class="w-4 h-4"></i>
+          <span>Pilih Banyak</span>
+        </button>
+
+        <button
+          type="button"
+          @click="syncData()"
+          :disabled="isSyncing"
+          class="inline-flex items-center justify-center h-9 w-9 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] transition-colors"
+          title="Sinkronisasi SIADIN"
+        >
+          <i data-lucide="refresh-ccw" class="w-4 h-4" :class="isSyncing ? 'animate-spin text-[#0655a7]' : ''"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabel Data Dosen Style KP -->
+    <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+            <tr>
+              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status Periode</th>
+              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Plotting Mahasiswa</th>
+              <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7]">
+          <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
+            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+              <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
+              <td class="h-12 px-4">
+                <div class="flex items-center gap-3">
+                  <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                    <span x-text="dosen.nama.charAt(0)"></span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
+                    <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
+                  </div>
+                </div>
+              </td>
+              <td class="h-12 px-4 text-center">
+                <button
+                  type="button"
+                  @click="toggleStatus(dosen)"
+                  class="inline-flex items-center justify-center gap-1.5 h-8 min-w-[100px] px-3 rounded-md text-xs font-medium transition-colors"
+                  :class="dosen.aktifPeriode ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-[#f4f4f5]'"
+                >
+                  <template x-if="dosen.aktifPeriode">
+                    <span class="inline-flex items-center gap-1">
+                      <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                      <span>Aktif</span>
+                    </span>
+                  </template>
+                  <template x-if="!dosen.aktifPeriode">
+                    <span class="inline-flex items-center gap-1">
+                      <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                      <span>Nonaktif</span>
+                    </span>
+                  </template>
+                </button>
+              </td>
+              <td class="h-12 px-4 text-center">
+                <template x-if="dosen.sisaKuota > 0">
+                  <span class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b]">
+                    <i data-lucide="users" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                    <span x-text="`Sisa kuota (${dosen.sisaKuota})`"></span>
+                  </span>
+                </template>
+                <template x-if="dosen.sisaKuota === 0">
+                  <span class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-[#f4f4f5] text-xs font-medium text-[#71717a]">
+                    <i data-lucide="users" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                    <span>Kuota Penuh</span>
+                  </span>
+                </template>
+              </td>
+              <td class="h-12 px-4 text-center">
+                <div class="relative inline-block text-left" x-data="{ openAction: false }">
+                  <button
+                    type="button"
+                    @click="openAction = !openAction"
+                    @click.outside="openAction = false"
+                    class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-[#f4f4f5] text-[#71717a]"
+                  >
+                    <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                  </button>
+                  <div
+                    x-show="openAction"
+                    x-cloak
+                    class="absolute right-0 mt-1 w-32 rounded-md border border-[#e4e4e7] bg-white py-1 shadow-md z-20 text-xs"
+                  >
+                    <a
+                      href="/admin/dosen-kuota"
+                      class="flex items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5]"
+                    >
+                      <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                      <span>Detail</span>
+                    </a>
+                    <a
+                      href="/admin/dosen-update"
+                      class="flex items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5]"
+                    >
+                      <i data-lucide="pencil" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                      <span>Plotting</span>
+                    </a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- Standardized Pagination Sesuai Screenshot 1 -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+      <div class="text-xs text-[#71717a]">Menampilkan 1 - 5 dari 48 data</div>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          disabled
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+        >
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+        <button
+          type="button"
+          class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+        >
+          1
+        </button>
+        <button
+          type="button"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+        >
+          2
+        </button>
+        <button
+          type="button"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+        >
+          3
+        </button>
+        <button
+          type="button"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
+        >
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+        <select
+          class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="10">Show 10 items</option>
+          <option value="25">Show 25 items</option>
+          <option value="50">Show 50 items</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Modal Pilih Banyak (Bulk Activation) -->
+    <div
+      x-show="isBulkModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    >
+      <div
+        @click.outside="isBulkModalOpen = false"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold text-[#09090b]">Aktivasi Dosen Massal</h3>
+          <button
+            type="button"
+            @click="isBulkModalOpen = false"
+            class="h-8 w-8 rounded-md hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center"
           >
-            <!-- Quick Info / Stat Cards (Konten langsung naik ke atas) -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
-                  <i data-lucide="users" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Total Dosen Terdaftar</div>
-                  <div class="text-sm font-bold text-[#09090b]">48 Dosen</div>
-                </div>
-              </div>
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div
-                  class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 shrink-0"
-                >
-                  <i data-lucide="user-check" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">DPL Aktif Membina</div>
-                  <div class="text-sm font-bold text-[#09090b]">36 Dosen</div>
-                </div>
-              </div>
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 shrink-0">
-                  <i data-lucide="activity" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Rata-rata Bimbingan</div>
-                  <div class="text-sm font-bold text-[#09090b]">5.2 Mhs/Dosen</div>
-                </div>
-              </div>
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div class="flex items-center justify-center w-8 h-8 text-indigo-600 rounded-lg bg-indigo-50 shrink-0">
-                  <i data-lucide="layers" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Kapasitas Tersedia</div>
-                  <div class="text-sm font-bold text-[#09090b]">142 Slot</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Toolbar Pencarian & Filter -->
-            <div class="flex flex-col justify-between gap-2 pt-1 sm:flex-row sm:items-center">
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-semibold text-[#09090b]">Daftar DPL</span>
-                <span class="text-[11px] text-[#a1a1aa]">•</span>
-                <span class="text-[11px] text-[#71717a]">Menampilkan 48 dosen pembimbing</span>
-              </div>
-              <div class="flex flex-wrap items-center gap-2">
-                <select
-                  id="filter-dosen-prodi-embed"
-                  onchange="filterDosenData()"
-                  class="px-2.5 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                >
-                  <option value="">Semua Program Studi</option>
-                  <option value="Teknik Informatika">Teknik Informatika</option>
-                  <option value="Sistem Informasi">Sistem Informasi</option>
-                  <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
-                  <option value="Ilmu Komunikasi">Ilmu Komunikasi</option>
-                </select>
-                <input
-                  type="text"
-                  id="search-dosen-data-embed"
-                  oninput="filterDosenData()"
-                  placeholder="Cari nama / NIDN..."
-                  class="px-2.5 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-48"
-                />
-              </div>
-            </div>
-
-            <!-- Tabel Data Dosen -->
-            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
-              <table class="w-full text-xs text-left border-collapse">
-                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
-                  <tr>
-                    <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Dosen Pembimbing</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">NIDN / NPP</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Prodi Homebase</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Bidang Kepakaran</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra Binaan</th>
-                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Mahasiswa Aktif</th>
-                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
-                    <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="dosen-data-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center text-[#71717a]">1</td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#09090b]">Dr. M. Arief Soeleman, M.Kom</div>
-                      <div class="text-[10px] text-[#71717a]">arief.soeleman@dsn.dinus.ac.id</div>
-                    </td>
-                    <td class="px-3 py-2.5 text-[11px] text-[#3f3f46]">0612047801</td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">Teknik Informatika</td>
-                    <td class="px-3 py-2.5">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-100"
-                      >
-                        Machine Learning & AI
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">Bengkel Koding, Dicoding</td>
-                    <td class="px-3 py-2.5 text-center font-bold text-[#0655a7]">6 / 8</td>
-                    <td class="px-3 py-2.5 text-center">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
-                      >
-                        Aktif Membimbing
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-center">
-                      <button
-                        type="button"
-                        onclick="
-                          showDetailDosen(
-                            'Dr. M. Arief Soeleman, M.Kom',
-                            '0612047801',
-                            'Teknik Informatika',
-                            'Machine Learning & AI',
-                            6
-                          )
-                        "
-                        class="px-2.5 py-1 rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#0655a7] font-semibold text-[11px] shadow-2xs"
-                      >
-                        Detail
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center text-[#71717a]">2</td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#09090b]">Affandy, Ph.D</div>
-                      <div class="text-[10px] text-[#71717a]">affandy@dsn.dinus.ac.id</div>
-                    </td>
-                    <td class="px-3 py-2.5 text-[11px] text-[#3f3f46]">0617087502</td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">Teknik Informatika</td>
-                    <td class="px-3 py-2.5">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-purple-50 text-purple-700 border border-purple-100"
-                      >
-                        Cloud Computing & DevOps
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">PT Matic, IDSS</td>
-                    <td class="px-3 py-2.5 text-center font-bold text-[#0655a7]">8 / 8</td>
-                    <td class="px-3 py-2.5 text-center">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200"
-                      >
-                        Kuota Penuh
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-center">
-                      <button
-                        type="button"
-                        onclick="
-                          showDetailDosen(
-                            'Affandy, Ph.D',
-                            '0617087502',
-                            'Teknik Informatika',
-                            'Cloud Computing & DevOps',
-                            8
-                          )
-                        "
-                        class="px-2.5 py-1 rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#0655a7] font-semibold text-[11px] shadow-2xs"
-                      >
-                        Detail
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center text-[#71717a]">3</td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#09090b]">Christy Atika Sari, M.Kom</div>
-                      <div class="text-[10px] text-[#71717a]">atika.sari@dsn.dinus.ac.id</div>
-                    </td>
-                    <td class="px-3 py-2.5 text-[11px] text-[#3f3f46]">0629038401</td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">Sistem Informasi</td>
-                    <td class="px-3 py-2.5">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-100"
-                      >
-                        Sistem Informasi & ERP
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">Ryuje Tech, DTech</td>
-                    <td class="px-3 py-2.5 text-center font-bold text-[#0655a7]">4 / 8</td>
-                    <td class="px-3 py-2.5 text-center">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
-                      >
-                        Aktif Membimbing
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-center">
-                      <button
-                        type="button"
-                        onclick="
-                          showDetailDosen(
-                            'Christy Atika Sari, M.Kom',
-                            '0629038401',
-                            'Sistem Informasi',
-                            'Sistem Informasi & ERP',
-                            4
-                          )
-                        "
-                        class="px-2.5 py-1 rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#0655a7] font-semibold text-[11px] shadow-2xs"
-                      >
-                        Detail
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Pagination & Info -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
-              <div class="text-[11px] text-[#71717a]">Menampilkan 1 - 5 dari 48 dosen pembimbing</div>
-              <div class="flex items-center gap-2.5">
-                <div class="flex items-center gap-1">
-                  <button
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
-                    title="Sebelumnya"
-                  >
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0655a7] text-white font-semibold text-xs shadow-2xs"
-                  >
-                    1
-                  </button>
-                  <button
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
-                    title="Selanjutnya"
-                  >
-                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                  </button>
-                </div>
-                <div class="relative">
-                  <select
-                    class="appearance-none pl-3 pr-8 py-1.5 text-xs font-medium text-[#09090b] bg-white border border-[#0655a7] rounded-lg focus:outline-none cursor-pointer"
-                  >
-                    <option value="10">Show 10 items</option>
-                    <option value="25">Show 25 items</option>
-                    <option value="50">Show 50 items</option>
-                  </select>
-                  <i
-                    data-lucide="chevron-down"
-                    class="w-3.5 h-3.5 text-[#09090b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                  ></i>
-                </div>
-              </div>
-            </div>
-          </section>
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <p class="text-xs text-[#71717a] leading-relaxed">
+          Aktifkan atau nonaktifkan status seluruh dosen pembimbing terdaftar pada periode akademik saat ini secara serentak.
+        </p>
+        <div class="space-y-2 pt-2">
+          <button
+            type="button"
+            @click="dosenList.forEach(d => d.aktifPeriode = true); isBulkModalOpen = false; alert('Semua dosen berhasil diaktifkan!')"
+            class="w-full h-9 rounded-md bg-[#0655a7] text-white text-xs font-medium hover:bg-[#0655a7]/90 transition-colors"
+          >
+            Aktifkan Semua Dosen Terdaftar
+          </button>
+          <button
+            type="button"
+            @click="dosenList.forEach(d => d.aktifPeriode = false); isBulkModalOpen = false; alert('Semua dosen berhasil dinonaktifkan!')"
+            class="w-full h-9 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-[#f4f4f5] transition-colors"
+          >
+            Nonaktifkan Semua Dosen
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 </AdminShell>
