@@ -399,7 +399,7 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
       { key: 'surekom', label: 'Draft SuReKom' }
     ];
     var KPR_REG_DEFAULT = {
-      status: 'buka', sks: 20, kuota: 20, terisi: 6, deadline: '2026-10-25T23:59',
+      status: 'buka', sks: 20, kuota: 20, terisi: 3, deadline: '2026-10-25T23:59',
       ipk: 3.0, sksMin: 100, smt: '6', berkas: ['transkrip', 'surekom'], grup: ''
     };
     var kprReg = Object.assign({}, KPR_REG_DEFAULT, { berkas: KPR_REG_DEFAULT.berkas.slice() });
@@ -776,7 +776,18 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
       kprFillReg();
       kpsRender();
       var h = (location.hash || '').replace('#', '');
-      kprShowTab(h);
+      var edit = /^showcase-edit-([A-Za-z0-9_-]+)$/.exec(h);
+      if (edit && kpsFind(edit[1])) {
+        // pintasan dari dashboard: lanjutkan draf yang dipilih
+        kprShowTab('showcase');
+        kpsOpenModal(edit[1]);
+      } else if (h === 'showcase-baru') {
+        // pintasan dari dashboard: buka tab showcase dan form tambah proyek
+        kprShowTab('showcase');
+        kpsOpenModal();
+      } else {
+        kprShowTab(h);
+      }
       kprIcons();
     }
     document.removeEventListener('astro:page-load', window.__kprInit);

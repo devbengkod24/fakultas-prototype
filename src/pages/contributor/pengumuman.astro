@@ -485,6 +485,14 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
       if (!document.getElementById('kpg-tbody')) return;
       var sel = document.getElementById('kpg-sasaran');
       if (sel) sel.onchange = kpgUpdateHint;
+      // tautan dari dashboard: #draf-<id> membuka tab Draf dan form edit pengumuman itu
+      var m = /^#draf-(\d+)$/.exec(location.hash || '');
+      if (m && kpgData.some(function (p) { return p.id === Number(m[1]); })) {
+        kpgState.status = 'draft';
+        kpgRender();
+        kpgOpenModal(Number(m[1]));
+        return;
+      }
       kpgRender();
     }
     document.removeEventListener('astro:page-load', window.__kpgInit);

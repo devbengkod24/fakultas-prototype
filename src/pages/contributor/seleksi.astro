@@ -293,6 +293,9 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
     function kpdInit() {
       if (!kpdEl('kpd-tbody')) return;
       kpdRender();
+      // tautan dari dashboard: #detail-<id> langsung membuka detail pendaftar
+      var m = /^#detail-(\d+)$/.exec(location.hash || '');
+      if (m && kpdFind(Number(m[1]))) kpdOpenDrawer(Number(m[1]));
     }
     document.removeEventListener('astro:page-load', window.__kpdInit);
     window.__kpdInit = kpdInit;
