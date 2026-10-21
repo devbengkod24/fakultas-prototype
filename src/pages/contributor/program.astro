@@ -7,21 +7,23 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
     <!-- Top Action Bar -->
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Kelola Program Binaan</h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">Kelola informasi utama hero, showcase hasil karya proyek mahasiswa, dan formasi lowongan track yang tampil pada halaman detail publik.</p>
+        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Kelola Program</h2>
+        <p class="text-[14px] leading-[20px] text-[#71717a]">Atur profil MBKM, showcase project, dan ketentuan pendaftaran yang tampil pada halaman detail publik.</p>
       </div>
-      <div class="flex items-center gap-2">
-        <a href="/detail-mbkm" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline">
-          <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i>
-          <span>Lihat Halaman Detail</span>
-        </a>
-        <button type="button" onclick="saveProgramContent()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
-          <i data-lucide="save" class="w-3.5 h-3.5"></i>
-          <span>Simpan Perubahan</span>
-        </button>
-      </div>
+      <a href="/detail-mbkm" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-300 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-50 transition-colors no-underline">
+        <i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i>
+        <span>Lihat Halaman Detail</span>
+      </a>
     </div>
 
+    <!-- Tab: Profil MBKM | Showcase Project | Program Pendaftaran -->
+    <div id="kpr-tabs" role="tablist" class="flex items-center gap-1 border-b border-[#e4e4e7] overflow-x-auto">
+      <button type="button" role="tab" data-tab="profil" onclick="kprShowTab('profil')" class="kpr-tab"></button>
+      <button type="button" role="tab" data-tab="showcase" onclick="kprShowTab('showcase')" class="kpr-tab"></button>
+      <button type="button" role="tab" data-tab="pendaftaran" onclick="kprShowTab('pendaftaran')" class="kpr-tab"></button>
+    </div>
+
+    <div id="kpr-panel-profil" role="tabpanel" class="kpr-panel space-y-6">
     <!-- CARD 1: INFORMASI UTAMA & HERO DETAIL -->
     <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
       <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-4">
@@ -69,19 +71,15 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
           </div>
         </div>
 
-        <!-- Baris 3: Konversi SKS, Highlight Badge, & Deadline -->
+        <!-- Baris 3: Badge Highlight -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700">Bobot Konversi SKS <span class="text-red-500">*</span></label>
-            <input type="text" id="progSks" value="Konversi Penuh 20 SKS" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
-          </div>
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-gray-700">Badge Highlight Program</label>
             <input type="text" id="progBadge" value="Program Unggulan Nasional" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
           </div>
-          <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700">Batas Akhir Pendaftaran</label>
-            <input type="text" id="progDeadline" value="25 Oktober 2026 • 23:59 WIB" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          <div class="md:col-span-2 flex items-start gap-2 px-3.5 py-2.5 rounded-lg bg-[#f1f7fe] border border-[#e2eefc] text-xs text-[#114d91] self-end">
+            <i data-lucide="info" class="w-4 h-4 shrink-0 mt-px"></i>
+            <p>Bobot konversi SKS dan batas akhir pendaftaran kini diatur di tab <button type="button" onclick="kprShowTab('pendaftaran')" class="font-semibold underline">Program Pendaftaran</button>.</p>
           </div>
         </div>
 
@@ -134,9 +132,18 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
           </div>
         </div>
       </div>
+      <div class="flex justify-end pt-4 border-t border-[#e4e4e7]">
+        <button type="button" onclick="saveProgramContent()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+          <i data-lucide="save" class="w-3.5 h-3.5"></i>
+          <span>Simpan Profil MBKM</span>
+        </button>
+      </div>
     </div>
 
-    <!-- CARD 2: SHOWCASE KARYA PROYEK MAHASISWA -->
+    </div>
+
+    <div id="kpr-panel-showcase" role="tabpanel" class="kpr-panel space-y-6 hidden">
+    <!-- PANEL 2: SHOWCASE PROJECT -->
     <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
         <div>
@@ -144,261 +151,644 @@ Selama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mento
             <i data-lucide="folder-git-2" class="w-4 h-4 text-[#1063B9]"></i>
             <span>Showcase Hasil Karya Proyek Mahasiswa</span>
           </h3>
-          <p class="text-xs text-[#71717a] mt-0.5">Portofolio capstone project yang dikembangkan mahasiswa binaan untuk dipamerkan di halaman detail.</p>
+          <p class="text-xs text-[#71717a] mt-0.5">Hanya proyek berstatus Dipublikasikan yang tampil di halaman detail publik. Draf dan proyek yang disembunyikan hanya terlihat oleh kontributor.</p>
         </div>
-        <button type="button" onclick="openShowcaseModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
+        <button type="button" onclick="kpsOpenModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
           <span>Tambah Proyek Showcase</span>
         </button>
       </div>
 
-      <!-- List Showcase Proyek -->
-      <div id="showcaseListContainer" class="space-y-4">
-        <!-- Item 1 -->
-        <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-01">
-          <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Smart Energy" class="w-full h-full object-cover" />
-            <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">IoT &amp; ML</span>
-          </div>
-          <div class="flex-1 space-y-1.5">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 6</span>
-                <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-01</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
-                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                </button>
-                <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
-            </div>
-            <h4 class="text-sm font-bold text-gray-900 item-title">Smart Energy &amp; Air Quality Monitoring Campus FIK</h4>
-            <p class="text-xs text-gray-600 leading-relaxed item-desc">Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.</p>
-            <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Python</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">TensorFlow</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">React.js</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Google Cloud</span>
-            </div>
-          </div>
-        </div>
+      <!-- Chip filter status -->
+      <div id="kps-chips" class="flex flex-wrap items-center gap-2"></div>
 
-        <!-- Item 2 -->
-        <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-02">
-          <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
-            <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Attendance AI" class="w-full h-full object-cover" />
-            <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">Computer Vision</span>
-          </div>
-          <div class="flex-1 space-y-1.5">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 5</span>
-                <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-02</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
-                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                </button>
-                <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
-            </div>
-            <h4 class="text-sm font-bold text-gray-900 item-title">Vision-Based Automated Academic Attendance &amp; Fraud Detection</h4>
-            <p class="text-xs text-gray-600 leading-relaxed item-desc">Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.</p>
-            <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Python</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">PyTorch</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">YOLOv8</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">FastAPI</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="showcase-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start" data-id="PRJ-2026-03">
-          <div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">
-            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" alt="Robotics" class="w-full h-full object-cover" />
-            <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">Robotics &amp; AI</span>
-          </div>
-          <div class="flex-1 space-y-1.5">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Capstone Project Batch 5</span>
-                <span class="text-xs text-gray-500 font-medium">ID: PRJ-2026-03</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <button type="button" onclick="editShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded" title="Edit">
-                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                </button>
-                <button type="button" onclick="deleteShowcaseItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded" title="Hapus">
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
-            </div>
-            <h4 class="text-sm font-bold text-gray-900 item-title">Autonomous Robotic Trash Segregator for Green Campus</h4>
-            <p class="text-xs text-gray-600 leading-relaxed item-desc">Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.</p>
-            <div class="flex flex-wrap items-center gap-1.5 pt-1 item-tags">
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">ROS2</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">OpenCV</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">Edge TPU</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">C++</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="kps-list" class="space-y-4"></div>
+    </div>
     </div>
 
-    <!-- CARD 3: FORMASI TRACK & LOWONGAN TERBUKA -->
+    <div id="kpr-panel-pendaftaran" role="tabpanel" class="kpr-panel space-y-6 hidden">
+    <!-- PANEL 3: PROGRAM PENDAFTARAN (satu pendaftaran untuk seluruh program) -->
     <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 md:p-6 shadow-2xs space-y-5">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-4">
+      <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-[#e4e4e7] pb-4">
         <div>
           <h3 class="text-[15px] font-semibold text-[#09090b] flex items-center gap-2">
-            <i data-lucide="briefcase" class="w-4 h-4 text-[#1063B9]"></i>
-            <span>Formasi Track &amp; Lowongan Terbuka</span>
+            <i data-lucide="clipboard-check" class="w-4 h-4 text-[#1063B9]"></i>
+            <span>Program Pendaftaran</span>
           </h3>
-          <p class="text-xs text-[#71717a] mt-0.5">Daftar formasi spesialisasi yang dapat dipilih mahasiswa pendaftar beserta kuota dan kualifikasinya.</p>
+          <p class="text-xs text-[#71717a] mt-0.5">Satu pendaftaran mencakup seluruh program. Atur ketentuan konversi, kuota, kualifikasi, dan berkas yang dibutuhkan.</p>
         </div>
-        <button type="button" onclick="openTrackModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1063B9] border border-blue-200 text-xs font-semibold rounded-lg transition-colors shrink-0">
-          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-          <span>Tambah Formasi Track</span>
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="kpr-reg-badge"></span>
+          <button type="button" id="kpr-reg-toggle" onclick="kprToggleReg()" class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors"></button>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-2.5 px-4 py-3 rounded-lg bg-[#f1f7fe] border border-[#e2eefc] text-xs text-[#114d91]">
+        <i data-lucide="info" class="w-4 h-4 shrink-0 mt-px"></i>
+        <p>Durasi program dan pertanyaan formulir pendaftaran diatur oleh Koordinator MBKM dan tidak dapat diubah di sini.</p>
+      </div>
+
+      <form id="kpr-reg-form" class="space-y-5" onsubmit="return false">
+        <!-- Konversi, kuota, batas akhir -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="space-y-1.5">
+            <label for="kpr-sks" class="block text-xs font-semibold text-gray-700">Bobot Konversi SKS <span class="text-red-500">*</span></label>
+            <input type="number" id="kpr-sks" min="1" max="24" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <p id="kpr-err-sks" class="hidden text-[11px] text-red-600"></p>
+          </div>
+          <div class="space-y-1.5">
+            <label for="kpr-kuota" class="block text-xs font-semibold text-gray-700">Kuota Total Peserta <span class="text-red-500">*</span></label>
+            <input type="number" id="kpr-kuota" min="1" max="500" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <p id="kpr-kuota-hint" class="text-[11px] text-[#71717a]"></p>
+            <p id="kpr-err-kuota" class="hidden text-[11px] text-red-600"></p>
+          </div>
+          <div class="space-y-1.5">
+            <label for="kpr-deadline" class="block text-xs font-semibold text-gray-700">Batas Akhir Pendaftaran <span class="text-red-500">*</span></label>
+            <input type="datetime-local" id="kpr-deadline" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <p id="kpr-err-deadline" class="hidden text-[11px] text-red-600">Tentukan tanggal dan jam batas akhir.</p>
+          </div>
+        </div>
+
+        <!-- Kualifikasi -->
+        <div class="pt-4 border-t border-gray-100 space-y-3">
+          <h4 class="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+            <span>Kualifikasi Akademik Pendaftar</span>
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="space-y-1.5">
+              <label for="kpr-ipk" class="block text-xs font-semibold text-gray-700">IPK Minimal <span class="text-red-500">*</span></label>
+              <input type="number" id="kpr-ipk" min="0" max="4" step="0.01" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              <p id="kpr-err-ipk" class="hidden text-[11px] text-red-600">IPK antara 0,00 dan 4,00.</p>
+            </div>
+            <div class="space-y-1.5">
+              <label for="kpr-sks-min" class="block text-xs font-semibold text-gray-700">SKS Lulus Minimal <span class="text-red-500">*</span></label>
+              <input type="number" id="kpr-sks-min" min="0" max="160" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+              <p id="kpr-err-sks-min" class="hidden text-[11px] text-red-600">SKS antara 0 dan 160.</p>
+            </div>
+            <div class="space-y-1.5">
+              <label for="kpr-smt" class="block text-xs font-semibold text-gray-700">Semester Minimal</label>
+              <select id="kpr-smt" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Berkas wajib -->
+        <div class="pt-4 border-t border-gray-100 space-y-2">
+          <h4 class="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+            <i data-lucide="file-check" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+            <span>Berkas Wajib Pendaftar</span>
+          </h4>
+          <div id="kpr-berkas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"></div>
+          <p id="kpr-err-berkas" class="hidden text-[11px] text-red-600">Pilih minimal satu berkas wajib.</p>
+        </div>
+
+        <!-- Grup -->
+        <div class="pt-4 border-t border-gray-100 space-y-1.5 max-w-xl">
+          <label for="kpr-grup" class="block text-xs font-semibold text-gray-700">Tautan Grup WhatsApp / Telegram <span class="text-[#71717a] font-normal">(opsional)</span></label>
+          <input type="url" id="kpr-grup" placeholder="https://chat.whatsapp.com/... atau https://t.me/..." class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          <p class="text-[11px] text-[#71717a]">Dibagikan kepada mahasiswa yang diterima.</p>
+          <p id="kpr-err-grup" class="hidden text-[11px] text-red-600">Gunakan tautan grup WhatsApp (chat.whatsapp.com) atau Telegram (t.me).</p>
+        </div>
+
+        <!-- Ringkasan -->
+        <div class="pt-4 border-t border-gray-100">
+          <p class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider mb-2">Ringkasan yang dilihat mahasiswa</p>
+          <p id="kpr-summary" class="text-xs text-[#09090b] leading-relaxed px-4 py-3 rounded-lg bg-gray-50 border border-gray-100"></p>
+        </div>
+      </form>
+
+      <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
+        <button type="button" onclick="kprResetReg()" class="px-4 py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">Batalkan Perubahan</button>
+        <button type="button" onclick="kprSaveReg()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs">
+          <i data-lucide="save" class="w-3.5 h-3.5"></i>
+          <span>Simpan Pendaftaran</span>
+        </button>
+      </div>
+    </div>
+    </div>
+
+  </section>
+
+  <!-- Modal: Tambah / Edit Proyek Showcase -->
+  <div id="kps-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onclick="if(event.target===this)kpsRequestClose()">
+    <div class="bg-white w-full max-w-xl max-h-[92vh] flex flex-col rounded-[12px] shadow-xl border border-[#e4e4e7]">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-[#e4e4e7]">
+        <h3 id="kps-modal-title" class="text-[15px] font-semibold text-[#09090b]">Tambah Proyek Showcase</h3>
+        <button type="button" onclick="kpsRequestClose()" class="p-1 rounded hover:bg-gray-100 text-[#71717a]" aria-label="Tutup">
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <!-- List Formasi Track -->
-      <div id="tracksListContainer" class="space-y-3">
-        <!-- Track 1 -->
-        <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div class="flex items-start gap-3.5">
-            <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
-              <i data-lucide="brain-circuit" class="w-5 h-5"></i>
-            </div>
-            <div class="space-y-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Dibuka (Open)
-                </span>
-                <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
-                  <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
-                  <span>Sisa Kuota: <strong>12</strong> / 20 Mahasiswa</span>
-                </span>
-                <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
-                  Konversi 20 SKS
-                </span>
-              </div>
-              <h4 class="text-sm font-bold text-gray-900 track-title">Machine Learning &amp; AI Development Track</h4>
-              <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Spesialisasi penguasaan deep learning, computer vision, natural language processing, serta implementasi deployment model cerdas pada arsitektur edge &amp; cloud computing.</p>
-              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
-                <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
-                <span>•</span>
-                <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Transkrip (PDF) &amp; Surekom</span>
-                <span>•</span>
-                <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
-              </div>
-            </div>
+      <form id="kps-form" class="flex-1 overflow-y-auto px-5 py-4 space-y-4" onsubmit="return false">
+        <input type="hidden" id="kps-id" />
+
+        <div class="space-y-1.5">
+          <label for="kps-title" class="block text-xs font-semibold text-gray-700">Judul Hasil Proyek <span class="text-red-500">*</span></label>
+          <input type="text" id="kps-title" maxlength="150" placeholder="Contoh: Smart Energy & Air Quality Monitoring Campus FIK" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          <p id="kps-err-title" class="hidden text-[11px] text-red-600">Judul wajib diisi.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label for="kps-batch" class="block text-xs font-semibold text-gray-700">Batch / Angkatan <span class="text-red-500">*</span></label>
+            <input type="text" id="kps-batch" maxlength="60" placeholder="Capstone Project Batch 6" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <p id="kps-err-batch" class="hidden text-[11px] text-red-600">Batch wajib diisi.</p>
           </div>
-          <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
-            <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
-              Tutup Jalur
-            </button>
-            <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
-              <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-            </button>
-            <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
+          <div class="space-y-1.5">
+            <label for="kps-category" class="block text-xs font-semibold text-gray-700">Kategori Bidang <span class="text-red-500">*</span></label>
+            <input type="text" id="kps-category" maxlength="40" placeholder="IoT & Machine Learning" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <p id="kps-err-category" class="hidden text-[11px] text-red-600">Kategori wajib diisi.</p>
           </div>
         </div>
 
-        <!-- Track 2 -->
-        <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div class="flex items-start gap-3.5">
-            <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
-              <i data-lucide="code" class="w-5 h-5"></i>
-            </div>
-            <div class="space-y-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Dibuka (Open)
-                </span>
-                <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
-                  <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
-                  <span>Sisa Kuota: <strong>8</strong> / 20 Mahasiswa</span>
-                </span>
-                <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
-                  Konversi 20 SKS
-                </span>
-              </div>
-              <h4 class="text-sm font-bold text-gray-900 track-title">Cloud Architecture &amp; DevOps Engineering Track</h4>
-              <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Fokus pada orkestrasi microservices menggunakan Kubernetes, implementasi automated CI/CD pipeline, keamanan infrastruktur, dan pengelolaan serverless cloud berbasis GCP &amp; AWS.</p>
-              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
-                <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
-                <span>•</span>
-                <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Transkrip Nilai (PDF)</span>
-                <span>•</span>
-                <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
-            <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
-              Tutup Jalur
-            </button>
-            <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
-              <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-            </button>
-            <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
+        <div class="space-y-1.5">
+          <label for="kps-tags" class="block text-xs font-semibold text-gray-700">Tech Stack <span class="text-red-500">*</span></label>
+          <input type="text" id="kps-tags" placeholder="Python, TensorFlow, React.js, GCP" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          <p class="text-[11px] text-[#71717a]">Pisahkan dengan koma.</p>
+          <p id="kps-err-tags" class="hidden text-[11px] text-red-600">Isi minimal satu teknologi.</p>
         </div>
 
-        <!-- Track 3 -->
-        <div class="track-item p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div class="flex items-start gap-3.5">
-            <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] border border-blue-200 flex items-center justify-center shrink-0 mt-0.5">
-              <i data-lucide="smartphone" class="w-5 h-5"></i>
-            </div>
-            <div class="space-y-1">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="track-status-badge px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Dibuka (Open)
-                </span>
-                <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded border border-gray-100 flex items-center gap-1 font-medium">
-                  <i data-lucide="users" class="w-3.5 h-3.5 text-gray-400"></i>
-                  <span>Sisa Kuota: <strong>6</strong> / 15 Mahasiswa</span>
-                </span>
-                <span class="text-xs font-medium text-primary-700 bg-primary-50 px-2 py-0.5 rounded border border-primary-100">
-                  Konversi 20 SKS
-                </span>
-              </div>
-              <h4 class="text-sm font-bold text-gray-900 track-title">Multiplatform &amp; Mobile Application Track</h4>
-              <p class="text-xs text-gray-600 leading-relaxed max-w-2xl track-desc">Pengembangan aplikasi mobile modern cross-platform berbasis Flutter/React Native dengan standar clean architecture dan integrasi REST/GraphQL API.</p>
-              <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 pt-0.5">
-                <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gray-400"></i> Durasi: 5 Bulan</span>
-                <span>•</span>
-                <span class="flex items-center gap-1"><i data-lucide="file-check" class="w-3.5 h-3.5 text-gray-400"></i> Syarat: Portofolio GitHub &amp; Transkrip</span>
-                <span>•</span>
-                <span class="flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-gray-400"></i> Smt 6-8 • IPK &ge; 3.00</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 shrink-0 self-end lg:self-center border-t lg:border-t-0 pt-2 lg:pt-0 w-full lg:w-auto justify-end">
-            <button type="button" onclick="toggleTrackStatus(this)" class="track-toggle-btn px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors">
-              Tutup Jalur
-            </button>
-            <button type="button" onclick="editTrackItem(this)" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded-lg" title="Edit">
-              <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-            </button>
-            <button type="button" onclick="deleteTrackItem(this)" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg" title="Hapus">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
+        <div class="space-y-1.5">
+          <label for="kps-desc" class="block text-xs font-semibold text-gray-700">Deskripsi Ringkas <span class="text-red-500">*</span></label>
+          <textarea id="kps-desc" rows="3" maxlength="500" placeholder="Jelaskan fungsionalitas dan dampak sistem proyek..." class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none resize-y"></textarea>
+          <p id="kps-err-desc" class="hidden text-[11px] text-red-600">Deskripsi wajib diisi.</p>
         </div>
+
+        <div class="space-y-1.5">
+          <label for="kps-img" class="block text-xs font-semibold text-gray-700">URL Gambar Thumbnail <span class="text-[#71717a] font-normal">(opsional)</span></label>
+          <input type="url" id="kps-img" placeholder="https://images.unsplash.com/photo-..." class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+          <p id="kps-err-img" class="hidden text-[11px] text-red-600">Gunakan tautan gambar yang diawali https://</p>
+        </div>
+
+        <div id="kps-status-wrap" class="hidden space-y-1.5">
+          <label for="kps-status" class="block text-xs font-semibold text-gray-700">Status</label>
+          <select id="kps-status" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+            <option value="published">Dipublikasikan — tampil di halaman publik</option>
+            <option value="hidden">Disembunyikan — hanya terlihat kontributor</option>
+            <option value="draft">Draf — belum siap tayang</option>
+          </select>
+        </div>
+      </form>
+
+      <div id="kps-footer-new" class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-gray-50 rounded-b-[12px]">
+        <button type="button" onclick="kpsRequestClose()" class="px-4 py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-white">Batal</button>
+        <button type="button" onclick="kpsSave('draft')" class="px-4 py-2 text-xs font-medium text-[#1063B9] bg-white border border-[#1063B9] rounded-lg hover:bg-blue-50">Simpan sebagai Draf</button>
+        <button type="button" onclick="kpsSave('published')" class="px-4 py-2 text-xs font-semibold text-white bg-[#1063B9] hover:bg-[#0E4F96] rounded-lg">Publikasikan</button>
+      </div>
+      <div id="kps-footer-edit" class="hidden flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-gray-50 rounded-b-[12px]">
+        <button type="button" onclick="kpsRequestClose()" class="px-4 py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-white">Batal</button>
+        <button type="button" onclick="kpsSave()" class="px-4 py-2 text-xs font-semibold text-white bg-[#1063B9] hover:bg-[#0E4F96] rounded-lg">Simpan Perubahan</button>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- Dialog: keluar dari form (dua opsi) -->
+  <div id="kps-exit" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40" onclick="if(event.target===this)kpsCloseExit()">
+    <div class="bg-white w-full max-w-sm rounded-[12px] shadow-xl border border-[#e4e4e7] p-5 space-y-4" role="alertdialog" aria-labelledby="kps-exit-title">
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+          <i data-lucide="file-pen-line" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h3 id="kps-exit-title" class="text-[14px] font-semibold text-[#09090b]"></h3>
+          <p id="kps-exit-desc" class="text-xs text-[#71717a] mt-1"></p>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button type="button" id="kps-exit-discard" onclick="kpsExitDiscard()" class="px-4 py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"></button>
+        <button type="button" id="kps-exit-save" onclick="kpsExitSave()" class="px-4 py-2 text-xs font-semibold text-white bg-[#1063B9] hover:bg-[#0E4F96] rounded-lg"></button>
+      </div>
+      <p class="text-[11px] text-[#a1a1aa] text-center">Klik di luar kotak ini untuk kembali mengedit.</p>
+    </div>
+  </div>
+
+  <!-- Dialog: hapus proyek -->
+  <div id="kps-delete" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40" onclick="if(event.target===this)kpsCloseDelete()">
+    <div class="bg-white w-full max-w-sm rounded-[12px] shadow-xl border border-[#e4e4e7] p-5 space-y-4">
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h3 class="text-[14px] font-semibold text-[#09090b]">Hapus proyek?</h3>
+          <p class="text-xs text-[#71717a] mt-1">"<span id="kps-delete-title"></span>" akan dihapus permanen.</p>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="kpsCloseDelete()" class="px-4 py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50">Batal</button>
+        <button type="button" onclick="kpsConfirmDelete()" class="px-4 py-2 text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-lg">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    /**
+     * Kelola Program Kontributor — tab Profil MBKM, Showcase Project, Program Pendaftaran.
+     * Profil & showcase memakai handler di shell; prefix `kpr` untuk tab dan pendaftaran.
+     */
+    var KPR_BERKAS = [
+      { key: 'transkrip', label: 'Transkrip Nilai (PDF)' },
+      { key: 'cv', label: 'CV' },
+      { key: 'portofolio', label: 'Portofolio (GDrive)' },
+      { key: 'surekom', label: 'Draft SuReKom' }
+    ];
+    var KPR_REG_DEFAULT = {
+      status: 'buka', sks: 20, kuota: 20, terisi: 6, deadline: '2026-10-25T23:59',
+      ipk: 3.0, sksMin: 100, smt: '6', berkas: ['transkrip', 'surekom'], grup: ''
+    };
+    var kprReg = Object.assign({}, KPR_REG_DEFAULT, { berkas: KPR_REG_DEFAULT.berkas.slice() });
+
+    function kprIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
+    function kprEl(id) { return document.getElementById(id); }
+    function kprShowErr(id, msg) {
+      var el = kprEl(id);
+      if (!el) return;
+      if (typeof msg === 'string') el.textContent = msg;
+      el.classList.toggle('hidden', !msg);
+    }
+
+    // ---- Tab ----
+    function kprShowTab(name) {
+      var tabs = { profil: 'Profil MBKM', showcase: 'Showcase Project', pendaftaran: 'Program Pendaftaran' };
+      if (!tabs[name]) name = 'profil';
+      Array.prototype.forEach.call(document.querySelectorAll('.kpr-panel'), function (p) {
+        p.classList.toggle('hidden', p.id !== 'kpr-panel-' + name);
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('#kpr-tabs .kpr-tab'), function (b) {
+        var key = b.getAttribute('data-tab');
+        var active = key === name;
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+        b.textContent = tabs[key];
+        b.className = 'kpr-tab -mb-px px-4 py-2.5 text-xs whitespace-nowrap border-b-2 transition-colors ' +
+          (active ? 'border-[#0655a7] text-[#0655a7] font-semibold' : 'border-transparent text-[#71717a] hover:text-[#09090b]');
+      });
+      try { history.replaceState(null, '', '#' + name); } catch (e) {}
+    }
+
+    // ---- Pendaftaran ----
+    function kprRenderBerkas() {
+      kprEl('kpr-berkas').innerHTML = KPR_BERKAS.map(function (o) {
+        var on = kprReg.berkas.indexOf(o.key) > -1;
+        return '<label class="flex items-center gap-2 p-2.5 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1063B9] has-[:checked]:bg-[#f1f7fe]">' +
+          '<input type="checkbox" name="kpr-berkas" value="' + o.key + '" class="accent-[#1063B9]" ' + (on ? 'checked' : '') + ' />' +
+          '<span class="text-xs text-[#09090b]">' + o.label + '</span></label>';
+      }).join('');
+    }
+
+    function kprFillReg() {
+      kprEl('kpr-sks').value = kprReg.sks;
+      kprEl('kpr-kuota').value = kprReg.kuota;
+      kprEl('kpr-deadline').value = kprReg.deadline;
+      kprEl('kpr-ipk').value = kprReg.ipk;
+      kprEl('kpr-sks-min').value = kprReg.sksMin;
+      kprEl('kpr-smt').value = kprReg.smt;
+      kprEl('kpr-grup').value = kprReg.grup;
+      kprRenderBerkas();
+      ['sks', 'kuota', 'deadline', 'ipk', 'sks-min', 'berkas', 'grup'].forEach(function (k) { kprShowErr('kpr-err-' + k, false); });
+      kprRenderRegHeader();
+    }
+
+    function kprRenderRegHeader() {
+      var buka = kprReg.status === 'buka';
+      kprEl('kpr-reg-badge').innerHTML = buka
+        ? '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Pendaftaran Dibuka</span>'
+        : '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-gray-100 text-gray-700 border border-gray-200"><span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Pendaftaran Ditutup</span>';
+      var t = kprEl('kpr-reg-toggle');
+      t.textContent = buka ? 'Tutup Pendaftaran' : 'Buka Pendaftaran';
+      t.className = 'px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ' +
+        (buka ? 'text-rose-700 bg-rose-50 hover:bg-rose-100 border-rose-200' : 'text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border-emerald-200');
+      kprEl('kpr-kuota-hint').textContent = 'Terisi ' + kprReg.terisi + ' · sisa ' + Math.max(0, kprReg.kuota - kprReg.terisi);
+      kprRenderSummary();
+    }
+
+    function kprFmtDeadline(v) {
+      var d = new Date(v);
+      if (!v || isNaN(d)) return '—';
+      return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) + ' pukul ' +
+        d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':') + ' WIB';
+    }
+
+    function kprRenderSummary() {
+      var berkas = KPR_BERKAS.filter(function (o) { return kprReg.berkas.indexOf(o.key) > -1; }).map(function (o) { return o.label; }).join(', ') || '—';
+      var teks = 'Konversi ' + kprReg.sks + ' SKS · Kuota ' + kprReg.kuota + ' peserta · Semester ≥ ' + kprReg.smt +
+        ' · IPK ≥ ' + Number(kprReg.ipk).toFixed(2).replace('.', ',') + ' · ' + kprReg.sksMin + ' SKS lulus. ' +
+        'Berkas: ' + berkas + '. Batas akhir ' + kprFmtDeadline(kprReg.deadline) + '.';
+      kprEl('kpr-summary').textContent = teks;
+    }
+
+    function kprToggleReg() {
+      if (kprReg.status === 'tutup') {
+        if (kprReg.terisi >= kprReg.kuota) {
+          showToast('Kuota Penuh', 'Tambah kuota dan simpan lebih dulu sebelum membuka pendaftaran.');
+          return;
+        }
+        if (new Date(kprReg.deadline) < new Date()) {
+          showToast('Batas Akhir Terlewat', 'Perbarui batas akhir pendaftaran dan simpan sebelum membuka kembali.');
+          return;
+        }
+      }
+      kprReg.status = kprReg.status === 'buka' ? 'tutup' : 'buka';
+      kprRenderRegHeader();
+      showToast(kprReg.status === 'buka' ? 'Pendaftaran Dibuka' : 'Pendaftaran Ditutup',
+        kprReg.status === 'buka' ? 'Mahasiswa dapat mendaftar ke program ini.' : 'Pendaftaran baru tidak lagi diterima.');
+    }
+
+    function kprResetReg() {
+      kprFillReg();
+      showToast('Perubahan Dibatalkan', 'Formulir dikembalikan ke pengaturan tersimpan.');
+    }
+
+    function kprSaveReg() {
+      var sks = parseInt(kprEl('kpr-sks').value, 10);
+      var kuota = parseInt(kprEl('kpr-kuota').value, 10);
+      var deadline = kprEl('kpr-deadline').value;
+      var ipk = parseFloat(kprEl('kpr-ipk').value);
+      var sksMin = parseInt(kprEl('kpr-sks-min').value, 10);
+      var smt = kprEl('kpr-smt').value;
+      var grup = kprEl('kpr-grup').value.trim();
+      var berkas = Array.prototype.slice.call(document.querySelectorAll('input[name="kpr-berkas"]:checked')).map(function (c) { return c.value; });
+
+      var sksMsg = (isNaN(sks) || sks < 1 || sks > 24) ? 'Bobot SKS antara 1 dan 24.' : '';
+      var kuotaMsg = '';
+      if (isNaN(kuota) || kuota < 1) kuotaMsg = 'Kuota minimal 1.';
+      else if (kuota > 500) kuotaMsg = 'Kuota maksimal 500.';
+      else if (kuota < kprReg.terisi) kuotaMsg = 'Kuota tidak boleh di bawah peserta terisi (' + kprReg.terisi + ').';
+      var okDeadline = !!deadline && !isNaN(new Date(deadline));
+      var okIpk = !isNaN(ipk) && ipk >= 0 && ipk <= 4;
+      var okSksMin = !isNaN(sksMin) && sksMin >= 0 && sksMin <= 160;
+      var okGrup = !grup || /^https:\/\/(chat\.whatsapp\.com|wa\.me|t\.me)\//i.test(grup);
+
+      kprShowErr('kpr-err-sks', sksMsg);
+      kprShowErr('kpr-err-kuota', kuotaMsg);
+      kprShowErr('kpr-err-deadline', !okDeadline);
+      kprShowErr('kpr-err-ipk', !okIpk);
+      kprShowErr('kpr-err-sks-min', !okSksMin);
+      kprShowErr('kpr-err-berkas', !berkas.length);
+      kprShowErr('kpr-err-grup', !okGrup);
+      if (sksMsg || kuotaMsg || !okDeadline || !okIpk || !okSksMin || !berkas.length || !okGrup) return;
+
+      Object.assign(kprReg, { sks: sks, kuota: kuota, deadline: deadline, ipk: ipk, sksMin: sksMin, smt: smt, berkas: berkas, grup: grup });
+      // kuota penuh otomatis menutup pendaftaran
+      if (kprReg.terisi >= kprReg.kuota) kprReg.status = 'tutup';
+      kprRenderRegHeader();
+      showToast('Pendaftaran Disimpan', 'Ketentuan pendaftaran berhasil diperbarui.');
+    }
+
+
+    // =========================================================================
+    // SHOWCASE PROJECT — status: published (publik) | draft | hidden (private)
+    // Data mock di memori; prefix `kps`.
+    // =========================================================================
+    var KPS_DEFAULT_IMG = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80';
+    var KPS_STATUS = {
+      published: { label: 'Dipublikasikan', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+      draft: { label: 'Draf', cls: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
+      hidden: { label: 'Disembunyikan', cls: 'bg-gray-100 text-gray-700 border-gray-200', dot: 'bg-gray-400' }
+    };
+    var kpsData = [
+      { id: 'PRJ-2026-01', title: 'Smart Energy & Air Quality Monitoring Campus FIK', batch: 'Capstone Project Batch 6', category: 'IoT & ML', desc: 'Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time.', tags: ['Python', 'TensorFlow', 'React.js', 'Google Cloud'], img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80', status: 'published' },
+      { id: 'PRJ-2026-02', title: 'Vision-Based Automated Academic Attendance & Fraud Detection', batch: 'Capstone Project Batch 5', category: 'Computer Vision', desc: 'Sistem presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera kelas.', tags: ['Python', 'PyTorch', 'YOLOv8', 'FastAPI'], img: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80', status: 'published' },
+      { id: 'PRJ-2026-03', title: 'Autonomous Robotic Trash Segregator for Green Campus', batch: 'Capstone Project Batch 5', category: 'Robotics & AI', desc: 'Robot pemilah sampah otomatis berbasis sensor dan vision classifier untuk sampah organik, anorganik, dan B3.', tags: ['ROS2', 'OpenCV', 'Edge TPU', 'C++'], img: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80', status: 'hidden' },
+      { id: 'PRJ-2026-04', title: 'Chatbot Layanan Akademik', batch: 'Capstone Project Batch 6', category: 'NLP', desc: '', tags: ['Python'], img: '', status: 'draft' }
+    ];
+    var kpsState = { filter: 'semua', mode: 'new', editId: null, snapshot: '', deleteId: null, exitAction: null };
+
+    function kpsEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function kpsFind(id) { return kpsData.filter(function (p) { return p.id === id; })[0]; }
+    function kpsSafeImg(u) { return /^https:\/\//i.test(u || '') ? u : KPS_DEFAULT_IMG; }
+    // id dipakai dalam atribut onclick, jadi hanya karakter aman yang diizinkan
+    function kpsAttr(id) { return String(id).replace(/[^A-Za-z0-9_-]/g, ''); }
+
+    function kpsSetFilter(f) { kpsState.filter = f; kpsRender(); }
+
+    function kpsRender() {
+      var list = kpsEl('kps-list');
+      if (!list) return;
+      var counts = { semua: kpsData.length };
+      Object.keys(KPS_STATUS).forEach(function (k) {
+        counts[k] = kpsData.filter(function (p) { return p.status === k; }).length;
+      });
+      var chips = [['semua', 'Semua']].concat(Object.keys(KPS_STATUS).map(function (k) { return [k, KPS_STATUS[k].label]; }));
+      kpsEl('kps-chips').innerHTML = chips.map(function (c) {
+        var on = kpsState.filter === c[0];
+        return '<button type="button" onclick="kpsSetFilter(\'' + c[0] + '\')" aria-pressed="' + on + '" class="px-3 py-1 rounded-full text-xs border transition-colors ' +
+          (on ? 'bg-[#0655a7] border-[#0655a7] text-white font-medium' : 'bg-white border-[#e4e4e7] text-[#52525b] hover:bg-gray-50') + '">' +
+          c[1] + ' <span class="' + (on ? 'text-white/80' : 'text-[#71717a]') + '">' + counts[c[0]] + '</span></button>';
+      }).join('');
+
+      var items = kpsData.filter(function (p) { return kpsState.filter === 'semua' || p.status === kpsState.filter; });
+      if (!items.length) {
+        list.innerHTML = '<div class="py-10 text-center"><i data-lucide="folder-git-2" class="w-6 h-6 text-[#a1a1aa] mx-auto mb-1"></i>' +
+          '<p class="text-sm font-semibold text-[#09090b]">' + (kpsData.length ? 'Tidak ada proyek pada status ini' : 'Belum ada proyek showcase') + '</p>' +
+          '<p class="text-xs text-[#71717a]">' + (kpsData.length ? 'Pilih status lain di atas.' : 'Klik "Tambah Proyek Showcase" untuk memulai.') + '</p></div>';
+        kpsIcons();
+        return;
+      }
+      list.innerHTML = items.map(function (p) {
+        var st = KPS_STATUS[p.status];
+        var id = kpsAttr(p.id);
+        var muted = p.status !== 'published';
+        var quick = p.status === 'published'
+          ? '<button type="button" onclick="kpsSetStatus(\'' + id + '\',\'hidden\')" title="Sembunyikan dari publik" aria-label="Sembunyikan dari publik" class="p-1.5 rounded hover:bg-gray-100 text-gray-500"><i data-lucide="eye-off" class="w-3.5 h-3.5"></i></button>'
+          : p.status === 'hidden'
+            ? '<button type="button" onclick="kpsSetStatus(\'' + id + '\',\'published\')" title="Tampilkan di publik" aria-label="Tampilkan di publik" class="p-1.5 rounded hover:bg-emerald-50 text-emerald-600"><i data-lucide="eye" class="w-3.5 h-3.5"></i></button>'
+            : '<button type="button" onclick="kpsSetStatus(\'' + id + '\',\'published\')" class="px-2.5 py-1 mr-1 text-[11px] font-semibold text-white bg-[#1063B9] hover:bg-[#0E4F96] rounded">Publikasikan</button>';
+        return '<div class="p-4 rounded-xl border border-gray-200 hover:border-gray-300 bg-gray-50/50 transition-all flex flex-col md:flex-row gap-4 items-start">' +
+          '<div class="w-full md:w-44 h-28 rounded-lg overflow-hidden shrink-0 bg-gray-200 relative">' +
+            '<img src="' + kpsEsc(kpsSafeImg(p.img)) + '" alt="" class="w-full h-full object-cover' + (muted ? ' grayscale opacity-70' : '') + '" />' +
+            '<span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gray-900/80 text-white">' + kpsEsc(p.category || '—') + '</span>' +
+          '</div>' +
+          '<div class="flex-1 min-w-0 space-y-1.5">' +
+            '<div class="flex flex-wrap items-center justify-between gap-2">' +
+              '<div class="flex flex-wrap items-center gap-2">' +
+                '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium border ' + st.cls + '"><span class="w-1.5 h-1.5 rounded-full ' + st.dot + '"></span>' + st.label + '</span>' +
+                '<span class="text-[11px] font-semibold text-primary-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">' + kpsEsc(p.batch || '—') + '</span>' +
+                '<span class="text-xs text-gray-500 font-medium">ID: ' + kpsEsc(p.id) + '</span>' +
+              '</div>' +
+              '<div class="flex items-center gap-1">' + quick +
+                '<button type="button" onclick="kpsOpenModal(\'' + id + '\')" title="Edit" aria-label="Edit proyek" class="p-1.5 text-gray-500 hover:text-[#1063B9] hover:bg-blue-50 rounded"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>' +
+                '<button type="button" onclick="kpsOpenDelete(\'' + id + '\')" title="Hapus" aria-label="Hapus proyek" class="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>' +
+              '</div>' +
+            '</div>' +
+            '<h4 class="text-sm font-bold text-gray-900">' + kpsEsc(p.title) + '</h4>' +
+            '<p class="text-xs text-gray-600 leading-relaxed">' + (p.desc ? kpsEsc(p.desc) : '<span class="text-[#a1a1aa] italic">Belum ada deskripsi</span>') + '</p>' +
+            '<div class="flex flex-wrap items-center gap-1.5 pt-1">' + p.tags.map(function (t) {
+              return '<span class="px-2 py-0.5 rounded text-[10px] font-medium bg-white text-gray-700 border border-gray-200">' + kpsEsc(t) + '</span>';
+            }).join('') + '</div>' +
+          '</div></div>';
+      }).join('');
+      kpsIcons();
+    }
+
+    function kpsEl(id) { return document.getElementById(id); }
+    function kpsIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
+
+    // ---- Form ----
+    function kpsReadForm() {
+      return {
+        title: kpsEl('kps-title').value.trim(),
+        batch: kpsEl('kps-batch').value.trim(),
+        category: kpsEl('kps-category').value.trim(),
+        tags: kpsEl('kps-tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
+        desc: kpsEl('kps-desc').value.trim(),
+        img: kpsEl('kps-img').value.trim(),
+        status: kpsEl('kps-status').value
+      };
+    }
+    function kpsFormSnapshot() { return JSON.stringify(kpsReadForm()); }
+
+    function kpsErrors(f, strict) {
+      var e = {};
+      if (strict && !f.title) e.title = true;
+      if (strict && !f.batch) e.batch = true;
+      if (strict && !f.category) e.category = true;
+      if (strict && !f.tags.length) e.tags = true;
+      if (strict && !f.desc) e.desc = true;
+      if (f.img && !/^https:\/\//i.test(f.img)) e.img = true;
+      return e;
+    }
+    function kpsShowErrors(e) {
+      ['title', 'batch', 'category', 'tags', 'desc', 'img'].forEach(function (k) {
+        kpsEl('kps-err-' + k).classList.toggle('hidden', !e[k]);
+      });
+    }
+
+    function kpsOpenModal(id) {
+      var p = id ? kpsFind(id) : null;
+      kpsState.mode = p ? 'edit' : 'new';
+      kpsState.editId = p ? p.id : null;
+      kpsEl('kps-modal-title').textContent = p ? 'Edit Proyek Showcase' : 'Tambah Proyek Showcase';
+      kpsEl('kps-id').value = p ? p.id : '';
+      kpsEl('kps-title').value = p ? p.title : '';
+      kpsEl('kps-batch').value = p ? p.batch : '';
+      kpsEl('kps-category').value = p ? p.category : '';
+      kpsEl('kps-tags').value = p ? p.tags.join(', ') : '';
+      kpsEl('kps-desc').value = p ? p.desc : '';
+      kpsEl('kps-img').value = p ? p.img : '';
+      kpsEl('kps-status').value = p ? p.status : 'draft';
+      kpsEl('kps-status-wrap').classList.toggle('hidden', !p);
+      kpsEl('kps-footer-new').classList.toggle('hidden', !!p);
+      kpsEl('kps-footer-edit').classList.toggle('hidden', !p);
+      kpsShowErrors({});
+      kpsState.snapshot = kpsFormSnapshot();
+      kpsEl('kps-modal').classList.remove('hidden');
+      kpsEl('kps-title').focus();
+      kpsIcons();
+    }
+
+    function kpsHideModal() { kpsEl('kps-modal').classList.add('hidden'); }
+
+    // Tutup form: bila ada isi yang belum disimpan, tanyakan dulu (dua opsi)
+    function kpsRequestClose() {
+      var dirty = kpsFormSnapshot() !== kpsState.snapshot;
+      if (!dirty) { kpsHideModal(); return; }
+      var isNew = kpsState.mode === 'new';
+      kpsEl('kps-exit-title').textContent = isNew ? 'Simpan sebagai draf?' : 'Simpan perubahan?';
+      kpsEl('kps-exit-desc').textContent = isNew
+        ? 'Proyek ini belum dipublikasikan. Simpan sebagai draf agar bisa dilanjutkan nanti, atau buang.'
+        : 'Ada perubahan yang belum disimpan pada proyek ini.';
+      kpsEl('kps-exit-save').textContent = isNew ? 'Simpan sebagai Draf' : 'Simpan Perubahan';
+      kpsEl('kps-exit-discard').textContent = isNew ? 'Tidak, Buang' : 'Buang Perubahan';
+      kpsEl('kps-exit').classList.remove('hidden');
+      kpsEl('kps-exit-save').focus();
+    }
+    function kpsCloseExit() { kpsEl('kps-exit').classList.add('hidden'); }
+    function kpsExitDiscard() { kpsCloseExit(); kpsHideModal(); }
+    function kpsExitSave() {
+      kpsCloseExit();
+      kpsSave(kpsState.mode === 'new' ? 'draft' : undefined);
+    }
+
+    function kpsSave(forceStatus) {
+      var f = kpsReadForm();
+      var status = forceStatus || f.status;
+      // draf boleh belum lengkap; status terbit/disembunyikan wajib lengkap
+      var strict = status !== 'draft';
+      var err = kpsErrors(f, strict);
+      kpsShowErrors(err);
+      if (Object.keys(err).length) return;
+
+      if (kpsState.mode === 'edit') {
+        var p = kpsFind(kpsState.editId);
+        if (!p) return;
+        Object.assign(p, { title: f.title || p.title, batch: f.batch, category: f.category, tags: f.tags, desc: f.desc, img: f.img, status: status });
+        showToast('Proyek Diperbarui', '"' + p.title + '" berhasil disimpan.');
+      } else {
+        var n = kpsData.reduce(function (m, x) { var v = parseInt(String(x.id).split('-').pop(), 10); return isNaN(v) ? m : Math.max(m, v); }, 0) + 1;
+        var title = f.title || 'Proyek Tanpa Judul';
+        kpsData.unshift({ id: 'PRJ-2026-' + String(n).padStart(2, '0'), title: title, batch: f.batch, category: f.category, tags: f.tags, desc: f.desc, img: f.img, status: status });
+        showToast(status === 'published' ? 'Proyek Dipublikasikan' : 'Draf Tersimpan',
+          status === 'published' ? '"' + title + '" kini tampil di halaman detail.' : '"' + title + '" disimpan sebagai draf.');
+      }
+      kpsHideModal();
+      kpsState.filter = 'semua';
+      kpsRender();
+    }
+
+    // ---- Ubah status cepat ----
+    function kpsSetStatus(id, status) {
+      var p = kpsFind(id);
+      if (!p) return;
+      if (status === 'published') {
+        var err = kpsErrors({ title: p.title, batch: p.batch, category: p.category, tags: p.tags, desc: p.desc, img: p.img }, true);
+        if (Object.keys(err).length) {
+          showToast('Data Belum Lengkap', 'Lengkapi data proyek sebelum dipublikasikan.');
+          kpsOpenModal(id);
+          kpsShowErrors(err);
+          return;
+        }
+      }
+      p.status = status;
+      kpsRender();
+      showToast(status === 'published' ? 'Proyek Dipublikasikan' : 'Proyek Disembunyikan',
+        status === 'published' ? '"' + p.title + '" tampil di halaman detail.' : '"' + p.title + '" tidak lagi tampil di publik.');
+    }
+
+    // ---- Hapus ----
+    function kpsOpenDelete(id) {
+      var p = kpsFind(id);
+      if (!p) return;
+      kpsState.deleteId = p.id;
+      kpsEl('kps-delete-title').textContent = p.title;
+      kpsEl('kps-delete').classList.remove('hidden');
+    }
+    function kpsCloseDelete() { kpsState.deleteId = null; kpsEl('kps-delete').classList.add('hidden'); }
+    function kpsConfirmDelete() {
+      var p = kpsFind(kpsState.deleteId);
+      kpsData = kpsData.filter(function (x) { return x.id !== kpsState.deleteId; });
+      kpsCloseDelete();
+      kpsRender();
+      if (p) showToast('Proyek Dihapus', '"' + p.title + '" telah dihapus.');
+    }
+
+    function kprInit() {
+      if (!kprEl('kpr-tabs')) return;
+      kprFillReg();
+      kpsRender();
+      var h = (location.hash || '').replace('#', '');
+      kprShowTab(h);
+      kprIcons();
+    }
+    document.removeEventListener('astro:page-load', window.__kprInit);
+    window.__kprInit = kprInit;
+    document.addEventListener('astro:page-load', kprInit);
+    document.removeEventListener('keydown', window.__kpsEsc);
+    window.__kpsEsc = function (e) {
+      if (e.key !== 'Escape' || !kpsEl('kps-modal')) return;
+      if (!kpsEl('kps-delete').classList.contains('hidden')) { kpsCloseDelete(); return; }
+      if (!kpsEl('kps-exit').classList.contains('hidden')) { kpsCloseExit(); return; }
+      if (!kpsEl('kps-modal').classList.contains('hidden')) kpsRequestClose();
+    };
+    document.addEventListener('keydown', window.__kpsEsc);
+  </script>
 </KontributorShell>
