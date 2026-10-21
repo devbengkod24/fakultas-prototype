@@ -5,7 +5,7 @@ interface Props {
   title?: string;
   pageTitle?: string;
   subtitle?: string;
-  activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'anggota' | 'seleksi' | string;
+  activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'anggota' | 'seleksi' | 'log-aktivitas' | string;
   breadcrumbTitle?: string;
 }
 
@@ -17,6 +17,7 @@ const {
                     activeNav === 'program' ? 'Kelola Program Binaan' :
                     activeNav === 'anggota' ? 'Anggota' :
                     activeNav === 'seleksi' ? 'Pendaftar' :
+                    activeNav === 'log-aktivitas' ? 'Log Aktivitas' :
                     'Dashboard',
   pageTitle = breadcrumbTitle,
   subtitle = "Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa."
@@ -243,6 +244,20 @@ const {
             <i data-lucide="user-check" class={`w-4 h-4 shrink-0 ${activeNav === 'seleksi' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
             <span class="truncate">Pendaftar</span>
           </a>
+
+          <!-- 6. Log Aktivitas -->
+          <a
+            href="/contributor/log-aktivitas"
+            id="nav-log-aktivitas"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'log-aktivitas' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'log-aktivitas' ? '' : 'hidden'}`}></span>
+            <i data-lucide="history" class={`w-4 h-4 shrink-0 ${activeNav === 'log-aktivitas' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Log Aktivitas</span>
+          </a>
+
         </nav>
       </div>
 
@@ -729,6 +744,7 @@ const {
         'pengumuman': '/contributor/pengumuman',
         'program': '/contributor/program',
         'seleksi': '/contributor/seleksi',
+        'log-aktivitas': '/contributor/log-aktivitas',
         'anggota': '/contributor/anggota',
         'mahasiswa': '/contributor/anggota#mahasiswa',
         'dosen': '/contributor/anggota#dosen'
@@ -782,6 +798,7 @@ const {
         'dashboard': 'Dashboard',
         'program': 'Kelola Program Binaan',
         'seleksi': 'Pendaftar',
+        'log-aktivitas': 'Log Aktivitas',
         'anggota': 'Anggota',
         'mahasiswa': 'Anggota / Mahasiswa Binaan',
         'dosen': 'Anggota / Dosen Pembina'

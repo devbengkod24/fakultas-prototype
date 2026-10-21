@@ -63,6 +63,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
       { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
       { id: "seleksi", label: "Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/contributor/log-aktivitas", icon: "history" },
     ]
   },
   contributor: {
@@ -73,6 +74,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
       { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
       { id: "seleksi", label: "Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/contributor/log-aktivitas", icon: "history" },
     ]
   },
   dosen: {

@@ -1,0 +1,161 @@
+---
+// src/pages/contributor/log-aktivitas.astro
+import KontributorShell from '../../layouts/KontributorShell.astro';
+---
+
+<KontributorShell activeNav="log-aktivitas" breadcrumbTitle="Log Aktivitas" title="Log Aktivitas | Kampus Berdampak FIK UDINUS">
+  <section id="view-log-aktivitas" class="view-panel mt-5 space-y-6">
+    <!-- Page Header -->
+    <div>
+      <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Log Aktivitas</h2>
+      <p class="text-[14px] leading-[20px] text-[#71717a]">Riwayat tindakan pada akun kontributor: perubahan program, pengumuman, dan status seleksi pendaftar. Hanya dapat dibaca.</p>
+    </div>
+
+    <!-- Chip jenis aksi + pencarian -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+      <div id="klg-chips" class="flex flex-wrap items-center gap-2"></div>
+      <div class="relative w-full lg:w-72">
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input
+          type="text"
+          oninput="klgSetFilter('q', this.value)"
+          placeholder="Cari aktivitas..."
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs">
+      <div id="klg-list" class="divide-y divide-[#e4e4e7]"></div>
+      <div class="px-4 py-3 border-t border-[#e4e4e7] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#71717a]">
+        <div id="klg-info">Menampilkan aktivitas</div>
+        <button type="button" id="klg-more" onclick="klgMore()" class="px-3 py-1.5 border border-[#e4e4e7] rounded-md bg-white text-[#09090b] hover:bg-gray-50">Muat lebih banyak</button>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    /**
+     * Log Aktivitas Kontributor — audit trail (read-only), data mock.
+     * Prefix `klg`. Jenis aksi: program | pengumuman | seleksi.
+     */
+    var KLG_PAGE = 12;
+    var KLG_ACTOR = 'Dr. Ricardus Anggi, M.Kom.';
+    var KLG_TYPES = {
+      program: { label: 'Program', icon: 'folder-kanban', cls: 'bg-blue-50 text-blue-700 border-blue-200' },
+      pengumuman: { label: 'Pengumuman', icon: 'megaphone', cls: 'bg-amber-50 text-amber-700 border-amber-200' },
+      seleksi: { label: 'Seleksi', icon: 'user-check', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200' }
+    };
+
+    // time: ISO lokal. detail: keterangan tambahan (opsional)
+    var klgData = [
+      { id: 1, type: 'seleksi', text: 'mengubah status pendaftar Fajar Nugroho menjadi Lolos Internal', detail: 'Dari Wawancara · skor 88', time: '2026-10-22T10:42' },
+      { id: 2, type: 'seleksi', text: 'mengubah status pendaftar Annisa Nabila Rahma menjadi Wawancara', detail: 'Dari Menunggu Review', time: '2026-10-22T09:15' },
+      { id: 3, type: 'program', text: 'menyembunyikan proyek showcase "Autonomous Robotic Trash Segregator for Green Campus"', detail: 'Dari Dipublikasikan ke Disembunyikan', time: '2026-10-21T16:20' },
+      { id: 4, type: 'pengumuman', text: 'mempublikasikan pengumuman "Jadwal Wawancara Seleksi Batch 1"', detail: 'Sasaran: Semua (Peserta & Pelamar)', time: '2026-10-21T14:05' },
+      { id: 5, type: 'seleksi', text: 'mengubah status pendaftar Rizky Aditya Pratama menjadi Gugur', detail: 'Dari Menunggu Review · skor 55', time: '2026-10-21T11:30' },
+      { id: 6, type: 'program', text: 'memperbarui ketentuan pendaftaran', detail: 'Kuota 15 → 20 · IPK minimal 3,00', time: '2026-10-20T15:48' },
+      { id: 7, type: 'program', text: 'menambahkan proyek showcase "Chatbot Layanan Akademik" sebagai draf', detail: '', time: '2026-10-20T10:12' },
+      { id: 8, type: 'pengumuman', text: 'mengedit pengumuman "Format Laporan Bimbingan Mingguan untuk DPL"', detail: '', time: '2026-10-19T13:25' },
+      { id: 9, type: 'seleksi', text: 'memperbarui penilaian pendaftar Intan Permata Sari', detail: 'Skor 85', time: '2026-10-19T09:40' },
+      { id: 10, type: 'program', text: 'memperbarui profil MBKM', detail: 'Narasi hero dan 3 poin keunggulan', time: '2026-10-18T17:05' },
+      { id: 11, type: 'pengumuman', text: 'menyimpan draf pengumuman "Perpanjangan Batas Pendaftaran Gelombang 1"', detail: '', time: '2026-10-18T11:50' },
+      { id: 12, type: 'program', text: 'mempublikasikan proyek showcase "Vision-Based Automated Academic Attendance & Fraud Detection"', detail: '', time: '2026-10-17T14:30' },
+      { id: 13, type: 'seleksi', text: 'mengubah status pendaftar Muhammad Raihan Pratama menjadi Menunggu Review', detail: '', time: '2026-10-17T08:55' },
+      { id: 14, type: 'program', text: 'membuka pendaftaran', detail: 'Batas akhir 25 Oktober 2026', time: '2026-10-16T09:00' },
+      { id: 15, type: 'pengumuman', text: 'menghapus pengumuman "Pembekalan Peserta (Uji Coba)"', detail: '', time: '2026-10-15T16:10' }
+    ];
+    var klgState = { type: 'semua', q: '', shown: KLG_PAGE };
+
+    function klgEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function klgEl(id) { return document.getElementById(id); }
+    function klgIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
+
+    function klgSetFilter(key, val) {
+      klgState[key] = key === 'q' ? String(val || '').toLowerCase().trim() : val;
+      klgState.shown = KLG_PAGE;
+      klgRender();
+    }
+    function klgMore() { klgState.shown += KLG_PAGE; klgRender(); }
+
+    function klgFiltered() {
+      return klgData
+        .filter(function (l) {
+          var okT = klgState.type === 'semua' || l.type === klgState.type;
+          var okQ = !klgState.q || (l.text + ' ' + l.detail).toLowerCase().indexOf(klgState.q) > -1;
+          return okT && okQ;
+        })
+        .sort(function (a, b) { return b.time.localeCompare(a.time); });
+    }
+
+    function klgDayLabel(iso) {
+      var d = new Date(iso);
+      return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    function klgTime(iso) {
+      return new Date(iso).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+    }
+
+    function klgRender() {
+      var list = klgEl('klg-list');
+      if (!list) return;
+
+      var counts = { semua: klgData.length };
+      Object.keys(KLG_TYPES).forEach(function (k) { counts[k] = klgData.filter(function (l) { return l.type === k; }).length; });
+      var chips = [['semua', 'Semua']].concat(Object.keys(KLG_TYPES).map(function (k) { return [k, KLG_TYPES[k].label]; }));
+      klgEl('klg-chips').innerHTML = chips.map(function (c) {
+        var on = klgState.type === c[0];
+        return '<button type="button" onclick="klgSetFilter(\'type\',\'' + c[0] + '\')" aria-pressed="' + on + '" class="px-3 py-1 rounded-full text-xs border transition-colors ' +
+          (on ? 'bg-[#0655a7] border-[#0655a7] text-white font-medium' : 'bg-white border-[#e4e4e7] text-[#52525b] hover:bg-gray-50') + '">' +
+          c[1] + ' <span class="' + (on ? 'text-white/80' : 'text-[#71717a]') + '">' + counts[c[0]] + '</span></button>';
+      }).join('');
+
+      var all = klgFiltered();
+      var items = all.slice(0, klgState.shown);
+
+      if (!items.length) {
+        list.innerHTML = '<div class="py-12 text-center"><i data-lucide="history" class="w-6 h-6 text-[#a1a1aa] mx-auto mb-1"></i>' +
+          '<p class="text-sm font-semibold text-[#09090b]">Tidak ada aktivitas yang cocok</p>' +
+          '<p class="text-xs text-[#71717a]">Ubah kata kunci atau jenis aksi.</p></div>';
+      } else {
+        var html = '', lastDay = '';
+        items.forEach(function (l) {
+          var day = klgDayLabel(l.time);
+          if (day !== lastDay) {
+            html += '<div class="px-4 py-2 bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider">' + klgEsc(day) + '</div>';
+            lastDay = day;
+          }
+          var t = KLG_TYPES[l.type];
+          html += '<div class="flex items-start gap-3 px-4 py-3">' +
+            '<div class="w-8 h-8 rounded-full border flex items-center justify-center shrink-0 ' + t.cls + '"><i data-lucide="' + t.icon + '" class="w-3.5 h-3.5"></i></div>' +
+            '<div class="min-w-0 flex-1">' +
+              '<p class="text-[13px] text-[#09090b] leading-snug"><span class="font-medium">' + klgEsc(KLG_ACTOR) + '</span> ' + klgEsc(l.text) + '</p>' +
+              (l.detail ? '<p class="text-xs text-[#71717a] mt-0.5">' + klgEsc(l.detail) + '</p>' : '') +
+            '</div>' +
+            '<div class="flex flex-col items-end gap-1 shrink-0">' +
+              '<span class="text-xs text-[#71717a]">' + klgTime(l.time) + '</span>' +
+              '<span class="px-2 py-0.5 rounded text-[10px] font-medium border ' + t.cls + '">' + t.label + '</span>' +
+            '</div></div>';
+        });
+        list.innerHTML = html;
+      }
+
+      klgEl('klg-info').textContent = all.length ? 'Menampilkan ' + items.length + ' dari ' + all.length + ' aktivitas' : '0 aktivitas';
+      klgEl('klg-more').classList.toggle('hidden', items.length >= all.length);
+      klgIcons();
+    }
+
+    function klgInit() {
+      if (!klgEl('klg-list')) return;
+      klgRender();
+    }
+    document.removeEventListener('astro:page-load', window.__klgInit);
+    window.__klgInit = klgInit;
+    document.addEventListener('astro:page-load', klgInit);
+  </script>
+</KontributorShell>
