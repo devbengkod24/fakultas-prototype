@@ -776,7 +776,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
         <div class="w-[calc(100%+3rem)] -mx-6 border-b border-[#e4e4e7] mb-5 shrink-0"></div>
 
         <!-- 2. Dynamic Title Header (Hanya tampil pada tab yang tidak memiliki inner header mandiri) -->
-        {!['konversi', 'sidang', 'gelombang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang', 'sertifikat', 'log-aktivitas', 'dosen-kuota', 'dosen-update', 'koordinator', 'program'].includes(activeTabKey) && (
+        {!['konversi', 'sidang', 'sertifikat', 'log-aktivitas', 'dosen-update', 'koordinator', 'program'].includes(activeTabKey) && (
           <header id="dashboard-header-bar-2" class="mb-5 flex items-start justify-between gap-4 shrink-0">
             <div>
               <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">
