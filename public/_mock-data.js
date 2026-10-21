@@ -14,7 +14,7 @@ let appState = {
   },
   registration: {
     program: 'Magang Mandiri',
-    mitra: 'PT Telkom Indonesia (Persero) Tbk',
+    kontributor: 'PT Telkom Indonesia (Persero) Tbk',
     posisi: 'Software Engineer Intern',
     durasi: '1 Semester (6 Bulan)',
     transkripName: 'Transkrip_Nilai_Ahmad_Rizky.pdf',

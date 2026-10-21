@@ -42,9 +42,9 @@
     },
     {
       "id": "cf-2",
-      "label": "Motivasi Singkat & Relevansi Minat dengan Mitra (Maks 150 Kata)",
+      "label": "Motivasi Singkat & Relevansi Minat dengan Kontributor (Maks 150 Kata)",
       "type": "textarea",
-      "placeholder": "Jelaskan mengapa Anda tertarik dengan mitra ini dan proyek apa yang ingin dikerjakan...",
+      "placeholder": "Jelaskan mengapa Anda tertarik dengan kontributor ini dan proyek apa yang ingin dikerjakan...",
       "required": false
     }
   ],
@@ -52,7 +52,7 @@
   "durasiMinimal": 5,
   "wajibDrafMk": true,
   "paktaIntegritas": true,
-  "surekomTemplate": "Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK Kumulatif: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_mitra} untuk periode {semester_ajaran}.",
+  "surekomTemplate": "Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK Kumulatif: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_kontributor} untuk periode {semester_ajaran}.",
   "surekomCutoff": "2026-10-25T23:59",
   "ttdDigital": true
 }

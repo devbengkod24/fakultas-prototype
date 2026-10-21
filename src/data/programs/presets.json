@@ -22,13 +22,13 @@
     },
     {
       "id": "stage_2",
-      "name": "Tahap 2: Seleksi & Tes Mitra Eksternal",
-      "type": "tes_mitra",
-      "rule": "Mahasiswa mengikuti asesmen teknis mitra (Dicoding / Vinix / Industri)",
+      "name": "Tahap 2: Seleksi & Tes Kontributor Eksternal",
+      "type": "tes_kontributor",
+      "rule": "Mahasiswa mengikuti asesmen teknis kontributor (Dicoding / Vinix / Industri)",
       "files": [
         {
           "id": "f_3",
-          "label": "Bukti Screenshot / Email Lolos Tes Mitra",
+          "label": "Bukti Screenshot / Email Lolos Tes Kontributor",
           "format": "PDF / JPG (Maks 2MB)",
           "required": false
         }
@@ -38,11 +38,11 @@
       "id": "stage_3",
       "name": "Tahap 3: Pengajuan & Validasi Surat Rekomendasi",
       "type": "surekom",
-      "rule": "Hanya mahasiswa lolos seleksi mitra yang berhak meminta tanda tangan Koor KB",
+      "rule": "Hanya mahasiswa lolos seleksi kontributor yang berhak meminta tanda tangan Koor KB",
       "files": [
         {
           "id": "f_4",
-          "label": "Draft Surat Rekomendasi Format Resmi Mitra",
+          "label": "Draft Surat Rekomendasi Format Resmi Kontributor",
           "format": "DOCX / PDF (Maks 3MB)",
           "required": true
         },
@@ -58,13 +58,13 @@
   "internal": [
     {
       "id": "stage_1",
-      "name": "Tahap 1: Rekomendasi & Penugasan Mitra / Lab",
+      "name": "Tahap 1: Rekomendasi & Penugasan Kontributor / Lab",
       "type": "penugasan_internal",
-      "rule": "Mitra/Dosen Pengampu mengirimkan daftar nama mahasiswa terpilih ke Koordinator",
+      "rule": "Kontributor/Dosen Pengampu mengirimkan daftar nama mahasiswa terpilih ke Koordinator",
       "files": [
         {
           "id": "f_1",
-          "label": "Surat Keputusan / Daftar Nominasi Peserta dari Lab/Mitra",
+          "label": "Surat Keputusan / Daftar Nominasi Peserta dari Lab/Kontributor",
           "format": "PDF / Excel",
           "required": true
         }

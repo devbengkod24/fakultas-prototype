@@ -1,5 +1,5 @@
 ---
-// src/components/admin/mitra/MitraTable.astro
+// src/components/admin/kontributor/KontributorTable.astro
 import DataTable from '../../ui/DataTable.astro';
 import Badge from '../../ui/Badge.astro';
 import type { DataTableTab } from '../../../types';
@@ -13,7 +13,7 @@ const tabs: DataTableTab[] = [
 ---
 
 <!-- Subview 1: Direktori Kontributor (Menggunakan Reusable DataTable) -->
-<div id="subview-mitra-list" x-data="mitraDirectory()">
+<div id="subview-kontributor-list" x-data="kontributorDirectory()">
   <DataTable
     tabs={tabs}
     activeTabModel="activeTab"
@@ -27,7 +27,7 @@ const tabs: DataTableTab[] = [
       <button
         type="button"
         x-show="activeTab !== 'all'"
-        @click="window.showTambahMitraModal ? window.showTambahMitraModal(activeTab) : showTambahMitraModal(activeTab)"
+        @click="window.showTambahKontributorModal ? window.showTambahKontributorModal(activeTab) : showTambahKontributorModal(activeTab)"
         class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors cursor-pointer"
       >
         <i data-lucide="plus" class="w-4 h-4"></i>
@@ -106,7 +106,7 @@ const tabs: DataTableTab[] = [
             >
               <button
                 type="button"
-                onclick={`showMitraDetail(${partner.id})`}
+                onclick={`showKontributorDetail(${partner.id})`}
                 class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
               >
                 <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
@@ -114,7 +114,7 @@ const tabs: DataTableTab[] = [
               </button>
               <button
                 type="button"
-                onclick={`openMitraCms(${partner.id})`}
+                onclick={`openKontributorCms(${partner.id})`}
                 class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
               >
                 <i data-lucide="settings-2" class="w-3.5 h-3.5 text-[#71717a]"></i>
@@ -124,7 +124,7 @@ const tabs: DataTableTab[] = [
               <template x-if={`isAktif(${partner.id}, '${partner.status}')`}>
                 <button
                   type="button"
-                  onclick={`openModalToggleStatusMitra(${partner.id})`}
+                  onclick={`openModalToggleStatusKontributor(${partner.id})`}
                   class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#BE123C] hover:bg-rose-50 transition-colors"
                 >
                   <i data-lucide="pause-circle" class="w-3.5 h-3.5"></i>
@@ -134,7 +134,7 @@ const tabs: DataTableTab[] = [
               <template x-if={`!isAktif(${partner.id}, '${partner.status}')`}>
                 <button
                   type="button"
-                  onclick={`openModalToggleStatusMitra(${partner.id})`}
+                  onclick={`openModalToggleStatusKontributor(${partner.id})`}
                   class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#15803D] hover:bg-emerald-50 transition-colors"
                 >
                   <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>

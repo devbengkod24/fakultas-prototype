@@ -195,15 +195,15 @@ function setupRouting() {
     // Pemetaan hash ke view ID (set file: null karena sudah statis)
     const routeConfig = {
       "#dashboard": { id: "view-dashboard", file: null, title: "Dashboard Mahasiswa", subtitle: "Ringkasan timeline pendaftaran, status SuReKom, & progres MBKM.", bc: "Dashboard" },
-      "#pengumuman": { id: "view-pengumuman", file: null, title: "Papan Pengumuman MBKM", subtitle: "Broadcast informasi resmi dari Koordinator MBKM & Mitra.", bc: "Pengumuman" },
-      "#katalog": { id: "view-katalog", file: "katalog.html", title: "Katalog Program Mitra Resmi", subtitle: "Eksplorasi formasi riset & industri resmi FIK Udinus.", bc: "Katalog Program" },
+      "#pengumuman": { id: "view-pengumuman", file: null, title: "Papan Pengumuman MBKM", subtitle: "Broadcast informasi resmi dari Koordinator MBKM & Kontributor.", bc: "Pengumuman" },
+      "#katalog": { id: "view-katalog", file: "katalog.html", title: "Katalog Program Kontributor Resmi", subtitle: "Eksplorasi formasi riset & industri resmi FIK Udinus.", bc: "Katalog Program" },
       "#form-pendaftaran": { id: "view-form-pendaftaran", file: "pendaftaran.html", title: "Form Pendaftaran MBKM (3 Tahap)", subtitle: "Validasi EWS, input tautan berkas GDrive, & draf konversi 20 SKS.", bc: "Form Pendaftaran" },
-      "#status-pengajuan": { id: "view-status-pengajuan", file: "status.html", title: "Pelacakan Status & SuReKom Digital", subtitle: "Pantau seleksi mitra & unduh dokumen SuReKom dekanat (PDF).", bc: "Status Pengajuan" },
-      "#dosen-pembimbing": { id: "view-dosen-pembimbing", file: null, title: "Dosen Pembimbing Lapangan", subtitle: "Informasi profil DPL resmi UDI yang dialokasikan Koordinator & PIC mitra.", bc: "Dosen Pembimbing" },
+      "#status-pengajuan": { id: "view-status-pengajuan", file: "status.html", title: "Pelacakan Status & SuReKom Digital", subtitle: "Pantau seleksi kontributor & unduh dokumen SuReKom dekanat (PDF).", bc: "Status Pengajuan" },
+      "#dosen-pembimbing": { id: "view-dosen-pembimbing", file: null, title: "Dosen Pembimbing Lapangan", subtitle: "Informasi profil DPL resmi UDI yang dialokasikan Koordinator & PIC kontributor.", bc: "Dosen Pembimbing" },
       "#logbook": { id: "view-logbook", file: null, title: "Logbook Kegiatan Mingguan", subtitle: "Jurnal mingguan, unggah tautan bukti kerja GDrive, & catatan review DPL.", bc: "Logbook Kegiatan" },
       "#konversi-sks": { id: "view-konversi-sks", file: null, title: "Matriks Konversi SKS (20 SKS)", subtitle: "Pemantauan matriks mata kuliah ekuivalensi yang telah diverifikasi & dikunci.", bc: "Konversi SKS" },
       "#sidang": { id: "view-sidang", file: null, title: "Sidang Evaluasi Akhir MBKM", subtitle: "Pendaftaran sidang akhir, draf laporan, jadwal penguji, & rekap nilai.", bc: "Sidang" },
-      "#sertifikat": { id: "view-sertifikat", file: null, title: "Sertifikat & Target Luaran Wajib", subtitle: "Unggah sertifikat resmi mitra atau bukti publikasi ilmiah (DOI/LoA).", bc: "Sertifikat" },
+      "#sertifikat": { id: "view-sertifikat", file: null, title: "Sertifikat & Target Luaran Wajib", subtitle: "Unggah sertifikat resmi kontributor atau bukti publikasi ilmiah (DOI/LoA).", bc: "Sertifikat" },
       "#log-aktivitas": { id: "view-log-aktivitas", file: "log-aktivitas.html", title: "Log Aktivitas Mahasiswa", subtitle: "Audit trail riwayat tindakan mahasiswa pada ekosistem portal.", bc: "Log Aktivitas" }
     };
 
@@ -290,12 +290,12 @@ function openAnnouncementModal(id) {
     if (badgesEl) badgesEl.innerHTML = "<span class="badge badge-danger">PENTING</span><span class="badge badge-primary">Koordinator MBKM</span>";
     if (titleEl) titleEl.innerText = "Jadwal Pembekalan Teknis & Verifikasi SuReKom Semester Genap 2025/2026";
     if (metaEl) metaEl.innerText = "Dipublikasikan: 10 Oktober 2025 • Oleh: Nurul Anisa Sri Winarsih, M.Cs";
-    if (contentEl) contentEl.innerHTML = "<p>Diberitahukan kepada seluruh mahasiswa calon pendaftar program Kampus Berdampak, verifikasi berkas Surat Rekomendasi (SuReKom) dekanat ditutup pada tanggal 18 Oktober 2025 pukul 23:59 WIB.</p><p style="margin-top:8px;">Pastikan data akademik pada sistem EWS telah memenuhi kualifikasi minimal 100 SKS dan IPK 3.00. Mahasiswa yang lolos verifikasi SuReKom akan menerima salinan PDF digital bertanda tangan dekanat untuk dilampirkan ke mitra.</p>";
+    if (contentEl) contentEl.innerHTML = "<p>Diberitahukan kepada seluruh mahasiswa calon pendaftar program Kampus Berdampak, verifikasi berkas Surat Rekomendasi (SuReKom) dekanat ditutup pada tanggal 18 Oktober 2025 pukul 23:59 WIB.</p><p style="margin-top:8px;">Pastikan data akademik pada sistem EWS telah memenuhi kualifikasi minimal 100 SKS dan IPK 3.00. Mahasiswa yang lolos verifikasi SuReKom akan menerima salinan PDF digital bertanda tangan dekanat untuk dilampirkan ke kontributor.</p>";
   } else {
-    if (badgesEl) badgesEl.innerHTML = "<span class="badge badge-success">Mitra Resmi</span>";
+    if (badgesEl) badgesEl.innerHTML = "<span class="badge badge-success">Kontributor Resmi</span>";
     if (titleEl) titleEl.innerText = "Detail Informasi Pengumuman Resmi MBKM";
     if (metaEl) metaEl.innerText = "Dipublikasikan: Oktober 2025";
-    if (contentEl) contentEl.innerHTML = "<p>Informasi teknis kegiatan dapat dikoordinasikan langsung melalui kanal komunikasi resmi mitra atau Dosen Pembimbing Lapangan.</p>";
+    if (contentEl) contentEl.innerHTML = "<p>Informasi teknis kegiatan dapat dikoordinasikan langsung melalui kanal komunikasi resmi kontributor atau Dosen Pembimbing Lapangan.</p>";
   }
   modal.style.display = "flex";
   if (typeof lucide !== "undefined") lucide.createIcons();
@@ -435,14 +435,14 @@ function setApplicationStatus(stage) {
       bg: "#eff6ff", border: "#bfdbfe", textColor: "#1e40af", leftBorder: "#0655A7"
     },
     3: {
-      pill: "TAHAP 3: SELEKSI INTERNAL MITRA",
-      title: "SuReKom Diterbitkan — Sedang Dinilai Mitra Bengkel Koding",
-      desc: "Surat Rekomendasi (SuReKom) Dekanat resmi telah diterbitkan. Berkas portofolio Anda sedang ditinjau dalam proses seleksi teknis & wawancara internal mitra.",
+      pill: "TAHAP 3: SELEKSI INTERNAL KONTRIBUTOR",
+      title: "SuReKom Diterbitkan — Sedang Dinilai Kontributor Bengkel Koding",
+      desc: "Surat Rekomendasi (SuReKom) Dekanat resmi telah diterbitkan. Berkas portofolio Anda sedang ditinjau dalam proses seleksi teknis & wawancara internal kontributor.",
       bg: "#fffbeb", border: "#fde68a", textColor: "#92400e", leftBorder: "#d97706"
     },
     4: {
-      pill: "TAHAP 4: REKOMENDASI MITRA TERKIRIM",
-      title: "Mitra Menyampaikan Rekomendasi ke Fakultas",
+      pill: "TAHAP 4: REKOMENDASI KONTRIBUTOR TERKIRIM",
+      title: "Kontributor Menyampaikan Rekomendasi ke Fakultas",
       desc: "Bengkel Koding telah mengirimkan hasil seleksi dan kuota penerimaan ke Koordinator MBKM untuk approval akhir.",
       bg: "#eff6ff", border: "#bfdbfe", textColor: "#1e40af", leftBorder: "#0655A7"
     },
@@ -744,14 +744,14 @@ function updateTrackingUI() {
     if (heroCard) heroCard.className = "status-hero accepted";
     if (heroPill) heroPill.innerText = "STATUS: TAHAP 5 - FINAL APPROVAL KOORDINATOR (LOLOS)";
     if (heroTitle) heroTitle.innerText = "Selamat! Anda Resmi Menjadi Peserta MBKM";
-    if (heroDesc) heroDesc.innerText = "Seluruh tahapan seleksi telah selesai. SuReKom telah disetujui, rekomendasi mitra telah diterima, dan Koordinator MBKM telah memberikan approval final.";
+    if (heroDesc) heroDesc.innerText = "Seluruh tahapan seleksi telah selesai. SuReKom telah disetujui, rekomendasi kontributor telah diterima, dan Koordinator MBKM telah memberikan approval final.";
 
     if (feedbackBox) {
       feedbackBox.style.display = "block";
       feedbackBox.style.background = "#dcfce7";
       feedbackBox.style.border = "1px solid #bbf7d0";
       feedbackBox.style.color = "#14532d";
-      feedbackBox.innerHTML = "<strong>Catatan Approval:</strong> Selamat bergabung! Silakan unduh SuReKom Digital di bawah ini dan segera bergabung ke grup koordinasi mitra. DPL Anda: Dr. Ricardus Anggi, M.Kom.";
+      feedbackBox.innerHTML = "<strong>Catatan Approval:</strong> Selamat bergabung! Silakan unduh SuReKom Digital di bawah ini dan segera bergabung ke grup koordinasi kontributor. DPL Anda: Dr. Ricardus Anggi, M.Kom.";
     }
     
     if (btnDownload) btnDownload.style.display = "inline-flex";
@@ -771,7 +771,7 @@ function updateTrackingUI() {
     if (heroCard) heroCard.className = "status-hero rejected";
     if (heroPill) heroPill.innerText = "STATUS: PENGAJUAN DITOLAK / PERLU REVISI";
     if (heroTitle) heroTitle.innerText = "Mohon Maaf, Pengajuan Belum Dapat Disetujui";
-    if (heroDesc) heroDesc.innerText = "Terdapat kendala pada berkas atau hasil seleksi mitra yang menyebabkan pengajuan Anda tidak dapat dilanjutkan ke tahap berikutnya.";
+    if (heroDesc) heroDesc.innerText = "Terdapat kendala pada berkas atau hasil seleksi kontributor yang menyebabkan pengajuan Anda tidak dapat dilanjutkan ke tahap berikutnya.";
 
     if (feedbackBox) {
       feedbackBox.style.display = "block";
@@ -791,14 +791,14 @@ function updateTrackingUI() {
 
   // Update Detail Text
   const pProg = document.getElementById("detail-status-program");
-  const pMitr = document.getElementById("detail-status-mitra");
+  const pMitr = document.getElementById("detail-status-kontributor");
   const pPos  = document.getElementById("detail-status-posisi");
   const pDur  = document.getElementById("detail-status-durasi");
   const pTr   = document.getElementById("status-file-transkrip");
   const pCv   = document.getElementById("status-file-cv");
 
   if (pProg) pProg.innerText = reg.program;
-  if (pMitr) pMitr.innerText = reg.mitra;
+  if (pMitr) pMitr.innerText = reg.kontributor;
   if (pPos)  pPos.innerText  = reg.posisi;
   if (pDur)  pDur.innerText  = reg.durasi;
   if (pTr)   pTr.innerText   = reg.transkripName;
@@ -806,7 +806,7 @@ function updateTrackingUI() {
 
   const dProg = document.getElementById("dash-status-program");
   const dDate = document.getElementById("dash-status-date");
-  if (dProg) dProg.innerText = reg.program + " — " + reg.mitra;
+  if (dProg) dProg.innerText = reg.program + " — " + reg.kontributor;
   if (dDate) dDate.innerText = reg.tanggal;
 
   const dashBox   = document.getElementById("dash-status-box");
@@ -888,7 +888,7 @@ function handleFormSubmit(e) {
   }
 
   const program = document.getElementById("reg-program")?.value || "";
-  const mitra = document.getElementById("reg-mitra")?.value || "";
+  const kontributor = document.getElementById("reg-kontributor")?.value || "";
   const posisi = document.getElementById("reg-posisi")?.value || "";
   const durasi = document.getElementById("reg-durasi")?.value || "";
   const transkripFile = document.getElementById("name-transkrip")?.innerText || "";
@@ -897,7 +897,7 @@ function handleFormSubmit(e) {
   if (typeof appState !== "undefined") {
     appState.registration = {
       program,
-      mitra,
+      kontributor,
       posisi,
       durasi,
       transkripName: transkripFile,

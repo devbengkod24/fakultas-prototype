@@ -7,7 +7,7 @@ export interface NavItem {
 }
 
 export interface RoleNavConfig {
-  role: "admin" | "mahasiswa" | "mitra";
+  role: "admin" | "mahasiswa" | "kontributor";
   roleTitle: string;
   items: NavItem[];
 }
@@ -55,9 +55,9 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "log-aktivitas", label: "Log Aktivitas", href: "/mahasiswa/log-aktivitas", icon: "history" },
     ]
   },
-  mitra: {
-    role: "mitra",
-    roleTitle: "Mitra & Kontributor",
+  kontributor: {
+    role: "kontributor",
+    roleTitle: "Kontributor",
     items: [
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
@@ -69,7 +69,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
   },
   contributor: {
     role: "contributor",
-    roleTitle: "Kontributor Mitra Industri",
+    roleTitle: "Kontributor Industri",
     items: [
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },

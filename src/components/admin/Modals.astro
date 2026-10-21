@@ -35,7 +35,7 @@
                 class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
               >
                 <option value="semua_mhs">Semua Mahasiswa MBKM</option>
-                <option value="mitra_dpl">Mitra & DPL</option>
+                <option value="kontributor_dpl">Kontributor & DPL</option>
                 <option value="magang">Peserta Magang Industri</option>
                 <option value="studi_independen">Peserta Studi Independen</option>
               </select>
@@ -200,21 +200,21 @@
     </div>
 
     <!-- 3. Modal Tambah Kontributor (YAGNI & Clean Shadcn UI) -->
-    <div id="modal-tambah-mitra" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+    <div id="modal-tambah-kontributor" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-md w-full p-6 space-y-4 text-sm">
         <!-- Dialog Header -->
         <div class="flex items-start justify-between">
           <div>
-            <h3 id="modal-mitra-title" class="text-lg font-semibold text-[#09090b]">Tambah Kontributor</h3>
-            <p id="modal-mitra-subtitle" class="text-sm text-[#71717a] mt-0.5">Tambahkan kontributor baru untuk program MBKM.</p>
+            <h3 id="modal-kontributor-title" class="text-lg font-semibold text-[#09090b]">Tambah Kontributor</h3>
+            <p id="modal-kontributor-subtitle" class="text-sm text-[#71717a] mt-0.5">Tambahkan kontributor baru untuk program MBKM.</p>
           </div>
-          <button type="button" onclick="closeTambahMitraModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
+          <button type="button" onclick="closeTambahKontributorModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
         <!-- FORM INTERNAL: Nama Kontributor, Penanggung Jawab, Email Akun, Password, Deskripsi -->
-        <div id="modal-form-mitra-internal" class="space-y-3 pt-1">
+        <div id="modal-form-kontributor-internal" class="space-y-3 pt-1">
           <div class="space-y-1.5">
             <label class="font-medium text-[#09090b] text-sm">Nama Kontributor <span class="text-red-500">*</span></label>
             <input
@@ -263,7 +263,7 @@
         </div>
 
         <!-- FORM EKSTERNAL: Nama Kontributor / Instansi, Penanggung Jawab, Deskripsi (Tanpa Email Akun & Password) -->
-        <div id="modal-form-mitra-eksternal" class="space-y-3 pt-1 hidden">
+        <div id="modal-form-kontributor-eksternal" class="space-y-3 pt-1 hidden">
           <div class="space-y-1.5">
             <label class="font-medium text-[#09090b] text-sm">Nama Kontributor / Instansi <span class="text-red-500">*</span></label>
             <input
@@ -297,14 +297,14 @@
         <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
           <button
             type="button"
-            onclick="closeTambahMitraModal()"
+            onclick="closeTambahKontributorModal()"
             class="inline-flex items-center justify-center h-9 px-4 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
           >
             Batal
           </button>
           <button
             type="button"
-            onclick="handleSubmitTambahMitra()"
+            onclick="handleSubmitTambahKontributor()"
             class="inline-flex items-center justify-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"
           >
             Tambah
@@ -418,7 +418,7 @@
     <div id="modal-detail-pelamar" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-lg w-full p-6 space-y-4 text-sm">
         <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
-          <h3 class="text-lg font-semibold text-[#09090b]">Final Approval Pelamar Mitra</h3>
+          <h3 class="text-lg font-semibold text-[#09090b]">Final Approval Pelamar Kontributor</h3>
           <button type="button" onclick="closePelamarDetailModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
@@ -440,11 +440,11 @@
             </div>
           </div>
 
-          <!-- Rincian Mitra & Formasi -->
+          <!-- Rincian Kontributor & Formasi -->
           <div class="grid grid-cols-2 gap-3 p-3.5 rounded-lg border border-[#e4e4e7]">
             <div>
-              <span class="text-xs text-[#71717a]">Mitra Penempatan</span>
-              <div id="modal-pelamar-mitra" class="font-medium text-[#09090b] text-sm mt-0.5">-</div>
+              <span class="text-xs text-[#71717a]">Kontributor Penempatan</span>
+              <div id="modal-pelamar-kontributor" class="font-medium text-[#09090b] text-sm mt-0.5">-</div>
             </div>
             <div>
               <span class="text-xs text-[#71717a]">Posisi / Formasi</span>
@@ -452,13 +452,13 @@
             </div>
           </div>
 
-          <!-- Hasil Rekomendasi Mitra -->
+          <!-- Hasil Rekomendasi Kontributor -->
           <div class="p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] space-y-1">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-medium text-[#09090b]">Hasil Seleksi Internal Mitra:</span>
+              <span class="text-xs font-medium text-[#09090b]">Hasil Seleksi Internal Kontributor:</span>
               <span id="modal-pelamar-skor" class="font-semibold text-xs text-[#0655a7]">Skor: 92/100</span>
             </div>
-            <p id="modal-pelamar-catatan-mitra" class="text-xs text-[#71717a] leading-relaxed italic">
+            <p id="modal-pelamar-catatan-kontributor" class="text-xs text-[#71717a] leading-relaxed italic">
               "Mahasiswa menunjukkan portofolio memuaskan dan lolos live coding challenge."
             </p>
           </div>
@@ -1414,7 +1414,7 @@
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-[#0655a7]">Maks 12 SKS</span>
             </div>
             <p class="text-[11px] text-[#71717a]">
-              Khusus untuk kurikulum mitra dengan durasi beban jam kerja setara 300 - 450 jam atau program
+              Khusus untuk kurikulum kontributor dengan durasi beban jam kerja setara 300 - 450 jam atau program
               non-pengembangan produk utuh.
             </p>
           </div>
@@ -1484,7 +1484,7 @@
           <div>
             <h3 class="text-sm font-bold text-[#09090b]">Telaah Ekuivalensi Mata Kuliah MBKM terhadap CPL</h3>
             <p id="modal-telaah-subtitle" class="text-[11px] text-[#71717a]">
-              Memeriksa kesesuaian capaian kompetensi mitra dengan kurikulum prodi.
+              Memeriksa kesesuaian capaian kompetensi kontributor dengan kurikulum prodi.
             </p>
           </div>
           <button type="button" onclick="closeModalTelaahKonversi()" class="text-[#71717a] hover:text-[#09090b]">
@@ -1503,8 +1503,8 @@
             <div id="modal-telaah-nim-prodi" class="text-[11px] text-[#3f3f46]">-</div>
           </div>
           <div>
-            <div class="text-[10px] text-[#71717a]">Mitra MBKM</div>
-            <div id="modal-telaah-mitra" class="font-semibold text-[#3f3f46]">-</div>
+            <div class="text-[10px] text-[#71717a]">Kontributor MBKM</div>
+            <div id="modal-telaah-kontributor" class="font-semibold text-[#3f3f46]">-</div>
           </div>
           <div>
             <div class="text-[10px] text-[#71717a]">Skema SKS Terpilih</div>
@@ -1525,7 +1525,7 @@
                   <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
                   <th class="px-3 py-2 font-semibold text-[11px]">Kode & Mata Kuliah Kurikulum</th>
                   <th class="px-3 py-2 font-semibold text-center text-[11px]">SKS</th>
-                  <th class="px-3 py-2 font-semibold text-[11px]">Aktivitas / Modul Mitra Ekuivalen</th>
+                  <th class="px-3 py-2 font-semibold text-[11px]">Aktivitas / Modul Kontributor Ekuivalen</th>
                   <th class="px-3 py-2 font-semibold text-[11px]">Capaian Pembelajaran (CPL)</th>
                   <th class="px-3 py-2 font-semibold text-center text-[11px]">Status CPL</th>
                 </tr>
@@ -1754,7 +1754,7 @@
       </div>
     </div>
 
-    <!-- Modal 5: Input & Edit Nilai Sidang MBKM (60% Mitra + 40% DPL) -->
+    <!-- Modal 5: Input & Edit Nilai Sidang MBKM (60% Kontributor + 40% DPL) -->
     <div
       id="modal-input-nilai-sidang"
       class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40"
@@ -1773,11 +1773,11 @@
         </div>
 
         <form onsubmit="handleSaveNilaiSidang(event)" class="flex flex-col gap-3">
-          <!-- Info Dosen & Mitra -->
+          <!-- Info Dosen & Kontributor -->
           <div class="grid grid-cols-2 gap-2 p-2.5 bg-[#fafafa] border border-[#e4e4e7] rounded-xl text-[11px]">
             <div>
-              <div class="text-[#71717a]">Mitra Penempatan:</div>
-              <div id="modal-sidang-mitra" class="font-semibold text-[#09090b]">-</div>
+              <div class="text-[#71717a]">Kontributor Penempatan:</div>
+              <div id="modal-sidang-kontributor" class="font-semibold text-[#09090b]">-</div>
             </div>
             <div>
               <div class="text-[#71717a]">DPL Pembimbing:</div>
@@ -1788,13 +1788,13 @@
           <!-- Input Komponen Nilai -->
           <div class="grid grid-cols-2 gap-3">
             <div class="flex flex-col gap-1.5 p-3 border border-blue-100 rounded-xl bg-blue-50/40">
-              <label class="font-bold text-[#0655a7]">1. Nilai Mentor Mitra (60%) *</label>
+              <label class="font-bold text-[#0655a7]">1. Nilai Mentor Kontributor (60%) *</label>
               <input
                 type="number"
                 step="0.1"
                 min="0"
                 max="100"
-                id="input-nilai-mitra"
+                id="input-nilai-kontributor"
                 required
                 oninput="hitungNilaiAkhirSidang()"
                 placeholder="Skala 0 - 100"
@@ -1823,7 +1823,7 @@
           <!-- Kalkulasi Otomatis Nilai Akhir -->
           <div class="flex items-center justify-between p-3 border bg-emerald-50/60 border-emerald-200 rounded-xl">
             <div>
-              <div class="text-[10px] font-semibold text-emerald-800">Rumus: (0.6 x Mitra) + (0.4 x DPL)</div>
+              <div class="text-[10px] font-semibold text-emerald-800">Rumus: (0.6 x Kontributor) + (0.4 x DPL)</div>
               <div class="text-sm font-bold text-emerald-900 mt-0.5">Nilai Akhir Terkalkulasi:</div>
             </div>
             <div class="flex items-center gap-2">
@@ -1953,7 +1953,7 @@
             <h3 id="modal-preview-doc-title" class="text-sm font-bold text-[#09090b]">
               Pratinjau Dokumen Bukti Luaran
             </h3>
-            <p id="modal-preview-doc-sub" class="text-[11px] text-[#71717a]">Sertifikat Resmi Mitra • Faisal Rahman</p>
+            <p id="modal-preview-doc-sub" class="text-[11px] text-[#71717a]">Sertifikat Resmi Kontributor • Faisal Rahman</p>
           </div>
           <button type="button" onclick="closeModalPreviewDokumen()" class="text-[#71717a] hover:text-[#09090b]">
             <i data-lucide="x" class="w-4 h-4"></i>
@@ -1969,7 +1969,7 @@
           </div>
           <div id="modal-preview-filename" class="font-bold text-[#09090b] text-sm">Sertifikat_Faisal_BK.pdf</div>
           <div class="text-[11px] text-[#71717a] mt-1 max-w-md">
-            Dokumen sah berformat PDF dengan tanda tangan pimpinan mitra atau DOI publikasi terverifikasi.
+            Dokumen sah berformat PDF dengan tanda tangan pimpinan kontributor atau DOI publikasi terverifikasi.
           </div>
           <div class="flex items-center gap-2 mt-4">
             <button
@@ -1996,7 +1996,7 @@
     </div>
 
     <!-- Modal Konfirmasi Ubah Status Kontributor -->
-    <div id="modal-toggle-status-mitra" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+    <div id="modal-toggle-status-kontributor" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-md w-full p-6 space-y-4 text-sm">
         <div class="flex items-start justify-between">
           <div class="flex items-start gap-3">
@@ -2005,10 +2005,10 @@
             </div>
             <div>
               <h3 id="modal-toggle-status-title" class="text-base font-semibold text-[#09090b]">Nonaktifkan Kontributor?</h3>
-              <p id="modal-toggle-status-subtitle" class="text-sm text-[#71717a] mt-0.5">Tindakan ini akan membekukan seluruh aktivitas mitra.</p>
+              <p id="modal-toggle-status-subtitle" class="text-sm text-[#71717a] mt-0.5">Tindakan ini akan membekukan seluruh aktivitas kontributor.</p>
             </div>
           </div>
-          <button type="button" onclick="closeModalToggleStatusMitra()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
+          <button type="button" onclick="closeModalToggleStatusKontributor()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -2025,7 +2025,7 @@
         <div class="flex items-center justify-end gap-2.5 pt-2">
           <button
             type="button"
-            onclick="closeModalToggleStatusMitra()"
+            onclick="closeModalToggleStatusKontributor()"
             class="h-9 px-4 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
           >
             Batal
@@ -2033,7 +2033,7 @@
           <button
             type="button"
             id="modal-toggle-status-confirm"
-            onclick="confirmToggleStatusMitra()"
+            onclick="confirmToggleStatusKontributor()"
             class="h-9 px-4 rounded-lg bg-[#BE123C] hover:bg-[#9F1239] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
           >
             Ya, Nonaktifkan
