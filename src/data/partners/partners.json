@@ -1,0 +1,366 @@
+[
+  {
+    "id": 1,
+    "nama": "PT Bengkel Koding Nusantara",
+    "tipe": "internal",
+    "deskripsi": "Software house dan platform edukasi teknologi fokus pada fullstack web & mobile app.",
+    "sektor": "Teknologi Informasi & Software",
+    "picNama": "Dimas Wicaksono, M.T.",
+    "picEmail": "dimas@bengkod.id",
+    "picPhone": "0812-3456-7890",
+    "role": "mbkm_contributor",
+    "status": "aktif",
+    "mou": "042/MoU/FIK-UDINUS/2026",
+    "alamat": "Gedung Inkubator Bisnis UDINUS Lantai 3, Jl. Imam Bonjol No. 207, Semarang",
+    "avatar": "BK",
+    "dosen": [
+      {
+        "nama": "Nurul Anisa S.W., M.Cs",
+        "nidn": "0686.11.2005.002",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 5
+      },
+      {
+        "nama": "Dr. Muljono, S.Si, M.Kom",
+        "nidn": "0686.11.1993.001",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 6
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Calvin Revianto",
+        "nim": "A11.2021.13782",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Fullstack Web Developer",
+        "dpl": "Nurul Anisa S.W., M.Cs",
+        "status": "Aktif"
+      },
+      {
+        "nama": "Salwa Salsabila",
+        "nim": "A11.2020.12864",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Cyber Security & Network",
+        "dpl": "Nurul Anisa S.W., M.Cs",
+        "status": "Aktif"
+      },
+      {
+        "nama": "Fakhrurrozi",
+        "nim": "A11.2020.12592",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Fullstack Web Developer",
+        "dpl": "Dr. Muljono, S.Si, M.Kom",
+        "status": "Aktif"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nama": "PT Matic Edukasi Mandiri",
+    "tipe": "internal",
+    "deskripsi": "Penyelenggara pelatihan sertifikasi IT dan pengembangan talenta digital industri.",
+    "sektor": "Edutech & Pelatihan",
+    "picNama": "Rian Pratama, S.Kom",
+    "picEmail": "rian@matic.co.id",
+    "picPhone": "0813-9876-5432",
+    "role": "mbkm_contributor",
+    "status": "aktif",
+    "mou": "051/MoU/FIK-UDINUS/2026",
+    "alamat": "Rukan Sinpasa Commercial Blok A-12, Summarecon, Bekasi",
+    "avatar": "ME",
+    "dosen": [
+      {
+        "nama": "Dr. Muljono, S.Si, M.Kom",
+        "nidn": "0686.11.1993.001",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 6
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "SYIFA AIN'NUR MANZILA",
+        "nim": "A11.2019.12233",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Mobile Developer (Flutter)",
+        "dpl": "Dr. Muljono, S.Si, M.Kom",
+        "status": "Aktif"
+      },
+      {
+        "nama": "Tarissa Aura Azzahra",
+        "nim": "A11.2020.13158",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Mobile Developer (Flutter)",
+        "dpl": "Nurul Anisa S.W., M.Cs",
+        "status": "Aktif"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "nama": "Ryuje Tech Studio",
+    "tipe": "internal",
+    "deskripsi": "Creative digital studio yang berfokus pada UI/UX design system dan pengembangan game indie.",
+    "sektor": "Startup & Game Dev",
+    "picNama": "Arya Putra, S.Ds",
+    "picEmail": "arya@ryuje.studio",
+    "picPhone": "0821-4567-8901",
+    "role": "mbkm_contributor",
+    "status": "aktif",
+    "mou": "058/MoU/FIK-UDINUS/2026",
+    "alamat": "Creative Hub Semarang, Jl. Pemuda No. 142, Semarang",
+    "avatar": "RT",
+    "dosen": [
+      {
+        "nama": "Ahmad Zainul, M.Kom",
+        "nidn": "0686.11.2012.003",
+        "prodi": "S1 Desain Komunikasi Visual",
+        "mhsCount": 4
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Dewi Lestari",
+        "nim": "A14.2020.03456",
+        "prodi": "S1 DKV",
+        "posisi": "UI/UX & Product Design",
+        "dpl": "Ahmad Zainul, M.Kom",
+        "status": "Aktif"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "nama": "IDSS Laboratory FIK",
+    "tipe": "internal",
+    "deskripsi": "Laboratorium riset Intelligent Decision Support System Fakultas Ilmu Komputer UDINUS.",
+    "sektor": "Laboratorium & Riset AI",
+    "picNama": "Dr. Ricardus Anggi, M.Kom",
+    "picEmail": "ricardus@dinus.ac.id",
+    "picPhone": "0811-2233-4455",
+    "role": "mbkm_contributor",
+    "status": "aktif",
+    "mou": "012/Internal/FIK-UDINUS/2026",
+    "alamat": "Gedung H Lantai 6, Kampus Udinus, Jl. Nakula I No. 5-11, Semarang",
+    "avatar": "ID",
+    "dosen": [
+      {
+        "nama": "Dr. Ricardus Anggi, M.Kom",
+        "nidn": "0686.11.2001.004",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 6
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Ahmad Fauzi",
+        "nim": "A11.2021.13890",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "AI & Data Science Researcher",
+        "dpl": "Dr. Ricardus Anggi, M.Kom",
+        "status": "Aktif"
+      },
+      {
+        "nama": "Khalivio Rahmiyanto Putra",
+        "nim": "A11.2020.12969",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "AI Researcher",
+        "dpl": "Dr. Ricardus Anggi, M.Kom",
+        "status": "Aktif"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "nama": "PT. Presentologics (Dicoding Indonesia)",
+    "tipe": "eksternal",
+    "deskripsi": "Platform edukasi teknologi terakreditasi Kemendikbudristek untuk program pengembang AI dan cloud software engineering.",
+    "sektor": "Edutech & Software Engineering",
+    "picNama": "Narenda Wicaksono",
+    "picEmail": "",
+    "picPhone": "022-7564108",
+    "role": "external_partner",
+    "status": "aktif",
+    "mou": "085/MoU/FIK-UDINUS/2026",
+    "alamat": "Jl. Batik Kumeli No. 50, Sukaluyu, Cibeunying Kaler, Bandung",
+    "avatar": "DC",
+    "dosen": [
+      {
+        "nama": "Nurul Anisa S.W., M.Cs",
+        "nidn": "0686.11.2005.002",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 4
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Calvin Revianto",
+        "nim": "A11.2021.13782",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Machine Learning Cohort",
+        "noLoa": "LoA-DCD/ASAH-7/2026/088",
+        "dpl": "Nurul Anisa S.W., M.Cs",
+        "status": "Disahkan (Aktif)"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "nama": "PT Telekomunikasi Selular (Telkomsel)",
+    "tipe": "eksternal",
+    "deskripsi": "Operator telekomunikasi seluler digital terdepan di Indonesia untuk track Cyber Security & Big Data.",
+    "sektor": "Telekomunikasi & Jaringan",
+    "picNama": "Budi Santoso, M.Kom",
+    "picEmail": "",
+    "picPhone": "0811-9876-0001",
+    "role": "external_partner",
+    "status": "aktif",
+    "mou": "061/MoU/FIK-UDINUS/2026",
+    "alamat": "Telkomsel Smart Office, Jl. Jend. Gatot Subroto Kav. 52, Jakarta Selatan",
+    "avatar": "TS",
+    "dosen": [
+      {
+        "nama": "Nurul Anisa S.W., M.Cs",
+        "nidn": "0686.11.2005.002",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 1
+      },
+      {
+        "nama": "Dr. Ricardus Anggi, M.Kom",
+        "nidn": "0686.11.2001.004",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 1
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Muhammad Rizky",
+        "nim": "A11.2021.13901",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Data Analyst Intern",
+        "noLoa": "LoA-TS/MSIB-7/2026/0142",
+        "dpl": "Nurul Anisa S.W., M.Cs",
+        "status": "Disahkan (Aktif)"
+      },
+      {
+        "nama": "Adinda Putri Rahayu",
+        "nim": "A11.2020.12980",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Cyber Security Defense",
+        "noLoa": "LoA-TS/MSIB-7/2026/0199",
+        "dpl": "Dr. Ricardus Anggi, M.Kom",
+        "status": "Disahkan (Aktif)"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "nama": "PT Bank Central Asia Tbk (BCA)",
+    "tipe": "eksternal",
+    "deskripsi": "Institusi perbankan swasta terbesar nasional dengan divisi IT inovasi perbankan digital & Core Banking.",
+    "sektor": "Fintech & Perbankan",
+    "picNama": "Maya Kartika, S.T.",
+    "picEmail": "",
+    "picPhone": "0812-8899-7711",
+    "role": "external_partner",
+    "status": "aktif",
+    "mou": "070/MoU/FIK-UDINUS/2026",
+    "alamat": "Menara BCA Grand Indonesia, Jl. M.H. Thamrin No. 1, Jakarta Pusat",
+    "avatar": "BC",
+    "dosen": [
+      {
+        "nama": "Dr. Muljono, S.Si, M.Kom",
+        "nidn": "0686.11.1993.001",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 2
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Indah Puspitasari",
+        "nim": "A11.2020.12450",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Backend Banking Engineer",
+        "noLoa": "SK-BCA-MAGANG/2026/045",
+        "dpl": "Dr. Muljono, S.Si, M.Kom",
+        "status": "Disahkan (Aktif)"
+      },
+      {
+        "nama": "Geraldo Bagas Wicaksono",
+        "nim": "A11.2021.13755",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "IT Quality Assurance",
+        "noLoa": "SK-BCA-MAGANG/2026/078",
+        "dpl": "Dr. Muljono, S.Si, M.Kom",
+        "status": "Disahkan (Aktif)"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "nama": "PT Tokopedia (GoTo Group)",
+    "tipe": "eksternal",
+    "deskripsi": "Perusahaan teknologi terkemuka Indonesia di bidang e-commerce dan ekosistem marketplace digital skala besar.",
+    "sektor": "E-Commerce & Digital Platform",
+    "picNama": "Agus Setiawan, S.Kom",
+    "picEmail": "",
+    "picPhone": "0813-1122-3344",
+    "role": "external_partner",
+    "status": "aktif",
+    "mou": "075/MoU/FIK-UDINUS/2026",
+    "alamat": "Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio Kav. 11, Jakarta Selatan",
+    "avatar": "TK",
+    "dosen": [
+      {
+        "nama": "Nurul Anisa S.W., M.Cs",
+        "nidn": "0686.11.2005.002",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 1
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Bambang Triatmojo",
+        "nim": "A11.2021.13920",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "Frontend Engineer",
+        "noLoa": "GOTO/INTERN/2026/092",
+        "dpl": "Nurul Anisa S.W., M.Cs",
+        "status": "Disahkan (Aktif)"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "nama": "Badan Siber dan Sandi Negara (BSSN)",
+    "tipe": "eksternal",
+    "deskripsi": "Lembaga pemerintah non-kementerian di bidang keamanan siber, kriptografi, dan ketahanan siber nasional.",
+    "sektor": "Keamanan Siber & Pemerintah",
+    "picNama": "Kol. Ir. Wahyu Hidayat, M.T.",
+    "picEmail": "",
+    "picPhone": "021-7890-1234",
+    "role": "external_partner",
+    "status": "aktif",
+    "mou": "080/MoU/FIK-UDINUS/2026",
+    "alamat": "Kantor BSSN Ragunan, Jl. Harsono RM No. 70, Ragunan, Jakarta Selatan",
+    "avatar": "BS",
+    "dosen": [
+      {
+        "nama": "Dr. Ricardus Anggi, M.Kom",
+        "nidn": "0686.11.2001.004",
+        "prodi": "S1 Teknik Informatika",
+        "mhsCount": 1
+      }
+    ],
+    "mhs": [
+      {
+        "nama": "Dinda Ayu Lestari",
+        "nim": "A11.2021.13945",
+        "prodi": "S1 Teknik Informatika",
+        "posisi": "SOC Analyst Intern",
+        "noLoa": "BSSN/DIKTI/2026/011",
+        "dpl": "Dr. Ricardus Anggi, M.Kom",
+        "status": "Disahkan (Aktif)"
+      }
+    ]
+  }
+]

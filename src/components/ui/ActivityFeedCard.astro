@@ -1,0 +1,45 @@
+---
+// src/components/ui/ActivityFeedCard.astro
+export interface ActivityItem {
+  text: string;
+  time: string;
+  color?: 'blue' | 'green' | 'amber' | 'red';
+}
+
+interface Props {
+  title?: string;
+  activities?: ActivityItem[];
+  class?: string;
+}
+
+const {
+  title = 'Aktivitas Terkini',
+  activities = [
+    { text: 'SuReKom Calvin Revianto masuk antrean', time: '10 menit lalu', color: 'blue' },
+    { text: 'Budi Santoso direkomendasikan mitra', time: '1 jam lalu', color: 'green' },
+  ],
+  class: className = '',
+} = Astro.props;
+
+const dotColors = {
+  blue: 'bg-blue-500',
+  green: 'bg-green-500',
+  amber: 'bg-amber-500',
+  red: 'bg-rose-500',
+};
+---
+
+<div class={`rounded-xl border border-[#e4e4e7] bg-white p-3 shadow-none flex-1 ${className}`}>
+  <p class="text-sm font-medium text-[#09090b] mb-2.5">{title}</p>
+  <div class="space-y-2.5 text-xs text-[#71717a]">
+    {activities.map((item) => (
+      <div class="flex items-start gap-2">
+        <div class={`w-1.5 h-1.5 rounded-full ${dotColors[item.color || 'blue']} mt-1.5 shrink-0`}></div>
+        <div class="min-w-0">
+          <p class="text-[#09090b] font-medium leading-tight">{item.text}</p>
+          <span class="text-[10px] text-[#71717a] mt-0.5 block">{item.time}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

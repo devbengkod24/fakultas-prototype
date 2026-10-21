@@ -1,0 +1,90 @@
+{
+  "1": {
+    "mitra": "PT Bengkel Koding Nusantara",
+    "sektor": "Teknologi Informasi & Software",
+    "lokasi": "Luring (Lab Inkubator FIK UDINUS)",
+    "periode": "Semester Gasal 2026/2027",
+    "mou": "042/MoU/FIK-UDINUS/2026",
+    "badge": "Mitra Unggulan Kampus",
+    "deadline": "20 Oktober 2026 • 23:59 WIB",
+    "deskripsiHero": "Platform inkubasi teknologi dan software house internal kampus yang berfokus pada pengembangan perangkat lunak skala enterprise berbasis Laravel, Next.js, dan cloud microservices terdistribusi.",
+    "poin1": "Mentoring Intensif Tech Lead Industri",
+    "poin2": "Hands-on Production Codebase",
+    "poin3": "Akses Workspace Lab Eksklusif",
+    "koorNama": "Nurul Anisa S.W., M.Cs",
+    "koorJabatan": "Koordinator MBKM FIK UDINUS",
+    "koorFoto": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=256",
+    "showcases": [
+      {
+        "id": "PRJ-2026-BK1",
+        "batch": "Batch 5",
+        "kategori": "Fullstack Web & Cloud",
+        "judul": "Sistem Informasi Presensi Kampus Berdampak Realtime",
+        "deskripsi": "Platform presensi berbasis GPS geofencing dan integrasi Telegram Bot untuk pemantauan kehadiran magang mahasiswa.",
+        "tech": [
+          "Laravel 11",
+          "Next.js 14",
+          "MySQL",
+          "Tailwind CSS"
+        ]
+      }
+    ]
+  },
+  "9": {
+    "mitra": "PT. Presentologics (Dicoding Indonesia)",
+    "sektor": "Edutech & Software Engineering",
+    "lokasi": "Hybrid (Daring & Lab FIK UDINUS)",
+    "periode": "Semester Gasal 2026/2027",
+    "mou": "085/MoU/FIK-UDINUS/2026",
+    "badge": "Mitra Unggulan Nasional",
+    "deadline": "25 Oktober 2026 • 23:59 WIB",
+    "deskripsiHero": "Program kemitraan strategis Dicoding Indonesia bersama Kampus Berdampak FIK UDINUS dirancang untuk membekali mahasiswa dengan keahlian industri tingkat lanjut di bidang Machine Learning, Full-Stack Engineering, dan Cloud Infrastructure.\n\nSelama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mentor industri kelas dunia, menyelesaikan proyek nyata skala enterprise, serta memperoleh hak konversi akademik otomatis hingga 20 SKS ke mata kuliah konsentrasi program studi.",
+    "poin1": "Sertifikasi Global Dicoding & Partner",
+    "poin2": "Uang Saku Pembinaan Mitra",
+    "poin3": "Kelas Khusus MBKM Pra-KRS",
+    "koorNama": "Jane Doe",
+    "koorJabatan": "Koordinator Kampus Berdampak FIK UDINUS",
+    "koorFoto": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=256",
+    "showcases": [
+      {
+        "id": "PRJ-2026-01",
+        "batch": "Capstone Project Batch 6",
+        "kategori": "Smart Energy • IoT & ML",
+        "judul": "Smart Energy & Air Quality Monitoring Campus FIK",
+        "deskripsi": "Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.",
+        "tech": [
+          "Python",
+          "TensorFlow",
+          "React.js",
+          "Google Cloud"
+        ]
+      },
+      {
+        "id": "PRJ-2026-02",
+        "batch": "Capstone Project Batch 5",
+        "kategori": "Attendance AI • Computer Vision",
+        "judul": "Vision-Based Automated Academic Attendance & Fraud Detection",
+        "deskripsi": "Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.",
+        "tech": [
+          "Python",
+          "PyTorch",
+          "YOLOv8",
+          "FastAPI"
+        ]
+      },
+      {
+        "id": "PRJ-2026-03",
+        "batch": "Capstone Project Batch 5",
+        "kategori": "Robotics • Robotics & AI",
+        "judul": "Autonomous Robotic Trash Segregator for Green Campus",
+        "deskripsi": "Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.",
+        "tech": [
+          "ROS2",
+          "OpenCV",
+          "Edge TPU",
+          "C++"
+        ]
+      }
+    ]
+  }
+}

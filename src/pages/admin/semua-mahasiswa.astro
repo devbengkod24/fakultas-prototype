@@ -1,0 +1,75 @@
+---
+import AdminShell from '../../layouts/AdminShell.astro';
+---
+
+<AdminShell currentTab="semua-mahasiswa">
+  <section
+    id="section-mhs-semua"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  >
+<!-- Filter & Search Toolbar (Sesuai Standar SearchControl fakultas-fe) -->
+<div class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+  <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+    <div class="relative w-full sm:w-72 md:w-80">
+      <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+      <input
+        type="text"
+        id="search-semua-mhs"
+        oninput="handleSearchSemuaMhs(this.value)"
+        placeholder="Cari mahasiswa, NIM, atau DPL..."
+        class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      />
+    </div>
+    <select
+      id="filter-semua-mhs-mitra"
+      onchange="handleFilterSemuaMhsMitra(this.value)"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    >
+      <option value="semua">Semua Mitra</option>
+      <option value="Bengkel Koding">Bengkel Koding</option>
+      <option value="PT Matic Edukasi Mandiri">PT Matic Edukasi Mandiri</option>
+      <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
+      <option value="IDSS Laboratory">IDSS Laboratory</option>
+    </select>
+    <select
+      id="filter-semua-mhs-prodi"
+      onchange="handleFilterSemuaMhsProdi(this.value)"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+    >
+      <option value="semua">Semua Program Studi</option>
+      <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
+      <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
+      <option value="S1 DKV">S1 DKV</option>
+    </select>
+  </div>
+</div>
+
+<!-- Tabel Semua Mahasiswa (Sesuai DataTable di semua-mahasiswa fakultas-fe) -->
+<div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+  <table class="w-full text-sm">
+    <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+      <tr>
+        <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Kontak</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mitra & Posisi</th>
+        <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Dosen Pembimbing (DPL)</th>
+        <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Progres Logbook</th>
+        <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
+        <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="semua-mhs-table-tbody" class="divide-y divide-[#e4e4e7]">
+      <!-- Populated dynamically via renderSemuaMhsTable() -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination Footer -->
+<div class="pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
+  <div id="semua-mhs-table-info">Menampilkan mahasiswa</div>
+  <div id="semua-mhs-pagination-controls" class="flex items-center gap-1"></div>
+</div>
+
+  </section>
+</AdminShell>

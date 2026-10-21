@@ -1,0 +1,128 @@
+---
+// src/components/admin/mitra/MitraDetail.astro
+---
+
+<!-- Subview 2: Detail Mitra Bertab (Hero Card + 3 Mini KPI + Tab Adaptif) -->
+<div id="subview-mitra-detail" class="space-y-4 hidden">
+  <!-- Header Detail Navigasi -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <button
+        type="button"
+        onclick="hideMitraDetail()"
+        class="inline-flex items-center justify-center h-8 w-8 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] transition-colors"
+        title="Kembali ke Direktori Mitra"
+      >
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      </button>
+      <div>
+        <h2 id="mitra-detail-title" class="text-lg font-semibold text-[#09090b]">Detail Mitra</h2>
+        <p class="text-xs text-[#71717a] mt-0.5">Informasi profil kemitraan, alokasi dosen pembimbing, dan rekap penempatan mahasiswa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Profile Card -->
+  <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-none">
+    <div class="flex items-start sm:items-center gap-4">
+      <div id="mitra-detail-avatar" class="h-14 w-14 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-[#09090b] font-semibold text-lg flex items-center justify-center shrink-0">
+        BK
+      </div>
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <h3 id="mitra-detail-name" class="text-lg sm:text-xl font-semibold text-[#09090b]">PT Bengkel Koding Nusantara</h3>
+          <span id="mitra-detail-type-badge" class="inline-flex items-center gap-1.5 rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#09090b]">
+            <i data-lucide="building" class="w-3.5 h-3.5 text-[#71717a]"></i>
+            <span>Mitra Internal</span>
+          </span>
+        </div>
+        <p id="mitra-detail-deskripsi" class="text-xs text-[#71717a] max-w-2xl leading-relaxed">
+          Software house dan platform edukasi teknologi fokus pada fullstack web & mobile app.
+        </p>
+        <div class="flex flex-wrap items-center gap-3 pt-1 text-xs text-[#71717a]">
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="briefcase" class="w-3.5 h-3.5 text-[#71717a]"></i>
+            <span id="mitra-detail-sektor">Teknologi Informasi & Software</span>
+          </div>
+          <span class="text-gray-300">•</span>
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="user" class="w-3.5 h-3.5 text-[#71717a]"></i>
+            <span id="mitra-detail-pic">Dimas Wicaksono, M.T.</span>
+          </div>
+          <span class="text-gray-300">•</span>
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="file-check" class="w-3.5 h-3.5 text-[#71717a]"></i>
+            <span id="mitra-detail-mou">042/MoU/FIK-UDINUS/2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center shrink-0 self-start md:self-center">
+      <button
+        type="button"
+        onclick="openMitraCms(activeDetailMitraId)"
+        class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium shadow-none transition-colors"
+        title="Kelola Program & Halaman Publik Mitra"
+      >
+        <i data-lucide="settings-2" class="w-3.5 h-3.5 text-white"></i>
+        <span>Kelola Program</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 3 Mini KPI Stat Cards (Replikasi 1:1 Style Bimbingan Karir) -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <!-- KPI 1: Sektor & Kemitraan -->
+    <div class="rounded-xl border border-[#e4e4e7] border-l-4 border-l-[#0655a7] bg-white p-4 flex flex-col justify-between shadow-none">
+      <div class="flex items-center justify-between">
+        <p id="kpi-mitra-label-1" class="text-xs font-medium text-[#71717a]">Sektor Industri</p>
+        <i data-lucide="building-2" class="w-4 h-4 text-[#0655a7]"></i>
+      </div>
+      <div class="mt-1.5">
+        <p id="kpi-mitra-val-1" class="text-2xl font-bold text-[#09090b] tracking-tight">Teknologi Informasi</p>
+        <p id="kpi-mitra-sub-1" class="text-xs text-[#71717a] mt-1">Mitra Nasional / MSIB</p>
+      </div>
+    </div>
+
+    <!-- KPI 2: Dosen Pembimbing -->
+    <div class="rounded-xl border border-[#e4e4e7] border-l-4 border-l-[#0655a7] bg-white p-4 flex flex-col justify-between shadow-none">
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-medium text-[#71717a]">Dosen Pembimbing</p>
+        <i data-lucide="user-check" class="w-4 h-4 text-[#0655a7]"></i>
+      </div>
+      <div class="mt-1.5">
+        <p id="kpi-mitra-val-2" class="text-2xl font-bold text-[#09090b] tracking-tight">1 Dosen</p>
+        <p class="text-xs text-[#71717a] mt-1">Terplot aktif di SIADIN</p>
+      </div>
+    </div>
+
+    <!-- KPI 3: Mahasiswa Aktif -->
+    <div class="rounded-xl border border-[#e4e4e7] border-l-4 border-l-[#0655a7] bg-white p-4 flex flex-col justify-between shadow-none">
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-medium text-[#71717a]">Mahasiswa Ditempatkan</p>
+        <i data-lucide="users" class="w-4 h-4 text-[#0655a7]"></i>
+      </div>
+      <div class="mt-1.5">
+        <p id="kpi-mitra-val-3" class="text-2xl font-bold text-[#09090b] tracking-tight">1 Mahasiswa</p>
+        <p class="text-xs text-[#71717a] mt-1">Aktif menjalani aktivitas</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigasi CustomTabs (Adaptif Internal vs Eksternal) -->
+  <div class="w-full border-b border-[#e4e4e7]">
+    <div class="flex overflow-x-auto gap-1" id="mitra-detail-tabs-header">
+      <!-- Generated dynamically based on category -->
+    </div>
+  </div>
+
+  <!-- Konten Tab Dinamis -->
+  <div id="mitra-tab-content-container">
+    <!-- Konten Tab 1 -->
+    <div id="mitra-detail-pane-1" class="mitra-detail-pane space-y-3"></div>
+    <!-- Konten Tab 2 -->
+    <div id="mitra-detail-pane-2" class="mitra-detail-pane hidden space-y-3"></div>
+    <!-- Konten Tab 3 -->
+    <div id="mitra-detail-pane-3" class="mitra-detail-pane hidden space-y-3"></div>
+  </div>
+</div>

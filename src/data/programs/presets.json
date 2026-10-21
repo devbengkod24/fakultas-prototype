@@ -1,0 +1,88 @@
+{
+  "eksternal": [
+    {
+      "id": "stage_1",
+      "name": "Tahap 1: Pendaftaran Mandiri & Biodata",
+      "type": "daftar_mandiri",
+      "rule": "Mahasiswa mendaftar mandiri sesuai eligibility semester & IPK",
+      "files": [
+        {
+          "id": "f_1",
+          "label": "Transkrip Nilai Terakhir (Min. 100 SKS / IPK >= 3.0)",
+          "format": "PDF (Maks 2MB)",
+          "required": true
+        },
+        {
+          "id": "f_2",
+          "label": "Curriculum Vitae (CV) & Portofolio",
+          "format": "PDF (Maks 5MB)",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "stage_2",
+      "name": "Tahap 2: Seleksi & Tes Mitra Eksternal",
+      "type": "tes_mitra",
+      "rule": "Mahasiswa mengikuti asesmen teknis mitra (Dicoding / Vinix / Industri)",
+      "files": [
+        {
+          "id": "f_3",
+          "label": "Bukti Screenshot / Email Lolos Tes Mitra",
+          "format": "PDF / JPG (Maks 2MB)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "stage_3",
+      "name": "Tahap 3: Pengajuan & Validasi Surat Rekomendasi (Surekom)",
+      "type": "surekom",
+      "rule": "Hanya mahasiswa lolos seleksi mitra yang berhak meminta tanda tangan Koor KB",
+      "files": [
+        {
+          "id": "f_4",
+          "label": "Draft Surat Rekomendasi Format Resmi Mitra",
+          "format": "DOCX / PDF (Maks 3MB)",
+          "required": true
+        },
+        {
+          "id": "f_5",
+          "label": "SPTJM (Surat Pernyataan Tanggung Jawab Mutlak)",
+          "format": "PDF Bermaterai",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "internal": [
+    {
+      "id": "stage_1",
+      "name": "Tahap 1: Rekomendasi & Penugasan Mitra / Lab",
+      "type": "penugasan_internal",
+      "rule": "Mitra/Dosen Pengampu mengirimkan daftar nama mahasiswa terpilih ke Koordinator",
+      "files": [
+        {
+          "id": "f_1",
+          "label": "Surat Keputusan / Daftar Nominasi Peserta dari Lab/Mitra",
+          "format": "PDF / Excel",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "stage_2",
+      "name": "Tahap 2: Verifikasi Berkas & Auto-Lolos Sistem",
+      "type": "auto_lolos",
+      "rule": "Koordinator mengimpor list mahasiswa -> Sistem otomatis setujui (Approved)",
+      "files": [
+        {
+          "id": "f_2",
+          "label": "Pakta Integritas Mahasiswa Kampus Berdampak",
+          "format": "PDF (Hardcopy di meja Koor)",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

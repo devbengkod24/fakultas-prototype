@@ -1,0 +1,68 @@
+[
+  {
+    "id": "internal_bengkel",
+    "nama": "MBKM Internal - Asistensi Mengajar (Bengkel Koding)",
+    "type": "internal",
+    "sks": 20
+  },
+  {
+    "id": "eksternal_studi",
+    "nama": "MBKM Eksternal - Studi Independen (Dicoding, Vinix)",
+    "type": "eksternal",
+    "sks": 15
+  },
+  {
+    "id": "eksternal_kki",
+    "nama": "MBKM Eksternal - Magang Kuliah Kerja Industri (KKI)",
+    "type": "eksternal",
+    "sks": 20
+  },
+  {
+    "id": "eksternal_sekolah",
+    "nama": "MBKM Eksternal - Magang Berdampak di Sekolah",
+    "type": "eksternal",
+    "sks": 20
+  },
+  {
+    "id": "internal_lab",
+    "nama": "MBKM Internal - Studi Independen (Lab IntSys)",
+    "type": "internal",
+    "sks": 15
+  },
+  {
+    "id": "internal_riset",
+    "nama": "MBKM Internal - Riset Bersama Bidang Kajian (IDSS, Matics)",
+    "type": "internal",
+    "sks": 20
+  },
+  {
+    "id": "internal_ppk",
+    "nama": "MBKM Internal - PPKOrmawa",
+    "type": "internal",
+    "sks": 12
+  },
+  {
+    "id": "internal_joint",
+    "nama": "MBKM Internal - Joint Project (Dinosaurus, BTIK)",
+    "type": "internal",
+    "sks": 20
+  },
+  {
+    "id": "internal_iv",
+    "nama": "MBKM Internal - Industrial Visit ke Luar Negeri",
+    "type": "internal",
+    "sks": 12
+  },
+  {
+    "id": "internal_kku",
+    "nama": "MBKM Internal - Kuliah Kerja Usaha (KKU)",
+    "type": "internal",
+    "sks": 12
+  },
+  {
+    "id": "internal_ugm",
+    "nama": "MBKM Internal - Student Mobility ke UGM",
+    "type": "internal",
+    "sks": 24
+  }
+]

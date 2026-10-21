@@ -1,0 +1,149 @@
+---
+// src/pages/admin/sidang.astro
+import AdminShell from "../../layouts/AdminShell.astro";
+---
+
+<AdminShell currentTab="sidang">
+<section
+            id="section-sidang" x-show="$store.mbkm.currentSection === 'sidang'"
+            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+          >
+            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
+              <div>
+                <h2 class="text-base font-semibold text-[#09090b]">Evaluasi Akhir & Sidang Presentasi MBKM</h2>
+                <p class="text-[11px] text-[#71717a]">
+                  Penjadwalan sidang akhir berkala (tanpa sistem gelombang kaku) dan penginputan nilai gabungan Mentor
+                  Mitra (60%) serta DPL (40%).
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  onclick="openModalJadwalSidang()"
+                  class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
+                >
+                  <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
+                  <span>Jadwalkan Sidang Baru</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabel Sidang -->
+            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                  <tr>
+                    <th class="w-12 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra Penempatan</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">DPL & Penguji</th>
+                    <th class="px-3 py-2 font-semibold text-[11px]">Waktu & Ruang</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Mitra (60%)</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">DPL (40%)</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Nilai Akhir</th>
+                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status</th>
+                    <th class="w-28 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="sidang-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
+                  <tr class="transition-colors hover:bg-blue-50/30">
+                    <td class="px-2.5 py-2.5 text-center text-[#71717a]">1</td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
+                      <div class="text-[10px] text-[#71717a]">A11.2022.13901 • TI</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#3f3f46]">Bengkel Koding</div>
+                      <div class="text-[10px] text-[#71717a]">Fullstack Web Engineer</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="text-[11px] font-medium text-[#09090b]">Dr. M. Arief Soeleman</div>
+                      <div class="text-[10px] text-[#71717a]">Penguji: Christy Atika Sari, M.Kom</div>
+                    </td>
+                    <td class="px-3 py-2.5">
+                      <div class="font-semibold text-[#09090b]">14 Jul 2025, 09:00 WIB</div>
+                      <div class="text-[10px] text-[#0655a7]">Ruang H.5.2 / Hybrid</div>
+                    </td>
+                    <td class="px-3 py-2.5 text-center font-bold text-[#09090b]">88.0</td>
+                    <td class="px-3 py-2.5 text-center font-bold text-[#09090b]">85.0</td>
+                    <td class="px-3 py-2.5 text-center">
+                      <div class="font-bold text-[#0655a7]">86.8</div>
+                      <span
+                        class="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-bold bg-blue-50 text-[#0655a7]"
+                      >
+                        Grade A
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-center">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      >
+                        Lulus Evaluasi
+                      </span>
+                    </td>
+                    <td class="px-3 py-2.5 text-center">
+                      <button
+                        type="button"
+                        onclick="
+                          openModalInputNilaiSidang(
+                            'Faisal Rahman',
+                            'A11.2022.13901',
+                            'Bengkel Koding',
+                            'Dr. M. Arief Soeleman',
+                            88,
+                            85
+                          )
+                        "
+                        class="px-2 py-1 rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#0655a7] font-semibold text-[11px] shadow-2xs"
+                      >
+                        Edit Nilai
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination & Info -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
+              <div class="text-[11px] text-[#71717a]">Menampilkan 1 - 4 dari 32 data sidang</div>
+              <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1">
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Sebelumnya"
+                  >
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0655a7] text-white font-semibold text-xs shadow-2xs"
+                  >
+                    1
+                  </button>
+                  <button
+                    type="button"
+                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
+                    title="Selanjutnya"
+                  >
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <div class="relative">
+                  <select
+                    class="appearance-none pl-3 pr-8 py-1.5 text-xs font-medium text-[#09090b] bg-white border border-[#0655a7] rounded-lg focus:outline-none cursor-pointer"
+                  >
+                    <option value="10">Show 10 items</option>
+                    <option value="25">Show 25 items</option>
+                    <option value="50">Show 50 items</option>
+                  </select>
+                  <i
+                    data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-[#09090b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </section>
+</AdminShell>

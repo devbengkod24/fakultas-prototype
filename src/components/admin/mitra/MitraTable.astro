@@ -1,0 +1,88 @@
+---
+// src/components/admin/mitra/MitraTable.astro
+import DataTable from '../../ui/DataTable.astro';
+import Badge from '../../ui/Badge.astro';
+import type { DataTableTab } from '../../../types';
+import { partnersData } from '../../../data/partners/partners';
+
+const tabs: DataTableTab[] = [
+  { id: 'all', label: 'Semua Mitra', count: partnersData.length },
+  { id: 'internal', label: 'Mitra Internal', count: partnersData.filter((p) => p.tipe === 'internal').length },
+  { id: 'eksternal', label: 'Mitra Eksternal', count: partnersData.filter((p) => p.tipe === 'eksternal').length },
+];
+---
+
+<!-- Subview 1: Direktori Mitra (Menggunakan Reusable DataTable) -->
+<div id="subview-mitra-list" x-data="{ activeTab: 'all', searchQuery: '' }">
+  <DataTable
+    tabs={tabs}
+    activeTabModel="activeTab"
+    searchPlaceholder="Cari nama mitra, deskripsi, atau PIC..."
+    searchModel="searchQuery"
+    totalItems={partnersData.length}
+    infoText={`Menampilkan ${partnersData.length} mitra terdaftar`}
+  >
+    <!-- Table Header Slot -->
+    <tr slot="head">
+      <th class="h-10 w-12 px-3 text-center text-xs">No</th>
+      <th class="h-10 px-4 text-left text-xs">Nama Mitra & Deskripsi</th>
+      <th class="h-10 px-4 text-left text-xs">Akun & PIC</th>
+      <th class="h-10 px-4 text-center text-xs">Dosen DPL</th>
+      <th class="h-10 px-4 text-center text-xs">Mahasiswa</th>
+      <th class="h-10 px-4 text-center text-xs">Status</th>
+      <th class="h-10 w-24 px-4 text-center text-xs">Aksi</th>
+    </tr>
+
+    <!-- Table Body Rows (Typed Partner) -->
+    {partnersData.map((partner, idx) => (
+      <tr
+        class="hover:bg-slate-50/70 transition-colors"
+        x-show={`(activeTab === 'all' || activeTab === '${partner.tipe}') && ('${partner.nama.toLowerCase()}'.includes(searchQuery.toLowerCase()) || '${partner.sektor.toLowerCase()}'.includes(searchQuery.toLowerCase()))`}
+      >
+        <td class="h-12 px-3 text-center text-slate-400 text-xs font-medium">
+          {idx + 1}
+        </td>
+        <td class="h-12 px-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] font-bold text-xs flex items-center justify-center shrink-0 border border-blue-200/60">
+              {partner.avatar || partner.nama.substring(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <p class="font-semibold text-sm text-[#09090b] leading-tight">{partner.nama}</p>
+              <p class="text-xs text-[#71717a] mt-0.5 max-w-md truncate">{partner.deskripsi}</p>
+            </div>
+          </div>
+        </td>
+        <td class="h-12 px-4 text-xs">
+          <p class="font-medium text-[#09090b]">{partner.picNama}</p>
+          <p class="text-[#71717a]">{partner.picEmail}</p>
+        </td>
+        <td class="h-12 px-4 text-center text-xs font-semibold text-slate-700">
+          <span class="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+            {partner.dosen ? partner.dosen.length : 0} Dosen
+          </span>
+        </td>
+        <td class="h-12 px-4 text-center text-xs font-semibold text-slate-700">
+          <span class="inline-flex items-center px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+            {partner.mhs ? partner.mhs.length : 0} Mhs
+          </span>
+        </td>
+        <td class="h-12 px-4 text-center">
+          <Badge variant={partner.status === 'aktif' ? 'success' : 'neutral'} dot size="sm">
+            {partner.status === 'aktif' ? 'Aktif' : 'Non-Aktif'}
+          </Badge>
+        </td>
+        <td class="h-12 px-4 text-center">
+          <button
+            type="button"
+            onclick={`showMitraDetail(${partner.id})`}
+            class="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7] transition-colors cursor-pointer"
+          >
+            <i data-lucide="eye" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+            <span>Detail</span>
+          </button>
+        </td>
+      </tr>
+    ))}
+  </DataTable>
+</div>

@@ -1,0 +1,227 @@
+---
+// src/pages/mahasiswa/log-aktivitas.astro
+import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+---
+
+<MahasiswaShell
+  title="Log Aktivitas Transaksional | Mahasiswa - FIK Udinus"
+  activeNav="log-aktivitas"
+  pageTitle="Log Aktivitas Audit Trail Personal"
+  breadcrumb="Log Aktivitas"
+  subtitle="Audit trail kronologis transaksional atas seluruh aksi pendaftaran, unggah berkas, dan verifikasi."
+>
+  <div id="view-log-aktivitas" class="w-full">
+<!-- Log Aktivitas — Audit Trail Transaksional Personal Mahasiswa (Kronologis) -->
+<div style="margin-bottom:24px;">
+
+  <!-- Header Section -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="history" style="color:var(--primary);width:20px;height:20px;"></i>
+        Log Aktivitas Mahasiswa
+      </h2>
+      <p style="font-size:13px;color:#64748b;margin-top:2px;">
+        Catatan jejak audit (audit trail) transaksional personal secara kronologis untuk menjamin akuntabilitas data operasional MBKM.
+      </p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="badge badge-primary"><i data-lucide="shield" style="width:12px;height:12px;"></i> Terproteksi &amp; Immutable</span>
+      <button class="btn btn-sm btn-outline" onclick="window.print()">
+        <i data-lucide="printer"></i> Cetak Log
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter & Pencarian -->
+  <div class="card" style="padding:14px 18px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-sm btn-primary" style="font-size:11px;" id="filter-log-all" onclick="filterLog('all', this)">Semua Aktivitas</button>
+        <button class="btn btn-sm btn-outline" style="font-size:11px;" id="filter-log-pendaftaran" onclick="filterLog('pendaftaran', this)">Pendaftaran</button>
+        <button class="btn btn-sm btn-outline" style="font-size:11px;" id="filter-log-dokumen" onclick="filterLog('dokumen', this)">Dokumen &amp; SuReKom</button>
+        <button class="btn btn-sm btn-outline" style="font-size:11px;" id="filter-log-logbook" onclick="filterLog('logbook', this)">Logbook</button>
+        <button class="btn btn-sm btn-outline" style="font-size:11px;" id="filter-log-sertifikat" onclick="filterLog('sertifikat', this)">Luaran &amp; Sertifikat</button>
+      </div>
+      <div style="position:relative;min-width:220px;">
+        <i data-lucide="search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;color:#94a3b8;"></i>
+        <input type="text" class="form-control" placeholder="Cari aktivitas..." style="padding:6px 12px 6px 30px;font-size:12px;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Audit Trail -->
+  <div class="card" style="padding:22px;">
+    <div class="card-header" style="margin-bottom:20px;">
+      <span class="card-title" style="font-size:15px;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="list-ordered" style="color:var(--primary);width:18px;height:18px;"></i>
+        Riwayat Jejak Aktivitas (Terbaru — Terlama)
+      </span>
+      <span class="badge badge-primary">8 Event Tercatat</span>
+    </div>
+
+    <div style="position:relative;padding-left:28px;">
+      <!-- Garis Vertikal Timeline -->
+      <div style="position:absolute;left:9px;top:0;bottom:0;width:2px;background:#e2e8f0;border-radius:99px;"></div>
+
+      <!-- Event 1: Unggah Sertifikat -->
+      <div class="log-entry" data-category="sertifikat" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:#16a34a;border:2px solid #fff;box-shadow:0 0 0 2px #bbf7d0;"></div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge badge-success" style="font-size:10px;">Luaran &amp; Sertifikat</span>
+              <span style="font-size:13px;font-weight:700;color:#0f172a;">Sertifikat Resmi Mitra Berhasil Diunggah</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">10 Okt 2025, 16:45 WIB</span>
+          </div>
+          <div style="font-size:12.5px;color:#64748b;line-height:1.5;">
+            File <code style="background:#e2e8f0;padding:1px 5px;border-radius:4px;font-size:11px;">Sertifikat_Bengkel_Koding_Ahmad_Rizky_2025.pdf</code> berhasil diunggah ke sistem. Status: Menunggu verifikasi Koordinator MBKM.
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:12px;">
+            <span style="display:flex;align-items:center;gap:3px;"><i data-lucide="monitor" style="width:11px;height:11px;"></i> Browser: Chrome 119 &bull; Semarang, ID</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 2: Unduh SuReKom -->
+      <div class="log-entry" data-category="dokumen" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--primary);border:2px solid #fff;box-shadow:0 0 0 2px #bfdbf8;"></div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge badge-primary" style="font-size:10px;">Dokumen &amp; SuReKom</span>
+              <span style="font-size:13px;font-weight:700;color:#0f172a;">Surat Rekomendasi (SuReKom) Diunduh</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">10 Okt 2025, 14:22 WIB</span>
+          </div>
+          <div style="font-size:12.5px;color:#64748b;line-height:1.5;">
+            Dokumen SuReKom Dekanat Digital (Nomor: <code style="background:#e2e8f0;padding:1px 5px;border-radius:4px;font-size:11px;">421/B.12/FIK-UDINUS/X/2025</code>) berhasil diunduh dalam format PDF bertanda tangan digital.
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:3px;">
+            <i data-lucide="monitor" style="width:11px;height:11px;"></i> Browser: Chrome 119 &bull; Semarang, ID
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 3: Pengisian Logbook Minggu 2 -->
+      <div class="log-entry" data-category="logbook" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:#d97706;border:2px solid #fff;box-shadow:0 0 0 2px #fde68a;"></div>
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge badge-warning" style="font-size:10px;">Logbook</span>
+              <span style="font-size:13px;font-weight:700;color:#0f172a;">Logbook Minggu ke-2 Dikirim ke DPL</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">10 Okt 2025, 13:08 WIB</span>
+          </div>
+          <div style="font-size:12.5px;color:#64748b;line-height:1.5;">
+            Jurnal logbook Minggu ke-2 (13–17 Okt 2025) berhasil disubmit. Aktivitas: "Pengembangan Fitur Autentikasi &amp; RBAC". Status: Menunggu Review DPL.
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:3px;">
+            <i data-lucide="monitor" style="width:11px;height:11px;"></i> Browser: Chrome 119 &bull; Semarang, ID
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 4: Ajukan Pendaftaran -->
+      <div class="log-entry" data-category="pendaftaran" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--primary);border:2px solid #fff;box-shadow:0 0 0 2px #bfdbf8;"></div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge badge-primary" style="font-size:10px;">Pendaftaran</span>
+              <span style="font-size:13px;font-weight:700;color:#0f172a;">Formulir Pendaftaran MBKM Berhasil Diajukan</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">09 Okt 2025, 14:32 WIB</span>
+          </div>
+          <div style="font-size:12.5px;color:#64748b;line-height:1.5;">
+            Pendaftaran Program MBKM untuk mitra <strong>Bengkel Koding — Proyek Web &amp; Mobile</strong> (Skema: Proyek Industri, 20 SKS) berhasil disubmit. ID Registrasi: <code style="background:#e2e8f0;padding:1px 5px;border-radius:4px;font-size:11px;">MBKM-2025-0914</code>. Draf SuReKom diteruskan ke Koordinator MBKM.
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:3px;">
+            <i data-lucide="monitor" style="width:11px;height:11px;"></i> Browser: Chrome 119 &bull; Semarang, ID
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 5: Pengisian Logbook Minggu 1 -->
+      <div class="log-entry" data-category="logbook" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:#16a34a;border:2px solid #fff;box-shadow:0 0 0 2px #bbf7d0;"></div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge badge-success" style="font-size:10px;">Logbook</span>
+              <span style="font-size:13px;font-weight:700;color:#0f172a;">Logbook Minggu ke-1 Dikirim &amp; Disetujui DPL</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">08 Okt 2025, 10:55 WIB</span>
+          </div>
+          <div style="font-size:12.5px;color:#64748b;line-height:1.5;">
+            Jurnal logbook Minggu ke-1 (06–10 Okt 2025) disubmit dan <strong>disetujui DPL</strong> (Dr. Ricardus Anggi) pada 08 Okt 2025 pukul 16:30 WIB.
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:3px;">
+            <i data-lucide="monitor" style="width:11px;height:11px;"></i> Browser: Chrome 119 &bull; Semarang, ID
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 6: Pembaruan Tautan GDrive -->
+      <div class="log-entry" data-category="dokumen" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:#7c3aed;border:2px solid #fff;box-shadow:0 0 0 2px #e9d5ff;"></div>
+        <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;padding:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge" style="background:#f3e8ff;color:#7c3aed;border:1px solid #e9d5ff;font-size:10px;">Dokumen &amp; SuReKom</span>
+              <span style="font-size:13px;font-weight:700;color:#0f172a;">Tautan Berkas GDrive Diperbarui</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">09 Okt 2025, 09:14 WIB</span>
+          </div>
+          <div style="font-size:12.5px;color:#64748b;line-height:1.5;">
+            Tautan folder Google Drive berkas pendaftaran berhasil diperbarui setelah dilaporkan aksesnya masih terbatas (restricted). Setting diubah menjadi "Anyone with the link can view".
+          </div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:8px;display:flex;align-items:center;gap:3px;">
+            <i data-lucide="monitor" style="width:11px;height:11px;"></i> Browser: Chrome 119 &bull; Semarang, ID
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 7: Unggah Laporan Akhir -->
+      <div class="log-entry" data-category="dokumen" style="position:relative;margin-bottom:20px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:#94a3b8;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;"></div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;opacity:0.8;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="badge badge-muted" style="font-size:10px;">Dokumen &amp; SuReKom</span>
+              <span style="font-size:13px;font-weight:700;color:#475569;">Unggah Laporan Akhir</span>
+            </div>
+            <span style="font-size:11px;color:#94a3b8;white-space:nowrap;">Belum Tersedia</span>
+          </div>
+          <div style="font-size:12.5px;color:#94a3b8;font-style:italic;">Aktivitas ini belum terjadi. Akan tercatat otomatis saat mahasiswa mengunggah draf laporan akhir di menu Sidang.</div>
+        </div>
+      </div>
+
+      <!-- Titik Awal Timeline -->
+      <div style="position:relative;padding-left:4px;">
+        <div style="position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:#e2e8f0;border:2px solid #fff;"></div>
+        <div style="font-size:12px;color:#94a3b8;font-style:italic;padding:4px 0;">Akun mahasiswa terdaftar di sistem MBKM FIK Udinus — Semester Genap 2025/2026</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function filterLog(category, btn) {
+    document.querySelectorAll('[id^="filter-log-"]').forEach(b => {
+      b.className = 'btn btn-sm btn-outline';
+      b.style.fontSize = '11px';
+    });
+    btn.className = 'btn btn-sm btn-primary';
+    btn.style.fontSize = '11px';
+    document.querySelectorAll('.log-entry').forEach(entry => {
+      entry.style.display = (category === 'all' || entry.getAttribute('data-category') === category) ? 'block' : 'none';
+    });
+  }
+</script>
+
+  </div>
+</MahasiswaShell>

@@ -1,0 +1,180 @@
+---
+// src/pages/mahasiswa/pengumuman.astro
+import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+---
+
+<MahasiswaShell
+  title="Papan Pengumuman MBKM | Mahasiswa - FIK Udinus"
+  activeNav="pengumuman"
+  pageTitle="Pengumuman & Broadcast Informasi Resmi"
+  breadcrumb="Pengumuman"
+  subtitle="Papan pengumuman dan broadcast informasi resmi pelaksanaan MBKM Fakultas Ilmu Komputer."
+>
+  <div id="view-pengumuman" class="w-full">
+<!-- Papan Pengumuman & Broadcast Informasi Resmi MBKM -->
+<div style="margin-bottom:20px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+    <div>
+      <h2 style="font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
+        <i data-lucide="megaphone" style="color:var(--primary);width:20px;height:20px;"></i>
+        Papan Siaran Informasi Resmi MBKM
+      </h2>
+      <p style="font-size:13px;color:#64748b;margin-top:2px;">
+        Daftar siaran informasi resmi dari Koordinator MBKM prodi/fakultas dan mitra tempat mahasiswa berkegiatan.
+      </p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="badge badge-primary"><i data-lucide="bell" style="width:12px;height:12px;"></i> Siaran Aktif Periode Genap</span>
+    </div>
+  </div>
+
+  <!-- Filter Kategori Pengirim & Pencarian -->
+  <div class="card" style="padding:12px 16px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <!-- Filter Pengirim Tabs -->
+      <div style="display:flex;align-items:center;gap:8px;overflow-x:auto;">
+        <button class="btn btn-sm btn-primary filter-announcement-btn active" data-category="all" onclick="filterAnnouncements('all', this)">Semua Pengirim</button>
+        <button class="btn btn-sm btn-outline filter-announcement-btn" data-category="fakultas" onclick="filterAnnouncements('fakultas', this)">Koordinator Fakultas/Prodi</button>
+        <button class="btn btn-sm btn-outline filter-announcement-btn" data-category="mitra" onclick="filterAnnouncements('mitra', this)">Mitra Lab &amp; Industri</button>
+      </div>
+
+      <!-- Search Input -->
+      <div style="display:flex;align-items:center;gap:8px;min-width:260px;">
+        <div style="position:relative;width:100%;">
+          <i data-lucide="search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#94a3b8;"></i>
+          <input type="text" id="search-announcement" class="form-control" placeholder="Cari siaran pengumuman..." style="padding:6px 12px 6px 30px;font-size:13px;" oninput="searchAnnouncements(this.value)" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Cards List -->
+  <div style="display:flex;flex-direction:column;gap:14px;" id="announcement-list">
+
+    <!-- Broadcast 1: Koordinator MBKM (Target: Semua Pendaftar) -->
+    <div class="card announcement-item" data-category="fakultas" style="border-left:4px solid var(--primary);padding:18px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+          <span class="badge badge-primary">Koordinator MBKM Fakultas</span>
+          <span class="badge" style="background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;">Target: Semua Pendaftar</span>
+          <span style="font-size:12px;color:#64748b;"><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 10 Oktober 2025</span>
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="openAnnouncementModal(1)">Baca Rincian &rarr;</button>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">
+        Jadwal Pembekalan Teknis &amp; Verifikasi SuReKom Semester Genap 2025/2026
+      </h3>
+      <p style="font-size:13px;color:#475569;line-height:1.5;margin-bottom:12px;">
+        Diberitahukan kepada seluruh mahasiswa calon pendaftar program Kampus Berdampak, verifikasi berkas Surat Rekomendasi (SuReKom) dekanat ditutup pada tanggal 18 Oktober 2025 pukul 23:59 WIB. Pastikan data akademik pada sistem EWS telah memenuhi kualifikasi minimal 100 SKS dan IPK 3.00.
+      </p>
+      <!-- Lampiran Dokumen Panduan Pendukung -->
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;">
+        <i data-lucide="paperclip" style="width:14px;height:14px;color:var(--primary);"></i>
+        <span style="color:#64748b;">Lampiran Pendukung:</span>
+        <a href="#" onclick="alert('Mengunduh Panduan_SuReKom_Dekanat_2025.pdf'); return false;" style="font-weight:600;color:var(--primary);text-decoration:none;">
+          Panduan_SuReKom_Dekanat_2025.pdf (1.2 MB)
+        </a>
+      </div>
+    </div>
+
+    <!-- Broadcast 2: Mitra Bengkel Koding (Target: Peserta Aktif Mitra) -->
+    <div class="card announcement-item" data-category="mitra" style="border-left:4px solid #16a34a;padding:18px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+          <span class="badge badge-success">Mitra Bengkel Koding</span>
+          <span class="badge" style="background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;">Target: Peserta Aktif Mitra</span>
+          <span style="font-size:12px;color:#64748b;"><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 08 Oktober 2025</span>
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="openAnnouncementModal(2)">Baca Rincian &rarr;</button>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">
+        Instruksi Tes Wawancara &amp; Portofolio Skema Proyek &amp; Riset Bengkod
+      </h3>
+      <p style="font-size:13px;color:#475569;line-height:1.5;margin-bottom:12px;">
+        Pelamar formasi Fullstack Engineer dan AI Assistant wajib menyertakan link repository GitHub publik dan tautan Google Drive portofolio aktif pada tahap pengisian formulir pendaftaran. Seleksi wawancara teknis daring akan dijadwalkan secara bertahap mulai 12 Oktober 2025.
+      </p>
+      <!-- Lampiran Dokumen Panduan Pendukung -->
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;">
+        <i data-lucide="paperclip" style="width:14px;height:14px;color:#16a34a;"></i>
+        <span style="color:#64748b;">Lampiran Pendukung:</span>
+        <a href="#" onclick="alert('Mengunduh Rubrik_Penilaian_Wawancara_Bengkod.pdf'); return false;" style="font-weight:600;color:#16a34a;text-decoration:none;">
+          Rubrik_Penilaian_Wawancara_Bengkod.pdf (850 KB)
+        </a>
+      </div>
+    </div>
+
+    <!-- Broadcast 3: Koordinator MBKM (Target: Semua Pendaftar) -->
+    <div class="card announcement-item" data-category="fakultas" style="border-left:4px solid #d97706;padding:18px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+          <span class="badge badge-warning">Regulasi Kurikulum</span>
+          <span class="badge badge-primary">Koordinator MBKM Fakultas</span>
+          <span class="badge" style="background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;">Target: Semua Pendaftar</span>
+          <span style="font-size:12px;color:#64748b;"><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 05 Oktober 2025</span>
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="openAnnouncementModal(3)">Baca Rincian &rarr;</button>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">
+        Standarisasi Ekuivalensi Konversi 20 SKS &amp; Target Luaran Wajib Publikasi/Sertifikat
+      </h3>
+      <p style="font-size:13px;color:#475569;line-height:1.5;margin-bottom:12px;">
+        Seluruh peserta program MBKM terikat pada regulasi konversi maksimal 20 SKS per semester. Syarat mutlak pengesahan nilai KHS di akhir program adalah bukti Letter of Acceptance (LoA) publikasi prosiding/jurnal terindeks atau sertifikat resmi kelulusan mitra.
+      </p>
+      <!-- Lampiran Dokumen Panduan Pendukung -->
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;">
+        <i data-lucide="paperclip" style="width:14px;height:14px;color:#d97706;"></i>
+        <span style="color:#64748b;">Lampiran Pendukung:</span>
+        <a href="#" onclick="alert('Mengunduh Matriks_CPL_Konversi_20_SKS.pdf'); return false;" style="font-weight:600;color:#d97706;text-decoration:none;">
+          Matriks_CPL_Konversi_20_SKS.pdf (2.1 MB)
+        </a>
+      </div>
+    </div>
+
+    <!-- Broadcast 4: Mitra IDSS Lab (Target: Peserta Aktif Mitra) -->
+    <div class="card announcement-item" data-category="mitra" style="border-left:4px solid #9333ea;padding:18px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+          <span class="badge" style="background:#f3e8ff;color:#7e22ce;border:1px solid #d8b4fe;">Mitra Lab IDSS</span>
+          <span class="badge" style="background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;">Target: Peserta Aktif Mitra</span>
+          <span style="font-size:12px;color:#64748b;"><i data-lucide="calendar" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> 02 Oktober 2025</span>
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="openAnnouncementModal(4)">Baca Rincian &rarr;</button>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:6px;">
+        Sosialisasi Program Riset Intelligent Decision Support System Batch Genap
+      </h3>
+      <p style="font-size:13px;color:#475569;line-height:1.5;margin-bottom:12px;">
+        Lab IDSS membuka kuota 10 mahasiswa untuk riset pemodelan sistem penunjang keputusan dan implementasi machine learning terapan. Kegiatan dipandu langsung oleh dosen pembimbing riset prodi Informatika.
+      </p>
+      <!-- Lampiran Dokumen Panduan Pendukung -->
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:12px;">
+        <i data-lucide="paperclip" style="width:14px;height:14px;color:#9333ea;"></i>
+        <span style="color:#64748b;">Lampiran Pendukung:</span>
+        <a href="#" onclick="alert('Mengunduh Silabus_Riset_Lab_IDSS_2026.pdf'); return false;" style="font-weight:600;color:#9333ea;text-decoration:none;">
+          Silabus_Riset_Lab_IDSS_2026.pdf (1.4 MB)
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Detail Pengumuman -->
+<div id="modal-announcement" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div class="card" style="max-width:640px;width:100%;max-height:85vh;overflow-y:auto;background:#fff;border-radius:12px;padding:24px;position:relative;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:1px solid #e2e8f0;padding-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:8px;" id="modal-announcement-badges"></div>
+      <button class="btn btn-sm btn-outline" onclick="closeAnnouncementModal()" style="border:none;padding:4px 8px;font-size:18px;">&times;</button>
+    </div>
+    <h3 style="font-size:18px;font-weight:700;color:#0f172a;margin-bottom:10px;" id="modal-announcement-title"></h3>
+    <div style="font-size:12px;color:#64748b;margin-bottom:16px;" id="modal-announcement-meta"></div>
+    <div style="font-size:14px;color:#334155;line-height:1.6;" id="modal-announcement-content"></div>
+    <div style="margin-top:24px;padding-top:16px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:12px;color:#64748b;"><i data-lucide="check" style="width:12px;height:12px;display:inline-block;vertical-align:-1px;"></i> Informasi Terverifikasi Dekanat</span>
+      <button class="btn btn-primary" onclick="closeAnnouncementModal()">Tutup Pengumuman</button>
+    </div>
+  </div>
+</div>
+
+  </div>
+</MahasiswaShell>

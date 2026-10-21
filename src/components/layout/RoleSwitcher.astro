@@ -1,0 +1,32 @@
+---
+interface Props {
+  currentRole: 'admin' | 'mahasiswa' | 'mitra';
+}
+
+const { currentRole } = Astro.props;
+
+const roles = [
+  { id: 'admin', label: 'Admin/Koor', href: '/admin/dashboard', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+  { id: 'mahasiswa', label: 'Mahasiswa', href: '/mahasiswa/dashboard', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  { id: 'mitra', label: 'Mitra', href: '/mitra/dashboard', color: 'bg-amber-50 text-amber-700 border-amber-200' },
+];
+---
+
+<div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-lg text-xs font-medium border border-slate-200/60">
+  <span class="px-2 text-slate-400 font-normal">Role:</span>
+  {roles.map((r) => {
+    const isActive = r.id === currentRole;
+    return (
+      <a
+        href={r.href}
+        class={`px-2.5 py-1 rounded-md transition-all ${
+          isActive
+            ? 'bg-white text-slate-900 shadow-xs font-semibold'
+            : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+        }`}
+      >
+        {r.label}
+      </a>
+    );
+  })}
+</div>

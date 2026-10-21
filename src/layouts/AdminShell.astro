@@ -1,0 +1,661 @@
+---
+import Modals from '../components/admin/Modals.astro';
+
+interface Props {
+  currentTab?: string;
+  title?: string;
+  pageTitle?: string;
+  subtitle?: string;
+  actionButton?: string;
+}
+
+const {
+  currentTab = 'dashboard',
+  title = 'MBKM FIK UDINUS - Master Koordinator & Admin',
+  pageTitle,
+  subtitle,
+  actionButton,
+} = Astro.props;
+
+// Normalisasi key tab untuk navigasi & metadata
+let activeTabKey = currentTab;
+if (activeTabKey === 'pelamar') activeTabKey = 'mhs-pelamar';
+if (activeTabKey === 'surekom') activeTabKey = 'mhs-rekomendasi';
+if (activeTabKey === 'semua-mahasiswa') activeTabKey = 'mhs-semua';
+// koordinator has its own page
+// sidang has its own page
+
+const tabMetaMap: Record<string, { label: string; title: string; subtitle: string; actionButton: string }> = {
+  dashboard: {
+    label: 'Dashboard',
+    title: 'Selamat Datang, Koordinator MBKM di Fakultas Ilmu Komputer',
+    subtitle: 'Berikut adalah data-data dan ringkasan operasional yang dapat Anda akses.',
+    actionButton: '',
+  },
+  pengumuman: {
+    label: 'Pengumuman',
+    title: 'Pengumuman MBKM',
+    subtitle: 'Broadcast siaran informasi resmi MBKM tingkat program studi dan fakultas.',
+    actionButton: '<button type="button" onclick="showBuatPengumumanModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors shadow-none"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Pengumuman</span></button>',
+  },
+  periode: {
+    label: 'Periode Ajaran',
+    title: 'Periode Ajaran',
+    subtitle: 'Berikut data periode yang sinkron dengan database tahun ajaran pada SIADIN',
+    actionButton: '',
+  },
+  'form-pendaftaran': {
+    label: 'Form Pendaftaran',
+    title: 'Standarisasi Form Pendaftaran MBKM',
+    subtitle: 'Konfigurasi syarat akademik EWS, berkas portofolio, konversi SKS, dan template SuReKom se-fakultas.',
+    actionButton: '<button type="button" onclick="openPreviewMahasiswaModal()" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="eye" class="w-4 h-4 text-[#71717a]"></i><span>Pratinjau Tampilan Mahasiswa</span></button>',
+  },
+  mitra: {
+    label: 'Mitra',
+    title: 'Mitra MBKM',
+    subtitle: 'Kelola akun mitra, daftar formasi program, dosen pembina, dan mahasiswa.',
+    actionButton: '<button type="button" onclick="showTambahMitraModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Mitra</span></button>',
+  },
+  'mhs-pelamar': {
+    label: 'Mahasiswa / Pendaftar',
+    title: 'Daftar Pengajuan Mahasiswa Pendaftar',
+    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM mitra eksternal.',
+    actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
+  },
+  'mhs-rekomendasi': {
+    label: 'Mahasiswa / Surat Rekomendasi',
+    title: 'Validasi Surat Rekomendasi (SuReKom)',
+    subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi mitra mahasiswa.',
+    actionButton: '',
+  },
+  'mhs-semua': {
+    label: 'Mahasiswa / Semua Mahasiswa',
+    title: 'Semua Mahasiswa MBKM',
+    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di mitra industri.',
+    actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
+  },
+  'dosen-data': {
+    label: 'Dosen Pembimbing / Data Dosen',
+    title: 'Data Dosen Pembimbing',
+    subtitle: 'Daftar dosen pembimbing yang ditarik dari basis data UDI.',
+    actionButton: '<div class="flex items-center gap-2"><button type="button" onclick="syncDataDosenUdi()" class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Sync Data UDI</span></button><button type="button" onclick="openModalTambahDosen()" class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="user-plus" class="w-3.5 h-3.5"></i><span>Tambah Dosen</span></button></div>',
+  },
+  'dosen-kuota': {
+    label: 'Dosen Pembimbing / Kuota Dosen',
+    title: 'Kuota Dosen Pembimbing',
+    subtitle: 'Monitoring beban bimbingan maksimal per dosen per semester.',
+    actionButton: '',
+  },
+  'dosen-update': {
+    label: 'Dosen Pembimbing / Update Dospem',
+    title: 'Update Dosen Pembimbing Lapangan',
+    subtitle: 'Alokasi dan plotting DPL ke mahasiswa yang diterima di mitra.',
+    actionButton: '',
+  },
+  logbook: {
+    label: 'Logbook Mahasiswa',
+    title: 'Logbook Mahasiswa',
+    subtitle: 'Pemantauan kepatuhan pengisian logbook mingguan seluruh mahasiswa & verifikasi DPL.',
+    actionButton: '',
+  },
+  konversi: {
+    label: 'Konversi SKS',
+    title: 'Konversi SKS',
+    subtitle: 'Penyetujuan, revisi, dan penguncian konversi matkul/SKS mahasiswa terhadap CPL.',
+    actionButton: '',
+  },
+  sidang: {
+    label: 'Sidang',
+    title: 'Sidang MBKM',
+    subtitle: 'Penjadwalan sidang akhir, penginputan nilai gabungan, dan rekap kelulusan kegiatan.',
+    actionButton: '',
+  },
+  laporan: {
+    label: 'Sidang',
+    title: 'Sidang & Laporan Akhir',
+    subtitle: 'Review dan evaluasi akhir kegiatan MBKM mahasiswa.',
+    actionButton: '',
+  },
+  sertifikat: {
+    label: 'Sertifikat',
+    title: 'Sertifikat & Luaran Wajib',
+    subtitle: 'Validasi bukti luaran wajib (Publikasi Ilmiah / Sertifikat Mitra) sebelum sinkronisasi KHS.',
+    actionButton: '',
+  },
+  'log-aktivitas': {
+    label: 'Log Aktivitas',
+    title: 'Log Aktivitas Sistem',
+    subtitle: 'Audit trail transaksional riwayat perubahan data penting pada sistem.',
+    actionButton: '',
+  },
+  program: {
+    label: 'Program',
+    title: 'Data Program MBKM',
+    subtitle: 'Daftar seluruh program MBKM internal dan skema asistensi mengajar terdaftar.',
+    actionButton: '',
+  },
+};
+
+const meta = tabMetaMap[activeTabKey] || tabMetaMap['dashboard'];
+const displayBreadcrumb = meta.label;
+const displayTitle = pageTitle || meta.title;
+const displaySubtitle = subtitle || meta.subtitle;
+const displayActionButton = actionButton !== undefined ? actionButton : meta.actionButton;
+
+const isMahasiswaActive = ['semua-mahasiswa', 'pelamar', 'surekom', 'mhs-semua', 'mhs-pelamar', 'mhs-rekomendasi'].includes(activeTabKey);
+const isDosenActive = ['koordinator', 'dosen-data', 'dosen-kuota', 'dosen-update'].includes(activeTabKey);
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS CDN -->
+    <script is:inline src="https://cdn.tailwindcss.com"></script>
+    <script is:inline>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                DEFAULT: '#0655a7',
+                dark: '#114d91',
+                light: '#f1f7fe',
+              },
+              primary: {
+                50: '#F1F7FE',
+                100: '#E2EEFC',
+                200: '#BFDBF8',
+                300: '#86BEF3',
+                400: '#1E7FD9',
+                500: '#1E7FD9',
+                600: '#1063B9',
+                700: '#114D91',
+                800: '#10447C',
+                900: '#133A67',
+                950: '#0D2544',
+              },
+              secondary: {
+                50: '#FEFAEC',
+                100: '#FCEEC9',
+                200: '#F8DB8F',
+                300: '#F4BD45',
+                400: '#F2AB2D',
+                500: '#F3BC45',
+                600: '#D0670F',
+              },
+            },
+            boxShadow: {
+              '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script is:inline src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Alpine.js Core CDN (defer) -->
+    <script is:inline defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+    <style is:global>
+      [x-cloak] {
+        display: none !important;
+      }
+      html,
+      body {
+        min-height: 100vh;
+        margin: 0;
+      }
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
+      .nav-active {
+        color: #0655a7 !important;
+        font-weight: 500 !important;
+        background-color: rgba(6, 85, 167, 0.08) !important;
+        position: relative;
+      }
+      .nav-active .active-bar {
+        display: block !important;
+      }
+      .nav-active i {
+        color: #0655a7 !important;
+      }
+      /* Sembunyikan spin button default browser pada input number ber-badge */
+      input[type='number'].no-spinner::-webkit-inner-spin-button,
+      input[type='number'].no-spinner::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type='number'].no-spinner {
+        -moz-appearance: textfield;
+      }
+    </style>
+  </head>
+  <body x-data class="min-h-screen bg-[#fafafa] text-[#09090b] antialiased overflow-x-hidden">
+    <div class="flex min-h-screen w-full bg-[#fafafa]">
+      <!-- ==================================================== -->
+      <!-- 1. SIDEBAR (SESUAI DOKUMEN & SCREENSHOT CLIENT)      -->
+      <!-- ==================================================== -->
+      <aside
+        id="sidebar"
+        :class="$store.mbkm?.sidebarCollapsed ? '-ml-64' : ''"
+        class="w-64 shrink-0 bg-[#fafafa] flex flex-col justify-between p-3 border-r border-[#e4e4e7]/60 min-h-screen sticky top-0 h-screen overflow-y-auto transition-all duration-200"
+      >
+        <div class="flex flex-col gap-2">
+          <!-- Logo Institusi UDINUS -->
+          <div class="flex items-center gap-2.5 p-2 mb-1">
+            <img
+              src="/assets/logo.png"
+              alt="Logo UDINUS"
+              class="object-contain w-9 h-9"
+              onerror="this.src = 'https://dinus.ac.id/img/logo-dinus.png'"
+            />
+            <div class="flex flex-col leading-tight">
+              <span class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase">UNIVERSITAS</span>
+              <span class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase">DIAN NUSWANTORO</span>
+            </div>
+          </div>
+
+          <!-- Kartu Identitas Modul Sub-App -->
+          <div
+            class="w-full h-12 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none"
+          >
+            <div class="flex items-center gap-2.5 overflow-hidden">
+              <div class="w-8 h-8 rounded bg-[#114d91] text-white flex items-center justify-center shrink-0">
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <div class="flex flex-col overflow-hidden leading-tight">
+                <span class="text-[13px] font-semibold text-[#3f3f46] truncate">Kampus Berdampak</span>
+                <span class="text-[11px] text-[#71717a] truncate">Modul MBKM Terpadu</span>
+              </div>
+            </div>
+            <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+          </div>
+
+          <!-- Daftar Menu Navigasi Sidebar (Issue #16: 11 Menu Standar MBKM Koordinator) -->
+          <nav class="flex flex-col gap-1 mt-2">
+            <!-- 1. Dashboard -->
+            <a
+              href="/admin/dashboard"
+              id="nav-dashboard"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'dashboard' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'dashboard' ? '' : 'hidden']}></span>
+              <i data-lucide="layout-dashboard" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Dashboard</span>
+            </a>
+
+            <!-- 2. Pengumuman -->
+            <a
+              href="/admin/pengumuman"
+              id="nav-pengumuman"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'pengumuman' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'pengumuman' ? '' : 'hidden']}></span>
+              <i data-lucide="megaphone" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Pengumuman</span>
+            </a>
+
+            <!-- 3. Periode Ajaran -->
+            <a
+              href="/admin/periode"
+              id="nav-periode"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'periode' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'periode' ? '' : 'hidden']}></span>
+              <i data-lucide="calendar-range" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Periode Ajaran</span>
+            </a>
+
+            <!-- 4. Mitra -->
+            <a
+              href="/admin/mitra"
+              id="nav-mitra"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'mitra' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mitra' ? '' : 'hidden']}></span>
+              <i data-lucide="building-2" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Mitra</span>
+            </a>
+
+            <!-- 5. Form Pendaftaran -->
+            <a
+              href="/admin/form-pendaftaran"
+              id="nav-form-pendaftaran"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'form-pendaftaran' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'form-pendaftaran' ? '' : 'hidden']}></span>
+              <i data-lucide="clipboard-list" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Form Pendaftaran</span>
+            </a>
+
+            <!-- 6. Mahasiswa (Sub-menu: Semua Mahasiswa, Pendaftar, Rekomendasi) -->
+            <div class="flex flex-col" x-data={`{ open: ${isMahasiswaActive} }`}>
+              <button
+                type="button"
+                @click="open = !open"
+                onclick="toggleMahasiswaSubmenu()"
+                id="nav-mahasiswa"
+                class:list={[
+                  "nav-item relative flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                  isMahasiswaActive ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+                ]}
+              >
+                <div class="flex items-center gap-3">
+                  <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", isMahasiswaActive ? '' : 'hidden']}></span>
+                  <i data-lucide="graduation-cap" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">Mahasiswa</span>
+                </div>
+                <i
+                  id="mahasiswa-chevron"
+                  data-lucide="chevron-down"
+                  :class="open ? 'rotate-180' : ''"
+                  class:list={["w-3.5 h-3.5 text-[#71717a] transition-transform duration-200", isMahasiswaActive ? 'rotate-180' : '']}
+                ></i>
+              </button>
+              <div id="submenu-mahasiswa" :class="open ? '' : 'hidden'" class:list={["flex flex-col gap-0.5 py-1 pr-2 pl-9", isMahasiswaActive ? '' : 'hidden']}>
+                <a
+                  href="/admin/semua-mahasiswa"
+                  id="nav-sub-mhs-semua"
+                  class:list={[
+                    "nav-sub-item px-3 py-2 rounded-lg text-[13px] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors",
+                    activeTabKey === 'mhs-semua' ? 'text-[#0655a7] font-semibold bg-blue-50/80' : 'text-[#71717a]'
+                  ]}
+                >
+                  Semua Mahasiswa
+                </a>
+                <a
+                  href="/admin/pelamar"
+                  id="nav-sub-mhs-pelamar"
+                  class:list={[
+                    "nav-sub-item px-3 py-2 rounded-lg text-[13px] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors",
+                    activeTabKey === 'mhs-pelamar' ? 'text-[#0655a7] font-semibold bg-blue-50/80' : 'text-[#71717a]'
+                  ]}
+                >
+                  Pendaftar
+                </a>
+                <a
+                  href="/admin/surekom"
+                  id="nav-sub-mhs-rekomendasi"
+                  class:list={[
+                    "nav-sub-item px-3 py-2 rounded-lg text-[13px] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors",
+                    activeTabKey === 'mhs-rekomendasi' ? 'text-[#0655a7] font-semibold bg-blue-50/80' : 'text-[#71717a]'
+                  ]}
+                >
+                  Surat Rekomendasi
+                </a>
+              </div>
+            </div>
+
+            <!-- 7. Dosen Pembimbing (Sub-menu: Data Dosen, Kuota Dosen, Update Dospem) -->
+            <div class="flex flex-col" x-data={`{ open: ${isDosenActive} }`}>
+              <button
+                type="button"
+                @click="open = !open"
+                onclick="toggleDosenSubmenu()"
+                id="nav-dosen"
+                class:list={[
+                  "nav-item relative flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                  isDosenActive ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+                ]}
+              >
+                <div class="flex items-center gap-3">
+                  <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", isDosenActive ? '' : 'hidden']}></span>
+                  <i data-lucide="user-check" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">Dosen Pembimbing</span>
+                </div>
+                <i
+                  id="dosen-chevron"
+                  data-lucide="chevron-down"
+                  :class="open ? 'rotate-180' : ''"
+                  class:list={["w-3.5 h-3.5 text-[#71717a] transition-transform duration-200", isDosenActive ? 'rotate-180' : '']}
+                ></i>
+              </button>
+              <div id="submenu-dosen" :class="open ? '' : 'hidden'" class:list={["flex flex-col gap-0.5 py-1 pr-2 pl-9", isDosenActive ? '' : 'hidden']}>
+                <a
+                  href="/admin/dosen-data"
+                  id="nav-sub-dosen-data"
+                  class:list={[
+                    "nav-sub-item px-3 py-2 rounded-lg text-[13px] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors",
+                    activeTabKey === 'dosen-data' ? 'text-[#0655a7] font-semibold bg-blue-50/80' : 'text-[#71717a]'
+                  ]}
+                >
+                  Data Dosen
+                </a>
+                <a
+                  href="/admin/dosen-kuota"
+                  id="nav-sub-dosen-kuota"
+                  class:list={[
+                    "nav-sub-item px-3 py-2 rounded-lg text-[13px] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors",
+                    activeTabKey === 'dosen-kuota' ? 'text-[#0655a7] font-semibold bg-blue-50/80' : 'text-[#71717a]'
+                  ]}
+                >
+                  Kuota Dosen
+                </a>
+                <a
+                  href="/admin/dosen-update"
+                  id="nav-sub-dosen-update"
+                  class:list={[
+                    "nav-sub-item px-3 py-2 rounded-lg text-[13px] hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors",
+                    activeTabKey === 'dosen-update' ? 'text-[#0655a7] font-semibold bg-blue-50/80' : 'text-[#71717a]'
+                  ]}
+                >
+                  Update Dospem
+                </a>
+              </div>
+            </div>
+
+            <!-- 8. Logbook Mahasiswa -->
+            <a
+              href="/admin/logbook"
+              id="nav-logbook"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'logbook' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'logbook' ? '' : 'hidden']}></span>
+              <i data-lucide="book-marked" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Logbook Mahasiswa</span>
+            </a>
+
+            <!-- 9. Konversi SKS (Halaman Mandiri) -->
+            <a
+              href="/admin/konversi"
+              id="nav-konversi"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'konversi' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'konversi' ? '' : 'hidden']}></span>
+              <i data-lucide="arrow-left-right" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Konversi SKS</span>
+            </a>
+
+            <!-- 10. Sidang -->
+            <a
+              href="/admin/sidang"
+              id="nav-sidang"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'laporan' || activeTabKey === 'sidang' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'laporan' || activeTabKey === 'sidang' ? '' : 'hidden']}></span>
+              <i data-lucide="award" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Sidang</span>
+            </a>
+
+            <!-- 11. Sertifikat (Halaman Mandiri) -->
+            <a
+              href="/admin/sertifikat"
+              id="nav-sertifikat"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'sertifikat' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'sertifikat' ? '' : 'hidden']}></span>
+              <i data-lucide="badge-check" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Sertifikat</span>
+            </a>
+
+            <!-- 12. Log Aktivitas (Halaman Mandiri) -->
+            <a
+              href="/admin/log-aktivitas"
+              id="nav-log-aktivitas"
+              class:list={[
+                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
+                activeTabKey === 'log-aktivitas' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+              ]}
+            >
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'log-aktivitas' ? '' : 'hidden']}></span>
+              <i data-lucide="history" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="truncate">Log Aktivitas</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Footer Profil Pengguna Sidebar -->
+        <div class="pt-2 mt-auto">
+          <div
+            class="w-full h-14 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none"
+          >
+            <div class="flex items-center gap-2.5 overflow-hidden">
+              <div
+                class="w-8 h-8 rounded-full bg-[#114d91] text-white font-semibold text-xs flex items-center justify-center shrink-0"
+              >
+                NA
+              </div>
+              <div class="flex flex-col overflow-hidden leading-tight">
+                <span
+                  class="text-[12px] font-semibold text-[#09090b] truncate"
+                  title="Nurul Anisa Sri Winarsih, S.Kom, M.Cs"
+                  >Nurul Anisa, M.Cs</span
+                >
+                <span
+                  class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5"
+                >
+                  Koordinator MBKM
+                </span>
+              </div>
+            </div>
+            <a
+              href="/login" title="Keluar / Logout"
+              class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded hover:bg-gray-100 transition-colors"
+            >
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ==================================================== -->
+      <!-- 2. MAIN CONTENT CANVAS (STANDAR SUB-APP FAKULTAS-FE) -->
+      <!-- ==================================================== -->
+      <main class="flex flex-col flex-1 p-6 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
+        <!-- 1. Top Breadcrumb Header (Sesuai DashboardHeader Baris 1 di fakultas-fe) -->
+        <header class="flex w-full items-center justify-between pb-3 shrink-0">
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              onclick="toggleSidebar()"
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              title="Toggle Sidebar"
+            >
+              <i data-lucide="panel-left" class="w-4 h-4"></i>
+            </button>
+            <div class="h-4 w-[1px] bg-[#e4e4e7] mx-1"></div>
+            <nav id="breadcrumb-container" class="flex items-center gap-2 text-sm text-[#71717a]">
+              <span
+                id="breadcrumb-badge"
+                class="bg-white border border-[#e4e4e7] py-1 px-3 rounded-lg text-sm font-medium text-[#09090b] shadow-none"
+              >
+                <span id="breadcrumb-text">{displayBreadcrumb}</span>
+              </span>
+            </nav>
+          </div>
+
+          </header>
+
+        <!-- Full-width Separator (Sesuai Separator di fakultas-fe) -->
+        <div class="w-[calc(100%+3rem)] -mx-6 border-b border-[#e4e4e7] mb-5 shrink-0"></div>
+
+        <!-- 2. Dynamic Title Header (Hanya tampil pada tab yang tidak memiliki inner header mandiri) -->
+        {!['konversi', 'sidang', 'sertifikat', 'log-aktivitas', 'dosen-kuota', 'dosen-update', 'koordinator', 'program'].includes(activeTabKey) && (
+          <header id="dashboard-header-bar-2" class="mb-5 flex items-start justify-between gap-4 shrink-0">
+            <div>
+              <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">
+                {displayTitle}
+              </h2>
+              <p class="text-sm text-[#71717a] mt-0.5" id="header-page-subtitle">
+                {displaySubtitle}
+              </p>
+            </div>
+            <div id="header-action-slot" class="shrink-0 flex items-center gap-2">
+              {displayActionButton && <Fragment set:html={displayActionButton} />}
+            </div>
+          </header>
+        )}
+
+        <!-- Container Konten Tab -->
+        <div class="flex-1 w-full flex flex-col">
+          <slot />
+        </div>
+      </main>
+    </div>
+
+    <!-- Modals Dialog (21 Modals Standar MBKM Admin) -->
+    <Modals />
+
+    <!-- Inisialisasi State Halaman Aktif untuk Controller -->
+    <script is:inline define:vars={{ activeTabKey }}>
+      window.__CURRENT_TAB__ = activeTabKey;
+    </script>
+
+    <!-- Script Standar: Mock Data & Controller (2 File JS) -->
+    <script is:inline src="/admin/_mock-data.js"></script>
+    <script is:inline src="/admin/_controller.js"></script>
+
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

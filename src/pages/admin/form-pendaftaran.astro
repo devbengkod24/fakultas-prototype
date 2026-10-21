@@ -1,0 +1,594 @@
+---
+import AdminShell from '../../layouts/AdminShell.astro';
+---
+
+<AdminShell currentTab="form-pendaftaran">
+  <section
+    id="section-form-pendaftaran"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  >
+<!-- ==================================================== -->
+<!-- FRAGMEN BERKAS MANDIRI: FORM PENDAFTARAN (MBKM V2)  -->
+<!-- Standarisasi Formulir Pendaftaran Mahasiswa MBKM    -->
+<!-- ==================================================== -->
+
+<div class="space-y-4">
+  <!-- Top Tabbar & Realtime Status Bar -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#e4e4e7] pb-2">
+    <!-- 4 Tab Bar Zero-Scroll -->
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+      <button
+        type="button"
+        id="btn-form-tab-akademik"
+        onclick="switchFormTab('akademik')"
+        class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-[#0655a7] text-[#0655a7] bg-blue-50/60 transition-colors"
+      >
+        <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+        <span>Syarat Akademik</span>
+      </button>
+
+      <button
+        type="button"
+        id="btn-form-tab-berkas"
+        onclick="switchFormTab('berkas')"
+        class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] hover:bg-black/5 transition-colors"
+      >
+        <i data-lucide="folder-open" class="w-4 h-4"></i>
+        <span>Berkas & Portofolio</span>
+      </button>
+
+      <button
+        type="button"
+        id="btn-form-tab-konversi"
+        onclick="switchFormTab('konversi')"
+        class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] hover:bg-black/5 transition-colors"
+      >
+        <i data-lucide="book-open-check" class="w-4 h-4"></i>
+        <span>Ekuivalensi & SKS</span>
+      </button>
+
+      <button
+        type="button"
+        id="btn-form-tab-surekom"
+        onclick="switchFormTab('surekom')"
+        class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] hover:bg-black/5 transition-colors"
+      >
+        <i data-lucide="file-badge-2" class="w-4 h-4"></i>
+        <span>Dokumen SuReKom</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- TAB 1: SYARAT AKADEMIK (EWS & SIADIN)               -->
+  <!-- ==================================================== -->
+  <div id="form-tab-content-akademik" class="space-y-4">
+    <!-- Card 1: Ambang Batas Parameter Akademik -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+        <div>
+          <h3 class="text-sm font-semibold text-[#09090b]">Ambang Batas Nilai & Beban Akademik</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Parameter minimal kelayakan mahasiswa yang otomatis divalidasi oleh sistem EWS & SIADIN.</p>
+        </div>
+        <span class="px-2.5 py-1 text-xs font-medium rounded-md bg-blue-50 text-[#0655a7] border border-blue-200">
+          Validasi Otomatis DB
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Minimal IPK -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-medium text-[#09090b]">Indeks Prestasi Kumulatif (IPK) Min *</label>
+            <span class="text-[10px] text-[#71717a]">Skala 4.00</span>
+          </div>
+          <div class="relative">
+            <input
+              type="number"
+              id="cfg-ipk-min"
+              step="0.05"
+              min="2.00"
+              max="4.00"
+              value="3.00"
+              oninput="triggerAutosave('ipkMin', this.value)"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+          <p class="text-[11px] text-[#71717a]">Mahasiswa dengan IPK di bawah nilai ini otomatis diblokir saat registrasi.</p>
+        </div>
+
+        <!-- Minimal SKS Lulus -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-medium text-[#09090b]">SKS Kumulatif Lulus Min *</label>
+            <span class="text-[10px] text-[#71717a]">Satuan SKS</span>
+          </div>
+          <div class="relative">
+            <input
+              type="number"
+              id="cfg-sks-min"
+              step="1"
+              min="40"
+              max="144"
+              value="80"
+              oninput="triggerAutosave('sksMin', this.value)"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+          <p class="text-[11px] text-[#71717a]">Standar MBKM Fakultas: Minimal 80 SKS telah lulus tanpa nilai E.</p>
+        </div>
+
+        <!-- Semester Minimal -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-medium text-[#09090b]">Semester Mahasiswa Min *</label>
+            <span class="text-[10px] text-[#71717a]">Tingkat Studi</span>
+          </div>
+          <select
+            id="cfg-semester-min"
+            onchange="triggerAutosave('semesterMin', this.value)"
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="4">Semester 4</option>
+            <option value="5" selected>Semester 5 (Rekomendasi Utama)</option>
+            <option value="6">Semester 6</option>
+            <option value="7">Semester 7</option>
+          </select>
+          <p class="text-[11px] text-[#71717a]">Pendaftar di bawah semester terpilih tidak dapat mengakses formulir.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Filter Status & Regulasi Kaku -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="pb-3 border-b border-[#e4e4e7]">
+        <h3 class="text-sm font-semibold text-[#09090b]">Regulasi & Filter Keaktifan EWS</h3>
+        <p class="text-xs text-[#71717a] mt-0.5">Aturan kepatuhan administrasi akademik fakultas yang dievaluasi secara real-time.</p>
+      </div>
+
+      <div class="divide-y divide-[#e4e4e7]">
+        <!-- Toggle 1: Bebas Sanksi Akademik -->
+        <div class="py-3 flex items-center justify-between gap-4">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-[#09090b]">Bebas Sanksi Pelanggaran Akademik / Skorsing</span>
+              <span class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Mandatori</span>
+            </div>
+            <p class="text-xs text-[#71717a]">Mahasiswa dengan catatan pelanggaran kode etik akademik SIADIN otomatis ditolak sistem.</p>
+          </div>
+          <button
+            type="button"
+            onclick="toggleFormSetting('bebasSanksi')"
+            id="toggle-cfg-bebasSanksi"
+            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+          >
+            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+          </button>
+        </div>
+
+        <!-- Toggle 2: Terdaftar Aktif di SIADIN -->
+        <div class="py-3 flex items-center justify-between gap-4">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-[#09090b]">Wajib Registrasi Administrasi Aktif (SIADIN)</span>
+              <span class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Mandatori</span>
+            </div>
+            <p class="text-xs text-[#71717a]">Memastikan mahasiswa telah membayar her-registrasi dan berstatus aktif pada semester berjalan.</p>
+          </div>
+          <button
+            type="button"
+            onclick="toggleFormSetting('terdaftarAktif')"
+            id="toggle-cfg-terdaftarAktif"
+            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+          >
+            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+          </button>
+        </div>
+
+        <!-- Toggle 3: Aturan Single-Application Mandatori -->
+        <div class="py-3 flex items-center justify-between gap-4">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-[#09090b]">Aturan Satu Pendaftaran Aktif (Single-Application Rule)</span>
+              <span class="px-2 py-0.5 text-[10px] font-medium rounded bg-blue-50 text-[#0655a7] border border-blue-200">Sistem Sentris</span>
+            </div>
+            <p class="text-xs text-[#71717a]">Mahasiswa hanya diizinkan memiliki 1 pengajuan aktif per semester (mencegah pendaftaran ganda dan konflik KRS).</p>
+          </div>
+          <button
+            type="button"
+            onclick="toggleFormSetting('singleApp')"
+            id="toggle-cfg-singleApp"
+            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+          >
+            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- TAB 2: BERKAS & PORTOFOLIO                          -->
+  <!-- ==================================================== -->
+  <div id="form-tab-content-berkas" class="space-y-4 hidden">
+    <!-- Card 1: Dokumen Baku Pendaftaran -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+        <div>
+          <h3 class="text-sm font-semibold text-[#09090b]">Daftar Dokumen Mandatori Pendaftaran</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Dokumen standar yang wajib diunggah mahasiswa saat mengajukan pendaftaran MBKM.</p>
+        </div>
+        <span class="text-xs text-[#71717a]">4 Dokumen Standar Fakultas</span>
+      </div>
+
+      <div class="space-y-3">
+        <!-- Berkas 1: CV ATS -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-200">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-[#09090b]">Curriculum Vitae (CV ATS)</span>
+                <span id="badge-req-cv" class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Wajib Diunggah</span>
+              </div>
+              <p class="text-[11px] text-[#71717a] mt-0.5">Format file PDF, ukuran maksimal 5 MB. Memuat riwayat pendidikan & skill teknis.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 self-end sm:self-center">
+            <button
+              type="button"
+              onclick="toggleDocRequired('cv')"
+              id="btn-toggle-req-cv"
+              class="px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b]"
+            >
+              Ubah ke Opsional
+            </button>
+            <button
+              type="button"
+              onclick="toggleDocActive('cv')"
+              id="toggle-doc-cv"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+            >
+              <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Berkas 2: Portofolio Proyek (Drive Link) -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0 border border-blue-200">
+              <i data-lucide="link-2" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-[#09090b]">Portofolio Karya & Repositori Proyek</span>
+                <span id="badge-req-portofolio" class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Wajib Diisi</span>
+              </div>
+              <p class="text-[11px] text-[#71717a] mt-0.5">Tautan Google Drive (Akses View Terbuka) atau GitHub/Website live project.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 self-end sm:self-center">
+            <button
+              type="button"
+              onclick="toggleDocRequired('portofolio')"
+              id="btn-toggle-req-portofolio"
+              class="px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b]"
+            >
+              Ubah ke Opsional
+            </button>
+            <button
+              type="button"
+              onclick="toggleDocActive('portofolio')"
+              id="toggle-doc-portofolio"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+            >
+              <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Berkas 3: Transkrip Nilai Akademik Terkini -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-200">
+              <i data-lucide="file-check" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-[#09090b]">Transkrip Nilai Akademik Terkini</span>
+                <span id="badge-req-transkrip" class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Wajib Diunggah</span>
+              </div>
+              <p class="text-[11px] text-[#71717a] mt-0.5">Unduhan transkrip nilai resmi dari SIADIN yang telah ditandatangani DPA.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 self-end sm:self-center">
+            <button
+              type="button"
+              onclick="toggleDocRequired('transkrip')"
+              id="btn-toggle-req-transkrip"
+              class="px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b]"
+            >
+              Ubah ke Opsional
+            </button>
+            <button
+              type="button"
+              onclick="toggleDocActive('transkrip')"
+              id="toggle-doc-transkrip"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+            >
+              <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Berkas 4: Surat Pernyataan / Izin Orang Tua -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] gap-3">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-200">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-[#09090b]">Surat Pernyataan Komitmen & Izin Wali</span>
+                <span id="badge-req-izin" class="px-2 py-0.5 text-[10px] font-medium rounded bg-slate-100 text-slate-600 border border-slate-200">Opsional</span>
+              </div>
+              <p class="text-[11px] text-[#71717a] mt-0.5">Surat kesediaan mengikuti kegiatan penuh waktu selama 5 bulan bertandatangan orang tua.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 self-end sm:self-center">
+            <button
+              type="button"
+              onclick="toggleDocRequired('izin')"
+              id="btn-toggle-req-izin"
+              class="px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b]"
+            >
+              Ubah ke Wajib
+            </button>
+            <button
+              type="button"
+              onclick="toggleDocActive('izin')"
+              id="toggle-doc-izin"
+              class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+            >
+              <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Form Builder Pertanyaan & Field Kustom Dinamis -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#e4e4e7] gap-3">
+        <div>
+          <h3 class="text-sm font-semibold text-[#09090b]">Pertanyaan Tambahan & Field Kustom Dinamis</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Koordinator dapat menambahkan pertanyaan esai, link URL, file upload tambahan, atau dropdown.</p>
+        </div>
+        <button
+          type="button"
+          onclick="showTambahCustomFieldModal()"
+          class="inline-flex items-center gap-2 h-8 px-3 text-xs font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"
+        >
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          <span>Tambah Field Kustom</span>
+        </button>
+      </div>
+
+      <!-- Kontainer Daftar Custom Field Dinamis -->
+      <div id="custom-fields-container" class="space-y-2.5">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- TAB 3: EKUIVALENSI & KONVERSI SKS                   -->
+  <!-- ==================================================== -->
+  <div id="form-tab-content-konversi" class="space-y-4 hidden">
+    <!-- Card 1: Batasan Konversi SKS -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+        <div>
+          <h3 class="text-sm font-semibold text-[#09090b]">Batas Ekuivalensi & Konversi SKS</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Penetapan batas SKS maksimum yang dapat dikonversi ke SIADIN setelah kegiatan selesai.</p>
+        </div>
+        <span class="px-2.5 py-1 text-xs font-medium rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+          Standar MBKM 20 SKS
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Maksimal Konversi SKS -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+          <label class="text-xs font-medium text-[#09090b]">Maksimal Konversi SKS per Mahasiswa *</label>
+          <div class="relative">
+            <input
+              type="number"
+              id="cfg-konversi-sks-max"
+              min="10"
+              max="24"
+              value="20"
+              oninput="triggerAutosave('konversiSksMax', this.value)"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+          <p class="text-[11px] text-[#71717a]">Beban ekuivalensi baku MBKM 1 semester penuh adalah 20 SKS.</p>
+        </div>
+
+        <!-- Durasi Pelaksanaan Minimal -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+          <label class="text-xs font-medium text-[#09090b]">Durasi Komitmen Pelaksanaan Minimal *</label>
+          <select
+            id="cfg-durasi-minimal"
+            onchange="triggerAutosave('durasiMinimal', this.value)"
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="5" selected>1 Semester Penuh (5 Bulan / Minimal 800 Jam Kerja)</option>
+            <option value="4">4 Bulan (Khusus Program Spesifik)</option>
+            <option value="6">6 Bulan (Program Multi-Semester)</option>
+          </select>
+          <p class="text-[11px] text-[#71717a]">Standar durasi minimal wajib dipenuhi agar konversi penuh diakui.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Pengaturan Aturan Seleksi Konversi -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="pb-3 border-b border-[#e4e4e7]">
+        <h3 class="text-sm font-semibold text-[#09090b]">Aturan Pemilihan Mata Kuliah Saat Mendaftar</h3>
+        <p class="text-xs text-[#71717a] mt-0.5">Mekanisme pengajuan draf ekuivalensi mata kuliah oleh mahasiswa pendaftar.</p>
+      </div>
+
+      <div class="divide-y divide-[#e4e4e7]">
+        <!-- Toggle Wajib Pilih Draf MK -->
+        <div class="py-3 flex items-center justify-between gap-4">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-[#09090b]">Wajib Menyusun Draf Mata Kuliah Konversi</span>
+              <span class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Direkomendasikan</span>
+            </div>
+            <p class="text-xs text-[#71717a]">Mahasiswa harus memilih paket draf mata kuliah ekuivalensi prodi (hingga 20 SKS) sebelum pendaftaran dapat disubmit.</p>
+          </div>
+          <button
+            type="button"
+            onclick="toggleFormSetting('wajibDrafMk')"
+            id="toggle-cfg-wajibDrafMk"
+            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+          >
+            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+          </button>
+        </div>
+
+        <!-- Toggle Pakta Integritas 20 SKS -->
+        <div class="py-3 flex items-center justify-between gap-4">
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-[#09090b]">Pakta Integritas Tidak Mengambil Kelas Reguler Bentrok</span>
+              <span class="px-2 py-0.5 text-[10px] font-medium rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Mandatori</span>
+            </div>
+            <p class="text-xs text-[#71717a]">Mahasiswa menandatangani pernyataan tidak mengambil mata kuliah tatap muka reguler di luar konversi MBKM.</p>
+          </div>
+          <button
+            type="button"
+            onclick="toggleFormSetting('paktaIntegritas')"
+            id="toggle-cfg-paktaIntegritas"
+            class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+          >
+            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Notice Regulasi FIK Apps -->
+    <div class="rounded-xl border border-blue-200 bg-blue-50/50 p-4 text-xs text-[#09090b] space-y-1">
+      <div class="flex items-center gap-2 font-semibold text-[#0655a7]">
+        <i data-lucide="info" class="w-4 h-4"></i>
+        <span>Prinsip Regulasi Konversi MBKM FIK UDINUS</span>
+      </div>
+      <p class="text-[#71717a] leading-relaxed">
+        Berdasarkan rapat standarisasi kurikulum MBKM 2026-10-08, seluruh konversi mata kuliah dikunci dan disahkan oleh Koordinator MBKM setelah mahasiswa menyerahkan bukti luaran akhir (Publikasi Ilmiah / Sertifikat Resmi Mitra) dan dinilai oleh DPL.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- TAB 4: DOKUMEN SUREKOM (SURAT REKOMENDASI)          -->
+  <!-- ==================================================== -->
+  <div id="form-tab-content-surekom" class="space-y-4 hidden">
+    <!-- Card: Template SuReKom Resmi -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#e4e4e7] gap-2">
+        <div>
+          <h3 class="text-sm font-semibold text-[#09090b]">Template Resmi Surat Rekomendasi Fakultas (SuReKom)</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Surat resmi yang otomatis di-generate dalam format PDF bertanda tangan digital saat permohonan disetujui Koordinator.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            onclick="resetSurekomTemplate()"
+            class="px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a]"
+          >
+            Reset Default
+          </button>
+        </div>
+      </div>
+
+      <!-- Variable Insertion Tags -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-[#71717a]">Sisipkan Variabel Otomatis (Klik tag untuk menyisipkan ke narasi):</label>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" onclick="insertSurekomTag('{nama_mahasiswa}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;nama_mahasiswa&#125;</button>
+          <button type="button" onclick="insertSurekomTag('{nim}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;nim&#125;</button>
+          <button type="button" onclick="insertSurekomTag('{program_studi}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;program_studi&#125;</button>
+          <button type="button" onclick="insertSurekomTag('{ipk}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;ipk&#125;</button>
+          <button type="button" onclick="insertSurekomTag('{sks_lulus}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;sks_lulus&#125;</button>
+          <button type="button" onclick="insertSurekomTag('{nama_mitra}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;nama_mitra&#125;</button>
+          <button type="button" onclick="insertSurekomTag('{semester_ajaran}')" class="px-2 py-1 text-[11px] font-mono rounded bg-[#f4f4f5] hover:bg-blue-100 hover:text-[#0655a7] text-[#09090b] border border-[#e4e4e7] transition-colors">&#123;semester_ajaran&#125;</button>
+        </div>
+      </div>
+
+      <!-- Textarea Template -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-[#09090b]">Narasi Inti Surat Rekomendasi *</label>
+        <textarea
+          id="cfg-surekom-template"
+          rows="6"
+          oninput="triggerAutosave('surekomTemplate', this.value)"
+          class="w-full rounded-md border border-[#e4e4e7] bg-white p-3 text-xs font-normal text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] leading-relaxed"
+        >Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:
+
+Nama: &#123;nama_mahasiswa&#125;
+NIM: &#123;nim&#125;
+Program Studi: &#123;program_studi&#125;
+IPK Kumulatif: &#123;ipk&#125; (&#123;sks_lulus&#125; SKS)
+
+Telah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi &#123;nama_mitra&#125; untuk periode &#123;semester_ajaran&#125;.</textarea>
+      </div>
+
+      <!-- Grid Parameter SuReKom -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <!-- Batas Cut-Off Permohonan SuReKom -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+          <label class="text-xs font-medium text-[#09090b]">Batas Akhir (Cut-off) Permohonan SuReKom *</label>
+          <input
+            type="datetime-local"
+            id="cfg-surekom-cutoff"
+            value="2026-10-25T23:59"
+            onchange="triggerAutosave('surekomCutoff', this.value)"
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+          <p class="text-[11px] text-[#71717a]">Setelah tanggal ini, tombol permohonan SuReKom di dashboard mahasiswa terkunci.</p>
+        </div>
+
+        <!-- Tanda Tangan Digital Koordinator -->
+        <div class="space-y-1.5 p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-medium text-[#09090b]">Tanda Tangan & Stempel Digital Koordinator</label>
+              <button
+                type="button"
+                onclick="toggleFormSetting('ttdDigital')"
+                id="toggle-cfg-ttdDigital"
+                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-[#0655a7]"
+              >
+                <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+              </button>
+            </div>
+            <p class="text-[11px] text-[#71717a] mt-1">Sertakan barcode validasi otentikasi dokumen dan tanda tangan resmi pada PDF SuReKom.</p>
+          </div>
+          <div class="pt-2 text-[10px] text-emerald-700 font-medium flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+            <span>Sertifikat TTE FIK UDINUS Aktif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </section>
+</AdminShell>
