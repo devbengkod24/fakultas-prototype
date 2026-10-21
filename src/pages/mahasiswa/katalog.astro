@@ -8,327 +8,280 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
   activeNav="katalog"
   pageTitle="Katalog Program MBKM Mitra Resmi"
   breadcrumb="Katalog Program"
-  subtitle="Daftar program MBKM mitra resmi yang terbuka untuk pendaftaran semester ini."
 >
-  <div id="view-katalog" class="w-full">
-<!-- Katalog Program MBKM Mitra Resmi (Diadopsi dari Pola BK) -->
-<div style="margin-bottom:24px;">
-
-  <!-- Banner Info Keterikatan Fase -->
-  <div id="katalog-active-warning" style="display:none;margin-bottom:16px;">
-    <div class="alert alert-warning">
-      <i data-lucide="info" style="width:20px;height:20px;"></i>
+  <div id="view-katalog" class="w-full space-y-6">
+    <!-- Header -->
+    <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
-        <div class="alert-title">Anda Telah Berstatus Peserta Aktif MBKM</div>
-        <div class="alert-desc">
-          Sesuai aturan <em>Single-Application Active</em>, pendaftaran program baru dinonaktifkan karena Anda telah resmi diterima di mitra <strong>Bengkel Koding</strong>.
+        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Katalog Program MBKM</h2>
+        <p class="text-[14px] leading-[20px] text-[#71717a]">Eksplorasi program MBKM mitra resmi yang tersedia untuk semester ini.</p>
+      </div>
+    </div>
+
+    <!-- Grid Kartu Program -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="katalog-grid">
+      <!-- Program 1: Bengkel Koding -->
+      <div class="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
+        <div class="p-5 flex-1 space-y-4">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center font-bold border border-blue-100">BK</div>
+              <div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-100 mb-1">Skema: Proyek Industri</span>
+                <h3 class="text-[15px] font-bold text-[#09090b]">Bengkel Koding — Proyek Web & Mobile</h3>
+                <p class="text-[12px] text-[#71717a]">Mitra: Laboratorium Bengkel Koding FIK</p>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">20 SKS</span>
+          </div>
+
+          <div class="space-y-2 text-[12px] py-3 border-y border-gray-50">
+            <div class="flex justify-between"><span class="text-[#71717a]">Kuota Pendaftar:</span> <span class="font-semibold text-emerald-600">Sisa 7 dari 20 Kursi</span></div>
+            <div class="flex justify-between"><span class="text-[#71717a]">Durasi Kegiatan:</span> <span class="font-medium text-[#09090b]">1 Semester (6 Bulan)</span></div>
+            <div class="flex justify-between"><span class="text-[#71717a]">Dosen Pembina Mitra:</span> <span class="font-medium text-[#1063B9]">Dr. Ricardus Anggi, M.Kom</span></div>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-[11px] font-bold text-[#09090b] uppercase tracking-wider">Checklist Hak & Kewajiban:</h4>
+            <ul class="text-[11px] space-y-1">
+              <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i> <span class="text-[#71717a]"><strong class="text-[#09090b]">Hak:</strong> Konversi penuh 20 SKS, sertifikat, & workstation lab.</span></li>
+              <li class="flex items-start gap-2"><i data-lucide="info" class="w-3.5 h-3.5 text-amber-500 mt-0.5"></i> <span class="text-[#71717a]"><strong class="text-[#09090b]">Kewajiban:</strong> Presensi 80%, logbook mingguan, & demo sprint.</span></li>
+            </ul>
+          </div>
+
+          <div class="pt-2">
+            <h4 class="text-[11px] font-bold text-[#09090b] uppercase tracking-wider mb-2">Tag Keahlian:</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2 py-1 bg-gray-100 text-[#71717a] text-[10px] rounded-md">React / Next.js</span>
+              <span class="px-2 py-1 bg-gray-100 text-[#71717a] text-[10px] rounded-md">Node.js / Express</span>
+              <span class="px-2 py-1 bg-gray-100 text-[#71717a] text-[10px] rounded-md">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 py-3 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-between">
+          <span class="text-[11px] text-[#71717a]">Batas: 18 Okt 2025</span>
+          <button type="button" onclick="openPendaftaranForm('Bengkel Koding — Proyek Web & Mobile')" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.95]">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Detail Pendaftaran</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Program 2: IDSS -->
+      <div class="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
+        <div class="p-5 flex-1 space-y-4">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold border border-purple-100">ID</div>
+              <div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-purple-50 text-purple-700 border border-purple-100 mb-1">Skema: Publikasi / Riset</span>
+                <h3 class="text-[15px] font-bold text-[#09090b]">IDSS — Riset Decision Support & AI</h3>
+                <p class="text-[12px] text-[#71717a]">Mitra: Lab Intelligent Decision Support System</p>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">20 SKS</span>
+          </div>
+
+          <div class="space-y-2 text-[12px] py-3 border-y border-gray-50">
+            <div class="flex justify-between"><span class="text-[#71717a]">Kuota Pendaftar:</span> <span class="font-semibold text-emerald-600">Sisa 4 dari 10 Kursi</span></div>
+            <div class="flex justify-between"><span class="text-[#71717a]">Durasi Kegiatan:</span> <span class="font-medium text-[#09090b]">1 Semester (6 Bulan)</span></div>
+            <div class="flex justify-between"><span class="text-[#71717a]">Dosen Pembina Mitra:</span> <span class="font-medium text-[#1063B9]">Prof. Dr. Supriadi, M.Kom</span></div>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-[11px] font-bold text-[#09090b] uppercase tracking-wider">Checklist Hak & Kewajiban:</h4>
+            <ul class="text-[11px] space-y-1">
+              <li class="flex items-start gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i> <span class="text-[#71717a]"><strong class="text-[#09090b]">Hak:</strong> Insentif publikasi, GPU cluster access, & bimbingan naskah.</span></li>
+              <li class="flex items-start gap-2"><i data-lucide="info" class="w-3.5 h-3.5 text-amber-500 mt-0.5"></i> <span class="text-[#71717a]"><strong class="text-[#09090b]">Kewajiban:</strong> Target wajib 1 naskah submit prosiding/jurnal (LoA).</span></li>
+            </ul>
+          </div>
+
+          <div class="pt-2">
+            <h4 class="text-[11px] font-bold text-[#09090b] uppercase tracking-wider mb-2">Tag Keahlian:</h4>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2 py-1 bg-gray-100 text-[#71717a] text-[10px] rounded-md">Python & Pandas</span>
+              <span class="px-2 py-1 bg-gray-100 text-[#71717a] text-[10px] rounded-md">Scikit-Learn / PyTorch</span>
+              <span class="px-2 py-1 bg-gray-100 text-[#71717a] text-[10px] rounded-md">LaTeX</span>
+            </div>
+          </div>
+        </div>
+        <div class="px-5 py-3 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-between">
+          <span class="text-[11px] text-[#71717a]">Batas: 18 Okt 2025</span>
+          <button type="button" onclick="openPendaftaranForm('IDSS — Riset Decision Support & AI')" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.95]">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Detail Pendaftaran</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Form Pendaftaran (dengan 4 status cards) -->
+    <div id="modal-pendaftaran" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white rounded-2xl w-full max-w-5xl max-h-[95vh] overflow-hidden flex flex-col shadow-2xl">
+        <!-- Header -->
+        <div class="bg-white border-b border-[#e4e4e7] p-5 flex items-center justify-between">
+          <div>
+            <h3 class="text-[18px] font-bold text-[#09090b]">Formulir Pendaftaran MBKM</h3>
+            <p class="text-[12px] text-[#71717a]" id="modal-program">Program: Bengkel Koding</p>
+          </div>
+          <button type="button" onclick="closePendaftaranForm()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors">
+            <i data-lucide="x" class="w-5 h-5 text-[#71717a]"></i>
+          </button>
+        </div>
+
+        <!-- Body -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-6 bg-[#fbfbfc]">
+          <!-- Status Pendaftaran (4 Cards) -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex flex-col items-center text-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs">
+                <i data-lucide="check" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="text-[12px] font-bold text-emerald-800">Submit</div>
+                <div class="text-[10px] text-emerald-600">Selesai</div>
+              </div>
+            </div>
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex flex-col items-center text-center gap-2 opacity-60">
+              <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs">2</div>
+              <div>
+                <div class="text-[12px] font-bold text-[#09090b]">Close</div>
+                <div class="text-[10px] text-[#71717a]">18 Okt 2025</div>
+              </div>
+            </div>
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex flex-col items-center text-center gap-2 opacity-60">
+              <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs">3</div>
+              <div>
+                <div class="text-[12px] font-bold text-[#09090b]">Review</div>
+                <div class="text-[10px] text-[#71717a]">On Progress</div>
+              </div>
+            </div>
+            <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex flex-col items-center text-center gap-2 opacity-60">
+              <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-xs">4</div>
+              <div>
+                <div class="text-[12px] font-bold text-[#09090b]">Pengumuman</div>
+                <div class="text-[10px] text-[#71717a]">Belum Ada</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Tabs (sama seperti admin) -->
+          <div class="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden">
+            <div class="flex items-center gap-1 p-1 bg-gray-50 border-b border-[#e4e4e7]">
+              <button onclick="switchFormTab('akademik')" id="tab-akademik" class="px-4 py-2 text-[12px] font-semibold rounded-lg bg-white shadow-sm text-[#1063B9]">Syarat Akademik</button>
+              <button onclick="switchFormTab('berkas')" id="tab-berkas" class="px-4 py-2 text-[12px] font-semibold rounded-lg text-[#71717a] hover:bg-gray-100">Berkas & Portofolio</button>
+              <button onclick="switchFormTab('konversi')" id="tab-konversi" class="px-4 py-2 text-[12px] font-semibold rounded-lg text-[#71717a] hover:bg-gray-100">Ekuivalensi SKS</button>
+            </div>
+
+            <div class="p-6">
+              <!-- Tab 1: Akademik (Read Only) -->
+              <div id="tab-content-akademik" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-[#09090b] uppercase">NIM</label>
+                    <input type="text" value="A11.2022.14253" readonly class="w-full h-10 px-3 rounded-lg border border-[#e4e4e7] bg-gray-50 text-[13px] font-medium" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-[#09090b] uppercase">Nama Lengkap</label>
+                    <input type="text" value="Ahmad Rizky Pratama" readonly class="w-full h-10 px-3 rounded-lg border border-[#e4e4e7] bg-gray-50 text-[13px] font-medium" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-[#09090b] uppercase">IPK Kumulatif</label>
+                    <input type="text" value="3.72" readonly class="w-full h-10 px-3 rounded-lg border border-[#e4e4e7] bg-gray-50 text-[13px] font-medium text-emerald-700" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-[#09090b] uppercase">SKS Lulus</label>
+                    <input type="text" value="104 SKS" readonly class="w-full h-10 px-3 rounded-lg border border-[#e4e4e7] bg-gray-50 text-[13px] font-medium text-emerald-700" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 2: Berkas (Editable - Portofolio & CV only) -->
+              <div id="tab-content-berkas" class="hidden space-y-4">
+                <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg text-[12px] text-[#0369a1] mb-4">
+                  <i data-lucide="info" class="w-4 h-4 inline-block mr-1"></i>
+                  Anda hanya dapat mengedit tautan Portofolio dan CV sebelum periode pendaftaran ditutup.
+                </div>
+                <div class="space-y-4">
+                  <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-[#09090b] uppercase">Tautan Portofolio Karya <span class="text-red-500">*</span></label>
+                    <input type="url" value="https://drive.google.com/portofolio-rizky" class="w-full h-10 px-3 rounded-lg border border-[#e4e4e7] bg-white text-[13px] focus:ring-2 focus:ring-[#1063B9] outline-none" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[11px] font-bold text-[#09090b] uppercase">Tautan CV (Curriculum Vitae) <span class="text-red-500">*</span></label>
+                    <input type="url" value="https://drive.google.com/cv-rizky" class="w-full h-10 px-3 rounded-lg border border-[#e4e4e7] bg-white text-[13px] focus:ring-2 focus:ring-[#1063B9] outline-none" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 3: Konversi (Read Only) -->
+              <div id="tab-content-konversi" class="hidden space-y-4">
+                <table class="w-full text-left text-xs border border-[#e4e4e7] rounded-lg overflow-hidden">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="p-3">Kode Matkul</th>
+                      <th class="p-3">Nama Mata Kuliah</th>
+                      <th class="p-3 text-center">SKS</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    <tr><td class="p-3 font-mono">A11.54601</td><td class="p-3 font-medium">Proyek Perangkat Lunak</td><td class="p-3 text-center">4</td></tr>
+                    <tr><td class="p-3 font-mono">A11.54602</td><td class="p-3 font-medium">Sistem Basis Data Lanjut</td><td class="p-3 text-center">4</td></tr>
+                    <tr><td class="p-3 font-mono">A11.54605</td><td class="p-3 font-medium">Etika Profesi TI</td><td class="p-3 text-center">3</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-white border-t border-[#e4e4e7] p-5 flex items-center justify-end gap-3">
+          <button type="button" onclick="closePendaftaranForm()" class="px-5 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-bold rounded-xl hover:bg-gray-50 transition-colors">
+            Batal
+          </button>
+          <button type="button" onclick="savePendaftaran()" class="px-6 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-bold rounded-xl shadow-lg transition-all active:scale-[0.98]">
+            Kirim Pendaftaran
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Header Bar Katalog -->
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-    <div>
-      <h2 style="font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
-        <i data-lucide="compass" style="color:var(--primary);width:20px;height:20px;"></i>
-        Katalog Lowongan Program Mitra Resmi MBKM
-      </h2>
-      <p style="font-size:13px;color:#64748b;margin-top:2px;">
-        Eksplorasi formasi resmi mitra laboratorium riset internal dan industri yang membuka gelombang pendaftaran semester ini.
-      </p>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span class="badge badge-success"><i data-lucide="calendar" style="width:12px;height:12px;"></i> Gelombang Aktif Genap 2025/2026</span>
-    </div>
-  </div>
+  <script is:inline>
+    function openPendaftaranForm(programName) {
+      document.getElementById('modal-program').textContent = 'Program: ' + programName;
+      document.getElementById('modal-pendaftaran').classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      switchFormTab('akademik');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
 
-  <!-- Search & Filter Controls: Skema Baku (Asistensi, Proyek, Publikasi/Riset) -->
-  <div class="card" style="padding:14px 18px;margin-bottom:20px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-      <!-- Skema Baku Filter Tabs -->
-      <div style="display:flex;align-items:center;gap:8px;overflow-x:auto;">
-        <button class="btn btn-sm btn-primary filter-katalog-btn active" data-skema="all" onclick="filterKatalog('all', this)">Semua Skema</button>
-        <button class="btn btn-sm btn-outline filter-katalog-btn" data-skema="asistensi" onclick="filterKatalog('asistensi', this)">Asistensi Pengajar</button>
-        <button class="btn btn-sm btn-outline filter-katalog-btn" data-skema="proyek" onclick="filterKatalog('proyek', this)">Proyek Industri</button>
-        <button class="btn btn-sm btn-outline filter-katalog-btn" data-skema="riset" onclick="filterKatalog('riset', this)">Publikasi / Riset</button>
-      </div>
+    function closePendaftaranForm() {
+      document.getElementById('modal-pendaftaran').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
 
-      <!-- Search Input -->
-      <div style="display:flex;align-items:center;gap:8px;min-width:260px;">
-        <div style="position:relative;width:100%;">
-          <i data-lucide="search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#94a3b8;"></i>
-          <input type="text" id="search-katalog" class="form-control" placeholder="Cari mitra / tag keahlian..." style="padding:6px 12px 6px 32px;font-size:13px;" oninput="searchKatalog(this.value)" />
-        </div>
-      </div>
-    </div>
-  </div>
+    function switchFormTab(tab) {
+      const tabs = ['akademik', 'berkas', 'konversi'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tab-' + t);
+        const content = document.getElementById('tab-content-' + t);
+        if (t === tab) {
+          btn.classList.add('bg-white', 'shadow-sm', 'text-[#1063B9]');
+          btn.classList.remove('text-[#71717a]');
+          content.classList.remove('hidden');
+        } else {
+          btn.classList.remove('bg-white', 'shadow-sm', 'text-[#1063B9]');
+          btn.classList.add('text-[#71717a]');
+          content.classList.add('hidden');
+        }
+      });
+    }
 
-  <!-- Grid Kartu Program Mitra Lengkap -->
-  <div class="grid grid-2" id="katalog-grid" style="gap:18px;">
-
-    <!-- Program 1: Bengkel Koding (Proyek Industri) -->
-    <div class="card katalog-card" data-skema="proyek" style="display:flex;flex-direction:column;justify-content:space-between;border:1px solid #e2e8f0;padding:20px;">
-      <div>
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:44px;height:44px;border-radius:10px;background:#eff6ff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;border:1px solid #bfdbfe;">
-              BK
-            </div>
-            <div>
-              <span class="badge badge-primary" style="font-size:10px;">Skema: Proyek Industri</span>
-              <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-top:2px;">Bengkel Koding &mdash; Proyek Web &amp; Mobile</h3>
-              <div style="font-size:12px;color:#64748b;">Mitra: Laboratorium Bengkel Koding FIK</div>
-            </div>
-          </div>
-          <span class="badge badge-success">20 SKS</span>
-        </div>
-
-        <!-- Metadata Kuota, Durasi, Dosen Pembina -->
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;margin-bottom:14px;background:#f8fafc;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0;">
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Kuota Pendaftar:</span>
-            <span style="font-weight:700;color:#16a34a;">Sisa 7 dari 20 Kursi</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Durasi Kegiatan:</span>
-            <span style="font-weight:600;color:#0f172a;">1 Semester (6 Bulan &bull; Ekuivalen 20 SKS)</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Dosen Pembina Mitra:</span>
-            <span style="font-weight:600;color:var(--primary);">Dr. Ricardus Anggi, M.Kom &amp; Fajar Nugraha, S.Kom</span>
-          </div>
-        </div>
-
-        <!-- Checklist Rincian Kewajiban & Fasilitas Hak Mahasiswa -->
-        <div style="margin-bottom:14px;font-size:12px;">
-          <strong style="color:#1e293b;display:block;margin-bottom:4px;">Checklist Hak &amp; Kewajiban:</strong>
-          <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;color:#475569;">
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="check" style="width:13px;height:13px;color:#16a34a;"></i>
-              <strong>Hak:</strong> Konversi penuh 20 SKS, sertifikat resmi mitra, &amp; workstation lab.
-            </li>
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="alert-circle" style="width:13px;height:13px;color:#d97706;"></i>
-              <strong>Kewajiban:</strong> Presensi 80%, logbook mingguan, &amp; demo produk sprint 2 mingguan.
-            </li>
-          </ul>
-        </div>
-
-        <!-- Tag Keterampilan yang Dibutuhkan -->
-        <div style="margin-bottom:16px;">
-          <span style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;">Tag Keahlian:</span>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">React / Next.js</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Node.js / Express</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">PostgreSQL</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Git &amp; Scrum</span>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:14px;">
-        <span style="font-size:11px;color:#64748b;">Batas: 18 Okt 2025</span>
-        <button class="btn btn-primary" onclick="selectProgramAndRegister('Bengkel Koding — Proyek Web & Mobile', 'proyek')">
-          <i data-lucide="send"></i> Ajukan Pendaftaran &rarr;
-        </button>
-      </div>
-    </div>
-
-    <!-- Program 2: IDSS Lab (Publikasi / Riset) -->
-    <div class="card katalog-card" data-skema="riset" style="display:flex;flex-direction:column;justify-content:space-between;border:1px solid #e2e8f0;padding:20px;">
-      <div>
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:44px;height:44px;border-radius:10px;background:#faf5ff;color:#9333ea;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;border:1px solid #e9d5ff;">
-              ID
-            </div>
-            <div>
-              <span class="badge" style="font-size:10px;background:#f3e8ff;color:#7e22ce;border:1px solid #d8b4fe;">Skema: Publikasi / Riset</span>
-              <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-top:2px;">IDSS &mdash; Riset Decision Support &amp; AI</h3>
-              <div style="font-size:12px;color:#64748b;">Mitra: Lab Intelligent Decision Support System</div>
-            </div>
-          </div>
-          <span class="badge badge-success">20 SKS</span>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;margin-bottom:14px;background:#f8fafc;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0;">
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Kuota Pendaftar:</span>
-            <span style="font-weight:700;color:#16a34a;">Sisa 4 dari 10 Kursi</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Durasi Kegiatan:</span>
-            <span style="font-weight:600;color:#0f172a;">1 Semester (6 Bulan &bull; Ekuivalen 20 SKS)</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Dosen Pembina Mitra:</span>
-            <span style="font-weight:600;color:var(--primary);">Prof. Dr. Supriadi, M.Kom &amp; Tim Dosen AI</span>
-          </div>
-        </div>
-
-        <div style="margin-bottom:14px;font-size:12px;">
-          <strong style="color:#1e293b;display:block;margin-bottom:4px;">Checklist Hak &amp; Kewajiban:</strong>
-          <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;color:#475569;">
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="check" style="width:13px;height:13px;color:#16a34a;"></i>
-              <strong>Hak:</strong> Insentif publikasi seminar nasional, GPU cluster access, &amp; bimbingan naskah.
-            </li>
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="alert-circle" style="width:13px;height:13px;color:#d97706;"></i>
-              <strong>Kewajiban:</strong> Target wajib 1 naskah submit prosiding/jurnal terindeks (LoA).
-            </li>
-          </ul>
-        </div>
-
-        <div style="margin-bottom:16px;">
-          <span style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;">Tag Keahlian:</span>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Python &amp; Pandas</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Scikit-Learn / PyTorch</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">LaTeX / Academic Writing</span>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:14px;">
-        <span style="font-size:11px;color:#64748b;">Batas: 18 Okt 2025</span>
-        <button class="btn btn-primary" onclick="selectProgramAndRegister('IDSS — Riset Decision Support & AI', 'riset')">
-          <i data-lucide="send"></i> Ajukan Pendaftaran &rarr;
-        </button>
-      </div>
-    </div>
-
-    <!-- Program 3: Matic (Asistensi Pengajar) -->
-    <div class="card katalog-card" data-skema="asistensi" style="display:flex;flex-direction:column;justify-content:space-between;border:1px solid #e2e8f0;padding:20px;">
-      <div>
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:44px;height:44px;border-radius:10px;background:#fff7ed;color:#ea580c;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;border:1px solid #fed7aa;">
-              MA
-            </div>
-            <div>
-              <span class="badge" style="font-size:10px;background:#ffedd5;color:#c2410c;border:1px solid #fdba74;">Skema: Asistensi Pengajar</span>
-              <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-top:2px;">Matic &mdash; Asistensi Mentoring &amp; Desain</h3>
-              <div style="font-size:12px;color:#64748b;">Mitra: Komunitas Laboratorium Multimedia Matic</div>
-            </div>
-          </div>
-          <span class="badge badge-success">20 SKS</span>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;margin-bottom:14px;background:#f8fafc;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0;">
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Kuota Pendaftar:</span>
-            <span style="font-weight:700;color:#16a34a;">Sisa 5 dari 12 Kursi</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Durasi Kegiatan:</span>
-            <span style="font-weight:600;color:#0f172a;">1 Semester (6 Bulan)</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Dosen Pembina Mitra:</span>
-            <span style="font-weight:600;color:var(--primary);">Affan Bachri, M.Cs &amp; Koordinator Lab Matic</span>
-          </div>
-        </div>
-
-        <div style="margin-bottom:14px;font-size:12px;">
-          <strong style="color:#1e293b;display:block;margin-bottom:4px;">Checklist Hak &amp; Kewajiban:</strong>
-          <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;color:#475569;">
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="check" style="width:13px;height:13px;color:#16a34a;"></i>
-              <strong>Hak:</strong> Sertifikat mentor kompetensi, jejaring mahasiswa tingkat awal, &amp; fasilitas lab.
-            </li>
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="alert-circle" style="width:13px;height:13px;color:#d97706;"></i>
-              <strong>Kewajiban:</strong> Pendampingan praktikum 4 kelas per minggu &amp; penyusunan modul ajar praktis.
-            </li>
-          </ul>
-        </div>
-
-        <div style="margin-bottom:16px;">
-          <span style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;">Tag Keahlian:</span>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">UI/UX (Figma)</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">HTML/CSS/JS Dasar</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Public Speaking &amp; Mentoring</span>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:14px;">
-        <span style="font-size:11px;color:#64748b;">Batas: 18 Okt 2025</span>
-        <button class="btn btn-primary" onclick="selectProgramAndRegister('Matic — Asistensi Mentoring & Desain', 'asistensi')">
-          <i data-lucide="send"></i> Ajukan Pendaftaran &rarr;
-        </button>
-      </div>
-    </div>
-
-    <!-- Program 4: Ryuje (Proyek Industri) -->
-    <div class="card katalog-card" data-skema="proyek" style="display:flex;flex-direction:column;justify-content:space-between;border:1px solid #e2e8f0;padding:20px;">
-      <div>
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:44px;height:44px;border-radius:10px;background:#f0fdf4;color:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;border:1px solid #bbf7d0;">
-              RY
-            </div>
-            <div>
-              <span class="badge badge-primary" style="font-size:10px;">Skema: Proyek Industri</span>
-              <h3 style="font-size:16px;font-weight:700;color:#0f172a;margin-top:2px;">Ryuje &mdash; Cloud &amp; DevOps Engineering</h3>
-              <div style="font-size:12px;color:#64748b;">Mitra: PT Ryuje Solusi Digital (Industri)</div>
-            </div>
-          </div>
-          <span class="badge badge-success">20 SKS</span>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;margin-bottom:14px;background:#f8fafc;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0;">
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Kuota Pendaftar:</span>
-            <span style="font-weight:700;color:#16a34a;">Sisa 3 dari 8 Kursi</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Durasi Kegiatan:</span>
-            <span style="font-weight:600;color:#0f172a;">2 Semester (12 Bulan Opsi Lanjutan)</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;">
-            <span style="color:#64748b;">Dosen Pembina Mitra:</span>
-            <span style="font-weight:600;color:var(--primary);">Nurul Anisa Sri Winarsih, M.Cs &amp; Tech Lead Ryuje</span>
-          </div>
-        </div>
-
-        <div style="margin-bottom:14px;font-size:12px;">
-          <strong style="color:#1e293b;display:block;margin-bottom:4px;">Checklist Hak &amp; Kewajiban:</strong>
-          <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:4px;color:#475569;">
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="check" style="width:13px;height:13px;color:#16a34a;"></i>
-              <strong>Hak:</strong> Pengalaman cloud nyata, sertifikasi industri mitra, &amp; fleksibilitas hybrid.
-            </li>
-            <li style="display:flex;align-items:center;gap:6px;">
-              <i data-lucide="alert-circle" style="width:13px;height:13px;color:#d97706;"></i>
-              <strong>Kewajiban:</strong> Menjaga NDA kode sumber klien &amp; penyelesaian pipeline automasi CI/CD.
-            </li>
-          </ul>
-        </div>
-
-        <div style="margin-bottom:16px;">
-          <span style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;">Tag Keahlian:</span>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Linux / Bash</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">Docker &amp; Kubernetes</span>
-            <span style="padding:2px 8px;background:#f1f5f9;border-radius:4px;font-size:11px;color:#334155;font-weight:500;">GitHub Actions / CI-CD</span>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f1f5f9;padding-top:14px;">
-        <span style="font-size:11px;color:#64748b;">Batas: 18 Okt 2025</span>
-        <button class="btn btn-primary" onclick="selectProgramAndRegister('Ryuje — Cloud & DevOps Engineering', 'proyek')">
-          <i data-lucide="send"></i> Ajukan Pendaftaran &rarr;
-        </button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-  </div>
+    function savePendaftaran() {
+      alert('Pendaftaran berhasil dikirim! Apabila Anda diterima pada salah satu program, pendaftaran lainnya akan ditolak secara otomatis.');
+      closePendaftaranForm();
+    }
+  </script>
 </MahasiswaShell>
