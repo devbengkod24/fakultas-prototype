@@ -3447,13 +3447,13 @@ function switchFormTab(tabId) {
     if (t === tabId) {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-[#0655a7] text-[#0655a7] bg-blue-50/60 transition-colors';
+          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors shrink-0';
       }
       if (content) content.classList.remove('hidden');
     } else {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] hover:bg-black/5 transition-colors';
+          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors shrink-0';
       }
       if (content) content.classList.add('hidden');
     }
