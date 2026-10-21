@@ -13,11 +13,11 @@ import AdminShell from "../../layouts/AdminShell.astro";
       isSyncing: false,
       isBulkModalOpen: false,
       dosenList: [
-        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', npp: '0612047801', aktifPeriode: true, sisaKuota: 2, totalKuota: 8 },
+        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', npp: '0612047801', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
         { id: 2, nama: 'Affandy, Ph.D', npp: '0617087502', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
-        { id: 3, nama: 'Christy Atika Sari, M.Kom', npp: '0629038401', aktifPeriode: true, sisaKuota: 4, totalKuota: 8 },
-        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', npp: '0615028201', aktifPeriode: true, sisaKuota: 3, totalKuota: 8 },
-        { id: 5, nama: 'Ajib Susanto, M.Kom', npp: '0621057901', aktifPeriode: false, sisaKuota: 8, totalKuota: 8 },
+        { id: 3, nama: 'Christy Atika Sari, M.Kom', npp: '0629038401', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
+        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', npp: '0615028201', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
+        { id: 5, nama: 'Ajib Susanto, M.Kom', npp: '0621057901', aktifPeriode: false, sisaKuota: 0, totalKuota: 8 },
       ],
       toggleStatus(dosen) {
         dosen.aktifPeriode = !dosen.aktifPeriode;
@@ -77,23 +77,23 @@ import AdminShell from "../../layouts/AdminShell.astro";
     </div>
 
     <!-- Tabel Data Dosen Style KP -->
-    <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
-              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Plotting Mahasiswa</th>
-              <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Plotting Mahasiswa</th>
+              <th class="h-11 px-4 font-medium text-sm w-24 text-center text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
           <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
-            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
-              <td class="h-12 px-4">
+            <tr class="hover:bg-[#fafafa] transition-colors">
+              <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="idx + 1"></td>
+              <td class="h-[68px] px-4 text-sm">
                 <div class="flex items-center gap-3">
                   <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                     <span x-text="dosen.nama.charAt(0)"></span>
@@ -104,7 +104,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
                   </div>
                 </div>
               </td>
-              <td class="h-12 px-4">
+              <td class="h-[68px] px-4 text-sm">
                 <div class="flex items-center justify-center gap-2.5">
                   <button
                     type="button"
@@ -127,21 +127,21 @@ import AdminShell from "../../layouts/AdminShell.astro";
                   ></span>
                 </div>
               </td>
-              <td class="h-12 px-4 text-center">
+              <td class="h-[68px] px-4 text-center text-sm">
                 <template x-if="dosen.sisaKuota > 0">
-                  <span class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b]">
-                    <i data-lucide="users" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                  <span class="inline-flex items-center gap-2.5 text-sm font-normal text-[#818182]">
+                    <i data-lucide="users" class="w-[18px] h-[18px] shrink-0"></i>
                     <span x-text="`Sisa kuota (${dosen.sisaKuota})`"></span>
                   </span>
                 </template>
                 <template x-if="dosen.sisaKuota === 0">
-                  <span class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-[#f4f4f5] text-xs font-medium text-[#71717a]">
-                    <i data-lucide="users" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span class="inline-flex items-center gap-2.5 text-sm font-normal text-[#818182]">
+                    <i data-lucide="users" class="w-[18px] h-[18px] shrink-0"></i>
                     <span>Kuota Penuh</span>
                   </span>
                 </template>
               </td>
-              <td class="h-12 px-4 text-center">
+              <td class="h-[68px] px-4 text-center text-sm">
                 <div class="relative inline-block text-left" x-data="{ openAction: false }">
                   <button
                     type="button"

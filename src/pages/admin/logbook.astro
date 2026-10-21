@@ -12,11 +12,16 @@ import AdminShell from '../../layouts/AdminShell.astro';
       searchQuery: '',
       selectedDosen: null,
       dosenList: [
-        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', npp: '0612047801', bab1: 8, bab2: 8, bab3: 6, bab4: 4, bab5: 2, pending: 3, totalMhs: 8 },
-        { id: 2, nama: 'Affandy, Ph.D', npp: '0617087502', bab1: 8, bab2: 7, bab3: 7, bab4: 5, bab5: 4, pending: 1, totalMhs: 8 },
-        { id: 3, nama: 'Christy Atika Sari, M.Kom', npp: '0629038401', bab1: 6, bab2: 5, bab3: 4, bab4: 2, bab5: 1, pending: 2, totalMhs: 6 },
-        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', npp: '0615028201', bab1: 7, bab2: 6, bab3: 5, bab4: 3, bab5: 2, pending: 0, totalMhs: 7 },
-        { id: 5, nama: 'Ajib Susanto, M.Kom', npp: '0621057901', bab1: 5, bab2: 4, bab3: 3, bab4: 2, bab5: 1, pending: 4, totalMhs: 5 },
+        { id: 1,  nama: 'EDY MULYANTO',            npp: '0686.11.1993.040', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
+        { id: 2,  nama: 'ERLIN DOLPHINA',          npp: '0686.11.1994.047', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 4 },
+        { id: 3,  nama: 'EDI FAISAL',              npp: '0686.11.1994.057', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 1 },
+        { id: 4,  nama: 'ACHMAD WAHID KURNIAWAN',  npp: '0686.11.1995.067', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
+        { id: 5,  nama: 'ARIPIN',                  npp: '0686.11.1995.068', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
+        { id: 6,  nama: 'AYU PERTIWI',             npp: '0686.11.1995.069', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
+        { id: 7,  nama: 'NOVA RIJATI',             npp: '0686.11.1996.093', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 1 },
+        { id: 8,  nama: 'T. SUTOJO',               npp: '0686.11.1996.094', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 3 },
+        { id: 9,  nama: 'HERU LESTIAWAN',          npp: '0686.11.1996.097', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
+        { id: 10, nama: 'USMAN SUDIBYO',           npp: '0686.11.1996.100', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 3 },
       ],
       studentDetails: [
         { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', babTerakhir: 'Bab 4', totalBimbingan: 12, progress: 80, status: 'Aktif' },
@@ -50,56 +55,56 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
 
       <!-- Tabel Master 10 Kolom Style KP -->
-      <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+      <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No.</th>
-              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama Dosen</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Logbook Mhs.</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 1</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 2</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 3</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 4</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Bab 5</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Pending</th>
-              <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs">Total Mhs.</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama Dosen</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Logbook Mhs.</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 1</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 2</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 3</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 4</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 5</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Pending</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Total Mhs.</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
-                <td class="h-12 px-4">
-                  <div class="flex flex-col">
-                    <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
-                    <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
+              <tr class="hover:bg-[#fafafa] transition-colors">
+                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-sm">
+                  <div class="flex flex-col leading-tight gap-1">
+                    <span class="font-semibold text-[#09090b] text-sm tracking-tight" x-text="dosen.nama"></span>
+                    <span class="text-[13px] text-[#71717a]" x-text="dosen.npp"></span>
                   </div>
                 </td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <button
                     type="button"
                     @click="openDetail(dosen)"
-                    class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium shadow-none transition-colors"
+                    class="inline-flex items-center gap-2 h-9 px-4 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/40 text-[#0655a7] text-sm font-medium transition-colors"
                   >
-                    <i data-lucide="book-text" class="w-3.5 h-3.5"></i>
                     <span>Detail Logbook</span>
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
                   </button>
                 </td>
-                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab1"></td>
-                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab2"></td>
-                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab3"></td>
-                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab4"></td>
-                <td class="h-12 px-3 text-center text-xs font-medium text-[#09090b]" x-text="dosen.bab5"></td>
-                <td class="h-12 px-3 text-center">
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab1"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab2"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab3"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab4"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab5"></td>
+                <td class="h-[68px] px-4 text-center text-sm">
                   <template x-if="dosen.pending > 0">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200" x-text="`${dosen.pending} Pending`"></span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[13px] font-medium bg-[#FEF3C7] text-[#92400E]" x-text="dosen.pending"></span>
                   </template>
                   <template x-if="dosen.pending === 0">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-50 text-gray-500">0</span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[13px] font-medium bg-[#F4F4F5] text-[#71717A]">Belum Ada</span>
                   </template>
                 </td>
-                <td class="h-12 px-3 text-center font-bold text-[#0655a7] text-xs" x-text="`${dosen.totalMhs} Mhs`"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.totalMhs"></td>
               </tr>
             </template>
           </tbody>
@@ -180,25 +185,25 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
 
       <!-- Tabel Detail 8 Kolom Style KP -->
-      <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+      <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No.</th>
-              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">NIM</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Bab Terakhir</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Total Bimbingan</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Progress</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
-              <th class="h-10 w-24 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">NIM</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab Terakhir</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Total Bimbingan</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Progress</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-medium text-sm w-24 text-center text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(m, idx) in studentDetails" :key="m.nim">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
-                <td class="h-12 px-4">
+              <tr class="hover:bg-[#fafafa] transition-colors">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-3">
                     <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                       <span x-text="m.nama.charAt(0)"></span>
@@ -206,12 +211,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
                     <span class="font-medium text-[#09090b] text-sm" x-text="m.nama"></span>
                   </div>
                 </td>
-                <td class="h-12 px-4 text-center text-xs text-[#71717a]" x-text="m.nim"></td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="m.nim"></td>
+                <td class="h-[68px] px-4 text-center text-sm">
                   <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-[#0655a7]" x-text="m.babTerakhir"></span>
                 </td>
-                <td class="h-12 px-4 text-center text-xs font-medium text-[#09090b]" x-text="`${m.totalBimbingan} kali`"></td>
-                <td class="h-12 px-4">
+                <td class="h-[68px] px-4 text-center font-medium text-sm text-[#09090b]" x-text="`${m.totalBimbingan} kali`"></td>
+                <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-2">
                     <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden">
                       <div class="h-full bg-[#0655a7] rounded-full" :style="`width: ${m.progress}%`"></div>
@@ -219,10 +224,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
                     <span class="text-xs font-medium text-[#71717a]" x-text="`${m.progress}%`"></span>
                   </div>
                 </td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700" x-text="m.status"></span>
                 </td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <button
                     type="button"
                     @click="alert(`Menampilkan rincian entri logbook mahasiswa ${m.nama}`)"

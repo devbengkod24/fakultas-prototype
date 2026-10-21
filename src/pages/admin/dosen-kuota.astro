@@ -9,228 +9,210 @@ import AdminShell from "../../layouts/AdminShell.astro";
     class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
     x-data="{
       searchQuery: '',
-      prodiFilter: 'semua',
+      sortOption: 'default',
       statusFilter: 'semua',
       isEditModalOpen: false,
-      currentDosen: { nama: '', nidn: '', prodi: '', terpakai: 0, batasMaks: 8 },
-      editBatasInput: 8,
+      currentDosen: { nama: '', nidn: '', kuota: 0, diterima: 0 },
+      editKuotaInput: 0,
       dosenList: [
-        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', nidn: '0612047801', prodi: 'Teknik Informatika', terpakai: 6, batasMaks: 8 },
-        { id: 2, nama: 'Affandy, Ph.D', nidn: '0617087502', prodi: 'Teknik Informatika', terpakai: 8, batasMaks: 8 },
-        { id: 3, nama: 'Christy Atika Sari, M.Kom', nidn: '0629038401', prodi: 'Sistem Informasi', terpakai: 4, batasMaks: 8 },
-        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', nidn: '0601058201', prodi: 'Teknik Informatika', terpakai: 5, batasMaks: 8 },
-        { id: 5, nama: 'Ajib Susanto, M.Kom', nidn: '0627047701', prodi: 'Sistem Informasi', terpakai: 7, batasMaks: 10 },
-        { id: 6, nama: 'Dr. Guruh Fajar Shidik, S.Kom., M.Cs', nidn: '0619078301', prodi: 'Teknik Informatika', terpakai: 3, batasMaks: 8 },
-        { id: 7, nama: 'Heru Agus Santoso, Ph.D', nidn: '0605087101', prodi: 'Sains Data', terpakai: 2, batasMaks: 6 },
+        { id: 1,  nama: 'ERLIN DOLPHINA, SH, MM',      nidn: '0686.11.1994.047', kuota: 5, jumlahAjuan: 4, diterima: 4, ditolak: 0 },
+        { id: 2,  nama: 'HERU LESTIAWAN, M.Kom',       nidn: '0686.11.1996.097', kuota: 3, jumlahAjuan: 5, diterima: 2, ditolak: 0 },
+        { id: 3,  nama: 'NOOR AGENG SETIYANTO, M.Kom', nidn: '0686.11.1997.125', kuota: 5, jumlahAjuan: 4, diterima: 4, ditolak: 0 },
+        { id: 4,  nama: 'ERNA ZUNI ASTUTI, M.Kom',     nidn: '0686.11.1997.132', kuota: 5, jumlahAjuan: 4, diterima: 4, ditolak: 0 },
+        { id: 5,  nama: 'FERI AGUSTINA, M.Kom',        nidn: '0686.11.1997.141', kuota: 3, jumlahAjuan: 3, diterima: 2, ditolak: 0 },
+        { id: 6,  nama: 'SUPRAYOGI, M.Kom',            nidn: '0686.11.1998.148', kuota: 2, jumlahAjuan: 1, diterima: 1, ditolak: 0 },
+        { id: 7,  nama: 'L.BUDI HANDOKO, M.Kom',       nidn: '0686.11.1999.186', kuota: 3, jumlahAjuan: 2, diterima: 2, ditolak: 0 },
+        { id: 8,  nama: 'IFAN RIZQA, M.Kom',           nidn: '0686.11.2001.267', kuota: 2, jumlahAjuan: 1, diterima: 1, ditolak: 0 },
+        { id: 9,  nama: 'SLAMET SUDARYANTO N., ST',    nidn: '0686.11.2009.361', kuota: 2, jumlahAjuan: 1, diterima: 1, ditolak: 0 },
+        { id: 10, nama: 'UMI ROSYIDAH, S.Kom, M.T',    nidn: '0686.11.2009.372', kuota: 3, jumlahAjuan: 2, diterima: 2, ditolak: 0 },
       ],
+      getSisa(d) {
+        return Math.max(0, d.kuota - d.diterima);
+      },
+      getStatus(d) {
+        return this.getSisa(d) > 0 ? 'tersedia' : 'penuh';
+      },
       openModalEdit(dosen) {
         this.currentDosen = dosen;
-        this.editBatasInput = dosen.batasMaks;
+        this.editKuotaInput = dosen.kuota;
         this.isEditModalOpen = true;
       },
       saveKuota() {
-        const val = parseInt(this.editBatasInput);
+        const val = parseInt(this.editKuotaInput);
         if (isNaN(val) || val < 0) {
-          alert('Batas maksimal kuota tidak valid!');
+          alert('Kuota tidak valid!');
           return;
         }
-        this.currentDosen.batasMaks = val;
+        this.currentDosen.kuota = val;
         this.isEditModalOpen = false;
       },
-      getProgress(d) {
-        if (!d.batasMaks || d.batasMaks === 0) return 0;
-        return Math.min(100, Math.round((d.terpakai / d.batasMaks) * 100));
-      },
-      getSisaSlot(d) {
-        return Math.max(0, d.batasMaks - d.terpakai);
-      },
-      getStatus(d) {
-        const progress = this.getProgress(d);
-        if (progress >= 100) return 'penuh';
-        if (progress >= 60) return 'waspada';
-        return 'aman';
-      },
       get filteredDosen() {
-        return this.dosenList.filter(d => {
+        let list = this.dosenList.filter(d => {
           const matchSearch = d.nama.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                              d.nidn.includes(this.searchQuery) ||
-                              d.prodi.toLowerCase().includes(this.searchQuery.toLowerCase());
-          const matchProdi = this.prodiFilter === 'semua' || d.prodi === this.prodiFilter;
-          const status = this.getStatus(d);
-          const matchStatus = this.statusFilter === 'semua' || status === this.statusFilter;
-          return matchSearch && matchProdi && matchStatus;
+                              d.nidn.includes(this.searchQuery);
+          const matchStatus = this.statusFilter === 'semua' || this.getStatus(d) === this.statusFilter;
+          return matchSearch && matchStatus;
         });
+        if (this.sortOption === 'nama_asc') list = [...list].sort((a, b) => a.nama.localeCompare(b.nama));
+        if (this.sortOption === 'nama_desc') list = [...list].sort((a, b) => b.nama.localeCompare(a.nama));
+        return list;
+      },
+      get totalDosen() {
+        return this.dosenList.length;
+      },
+      get totalKuota() {
+        return this.dosenList.reduce((acc, d) => acc + d.kuota, 0);
       },
       get totalTerpakai() {
-        return this.dosenList.reduce((acc, d) => acc + d.terpakai, 0);
+        return this.dosenList.reduce((acc, d) => acc + d.diterima, 0);
       },
-      get countAman() {
-        return this.dosenList.filter(d => this.getStatus(d) === 'aman').length;
-      },
-      get countWaspada() {
-        return this.dosenList.filter(d => this.getStatus(d) === 'waspada').length;
-      },
-      get countPenuh() {
-        return this.dosenList.filter(d => this.getStatus(d) === 'penuh').length;
+      get totalSisa() {
+        return this.dosenList.reduce((acc, d) => acc + this.getSisa(d), 0);
       }
     }"
   >
-    <!-- Quick Info / Stat Cards Kuota Style KP -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
-          <i data-lucide="users" class="w-4 h-4"></i>
+    <!-- Stat Cards Ringkasan Kuota -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <!-- Dosen Aktif -->
+      <div class="rounded-xl bg-[#EFF4FE] px-4 py-3.5 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
+          <i data-lucide="users" class="w-[18px] h-[18px] text-[#3B6FD4]"></i>
         </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Total Bimbingan Terisi</div>
-          <div class="text-sm font-bold text-[#09090b]"><span x-text="totalTerpakai"></span> Mahasiswa</div>
-        </div>
-      </div>
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 shrink-0">
-          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-        </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Dosen Kuota Aman (&lt;60%)</div>
-          <div class="text-sm font-bold text-[#09090b]"><span x-text="countAman"></span> Dosen</div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-lg font-semibold text-[#3B6FD4]" x-text="totalDosen"></span>
+          <span class="text-xs text-[#6B7A90]">Dosen Aktif</span>
         </div>
       </div>
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 shrink-0">
-          <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+
+      <!-- Total Kuota -->
+      <div class="rounded-xl bg-[#EDFAF1] px-4 py-3.5 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
+          <i data-lucide="check-circle" class="w-[18px] h-[18px] text-[#22A45D]"></i>
         </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Mendekati Penuh (60-89%)</div>
-          <div class="text-sm font-bold text-amber-700"><span x-text="countWaspada"></span> Dosen</div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-lg font-semibold text-[#22A45D]" x-text="totalKuota"></span>
+          <span class="text-xs text-[#6B7A90]">Total Kuota</span>
         </div>
       </div>
-      <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3">
-        <div class="flex items-center justify-center w-8 h-8 rounded-lg text-rose-600 bg-rose-50 shrink-0">
-          <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+
+      <!-- Terpakai -->
+      <div class="rounded-xl bg-[#FEF6E9] px-4 py-3.5 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
+          <i data-lucide="clock" class="w-[18px] h-[18px] text-[#E09B26]"></i>
         </div>
-        <div>
-          <div class="text-[10px] text-[#71717a] font-medium">Kapasitas Penuh (100%)</div>
-          <div class="text-sm font-bold text-[#09090b]"><span x-text="countPenuh"></span> Dosen</div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-lg font-semibold text-[#E09B26]" x-text="totalTerpakai"></span>
+          <span class="text-xs text-[#6B7A90]">Terpakai</span>
+        </div>
+      </div>
+
+      <!-- Sisa Kuota -->
+      <div class="rounded-xl bg-[#F4F0FD] px-4 py-3.5 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-white/70 flex items-center justify-center shrink-0">
+          <i data-lucide="clipboard-list" class="w-[18px] h-[18px] text-[#8B5CF6]"></i>
+        </div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-lg font-semibold text-[#8B5CF6]" x-text="totalSisa"></span>
+          <span class="text-xs text-[#6B7A90]">Sisa Kuota</span>
         </div>
       </div>
     </div>
 
-    <!-- Toolbar Filter & Search Sesuai Standar KP -->
+    <!-- Toolbar Filter & Search -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-        <!-- Search Input -->
-        <div class="relative w-full sm:w-72 md:w-80">
-          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-          <input
-            type="text"
-            x-model="searchQuery"
-            placeholder="Cari dosen atau NIDN..."
-            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-          />
-        </div>
+      <div class="relative w-full sm:w-72">
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input
+          type="text"
+          x-model="searchQuery"
+          placeholder="Cari nama dosen..."
+          class="h-10 w-full rounded-lg border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+      </div>
 
-        <!-- Filter Prodi -->
+      <div class="flex items-center gap-2">
         <select
-          x-model="prodiFilter"
-          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          x-model="sortOption"
+          class="h-10 px-3 pr-8 rounded-lg border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
-          <option value="semua">Semua Program Studi</option>
-          <option value="Teknik Informatika">Teknik Informatika</option>
-          <option value="Sistem Informasi">Sistem Informasi</option>
-          <option value="Sains Data">Sains Data</option>
+          <option value="default">Default</option>
+          <option value="nama_asc">Nama (A - Z)</option>
+          <option value="nama_desc">Nama (Z - A)</option>
         </select>
 
-        <!-- Filter Status -->
         <select
           x-model="statusFilter"
-          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          class="h-10 px-3 pr-8 rounded-lg border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="semua">Semua Status</option>
-          <option value="aman">Aman (&lt;60%)</option>
-          <option value="waspada">Waspada (60-89%)</option>
-          <option value="penuh">Penuh (100%)</option>
+          <option value="tersedia">Tersedia</option>
+          <option value="penuh">Penuh</option>
         </select>
       </div>
     </div>
 
-    <!-- Tabel Kuota Dosen (Kolom Aksi Dihapus, Kolom Kuota Menggunakan Kotak Interaktif Opsi A) -->
-    <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+    <!-- Tabel Kuota Dosen -->
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
-              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Dosen Pembimbing</th>
-              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Prodi</th>
-              <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs w-48">Progress Beban Kuota</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Terpakai</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Kuota</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Sisa Slot</th>
-              <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status Kuota</th>
+              <th class="h-11 px-4 font-medium text-sm w-16 text-left text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">
+                <button
+                  type="button"
+                  @click="sortOption = sortOption === 'nama_asc' ? 'nama_desc' : 'nama_asc'"
+                  class="inline-flex items-center gap-1.5 hover:text-[#09090b] transition-colors cursor-pointer"
+                >
+                  <span>Nama Dosen</span>
+                  <i data-lucide="arrow-up-down" class="w-3.5 h-3.5"></i>
+                </button>
+              </th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Kuota</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Jumlah Ajuan</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Ajuan Diterima</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Ajuan Ditolak</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Sisa Kuota</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Status</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(dosen, idx) in filteredDosen" :key="dosen.id">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-12 px-3 text-center text-[#71717a] text-xs" x-text="idx + 1"></td>
-                <td class="h-12 px-4">
+              <tr class="hover:bg-[#fafafa] transition-colors">
+                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-3">
-                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
-                      <span x-text="dosen.nama.replace('Dr. ', '').charAt(0)"></span>
+                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#52525b] font-medium text-sm flex items-center justify-center shrink-0">
+                      <span x-text="dosen.nama.charAt(0)"></span>
                     </div>
-                    <div class="flex flex-col">
-                      <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
-                      <span class="text-xs text-[#71717a]" x-text="'NIDN: ' + dosen.nidn"></span>
+                    <div class="flex flex-col leading-tight gap-1">
+                      <span class="font-semibold text-[#09090b] text-sm tracking-tight" x-text="dosen.nama"></span>
+                      <span class="text-[13px] text-[#71717a]" x-text="dosen.nidn"></span>
                     </div>
                   </div>
                 </td>
-                <td class="h-12 px-4 text-xs text-[#09090b]" x-text="dosen.prodi"></td>
-                <td class="h-12 px-4">
-                  <div class="flex items-center gap-2">
-                    <div class="w-full h-2 overflow-hidden bg-[#e4e4e7] rounded-full">
-                      <div
-                        class="h-full rounded-full transition-all duration-300"
-                        :class="getProgress(dosen) >= 100 ? 'bg-rose-500' : (getProgress(dosen) >= 60 ? 'bg-amber-500' : 'bg-emerald-500')"
-                        :style="`width: ${getProgress(dosen)}%`"
-                      ></div>
-                    </div>
-                    <span
-                      class="text-xs font-semibold w-10 text-right"
-                      :class="getProgress(dosen) >= 100 ? 'text-rose-600' : (getProgress(dosen) >= 60 ? 'text-amber-600' : 'text-emerald-600')"
-                      x-text="getProgress(dosen) + '%'"
-                    ></span>
-                  </div>
+                <td class="h-[68px] px-4 text-sm">
+                  <button
+                    type="button"
+                    @click="openModalEdit(dosen)"
+                    class="inline-flex items-center justify-center h-8 min-w-[56px] px-3 rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/40 text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
+                    title="Klik untuk menyesuaikan kuota"
+                    x-text="dosen.kuota"
+                  ></button>
                 </td>
-                <td class="h-12 px-4 text-center font-semibold text-[#09090b] text-sm" x-text="dosen.terpakai"></td>
-
-                <!-- Kolom Kuota Style Opsi A: Tampilan Sesuai Gambar 7 (Kotak + Hover Affordance) -->
-                <td class="h-12 px-4 text-center">
-                  <div class="flex justify-center">
-                    <button
-                      type="button"
-                      @click="openModalEdit(dosen)"
-                      class="group relative inline-flex items-center justify-center h-8 min-w-[56px] px-3 rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/40 transition-all shadow-none cursor-pointer"
-                      title="Klik untuk menyesuaikan kuota"
-                    >
-                      <span class="text-xs font-semibold text-[#09090b] group-hover:text-[#0655a7]" x-text="dosen.batasMaks"></span>
-                      <i data-lucide="pencil" class="w-3 h-3 text-[#0655a7] opacity-0 group-hover:opacity-100 transition-opacity ml-1.5 -mr-0.5"></i>
-                    </button>
-                  </div>
-                </td>
-
-                <td class="h-12 px-4 text-center font-semibold text-xs" :class="getSisaSlot(dosen) === 0 ? 'text-rose-600' : 'text-emerald-600'" x-text="getSisaSlot(dosen) + ' Slot'"></td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="dosen.jumlahAjuan"></td>
+                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="dosen.diterima"></td>
+                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="dosen.ditolak"></td>
+                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="getSisa(dosen)"></td>
+                <td class="h-[68px] px-4 text-sm">
+                  <template x-if="getStatus(dosen) === 'tersedia'">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#BBF7D0] bg-[#DCFCE7] text-[13px] font-medium text-[#15803D]">
+                      Tersedia
+                    </span>
+                  </template>
                   <template x-if="getStatus(dosen) === 'penuh'">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-rose-100 text-rose-800">
-                      Penuh (100%)
-                    </span>
-                  </template>
-                  <template x-if="getStatus(dosen) === 'waspada'">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800" x-text="'Waspada (' + getProgress(dosen) + '%)'">
-                    </span>
-                  </template>
-                  <template x-if="getStatus(dosen) === 'aman'">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800" x-text="'Aman (' + getProgress(dosen) + '%)'">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FECDD3] bg-[#FFE4E6] text-[13px] font-medium text-[#BE123C]">
+                      Penuh
                     </span>
                   </template>
                 </td>
@@ -241,52 +223,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
       </div>
     </div>
 
-    <!-- Standardized Pagination Sesuai Standar KP -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-      <div class="text-xs text-[#71717a]">Menampilkan 1 - 7 dari 48 dosen</div>
-      <div class="flex items-center gap-2">
-        <button
-          type="button"
-          disabled
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
-        >
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-        >
-          1
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-        >
-          2
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-        >
-          3
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
-        >
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-        <select
-          class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        >
-          <option value="10">Show 10 items</option>
-          <option value="25">Show 25 items</option>
-          <option value="50">Show 50 items</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Modal 1: Sesuaikan Kuota Dosen (PERSIS SESUAI GAMBAR 6 REFERENSI USER) -->
+    <!-- Modal Sesuaikan Kuota Dosen -->
     <div
       x-show="isEditModalOpen"
       x-cloak
@@ -296,7 +233,6 @@ import AdminShell from "../../layouts/AdminShell.astro";
         @click.outside="isEditModalOpen = false"
         class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-[#e4e4e7] space-y-4"
       >
-        <!-- Header Modal: Judul & Subtitle Nama Dosen & Tombol X -->
         <div class="flex items-start justify-between">
           <div class="flex flex-col">
             <h3 class="text-base font-bold text-[#09090b]">Sesuaikan Kuota Dosen</h3>
@@ -311,29 +247,26 @@ import AdminShell from "../../layouts/AdminShell.astro";
           </button>
         </div>
 
-        <!-- Box Info Biru: Mahasiswa Terpakai Saat Ini: X Mahasiswa -->
         <div class="rounded-xl bg-[#f0f7ff] border border-[#dbeafe] px-4 py-3 text-left">
           <p class="text-xs font-semibold text-[#0655a7]">
-            Mahasiswa Terpakai Saat Ini: <span class="font-bold" x-text="currentDosen.terpakai"></span> Mahasiswa
+            Ajuan Diterima Saat Ini: <span class="font-bold" x-text="currentDosen.diterima"></span> Mahasiswa
           </p>
         </div>
 
-        <!-- Input Field: Batas Maksimal Kuota * -->
         <div class="space-y-1.5 text-left">
           <label class="block text-xs font-semibold text-[#09090b]">
-            Batas Maksimal Kuota <span class="text-rose-500">*</span>
+            Kuota Maksimal <span class="text-rose-500">*</span>
           </label>
           <input
             type="number"
             min="0"
-            x-model="editBatasInput"
+            x-model="editKuotaInput"
             @keydown.enter="saveKuota()"
             class="h-10 w-full rounded-lg border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] focus:border-[#0655a7]"
-            placeholder="Masukkan batas kuota..."
+            placeholder="Masukkan kuota..."
           />
         </div>
 
-        <!-- Footer Action Buttons: Batal & Simpan Perubahan Sesuai Gambar 6 -->
         <div class="flex items-center justify-end gap-2.5 pt-2">
           <button
             type="button"

@@ -62,56 +62,56 @@ import AdminShell from "../../layouts/AdminShell.astro";
             <!-- Tabel Konversi SKS -->
             <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
               <table class="w-full text-xs text-left border-collapse">
-                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
                   <tr>
-                    <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">
+                    <th class="h-11 px-4 font-medium text-sm w-10 text-center">
                       <input type="checkbox" onchange="toggleSelectAllKonversi(this)" class="rounded text-[#0655a7]" />
                     </th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa & Prodi</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Program / Mitra</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Skema SKS Dipilih</th>
-                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Usulan SKS</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Matkul Ekuivalensi</th>
-                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status Konversi</th>
-                    <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                    <th class="h-11 px-4 font-medium text-sm">Mahasiswa & Prodi</th>
+                    <th class="h-11 px-4 font-medium text-sm">Program / Mitra</th>
+                    <th class="h-11 px-4 font-medium text-sm">Skema SKS Dipilih</th>
+                    <th class="h-11 px-4 font-medium text-sm text-center">Usulan SKS</th>
+                    <th class="h-11 px-4 font-medium text-sm">Matkul Ekuivalensi</th>
+                    <th class="h-11 px-4 font-medium text-sm text-center">Status Konversi</th>
+                    <th class="h-11 px-4 font-medium text-sm w-24 text-center">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="konversi-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
                   <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <input type="checkbox" class="check-konversi-row rounded text-[#0655a7]" value="A11.2022.13901" />
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
                       <div class="text-[10px] text-[#71717a]">A11.2022.13901 • Teknik Informatika</div>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="font-semibold text-[#3f3f46]">Bengkel Koding</div>
                       <div class="text-[10px] text-[#71717a]">Magang MSIB Kampus Merdeka</div>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <span
                         class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#0655a7] border border-blue-200"
                       >
                         Maks 20 SKS
                       </span>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <span class="font-bold text-[#0655a7]">20</span>
                       <span class="text-[10px] text-[#71717a]">/ 20 SKS</span>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="text-[11px] font-medium text-[#3f3f46]">5 Mata Kuliah Terpetakan</div>
                       <div class="text-[10px] text-emerald-700">CPL Capaian: 100% Sesuai</div>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <span
                         class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200"
                       >
                         Review Tim CPL
                       </span>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <button
                         type="button"
                         onclick="kunciKonversiIndividu('A11.2022.13901', 'Faisal Rahman')"
@@ -123,40 +123,40 @@ import AdminShell from "../../layouts/AdminShell.astro";
                     </td>
                   </tr>
                   <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <input type="checkbox" class="check-konversi-row rounded text-[#0655a7]" value="A11.2022.14012" />
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="font-semibold text-[#09090b]">Rizky Aditya Pratama</div>
                       <div class="text-[10px] text-[#71717a]">A11.2022.14012 • Teknik Informatika</div>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="font-semibold text-[#3f3f46]">PT Matic</div>
                       <div class="text-[10px] text-[#71717a]">Magang Industri + Luaran Publikasi</div>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <span
                         class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 text-purple-700 border border-purple-200"
                       >
                         Maks 24 SKS
                       </span>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <span class="font-bold text-purple-700">24</span>
                       <span class="text-[10px] text-[#71717a]">/ 24 SKS</span>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="text-[11px] font-medium text-[#3f3f46]">6 Mata Kuliah Terpetakan</div>
                       <div class="text-[10px] text-purple-700">+ 1 Publikasi Ilmiah SINTA</div>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <span
                         class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
                       >
                         Disetujui Kaprodi
                       </span>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <button
                         type="button"
                         onclick="kunciKonversiIndividu('A11.2022.14012', 'Rizky Aditya Pratama')"

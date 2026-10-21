@@ -169,28 +169,28 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </div>
 
     <!-- Tabel Data Pengajuan Style KP Koordinator -->
-    <div class="rounded-xl border border-[#e4e4e7] overflow-hidden bg-white shadow-2xs">
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
       <div class="w-full">
         <table class="w-full text-left border-collapse text-xs table-auto">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-8 px-2 text-center font-semibold text-[#71717a]">No</th>
-              <th class="h-10 px-2.5 font-semibold text-[#71717a]">Mahasiswa</th>
-              <th class="h-10 px-2.5 font-semibold text-[#71717a]">DPL MBKM</th>
-              <th class="h-10 px-2.5 font-semibold text-[#71717a]">Judul Proyek MBKM</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Dokumen</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Nilai Mitra</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Gelombang</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Tgl Pengajuan</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Status</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] whitespace-nowrap">Aksi</th>
+              <th class="h-11 px-4 font-medium text-sm w-8 text-center text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Mahasiswa</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a]">DPL MBKM</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Judul Proyek MBKM</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] whitespace-nowrap">Dokumen</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] whitespace-nowrap">Nilai Mitra</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] whitespace-nowrap">Gelombang</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] whitespace-nowrap">Tgl Pengajuan</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] whitespace-nowrap">Status</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] whitespace-nowrap">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7] bg-white">
             <template x-for="(p, idx) in filteredList" :key="p.id">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-12 px-2 text-center text-[#71717a] font-medium" x-text="idx + 1"></td>
-                <td class="h-12 px-2.5 py-2">
+              <tr class="hover:bg-[#fafafa] transition-colors">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a] font-medium" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-2">
                     <div class="h-7 w-7 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                       <span x-text="p.nama.charAt(0)"></span>
@@ -201,16 +201,16 @@ import AdminShell from '../../layouts/AdminShell.astro';
                     </div>
                   </div>
                 </td>
-                <td class="h-12 px-2.5 py-2">
+                <td class="h-[68px] px-4 text-sm">
                   <div class="flex flex-col leading-tight">
                     <span class="font-medium text-[#09090b] text-xs" x-text="p.pembimbing"></span>
                     <span class="text-[10px] text-[#71717a]" x-text="p.mitra"></span>
                   </div>
                 </td>
-                <td class="h-12 px-2.5 py-2 max-w-[220px]">
+                <td class="h-[68px] px-4 max-w-[220px] text-sm">
                   <p class="text-xs text-[#09090b] line-clamp-2 leading-tight" :title="p.judul" x-text="p.judul"></p>
                 </td>
-                <td class="h-12 px-2 text-center whitespace-nowrap">
+                <td class="h-[68px] px-4 text-center whitespace-nowrap text-sm">
                   <button
                     type="button"
                     @click="openDokumen(p)"
@@ -221,24 +221,24 @@ import AdminShell from '../../layouts/AdminShell.astro';
                     <span>Lihat</span>
                   </button>
                 </td>
-                <td class="h-12 px-2 text-center whitespace-nowrap">
+                <td class="h-[68px] px-4 text-center whitespace-nowrap text-sm">
                   <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200" x-text="p.nilaiPenyelia"></span>
                 </td>
-                <td class="h-12 px-2 text-center text-xs text-[#71717a] whitespace-nowrap" x-text="p.gelombang"></td>
-                <td class="h-12 px-2 text-center text-xs text-[#71717a] whitespace-nowrap">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a] whitespace-nowrap" x-text="p.gelombang"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a] whitespace-nowrap">
                   <div class="flex items-center justify-center gap-1">
                     <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
                     <span x-text="p.tglPengajuan"></span>
                   </div>
                 </td>
-                <td class="h-12 px-2 text-center whitespace-nowrap">
+                <td class="h-[68px] px-4 text-center whitespace-nowrap text-sm">
                   <span
                     class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium"
                     :class="p.statusVerifikasi === 'Terverifikasi' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'"
                     x-text="p.statusVerifikasi"
                   ></span>
                 </td>
-                <td class="h-12 px-2 text-center whitespace-nowrap">
+                <td class="h-[68px] px-4 text-center whitespace-nowrap text-sm">
                   <div class="flex items-center justify-center gap-1">
                     <!-- Action Button 1: Preview Detail / Review -->
                     <button

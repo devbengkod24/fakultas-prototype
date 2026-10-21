@@ -55,31 +55,31 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </div>
 
     <!-- Tabel Gelombang Sidang Style KP -->
-    <div class="rounded-xl border border-[#e4e4e7] overflow-hidden bg-white shadow-2xs">
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-12 px-3 text-center font-semibold text-[#71717a]">No</th>
-              <th class="h-10 px-4 font-semibold text-[#71717a]">Gelombang Sidang MBKM</th>
-              <th class="h-10 px-4 text-center font-semibold text-[#71717a]">Tanggal Awal</th>
-              <th class="h-10 px-4 text-center font-semibold text-[#71717a]">Tanggal Akhir</th>
-              <th class="h-10 px-4 text-center font-semibold text-[#71717a]">Kuota / Pendaftar</th>
-              <th class="h-10 px-4 text-center font-semibold text-[#71717a]">Status</th>
-              <th class="h-10 px-4 text-center font-semibold text-[#71717a]">Aksi</th>
+              <th class="h-11 px-4 font-medium text-sm w-12 text-center text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Gelombang Sidang MBKM</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Awal</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Akhir</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Kuota / Pendaftar</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7] bg-white">
             <template x-for="(g, idx) in gelombangList.filter(item => item.nama.toLowerCase().includes(searchQuery.toLowerCase()))" :key="g.id">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-12 px-3 text-center text-[#71717a] font-medium" x-text="idx + 1"></td>
-                <td class="h-12 px-4 py-2.5">
+              <tr class="hover:bg-[#fafafa] transition-colors">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a] font-medium" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-sm">
                   <span class="font-semibold text-[#09090b] text-xs" x-text="g.nama"></span>
                 </td>
-                <td class="h-12 px-4 text-center text-xs text-[#71717a]" x-text="g.tglAwal"></td>
-                <td class="h-12 px-4 text-center text-xs text-[#71717a]" x-text="g.tglAkhir"></td>
-                <td class="h-12 px-4 text-center text-xs font-medium text-[#09090b]" x-text="`${g.terdaftar} / ${g.kuota} Mahasiswa`"></td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="g.tglAwal"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="g.tglAkhir"></td>
+                <td class="h-[68px] px-4 text-center font-medium text-sm text-[#09090b]" x-text="`${g.terdaftar} / ${g.kuota} Mahasiswa`"></td>
+                <td class="h-[68px] px-4 text-center text-sm">
                   <button
                     type="button"
                     @click="toggleStatus(g)"
@@ -90,7 +90,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                     <span x-text="g.aktif ? 'Aktif' : 'Tutup'"></span>
                   </button>
                 </td>
-                <td class="h-12 px-4 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <div class="flex items-center justify-center gap-1.5">
                     <button
                       type="button"

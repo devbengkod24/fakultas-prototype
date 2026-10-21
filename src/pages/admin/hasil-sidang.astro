@@ -202,32 +202,32 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </div>
 
     <!-- Tabel Hasil Sidang Persis Sesuai Screenshot KP Koordinator -->
-    <div class="rounded-xl border border-[#e4e4e7] overflow-hidden bg-white shadow-2xs">
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-xs">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 w-10 px-2 text-left font-semibold text-[#71717a]">No</th>
-              <th class="h-10 px-3 font-semibold text-[#71717a] min-w-[170px]">Mahasiswa</th>
-              <th class="h-10 px-3 font-semibold text-[#71717a] min-w-[150px]">Pembimbing</th>
-              <th class="h-10 px-2 text-left font-semibold text-[#71717a] min-w-[95px]">Gelombang</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penyelia</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[95px]">Nilai Pembimbing</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penguji 1</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penguji 2</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[85px]">Nilai Penguji 3</th>
-              <th class="h-10 px-2 text-center font-semibold text-[#71717a] min-w-[80px]">Nilai Akhir</th>
-              <th class="h-10 px-3 text-center font-semibold text-[#71717a] min-w-[80px]">Status</th>
+              <th class="h-11 px-4 font-medium text-sm w-10 text-left text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[170px]">Mahasiswa</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[150px]">Pembimbing</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a] min-w-[95px]">Gelombang</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penyelia</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[95px]">Nilai Pembimbing</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penguji 1</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penguji 2</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penguji 3</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[80px]">Nilai Akhir</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[80px]">Status</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7] bg-white">
             <template x-for="(h, idx) in filteredHasil" :key="h.id">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+              <tr class="hover:bg-[#fafafa] transition-colors">
                 <!-- No -->
-                <td class="h-14 px-2 text-left text-[#09090b] font-medium" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-left text-sm text-[#09090b] font-medium" x-text="idx + 1"></td>
 
                 <!-- Mahasiswa (Nama Bold Uppercase & NIM di bawah) -->
-                <td class="h-14 px-3 py-2.5">
+                <td class="h-[68px] px-4 text-sm">
                   <div class="flex flex-col min-w-0">
                     <span class="font-bold text-[#09090b] text-xs uppercase tracking-tight" x-text="h.nama"></span>
                     <span class="text-xs text-[#71717a] mt-0.5" x-text="h.nim"></span>
@@ -235,13 +235,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </td>
 
                 <!-- Pembimbing -->
-                <td class="h-14 px-3 py-2.5 text-xs text-[#09090b] font-medium" x-text="h.pembimbing"></td>
+                <td class="h-[68px] px-4 text-sm text-[#09090b] font-medium" x-text="h.pembimbing"></td>
 
                 <!-- Gelombang -->
-                <td class="h-14 px-2 text-left text-xs text-[#71717a]" x-text="h.gelombang"></td>
+                <td class="h-[68px] px-4 text-left text-sm text-[#71717a]" x-text="h.gelombang"></td>
 
                 <!-- Nilai Penyelia (Rounded Input Box persis seperti screenshot KP) -->
-                <td class="h-14 px-2 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <input
                     type="text"
                     :value="h.nilaiPenyelia || ''"
@@ -252,7 +252,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </td>
 
                 <!-- Nilai Pembimbing -->
-                <td class="h-14 px-2 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <input
                     type="text"
                     :value="h.nilaiPembimbing || ''"
@@ -263,7 +263,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </td>
 
                 <!-- Nilai Penguji 1 -->
-                <td class="h-14 px-2 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <input
                     type="text"
                     :value="h.nilaiPenguji1 || ''"
@@ -274,7 +274,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </td>
 
                 <!-- Nilai Penguji 2 (Tampil '-' jika kosong seperti screenshot) -->
-                <td class="h-14 px-2 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <template x-if="h.nilaiPenguji2 !== null">
                     <input
                       type="text"
@@ -289,7 +289,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </td>
 
                 <!-- Nilai Penguji 3 (Tampil '-' jika kosong seperti screenshot) -->
-                <td class="h-14 px-2 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <template x-if="h.nilaiPenguji3 !== null">
                     <input
                       type="text"
@@ -304,12 +304,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </td>
 
                 <!-- Nilai Akhir (Bold) -->
-                <td class="h-14 px-2 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <span class="font-bold text-[#09090b] text-xs" x-text="h.nilaiAkhir || '-'"></span>
                 </td>
 
                 <!-- Status (Badge Hijau Selesai / Gray Belum) -->
-                <td class="h-14 px-3 text-center">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <span
                     class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
                     :class="h.status === 'Selesai' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-gray-100 text-gray-600 border-gray-200'"
