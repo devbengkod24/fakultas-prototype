@@ -1,179 +1,307 @@
 ---
+// src/pages/contributor/seleksi.astro  (menu: Pendaftar)
 import KontributorShell from '../../layouts/KontributorShell.astro';
 ---
 
-<KontributorShell activeNav="seleksi" breadcrumbTitle="Seleksi Pendaftar" title="Seleksi Pelamar | Kampus Berdampak FIK UDINUS">
+<KontributorShell activeNav="seleksi" breadcrumbTitle="Pendaftar" title="Pendaftar | Kampus Berdampak FIK UDINUS">
   <section id="view-seleksi" class="view-panel mt-5 space-y-6">
+    <!-- Page Header -->
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Seleksi Pendaftar Mahasiswa</h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">Verifikasi data akademik, transkrip, dan CV mahasiswa pendaftar sebelum menetapkan kelulusan.</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="text-xs text-gray-500">Total Menunggu: <strong class="text-amber-700 font-semibold" id="seleksiCountHeader">3 Mahasiswa</strong></span>
+        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Pendaftar</h2>
+        <p class="text-[14px] leading-[20px] text-[#71717a]">Tinjau profil dan berkas pendaftar, lalu perbarui status seleksi internal.</p>
       </div>
     </div>
 
-    <!-- Filter & Search Toolbar (Bab 9) -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="inline-flex p-1 bg-gray-100 rounded-lg border border-[#e4e4e7] text-xs">
-        <button type="button" onclick="filterSeleksiTable('semua', this)" class="filter-btn px-3 py-1.5 font-semibold rounded bg-white text-[#09090b] shadow-2xs">
-          Semua Pendaftar (3)
-        </button>
-        <button type="button" onclick="filterSeleksiTable('menunggu', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
-          Menunggu (3)
-        </button>
-        <button type="button" onclick="filterSeleksiTable('diterima', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
-          Diterima (0)
-        </button>
-        <button type="button" onclick="filterSeleksiTable('ditolak', this)" class="filter-btn px-3 py-1.5 font-medium rounded text-gray-600 hover:text-gray-900">
-          Ditolak (0)
-        </button>
-      </div>
-
-      <div class="relative w-full sm:w-64">
-        <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-        <input type="text" id="searchSeleksiInput" onkeyup="searchSeleksi()" placeholder="Cari nama atau NIM..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+    <!-- Chip status + pencarian -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+      <div id="kpd-chips" class="flex flex-wrap items-center gap-2"></div>
+      <div class="relative w-full lg:w-72">
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input
+          type="text"
+          oninput="kpdSetFilter('q', this.value)"
+          placeholder="Cari nama atau NIM..."
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
       </div>
     </div>
 
-    <!-- Tabel Seleksi Pendaftar (Bab 13) -->
+    <!-- Tabel Pendaftar -->
     <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs border-collapse">
           <thead>
             <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
               <th class="py-3 px-4">Mahasiswa</th>
-              <th class="py-3 px-4">Kualifikasi Akademik</th>
-              <th class="py-3 px-4">Dokumen Persyaratan</th>
+              <th class="py-3 px-4">IPK / SKS</th>
+              <th class="py-3 px-4">Berkas</th>
               <th class="py-3 px-4">Tanggal Daftar</th>
-              <th class="py-3 px-4">Status</th>
-              <th class="py-3 px-4 text-right">Keputusan Seleksi</th>
+              <th class="py-3 px-4">Status Seleksi</th>
+              <th class="py-3 px-4 text-right">Aksi</th>
             </tr>
           </thead>
-          <tbody id="seleksiTableBody" class="divide-y divide-gray-100">
-            <!-- Row 1 -->
-            <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Muhammad Raihan Pratama" data-nim="A11.2023.14920">
-              <td class="py-3.5 px-4">
-                <div class="font-medium text-[13px] text-[#09090b] leading-tight">Muhammad Raihan Pratama</div>
-                <div class="text-[12px] text-[#71717a]">A11.2023.14920 • TI-S1</div>
-              </td>
-              <td class="py-3.5 px-4 text-xs">
-                <div class="font-medium text-[#09090b]">IPK: 3.72</div>
-                <div class="text-[12px] text-[#71717a]">104 SKS • Semester 6</div>
-              </td>
-              <td class="py-3.5 px-4">
-                <div class="flex items-center gap-1.5">
-                  <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
-                    <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
-                  </button>
-                  <button type="button" onclick="previewDoc('Muhammad Raihan Pratama', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
-                    <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
-                  </button>
-                </div>
-              </td>
-              <td class="py-3.5 px-4 text-[#71717a]">
-                12 Okt 2026, 09:30 WIB
-              </td>
-              <td class="py-3.5 px-4">
-                <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
-                </span>
-              </td>
-              <td class="py-3.5 px-4 text-right">
-                <div class="action-cell inline-flex items-center gap-1.5">
-                  <button type="button" onclick="handleDecision(this, 'accept', 'Muhammad Raihan Pratama', 'A11.2023.14920')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
-                    Terima
-                  </button>
-                  <button type="button" onclick="handleDecision(this, 'reject', 'Muhammad Raihan Pratama')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
-                    Tolak
-                  </button>
-                </div>
-              </td>
-            </tr>
-
-            <!-- Row 2 -->
-            <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Annisa Nabila Rahma" data-nim="A11.2023.14885">
-              <td class="py-3.5 px-4">
-                <div class="font-medium text-[13px] text-[#09090b] leading-tight">Annisa Nabila Rahma</div>
-                <div class="text-[12px] text-[#71717a]">A11.2023.14885 • TI-S1</div>
-              </td>
-              <td class="py-3.5 px-4 text-xs">
-                <div class="font-medium text-[#09090b]">IPK: 3.80</div>
-                <div class="text-[12px] text-[#71717a]">108 SKS • Semester 6</div>
-              </td>
-              <td class="py-3.5 px-4">
-                <div class="flex items-center gap-1.5">
-                  <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
-                    <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
-                  </button>
-                  <button type="button" onclick="previewDoc('Annisa Nabila Rahma', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
-                    <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
-                  </button>
-                </div>
-              </td>
-              <td class="py-3.5 px-4 text-[#71717a]">
-                12 Okt 2026, 11:15 WIB
-              </td>
-              <td class="py-3.5 px-4">
-                <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
-                </span>
-              </td>
-              <td class="py-3.5 px-4 text-right">
-                <div class="action-cell inline-flex items-center gap-1.5">
-                  <button type="button" onclick="handleDecision(this, 'accept', 'Annisa Nabila Rahma', 'A11.2023.14885')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
-                    Terima
-                  </button>
-                  <button type="button" onclick="handleDecision(this, 'reject', 'Annisa Nabila Rahma')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
-                    Tolak
-                  </button>
-                </div>
-              </td>
-            </tr>
-
-            <!-- Row 3 -->
-            <tr class="seleksi-row hover:bg-gray-50/70 transition-colors" data-status="menunggu" data-name="Bima Arya Kusuma" data-nim="A11.2023.15102">
-              <td class="py-3.5 px-4">
-                <div class="font-medium text-[13px] text-[#09090b] leading-tight">Bima Arya Kusuma</div>
-                <div class="text-[12px] text-[#71717a]">A11.2023.15102 • TI-S1</div>
-              </td>
-              <td class="py-3.5 px-4 text-xs">
-                <div class="font-medium text-[#09090b]">IPK: 3.65</div>
-                <div class="text-[12px] text-[#71717a]">102 SKS • Semester 6</div>
-              </td>
-              <td class="py-3.5 px-4">
-                <div class="flex items-center gap-1.5">
-                  <button type="button" onclick="previewDoc('Bima Arya Kusuma', 'transkrip')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded border border-gray-200 font-medium transition-colors">
-                    <i data-lucide="file-text" class="w-3 h-3 text-[#1063B9]"></i> Transkrip
-                  </button>
-                  <button type="button" onclick="previewDoc('Bima Arya Kusuma', 'cv')" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-amber-50 text-gray-700 hover:text-amber-800 rounded border border-gray-200 font-medium transition-colors">
-                    <i data-lucide="file-badge" class="w-3 h-3 text-amber-600"></i> CV
-                  </button>
-                </div>
-              </td>
-              <td class="py-3.5 px-4 text-[#71717a]">
-                13 Okt 2026, 08:20 WIB
-              </td>
-              <td class="py-3.5 px-4">
-                <span class="status-cell inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Menunggu
-                </span>
-              </td>
-              <td class="py-3.5 px-4 text-right">
-                <div class="action-cell inline-flex items-center gap-1.5">
-                  <button type="button" onclick="handleDecision(this, 'accept', 'Bima Arya Kusuma', 'A11.2023.15102')" class="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded font-semibold transition-colors" title="Terima">
-                    Terima
-                  </button>
-                  <button type="button" onclick="handleDecision(this, 'reject', 'Bima Arya Kusuma')" class="px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-semibold transition-colors" title="Tolak">
-                    Tolak
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="kpd-tbody" class="divide-y divide-gray-100"></tbody>
         </table>
+      </div>
+      <div class="px-4 py-3 border-t border-[#e4e4e7] flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#71717a]">
+        <div id="kpd-info">Menampilkan pendaftar</div>
+        <div id="kpd-pagination" class="flex items-center gap-1"></div>
       </div>
     </div>
   </section>
+
+  <!-- Drawer: Detail Pendaftar -->
+  <div id="kpd-drawer" class="hidden fixed inset-0 z-50" aria-hidden="true">
+    <div class="absolute inset-0 bg-black/40" onclick="kpdCloseDrawer()"></div>
+    <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl border-l border-[#e4e4e7] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="kpd-d-title">
+      <div class="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-[#e4e4e7]">
+        <h3 id="kpd-d-title" class="text-[15px] font-semibold text-[#09090b]">Detail Pendaftar</h3>
+        <button type="button" onclick="kpdCloseDrawer()" class="p-1 rounded hover:bg-gray-100 text-[#71717a]" aria-label="Tutup detail">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="kpd-d-body" class="flex-1 overflow-y-auto px-5 py-4 space-y-5 text-xs"></div>
+      <div id="kpd-d-footer" class="px-5 py-3 border-t border-[#e4e4e7] bg-gray-50 flex items-center justify-end gap-2">
+        <button type="button" onclick="kpdCloseDrawer()" class="px-4 py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-white">Tutup</button>
+        <button type="button" id="kpd-d-save" onclick="kpdSaveReview()" class="px-4 py-2 text-xs font-semibold text-white bg-[#1063B9] hover:bg-[#0E4F96] rounded-lg">Simpan Penilaian</button>
+      </div>
+    </aside>
+  </div>
+
+  <script is:inline>
+    /**
+     * Pendaftar Kontributor — data mock di memori (reset saat halaman dimuat ulang).
+     * Prefix `kpd`. Status seleksi internal: menunggu | wawancara | lolos | gugur.
+     */
+    var KPD_PER_PAGE = 8;
+    var KPD_STATUS = {
+      menunggu: { label: 'Menunggu Review', cls: 'bg-amber-50 text-amber-800 border-amber-200', dot: 'bg-amber-500' },
+      wawancara: { label: 'Wawancara', cls: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500' },
+      lolos: { label: 'Lolos Internal', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
+      gugur: { label: 'Gugur', cls: 'bg-rose-50 text-rose-700 border-rose-200', dot: 'bg-rose-500' }
+    };
+    // Pertanyaan formulir ditetapkan Koordinator
+    var KPD_QUESTIONS = [
+      'Motivasi singkat mengikuti program ini',
+      'Pengalaman proyek yang relevan',
+      'Ketersediaan waktu selama program'
+    ];
+
+    var kpdData = [
+      { id: 1, nama: 'Muhammad Raihan Pratama', nim: 'A11.2023.14920', prodi: 'Teknik Informatika', ipk: 3.72, sks: 104, smt: 6, tgl: '2026-10-12T09:30', status: 'menunggu', skor: '', catatan: '',
+        jawaban: ['Ingin mendalami deep learning untuk computer vision melalui proyek nyata.', 'Membangun deteksi objek untuk tugas kuliah Pengolahan Citra.', 'Tersedia penuh Senin–Jumat.'],
+        berkas: [{ label: 'CV', url: 'https://drive.google.com/file/d/raihan-cv' }, { label: 'Portofolio', url: 'https://drive.google.com/drive/folders/raihan-portofolio' }] },
+      { id: 2, nama: 'Annisa Nabila Rahma', nim: 'A11.2023.14885', prodi: 'Teknik Informatika', ipk: 3.80, sks: 108, smt: 6, tgl: '2026-10-12T13:10', status: 'wawancara', skor: 82, catatan: 'Wawancara dijadwalkan 22 Okt.',
+        jawaban: ['Tertarik pada NLP dan ingin berkontribusi pada riset bahasa daerah.', 'Asisten laboratorium Pemrograman selama dua semester.', 'Tersedia, kecuali Jumat sore.'],
+        berkas: [{ label: 'CV', url: 'https://drive.google.com/file/d/annisa-cv' }, { label: 'Portofolio', url: 'https://github.com/annisa-nabila' }] },
+      { id: 3, nama: 'Fajar Nugroho', nim: 'A12.2022.09876', prodi: 'Sistem Informasi', ipk: 3.45, sks: 112, smt: 7, tgl: '2026-10-11T16:45', status: 'lolos', skor: 88, catatan: 'Portofolio kuat, komunikasi baik.',
+        jawaban: ['Ingin menerapkan analitik data pada kasus industri.', 'Dashboard penjualan UMKM menggunakan Power BI.', 'Tersedia penuh.'],
+        berkas: [{ label: 'CV', url: 'https://drive.google.com/file/d/fajar-cv' }, { label: 'Portofolio', url: 'https://drive.google.com/drive/folders/fajar-portofolio' }] },
+      { id: 4, nama: 'Intan Permata Sari', nim: 'A11.2022.14333', prodi: 'Teknik Informatika', ipk: 3.61, sks: 110, smt: 7, tgl: '2026-10-10T08:20', status: 'lolos', skor: 85, catatan: '',
+        jawaban: ['Fokus karier di rekayasa perangkat lunak.', 'Magang web developer selama 3 bulan.', 'Tersedia penuh.'],
+        berkas: [{ label: 'CV', url: 'https://drive.google.com/file/d/intan-cv' }] },
+      { id: 5, nama: 'Rizky Aditya Pratama', nim: 'A11.2023.15012', prodi: 'Teknik Informatika', ipk: 3.05, sks: 100, smt: 6, tgl: '2026-10-09T19:05', status: 'gugur', skor: 55, catatan: 'Belum memenuhi kebutuhan keahlian dasar.',
+        jawaban: ['Ingin menambah pengalaman.', 'Belum ada.', 'Tersedia sebagian waktu.'],
+        berkas: [{ label: 'CV', url: 'https://drive.google.com/file/d/rizky-cv' }] },
+      { id: 6, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', prodi: 'Sistem Informasi', ipk: 3.58, sks: 114, smt: 7, tgl: '2026-10-13T10:00', status: 'menunggu', skor: '', catatan: '',
+        jawaban: ['Tertarik pada UI/UX dan produk digital.', 'Merancang prototipe aplikasi akademik di Figma.', 'Tersedia, ada kuliah Rabu pagi.'],
+        berkas: [{ label: 'CV', url: 'https://drive.google.com/file/d/nabila-cv' }, { label: 'Portofolio', url: 'https://www.behance.net/nabila-zahra' }] }
+    ];
+    var kpdState = { status: 'semua', q: '', page: 1, openId: null };
+
+    function kpdEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function kpdEl(id) { return document.getElementById(id); }
+    function kpdIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
+    function kpdFind(id) { return kpdData.filter(function (p) { return p.id === id; })[0]; }
+    function kpdInitials(n) { return String(n).split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join('').toUpperCase(); }
+    function kpdSafeUrl(u) { return /^https:\/\//i.test(u || '') ? u : '#'; }
+    function kpdFmtDate(iso) {
+      var d = new Date(iso);
+      if (isNaN(d)) return '—';
+      return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' +
+        d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':') + ' WIB';
+    }
+    function kpdBadge(st) {
+      var s = KPD_STATUS[st];
+      return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium border ' + s.cls + '"><span class="w-1.5 h-1.5 rounded-full ' + s.dot + '"></span>' + s.label + '</span>';
+    }
+
+    function kpdSetFilter(key, val) {
+      kpdState[key] = key === 'q' ? String(val || '').toLowerCase().trim() : val;
+      kpdState.page = 1;
+      kpdRender();
+    }
+
+    function kpdFiltered() {
+      return kpdData
+        .filter(function (p) {
+          var okS = kpdState.status === 'semua' || p.status === kpdState.status;
+          var okQ = !kpdState.q || p.nama.toLowerCase().indexOf(kpdState.q) > -1 || p.nim.toLowerCase().indexOf(kpdState.q) > -1;
+          return okS && okQ;
+        })
+        .sort(function (a, b) { return b.tgl.localeCompare(a.tgl); });
+    }
+
+    function kpdRender() {
+      var tbody = kpdEl('kpd-tbody');
+      if (!tbody) return;
+
+      // chip status
+      var counts = { semua: kpdData.length };
+      Object.keys(KPD_STATUS).forEach(function (k) { counts[k] = kpdData.filter(function (p) { return p.status === k; }).length; });
+      var chips = [['semua', 'Semua']].concat(Object.keys(KPD_STATUS).map(function (k) { return [k, KPD_STATUS[k].label]; }));
+      kpdEl('kpd-chips').innerHTML = chips.map(function (c) {
+        var on = kpdState.status === c[0];
+        return '<button type="button" onclick="kpdSetFilter(\'status\',\'' + c[0] + '\')" aria-pressed="' + on + '" class="px-3 py-1 rounded-full text-xs border transition-colors ' +
+          (on ? 'bg-[#0655a7] border-[#0655a7] text-white font-medium' : 'bg-white border-[#e4e4e7] text-[#52525b] hover:bg-gray-50') + '">' +
+          c[1] + ' <span class="' + (on ? 'text-white/80' : 'text-[#71717a]') + '">' + counts[c[0]] + '</span></button>';
+      }).join('');
+
+      var list = kpdFiltered();
+      var total = list.length;
+      var pages = Math.ceil(total / KPD_PER_PAGE) || 1;
+      if (kpdState.page > pages) kpdState.page = pages;
+      var start = (kpdState.page - 1) * KPD_PER_PAGE;
+      var end = Math.min(start + KPD_PER_PAGE, total);
+
+      if (!total) {
+        tbody.innerHTML = '<tr><td colspan="6" class="py-12 px-4 text-center"><div class="flex flex-col items-center gap-1">' +
+          '<i data-lucide="user-search" class="w-6 h-6 text-[#a1a1aa]"></i>' +
+          '<p class="text-sm font-semibold text-[#09090b]">' + (kpdData.length ? 'Tidak ada pendaftar yang cocok' : 'Belum ada pendaftar') + '</p>' +
+          '<p class="text-xs text-[#71717a]">' + (kpdData.length ? 'Ubah kata kunci atau filter status.' : 'Pendaftar akan muncul setelah mahasiswa mengirim formulir.') + '</p>' +
+          '</div></td></tr>';
+      } else {
+        tbody.innerHTML = list.slice(start, end).map(function (p) {
+          var statusCell = '<select onchange="kpdSetStatus(' + p.id + ', this.value)" aria-label="Status seleksi ' + kpdEsc(p.nama) + '" class="h-8 pl-2 pr-6 rounded-md border text-[11px] font-medium focus:outline-none focus:ring-1 focus:ring-[#0655a7] ' + KPD_STATUS[p.status].cls + '">' +
+            Object.keys(KPD_STATUS).map(function (k) { return '<option value="' + k + '"' + (k === p.status ? ' selected' : '') + '>' + KPD_STATUS[k].label + '</option>'; }).join('') + '</select>';
+          var berkas = p.berkas.map(function (b) {
+            return '<a href="' + kpdEsc(kpdSafeUrl(b.url)) + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-[#1063B9] rounded no-underline"><i data-lucide="external-link" class="w-3 h-3"></i>' + kpdEsc(b.label) + '</a>';
+          }).join(' ');
+          return '<tr class="hover:bg-gray-50/70 transition-colors">' +
+            '<td class="py-3.5 px-4"><div class="flex items-center gap-2.5">' +
+              '<div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">' + kpdEsc(kpdInitials(p.nama)) + '</div>' +
+              '<div><div class="font-medium text-[13px] text-[#09090b] leading-tight">' + kpdEsc(p.nama) + '</div>' +
+              '<div class="text-[12px] text-[#71717a]">' + kpdEsc(p.nim) + ' • ' + kpdEsc(p.prodi) + '</div></div></div></td>' +
+            '<td class="py-3.5 px-4"><div class="font-medium text-[#09090b]">IPK ' + p.ipk.toFixed(2).replace('.', ',') + '</div><div class="text-[12px] text-[#71717a]">' + p.sks + ' SKS • Smt ' + p.smt + '</div></td>' +
+            '<td class="py-3.5 px-4"><div class="flex flex-wrap items-center gap-1.5">' + berkas + '</div></td>' +
+            '<td class="py-3.5 px-4 text-[#71717a] whitespace-nowrap">' + kpdFmtDate(p.tgl) + '</td>' +
+            '<td class="py-3.5 px-4">' + statusCell + '</td>' +
+            '<td class="py-3.5 px-4 text-right"><button type="button" onclick="kpdOpenDrawer(' + p.id + ')" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">Detail</button></td>' +
+            '</tr>';
+        }).join('');
+      }
+
+      kpdEl('kpd-info').textContent = total ? 'Menampilkan ' + (start + 1) + '–' + end + ' dari ' + total + ' pendaftar' : '0 pendaftar';
+      var btn = 'h-8 min-w-8 px-2 rounded-md border text-xs ';
+      var html = '<button type="button" onclick="kpdGoto(' + (kpdState.page - 1) + ')" ' + (kpdState.page === 1 ? 'disabled' : '') + ' class="' + btn + 'border-[#e4e4e7] bg-white disabled:opacity-40">Sebelumnya</button>';
+      for (var i = 1; i <= pages; i++) {
+        html += '<button type="button" onclick="kpdGoto(' + i + ')" class="' + btn + (i === kpdState.page ? 'border-[#0655a7] bg-[#0655a7] text-white' : 'border-[#e4e4e7] bg-white') + '">' + i + '</button>';
+      }
+      html += '<button type="button" onclick="kpdGoto(' + (kpdState.page + 1) + ')" ' + (kpdState.page === pages ? 'disabled' : '') + ' class="' + btn + 'border-[#e4e4e7] bg-white disabled:opacity-40">Berikutnya</button>';
+      kpdEl('kpd-pagination').innerHTML = html;
+      kpdIcons();
+    }
+
+    function kpdGoto(p) {
+      var pages = Math.ceil(kpdFiltered().length / KPD_PER_PAGE) || 1;
+      if (p < 1 || p > pages) return;
+      kpdState.page = p;
+      kpdRender();
+    }
+
+    // ---- Status seleksi ----
+    function kpdSetStatus(id, status) {
+      var p = kpdFind(id);
+      if (!p || !KPD_STATUS[status]) return;
+      p.status = status;
+      kpdRender();
+      showToast('Status Diperbarui', p.nama + ': ' + KPD_STATUS[status].label + '.');
+    }
+
+    // ---- Drawer detail ----
+    function kpdField(label, html) {
+      return '<div class="flex items-start justify-between gap-4 py-2 border-b border-gray-100 last:border-0"><dt class="text-[#71717a] shrink-0">' + label + '</dt><dd class="text-right text-[#09090b] font-medium min-w-0 break-words">' + html + '</dd></div>';
+    }
+    function kpdSection(title, inner) {
+      return '<section><h4 class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider mb-1.5">' + title + '</h4>' + inner + '</section>';
+    }
+
+    function kpdOpenDrawer(id) {
+      var p = kpdFind(id);
+      if (!p) return;
+      kpdState.openId = id;
+      var berkas = p.berkas.map(function (b) {
+        return '<a href="' + kpdEsc(kpdSafeUrl(b.url)) + '" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 no-underline text-[#09090b]"><i data-lucide="external-link" class="w-3.5 h-3.5 text-[#1063B9]"></i>' + kpdEsc(b.label) + '<span class="ml-auto text-[11px] text-[#71717a]">Google Drive</span></a>';
+      }).join('');
+      var qa = KPD_QUESTIONS.map(function (q, i) {
+        return '<div class="py-2 border-b border-gray-100 last:border-0"><p class="text-[#71717a]">' + kpdEsc(q) + '</p><p class="text-[#09090b] mt-0.5 leading-relaxed">' + kpdEsc(p.jawaban[i] || '—') + '</p></div>';
+      }).join('');
+      var opts = Object.keys(KPD_STATUS).map(function (k) { return '<option value="' + k + '"' + (k === p.status ? ' selected' : '') + '>' + KPD_STATUS[k].label + '</option>'; }).join('');
+
+      kpdEl('kpd-d-body').innerHTML =
+        '<div class="flex items-start gap-4">' +
+          '<div class="w-20 h-20 rounded-full bg-primary-100 text-[#114D91] border border-primary-200 shrink-0 flex items-center justify-center text-2xl font-bold" aria-hidden="true">' + kpdEsc(kpdInitials(p.nama)) + '</div>' +
+          '<div class="min-w-0 flex-1 space-y-1.5"><h4 class="text-[15px] font-semibold text-[#09090b] leading-snug break-words">' + kpdEsc(p.nama) + '</h4>' +
+          '<p class="text-xs text-[#71717a]">' + kpdEsc(p.nim) + ' · ' + kpdEsc(p.prodi) + '</p><div>' + kpdBadge(p.status) + '</div></div>' +
+        '</div>' +
+        kpdSection('Akademik', '<dl>' + kpdField('IPK', p.ipk.toFixed(2).replace('.', ',')) + kpdField('SKS lulus', p.sks) + kpdField('Semester', p.smt) + kpdField('Tanggal daftar', kpdFmtDate(p.tgl)) + '</dl>') +
+        kpdSection('Jawaban Formulir', qa) +
+        kpdSection('Berkas', berkas || '<p class="text-[#71717a]">Tidak ada berkas.</p>') +
+        kpdSection('Penilaian Internal',
+          '<div class="space-y-3">' +
+            '<div class="space-y-1"><label for="kpd-f-status" class="block font-semibold text-gray-700">Status seleksi</label><select id="kpd-f-status" class="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">' + opts + '</select></div>' +
+            '<div class="space-y-1"><label for="kpd-f-skor" class="block font-semibold text-gray-700">Skor (0–100)</label><input id="kpd-f-skor" type="number" min="0" max="100" value="' + kpdEsc(p.skor) + '" class="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" /><p id="kpd-f-skor-err" class="hidden text-[11px] text-red-600">Skor antara 0 dan 100.</p></div>' +
+            '<div class="space-y-1"><label for="kpd-f-catatan" class="block font-semibold text-gray-700">Catatan internal</label><textarea id="kpd-f-catatan" rows="3" maxlength="500" placeholder="Catatan untuk tim kontributor" class="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none resize-y">' + kpdEsc(p.catatan) + '</textarea></div>' +
+          '</div>');
+
+      var d = kpdEl('kpd-drawer');
+      d.classList.remove('hidden');
+      d.setAttribute('aria-hidden', 'false');
+      kpdEl('kpd-d-body').scrollTop = 0;
+      kpdIcons();
+    }
+
+    function kpdCloseDrawer() {
+      var d = kpdEl('kpd-drawer');
+      if (!d) return;
+      d.classList.add('hidden');
+      d.setAttribute('aria-hidden', 'true');
+      kpdState.openId = null;
+    }
+
+    function kpdSaveReview() {
+      var p = kpdFind(kpdState.openId);
+      if (!p) return;
+      var skorRaw = kpdEl('kpd-f-skor').value.trim();
+      var skor = skorRaw === '' ? '' : Number(skorRaw);
+      var bad = skorRaw !== '' && (isNaN(skor) || skor < 0 || skor > 100);
+      kpdEl('kpd-f-skor-err').classList.toggle('hidden', !bad);
+      if (bad) return;
+      p.status = kpdEl('kpd-f-status').value;
+      p.skor = skor;
+      p.catatan = kpdEl('kpd-f-catatan').value.trim();
+      kpdCloseDrawer();
+      kpdRender();
+      showToast('Penilaian Disimpan', 'Penilaian ' + p.nama + ' berhasil diperbarui.');
+    }
+
+    function kpdInit() {
+      if (!kpdEl('kpd-tbody')) return;
+      kpdRender();
+    }
+    document.removeEventListener('astro:page-load', window.__kpdInit);
+    window.__kpdInit = kpdInit;
+    document.addEventListener('astro:page-load', kpdInit);
+    document.removeEventListener('keydown', window.__kpdEsc);
+    window.__kpdEsc = function (e) {
+      if (e.key !== 'Escape' || !kpdEl('kpd-drawer')) return;
+      kpdCloseDrawer();
+    };
+    document.addEventListener('keydown', window.__kpdEsc);
+  </script>
 </KontributorShell>

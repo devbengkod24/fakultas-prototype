@@ -16,7 +16,7 @@ const {
                     activeNav === 'pengumuman' ? 'Pengumuman' :
                     activeNav === 'program' ? 'Kelola Program Binaan' :
                     activeNav === 'anggota' ? 'Anggota' :
-                    activeNav === 'seleksi' ? 'Seleksi Pendaftar' :
+                    activeNav === 'seleksi' ? 'Pendaftar' :
                     'Dashboard',
   pageTitle = breadcrumbTitle,
   subtitle = "Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa."
@@ -231,7 +231,7 @@ const {
             <span class="truncate">Anggota</span>
           </a>
 
-          <!-- 5. Seleksi Pendaftar -->
+          <!-- 5. Pendaftar -->
           <a
             href="/contributor/seleksi"
             id="nav-seleksi"
@@ -241,7 +241,7 @@ const {
           >
             <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'seleksi' ? '' : 'hidden'}`}></span>
             <i data-lucide="user-check" class={`w-4 h-4 shrink-0 ${activeNav === 'seleksi' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Seleksi Pendaftar</span>
+            <span class="truncate">Pendaftar</span>
           </a>
         </nav>
       </div>
@@ -618,7 +618,7 @@ const {
       dashboard: "Ringkasan Kontributor",
       pengumuman: "Pengumuman",
       program: "CMS Program & Lowongan",
-      seleksi: "Meja Seleksi Pelamar",
+      seleksi: "Pendaftar",
       mahasiswa: "Mahasiswa Binaan",
       dosen: "Dosen Pembina"
     };
@@ -781,7 +781,7 @@ const {
       const breadcrumbNames = {
         'dashboard': 'Dashboard',
         'program': 'Kelola Program Binaan',
-        'seleksi': 'Seleksi Pendaftar',
+        'seleksi': 'Pendaftar',
         'anggota': 'Anggota',
         'mahasiswa': 'Anggota / Mahasiswa Binaan',
         'dosen': 'Anggota / Dosen Pembina'

@@ -62,7 +62,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
       { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
-      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "seleksi", label: "Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
     ]
   },
   contributor: {
@@ -72,7 +72,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
       { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
-      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "seleksi", label: "Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
     ]
   },
   dosen: {
