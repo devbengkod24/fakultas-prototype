@@ -1,0 +1,161 @@
+---
+// src/pages/dosen/laporan-akhir/[id].astro
+import DosenShell from '../../../layouts/DosenShell.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { id: "2330" } },
+    { params: { id: "2331" } },
+    { params: { id: "2332" } },
+  ];
+}
+
+const { id } = Astro.params;
+
+const studentsMap: Record<
+  string,
+  {
+    nama: string;
+    nim: string;
+    dosen: string;
+    status: string;
+    totalBimbingan: number;
+    babTerakhir: number;
+    progress: number;
+  }
+> = {
+  "2330": {
+    nama: "Evan William Setyawan",
+    nim: "A11.2023.15006",
+    dosen: "ADHITYA NUGRAHA",
+    status: "Sedang Berjalan",
+    totalBimbingan: 0,
+    babTerakhir: 0,
+    progress: 0
+  },
+  "2331": {
+    nama: "Selfi Choiriyah",
+    nim: "A11.2023.15154",
+    dosen: "ADHITYA NUGRAHA",
+    status: "Sedang Berjalan",
+    totalBimbingan: 0,
+    babTerakhir: 0,
+    progress: 0
+  },
+  "2332": {
+    nama: "Wanda Putri Lestari",
+    nim: "A11.2023.15257",
+    dosen: "ADHITYA NUGRAHA",
+    status: "Sedang Berjalan",
+    totalBimbingan: 0,
+    babTerakhir: 0,
+    progress: 0
+  }
+};
+
+const student = studentsMap[id || "2330"] || studentsMap["2330"];
+---
+
+<DosenShell
+  activeNav="laporan-akhir"
+  breadcrumb="Laporan Akhir"
+  pageTitle=""
+  subtitle=""
+>
+  <div class="w-full flex flex-col">
+    <!-- Tombol Kembali ke Daftar Mahasiswa -->
+    <div class="mb-4">
+      <a
+        href="/dosen/laporan-akhir"
+        class="inline-flex items-center gap-2 text-sm text-[#0f172a] hover:text-[#1063B9] transition-colors font-normal hover:bg-transparent pl-0"
+      >
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Kembali ke Daftar Mahasiswa</span>
+      </a>
+    </div>
+
+    <!-- Header Profil Mahasiswa (Persis Card LogbookHeaderMhs) -->
+    <div class="rounded-xl border border-[#e2e8f0] bg-white p-6 shadow-none mb-6">
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Avatar Foto Mahasiswa -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="h-24 w-24 rounded-full overflow-hidden shrink-0 border border-slate-200 bg-[#1e40af] text-white flex items-center justify-center">
+            <img
+              src="/assets/landingpage/img/dosen/default.png"
+              alt={student.nama}
+              class="w-full h-full object-cover"
+              onerror="this.style.display='none'"
+            />
+            <i data-lucide="user" class="w-12 h-12 text-white/80"></i>
+          </div>
+        </div>
+
+        <!-- Detail Identitas & Status -->
+        <div class="flex-1 space-y-4">
+          <div class="flex justify-between items-start flex-wrap gap-2">
+            <div>
+              <h1 class="text-xl font-semibold capitalize text-[#0f172a]">
+                {student.nama}
+              </h1>
+              <p class="text-sm text-[#64748b]">
+                {student.nim}
+              </p>
+              <p class="text-sm text-[#64748b] mt-0.5">
+                Dosen Pembimbing: {student.dosen}
+              </p>
+            </div>
+          </div>
+
+          <!-- Status Badge -->
+          <div>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#fef3c7] text-[#b45309] border border-[#fde68a]">
+              {student.status}
+            </span>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-sm text-[#0f172a]">
+                <i data-lucide="file-text" class="w-4 h-4 text-[#64748b]"></i>
+                <span>Total Bimbingan: <strong>{student.totalBimbingan}</strong></span>
+              </div>
+              <div class="flex items-center gap-2 text-sm text-[#0f172a]">
+                <i data-lucide="book-open" class="w-4 h-4 text-[#64748b]"></i>
+                <span>Bab Terakhir: <strong>{student.babTerakhir}</strong></span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-sm text-[#0f172a]">
+                <span>Progress MBKM</span>
+                <span>{student.progress}%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full bg-[#1063B9] rounded-full" style={`width: ${student.progress}%`}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Riwayat Laporan Akhir Section -->
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold text-[#0f172a] mb-6">Riwayat Laporan Akhir</h2>
+
+      <!-- Empty State Persis Screenshot 2 & EmptyState fakultas-fe -->
+      <div class="flex flex-col items-center justify-center py-12 text-center h-[350px]">
+        <div class="rounded-full bg-slate-100 p-3 mb-4 flex items-center justify-center">
+          <i data-lucide="file-text" class="h-6 w-6 text-slate-400 stroke-[1.5]"></i>
+        </div>
+        <h3 class="text-lg font-medium text-[#0f172a]">
+          Belum Ada Laporan Akhir
+        </h3>
+        <p class="text-sm text-[#64748b] mt-1 max-w-md">
+          Mahasiswa belum mengunggah laporan akhir.
+        </p>
+      </div>
+    </div>
+  </div>
+</DosenShell>

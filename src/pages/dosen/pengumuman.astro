@@ -1,0 +1,630 @@
+---
+// src/pages/dosen/pengumuman.astro
+import DosenShell from '../../layouts/DosenShell.astro';
+import { MOCK_PENGUMUMAN_DOSEN } from '../../data/dosen/mock-data';
+import type { PengumumanDosenItem } from '../../data/dosen/types';
+
+// Perkaya data pengumuman dengan target audiens DPL dan rincian berkas
+const enrichedPengumuman = MOCK_PENGUMUMAN_DOSEN.map((item) => ({
+  ...item,
+  target:
+    item.id === 'pg-1'
+      ? 'Dosen Pembimbing & Penguji Sidang'
+      : item.id === 'pg-2'
+      ? 'Seluruh DPL MBKM'
+      : 'DPL & Tim Kurikulum Prodi',
+  fileType: item.lampiranNama?.endsWith('.pdf')
+    ? 'PDF'
+    : item.lampiranNama?.endsWith('.docx')
+    ? 'DOCX'
+    : 'FILE',
+  fileSize:
+    item.id === 'pg-1' ? '1.4 MB' : item.id === 'pg-2' ? '820 KB' : '2.1 MB'
+}));
+
+const totalPengumuman = enrichedPengumuman.length;
+const totalPinned = enrichedPengumuman.filter((p) => p.isPinned).length;
+---
+
+<DosenShell
+  title="Pengumuman DPL | Dosen Pembimbing - Kampus Berdampak FIK Udinus"
+  activeNav="pengumuman"
+  breadcrumb="Dashboard > Pengumuman"
+  pageTitle="Pengumuman"
+  subtitle="Papan edaran informasi resmi, regulasi bimbingan MBKM, dan jadwal evaluasi bagi Dosen Pembimbing Lapangan."
+>
+  <div slot="header-actions" class="hidden sm:flex items-center gap-2">
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-[#114d91]/10 text-[#0655a7] border border-[#0655a7]/20">
+      <i data-lucide="megaphone" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+      <span>Kanal Siaran DPL</span>
+    </span>
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+      <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+      <span>Gasal 2026/2027</span>
+    </span>
+  </div>
+
+  <!-- Container Utama dengan Alpine.js -->
+  <div x-data="pengumumanApp()" class="flex flex-col gap-6 w-full">
+
+    <!-- ==================================================== -->
+    <!-- 1. TIGA STAT KPI CARDS MINI (ATAS)                   -->
+    <!-- ==================================================== -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+      <!-- 1. Total Pengumuman -->
+      <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex items-center justify-between shadow-2xs">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0 border border-blue-100">
+            <i data-lucide="megaphone" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-xs text-[#71717a] font-medium">Total Pengumuman</div>
+            <div class="text-lg font-bold text-[#09090b]">{totalPengumuman} Siaran</div>
+          </div>
+        </div>
+        <span class="text-[11px] font-medium text-[#0655a7] bg-blue-50 px-2 py-0.5 rounded border border-blue-200/60">
+          Aktif
+        </span>
+      </div>
+
+      <!-- 2. Pengumuman Disematkan (Prioritas) -->
+      <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex items-center justify-between shadow-2xs">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-200">
+            <i data-lucide="pin" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-xs text-[#71717a] font-medium">Prioritas / Disematkan</div>
+            <div class="text-lg font-bold text-[#09090b]">{totalPinned} Surat Edaran</div>
+          </div>
+        </div>
+        <span class="text-[11px] font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+          Wajib Baca
+        </span>
+      </div>
+
+      <!-- 3. Kategori Pembahasan -->
+      <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex items-center justify-between shadow-2xs">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+            <i data-lucide="layers" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-xs text-[#71717a] font-medium">Kategori Informasi</div>
+            <div class="text-lg font-bold text-[#09090b]">3 Kategori</div>
+          </div>
+        </div>
+        <span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+          Fakultas & DPL
+        </span>
+      </div>
+    </section>
+
+    <!-- ==================================================== -->
+    <!-- 2. TOOLBAR PENCARIAN & FILTER KATEGORI               -->
+    <!-- ==================================================== -->
+    <div class="p-4 bg-white border border-[#e4e4e7] rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-2xs">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 flex-1">
+        <!-- Search bar input pencarian kata kunci judul (SearchControl) -->
+        <div class="relative flex-1 sm:max-w-md">
+          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <input
+            type="text"
+            x-model="searchQuery"
+            placeholder="Cari kata kunci judul pengumuman..."
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-8 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+          <button
+            type="button"
+            x-show="searchQuery.length > 0"
+            @click="searchQuery = ''"
+            class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#71717a] hover:text-[#09090b] p-0.5 cursor-pointer"
+            title="Hapus pencarian"
+          >
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Filter Dropdown Kategori -->
+        <div class="flex items-center gap-2">
+          <div class="relative min-w-[200px]">
+            <select
+              x-model="selectedCategory"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <option value="">Semua Kategori</option>
+              <option value="Bimbingan DPL">Bimbingan DPL</option>
+              <option value="Sidang Evaluasi">Sidang Evaluasi</option>
+              <option value="Kebijakan Fakultas">Kebijakan Fakultas</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+
+          <!-- Reset Filter Button -->
+          <button
+            type="button"
+            x-show="searchQuery !== '' || selectedCategory !== ''"
+            @click="resetFilter()"
+            class="h-9 px-3 rounded-md border border-dashed border-[#e4e4e7] bg-[#f8fafc] hover:bg-[#f1f5f9] text-xs font-medium text-[#71717a] hover:text-[#09090b] flex items-center gap-1.5 transition-colors cursor-pointer"
+            title="Reset semua filter"
+          >
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>Reset</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Info Counter Hasil -->
+      <div class="text-xs text-[#71717a] flex items-center justify-between sm:justify-end gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-[#f4f4f5]">
+        <span>Menampilkan <strong class="text-[#09090b]" x-text="visibleCount"></strong> dari {totalPengumuman} pengumuman</span>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- 3. DAFTAR KARTU PENGUMUMAN (PengumumanCards Pattern) -->
+    <!-- ==================================================== -->
+    <div class="grid grid-cols-1 gap-4">
+      {enrichedPengumuman.map((item) => (
+        <article
+          x-show={`isCardVisible('${item.id}')`}
+          x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 -translate-y-1"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          class={`bg-white border rounded-xl p-5 sm:p-6 transition-all duration-200 shadow-2xs hover:shadow-md ${
+            item.isPinned
+              ? 'border-l-4 border-l-amber-500 border-[#e4e4e7] bg-gradient-to-r from-amber-50/20 via-white to-white'
+              : 'border-[#e4e4e7] hover:border-slate-300'
+          }`}
+        >
+          <!-- Top Row: Badges & Tombol Aksi Cepat -->
+          <div class="flex items-start justify-between gap-4 mb-2">
+            <div class="flex flex-wrap items-center gap-2">
+              {item.isPinned && (
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300 shadow-2xs">
+                  <i data-lucide="pin" class="w-3.5 h-3.5 fill-amber-600 text-amber-700"></i>
+                  <span>Prioritas / Disematkan</span>
+                </span>
+              )}
+              {item.kategori === 'Bimbingan DPL' && (
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                  <i data-lucide="book-open" class="w-3 h-3 text-blue-600"></i>
+                  <span>{item.kategori}</span>
+                </span>
+              )}
+              {item.kategori === 'Sidang Evaluasi' && (
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+                  <i data-lucide="calendar-check" class="w-3 h-3 text-purple-600"></i>
+                  <span>{item.kategori}</span>
+                </span>
+              )}
+              {item.kategori === 'Kebijakan Fakultas' && (
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <i data-lucide="shield-alert" class="w-3 h-3 text-emerald-600"></i>
+                  <span>{item.kategori}</span>
+                </span>
+              )}
+              {item.kategori === 'Umum' && (
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 border border-zinc-200">
+                  <i data-lucide="info" class="w-3 h-3 text-zinc-600"></i>
+                  <span>{item.kategori}</span>
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              @click={`openModal('${item.id}')`}
+              class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-[#0655a7] hover:text-[#114d91] bg-blue-50/70 hover:bg-blue-100/70 border border-blue-200/60 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+            >
+              <span>Pratinjau Lengkap</span>
+              <i data-lucide="external-link" class="w-3 h-3"></i>
+            </button>
+          </div>
+
+          <!-- Judul Pengumuman -->
+          <h2
+            @click={`openModal('${item.id}')`}
+            class="text-base sm:text-lg font-bold text-[#09090b] hover:text-[#0655a7] transition-colors cursor-pointer leading-snug mt-1"
+          >
+            {item.judul}
+          </h2>
+
+          <!-- Metadata Berpemisah Pipa (|): Pengirim, Tanggal Terbit, Waktu WIB, Target Dosen -->
+          <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs text-[#71717a] mt-2 mb-3">
+            <span class="flex items-center gap-1.5 text-[#3f3f46] font-medium">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span>{item.pengirim}</span>
+            </span>
+            <span class="text-[#d4d4d8] select-none">|</span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span>{item.tanggal}</span>
+            </span>
+            <span class="text-[#d4d4d8] select-none">|</span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span>{item.waktu}</span>
+            </span>
+            <span class="text-[#d4d4d8] select-none">|</span>
+            <span class="flex items-center gap-1.5 text-blue-700 bg-blue-50/70 px-1.5 py-0.5 rounded border border-blue-200/50">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Target: {item.target}</span>
+            </span>
+          </div>
+
+          <!-- Konten Ringkasan Pengumuman -->
+          <p class="text-sm text-[#475569] leading-relaxed">
+            {item.ringkasan}
+          </p>
+
+          <!-- Tautan Lampiran Berkas Resmi (.PDF / .DOCX) -->
+          {item.lampiranNama && (
+            <div class="mt-3.5 p-3 bg-[#f8fafc] border border-[#e4e4e7] rounded-lg flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
+                  item.fileType === 'PDF'
+                    ? 'bg-red-50 text-red-600 border-red-200'
+                    : 'bg-blue-50 text-blue-600 border-blue-200'
+                }`}>
+                  <i data-lucide="file-text" class="w-4 h-4"></i>
+                </div>
+                <div class="truncate">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="font-semibold text-[#09090b] truncate">{item.lampiranNama}</span>
+                    <span class={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
+                      item.fileType === 'PDF'
+                        ? 'bg-red-100 text-red-700 border-red-300'
+                        : 'bg-blue-100 text-blue-700 border-blue-300'
+                    }`}>
+                      {item.fileType}
+                    </span>
+                    <span class="text-[#71717a] text-[11px]">({item.fileSize})</span>
+                  </div>
+                  <p class="text-[11px] text-[#71717a] mt-0.5">Lampiran Dokumen Resmi Disahkan Fakultas</p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                @click={`triggerDownload('${item.lampiranNama}', '${item.lampiranUrl}')`}
+                class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0655a7] hover:text-[#114d91] bg-white border border-[#e4e4e7] hover:bg-[#f4f4f5] px-3 py-1.5 rounded-md transition-colors shadow-2xs cursor-pointer ml-auto sm:ml-0"
+              >
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Unduh Berkas</span>
+              </button>
+            </div>
+          )}
+
+          <!-- Card Footer & Tombol Aksi Baca Selengkapnya -->
+          <div class="mt-4 pt-3.5 border-t border-[#f4f4f5] flex items-center justify-between">
+            <span class="text-xs text-[#71717a] flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Surat Edaran Resmi FIK Udinus</span>
+            </span>
+            <button
+              type="button"
+              @click={`openModal('${item.id}')`}
+              class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0655a7] hover:text-[#114d91] group transition-colors cursor-pointer"
+            >
+              <span>Baca Selengkapnya</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- 4. EMPTY STATE (Hasil Filter Kosong)                 -->
+    <!-- ==================================================== -->
+    <div
+      x-show="visibleCount === 0"
+      x-cloak
+      class="flex flex-col items-center justify-center py-16 px-4 text-center bg-white border border-[#e4e4e7] rounded-xl"
+    >
+      <div class="w-14 h-14 rounded-full bg-slate-100 text-[#71717a] flex items-center justify-center mb-4">
+        <i data-lucide="search-x" class="w-7 h-7"></i>
+      </div>
+      <h3 class="text-base font-bold text-[#09090b]">Pengumuman Tidak Ditemukan</h3>
+      <p class="text-xs text-[#71717a] mt-1 max-w-sm leading-relaxed">
+        Tidak ada pengumuman yang sesuai dengan kata kunci atau filter kategori yang Anda pilih.
+      </p>
+      <button
+        type="button"
+        @click="resetFilter()"
+        class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white bg-[#0655a7] hover:bg-[#114d91] transition-colors cursor-pointer shadow-2xs"
+      >
+        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        <span>Reset Filter & Pencarian</span>
+      </button>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- 5. MODAL DIALOG DETAIL PENGUMUMAN (INTERAKTIF)       -->
+    <!-- ==================================================== -->
+    <div
+      x-show="isModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
+      @keydown.escape.window="closeModal()"
+    >
+      <div
+        x-show="isModalOpen"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        @click.away="closeModal()"
+        class="bg-white rounded-xl border border-[#e4e4e7] max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden"
+      >
+        <!-- Modal Header -->
+        <div class="p-5 border-b border-[#e4e4e7] bg-[#f8fafc] flex items-start justify-between gap-4">
+          <div class="flex-1 min-w-0">
+            <!-- Badges -->
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span
+                x-show="selectedPengumuman?.isPinned"
+                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-300"
+              >
+                <i data-lucide="pin" class="w-3 h-3 text-amber-700"></i>
+                <span>Prioritas / Disematkan</span>
+              </span>
+              <span
+                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium"
+                :class="{
+                  'bg-blue-50 text-blue-700 border border-blue-200': selectedPengumuman?.kategori === 'Bimbingan DPL',
+                  'bg-purple-50 text-purple-700 border border-purple-200': selectedPengumuman?.kategori === 'Sidang Evaluasi',
+                  'bg-emerald-50 text-emerald-700 border border-emerald-200': selectedPengumuman?.kategori === 'Kebijakan Fakultas',
+                  'bg-zinc-100 text-zinc-700 border border-zinc-200': selectedPengumuman?.kategori === 'Umum'
+                }"
+              >
+                <i data-lucide="tag" class="w-3 h-3"></i>
+                <span x-text="selectedPengumuman?.kategori"></span>
+              </span>
+            </div>
+
+            <!-- Judul -->
+            <h2 class="text-lg font-bold text-[#09090b] leading-snug" x-text="selectedPengumuman?.judul"></h2>
+
+            <!-- Metadata Row -->
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#71717a] mt-2">
+              <span class="flex items-center gap-1 text-[#3f3f46] font-medium">
+                <i data-lucide="user" class="w-3 h-3 text-[#71717a]"></i>
+                <span x-text="selectedPengumuman?.pengirim"></span>
+              </span>
+              <span class="text-[#d4d4d8] select-none">|</span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="calendar" class="w-3 h-3 text-[#71717a]"></i>
+                <span x-text="selectedPengumuman?.tanggal"></span>
+              </span>
+              <span class="text-[#d4d4d8] select-none">|</span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="clock" class="w-3 h-3 text-[#71717a]"></i>
+                <span x-text="selectedPengumuman?.waktu"></span>
+              </span>
+              <span class="text-[#d4d4d8] select-none">|</span>
+              <span class="flex items-center gap-1 text-blue-700 font-medium">
+                <i data-lucide="users" class="w-3 h-3 text-blue-600"></i>
+                <span>Target: <span x-text="selectedPengumuman?.target"></span></span>
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            @click="closeModal()"
+            class="w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:text-[#09090b] hover:bg-gray-100 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+            title="Tutup dialog"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body (Scrollable) -->
+        <div class="p-5 sm:p-6 overflow-y-auto space-y-4">
+          <!-- Ringkasan Box -->
+          <div class="p-4 bg-[#f8fafc] border-l-4 border-[#0655a7] rounded-r-lg">
+            <h4 class="text-xs font-bold text-[#0655a7] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              <span>Ringkasan Pengumuman</span>
+            </h4>
+            <p class="text-xs sm:text-sm text-[#475569] leading-relaxed" x-text="selectedPengumuman?.ringkasan"></p>
+          </div>
+
+          <!-- Isi Lengkap -->
+          <div>
+            <h4 class="text-xs font-bold text-[#71717a] uppercase tracking-wider mb-2">
+              Uraian & Rincian Lengkap
+            </h4>
+            <div class="text-sm text-[#09090b] leading-relaxed whitespace-pre-line p-4 bg-white border border-[#e4e4e7] rounded-lg">
+              <span x-text="selectedPengumuman?.kontenLengkap"></span>
+            </div>
+          </div>
+
+          <!-- Lampiran Box -->
+          <div
+            x-show="selectedPengumuman?.lampiranNama"
+            class="p-4 bg-[#f1f7fe] border border-blue-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+          >
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-white border border-blue-200 text-[#0655a7] flex items-center justify-center shrink-0 shadow-2xs">
+                <i data-lucide="file-text" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-[#09090b]" x-text="selectedPengumuman?.lampiranNama"></span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-[#0655a7] border border-blue-300" x-text="selectedPengumuman?.fileType"></span>
+                </div>
+                <p class="text-[11px] text-[#71717a] mt-0.5">
+                  Ukuran Berkas: <strong x-text="selectedPengumuman?.fileSize"></strong> &bull; Format Resmi FIK
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              @click="triggerDownload(selectedPengumuman?.lampiranNama, selectedPengumuman?.lampiranUrl)"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-[#0655a7] hover:bg-[#114d91] rounded-lg transition-colors cursor-pointer shadow-2xs w-full sm:w-auto justify-center"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Unduh Berkas</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-4 bg-[#f8fafc] border-t border-[#e4e4e7] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span class="text-xs text-[#71717a] flex items-center gap-1.5">
+            <i data-lucide="badge-check" class="w-4 h-4 text-emerald-600"></i>
+            <span>Diterbitkan oleh Tim Pengelola MBKM FIK Udinus</span>
+          </span>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <button
+              type="button"
+              @click="closeModal()"
+              class="px-4 py-2 text-xs font-semibold text-[#09090b] bg-white hover:bg-gray-50 border border-[#e4e4e7] rounded-lg transition-colors shadow-2xs cursor-pointer w-full sm:w-auto"
+            >
+              Tutup
+            </button>
+            <button
+              type="button"
+              x-show="selectedPengumuman?.lampiranNama"
+              @click="triggerDownload(selectedPengumuman?.lampiranNama, selectedPengumuman?.lampiranUrl)"
+              class="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-[#0655a7] hover:bg-[#114d91] rounded-lg transition-colors shadow-2xs cursor-pointer w-full sm:w-auto"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Unduh Lampiran</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- 6. TOAST NOTIFIKASI FEEDBACK                         -->
+    <!-- ==================================================== -->
+    <div
+      x-show="toast.show"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 translate-y-2"
+      x-cloak
+      class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 bg-[#09090b] text-white rounded-xl shadow-lg border border-white/10 text-xs"
+    >
+      <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div>
+        <p class="font-semibold text-white" x-text="toast.title"></p>
+        <p class="text-gray-300 text-[11px]" x-text="toast.message"></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Script Data & Alpine Controller -->
+  <script is:inline define:vars={{ enrichedPengumuman }}>
+    window.__MOCK_PENGUMUMAN__ = enrichedPengumuman;
+
+    window.pengumumanApp = function () {
+      return {
+        searchQuery: '',
+        selectedCategory: '',
+        isModalOpen: false,
+        selectedPengumuman: null,
+        allPengumuman: window.__MOCK_PENGUMUMAN__ || [],
+        toast: {
+          show: false,
+          title: '',
+          message: '',
+          timeout: null
+        },
+
+        init() {
+          this.$watch('searchQuery', () => this.refreshIcons());
+          this.$watch('selectedCategory', () => this.refreshIcons());
+          this.refreshIcons();
+        },
+
+        refreshIcons() {
+          this.$nextTick(() => {
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+              window.lucide.createIcons();
+            }
+          });
+        },
+
+        isCardVisible(id) {
+          const item = this.allPengumuman.find((p) => p.id === id);
+          if (!item) return false;
+
+          const q = this.searchQuery.toLowerCase().trim();
+          const matchSearch =
+            !q ||
+            item.judul.toLowerCase().includes(q) ||
+            item.ringkasan.toLowerCase().includes(q) ||
+            item.pengirim.toLowerCase().includes(q);
+
+          const matchCategory =
+            !this.selectedCategory ||
+            this.selectedCategory === 'Semua' ||
+            item.kategori === this.selectedCategory;
+
+          return matchSearch && matchCategory;
+        },
+
+        get visibleCount() {
+          return this.allPengumuman.filter((p) => this.isCardVisible(p.id)).length;
+        },
+
+        openModal(id) {
+          this.selectedPengumuman =
+            this.allPengumuman.find((p) => p.id === id) || null;
+          this.isModalOpen = true;
+          document.body.style.overflow = 'hidden';
+          this.refreshIcons();
+        },
+
+        closeModal() {
+          this.isModalOpen = false;
+          document.body.style.overflow = 'auto';
+        },
+
+        resetFilter() {
+          this.searchQuery = '';
+          this.selectedCategory = '';
+          this.refreshIcons();
+        },
+
+        triggerDownload(fileName, url) {
+          this.showToast('Unduh Lampiran', 'Memproses unduhan ' + fileName + '...');
+          const a = document.createElement('a');
+          a.href = url || '#';
+          a.download = fileName;
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        },
+
+        showToast(title, message) {
+          if (this.toast.timeout) clearTimeout(this.toast.timeout);
+          this.toast.title = title;
+          this.toast.message = message;
+          this.toast.show = true;
+          this.toast.timeout = setTimeout(() => {
+            this.toast.show = false;
+          }, 3500);
+        }
+      };
+    };
+  </script>
+</DosenShell>

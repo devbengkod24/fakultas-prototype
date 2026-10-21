@@ -1,0 +1,198 @@
+---
+// src/pages/dosen/logbook.astro
+import DosenShell from '../../layouts/DosenShell.astro';
+
+// Data mahasiswa bimbingan logbook persis sesuai screenshot 1
+const students = [
+  {
+    id: "2330",
+    nama: "Evan William Setyawan",
+    initials: "EW",
+    nim: "A11.2023.15006",
+    babTerakhir: "BAB 0",
+    totalBimbingan: 0,
+    progress: "0",
+    status: "Belum",
+    statusVariant: "unapproved"
+  },
+  {
+    id: "2331",
+    nama: "Selfi Choiriyah",
+    initials: "SC",
+    nim: "A11.2023.15154",
+    babTerakhir: "BAB 0",
+    totalBimbingan: 0,
+    progress: "0",
+    status: "Belum",
+    statusVariant: "unapproved"
+  },
+  {
+    id: "2332",
+    nama: "Wanda Putri Lestari",
+    initials: "WP",
+    nim: "A11.2023.15257",
+    babTerakhir: "BAB 0",
+    totalBimbingan: 0,
+    progress: "0",
+    status: "Belum",
+    statusVariant: "unapproved"
+  }
+];
+
+const studentsJson = JSON.stringify(students);
+---
+
+<DosenShell
+  activeNav="logbook"
+  pageTitle="Daftar Logbook Mahasiswa"
+  subtitle="Berikut adalah daftar logbook mahasiswa bimbingan."
+  breadcrumb="Logbook Mahasiswa"
+>
+  <div
+    class="w-full flex flex-col"
+    x-data={`{
+      search: '',
+      allStudents: ${studentsJson},
+      get filteredStudents() {
+        if (!this.search.trim()) return this.allStudents;
+        const q = this.search.toLowerCase();
+        return this.allStudents.filter(s =>
+          s.nama.toLowerCase().includes(q) ||
+          s.nim.toLowerCase().includes(q)
+        );
+      }
+    }`}
+  >
+    <!-- Search Control (w-full sm:w-1/4 persis di screenshot) -->
+    <div class="flex flex-col md:flex-row gap-4 mb-3 md:items-end">
+      <div class="w-full sm:w-80 relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i data-lucide="search" class="w-4 h-4 text-[#94a3b8]"></i>
+        </div>
+        <input
+          type="text"
+          x-model="search"
+          placeholder="Cari logbook mahasiswa"
+          class="w-full pl-9 pr-4 py-2 border border-[#e2e8f0] rounded-md text-sm bg-white placeholder-[#94a3b8] text-[#0f172a] focus:outline-none focus:border-blue-500"
+        />
+      </div>
+    </div>
+
+    <!-- Tabel Rekap Logbook Mahasiswa (Persis LogbookTableMahasiswa) -->
+    <div class="rounded-md border border-[#e2e8f0] bg-white overflow-hidden shadow-none">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+          <thead>
+            <tr class="border-b border-[#e2e8f0] bg-white">
+              <th class="w-12 px-4 py-3 text-xs font-medium text-[#64748b] text-center">No.</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Mahasiswa</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">NIM</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Bab Terakhir</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Total Bimbingan</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Progress</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Status</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e2e8f0]">
+            <template x-for="(row, idx) in filteredStudents" :key="row.id">
+              <tr class="hover:bg-slate-50/50 transition-colors">
+                <!-- No. -->
+                <td class="px-4 py-3 text-xs text-[#64748b] text-center" x-text="idx + 1"></td>
+
+                <!-- Mahasiswa (Initial circle + Capitalized name) -->
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-3">
+                    <div class="h-9 w-9 rounded-full bg-blue-50 text-[#1063B9] flex items-center justify-center font-semibold text-xs shrink-0 border border-blue-100">
+                      <span x-text="row.initials"></span>
+                    </div>
+                    <span class="font-medium text-sm text-[#0f172a]" x-text="row.nama"></span>
+                  </div>
+                </td>
+
+                <!-- NIM (Font diselaraskan sama seperti kolom lain tanpa font-mono) -->
+                <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.nim"></td>
+
+                <!-- Bab Terakhir (Capslock BAB 0) -->
+                <td class="px-4 py-3 text-center text-sm uppercase text-[#0f172a]" x-text="row.babTerakhir"></td>
+
+                <!-- Total Bimbingan -->
+                <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.totalBimbingan"></td>
+
+                <!-- Progress -->
+                <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.progress"></td>
+
+                <!-- Status Badge -->
+                <td class="px-4 py-3 text-center">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] text-[#3f3f46] border border-[#e4e4e7]" x-text="row.status"></span>
+                </td>
+
+                <!-- Aksi Button -->
+                <td class="px-4 py-3 text-center">
+                  <a :href="'/dosen/logbook/' + row.id" class="inline-block">
+                    <button
+                      type="button"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#1063B9] text-[#1063B9] hover:bg-blue-50/50 rounded-md text-xs font-medium transition-colors"
+                    >
+                      <i data-lucide="book-text" class="w-4 h-4"></i>
+                      <span>Logbook</span>
+                    </button>
+                  </a>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+
+        <!-- Empty state saat filter tidak ada -->
+        <div x-show="filteredStudents.length === 0" class="py-10 text-center text-[#64748b] text-sm">
+          Tidak ada mahasiswa yang sesuai pencarian.
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Paginasi -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 text-xs text-[#64748b]">
+      <div>
+        Page 1 of 1 (<span x-text="filteredStudents.length"></span> total items)
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1">
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center border border-[#e2e8f0] rounded-md bg-white text-[#94a3b8] cursor-not-allowed"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+
+          <button
+            type="button"
+            class="h-8 px-3 flex items-center justify-center rounded-md bg-[#1063B9] text-white font-medium text-xs"
+          >
+            1
+          </button>
+
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center border border-[#e2e8f0] rounded-md bg-white text-[#94a3b8] cursor-not-allowed"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="relative">
+          <button
+            type="button"
+            class="h-8 px-3 border border-[#e2e8f0] rounded-md bg-white text-xs text-[#0f172a] flex items-center gap-2 hover:bg-gray-50"
+          >
+            <span>Show 5 items</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#64748b]"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DosenShell>
