@@ -12,19 +12,21 @@ import AdminShell from '../../layouts/AdminShell.astro';
       periodeFilter: 'semua',
       statusFilter: 'semua',
       students: [
-        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '2025/2026-Genap', tahunAjaran: '2025/2026', status: 'konversi' },
-        { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '2025/2026-Genap', tahunAjaran: '2025/2026', status: 'konversi' },
-        { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '2025/2026-Genap', tahunAjaran: '2025/2026', status: 'reguler' },
-        { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '2025/2026-Genap', tahunAjaran: '2025/2026', status: 'reguler' },
-        { no: 5, nama: 'Budi Santoso', nim: 'A11.2022.14150', email: 'budi.santoso@mhs.dinus.ac.id', telepon: '081399887766', dosen: '-', kodePeriode: '2025/2026-Genap', tahunAjaran: '2025/2026', status: 'belum' },
+        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'konversi' },
+        { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'konversi' },
+        { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'reguler' },
+        { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'reguler' },
+        { no: 5, nama: 'Budi Santoso', nim: 'A11.2022.14150', email: 'budi.santoso@mhs.dinus.ac.id', telepon: '081399887766', dosen: '-', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'belum' },
       ],
       get filteredStudents() {
+        const q = (this.searchQuery || '').toLowerCase();
         return this.students.filter(s => {
-          const matchSearch = s.nama.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                              s.nim.includes(this.searchQuery) ||
-                              s.dosen.toLowerCase().includes(this.searchQuery.toLowerCase());
+          const matchSearch = (s.nama || '').toLowerCase().includes(q) ||
+                              (s.nim || '').includes(this.searchQuery) ||
+                              (s.dosen || '').toLowerCase().includes(q);
           const matchStatus = this.statusFilter === 'semua' || s.status === this.statusFilter;
-          return matchSearch && matchStatus;
+          const matchPeriode = this.periodeFilter === 'semua' || s.kodePeriode === this.periodeFilter;
+          return matchSearch && matchStatus && matchPeriode;
         });
       }
     }"
@@ -46,8 +48,9 @@ import AdminShell from '../../layouts/AdminShell.astro';
           class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="semua">Semua Periode</option>
-          <option value="2025/2026-Genap">2025/2026 - Genap</option>
-          <option value="2025/2026-Gasal">2025/2026 - Gasal</option>
+          <option value="20261">2026/2027 - Gasal</option>
+          <option value="20252">2025/2026 - Genap</option>
+          <option value="20251">2025/2026 - Gasal</option>
         </select>
         <select
           x-model="statusFilter"
@@ -56,7 +59,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <option value="semua">Semua Status</option>
           <option value="konversi">Konversi</option>
           <option value="reguler">Reguler</option>
-          <option value="belum">Belum Ada Dosen</option>
+          <option value="belum">Belum Ada</option>
         </select>
       </div>
     </div>
@@ -104,24 +107,24 @@ import AdminShell from '../../layouts/AdminShell.astro';
               </td>
               <td class="h-[68px] px-4 text-sm text-[#09090b]" x-text="mhs.dosen"></td>
               <td class="h-[68px] px-4 text-sm">
-                <div class="flex flex-col text-xs">
-                  <span class="font-medium text-[#09090b]" x-text="mhs.kodePeriode"></span>
-                  <span class="text-[#71717a]" x-text="mhs.tahunAjaran"></span>
+                <div class="flex flex-col">
+                  <span class="text-sm font-medium text-[#09090b]" x-text="mhs.kodePeriode"></span>
+                  <span class="text-xs text-[#71717a]" x-text="mhs.tahunAjaran"></span>
                 </div>
               </td>
               <td class="h-[68px] px-4 text-center text-sm">
                 <template x-if="mhs.status === 'konversi'">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                  <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
                     Konversi
                   </span>
                 </template>
                 <template x-if="mhs.status === 'reguler'">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                  <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800">
                     Reguler
                   </span>
                 </template>
                 <template x-if="mhs.status === 'belum'">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                  <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-500">
                     Belum Ada
                   </span>
                 </template>

@@ -1,0 +1,14 @@
+---
+// src/pages/admin/kontributor/kelola-program.astro
+import AdminShell from '../../../layouts/AdminShell.astro';
+import MitraCms from '../../../components/admin/mitra/MitraCms.astro';
+---
+
+<AdminShell currentTab="kontributor" pageTitle="Kelola Program Kontributor" subtitle="Pengaturan profil kontributor, narasi hero, fasilitas mahasiswa, penanggung jawab/koordinator, dan showcase hasil karya.">
+  <section
+    id="section-mitra-cms"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  >
+    <MitraCms standalone={true} />
+  </section>
+</AdminShell>

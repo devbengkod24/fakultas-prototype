@@ -7,13 +7,13 @@ import { partnersData } from '../../../data/partners/partners';
 
 const tabs: DataTableTab[] = [
   { id: 'eksternal', label: 'Kontributor Eksternal', count: partnersData.filter((p) => p.tipe === 'eksternal').length },
-  { id: 'all', label: 'Semua Kontributor', count: partnersData.length },
   { id: 'internal', label: 'Kontributor Internal', count: partnersData.filter((p) => p.tipe === 'internal').length },
+  { id: 'all', label: 'Semua Kontributor', count: partnersData.length },
 ];
 ---
 
 <!-- Subview 1: Direktori Kontributor (Menggunakan Reusable DataTable) -->
-<div id="subview-mitra-list" x-data="{ activeTab: 'eksternal', searchQuery: '' }">
+<div id="subview-mitra-list" x-data="mitraDirectory()">
   <DataTable
     tabs={tabs}
     activeTabModel="activeTab"
@@ -77,27 +77,72 @@ const tabs: DataTableTab[] = [
           {partner.mhs ? partner.mhs.length : 0}
         </td>
         <td class="h-[68px] px-4 text-center">
-          {partner.status === 'aktif' ? (
-            <span class="inline-flex items-center gap-2 rounded-full border border-[#CEF5E0] bg-[#EFFCF5] px-3 py-1 text-[13px] font-medium text-[#347659]">
-              <span class="h-2 w-2 rounded-full bg-[#55B685]"></span>
+          <template x-if={`isAktif(${partner.id}, '${partner.status}')`}>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#BBF7D0] bg-[#DCFCE7] text-[13px] font-medium text-[#15803D]">
               Aktif
             </span>
-          ) : (
-            <span class="inline-flex items-center gap-2 rounded-full border border-[#E4E4E7] bg-[#F4F4F5] px-3 py-1 text-[13px] font-medium text-[#71717A]">
-              <span class="h-2 w-2 rounded-full bg-[#A1A1AA]"></span>
+          </template>
+          <template x-if={`!isAktif(${partner.id}, '${partner.status}')`}>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FECDD3] bg-[#FFE4E6] text-[13px] font-medium text-[#BE123C]">
               Non-Aktif
             </span>
-          )}
+          </template>
         </td>
-        <td class="h-12 px-4 text-center">
-          <button
-            type="button"
-            onclick={`showMitraDetail(${partner.id})`}
-            class="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7] transition-colors cursor-pointer"
-          >
-            <i data-lucide="eye" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-            <span>Detail</span>
-          </button>
+        <td class="h-[68px] px-4 text-center">
+          <div class="relative inline-block text-left" x-data="{ openAction: false }">
+            <button
+              type="button"
+              @click="openAction = !openAction"
+              @click.outside="openAction = false"
+              class="h-8 w-8 inline-flex items-center justify-center rounded-md hover:bg-[#f4f4f5] text-[#71717a] transition-colors cursor-pointer"
+              title="Menu aksi"
+            >
+              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+            </button>
+            <div
+              x-show="openAction"
+              x-cloak
+              class="absolute right-0 mt-1 w-44 rounded-md border border-[#e4e4e7] bg-white py-1 shadow-lg z-20 text-xs"
+            >
+              <button
+                type="button"
+                onclick={`showMitraDetail(${partner.id})`}
+                class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              >
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Detail</span>
+              </button>
+              <button
+                type="button"
+                onclick={`openMitraCms(${partner.id})`}
+                class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              >
+                <i data-lucide="settings-2" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Kelola Program</span>
+              </button>
+              <div class="my-1 h-px bg-[#e4e4e7]"></div>
+              <template x-if={`isAktif(${partner.id}, '${partner.status}')`}>
+                <button
+                  type="button"
+                  onclick={`openModalToggleStatusMitra(${partner.id})`}
+                  class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#BE123C] hover:bg-rose-50 transition-colors"
+                >
+                  <i data-lucide="pause-circle" class="w-3.5 h-3.5"></i>
+                  <span>Nonaktifkan</span>
+                </button>
+              </template>
+              <template x-if={`!isAktif(${partner.id}, '${partner.status}')`}>
+                <button
+                  type="button"
+                  onclick={`openModalToggleStatusMitra(${partner.id})`}
+                  class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#15803D] hover:bg-emerald-50 transition-colors"
+                >
+                  <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  <span>Aktifkan</span>
+                </button>
+              </template>
+            </div>
+          </div>
         </td>
       </tr>
     ))}

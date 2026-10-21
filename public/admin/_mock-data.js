@@ -56,7 +56,7 @@ const navMeta = {
     label: 'Mahasiswa / Surat Rekomendasi',
     icon: 'graduation-cap',
     parent: 'mahasiswa',
-    title: 'Validasi Surat Rekomendasi (SuReKom)',
+    title: 'Validasi Surat Rekomendasi',
     subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi mitra mahasiswa.',
   },
   'mhs-pelamar': {
@@ -249,7 +249,7 @@ const PRESETS = {
     },
     {
       id: 'stage_3',
-      name: 'Tahap 3: Pengajuan & Validasi Surat Rekomendasi (Surekom)',
+      name: 'Tahap 3: Pengajuan & Validasi Surat Rekomendasi',
       type: 'surekom',
       rule: 'Hanya mahasiswa lolos seleksi mitra yang berhak meminta tanda tangan Koor KB',
       files: [
@@ -668,7 +668,7 @@ const surekomListData = [
     nama: 'Calvin Revianto',
     nim: 'A11.2021.13782',
     prodi: 'TEKNIK INFORMATIKA S1',
-    program: 'Kegiatan Wirausaha',
+    program: 'Bengkel Koding',
     mitra: 'Inkubator Bisnis FIK',
     ipk: '3.42',
     sksLulus: 112,
@@ -1578,6 +1578,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Cloud Computing', 'DevOps'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Kamis, 24 September 2026, 17:33'
   },
   {
@@ -1603,6 +1607,10 @@ let pelamarListData = [
       { kode: 'A11.54805', nama: 'Deep Learning Terapan', sks: 6 }
     ],
     minat: ['Machine Learning', 'Computer Vision'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Jumat, 25 September 2026, 09:15'
   },
   {
@@ -1628,6 +1636,10 @@ let pelamarListData = [
       { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
     ],
     minat: ['Business Analysis', 'Data Warehouse'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Senin, 28 September 2026, 14:20'
   },
   {
@@ -1653,6 +1665,10 @@ let pelamarListData = [
       { kode: 'A11.54807', nama: 'Arsitektur Perangkat Lunak', sks: 6 }
     ],
     minat: ['Mobile Development', 'Flutter'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Selasa, 29 September 2026, 11:05'
   },
   {
@@ -1678,6 +1694,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Fullstack Web', 'Laravel & React'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Rabu, 30 September 2026, 16:45'
   },
   {
@@ -1703,6 +1723,10 @@ let pelamarListData = [
       { kode: 'A12.54805', nama: 'Interaksi Manusia dan Komputer', sks: 6 }
     ],
     minat: ['Frontend', 'Edutech'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10'
   },
   {
@@ -1728,6 +1752,10 @@ let pelamarListData = [
       { kode: 'A15.54803', nama: 'Desain Interaktif & VR', sks: 6 }
     ],
     minat: ['3D Modeling', 'Blender'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30'
   },
   {
@@ -1753,6 +1781,10 @@ let pelamarListData = [
       { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
     ],
     minat: ['Data Engineering', 'BigQuery'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Senin, 21 September 2026, 08:30'
   },
   {
@@ -1778,6 +1810,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Cloud Architecture', 'GCP'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Selasa, 22 September 2026, 14:00'
   },
   {
@@ -1803,6 +1839,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Cyber Security', 'Network'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Rabu, 23 September 2026, 11:20'
   }
 ];
