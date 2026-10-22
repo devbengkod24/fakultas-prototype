@@ -7,7 +7,7 @@ export interface NavItem {
 }
 
 export interface RoleNavConfig {
-  role: "admin" | "mahasiswa" | "mitra";
+  role: "admin" | "mahasiswa" | "kontributor";
   roleTitle: string;
   items: NavItem[];
 }
@@ -55,28 +55,26 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "log-aktivitas", label: "Log Aktivitas", href: "/mahasiswa/log-aktivitas", icon: "history" },
     ]
   },
-  mitra: {
-    role: "mitra",
-    roleTitle: "Mitra & Kontributor",
+  kontributor: {
+    role: "kontributor",
+    roleTitle: "Kontributor",
     items: [
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
-      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
-      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
-      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
-      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
+      { id: "seleksi", label: "Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/contributor/log-aktivitas", icon: "history" },
     ]
   },
   contributor: {
     role: "contributor",
-    roleTitle: "Kontributor Mitra Industri",
+    roleTitle: "Kontributor Industri",
     items: [
       { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
       { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
-      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
-      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
-      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
-      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "anggota", label: "Anggota", href: "/contributor/anggota", icon: "users" },
+      { id: "seleksi", label: "Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/contributor/log-aktivitas", icon: "history" },
     ]
   },
   dosen: {

@@ -1,4 +1,423 @@
 ---
-// Alias redirect to /contributor/dosen
-return Astro.redirect("/contributor/dosen");
+// src/pages/contributor/anggota.astro
+import KontributorShell from "../../layouts/KontributorShell.astro";
 ---
+
+<KontributorShell
+  title="Anggota | Portal Kontributor"
+  activeNav="anggota"
+  pageTitle="Anggota"
+  breadcrumbTitle="Anggota"
+>
+  <section id="view-anggota" class="view-panel mt-5 space-y-5">
+    <div>
+      <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Anggota</h2>
+      <p class="text-[14px] leading-[20px] text-[#71717a]">Dosen pembimbing dan mahasiswa binaan yang terlibat dalam program ini.</p>
+    </div>
+
+    <!-- Tab: Dosen | Mahasiswa -->
+    <div id="kag-tabs" role="tablist" class="flex items-center gap-1 border-b border-[#e4e4e7]">
+      <button type="button" role="tab" data-tab="dosen" onclick="kagShowTab('dosen')" class="kag-tab"></button>
+      <button type="button" role="tab" data-tab="mahasiswa" onclick="kagShowTab('mahasiswa')" class="kag-tab"></button>
+    </div>
+
+    <div id="kag-panel-dosen" role="tabpanel" class="kag-panel space-y-4">
+<div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Data Dosen Pembina</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Daftar dosen pembimbing akademik dan riset yang ditugaskan mengampu program binaan ini.</p>
+            </div>
+            <button type="button" onclick="openAddDosenModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Tambah Dosen Pembina</span>
+            </button>
+          </div>
+
+          <!-- Tabel Dosen Pembina -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Dosen Pembimbing</th>
+                    <th class="py-3 px-4">NPP / NIDN</th>
+                    <th class="py-3 px-4">Bidang Kajian Utama</th>
+                    <th class="py-3 px-4">Alokasi Kuota Bimbingan</th>
+                    <th class="py-3 px-4">Status Pengampu</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="dosenTableBody" class="divide-y divide-gray-100">
+                  <tr class="dsn-row hover:bg-gray-50/70 transition-colors" data-npp="0686.11.2001.289" data-name="Dr. Ricardus Anggi, M.Kom.">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+                          RA
+                        </div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dr. Ricardus Anggi, M.Kom.</div>
+                          <div class="text-[11px] text-[#71717a]">ricardus.anggi@dsn.dinus.ac.id</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      0686.11.2001.289
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-800">
+                      Computer Vision &amp; Deep Learning
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-[#09090b]">4 / 6 Mahasiswa</span>
+                        <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa 2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Koordinator Lab
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Profil
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="dsn-row hover:bg-gray-50/70 transition-colors" data-npp="0686.11.2005.312" data-name="Dr. Aris Kusumawati, M.Cs.">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
+                          AK
+                        </div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dr. Aris Kusumawati, M.Cs.</div>
+                          <div class="text-[11px] text-[#71717a]">aris.kusumawati@dsn.dinus.ac.id</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      0686.11.2005.312
+                    </td>
+                    <td class="py-3.5 px-4 text-gray-800">
+                      Natural Language Processing &amp; Text Mining
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2">
+                        <span class="font-medium text-[#09090b]">2 / 4 Mahasiswa</span>
+                        <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa 2</span>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Pembimbing Riset
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Profil
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+  
+    </div>
+
+    <div id="kag-panel-mahasiswa" role="tabpanel" class="kag-panel space-y-4 hidden">
+<div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Data Mahasiswa Binaan</h2>
+              <p class="text-[14px] leading-[20px] text-[#71717a]">Daftar mahasiswa aktif bimbingan tugas akhir dan riset lab yang telah terdaftar dalam program binaan.</p>
+            </div>
+            <button type="button" onclick="openDirectAssignModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span>+ Direct Assign Mahasiswa</span>
+            </button>
+          </div>
+
+          <!-- Toolbar Filter & Search -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p class="text-xs text-[#71717a]"><span id="countMhsAll" class="font-semibold text-[#09090b]">3</span> mahasiswa binaan aktif</p>
+
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="searchMahasiswaInput" onkeyup="searchMahasiswa()" placeholder="Cari nama atau NIM..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            </div>
+          </div>
+
+          <!-- Tabel Data Mahasiswa Binaan -->
+          <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
+                    <th class="py-3 px-4">Mahasiswa</th>
+                    <th class="py-3 px-4">Fokus Riset / Tugas Akhir</th>
+                    <th class="py-3 px-4">Paket SKS</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="mahasiswaTableBody" class="divide-y divide-gray-100">
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-name="Dimas Wahyu Saputra" data-nim="A11.2022.14101">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">DW</div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Dimas Wahyu Saputra</div>
+                          <div class="text-[12px] text-[#71717a]">A11.2022.14101 • TI-S1</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Deteksi Cacat Permukaan Logam Menggunakan YOLOv8</span>
+                      <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Profil
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-name="Siti Nurhaliza" data-nim="A11.2022.14150">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">SN</div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Siti Nurhaliza</div>
+                          <div class="text-[12px] text-[#71717a]">A11.2022.14150 • TI-S1</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Segmentasi Citra Medis USG Tiroid dengan Attention U-Net</span>
+                      <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Profil
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr class="mhs-row hover:bg-gray-50/70 transition-colors" data-name="Bagus Wicaksono" data-nim="A11.2022.14205">
+                    <td class="py-3.5 px-4">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">BW</div>
+                        <div>
+                          <div class="font-medium text-[13px] text-[#09090b] leading-tight">Bagus Wicaksono</div>
+                          <div class="text-[12px] text-[#71717a]">A11.2022.14205 • TI-S1</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-medium text-gray-800">Optimasi Hyperparameter Transformer untuk NLP Bahasa Jawa</span>
+                      <div class="text-[#71717a] text-[11px]">Riset Mandiri Lab</div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <span class="font-semibold text-[#1063B9]">20 SKS</span>
+                      <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
+                        Profil
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+  
+    </div>
+  </section>
+
+  <!-- Drawer: Profil Anggota -->
+  <div id="kag-drawer" class="hidden fixed inset-0 z-50" aria-hidden="true">
+    <div class="absolute inset-0 bg-black/40" onclick="kagCloseProfile()"></div>
+    <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl border-l border-[#e4e4e7] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="kag-p-title">
+      <div class="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-[#e4e4e7]">
+        <h3 id="kag-p-title" class="text-[15px] font-semibold text-[#09090b]">Profil</h3>
+        <button type="button" onclick="kagCloseProfile()" class="p-1 rounded hover:bg-gray-100 text-[#71717a] shrink-0" aria-label="Tutup profil">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="kag-p-body" class="flex-1 overflow-y-auto px-5 py-4 space-y-5 text-xs"></div>
+    </aside>
+  </div>
+
+  <script is:inline>
+    var KAG_TABS = { dosen: 'Dosen', mahasiswa: 'Mahasiswa' };
+
+    function kagShowTab(name) {
+      if (!KAG_TABS[name]) name = 'dosen';
+      Array.prototype.forEach.call(document.querySelectorAll('.kag-panel'), function (p) {
+        p.classList.toggle('hidden', p.id !== 'kag-panel-' + name);
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('#kag-tabs .kag-tab'), function (b) {
+        var key = b.getAttribute('data-tab');
+        var active = key === name;
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+        b.textContent = KAG_TABS[key];
+        b.className = 'kag-tab -mb-px px-4 py-2.5 text-xs whitespace-nowrap border-b-2 transition-colors ' +
+          (active ? 'border-[#0655a7] text-[#0655a7] font-semibold' : 'border-transparent text-[#71717a] hover:text-[#09090b]');
+      });
+      try { history.replaceState(null, '', '#' + name); } catch (e) {}
+    }
+
+
+    // =========================================================================
+    // PROFIL ANGGOTA — drawer. Data mock; baris yang ditambahkan lewat form
+    // (tanpa data lengkap) memakai profil ringkas dari atribut baris.
+    // =========================================================================
+    var KAG_DOSEN = {
+      '0686.11.2001.289': { nama: 'Dr. Ricardus Anggi, M.Kom.', nidn: '0686.11.2001.289', prodi: 'Teknik Informatika (S1)', bidang: 'Computer Vision & Deep Learning', email: 'ricardus.anggi@dsn.dinus.ac.id', wa: '6281234500001', program: 'Riset Terapan Machine Learning', peran: 'Koordinator Lab', kuota: 6, binaan: ['A11.2022.14101', 'A11.2022.14150'] },
+      '0686.11.2005.312': { nama: 'Dr. Aris Kusumawati, M.Cs.', nidn: '0686.11.2005.312', prodi: 'Sistem Informasi (S1)', bidang: 'Natural Language Processing & Text Mining', email: 'aris.kusumawati@dsn.dinus.ac.id', wa: '6281234500002', program: 'Riset Terapan Machine Learning', peran: 'Pembimbing Riset', kuota: 4, binaan: ['A11.2022.14205'] }
+    };
+    var KAG_MHS = {
+      'A11.2022.14101': { nama: 'Dimas Wahyu Saputra', nim: 'A11.2022.14101', prodi: 'Teknik Informatika (S1)', angkatan: '2022', ipk: '3.68', sks: 104, email: 'dimas.saputra@mhs.dinus.ac.id', wa: '6281234510001', topik: 'Deteksi Cacat Permukaan Logam Menggunakan YOLOv8', dpl: '0686.11.2001.289', mulai: '2026-08-17', berkas: ['transkrip', 'cv'] },
+      'A11.2022.14150': { nama: 'Siti Nurhaliza', nim: 'A11.2022.14150', prodi: 'Teknik Informatika (S1)', angkatan: '2022', ipk: '3.81', sks: 108, email: 'siti.nurhaliza@mhs.dinus.ac.id', wa: '6281234510002', topik: 'Segmentasi Citra Medis USG Tiroid dengan Attention U-Net', dpl: '0686.11.2001.289', mulai: '2026-08-17', berkas: ['transkrip', 'cv'] },
+      'A11.2022.14205': { nama: 'Bagus Wicaksono', nim: 'A11.2022.14205', prodi: 'Sistem Informasi (S1)', angkatan: '2022', ipk: '3.55', sks: 102, email: 'bagus.wicaksono@mhs.dinus.ac.id', wa: '6281234510003', topik: 'Optimasi Hyperparameter Transformer untuk NLP Bahasa Jawa', dpl: '0686.11.2005.312', mulai: '2026-08-24', berkas: ['transkrip', 'cv', 'portofolio'] }
+    };
+    var KAG_BERKAS = { transkrip: 'Transkrip Nilai', cv: 'Curriculum Vitae', portofolio: 'Portofolio' };
+
+    function kagEsc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+    function kagInitials(n) {
+      return String(n).replace(/^(Dr|Prof|Ir)\.?\s+/i, '').split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join('').toUpperCase();
+    }
+    function kagDate(iso) {
+      var d = new Date(iso);
+      return isNaN(d) ? '—' : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    function kagField(label, valueHtml) {
+      return '<div class="flex items-start justify-between gap-4 py-2 border-b border-gray-100 last:border-0">' +
+        '<dt class="text-[#71717a] shrink-0">' + label + '</dt><dd class="text-right text-[#09090b] font-medium min-w-0 break-words">' + valueHtml + '</dd></div>';
+    }
+    function kagSection(title, inner) {
+      return '<section><h4 class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider mb-1.5">' + title + '</h4>' + inner + '</section>';
+    }
+    function kagKey(s) { return String(s).replace(/[^A-Za-z0-9._-]/g, ''); }
+
+    function kagPhoto(nama) {
+      return '<div class="w-20 h-20 rounded-full bg-primary-100 text-[#114D91] border border-primary-200 shrink-0 flex items-center justify-center text-2xl font-bold" aria-hidden="true">' + kagEsc(kagInitials(nama)) + '</div>';
+    }
+    function kagCard(nama, sub, badgeHtml, actionsHtml) {
+      return '<div class="flex items-start gap-4">' + kagPhoto(nama) +
+        '<div class="min-w-0 flex-1 space-y-1.5">' +
+          '<h4 class="text-[15px] font-semibold text-[#09090b] leading-snug break-words">' + kagEsc(nama) + '</h4>' +
+          '<p class="text-xs text-[#71717a] break-words">' + sub + '</p>' +
+          '<div>' + badgeHtml + '</div>' + actionsHtml +
+        '</div></div>';
+    }
+
+    function kagOpenProfileFromRow(btn) {
+      var tr = btn.closest('tr');
+      if (!tr) return;
+      if (tr.hasAttribute('data-npp')) kagOpenProfile('dsn', tr.getAttribute('data-npp'), tr.getAttribute('data-name'));
+      else kagOpenProfile('mhs', tr.getAttribute('data-nim'), tr.getAttribute('data-name'));
+    }
+
+    function kagOpenProfile(type, key, fallbackName) {
+      var drawer = document.getElementById('kag-drawer');
+      var body = document.getElementById('kag-p-body');
+      var html = '';
+      if (type === 'dsn') {
+        var d = KAG_DOSEN[key];
+        if (!d) d = { nama: fallbackName || 'Dosen Pembimbing', nidn: key, prodi: '—', bidang: '—', email: '', wa: '', program: '—', peran: 'Pembimbing', kuota: 0, binaan: [] };
+        document.getElementById('kag-p-title').textContent = 'Profil Dosen';
+        var kontak = '<div class="flex flex-wrap gap-2 pt-1">' +
+          (d.email ? '<button type="button" onclick="kagCopy(\'' + kagKey(d.nidn) + '\')" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"><i data-lucide="copy" class="w-3.5 h-3.5"></i>Salin email</button>' : '') +
+          (d.wa ? '<a href="https://wa.me/' + kagEsc(d.wa) + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 no-underline"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>WhatsApp</a>' : '') +
+          '</div>';
+        var terisi = d.binaan.length;
+        var binaan = d.binaan.length ? d.binaan.map(function (nim) {
+          var m = KAG_MHS[nim];
+          return '<li><button type="button" onclick="kagOpenProfile(\'mhs\',\'' + kagKey(nim) + '\')" class="w-full text-left flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"><span class="min-w-0"><span class="block font-medium text-[#09090b] truncate">' + kagEsc(m ? m.nama : nim) + '</span><span class="block text-[11px] text-[#71717a]">' + kagEsc(nim) + '</span></span><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 shrink-0"></i></button></li>';
+        }).join('') : '<li class="text-[#71717a] py-1">Belum ada mahasiswa bimbingan.</li>';
+        var badgeD = '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">' + kagEsc(d.peran) + '</span>';
+        html = kagCard(d.nama, 'NIDN ' + kagEsc(d.nidn), badgeD, kontak) +
+          kagSection('Data Dosen', '<dl>' +
+            kagField('Prodi homebase', kagEsc(d.prodi)) + kagField('Bidang kajian', kagEsc(d.bidang)) +
+            kagField('Program didampingi', kagEsc(d.program)) +
+            kagField('Kuota bimbingan', terisi + ' / ' + d.kuota + ' mahasiswa') +
+            kagField('Email', d.email ? kagEsc(d.email) : '—') + '</dl>') +
+          kagSection('Mahasiswa Bimbingan (' + terisi + ')', '<ul class="space-y-1.5">' + binaan + '</ul>') +
+          '<p class="text-[11px] text-[#a1a1aa]">Data dosen ditempatkan oleh Koordinator dan tidak dapat diubah di sini.</p>';
+      } else {
+        var m = KAG_MHS[key];
+        if (!m) m = { nama: fallbackName || 'Mahasiswa', nim: key, prodi: '—', angkatan: '—', ipk: '—', sks: '—', email: '', wa: '', topik: '—', dpl: '', mulai: '', berkas: [] };
+        document.getElementById('kag-p-title').textContent = 'Profil Mahasiswa';
+        var dpl = KAG_DOSEN[m.dpl];
+        var dplHtml = dpl ? '<button type="button" onclick="kagOpenProfile(\'dsn\',\'' + kagKey(m.dpl) + '\')" class="text-[#1063B9] hover:underline">' + kagEsc(dpl.nama) + '</button>' : '—';
+        var berkas = m.berkas.length ? m.berkas.map(function (b) {
+          return '<li><button type="button" onclick="previewDoc(\'' + kagKey(m.nim) + '\', \'' + (b === 'cv' ? 'cv' : 'transkrip') + '\')" class="w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"><i data-lucide="file-text" class="w-3.5 h-3.5 text-[#1063B9]"></i><span class="text-[#09090b]">' + (KAG_BERKAS[b] || b) + '</span></button></li>';
+        }).join('') : '<li class="text-[#71717a] py-1">Belum ada berkas.</li>';
+        var kontakM = (m.email || m.wa) ? '<div class="flex flex-wrap gap-2 pt-1">' +
+          (m.email ? '<a href="mailto:' + kagEsc(m.email) + '" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 no-underline"><i data-lucide="mail" class="w-3.5 h-3.5"></i>Email</a>' : '') +
+          (m.wa ? '<a href="https://wa.me/' + kagEsc(m.wa) + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 no-underline"><i data-lucide="message-circle" class="w-3.5 h-3.5"></i>WhatsApp</a>' : '') + '</div>' : '';
+        html = kagCard(m.nama, kagEsc(m.nim) + ' · ' + kagEsc(m.prodi), '', kontakM) +
+          kagSection('Akademik', '<dl>' +
+            kagField('Angkatan', kagEsc(m.angkatan)) + kagField('IPK', kagEsc(m.ipk)) + kagField('SKS lulus', kagEsc(m.sks)) + '</dl>') +
+          kagSection('Program', '<dl>' +
+            kagField('Fokus riset / tugas akhir', kagEsc(m.topik)) +
+            kagField('DPL pendamping', dplHtml) + kagField('Tanggal mulai', m.mulai ? kagDate(m.mulai) : '—') + '</dl>') +
+          kagSection('Berkas Administrasi', '<ul class="space-y-1.5">' + berkas + '</ul>');
+      }
+      body.innerHTML = html;
+      drawer.setAttribute('data-open-type', type);
+      drawer.setAttribute('data-open-key', key);
+      drawer.classList.remove('hidden');
+      drawer.setAttribute('aria-hidden', 'false');
+      body.scrollTop = 0;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function kagCloseProfile() {
+      var drawer = document.getElementById('kag-drawer');
+      if (!drawer) return;
+      drawer.classList.add('hidden');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    function kagCopy(nidn) {
+      var d = KAG_DOSEN[nidn];
+      if (!d) return;
+      var done = function () { showToast('Email Disalin', d.email); };
+      var fail = function () { showToast('Gagal Menyalin', 'Salin manual: ' + d.email); };
+      try {
+        navigator.clipboard.writeText(d.email).then(done, fail);
+      } catch (e) { fail(); }
+    }
+
+    document.removeEventListener('keydown', window.__kagEsc);
+    window.__kagEsc = function (e) {
+      if (e.key === 'Escape' && document.getElementById('kag-drawer')) kagCloseProfile();
+    };
+    document.addEventListener('keydown', window.__kagEsc);
+
+    function kagInit() {
+      if (!document.getElementById('kag-tabs')) return;
+      kagShowTab((location.hash || '').replace('#', ''));
+    }
+    document.removeEventListener('astro:page-load', window.__kagInit);
+    window.__kagInit = kagInit;
+    document.addEventListener('astro:page-load', kagInit);
+  </script>
+</KontributorShell>

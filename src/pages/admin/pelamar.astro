@@ -99,15 +99,15 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <option value="nama-asc">🔤 Nama (A - Z)</option>
       </select>
 
-      <!-- Filter Kategori / Mitra -->
+      <!-- Filter Kategori / Kontributor -->
       <select
-        id="filter-pelamar-mitra"
-        onchange="handleFilterPelamarMitra(this.value)"
+        id="filter-pelamar-kontributor"
+        onchange="handleFilterPelamarKontributor(this.value)"
         class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
       >
-        <option value="semua">Semua Mitra</option>
-        <option value="eksternal" selected>Mitra Eksternal (Koordinator)</option>
-        <option value="internal">Mitra Internal (Read-Only)</option>
+        <option value="semua">Semua Kontributor</option>
+        <option value="eksternal" selected>Kontributor Eksternal (Koordinator)</option>
+        <option value="internal">Kontributor Internal (Read-Only)</option>
         <option value="Dicoding Indonesia">Dicoding Indonesia</option>
         <option value="Bangkit Academy">Bangkit Academy</option>
         <option value="PT Telkom Indonesia">PT Telkom Indonesia</option>
@@ -142,7 +142,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <tr>
           <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
           <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program & Mitra MBKM</th>
+          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program & Kontributor MBKM</th>
           <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Akademik</th>
           <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Matakuliah Diambil</th>
           <th class="h-11 px-4 font-medium text-sm w-36 text-center text-[#71717a]">Aksi</th>

@@ -19,7 +19,6 @@ const {
 
 // Normalisasi key tab untuk navigasi & metadata
 let activeTabKey = currentTab;
-if (activeTabKey === 'kontributor') activeTabKey = 'mitra';
 if (activeTabKey === 'pelamar') activeTabKey = 'mhs-pelamar';
 if (activeTabKey === 'surekom') activeTabKey = 'mhs-rekomendasi';
 if (activeTabKey === 'semua-mahasiswa') activeTabKey = 'mhs-semua';
@@ -50,28 +49,28 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     subtitle: 'Konfigurasi syarat akademik EWS, berkas portofolio, konversi SKS, dan template SuReKom se-fakultas.',
     actionButton: '<button type="button" onclick="openPreviewMahasiswaModal()" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="eye" class="w-4 h-4 text-[#71717a]"></i><span>Pratinjau Tampilan Mahasiswa</span></button>',
   },
-  mitra: {
+  kontributor: {
     label: 'Kontributor',
     title: 'Kontributor MBKM',
-    subtitle: 'Kelola akun kontributor mitra industri, lembaga mitra, dan instansi magang/studi.',
+    subtitle: 'Kelola akun kontributor industri, lembaga kontributor, dan instansi magang/studi.',
     actionButton: '',
   },
   'mhs-pelamar': {
     label: 'Mahasiswa / Pendaftar',
     title: 'Daftar Pengajuan Mahasiswa Pendaftar',
-    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM mitra eksternal.',
+    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM kontributor eksternal.',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
   },
   'mhs-rekomendasi': {
     label: 'Mahasiswa / Validasi Surekom',
     title: 'Validasi Surat Rekomendasi',
-    subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi mitra mahasiswa.',
+    subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi kontributor mahasiswa.',
     actionButton: '',
   },
   'mhs-semua': {
     label: 'Mahasiswa / Semua Mahasiswa',
     title: 'Semua Mahasiswa MBKM',
-    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di mitra industri.',
+    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di kontributor industri.',
     actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
   },
   'mhs-data': {
@@ -402,10 +401,10 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               id="nav-kontributor"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
-                activeTabKey === 'mitra' || activeTabKey === 'kontributor' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+                activeTabKey === 'kontributor' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
               ]}
             >
-              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mitra' || activeTabKey === 'kontributor' ? '' : 'hidden']}></span>
+              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'kontributor' ? '' : 'hidden']}></span>
               <i data-lucide="building-2" class="w-4 h-4 text-[#71717a] shrink-0"></i>
               <span class="truncate">Kontributor</span>
             </a>

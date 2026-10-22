@@ -43,7 +43,7 @@ export interface Applicant {
   email?: string;
   phone?: string;
   program?: string;
-  mitra?: string;
+  kontributor?: string;
   posisi?: string;
   ipk?: string | number;
   sks?: number;

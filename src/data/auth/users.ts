@@ -2,7 +2,7 @@ export interface UserAccount {
   name: string;
   email: string;
   password: string;
-  role: "admin" | "mitra" | "contributor" | "dosen" | "mahasiswa";
+  role: "admin" | "kontributor" | "contributor" | "dosen" | "mahasiswa";
   roleName: string;
   identifier: string;
   avatar: string;
@@ -20,14 +20,14 @@ export const DEMO_ACCOUNTS: UserAccount[] = [
     identifier: "0686.11.2012.441",
     avatar: "NA",
     redirectUrl: "/admin/dashboard",
-    description: "Akses penuh kelola mitra, validasi SuReKom, seleksi, konversi SKS, dan monitoring mahasiswa."
+    description: "Akses penuh kelola kontributor, validasi SuReKom, seleksi, konversi SKS, dan monitoring mahasiswa."
   },
   {
     name: "Dr. Ricardus Anggi, M.Kom.",
-    email: "mitra@dinus.ac.id",
+    email: "kontributor@dinus.ac.id",
     password: "password",
     role: "contributor",
-    roleName: "Kontributor Mitra Industri",
+    roleName: "Kontributor Industri",
     identifier: "0686.11.2001.289",
     avatar: "RA",
     redirectUrl: "/contributor/dashboard",
@@ -53,6 +53,6 @@ export const DEMO_ACCOUNTS: UserAccount[] = [
     identifier: "A11.2021.13782",
     avatar: "AR",
     redirectUrl: "/mahasiswa/dashboard",
-    description: "Eksplorasi katalog mitra, form pendaftaran 3 tahap, cek status pengajuan, dan logbook kegiatan."
+    description: "Eksplorasi katalog kontributor, form pendaftaran 3 tahap, cek status pengajuan, dan logbook kegiatan."
   }
 ];
