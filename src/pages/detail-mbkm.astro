@@ -75,6 +75,36 @@
           rgba(0, 0, 0, 0) 100%
         );
       }
+      /* Cincin fokus konsisten untuk elemen interaktif */
+      .focus-ring:focus-visible {
+        outline: 2px solid #1e7fd9;
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+
+      /* Tab bar informasi program */
+      .tab-btn {
+        position: relative;
+        border-bottom: 2px solid transparent;
+        transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .tab-btn:hover {
+        color: #114d91;
+      }
+      .tab-btn[aria-selected="true"] {
+        color: #114d91;
+        border-bottom-color: #114d91;
+        font-weight: 800;
+      }
+      .tab-panel[hidden] {
+        display: none;
+      }
+      .tab-panel {
+        min-height: 220px;
+      }
+
       /* Animasi halus saat jawaban FAQ terbuka */
 @keyframes faq-fade {
   from {
@@ -95,14 +125,17 @@ details[open] > .faq-answer {
   }
 }
       #showcase {
-        --w: 300px;
+        /* Kartu 16:9. Tinggi otomatis dari lebar. */
+        --w: 720px;
+        --h: calc(var(--w) * 0.5625);
+        --side: 0.62; /* jarak kartu samping, <1 agar bertumpuk */
       }
       #showcase .sc-stage {
         position: relative;
         z-index: 1;
-        height: calc(var(--w) * 1.4 + 56px);
-        perspective: 1500px;
-        perspective-origin: 50% 38%;
+        height: calc(var(--h) + 40px);
+        perspective: 2400px;
+        perspective-origin: 50% 45%;
         touch-action: pan-y;
         user-select: none;
         -webkit-user-select: none;
@@ -116,19 +149,19 @@ details[open] > .faq-answer {
 
       #showcase .project-card {
         position: absolute;
-        top: 24px;
+        top: 36px;
         left: 50%;
         width: var(--w);
-        height: calc(var(--w) * 1.4);
+        height: var(--h);
         margin-left: calc(var(--w) / -2);
-        border-radius: 22px;
+        border-radius: 20px;
         overflow: hidden;
         background: #0d2544;
         color: #fff;
         cursor: pointer;
         opacity: 0;
         pointer-events: none;
-        transform: translateX(0) translateZ(-400px) scale(0.6);
+        transform: translateX(0) translateZ(-500px) scale(0.5);
         will-change: transform, opacity;
         box-shadow: 0 18px 40px rgba(13, 37, 68, 0.18);
         transition:
@@ -137,6 +170,7 @@ details[open] > .faq-answer {
           filter 0.6s ease,
           box-shadow 0.6s ease;
       }
+      /* Kartu aktif: paling depan, di tengah */
       #showcase .project-card[data-position="0"] {
         transform: translateX(0) translateZ(0) scale(1);
         z-index: 5;
@@ -144,40 +178,30 @@ details[open] > .faq-answer {
         pointer-events: auto;
         cursor: default;
         box-shadow:
-          0 34px 60px -14px rgba(13, 37, 68, 0.4),
-          0 0 0 1px rgba(255, 255, 255, 0.55);
+          0 40px 70px -18px rgba(13, 37, 68, 0.5),
+          0 0 0 1px rgba(255, 255, 255, 0.6);
       }
+      /* Kartu samping: bertumpuk di belakang, lebih kecil & redup */
       #showcase .project-card[data-position="-1"] {
-        transform: translateX(calc(var(--w) * -0.98)) translateZ(-140px)
-          rotateY(34deg) scale(0.9);
-        z-index: 4;
+        transform: translateX(calc(var(--w) * var(--side) * -1))
+          translateZ(-180px) rotateY(14deg) scale(0.82);
+        z-index: 3;
         opacity: 1;
         pointer-events: auto;
-        filter: saturate(0.85) brightness(0.92);
+        filter: saturate(0.8) brightness(0.78);
       }
       #showcase .project-card[data-position="1"] {
-        transform: translateX(calc(var(--w) * 0.98)) translateZ(-140px)
-          rotateY(-34deg) scale(0.9);
-        z-index: 4;
+        transform: translateX(calc(var(--w) * var(--side)))
+          translateZ(-180px) rotateY(-14deg) scale(0.82);
+        z-index: 3;
         opacity: 1;
         pointer-events: auto;
-        filter: saturate(0.85) brightness(0.92);
+        filter: saturate(0.8) brightness(0.78);
       }
-      #showcase .project-card[data-position="-2"] {
-        transform: translateX(calc(var(--w) * -1.78)) translateZ(-300px)
-          rotateY(40deg) scale(0.8);
-        z-index: 3;
-        opacity: 0.8;
-        pointer-events: auto;
-        filter: saturate(0.7) brightness(0.88);
-      }
+      #showcase .project-card[data-position="-2"],
       #showcase .project-card[data-position="2"] {
-        transform: translateX(calc(var(--w) * 1.78)) translateZ(-300px)
-          rotateY(-40deg) scale(0.8);
-        z-index: 3;
-        opacity: 0.8;
-        pointer-events: auto;
-        filter: saturate(0.7) brightness(0.88);
+        opacity: 0;
+        pointer-events: none;
       }
       #showcase .project-card[data-position="hidden"] {
         opacity: 0;
@@ -212,10 +236,10 @@ details[open] > .faq-answer {
         inset: 0;
         background: linear-gradient(
           to top,
-          rgba(8, 24, 48, 0.94) 0%,
-          rgba(8, 24, 48, 0.6) 40%,
-          rgba(8, 24, 48, 0.08) 72%,
-          rgba(8, 24, 48, 0.28) 100%
+          rgba(8, 24, 48, 0.92) 0%,
+          rgba(8, 24, 48, 0.55) 45%,
+          rgba(8, 24, 48, 0.05) 78%,
+          rgba(8, 24, 48, 0.25) 100%
         );
         transition: opacity 0.6s ease;
       }
@@ -262,18 +286,18 @@ details[open] > .faq-answer {
         left: 0;
         right: 0;
         bottom: 0;
-        padding: 22px 22px 28px;
+        padding: 24px 24px 28px;
       }
       #showcase .sc-title {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
         font-weight: 800;
-        line-height: 1.18;
+        line-height: 1.22;
         letter-spacing: -0.01em;
         color: #fff;
       }
       #showcase .sc-rule {
         display: block;
-        width: 38px;
+        width: 44px;
         height: 3px;
         margin-top: 12px;
         border-radius: 999px;
@@ -281,7 +305,7 @@ details[open] > .faq-answer {
         transition: width 0.7s cubic-bezier(0.22, 0.8, 0.24, 1);
       }
       #showcase .project-card[data-position="0"] .sc-rule {
-        width: 72px;
+        width: 80px;
       }
       #showcase .sc-extra {
         max-height: 0;
@@ -294,16 +318,20 @@ details[open] > .faq-answer {
           transform 0.6s ease;
       }
       #showcase .project-card[data-position="0"] .sc-extra {
-        max-height: 220px;
+        max-height: 200px;
         opacity: 1;
         transform: translateY(0);
         transition-delay: 0.18s;
       }
       #showcase .sc-desc {
         margin-top: 12px;
-        font-size: 0.84rem;
+        font-size: 0.86rem;
         line-height: 1.6;
-        color: rgba(255, 255, 255, 0.86);
+        color: rgba(255, 255, 255, 0.88);
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       #showcase .sc-note {
         margin-top: 12px;
@@ -312,14 +340,14 @@ details[open] > .faq-answer {
         font-size: 0.7rem;
         color: rgba(255, 255, 255, 0.6);
       }
-      /* Garis aksen bawah (selaras dengan kartu skema) */
+      /* Garis aksen bawah */
       #showcase .project-card::after {
         content: "";
         position: absolute;
         left: 22px;
         right: 22px;
         bottom: 0;
-        height: 4px;
+        height: 3px;
         border-radius: 999px 999px 0 0;
         background: var(--accent);
         opacity: 0;
@@ -333,10 +361,10 @@ details[open] > .faq-answer {
       #showcase .sc-glow {
         position: absolute;
         left: 50%;
-        top: 4%;
+        top: 8%;
         z-index: 0;
-        width: min(78%, 900px);
-        height: 78%;
+        width: min(72%, 860px);
+        height: 62%;
         transform: translateX(-50%);
         pointer-events: none;
         -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
@@ -376,19 +404,19 @@ details[open] > .faq-answer {
       /* Tombol panah */
       #showcase .sc-arrow {
         position: absolute;
-        top: calc(var(--w) * 0.7 + 24px);
+        top: calc(var(--h) / 2 + 36px);
         z-index: 20;
         display: flex;
-        width: 48px;
-        height: 48px;
-        margin-top: -24px;
+        width: 56px;
+        height: 56px;
+        margin-top: -28px;
         align-items: center;
         justify-content: center;
         border-radius: 999px;
         border: 1px solid rgba(17, 77, 145, 0.14);
-        background: rgba(255, 255, 255, 0.92);
+        background: #ffffff;
         color: #114d91;
-        box-shadow: 0 10px 24px rgba(13, 37, 68, 0.16);
+        box-shadow: 0 12px 28px rgba(13, 37, 68, 0.24);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         transition:
@@ -458,36 +486,68 @@ details[open] > .faq-answer {
         background: var(--sc-accent, #114d91);
       }
 
-      /* Ukuran responsif */
-      @media (max-width: 1023px) {
+      /* Ukuran responsif — semua tetap 16:9, hanya lebar yang menyesuaikan */
+      @media (max-width: 1279px) {
         #showcase {
-          --w: 260px;
+          --w: 560px;
         }
       }
-      @media (max-width: 639px) {
+      @media (max-width: 1023px) {
         #showcase {
-          --w: 236px;
+          --w: 460px;
+          --side: 0.5;
+        }
+        #showcase .sc-arrow {
+          width: 46px;
+          height: 46px;
+          margin-top: -23px;
+        }
+      }
+      @media (max-width: 767px) {
+        #showcase {
+          --w: 360px;
+          --side: 0.42;
+        }
+        #showcase .sc-stage {
+          height: calc(var(--h) + 36px);
+        }
+        #showcase .project-card {
+          top: 28px;
         }
         #showcase .project-card[data-position="-1"] {
-          transform: translateX(calc(var(--w) * -0.86)) translateZ(-140px)
-            rotateY(30deg) scale(0.88);
+          transform: translateX(calc(var(--w) * var(--side) * -1))
+            translateZ(-160px) rotateY(12deg) scale(0.8);
         }
         #showcase .project-card[data-position="1"] {
-          transform: translateX(calc(var(--w) * 0.86)) translateZ(-140px)
-            rotateY(-30deg) scale(0.88);
-        }
-        #showcase .project-card[data-position="-2"],
-        #showcase .project-card[data-position="2"] {
-          opacity: 0;
-          pointer-events: none;
+          transform: translateX(calc(var(--w) * var(--side)))
+            translateZ(-160px) rotateY(-12deg) scale(0.8);
         }
         #showcase .sc-arrow {
           width: 40px;
           height: 40px;
           margin-top: -20px;
         }
+        #showcase .sc-arrow--prev {
+          left: -6px;
+        }
+        #showcase .sc-arrow--next {
+          right: -6px;
+        }
         #showcase .sc-title {
-          font-size: 1.15rem;
+          font-size: 1rem;
+        }
+        #showcase .sc-body {
+          padding: 16px 18px 20px;
+        }
+        #showcase .sc-desc {
+          font-size: 0.76rem;
+          -webkit-line-clamp: 2;
+        }
+      }
+      @media (max-width: 479px) {
+        #showcase {
+          --w: 300px;
+          --side: 0.34;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -505,43 +565,86 @@ details[open] > .faq-answer {
   <body
     class="min-h-screen flex flex-col bg-[#FAFAFA] text-gray-900 antialiased"
   >
-    <!-- HEADER / BREADCRUMB -->
-    <header class="bg-white border-b border-gray-200">
-      <section class="bg-white border-t border-gray-200">
-        <div
-          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3"
-        >
-          <!-- Breadcrumb Navigation -->
-          <nav class="flex items-center gap-2 text-xs text-gray-500 font-medium">
-            <a
-              href="/"
-              class="hover:text-primary-700 transition-colors flex items-center gap-1"
-            >
-              <i data-lucide="home" class="w-3.5 h-3.5"></i>
-              <span>Beranda</span>
-            </a>
-            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
-            <a href="/mbkm" class="hover:text-primary-700 transition-colors"
-              >MBKM</a
-            >
-            <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
-            <span
-              class="text-primary-700 font-semibold truncate max-w-[220px] sm:max-w-none"
-            >
-              Studi Independen Dicoding ASAH 2026
-            </span>
-          </nav>
+    <!-- ==================== MAIN NAVBAR ==================== -->
+    <header class="w-full bg-[linear-gradient(92.386deg,#114D91_0%,#1E7FD9_100%)] shadow-[0_10px_13.125px_rgba(0,0,0,0.1),0_4px_5.25px_rgba(0,0,0,0.1)]">
+      <div class="w-full max-w-[1920px] mx-auto flex items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 py-4 xl:py-5">
+        <!-- Logo UDINUS -->
+        <a href="/" class="flex items-center gap-3 shrink-0">
+          <img
+            src="/assets/images/logo-dinus.png"
+            alt="Logo UDINUS"
+            class="h-10 w-10 object-contain"
+          />
+          <div class="flex flex-col leading-[15px] font-extrabold tracking-[0.4px] text-white text-[12px] sm:text-[13px]">
+            <span>UNIVERSITAS</span>
+            <span>DIAN NUSWANTORO</span>
+          </div>
+        </a>
 
-          <!-- Tombol Kembali ke Katalog MBKM -->
+        <!-- Menu desktop -->
+        <nav class="hidden lg:flex items-center gap-5 xl:gap-6 font-medium text-white/80 whitespace-nowrap text-[14px] xl:text-[15px]">
+          <a href="/" class="hover:text-white transition-colors">Beranda</a>
+          <a href="/#profil" class="hover:text-white transition-colors">Profil</a>
+          <a href="/#inovasi" class="hover:text-white transition-colors">Inovasi</a>
+          <a href="/#publikasi" class="hover:text-white transition-colors">Publikasi</a>
+          <!-- Menu aktif: Kampus Berdampak -->
+          <a href="/mbkm" class="text-[#F3BC45] hover:text-[#f8db8f] font-semibold transition-colors">Kampus Berdampak</a>
+          <a href="/#pengumuman" class="hover:text-white transition-colors">Pengumuman</a>
+          <a href="/#berita" class="hover:text-white transition-colors">Berita Kegiatan</a>
+        </nav>
+
+        <!-- Tombol kanan -->
+        <div class="hidden md:flex items-center gap-3 shrink-0 text-[13px] xl:text-[14px]">
           <a
-            href="/mbkm"
-            class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold border border-gray-200 rounded-lg shadow-2xs hover:border-gray-300 transition-all"
+            href="https://pmb.dinus.ac.id/"
+            target="_blank"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white text-white hover:bg-white hover:text-[#114D91] transition-all font-medium whitespace-nowrap"
           >
-            <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-gray-500"></i>
-            <span>Kembali ke Katalog MBKM</span>
+            <span>Pendaftaran</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+          <a
+            href="/apps"
+            class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#F3BC45] hover:bg-[#E0A832] text-white font-bold shadow-xs transition-all whitespace-nowrap"
+          >
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-white"></i>
+            <span>Portal Apps</span>
           </a>
         </div>
-      </section>
+
+        <!-- Tombol menu mobile -->
+        <button
+          id="detailMenuBtn"
+          type="button"
+          class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-white/60 text-white hover:bg-white/10 transition"
+          aria-label="Buka menu"
+        >
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Menu mobile -->
+      <div id="detailMobileMenu" class="hidden lg:hidden border-t border-white/20 bg-[#114D91] px-4 sm:px-6 py-4">
+        <nav class="flex flex-col text-[14px] font-medium text-white space-y-3">
+          <a href="/" class="hover:text-secondary-300">Beranda</a>
+          <a href="/#profil" class="hover:text-secondary-300">Profil</a>
+          <a href="/#inovasi" class="hover:text-secondary-300">Inovasi</a>
+          <a href="/#publikasi" class="hover:text-secondary-300">Publikasi</a>
+          <a href="/mbkm" class="text-[#F3BC45] font-semibold">Kampus Berdampak</a>
+          <a href="/#pengumuman" class="hover:text-secondary-300">Pengumuman</a>
+          <a href="/#berita" class="hover:text-secondary-300">Berita Kegiatan</a>
+        </nav>
+        <div class="flex gap-3 pt-3 border-t border-white/15 text-[13px] font-medium">
+          <a href="https://pmb.dinus.ac.id/" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white text-white">
+            <span>Pendaftaran</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+          <a href="/apps" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#F3BC45] text-white font-bold">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+            <span>Portal Apps</span>
+          </a>
+        </div>
+      </div>
     </header>
 
     <main class="flex-1">
@@ -564,28 +667,6 @@ details[open] > .faq-answer {
           class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24"
         >
           <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
-            <div class="mb-5 flex flex-wrap items-center justify-center gap-2">
-              <span
-                class="inline-flex items-center gap-2 rounded-full bg-[#F3BC45] px-3 py-1.5 text-xs font-bold text-[#114D91]"
-              >
-                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
-                Program Eksternal
-              </span>
-
-              <span
-                class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
-              >
-                <i data-lucide="layers" class="w-4 h-4"></i>
-                Konversi Hingga 20 SKS
-              </span>
-            </div>
-
-            <p
-              class="mb-3 text-sm font-semibold tracking-[0.18em] text-blue-100/90"
-            >
-              FAKULTAS ILMU KOMPUTER · UDINUS
-            </p>
-
             <h1
               class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight drop-shadow-lg"
             >
@@ -619,10 +700,10 @@ details[open] > .faq-answer {
       </section>
 
       
-<!-- TENTANG PROGRAM + DAFTAR PERSIAPAN -->
+<!-- TENTANG PROGRAM -->
 <section
   id="tentang-program"
-    class="relative isolate overflow-x-clip py-12 sm:py-16 lg:py-15"
+  class="relative isolate overflow-x-clip pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12"
 >
   <!-- Dekorasi latar -->
   <div
@@ -633,42 +714,19 @@ details[open] > .faq-answer {
   ></div>
 
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-14">
-
-      <!-- KOLOM KIRI: TENTANG PROGRAM -->
-      <div class="min-w-0 lg:col-span-7">
-
-        <!-- Judul dan tombol -->
-        <div class="mb-7 flex flex-wrap items-center justify-between gap-4">
-          <div>
-        <div class="flex items-center gap-3">
-          <span class="h-px w-10 bg-[#F3BC45]"></span>
-          <p
-            class="text-xs font-bold uppercase tracking-[0.22em] text-primary-700"
-          >
-            Tentang Program
-          </p>
-        </div>
-
-            <h2
-              class="mt-2 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl"
-            >
-              Akselerasi Kompetensi Digital dan Talenta AI Masa Depan
-            </h2>
-
-            <div class="mt-3 h-1 w-16 rounded-full bg-[#F3BC45]"></div>
-          </div>
-        </div>
-                <!-- Foto utama -->
-        <div class="relative">
-
+    <div
+      class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-14"
+    >
+      <!-- KOLOM KIRI: FOTO -->
+      <div class="min-w-0 lg:col-span-7 lg:flex">
+        <div class="relative w-full">
           <!-- Dekorasi di belakang foto -->
           <div
             class="absolute -left-3 -top-3 h-36 w-36 rounded-tl-[2rem] border-l-4 border-t-4 border-[#F3BC45] sm:-left-4 sm:-top-4"
           ></div>
 
           <div
-            class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-200 shadow-lg"
+            class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-200 shadow-lg lg:aspect-auto lg:h-full"
           >
             <img
               src="/assets/images/DicodingAsah.jpg"
@@ -680,233 +738,48 @@ details[open] > .faq-answer {
             <div
               class="absolute inset-0 bg-gradient-to-t from-[#0D2544]/40 via-transparent to-transparent"
             ></div>
-
-            <span
-              class="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-[#F3BC45] px-3 py-1.5 text-xs font-bold text-primary-900 shadow-sm"
-            >
-              <i data-lucide="graduation-cap" class="h-4 w-4"></i>
-              MBKM FIK UDINUS
-            </span>
           </div>
-
-          <!-- Kartu mini di sudut (isi tetap, tidak ikut melebar) -->
-          <div
-            class="absolute -bottom-5 right-4 flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-xl ring-1 ring-gray-100 sm:right-6"
-          >
-            <div
-              class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#FEFAEC] text-primary-700"
-            >
-              <i data-lucide="layers" class="h-5 w-5"></i>
-            </div>
-            <div class="leading-tight">
-              <p class="text-sm font-extrabold text-gray-900">Hingga 20 SKS</p>
-              <p class="text-xs font-medium text-gray-500">Dapat dikonversi</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Teks deskripsi (tanpa kartu) -->
-        <div class="mt-12">
-          <div class="flex flex-wrap items-center gap-2">
-            <span
-              class="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-[12px] font-bold tracking-wide text-primary-700"
-            >
-              Studi Independen
-            </span>
-            <span class="text-xs font-medium text-gray-400">Program Eksternal</span>
-          </div>
-
-          <h3
-            class="mt-3 text-2xl font-extrabold leading-snug tracking-tight text-gray-900 sm:text-3xl"
-          >
-            Dicoding ASAH 2026
-          </h3>
-
-          <p class="mt-3 text-sm leading-7 text-gray-600 sm:text-[15px]">
-            Dicoding ASAH (Accelerated Skills &amp; Artificial Intelligence Hub)
-            2026 merupakan program Studi Independen Eksternal yang dirancang
-            khusus untuk mempersiapkan mahasiswa menjadi talenta digital andal
-            yang siap bersaing di industri global. Melalui kurikulum berstandar
-            internasional, peserta tidak hanya mempelajari landasan pemrograman
-            dan teknologi terkini, tetapi juga mengasah soft skills serta
-            kepemimpinan. Pembelajaran dilakukan secara fleksibel namun
-            terstruktur melalui kombinasi online self-paced learning, sesi live
-            mentoring bersama praktisi industri, serta pengerjaan Capstone
-            Project berbasis kasus nyata.
-          </p>
         </div>
       </div>
 
-      <!-- KOLOM KANAN: DAFTAR PERSIAPAN -->
-      <div class="min-w-0 lg:col-span-5 lg:pt-2">
-
-        <!-- Header daftar -->
-        <div class="mb-8">
-          <div class="flex items-center gap-3">
-            <div
-              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-700"
-            >
-              <i data-lucide="clipboard-list" class="h-5 w-5"></i>
-            </div>
-
-            <div>
-              <h3 class="mt-1 text-2xl font-extrabold text-gray-900">
-                Daftar Persiapan
-              </h3>
-            </div>
-          </div>
-
-          <p class="mt-4 text-sm leading-6 text-gray-600">
-            Pastikan tiga hal berikut sudah kamu persiapkan sebelum mengajukan
-            pendaftaran program MBKM.
+      <!-- KOLOM KANAN: TEKS + TOMBOL -->
+      <div class="flex min-w-0 flex-col lg:col-span-5">
+        <!-- Eyebrow (kicker) -->
+        <div class="flex items-center gap-3">
+          <span class="h-px w-10 bg-[#F3BC45]"></span>
+          <p
+            class="text-sm font-bold uppercase tracking-[0.16em] text-primary-700"
+          >
+            Tentang Program
           </p>
         </div>
 
-        <!-- ITEM 1 -->
-        <article class="group relative pb-7 pl-1">
-          <div class="absolute left-[17px] top-10 bottom-0 w-px bg-primary-100"></div>
+        <h2
+          class="mt-4 text-2xl font-extrabold leading-[1.2] tracking-tight text-gray-900 sm:text-3xl"
+        >
+          Akselerasi Kompetensi Digital dan Talenta AI Masa Depan
+        </h2>
 
-          <div class="relative flex items-start gap-4">
-            <div
-              class="z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white bg-primary-700 text-sm font-extrabold text-white shadow-sm ring-1 ring-primary-100"
-            >
-              01
-            </div>
+        <p class="mt-4 text-[15px] leading-8 text-gray-600">
+          Dicoding ASAH (Accelerated Skills &amp; Artificial Intelligence Hub)
+          2026 merupakan program Studi Independen Eksternal yang dirancang
+          khusus untuk mempersiapkan mahasiswa menjadi talenta digital andal
+          yang siap bersaing di industri global. Melalui kurikulum berstandar
+          internasional, peserta tidak hanya mempelajari landasan pemrograman
+          dan teknologi terkini, tetapi juga mengasah soft skills serta
+          kepemimpinan. Pembelajaran dilakukan secara fleksibel namun
+          terstruktur melalui kombinasi online self-paced learning, sesi live
+          mentoring bersama praktisi industri, serta pengerjaan Capstone
+          Project berbasis kasus nyata.
+        </p>
 
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-2 border-b border-primary-200 pb-2">
-                <i
-                  data-lucide="database"
-                  class="h-4 w-4 shrink-0 text-primary-700"
-                ></i>
-                <span
-                  class="text-[11px] font-bold uppercase tracking-wider text-primary-700"
-                >
-                  Validasi Akademik
-                </span>
-              </div>
-
-              <h4 class="mt-3 text-base font-bold text-gray-900">
-                Data Akademik
-              </h4>
-
-              <p class="mt-2 text-sm leading-6 text-gray-600">
-                Pastikan data semester, IPK, dan SKS tempuh pada sistem akademik
-                sudah sesuai. Sistem akan melakukan validasi berdasarkan
-                persyaratan program.
-              </p>
-
-              <div class="mt-3 flex flex-wrap gap-2">
-                <span
-                  class="rounded-md bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-800"
-                >
-                  Minimal IPK 3,00
-                </span>
-                <span
-                  class="rounded-md bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-800"
-                >
-                  Minimal Semester 5
-                </span>
-                                <span
-                  class="rounded-md bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-800"
-                >
-                  Minimal 80 SKS
-                </span>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ITEM 2 -->
-        <article class="group relative pb-7 pl-1">
-          <div class="absolute left-[17px] top-10 bottom-0 w-px bg-primary-100"></div>
-
-          <div class="relative flex items-start gap-4">
-            <div
-              class="z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white bg-primary-700 text-sm font-extrabold text-white shadow-sm ring-1 ring-primary-100"
-            >
-              02
-            </div>
-
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-2 border-b border-primary-200 pb-2">
-                <i
-                  data-lucide="folder-open"
-                  class="h-4 w-4 shrink-0 text-primary-700"
-                ></i>
-                <span
-                  class="text-[11px] font-bold uppercase tracking-wider text-primary-700"
-                >
-                  Dokumen Pendukung
-                </span>
-              </div>
-
-              <h4 class="mt-3 text-base font-bold text-gray-900">
-                Portofolio 
-              </h4>
-
-              <p class="mt-2 text-sm leading-6 text-gray-600">
-                Siapkan tautan Google Drive untuk CV ATS (PDF) dan sertifikat/bukti pengalaman, serta tautan platform publikasi untuk portofolio karya Anda.
-              </p>
-
-              <div class="mt-3 flex items-center gap-2 rounded-lg bg-gray-50 p-3">
-                <i
-                  data-lucide="link"
-                  class="h-4 w-4 shrink-0 text-primary-700"
-                ></i>
-                <span class="text-xs font-medium leading-5 text-gray-600">
-                  Pastikan tautan dapat diakses oleh pihak yang memeriksa.
-                </span>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- ITEM 3 -->
-        <article class="group relative pl-1">
-          <div class="relative flex items-start gap-4">
-            <div
-              class="z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white bg-primary-700 text-sm font-extrabold text-white shadow-sm ring-1 ring-primary-100"
-            >
-              03
-            </div>
-
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-2 border-b border-primary-200 pb-2">
-                <i
-                  data-lucide="file-check-2"
-                  class="h-4 w-4 shrink-0 text-primary-700"
-                ></i>
-                <span
-                  class="text-[11px] font-bold uppercase tracking-wider text-primary-700"
-                >
-                  Persetujuan Program
-                </span>
-              </div>
-
-              <h4 class="mt-3 text-base font-bold text-gray-900">
-                Persetujuan dan Konversi
-              </h4>
-
-              <p class="mt-2 text-sm leading-6 text-gray-600">
-                Tinjau dan centang seluruh pernyataan persetujuan, lalu tentukan jumlah usulan konversi SKS Anda untuk melanjutkan pengajuan.
-              </p>
-
-              <div class="mt-3 inline-flex items-center gap-2 rounded-lg bg-[#FEFAEC] px-3 py-2 text-xs font-bold text-primary-900">
-                <i data-lucide="layers" class="h-4 w-4 text-primary-700"></i>
-                Maksimal 20 SKS
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Tombol pendaftaran -->
-        <div class="mt-8 border-t border-gray-200 pt-6">
+        <!-- Tombol pendaftaran (menempel di dasar kolom) -->
+        <div class="mt-8 lg:mt-auto lg:pt-8">
           <a
-            href="pendaftaran-mahasiswa.html"
+            href="/pendaftaran-mahasiswa"
             class="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary-700 px-5 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-primary-900 hover:shadow-lg"
           >
-            Mulai Pendaftaran
+            Daftar
             <i
               data-lucide="arrow-right"
               class="h-4 w-4 transition-transform group-hover:translate-x-1"
@@ -914,7 +787,318 @@ details[open] > .faq-answer {
           </a>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
+<!-- ========================================== -->
+<!-- TAB INFORMASI PROGRAM                      -->
+<!-- ========================================== -->
+<section
+  id="informasi-program"
+  class="relative isolate scroll-mt-24 overflow-x-clip pt-4 pb-20 sm:pt-6 sm:pb-24 lg:pt-8 lg:pb-28"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Container Utama Tabbar (Tepat di Tengah Layar) -->
+    <div class="mx-auto max-w-3xl border-b border-gray-200">
+      <div
+        role="tablist"
+        aria-label="Informasi program"
+        class="-mb-px flex justify-center gap-8 sm:gap-12"
+      >
+        <button
+          type="button"
+          role="tab"
+          id="tab-informasi"
+          data-tab-target="panel-informasi"
+          aria-selected="true"
+          aria-controls="panel-informasi"
+          class="tab-btn shrink-0 whitespace-nowrap pb-4 text-base font-semibold text-[#1E7FD9] sm:text-lg"
+        >
+          Informasi
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          id="tab-persyaratan"
+          data-tab-target="panel-persyaratan"
+          aria-selected="false"
+          aria-controls="panel-persyaratan"
+          class="tab-btn shrink-0 whitespace-nowrap pb-4 text-base font-semibold text-[#1E7FD9] sm:text-lg"
+        >
+          Persyaratan
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          id="tab-kontributor"
+          data-tab-target="panel-kontributor"
+          aria-selected="false"
+          aria-controls="panel-kontributor"
+          class="tab-btn shrink-0 whitespace-nowrap pb-4 text-base font-semibold text-[#1E7FD9] sm:text-lg"
+        >
+          Kontributor
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel: Informasi (Presisi Sempurna di Tengah) -->
+    <div
+      role="tabpanel"
+      id="panel-informasi"
+      aria-labelledby="tab-informasi"
+      tabindex="0"
+      class="tab-panel min-h-[220px] pt-8 sm:pt-10"
+    >
+      <div class="mx-auto max-w-3xl sm:translate-x-6 md:translate-x-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:gap-x-12">
+        <!-- Kolom Kiri -->
+        <div>
+          <!-- Kuota -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="users" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Kuota Peserta
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                3 / 10 Mahasiswa
+              </p>
+            </div>
+          </div>
+
+          <!-- Periode -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="calendar-days" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Periode Pelaksanaan
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Februari – Juni 2026
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div>
+          <!-- Lokasi -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="map-pin" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Lokasi Kegiatan
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                H.6 Nexa UDINUS
+              </p>
+            </div>
+          </div>
+
+          <!-- Konversi -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="layers" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Usulan Konversi
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                20 SKS
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Persyaratan -->
+    <div
+      role="tabpanel"
+      id="panel-persyaratan"
+      aria-labelledby="tab-persyaratan"
+      tabindex="0"
+      hidden
+      class="tab-panel min-h-[220px] pt-8 sm:pt-10"
+    >
+      <div class="mx-auto max-w-3xl sm:translate-x-6 md:translate-x-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:gap-x-12">
+        <!-- Kolom Kiri: Kriteria Akademik -->
+        <div>
+          <!-- IPK -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="graduation-cap" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                IPK Kumulatif
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Minimal 3,00
+              </p>
+            </div>
+          </div>
+
+          <!-- Semester -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="calendar-check" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Semester Aktif
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Minimal Semester 5
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Dokumen & SKS -->
+        <div>
+          <!-- SKS -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="book-check" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                SKS Tempuh
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Minimal 80 SKS
+              </p>
+            </div>
+          </div>
+
+          <!-- Dokumen -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="file-text" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Dokumen Pendukung
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                CV ATS & Portofolio
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Kontributor -->
+    <div
+      role="tabpanel"
+      id="panel-kontributor"
+      aria-labelledby="tab-kontributor"
+      tabindex="0"
+      hidden
+      class="tab-panel min-h-[220px] pt-8 sm:pt-10"
+    >
+      <div class="mx-auto max-w-3xl sm:translate-x-6 md:translate-x-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:gap-x-12">
+        <!-- Kolom Kiri -->
+        <div>
+          <!-- Koordinator -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="user-round" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Koordinator MBKM
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Dr. M. Arief Soeleman, M.Kom
+              </p>
+            </div>
+          </div>
+
+          <!-- Pembimbing 1 -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="user-round" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Dosen Pembimbing
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Eko Hari Rachmawanto, M.Kom
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div>
+          <!-- Pembimbing 2 -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="user-round" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Dosen Pembimbing
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Christy Atika Sari, M.Kom
+              </p>
+            </div>
+          </div>
+
+          <!-- Pembimbing 3 -->
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"
+            >
+              <i data-lucide="user-round" class="h-5 w-5"></i>
+            </div>
+            <div class="min-w-0">
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Dosen Pembimbing
+              </p>
+              <p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">
+                Ajib Susanto, M.Kom
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -924,242 +1108,161 @@ details[open] > .faq-answer {
 <!-- ========================================== -->
 <section
   id="skema"
-  class="relative isolate scroll-mt-6 overflow-x-clip py-8 sm:py-12 lg:py-15"
+  class="relative isolate scroll-mt-6 overflow-x-clip bg-[#114D91] py-16 sm:py-20 lg:py-24"
 >
-  <!-- Dekorasi latar -->
-  <div
-    class="pointer-events-none absolute -left-24 top-10 -z-10 h-72 w-72 rounded-full bg-[#F3BC45]/20 blur-2xl"
-  ></div>
-  <div
-    class="pointer-events-none absolute -right-24 bottom-0 -z-10 h-80 w-80 rounded-full bg-primary-100/70 blur-3xl"
-  ></div>
-  <div
-    class="pointer-events-none absolute inset-0 -z-10 opacity-[0.07]"
-    style="
-      background-image: radial-gradient(#114d91 1.2px, transparent 1.4px);
-      background-size: 24px 24px;
-      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent);
-      mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent);
-    "
-  ></div>
-
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <!-- JUDUL (dua kolom, rata kiri) -->
-    <div
-      class="grid grid-cols-1 items-end gap-6 lg:grid-cols-12 lg:gap-10"
-    >
-      <div class="lg:col-span-7">
-        <div class="flex items-center gap-3">
-          <span class="h-px w-10 bg-[#F3BC45]"></span>
-          <p
-            class="text-xs font-bold uppercase tracking-[0.22em] text-primary-700"
-          >
-            Kegiatan Program
-          </p>
-        </div>
-
-        <h2
-          class="mt-2 text-2xl font-extrabold leading-[1.15] tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
-        >
-          Kenali Kegiatan Program Dicoding ASAH 2026
-        </h2>
-      </div>
-
-      <div class="lg:col-span-5">
-        <p
-          class="border-l-4 border-[#F3BC45] pl-4 text-sm leading-7 text-gray-600 sm:text-base"
-        >
-          Dicoding ASAH 2026 menawarkan tiga skema kegiatan. Masing-masing
-          dirancang untuk mengembangkan kompetensi, memperkaya pengalaman, dan
-          menghasilkan luaran pembelajaran yang bisa dikonversi.
+    <!-- JUDUL (rata tengah) -->
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="flex items-center justify-center gap-3">
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+        <p class="text-sm font-bold uppercase tracking-[0.16em] text-[#F3BC45]">
+          Timeline
         </p>
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
       </div>
+
+      <h2
+        class="mt-4 text-2xl font-extrabold leading-[1.2] tracking-tight text-white sm:text-3xl lg:text-4xl"
+      >
+        Alur Kegiatan
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-2xl text-[15px] leading-7 text-blue-100/80">
+        Tahapan yang kamu jalani setelah resmi diterima sebagai peserta, hingga
+        luaran pembelajarannya diakui.
+      </p>
     </div>
 
-    <!-- KARTU (semua sama, berubah biru saat hover) -->
-    <div
-      class="mt-10 grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 md:gap-6 lg:mt-12 lg:gap-8"
-    >
-      <!-- KARTU 1: Pembelajaran Mandiri Terbimbing -->
-      <article
-        class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-6 shadow-[0_14px_36px_rgba(13,37,68,0.08)] transition-all duration-300 ease-out hover:-translate-y-3 hover:border-transparent hover:shadow-[0_30px_60px_rgba(17,77,145,0.35)] sm:p-7"
-      >
-        <!-- Lapisan biru (muncul saat hover) -->
-        <div
-          class="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#114D91] via-[#0D3B70] to-[#1063B9] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
-        <div
-          class="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-[#86BEF3]/25 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
+    <!-- TIMELINE 5 LANGKAH (Lingkaran Node + Garis Horizontal Terhubung) -->
+    <div class="relative mt-12 lg:mt-16">
+      <ol class="relative grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+        <!-- LANGKAH 01 -->
+        <li class="relative flex flex-col items-center text-center">
+          <!-- Garis penghubung vertikal (mobile) & horizontal (desktop) -->
+          <div
+            class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block"
+            aria-hidden="true"
+          ></div>
 
-        <span
-          class="pointer-events-none absolute -right-2 -top-4 select-none text-8xl font-black leading-none text-primary-100/80 transition-colors duration-300 group-hover:text-white"
-          >01</span
-        >
+          <div
+            class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10"
+          >
+            <i data-lucide="user-check" class="h-6 w-6"></i>
+          </div>
 
-        <div
-          class="relative flex h-12 w-12 items-center justify-center rounded-xl bg-[#E2EEFC] text-[#114D91] transition-colors duration-300 group-hover:bg-white/15 group-hover:text-white"
-        >
-          <i data-lucide="users-round" class="h-6 w-6"></i>
-        </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">
+              Onboarding Peserta
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">
+              Aktivasi akun dan orientasi program.
+            </p>
+          </div>
+        </li>
 
-        <p
-          class="relative mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1063B9] transition-colors duration-300 group-hover:text-[#F8DB8F]"
-        >
-          Kegiatan 01
-        </p>
-        <h3
-          class="relative mt-1.5 text-xl font-extrabold text-[#172B4D] transition-colors duration-300 group-hover:text-white"
-        >
-          Pembelajaran Mandiri Terbimbing
-        </h3>
-        <p
-          class="relative mt-3 text-sm leading-6 text-gray-600 transition-colors duration-300 group-hover:text-blue-50/90"
-        >
-          Pelajari modul pemrograman, teknologi AI berstandar industri secara mandiri melalui bimbingan interaktif praktisi ahli.
-        </p>
+        <!-- LANGKAH 02 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div
+            class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block"
+            aria-hidden="true"
+          ></div>
 
-        <ul
-          class="relative mt-5 space-y-2.5 text-sm text-gray-700 transition-colors duration-300 group-hover:text-white"
-        >
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Modul Industri
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Bimbingan Praktisi
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Sesi Diskusi
-          </li>
-        </ul>
+          <div
+            class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10"
+          >
+            <i data-lucide="book-open-check" class="h-6 w-6"></i>
+          </div>
 
-        <div
-          class="absolute bottom-0 left-6 right-6 h-1 rounded-t-full bg-[#F3BC45] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
-      </article>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">
+              Pembelajaran Mandiri
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">
+              Modul industri dan mentoring praktisi.
+            </p>
+          </div>
+        </li>
 
-      <!-- KARTU 2: Penyelesaian Proyek Nyata -->
-      <article
-        class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-6 shadow-[0_14px_36px_rgba(13,37,68,0.08)] transition-all duration-300 ease-out hover:-translate-y-3 hover:border-transparent hover:shadow-[0_30px_60px_rgba(17,77,145,0.35)] sm:p-7"
-      >
-        <div
-          class="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#114D91] via-[#0D3B70] to-[#1063B9] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
-        <div
-          class="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-[#86BEF3]/25 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
+        <!-- LANGKAH 03 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div
+            class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block"
+            aria-hidden="true"
+          ></div>
 
-        <span
-          class="pointer-events-none absolute -right-2 -top-4 select-none text-8xl font-black leading-none text-primary-100/80 transition-colors duration-300 group-hover:text-white"
-          >02</span
-        >
+          <div
+            class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10"
+          >
+            <i data-lucide="folder-kanban" class="h-6 w-6"></i>
+          </div>
 
-        <div
-          class="relative flex h-12 w-12 items-center justify-center rounded-xl bg-[#E2EEFC] text-[#114D91] transition-colors duration-300 group-hover:bg-white/15 group-hover:text-white"
-        >
-          <i data-lucide="folder-kanban" class="h-6 w-6"></i>
-        </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">
+              Proyek Nyata
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">
+              Capstone Project berbasis kasus industri.
+            </p>
+          </div>
+        </li>
 
-        <p
-          class="relative mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1063B9] transition-colors duration-300 group-hover:text-[#F8DB8F]"
-        >
-          Kegiatan 02
-        </p>
-        <h3
-          class="relative mt-1.5 text-xl font-extrabold text-[#172B4D] transition-colors duration-300 group-hover:text-white"
-        >
-          Penyelesaian Proyek Nyata
-        </h3>
-        <p
-          class="relative mt-3 text-sm leading-6 text-gray-600 transition-colors duration-300 group-hover:text-blue-50/90"
-        >
-          Rancang, kembangkan produk teknologi berbasis permasalahan riil industri secara berkolaborasi sebagai portofolio utama.
-        </p>
+        <!-- LANGKAH 04 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div
+            class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block"
+            aria-hidden="true"
+          ></div>
 
-        <ul
-          class="relative mt-5 space-y-2.5 text-sm text-gray-700 transition-colors duration-300 group-hover:text-white"
-        >
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Kasus Industri
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Kolaborasi Tim
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Portofolio Digital
-          </li>
-        </ul>
+          <div
+            class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10"
+          >
+            <i data-lucide="briefcase" class="h-6 w-6"></i>
+          </div>
 
-        <div
-          class="absolute bottom-0 left-6 right-6 h-1 rounded-t-full bg-[#F3BC45] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
-      </article>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">
+              Pembekalan Karir
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">
+              Soft skills dan kesiapan kerja.
+            </p>
+          </div>
+        </li>
 
-      <!-- KARTU 3: Pembekalan Karir Profesional -->
-      <article
-        class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-6 shadow-[0_14px_36px_rgba(13,37,68,0.08)] transition-all duration-300 ease-out hover:-translate-y-3 hover:border-transparent hover:shadow-[0_30px_60px_rgba(17,77,145,0.35)] sm:p-7"
-      >
-        <div
-          class="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#114D91] via-[#0D3B70] to-[#1063B9] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
-        <div
-          class="pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-[#86BEF3]/25 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
+        <!-- LANGKAH 05 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div
+            class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10"
+          >
+            <i data-lucide="graduation-cap" class="h-6 w-6"></i>
+          </div>
 
-        <span
-          class="pointer-events-none absolute -right-2 -top-4 select-none text-8xl font-black leading-none text-primary-100/80 transition-colors duration-300 group-hover:text-white"
-          >03</span
-        >
-
-        <div
-          class="relative flex h-12 w-12 items-center justify-center rounded-xl bg-[#E2EEFC] text-[#114D91] transition-colors duration-300 group-hover:bg-white/15 group-hover:text-white"
-        >
-          <i data-lucide="microscope" class="h-6 w-6"></i>
-        </div>
-
-        <p
-          class="relative mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#1063B9] transition-colors duration-300 group-hover:text-[#F8DB8F]"
-        >
-          Kegiatan 03
-        </p>
-        <h3
-          class="relative mt-1.5 text-xl font-extrabold text-[#172B4D] transition-colors duration-300 group-hover:text-white"
-        >
-          Pembekalan Karir Profesional
-        </h3>
-        <p
-          class="relative mt-3 text-sm leading-6 text-gray-600 transition-colors duration-300 group-hover:text-blue-50/90"
-        >
-          Ikuti pelatihan soft skills mencakup kepemimpinan, komunikasi, strategi karir untuk kesiapan kerja di dunia digital.
-        </p>
-
-        <ul
-          class="relative mt-5 space-y-2.5 text-sm text-gray-700 transition-colors duration-300 group-hover:text-white"
-        >
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Kepemimpinan
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Komunikasi
-          </li>
-          <li class="flex items-start gap-2.5">
-            <i data-lucide="circle-check" class="mt-0.5 h-4 w-4 shrink-0 text-[#1E7FD9] transition-colors duration-300 group-hover:text-[#F8DB8F]"></i>
-            Kesiapan Kerja
-          </li>
-        </ul>
-
-        <div
-          class="absolute bottom-0 left-6 right-6 h-1 rounded-t-full bg-[#F3BC45] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        ></div>
-      </article>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">
+              Konversi SKS
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">
+              Luaran diakui hingga 20 SKS.
+            </p>
+          </div>
+        </li>
+      </ol>
     </div>
   </div>
 </section>
@@ -1167,7 +1270,7 @@ details[open] > .faq-answer {
       <!-- SHOWCASE KARYA: CAROUSEL COVERFLOW -->
       <section
         id="showcase"
-        class="relative isolate scroll-mt-6 overflow-x-clip py-14 sm:py-20 lg:py-10"
+        class="relative isolate scroll-mt-6 overflow-x-clip pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12"
       >
         <!-- Dekorasi latar (selaras dengan section Tentang Program) -->
         <div
@@ -1200,12 +1303,15 @@ details[open] > .faq-answer {
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <!-- JUDUL -->
           <div class="mx-auto max-w-3xl text-center">
-            <p
-              class="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white/70 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-primary-700 backdrop-blur"
-            >
-              <span class="h-1.5 w-1.5 rounded-full bg-[#F3BC45]"></span>
-              Luaran Program
-            </p>
+            <div class="flex items-center justify-center gap-3">
+              <span class="h-px w-10 bg-[#F3BC45]"></span>
+              <p
+                class="text-sm font-bold uppercase tracking-[0.16em] text-primary-700"
+              >
+                Luaran Program
+              </p>
+              <span class="h-px w-10 bg-[#F3BC45]"></span>
+            </div>
 
             <h2
               class="mt-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
@@ -1216,12 +1322,13 @@ details[open] > .faq-answer {
             <p
               class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base"
             >
-              Galeri produk teknologi berbasis aplikasi dan kecerdasan buatan (AI) yang dirancang, diuji, serta diselesaikan oleh mahasiswa Dicoding ASAH 2026 sebagai bukti kesiapan karir industri.
+              Luaran program yang dihasilkan peserta MBKM sebagai hasil akhir
+              pembelajaran selama mengikuti kegiatan.
             </p>
           </div>
 
           <!-- CAROUSEL -->
-          <div class="relative mt-6 sm:mt-8">
+          <div class="relative mt-10 sm:mt-12 lg:mt-14">
             <!-- Cahaya ambient dari gambar aktif -->
             <div class="sc-glow" aria-hidden="true">
               <span data-showcase-glow></span>
@@ -1424,20 +1531,13 @@ details[open] > .faq-answer {
             </div>
           </div>
 
-          <!-- DOTS + COUNTER -->
-          <div class="mt-4 flex flex-col items-center gap-3">
+          <!-- DOTS NAVIGASI -->
+          <div class="mt-6 flex justify-center sm:mt-7">
             <div
               data-showcase-dots
               class="flex items-center justify-center gap-2"
               aria-label="Navigasi showcase"
             ></div>
-            <p
-              data-showcase-counter
-              aria-live="polite"
-              class="text-xs font-bold tracking-[0.2em] text-primary-700/70"
-            >
-              01 / 06
-            </p>
           </div>
         </div>
       </section>
@@ -1447,137 +1547,131 @@ details[open] > .faq-answer {
 <!-- ========================================== -->
 <section
   id="faq"
-  class="relative isolate scroll-mt-6 overflow-x-clip py-8 sm:py-12 lg:py-14"
+  class="relative isolate scroll-mt-6 overflow-x-clip pt-8 pb-16 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24"
 >
   <div
     class="pointer-events-none absolute -right-24 top-0 -z-10 h-80 w-80 rounded-full bg-primary-100/70 blur-3xl"
   ></div>
 
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div
-      class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
-    >
-      <!-- KIRI: JUDUL + CTA -->
-      <div>
-        <div class="flex items-center gap-3">
-          <span class="h-px w-10 bg-[#F3BC45]"></span>
-          <p
-            class="text-xs font-bold uppercase tracking-[0.22em] text-primary-700"
-          >
-            FAQ
-          </p>
-        </div>
-
-            <h2
-              class="mt-2 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl"
-            >
-              Pertanyaan Yang Sering Diajukan
-            </h2>
-
-        <p class="mt-5 max-w-lg text-sm leading-7 text-gray-600 sm:text-base">
-          Temukan jawaban seputar persyaratan, dokumen, dan proses konversi
-          sebelum kamu mengajukan pendaftaran Studi Independen Dicoding ASAH
-          2026.
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <!-- ATAS: JUDUL (center) -->
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="flex items-center justify-center gap-3">
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+        <p
+          class="text-sm font-bold uppercase tracking-[0.16em] text-primary-700"
+        >
+          FAQ
         </p>
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
       </div>
 
-            <!-- KANAN: ACCORDION -->
-      <div class="space-y-3">
+      <h2
+        class="mt-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl"
+      >
+        Pertanyaan Yang Sering Diajukan
+      </h2>
 
-        <!-- 1 (terbuka default) -->
-        <details name="faq" open class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center gap-3 bg-gray-100 px-5 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-200/70 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
-          >
-            <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:-rotate-90 group-open:text-[#0D2544]"></i>
-            <span>Apa saja syarat akademik untuk mendaftar?</span>
-          </summary>
-          <div class="faq-answer px-5 pb-2 pl-12 pt-4 text-sm leading-7 text-gray-600">
-            Sistem memvalidasi data akademikmu secara otomatis. Kriteria umum
-            mencakup IPK minimal 3,00, minimal semester 5 (atau sesuai
-            ketentuan program), dan minimal 80 SKS tempuh. Ketentuan khusus,
-            termasuk riwayat cuti, mengikuti aturan program yang berlaku.
-          </div>
-        </details>
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
+        Temukan jawaban seputar persyaratan, dokumen, dan proses konversi
+        sebelum kamu mengajukan pendaftaran Studi Independen Dicoding ASAH 2026.
+      </p>
+    </div>
 
-        <!-- 2 -->
-        <details name="faq" class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center gap-3 bg-gray-100 px-5 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-200/70 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
-          >
-            <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:-rotate-90 group-open:text-[#0D2544]"></i>
-            <span>Dokumen apa yang perlu disiapkan?</span>
-          </summary>
-          <div class="faq-answer px-5 pb-2 pl-12 pt-4 text-sm leading-7 text-gray-600">
-            Siapkan satu tautan Google Drive yang memuat CV ATS dalam format
-            PDF, portofolio karya, serta sertifikat atau bukti pengalaman.
-            Pastikan tautan dapat diakses oleh pihak yang memeriksa, dan data
-            semester, IPK, serta SKS di sistem akademik sudah sesuai.
-          </div>
-        </details>
+    <!-- BAWAH: ACCORDION -->
+    <div class="mt-10 space-y-3 sm:mt-12">
+      <!-- 1 (terbuka default) -->
+      <details name="faq" open class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
+        >
+          <span>Apa saja syarat akademik untuk mendaftar?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Sistem memvalidasi data akademikmu secara otomatis. Kriteria umum
+          mencakup IPK minimal 3,00, minimal semester 5 (atau sesuai
+          ketentuan program), dan minimal 80 SKS tempuh. Ketentuan khusus,
+          termasuk riwayat cuti, mengikuti aturan program yang berlaku.
+        </div>
+      </details>
 
-        <!-- 3 -->
-        <details name="faq" class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center gap-3 bg-gray-100 px-5 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-200/70 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
-          >
-            <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:-rotate-90 group-open:text-[#0D2544]"></i>
-            <span>Berapa SKS yang bisa dikonversi?</span>
-          </summary>
-          <div class="faq-answer px-5 pb-2 pl-12 pt-4 text-sm leading-7 text-gray-600">
-            Program ini dapat dikonversi hingga maksimal 20 SKS. Pelajari hak
-            dan kewajiban program, lalu siapkan draf usulan mata kuliah
-            konversi sebelum mengajukan pendaftaran.
-          </div>
-        </details>
+      <!-- 2 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
+        >
+          <span>Dokumen apa yang perlu disiapkan?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Siapkan satu tautan Google Drive yang memuat CV ATS dalam format
+          PDF, portofolio karya, serta sertifikat atau bukti pengalaman.
+          Pastikan tautan dapat diakses oleh pihak yang memeriksa, dan data
+          semester, IPK, serta SKS di sistem akademik sudah sesuai.
+        </div>
+      </details>
 
-        <!-- 4 -->
-        <details name="faq" class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center gap-3 bg-gray-100 px-5 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-200/70 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
-          >
-            <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:-rotate-90 group-open:text-[#0D2544]"></i>
-            <span>Apa perbedaan Asistensi, Proyek, dan Riset/Publikasi?</span>
-          </summary>
-          <div class="faq-answer px-5 pb-2 pl-12 pt-4 text-sm leading-7 text-gray-600">
-            Asistensi berfokus pada pendampingan dan pelaksanaan tugas, Proyek
-            pada pengembangan solusi atau produk, sedangkan Riset/Publikasi
-            pada penelitian terstruktur hingga publikasi hasil. Detailnya bisa
-            kamu lihat pada bagian Kegiatan Program di atas.
-          </div>
-        </details>
+      <!-- 3 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
+        >
+          <span>Berapa SKS yang bisa dikonversi?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Program ini dapat dikonversi hingga maksimal 20 SKS. Pelajari hak
+          dan kewajiban program, lalu siapkan draf usulan mata kuliah
+          konversi sebelum mengajukan pendaftaran.
+        </div>
+      </details>
 
-        <!-- 5 -->
-        <details name="faq" class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center gap-3 bg-gray-100 px-5 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-200/70 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
-          >
-            <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:-rotate-90 group-open:text-[#0D2544]"></i>
-            <span>Apakah Showcase termasuk proses pendaftaran?</span>
-          </summary>
-          <div class="faq-answer px-5 pb-2 pl-12 pt-4 text-sm leading-7 text-gray-600">
-            Tidak. Showcase adalah informasi publik untuk menampilkan karya,
-            proyek, atau hasil penelitian mahasiswa, dan bukan bagian dari
-            proses pengajuan pendaftaran.
-          </div>
-        </details>
+      <!-- 4 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
+        >
+          <span>Apa perbedaan Asistensi, Proyek, dan Riset/Publikasi?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Asistensi berfokus pada pendampingan dan pelaksanaan tugas, Proyek
+          pada pengembangan solusi atau produk, sedangkan Riset/Publikasi
+          pada penelitian terstruktur hingga publikasi hasil. Detailnya bisa
+          kamu lihat pada bagian Kegiatan Program di atas.
+        </div>
+      </details>
 
-        <!-- 6 -->
-        <details name="faq" class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center gap-3 bg-gray-100 px-5 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-200/70 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
-          >
-            <i data-lucide="chevron-right" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:-rotate-90 group-open:text-[#0D2544]"></i>
-            <span>Bagaimana jika persyaratanku belum terpenuhi?</span>
-          </summary>
-          <div class="faq-answer px-5 pb-2 pl-12 pt-4 text-sm leading-7 text-gray-600">
-            Mahasiswa yang belum memenuhi persyaratan tidak dapat melanjutkan
-            ke tahap pendaftaran berikutnya. Periksa kembali data akademikmu
-            atau hubungi pihak fakultas untuk informasi lebih lanjut.
-          </div>
-        </details>
+      <!-- 5 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
+        >
+          <span>Apakah Showcase termasuk proses pendaftaran?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Tidak. Showcase adalah informasi publik untuk menampilkan karya,
+          proyek, atau hasil penelitian mahasiswa, dan bukan bagian dari
+          proses pengajuan pendaftaran.
+        </div>
+      </details>
 
-      </div>
+      <!-- 6 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden"
+        >
+          <span>Bagaimana jika persyaratanku belum terpenuhi?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Mahasiswa yang belum memenuhi persyaratan tidak dapat melanjutkan
+          ke tahap pendaftaran berikutnya. Periksa kembali data akademikmu
+          atau hubungi pihak fakultas untuk informasi lebih lanjut.
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -1770,6 +1864,62 @@ details[open] > .faq-answer {
         }
 
         // ============================================
+        // Mobile Navigation Toggle
+        // ============================================
+        const detailMenuBtn = document.getElementById("detailMenuBtn");
+        const detailMobileMenu = document.getElementById("detailMobileMenu");
+        if (detailMenuBtn && detailMobileMenu) {
+          detailMenuBtn.addEventListener("click", () => {
+            detailMobileMenu.classList.toggle("hidden");
+          });
+        }
+
+        // ============================================
+        // Tab informasi program
+        // ============================================
+        const tabList = document.querySelector('[role="tablist"]');
+        if (tabList) {
+          const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+
+          const activateTab = (tab, focus = false) => {
+            tabs.forEach((t) => {
+              const isActive = t === tab;
+              t.setAttribute("aria-selected", String(isActive));
+              t.setAttribute("tabindex", isActive ? "0" : "-1");
+              const panel = document.getElementById(
+                t.getAttribute("data-tab-target"),
+              );
+              if (panel) panel.hidden = !isActive;
+            });
+            if (focus) tab.focus();
+          };
+
+          tabs.forEach((tab, index) => {
+            tab.addEventListener("click", () => activateTab(tab));
+
+            tab.addEventListener("keydown", (event) => {
+              const last = tabs.length - 1;
+              let next = null;
+
+              if (event.key === "ArrowRight") next = index === last ? 0 : index + 1;
+              else if (event.key === "ArrowLeft") next = index === 0 ? last : index - 1;
+              else if (event.key === "Home") next = 0;
+              else if (event.key === "End") next = last;
+
+              if (next !== null) {
+                event.preventDefault();
+                activateTab(tabs[next], true);
+              }
+            });
+          });
+
+          // Sinkronkan state awal dengan atribut aria-selected
+          const initial =
+            tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0];
+          if (initial) activateTab(initial);
+        }
+
+        // ============================================
         // Carousel showcase (coverflow 3D)
         // ============================================
         const showcase = document.querySelector("#showcase");
@@ -1847,7 +1997,7 @@ details[open] > .faq-answer {
             if (offset > total / 2) offset -= total;
             if (offset < -total / 2) offset += total;
 
-            const inRange = Math.abs(offset) <= 2;
+            const inRange = Math.abs(offset) <= 1;
             card.dataset.position = inRange ? String(offset) : "hidden";
             card.setAttribute("aria-hidden", inRange ? "false" : "true");
             card.setAttribute(
