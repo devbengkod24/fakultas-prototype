@@ -1,0 +1,238 @@
+---
+// src/pages/admin/gelombang.astro
+import AdminShell from '../../layouts/AdminShell.astro';
+---
+
+<AdminShell currentTab="gelombang">
+  <section
+    id="section-gelombang"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    x-data="{
+      searchQuery: '',
+      isModalOpen: false,
+      modalMode: 'tambah',
+      selectedGelombang: null,
+      gelombangList: [
+        { id: 1, nama: 'Gelombang 1 - Genap 2025/2026', tglAwal: '2026-06-01', tglAkhir: '2026-06-15', kuota: 50, terdaftar: 42, aktif: true },
+        { id: 2, nama: 'Gelombang 2 - Genap 2025/2026', tglAwal: '2026-06-20', tglAkhir: '2026-07-05', kuota: 60, terdaftar: 18, aktif: false },
+        { id: 3, nama: 'Gelombang Khusus - MBKM Industri', tglAwal: '2026-07-10', tglAkhir: '2026-07-20', kuota: 30, terdaftar: 0, aktif: false },
+      ],
+      openTambahModal() {
+        this.modalMode = 'tambah';
+        this.selectedGelombang = { nama: '', tglAwal: '', tglAkhir: '', kuota: 50 };
+        this.isModalOpen = true;
+      },
+      openEditModal(item) {
+        this.modalMode = 'edit';
+        this.selectedGelombang = { ...item };
+        this.isModalOpen = true;
+      },
+      toggleStatus(item) {
+        item.aktif = !item.aktif;
+      }
+    }"
+  >
+    <!-- Toolbar Style KP -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div class="relative w-full sm:w-72 md:w-80">
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input
+          type="text"
+          x-model="searchQuery"
+          placeholder="Cari gelombang sidang..."
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+      </div>
+
+      <button
+        type="button"
+        @click="openTambahModal()"
+        class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium shadow-none transition-colors ml-auto sm:ml-0"
+      >
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>Tambah Gelombang</span>
+      </button>
+    </div>
+
+    <!-- Tabel Gelombang Sidang Style KP -->
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+            <tr>
+              <th class="h-11 px-4 font-medium text-sm w-12 text-center text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Gelombang Sidang MBKM</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Awal</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Akhir</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Kuota / Pendaftar</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7] bg-white">
+            <template x-for="(g, idx) in gelombangList.filter(item => item.nama.toLowerCase().includes(searchQuery.toLowerCase()))" :key="g.id">
+              <tr class="hover:bg-[#fafafa] transition-colors">
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a] font-medium" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-sm">
+                  <span class="font-semibold text-[#09090b] text-xs" x-text="g.nama"></span>
+                </td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="g.tglAwal"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="g.tglAkhir"></td>
+                <td class="h-[68px] px-4 text-center font-medium text-sm text-[#09090b]" x-text="`${g.terdaftar} / ${g.kuota} Mahasiswa`"></td>
+                <td class="h-[68px] px-4 text-center text-sm">
+                  <button
+                    type="button"
+                    @click="toggleStatus(g)"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors"
+                    :class="g.aktif ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600'"
+                  >
+                    <span class="h-1.5 w-1.5 rounded-full" :class="g.aktif ? 'bg-emerald-500' : 'bg-gray-400'"></span>
+                    <span x-text="g.aktif ? 'Aktif' : 'Tutup'"></span>
+                  </button>
+                </td>
+                <td class="h-[68px] px-4 text-center text-sm">
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button
+                      type="button"
+                      @click="openEditModal(g)"
+                      class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-blue-50/60 text-[#0655a7] hover:border-blue-200 transition-colors shadow-2xs"
+                      title="Edit Gelombang"
+                    >
+                      <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Standardized Pagination Sesuai Screenshot 1 -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <div class="text-xs text-[#71717a]">Menampilkan 1 - 3 dari 3 data</div>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+          >
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button
+            type="button"
+            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+          >
+            1
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
+          >
+            2
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
+          >
+            3
+          </button>
+          <button
+            type="button"
+            disabled
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
+          >
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+          <select
+            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="10">Show 10 items</option>
+            <option value="25">Show 25 items</option>
+            <option value="50">Show 50 items</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Tambah / Edit Gelombang -->
+    <div
+      x-show="isModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    >
+      <div
+        @click.outside="isModalOpen = false"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold text-[#09090b]" x-text="modalMode === 'tambah' ? 'Tambah Gelombang Sidang' : 'Edit Gelombang Sidang'"></h3>
+          <button
+            type="button"
+            @click="isModalOpen = false"
+            class="h-8 w-8 rounded-md hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-medium text-[#09090b] mb-1">Nama Gelombang Sidang *</label>
+            <input
+              type="text"
+              x-model="selectedGelombang.nama"
+              placeholder="Contoh: Gelombang 1 - Genap 2025/2026"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-[#09090b] mb-1">Tanggal Mulai *</label>
+              <input
+                type="date"
+                x-model="selectedGelombang.tglAwal"
+                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-[#09090b] mb-1">Tanggal Selesai *</label>
+              <input
+                type="date"
+                x-model="selectedGelombang.tglAkhir"
+                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+              />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-[#09090b] mb-1">Kuota Maksimal Mahasiswa *</label>
+            <input
+              type="number"
+              x-model="selectedGelombang.kuota"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            @click="isModalOpen = false"
+            class="h-9 px-4 rounded-md border border-[#e4e4e7] text-xs font-medium text-[#71717a] hover:bg-[#f4f4f5]"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="isModalOpen = false; alert('Pengaturan gelombang sidang berhasil disimpan!')"
+            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
+          >
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</AdminShell>

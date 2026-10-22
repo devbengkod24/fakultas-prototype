@@ -39,10 +39,10 @@ document.addEventListener('alpine:init', () => {
       this.currentTab = tabKey;
 
       // Sinkronkan state submenu jika tab berada di bawah parent
-      if (['mhs-semua', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tabKey)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota', 'dosen-update'].includes(tabKey)) {
+      if (['dosen-data', 'dosen-kuota'].includes(tabKey)) {
         this.dosenSubmenuOpen = true;
       }
 
@@ -109,11 +109,17 @@ document.addEventListener('alpine:init', () => {
         tab = slugMap[slug] || slug || 'dashboard';
       }
       this.currentTab = tab;
-      if (['mhs-semua', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tab)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota', 'dosen-update'].includes(tab)) {
+      if (['dosen-data', 'dosen-kuota'].includes(tab)) {
         this.dosenSubmenuOpen = true;
+      }
+      if (['form-pendaftaran', 'periode'].includes(tab)) {
+        this.mbkmSubmenuOpen = true;
+      }
+      if (['gelombang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(tab)) {
+        this.sidangSubmenuOpen = true;
       }
       this.refreshIcons();
     }
@@ -129,6 +135,24 @@ document.addEventListener('alpine:init', () => {
  */
 
 document.addEventListener('alpine:init', () => {
+  /**
+   * Komponen direktori kontributor: state tab, pencarian, dan override status.
+   * Dipakai oleh tabel Astro statis di MitraTable.astro agar badge status reaktif.
+   */
+  Alpine.data('mitraDirectory', () => ({
+    activeTab: 'eksternal',
+    searchQuery: '',
+    statusOverrides: {},
+    isAktif(id, fallback) {
+      const v = this.statusOverrides[id];
+      if (v !== undefined) return v;
+      return String(fallback ?? '').trim().toLowerCase() === 'aktif';
+    },
+    setStatus(id, aktif) {
+      this.statusOverrides[id] = aktif;
+    }
+  }));
+
   Alpine.data('programManager', () => ({
     searchQuery: '',
     currentPage: 1,
@@ -233,9 +257,39 @@ document.addEventListener('alpine:init', () => {
 lucide.createIcons();
 
 
-// State & Helper Toggle Submenu Mahasiswa & Dosen
+// State & Helper Toggle Submenu Mahasiswa, Dosen, MBKM & Sidang
 let mahasiswaSubmenuOpen = false;
 let dosenSubmenuOpen = false;
+let mbkmSubmenuOpen = false;
+let sidangSubmenuOpen = false;
+
+function toggleMbkmSubmenu(forceOpen) {
+  const submenu = document.getElementById('submenu-mbkm');
+  const chevron = document.getElementById('mbkm-chevron');
+  if (!submenu) return;
+  mbkmSubmenuOpen = forceOpen !== undefined ? forceOpen : !mbkmSubmenuOpen;
+  if (mbkmSubmenuOpen) {
+    submenu.classList.remove('hidden');
+    if (chevron) chevron.classList.add('rotate-180');
+  } else {
+    submenu.classList.add('hidden');
+    if (chevron) chevron.classList.remove('rotate-180');
+  }
+}
+
+function toggleSidangSubmenu(forceOpen) {
+  const submenu = document.getElementById('submenu-sidang');
+  const chevron = document.getElementById('sidang-chevron');
+  if (!submenu) return;
+  sidangSubmenuOpen = forceOpen !== undefined ? forceOpen : !sidangSubmenuOpen;
+  if (sidangSubmenuOpen) {
+    submenu.classList.remove('hidden');
+    if (chevron) chevron.classList.add('rotate-180');
+  } else {
+    submenu.classList.add('hidden');
+    if (chevron) chevron.classList.remove('rotate-180');
+  }
+}
 
 function toggleMahasiswaSubmenu(forceOpen) {
   const submenu = document.getElementById('submenu-mahasiswa');
@@ -325,6 +379,10 @@ function switchTab(tabKey) {
     targetId = 'section-koordinator';
   } else if (tabKey === 'sidang' && !document.getElementById('section-sidang')) {
     targetId = 'section-sidang';
+  } else if ((tabKey === 'mitra' || tabKey === 'kontributor') && !document.getElementById('section-' + tabKey)) {
+    // Halaman kontributor memakai id section-mitra / section-mitra-cms
+    if (document.getElementById('section-mitra')) targetId = 'section-mitra';
+    else if (document.getElementById('section-mitra-cms')) targetId = 'section-mitra-cms';
   }
 
   const targetSec = document.getElementById(targetId);
@@ -332,13 +390,23 @@ function switchTab(tabKey) {
 
   // Reset styling semua item menu navigasi
   document.querySelectorAll('.nav-item').forEach((el) => {
-    el.classList.remove('nav-active');
+    el.classList.remove('nav-active', 'text-[#0655a7]', 'font-medium');
+    el.classList.add('text-[#3f3f46]');
     const bar = el.querySelector('.active-bar');
     if (bar) bar.classList.add('hidden');
+    const chevron = el.querySelector('[data-lucide="chevron-down"]');
+    if (chevron) chevron.classList.remove('text-[#0655a7]');
+    const icon = el.querySelector('i:not([data-lucide="chevron-down"])');
+    if (icon) {
+      icon.classList.remove('text-[#0655a7]');
+      icon.classList.add('text-[#71717a]');
+    }
   });
   document.querySelectorAll('.nav-sub-item').forEach((el) => {
-    el.classList.remove('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80');
+    el.classList.remove('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80', 'nav-sub-active');
     el.classList.add('text-[#71717a]');
+    const subBar = el.querySelector('.sub-active-bar');
+    if (subBar) subBar.classList.add('hidden');
   });
 
   // Set status aktif pada sidebar item
@@ -346,20 +414,56 @@ function switchTab(tabKey) {
   if (meta && meta.parent) {
     const parentBtn = document.getElementById('nav-' + meta.parent);
     if (parentBtn) {
-      parentBtn.classList.add('nav-active');
+      parentBtn.classList.remove('text-[#3f3f46]');
+      parentBtn.classList.add('text-[#0655a7]', 'font-medium');
       const bar = parentBtn.querySelector('.active-bar');
-      if (bar) bar.classList.remove('hidden');
+      if (bar) bar.classList.add('hidden');
+      const icon = parentBtn.querySelector('i:not([data-lucide="chevron-down"])');
+      if (icon) {
+        icon.classList.remove('text-[#71717a]');
+        icon.classList.add('text-[#0655a7]');
+      }
+      const chevron = parentBtn.querySelector('[data-lucide="chevron-down"]');
+      if (chevron) {
+        chevron.classList.add('text-[#0655a7]');
+      }
     }
+    if (meta.parent === 'mbkm') toggleMbkmSubmenu(true);
     if (meta.parent === 'mahasiswa') toggleMahasiswaSubmenu(true);
     if (meta.parent === 'dosen') toggleDosenSubmenu(true);
+    if (meta.parent === 'sidang') toggleSidangSubmenu(true);
 
-    const subBtn = document.getElementById('nav-sub-' + tabKey);
+    let subBtn = document.getElementById('nav-sub-' + tabKey) ||
+                 document.getElementById('nav-sub-mhs-' + tabKey) ||
+                 document.getElementById('nav-sub-dosen-' + tabKey) ||
+                 document.getElementById('nav-sub-mbkm-' + tabKey) ||
+                 document.getElementById('nav-sub-sidang-' + tabKey);
+    if ((tabKey === 'form-pendaftaran' || tabKey === 'form') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mbkm-form') || document.getElementById('nav-sub-mbkm-form-pendaftaran');
+    }
+    if ((tabKey === 'periode' || tabKey === 'periode-mbkm') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mbkm-periode');
+    }
+    if ((tabKey === 'mhs-data' || tabKey === 'data-mahasiswa') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mhs-data');
+    }
+    if ((tabKey === 'mhs-semua' || tabKey === 'semua-mahasiswa') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mhs-semua');
+    }
+    if ((tabKey === 'dosen-update' || tabKey === 'update-dosen') && !subBtn) {
+      subBtn = document.getElementById('nav-sub-mhs-update-dosen');
+    }
     if (subBtn) {
       subBtn.classList.remove('text-[#71717a]');
-      subBtn.classList.add('text-[#0655a7]', 'font-semibold', 'bg-blue-50/80');
+      subBtn.classList.add('nav-sub-active');
+      const subBar = subBtn.querySelector('.sub-active-bar');
+      if (subBar) subBar.classList.remove('hidden');
     }
   } else {
-    const activeBtn = document.getElementById('nav-' + tabKey);
+    let activeBtn = document.getElementById('nav-' + tabKey);
+    if (!activeBtn && tabKey === 'mitra') {
+      activeBtn = document.getElementById('nav-kontributor');
+    }
     if (activeBtn) {
       activeBtn.classList.add('nav-active');
       const bar = activeBtn.querySelector('.active-bar');
@@ -1913,7 +2017,7 @@ function renderSurekomTable() {
   if (currentSlice.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="7" class="py-8 text-center text-sm text-[#71717a]">
+        <td colspan="8" class="py-8 text-center text-sm text-[#71717a]">
           Tidak ada permohonan surat rekomendasi yang cocok dengan kriteria filter.
         </td>
       </tr>
@@ -1930,9 +2034,9 @@ function renderSurekomTable() {
           .toUpperCase();
 
         const statusBadges = {
-          pending: '<span class="inline-flex items-center rounded-md border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-700">Menunggu</span>',
-          approved: '<span class="inline-flex items-center rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">Disetujui</span>',
-          rejected: '<span class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700">Ditolak</span>',
+          pending: '<span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FDE68A] bg-[#FEF3C7] text-[13px] font-medium text-[#92400E]">Menunggu</span>',
+          approved: '<span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#BBF7D0] bg-[#DCFCE7] text-[13px] font-medium text-[#15803D]">Disetujui</span>',
+          rejected: '<span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FECDD3] bg-[#FFE4E6] text-[13px] font-medium text-[#BE123C]">Ditolak</span>',
         };
         const statusBadge = statusBadges[item.status] || statusBadges.pending;
 
@@ -1942,7 +2046,7 @@ function renderSurekomTable() {
             <button
               type="button"
               onclick="openValidasiSurekomModal(${item.id})"
-              class="h-8 px-3 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white font-medium text-xs transition-colors shadow-none"
+              class="h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white font-medium text-xs transition-colors shadow-none"
             >
               Validasi
             </button>
@@ -1951,15 +2055,15 @@ function renderSurekomTable() {
             <button
               type="button"
               onclick="openValidasiSurekomModal(${item.id})"
-              class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] font-medium text-xs transition-colors"
+              class="h-9 px-3.5 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] font-medium text-xs transition-colors"
             >
               Detail
             </button>
           `;
 
         return `
-          <tr class="h-14 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
-            <td class="px-3 text-center text-[#71717a] text-xs">${rowNum}</td>
+          <tr class="h-[68px] border-b border-[#e4e4e7] hover:bg-[#fafafa] transition-colors">
+            <td class="px-4 text-center text-sm text-[#71717a]">${rowNum}</td>
             <td class="px-4">
               <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-full bg-blue-100 text-[#0655a7] font-bold flex items-center justify-center text-xs shrink-0">
@@ -1972,20 +2076,12 @@ function renderSurekomTable() {
               </div>
             </td>
             <td class="px-4">
-              <div class="font-medium text-[#09090b] text-sm">${item.program}</div>
-              <div class="text-xs text-[#0655a7]">${item.mitra}</div>
+              <div class="text-sm font-medium text-[#09090b]">${item.mitra}</div>
             </td>
-            <td class="px-4">
-              <div class="flex items-center gap-2">
-                <span class="font-semibold text-xs text-[#09090b]">IPK ${item.ipk}</span>
-                <span class="text-xs text-[#71717a]">(${item.sksLulus} SKS)</span>
-              </div>
-              <span class="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-medium mt-0.5">
-                <i data-lucide="check" class="w-3 h-3"></i> Lolos Syarat EWS
-              </span>
-            </td>
+            <td class="px-4 text-center text-sm font-medium text-[#09090b]">${item.ipk}</td>
+            <td class="px-4 text-center text-sm text-[#71717a]">${item.sksLulus}</td>
             <td class="px-4 text-center">${statusBadge}</td>
-            <td class="px-4 text-center text-xs text-[#71717a]">${item.tanggal}</td>
+            <td class="px-4 text-center text-sm text-[#71717a]">${item.tanggal}</td>
             <td class="px-4 text-center">${actionBtn}</td>
           </tr>
         `;
@@ -2087,37 +2183,15 @@ function openValidasiSurekomModal(id) {
   if (program) program.textContent = item.program;
 
   const mitra = document.getElementById('modal-surekom-mitra');
-  if (mitra) mitra.textContent = `Mitra: ${item.mitra}`;
+  if (mitra) mitra.textContent = item.mitra;
 
-  const ipkBadge = document.getElementById('modal-surekom-ipk-badge');
-  if (ipkBadge) ipkBadge.textContent = `IPK ${item.ipk} • ${item.sksLulus} SKS`;
-
-  const semBadge = document.getElementById('modal-surekom-semester-badge');
-  if (semBadge) semBadge.textContent = item.semester;
-
-  const tglVal = document.getElementById('modal-surekom-tanggal-val');
-  if (tglVal) tglVal.textContent = item.tanggal;
-
-  const docFile = document.getElementById('modal-surekom-doc-filename');
-  if (docFile) docFile.textContent = `Draft_Surat_Rekomendasi_MBKM_${item.nim}.pdf`;
-
-  const statusBadge = document.getElementById('modal-surekom-status-badge');
-  if (statusBadge) {
-    if (item.status === 'approved') {
-      statusBadge.className = 'px-2 py-0.5 text-[10px] font-semibold rounded bg-emerald-50 text-emerald-700 border border-emerald-200';
-      statusBadge.textContent = 'Disetujui';
-    } else if (item.status === 'rejected') {
-      statusBadge.className = 'px-2 py-0.5 text-[10px] font-semibold rounded bg-rose-50 text-rose-700 border border-rose-200';
-      statusBadge.textContent = 'Ditolak';
-    } else {
-      statusBadge.className = 'px-2 py-0.5 text-[10px] font-semibold rounded bg-amber-50 text-amber-700 border border-amber-200';
-      statusBadge.textContent = 'Menunggu';
-    }
+  // Isi pratinjau surat langsung di dalam modal
+  const previewEl = document.getElementById('modal-surekom-doc-preview');
+  if (previewEl) {
+    previewEl.textContent = buildSuratRekomendasiText(item);
   }
 
   // Reset radio decision to Setujui
-  const radioSetujui = document.getElementById('modal-radio-surekom-setujui');
-  if (radioSetujui) radioSetujui.checked = true;
   const inputCatatan = document.getElementById('modal-surekom-catatan-input');
   if (inputCatatan) {
     inputCatatan.value = item.catatan || '';
@@ -2142,62 +2216,82 @@ function handleModalSurekomDecisionChange(val) {
   const label = document.getElementById('modal-surekom-catatan-label');
   const hint = document.getElementById('modal-surekom-catatan-hint');
   const input = document.getElementById('modal-surekom-catatan-input');
-  const submitBtn = document.getElementById('btn-submit-modal-surekom');
-  const submitText = document.getElementById('btn-submit-modal-surekom-text');
 
   if (val === 'Setujui') {
     if (cardSetujui) {
-      cardSetujui.className = 'p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50/50 cursor-pointer flex items-center gap-3 transition-all';
+      cardSetujui.className = 'h-10 rounded-md border border-[#0655a7] bg-[#0655a7] text-white cursor-pointer flex items-center justify-center gap-2 transition-colors';
     }
     if (cardTolak) {
-      cardTolak.className = 'p-3 rounded-xl border-2 border-[#e4e4e7] bg-white hover:border-rose-300 hover:bg-rose-50/20 cursor-pointer flex items-center gap-3 transition-all';
+      cardTolak.className = 'h-10 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#3f3f46] cursor-pointer flex items-center justify-center gap-2 transition-colors';
     }
     if (badge) {
       badge.textContent = 'Setujui';
-      badge.className = 'px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+      badge.className = 'px-2 py-0.5 rounded-md text-[11px] font-medium bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0]';
     }
-    if (label) label.textContent = 'Catatan / Pesan untuk Mahasiswa (Opsional)';
+    if (label) label.textContent = 'Catatan untuk Mahasiswa';
     if (hint) {
-      hint.textContent = 'Opsional jika disetujui';
+      hint.textContent = 'Opsional';
       hint.className = 'text-[11px] text-[#71717a]';
     }
     if (input) {
       input.required = false;
-      input.placeholder = 'Tuliskan catatan, pesan penyemangat, atau instruksi...';
+      input.placeholder = 'Tuliskan catatan atau instruksi revisi...';
       input.classList.remove('border-rose-500', 'ring-1', 'ring-rose-500');
     }
-    if (submitBtn) {
-      submitBtn.className = 'px-4 py-2 text-xs font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors flex items-center gap-1.5';
-    }
-    if (submitText) submitText.textContent = 'Kirim Validasi (Setujui)';
   } else {
     if (cardTolak) {
-      cardTolak.className = 'p-3 rounded-xl border-2 border-rose-500 bg-rose-50/50 cursor-pointer flex items-center gap-3 transition-all';
+      cardTolak.className = 'h-10 rounded-md border border-[#BE123C] bg-[#BE123C] text-white cursor-pointer flex items-center justify-center gap-2 transition-colors';
     }
     if (cardSetujui) {
-      cardSetujui.className = 'p-3 rounded-xl border-2 border-[#e4e4e7] bg-white hover:border-emerald-300 hover:bg-emerald-50/20 cursor-pointer flex items-center gap-3 transition-all';
+      cardSetujui.className = 'h-10 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#3f3f46] cursor-pointer flex items-center justify-center gap-2 transition-colors';
     }
     if (badge) {
       badge.textContent = 'Tolak';
-      badge.className = 'px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+      badge.className = 'px-2 py-0.5 rounded-md text-[11px] font-medium bg-[#FFE4E6] text-[#BE123C] border border-[#FECDD3]';
     }
     if (label) label.textContent = 'Alasan Penolakan / Instruksi Revisi *';
     if (hint) {
       hint.textContent = '*Wajib diisi alasan penolakan';
-      hint.className = 'text-[11px] font-semibold text-rose-600';
+      hint.className = 'text-[11px] font-semibold text-[#BE123C]';
     }
     if (input) {
       input.required = true;
       input.placeholder = 'Wajib masukkan alasan penolakan / instruksi revisi dokumen mahasiswa...';
       input.focus();
     }
-    if (submitBtn) {
-      submitBtn.className = 'px-4 py-2 text-xs font-medium rounded-md bg-rose-600 hover:bg-rose-700 text-white transition-colors flex items-center gap-1.5';
-    }
-    if (submitText) submitText.textContent = 'Kirim Penolakan (Tolak)';
   }
 
   if (window.lucide) window.lucide.createIcons();
+}
+
+/**
+ * Kirim keputusan validasi SuReKom langsung dari tombol footer.
+ * @param {'Setujui'|'Tolak'} decision
+ */
+function submitValidasiSurekomWithDecision(decision) {
+  if (!activeModalSurekomId) return;
+  const item = surekomListData.find((s) => s.id === activeModalSurekomId);
+  if (!item) return;
+
+  const input = document.getElementById('modal-surekom-catatan-input');
+  const catatan = input ? input.value.trim() : '';
+
+  if (decision === 'Tolak' && !catatan) {
+    alert('Alasan penolakan wajib diisi untuk memberikan instruksi revisi kepada mahasiswa.');
+    if (input) {
+      input.classList.add('border-rose-500', 'ring-1', 'ring-rose-500');
+      input.focus();
+    }
+    return;
+  }
+
+  item.status = decision === 'Setujui' ? 'approved' : 'rejected';
+  item.catatan = catatan;
+
+  alert(`Validasi Surat Rekomendasi Berhasil Disimpan!\nMahasiswa: ${item.nama} (${item.nim})\nKeputusan: ${decision === 'Setujui' ? 'Disetujui (SuReKom Resmi Diterbitkan)' : 'Ditolak (Permintaan Revisi Dikirim)'}\nCatatan: ${catatan || '-'}`);
+
+  closeValidasiSurekomModal();
+  renderSurekomTable();
 }
 
 function submitValidasiSurekomFromModal() {
@@ -2228,12 +2322,12 @@ function submitValidasiSurekomFromModal() {
   renderSurekomTable();
 }
 
-function bukaPratinjauDrafDoc() {
-  if (!activeModalSurekomId) return;
-  const item = surekomListData.find((s) => s.id === activeModalSurekomId);
-  if (!item) return;
-
-  const text = `SURAT REKOMENDASI DEKANAT
+/**
+ * Menyusun isi teks Surat Rekomendasi Dekanat berdasarkan data permohonan.
+ * Dipakai untuk pratinjau inline di modal validasi.
+ */
+function buildSuratRekomendasiText(item) {
+  return `SURAT REKOMENDASI DEKANAT
 Nomor: 412/A.11/FIK/UDINUS/2026
 
 Yang bertanda tangan di bawah ini:
@@ -2259,8 +2353,14 @@ Dekan Fakultas Ilmu Komputer
 Universitas Dian Nuswantoro
 
 (Dokumen Resmi Bertanda Tangan Elektronik / TTE Digital Terverifikasi)`;
+}
 
-  viewSurekomDoc('Draft Surat Rekomendasi MBKM (' + item.nim + ')', text);
+function bukaPratinjauDrafDoc() {
+  if (!activeModalSurekomId) return;
+  const item = surekomListData.find((s) => s.id === activeModalSurekomId);
+  if (!item) return;
+
+  viewSurekomDoc('Draft Surat Rekomendasi MBKM (' + item.nim + ')', buildSuratRekomendasiText(item));
 }
 
 function showSurekomDetailById(id) {
@@ -2523,38 +2623,62 @@ function renderLaporanPaginationControls(totalPages) {
       type="button"
       onclick="goToLaporanPage(${laporanCurrentPage - 1})"
       ${prevDisabled ? 'disabled' : ''}
-      class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] ${prevDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#f4f4f5] cursor-pointer'} transition-colors"
+      title="Sebelumnya"
     >
-      Prev
+      <i data-lucide="chevron-left" class="w-4 h-4"></i>
     </button>
   `;
 
-  for (let p = 1; p <= totalPages; p++) {
+  // Sliding 3-page box window (1-3, 4-6, dst)
+  const windowStart = Math.floor((laporanCurrentPage - 1) / 3) * 3 + 1;
+  const windowEnd = Math.min(windowStart + 2, totalPages);
+
+  for (let p = windowStart; p <= windowEnd; p++) {
     const isActive = p === laporanCurrentPage;
     html += `
       <button
         type="button"
         onclick="goToLaporanPage(${p})"
-        class="w-6 h-6 flex items-center justify-center text-[11px] font-medium rounded transition-colors ${ isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50' }"
+        class="h-8 w-8 flex items-center justify-center rounded-md text-xs font-semibold transition-colors cursor-pointer ${
+          isActive
+            ? 'bg-[#0655a7] text-white shadow-none'
+            : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+        }"
       >
         ${p}
       </button>
     `;
   }
 
-  const nextDisabled = laporanCurrentPage === totalPages;
+  const nextDisabled = laporanCurrentPage >= totalPages;
   html += `
     <button
       type="button"
       onclick="goToLaporanPage(${laporanCurrentPage + 1})"
       ${nextDisabled ? 'disabled' : ''}
-      class="px-2 py-0.5 text-[11px] rounded border border-[#e4e4e7] bg-white text-[#3f3f46] hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] ${nextDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#f4f4f5] cursor-pointer'} transition-colors"
+      title="Selanjutnya"
     >
-      Next
+      <i data-lucide="chevron-right" class="w-4 h-4"></i>
     </button>
+    <select
+      onchange="changeLaporanItemsPerPage(Number(this.value))"
+      class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer ml-1"
+    >
+      <option value="10" ${laporanItemsPerPage === 10 ? 'selected' : ''}>Show 10 items</option>
+      <option value="25" ${laporanItemsPerPage === 25 ? 'selected' : ''}>Show 25 items</option>
+      <option value="50" ${laporanItemsPerPage === 50 ? 'selected' : ''}>Show 50 items</option>
+    </select>
   `;
 
   controls.innerHTML = html;
+}
+
+function changeLaporanItemsPerPage(newLimit) {
+  laporanItemsPerPage = newLimit;
+  laporanCurrentPage = 1;
+  renderLaporanTable();
 }
 
 function goToLaporanPage(page) {
@@ -3341,13 +3465,13 @@ function switchFormTab(tabId) {
     if (t === tabId) {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-[#0655a7] text-[#0655a7] bg-blue-50/60 transition-colors';
+          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors shrink-0';
       }
       if (content) content.classList.remove('hidden');
     } else {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium rounded-lg border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] hover:bg-black/5 transition-colors';
+          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors shrink-0';
       }
       if (content) content.classList.add('hidden');
     }
@@ -3622,7 +3746,7 @@ function insertSurekomTag(tag) {
 
 function resetSurekomTemplate() {
   const defaultTpl =
-    'Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK Kumulatif: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_mitra} untuk periode {semester_ajaran}.';
+    'Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_mitra} untuk periode {semester_ajaran}.';
   const el = document.getElementById('cfg-surekom-template');
   if (el) el.value = defaultTpl;
   triggerAutosave('surekomTemplate', defaultTpl);
@@ -3885,21 +4009,15 @@ function renderMitraTable() {
             ${totalMhs}
           </td>
           <td class="px-4 text-center">
-            <div class="inline-flex items-center gap-2.5">
-              <button
-                type="button"
-                onclick="toggleMitraStatus(${item.id})"
-                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${isAktif ? 'bg-[#0655a7]' : 'bg-[#e4e4e7]'}"
-                title="Ubah Status Mitra"
-              >
-                <span
-                  class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${isAktif ? 'translate-x-5' : 'translate-x-0'}"
-                ></span>
-              </button>
-              <span class="text-sm font-medium ${isAktif ? 'text-[#16a34a]' : 'text-[#71717a]'}">
-                ${isAktif ? 'Aktif' : 'Nonaktif'}
+            ${isAktif ? `
+              <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#BBF7D0] bg-[#DCFCE7] text-[13px] font-medium text-[#15803D]">
+                Aktif
               </span>
-            </div>
+            ` : `
+              <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FECDD3] bg-[#FFE4E6] text-[13px] font-medium text-[#BE123C]">
+                Non-Aktif
+              </span>
+            `}
           </td>
           <td class="px-4 text-center">
             <button
@@ -3978,8 +4096,97 @@ function toggleMitraStatus(id) {
   renderMitraTable();
 }
 
-// Controller Modal Tambah Mitra (YAGNI & Clean Handler)
-function showTambahMitraModal() {
+// ====================================================
+// Modal Konfirmasi Ubah Status Kontributor
+// ====================================================
+let pendingToggleMitraId = null;
+
+function openModalToggleStatusMitra(id) {
+  const item = mitraListData.find((m) => m.id === id);
+  if (!item) return;
+
+  const isAktif = item.status === 'aktif';
+  const totalDosen = item.dosen ? item.dosen.length : 0;
+  const totalMhs = item.mhs ? item.mhs.length : 0;
+
+  pendingToggleMitraId = id;
+
+  const modal = document.getElementById('modal-toggle-status-mitra');
+  const iconEl = document.getElementById('modal-toggle-status-icon');
+  const titleEl = document.getElementById('modal-toggle-status-title');
+  const subtitleEl = document.getElementById('modal-toggle-status-subtitle');
+  const namaEl = document.getElementById('modal-toggle-status-nama');
+  const detailEl = document.getElementById('modal-toggle-status-detail');
+  const warningEl = document.getElementById('modal-toggle-status-warning');
+  const confirmBtn = document.getElementById('modal-toggle-status-confirm');
+
+  if (iconEl) {
+    iconEl.className = isAktif
+      ? 'h-10 w-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-[#BE123C]'
+      : 'h-10 w-10 rounded-full flex items-center justify-center shrink-0 bg-emerald-50 text-[#15803D]';
+    iconEl.innerHTML = isAktif
+      ? '<i data-lucide="alert-triangle" class="w-5 h-5"></i>'
+      : '<i data-lucide="check-circle-2" class="w-5 h-5"></i>';
+  }
+
+  if (titleEl) titleEl.textContent = isAktif ? 'Nonaktifkan Kontributor?' : 'Aktifkan Kontributor?';
+  if (subtitleEl) subtitleEl.textContent = isAktif
+    ? 'Tindakan ini akan membekukan seluruh aktivitas mitra.'
+    : 'Aktivitas mitra akan dijalankan kembali.';
+
+  if (namaEl) namaEl.textContent = item.nama;
+  if (detailEl) detailEl.textContent = `${totalDosen} dosen binaan · ${totalMhs} mahasiswa aktif · ${item.sektor || '-'}`;
+
+  if (warningEl) warningEl.textContent = isAktif
+    ? 'Seluruh program, lowongan, dan akses mahasiswa binaan akan dibekukan sementara. Data tidak dihapus dan dapat diaktifkan kembali kapan saja.'
+    : 'Seluruh program, lowongan, dan akses mahasiswa binaan akan aktif kembali setelah konfirmasi.';
+
+  if (confirmBtn) {
+    confirmBtn.textContent = isAktif ? 'Ya, Nonaktifkan' : 'Ya, Aktifkan';
+    confirmBtn.className = isAktif
+      ? 'h-9 px-4 rounded-lg bg-[#BE123C] hover:bg-[#9F1239] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer'
+      : 'h-9 px-4 rounded-lg bg-[#15803D] hover:bg-[#166534] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer';
+  }
+
+  if (modal) {
+    modal.classList.remove('hidden');
+    if (window.lucide) window.lucide.createIcons();
+  }
+}
+
+function closeModalToggleStatusMitra() {
+  pendingToggleMitraId = null;
+  const modal = document.getElementById('modal-toggle-status-mitra');
+  if (modal) modal.classList.add('hidden');
+}
+
+function confirmToggleStatusMitra() {
+  if (pendingToggleMitraId === null) return;
+  const id = pendingToggleMitraId;
+  pendingToggleMitraId = null;
+
+  const modal = document.getElementById('modal-toggle-status-mitra');
+  if (modal) modal.classList.add('hidden');
+
+  // Sinkronkan data mock (jika tabel dirender via controller legacy)
+  const item = mitraListData.find((m) => m.id === id);
+  const nowAktif = item ? item.status !== 'aktif' : true;
+  if (item) item.status = nowAktif ? 'aktif' : 'nonaktif';
+
+  // Update Alpine state (tabel Astro statis)
+  const root = document.getElementById('subview-mitra-list');
+  if (root && window.Alpine) {
+    const data = window.Alpine.$data(root);
+    if (data && typeof data.setStatus === 'function') {
+      data.setStatus(id, nowAktif);
+    }
+  }
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+// Controller Modal Tambah Kontributor (YAGNI & Clean Handler)
+function showTambahMitraModal(type = 'eksternal') {
   const modal = document.getElementById('modal-tambah-mitra');
   if (!modal) return;
 
@@ -3987,10 +4194,12 @@ function showTambahMitraModal() {
   const iNama = document.getElementById('modal-internal-nama');
   const iPicNama = document.getElementById('modal-internal-pic-nama');
   const iPicEmail = document.getElementById('modal-internal-pic-email');
+  const iPass = document.getElementById('modal-internal-password');
   const iDesk = document.getElementById('modal-internal-deskripsi');
   if (iNama) iNama.value = '';
   if (iPicNama) iPicNama.value = '';
   if (iPicEmail) iPicEmail.value = '';
+  if (iPass) iPass.value = '';
   if (iDesk) iDesk.value = '';
 
   const eNama = document.getElementById('modal-eksternal-nama');
@@ -4000,11 +4209,15 @@ function showTambahMitraModal() {
   if (ePicNama) ePicNama.value = '';
   if (eDesk) eDesk.value = '';
 
-  // Sesuaikan dengan tab kategori aktif
-  modalMitraType = mitraCategoryTab;
-  const radioType = document.querySelector(`input[name="modalMitraType"][value="${mitraCategoryTab}"]`);
-  if (radioType) radioType.checked = true;
-  handleModalMitraTypeChange(mitraCategoryTab);
+  // Sesuaikan tipe kontributor
+  modalMitraType = (type === 'internal') ? 'internal' : 'eksternal';
+
+  const titleEl = document.getElementById('modal-mitra-title');
+  if (titleEl) {
+    titleEl.textContent = modalMitraType === 'internal' ? 'Tambah Kontributor Internal' : 'Tambah Kontributor Eksternal';
+  }
+
+  handleModalMitraTypeChange(modalMitraType);
 
   modal.classList.remove('hidden');
   if (window.lucide) window.lucide.createIcons();
@@ -4038,7 +4251,7 @@ function handleSubmitTambahMitra() {
     const deskripsi = document.getElementById('modal-internal-deskripsi')?.value.trim();
 
     if (!nama) {
-      alert('Mohon masukkan Nama Mitra!');
+      alert('Mohon masukkan Nama Kontributor!');
       document.getElementById('modal-internal-nama')?.focus();
       return;
     }
@@ -4076,7 +4289,7 @@ function handleSubmitTambahMitra() {
     });
 
     closeTambahMitraModal();
-    alert(`Mitra Internal "${nama}" berhasil ditambahkan!`);
+    alert(`Kontributor Internal "${nama}" berhasil ditambahkan!`);
     switchMitraCategoryTab('internal');
   } else {
     const nama = document.getElementById('modal-eksternal-nama')?.value.trim();
@@ -4084,7 +4297,7 @@ function handleSubmitTambahMitra() {
     const deskripsi = document.getElementById('modal-eksternal-deskripsi')?.value.trim();
 
     if (!nama) {
-      alert('Mohon masukkan Nama Mitra / Instansi!');
+      alert('Mohon masukkan Nama Kontributor / Instansi!');
       document.getElementById('modal-eksternal-nama')?.focus();
       return;
     }
@@ -4112,7 +4325,7 @@ function handleSubmitTambahMitra() {
     });
 
     closeTambahMitraModal();
-    alert(`Mitra Eksternal "${nama}" berhasil ditambahkan!`);
+    alert(`Kontributor Eksternal "${nama}" berhasil ditambahkan!`);
     switchMitraCategoryTab('eksternal');
   }
 }
@@ -4137,11 +4350,11 @@ function showMitraDetail(id) {
   const detailView = document.getElementById('subview-mitra-detail');
   detailView.classList.remove('hidden');
 
-  // Sembunyikan Header Baris 2 Direktori & Tombol Tambah Mitra
+  // Sembunyikan Header Baris 2 Direktori & Tombol Tambah Kontributor
   const bar2 = document.getElementById('dashboard-header-bar-2');
   if (bar2) bar2.classList.add('hidden');
 
-  updateBreadcrumb(['Mitra', 'Detail']);
+  updateBreadcrumb(['Kontributor', 'Detail']);
 
   // 1. Populate Hero Profile Card
   const avatarEl = document.getElementById('mitra-detail-avatar');
@@ -4149,37 +4362,31 @@ function showMitraDetail(id) {
     avatarEl.className = 'h-14 w-14 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-[#09090b] font-semibold text-lg flex items-center justify-center shrink-0';
     avatarEl.textContent = item.avatar;
   }
-  document.getElementById('mitra-detail-name').textContent = item.nama;
-  document.getElementById('mitra-detail-deskripsi').textContent = item.deskripsi || '-';
-  document.getElementById('mitra-detail-sektor').textContent = item.sektor || 'Industri';
-  document.getElementById('mitra-detail-pic').textContent = item.tipe === 'internal' && item.picEmail
-    ? `${item.picNama} (${item.picEmail})`
-    : item.picNama;
-  document.getElementById('mitra-detail-mou').textContent = item.mou || '-';
+  const nameEl = document.getElementById('mitra-detail-name');
+  if (nameEl) nameEl.textContent = item.nama;
+  const deskEl = document.getElementById('mitra-detail-deskripsi');
+  if (deskEl) deskEl.textContent = item.deskripsi || '-';
+  const picEl = document.getElementById('mitra-detail-pic');
+  if (picEl) {
+    picEl.textContent = item.tipe === 'internal' && item.picEmail
+      ? `${item.picNama} (${item.picEmail})`
+      : item.picNama;
+  }
 
-  // Badge Tipe Mitra (Styling Bersih & Elegan Sesuai Dashboard)
+  // Badge Tipe Kontributor
   const typeBadge = document.getElementById('mitra-detail-type-badge');
   if (typeBadge) {
     typeBadge.className = 'inline-flex items-center gap-1.5 rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#09090b]';
     if (item.tipe === 'internal') {
-      typeBadge.innerHTML = '<i data-lucide="building" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Mitra Internal</span>';
+      typeBadge.innerHTML = '<i data-lucide="building" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Kontributor Internal</span>';
     } else {
-      typeBadge.innerHTML = '<i data-lucide="globe" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Mitra Eksternal (Managed)</span>';
+      typeBadge.innerHTML = '<i data-lucide="globe" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Kontributor Eksternal</span>';
     }
   }
 
-  // 2. Populate 3 Mini KPI Cards
+  // 2. Populate 2 Mini KPI Cards (Dospem & Mahasiswa)
   const totalDosen = item.dosen ? item.dosen.length : 0;
   const totalMhs = item.mhs ? item.mhs.length : 0;
-
-  const kpiLabel1 = document.getElementById('kpi-mitra-label-1');
-  const kpiVal1 = document.getElementById('kpi-mitra-val-1');
-  const kpiSub1 = document.getElementById('kpi-mitra-sub-1');
-  if (kpiLabel1 && kpiVal1 && kpiSub1) {
-    kpiLabel1.textContent = 'Sektor Industri';
-    kpiVal1.textContent = item.sektor || 'Industri';
-    kpiSub1.textContent = item.tipe === 'internal' ? 'Mitra Internal Kampus' : 'Mitra Nasional / MSIB';
-  }
 
   const kpiVal2 = document.getElementById('kpi-mitra-val-2');
   if (kpiVal2) kpiVal2.textContent = `${totalDosen} Dosen`;
@@ -4187,7 +4394,7 @@ function showMitraDetail(id) {
   const kpiVal3 = document.getElementById('kpi-mitra-val-3');
   if (kpiVal3) kpiVal3.textContent = `${totalMhs} Mahasiswa`;
 
-  // 3. Render Tabs Header (Hanya Daftar Mahasiswa & Daftar Dosen + Kelola CMS Mitra)
+  // 3. Render Tabs Header (Hanya Daftar Mahasiswa & Daftar Dosen)
   const tabsHeader = document.getElementById('mitra-detail-tabs-header');
   if (tabsHeader) {
     tabsHeader.innerHTML = `
@@ -4250,7 +4457,7 @@ function showMitraDetail(id) {
     </div>
   `;
 
-  // Helper render tabel dosen bersih (No, Nama Dosen, NIDN, Prodi, Mahasiswa Binaan)
+  // Helper render tabel dosen bersih (No, Nama Dosen, NIDN, Prodi) - Kolom Mahasiswa Binaan Dihapus Sesuai Request
   const renderTableDosen = (dosenList) => `
     <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
       <table class="w-full text-sm">
@@ -4260,17 +4467,15 @@ function showMitraDetail(id) {
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama Dosen</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">NIDN</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
-            <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Mahasiswa Binaan</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#e4e4e7]">
-          ${dosenList.length === 0 ? '<tr><td colspan="5" class="py-6 text-center text-sm text-[#71717a]">Belum ada data dosen teralokasi.</td></tr>' : dosenList.map((d, idx) => `
+          ${dosenList.length === 0 ? '<tr><td colspan="4" class="py-6 text-center text-sm text-[#71717a]">Belum ada data dosen teralokasi.</td></tr>' : dosenList.map((d, idx) => `
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
               <td class="px-3 text-center text-[#71717a] text-xs">${idx + 1}</td>
               <td class="px-4 font-medium text-[#09090b] text-sm">${d.nama}</td>
               <td class="px-4 text-xs text-[#71717a]">${d.nidn}</td>
               <td class="px-4 text-sm text-[#71717a]">${d.prodi}</td>
-              <td class="px-4 text-center font-medium text-sm text-[#0655a7]">${d.mhsCount} Mahasiswa</td>
             </tr>
           `).join('')}
         </tbody>
@@ -4313,11 +4518,11 @@ function hideMitraDetail() {
   if (detail) detail.classList.add('hidden');
   activeDetailMitraId = null;
 
-  // Tampilkan kembali Header Baris 2 Direktori & Tombol Tambah Mitra
+  // Tampilkan kembali Header Baris 2 Direktori & Tombol Tambah Kontributor
   const bar2 = document.getElementById('dashboard-header-bar-2');
   if (bar2) bar2.classList.remove('hidden');
 
-  updateBreadcrumb(['Mitra']);
+  updateBreadcrumb(['Kontributor']);
 }
 
 // Legacy alias for compatibility
@@ -4338,17 +4543,22 @@ function openMitraCms(mitraId) {
   const mitra = mitraListData.find((m) => m.id === mitraId);
   if (!mitra) return;
 
+  // Navigasi ke halaman Kelola Program tersendiri
+  window.location.href = `/admin/kontributor/kelola-program?id=${mitraId}`;
+}
+
+/**
+ * Mengisi seluruh field CMS berdasarkan mitraId.
+ * Dipanggil oleh halaman /admin/kontributor/kelola-program.
+ */
+function populateMitraCmsPage(mitraId) {
+  const mitra = mitraListData.find((m) => m.id === mitraId);
+  if (!mitra) return;
+
   activeCmsMitraId = mitraId;
 
-  // Hide detail mitra, reveal CMS
-  document.getElementById('subview-mitra-detail').classList.add('hidden');
-  const cmsView = document.getElementById('subview-program-cms');
-  cmsView.classList.remove('hidden');
-
-  // Update header & breadcrumb
   const titleEl = document.getElementById('cms-program-page-title');
   if (titleEl) titleEl.textContent = `Kelola Program — ${mitra.nama}`;
-  updateBreadcrumb(['Mitra', 'Kelola Program']);
 
   // Get or initialize mitra CMS data
   let data = mitraCmsDataMap[mitraId];
@@ -4429,6 +4639,12 @@ function openProgramCms(progName, mitraId) {
 }
 
 function closeProgramCms() {
+  // Jika berada di halaman standalone, kembali ke direktori kontributor
+  if (window.location.pathname.includes('/kontributor/kelola-program')) {
+    window.location.href = '/admin/kontributor';
+    return;
+  }
+
   const cmsView = document.getElementById('subview-program-cms');
   if (cmsView) cmsView.classList.add('hidden');
   const detailView = document.getElementById('subview-mitra-detail');
@@ -4873,17 +5089,17 @@ function renderPelamarTable() {
                   <button
                     type="button"
                     onclick="terimaPelamar(${item.id})"
-                    class="h-8 inline-flex items-center justify-center gap-1.5 rounded-md border border-emerald-300 bg-white hover:bg-emerald-50 text-xs font-semibold text-emerald-700 transition-colors"
+                    class="h-9 inline-flex items-center justify-center gap-1.5 rounded-md border border-emerald-300 bg-white hover:bg-emerald-50 text-xs font-semibold text-emerald-700 transition-colors"
                   >
-                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    <i data-lucide="check" class="w-4 h-4"></i>
                     <span>Terima</span>
                   </button>
                   <button
                     type="button"
                     onclick="tolakPelamar(${item.id})"
-                    class="h-8 inline-flex items-center justify-center gap-1.5 rounded-md border border-red-300 bg-white hover:bg-red-50 text-xs font-semibold text-red-600 transition-colors"
+                    class="h-9 inline-flex items-center justify-center gap-1.5 rounded-md border border-red-300 bg-white hover:bg-red-50 text-xs font-semibold text-red-600 transition-colors"
                   >
-                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    <i data-lucide="x" class="w-4 h-4"></i>
                     <span>Tolak</span>
                   </button>
                 </div>
@@ -4893,7 +5109,7 @@ function renderPelamarTable() {
                 <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-center">
                   <span class="text-xs font-semibold text-emerald-700 flex items-center justify-center gap-1">
                     <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                    <span>Telah Diterima</span>
+                    <span>Diterima</span>
                   </span>
                 </div>
               `;
@@ -4902,7 +5118,7 @@ function renderPelamarTable() {
                 <div class="p-2 rounded-lg bg-rose-50 border border-rose-200 text-center">
                   <span class="text-xs font-semibold text-rose-700 flex items-center justify-center gap-1">
                     <i data-lucide="x-circle" class="w-4 h-4"></i>
-                    <span>Telah Ditolak</span>
+                    <span>Ditolak</span>
                   </span>
                 </div>
               `;
@@ -4919,146 +5135,150 @@ function renderPelamarTable() {
           }
 
           return `
-            <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 shadow-none hover:border-[#0655a7]/30 transition-all">
-              <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- Kolom Kiri: Data Mahasiswa (Identik Gambar) -->
-                <div class="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-[#e4e4e7] pb-5 lg:pb-0 lg:pr-6 flex flex-col justify-between">
-                  <div>
-                    <!-- Header Mahasiswa -->
-                    <div class="flex items-center gap-2 font-semibold text-sm text-[#09090b] mb-4">
-                      <i data-lucide="user" class="w-4 h-4 text-[#71717a]"></i>
+            <div class="rounded-xl border border-[#e4e4e7] bg-white overflow-hidden shadow-none hover:border-[#0655a7]/30 transition-all">
+              <div class="grid grid-cols-1 lg:grid-cols-12">
+                <!-- Kolom Kiri: Data Mahasiswa -->
+                <div class="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-[#e4e4e7] flex flex-col">
+                  <!-- Header Kolom -->
+                  <div class="bg-[#fafafa] border-b border-[#e4e4e7] px-5 py-3 shrink-0">
+                    <div class="flex items-center gap-2 font-semibold text-sm text-[#09090b]">
+                      <i data-lucide="user" class="w-4 h-4"></i>
                       <span>Data Mahasiswa</span>
                     </div>
+                  </div>
 
-                    <!-- Avatar & Nama -->
-                    <div class="text-center mb-4">
+                  <!-- Konten -->
+                  <div class="p-5 space-y-4 flex-1 flex flex-col justify-center">
+                    <div class="flex justify-center">
                       <img
                         src="${item.foto}"
                         alt="${item.nama}"
-                        class="w-24 h-24 rounded-full object-cover border-2 border-[#e4e4e7] mx-auto mb-3 shadow-none bg-[#f4f4f5]"
+                        class="w-24 h-24 rounded-full object-cover border-2 border-[#e4e4e7] bg-[#f4f4f5]"
                       />
-                      <h4 class="font-bold text-base text-[#09090b] leading-tight">${item.nama}</h4>
-                      <p class="text-xs text-[#71717a] mt-0.5">${item.prodi}</p>
+                    </div>
+                    <h4 class="text-lg font-semibold text-center text-[#09090b] capitalize leading-tight">${item.nama.toLowerCase()}</h4>
+
+                    <div class="space-y-2">
+                      <div class="flex items-center gap-2 text-sm">
+                        <span class="inline-flex items-center justify-center w-16 h-6 rounded-md border border-[#e4e4e7] text-[11px] font-medium text-[#71717a] shrink-0">NIM</span>
+                        <span class="text-[#09090b]">${item.nim}</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-sm">
+                        <span class="inline-flex items-center justify-center w-16 h-6 rounded-md border border-[#e4e4e7] text-[11px] font-medium text-[#71717a] shrink-0">Email</span>
+                        <span class="text-[#09090b] truncate" title="${item.email}">${item.email}</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-sm">
+                        <span class="inline-flex items-center justify-center w-16 h-6 rounded-md border border-[#e4e4e7] text-[11px] font-medium text-[#71717a] shrink-0">No HP</span>
+                        <span class="text-[#09090b]">${item.noHp}</span>
+                      </div>
+                      <div class="flex items-center gap-2 text-sm">
+                        <span class="inline-flex items-center justify-center w-16 h-6 rounded-md border border-[#e4e4e7] text-[11px] font-medium text-[#71717a] shrink-0">Prodi</span>
+                        <span class="text-[#09090b] truncate">${item.prodi}</span>
+                      </div>
                     </div>
 
-                    <!-- Metadata Mahasiswa -->
-                    <div class="space-y-1.5 text-xs mb-4">
-                      <div class="flex items-center justify-between p-2 rounded-md bg-[#fafafa] border border-[#e4e4e7]">
-                        <span class="text-[#71717a] font-medium">NIM</span>
-                        <span class="font-semibold text-[#09090b]">${item.nim}</span>
-                      </div>
-                      <div class="flex items-center justify-between p-2 rounded-md bg-[#fafafa] border border-[#e4e4e7]">
-                        <span class="text-[#71717a] font-medium">Email</span>
-                        <span class="font-semibold text-[#09090b] truncate max-w-[170px]" title="${item.email}">${item.email}</span>
-                      </div>
-                      <div class="flex items-center justify-between p-2 rounded-md bg-[#fafafa] border border-[#e4e4e7]">
-                        <span class="text-[#71717a] font-medium">No HP</span>
-                        <span class="font-semibold text-[#09090b]">${item.noHp}</span>
-                      </div>
+                    <div class="pt-2">
+                      <button
+                        type="button"
+                        onclick="lihatTranskripPelamar(${item.id})"
+                        class="w-full h-9 inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors"
+                      >
+                        <i data-lucide="file-text" class="w-4 h-4 text-[#71717a]"></i>
+                        <span>Lihat Transkrip</span>
+                      </button>
                     </div>
 
-                    <!-- Tombol Lihat Transkrip -->
-                    <button
-                      type="button"
-                      onclick="lihatTranskripPelamar(${item.id})"
-                      class="w-full h-8 mb-4 inline-flex items-center justify-center gap-2 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors"
-                    >
-                      <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                      <span>Lihat Transkrip</span>
-                    </button>
-                  </div>
-
-                  <!-- Action Buttons: Terima / Tolak -->
-                  <div>
-                    ${actionHtml}
+                    <div class="pt-2">
+                      ${actionHtml}
+                    </div>
                   </div>
                 </div>
 
-                <!-- Kolom Kanan: Data Pengajuan (Sesuai Replaced Data) -->
-                <div class="lg:col-span-8 flex flex-col justify-between space-y-4">
-                  <div class="space-y-3.5">
-                    <!-- Header Pengajuan & Badges -->
-                    <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
-                      <div class="flex items-center gap-2 font-semibold text-sm text-[#09090b]">
-                        <i data-lucide="file-check-2" class="w-4 h-4 text-[#71717a]"></i>
-                        <span>Data Pengajuan</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        ${kategoriBadge}
-                        ${statusBadge}
-                      </div>
-                    </div>
-
-                    <!-- Judul Program & Mitra -->
-                    <div>
-                      <span class="text-[11px] text-[#71717a] uppercase tracking-wider font-semibold">Mitra & Posisi Program MBKM</span>
-                      <h3 class="text-base font-bold text-[#09090b] mt-0.5 leading-snug">${item.program}</h3>
-                      <p class="text-xs text-[#0655a7] font-semibold mt-0.5">${item.mitra}</p>
-                    </div>
-
-                    <!-- Data Diganti: IPK, Semester -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-lg bg-[#fafafa] border border-[#e4e4e7]">
-                      <div>
-                        <span class="text-[11px] text-[#71717a] flex items-center gap-1.5 font-medium">
-                          <i data-lucide="award" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-                          <span>IPK Kumulatif Mahasiswa</span>
-                        </span>
-                        <p class="text-xs font-bold text-[#09090b] mt-0.5">${item.ipk} <span class="font-normal text-[#71717a]">(${item.sksLulus} SKS Lulus)</span></p>
-                      </div>
-                      <div>
-                        <span class="text-[11px] text-[#71717a] flex items-center gap-1.5 font-medium">
-                          <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-                          <span>Semester Mahasiswa</span>
-                        </span>
-                        <p class="text-xs font-bold text-[#09090b] mt-0.5">${item.semester} <span class="font-normal text-[#71717a]">(${item.semesterAjaran})</span></p>
-                      </div>
-                    </div>
-
-                    <!-- Deskripsi Motivasi -->
-                    <div>
-                      <span class="text-[11px] text-[#71717a] flex items-center gap-1.5 font-semibold">
-                        <i data-lucide="align-left" class="w-3.5 h-3.5"></i>
-                        <span>Deskripsi Motivasi / Portofolio Singkat</span>
-                      </span>
-                      <p class="text-xs text-[#3f3f46] mt-1 leading-relaxed">${item.deskripsi}</p>
-                    </div>
-
-                    <!-- Matakuliah Diambil (Konversi SKS) -->
-                    <div>
-                      <span class="text-[11px] text-[#71717a] flex items-center gap-1.5 font-semibold">
-                        <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-                        <span>Matakuliah Diambil (Draf Konversi 20 SKS)</span>
-                      </span>
-                      <div class="flex flex-wrap gap-1.5 mt-1.5">
-                        ${item.matkulDiambil
-                          .map(
-                            (m) => `
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-[#0655a7] border border-blue-200">
-                              <span>${m.nama}</span>
-                              <span class="font-bold">(${m.sks} SKS)</span>
-                            </span>
-                          `
-                          )
-                          .join('')}
-                      </div>
+                <!-- Kolom Kanan: Data Pengajuan -->
+                <div class="lg:col-span-8 flex flex-col">
+                  <!-- Header Kolom -->
+                  <div class="bg-[#fafafa] border-b border-[#e4e4e7] px-5 py-3 shrink-0">
+                    <div class="flex items-center gap-2 font-semibold text-sm text-[#09090b]">
+                      <i data-lucide="file-text" class="w-4 h-4"></i>
+                      <span>Data Pengajuan</span>
                     </div>
                   </div>
 
-                  <!-- Footer: Minat & Tanggal Pengajuan -->
-                  <div class="pt-3 border-t border-[#e4e4e7] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                    <div class="flex items-center gap-1.5 flex-wrap">
-                      <span class="text-[#71717a] text-[11px] mr-1">Minat Keahlian:</span>
-                      ${item.minat
-                        .map(
-                          (tag) => `
-                          <span class="px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#f4f4f5] text-[#3f3f46] border border-[#e4e4e7]">${tag}</span>
-                        `
-                        )
-                        .join('')}
+                  <!-- Konten -->
+                  <div class="p-5 space-y-6 flex-1 flex flex-col justify-center">
+                    <!-- Program & Mitra -->
+                    <div class="space-y-2">
+                      <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
+                        <i data-lucide="notebook-pen" class="w-4 h-4"></i>
+                        <span>Mitra</span>
+                      </div>
+                      <p class="text-lg font-medium text-[#09090b] leading-snug">${item.program}</p>
+                      <div class="flex items-center gap-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+                        <span class="text-sm text-[#0655a7] font-medium">${item.mitra}</span>
+                      </div>
                     </div>
-                    <div class="text-[#71717a] text-[11px] flex items-center gap-1.5">
-                      <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-                      <span>${item.tanggalPengajuan}</span>
+
+                    <!-- Akademik & Semester -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
+                          <i data-lucide="award" class="w-4 h-4"></i>
+                          <span>IPK Kumulatif</span>
+                        </div>
+                        <p class="text-[#09090b]">${item.ipk}</p>
+                      </div>
+                      <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
+                          <i data-lucide="calendar" class="w-4 h-4"></i>
+                          <span>Semester</span>
+                        </div>
+                        <p class="text-[#09090b]">${item.semester} <span class="text-sm text-[#71717a]">(${(item.semesterAjaran || '').replace(/^(Gasal|Genap)\s*/i, '')})</span></p>
+                      </div>
+                    </div>
+
+                    <!-- Tanggal Pengajuan -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
+                          <i data-lucide="calendar" class="w-4 h-4"></i>
+                          <span>Tanggal Pengajuan</span>
+                        </div>
+                        <p class="text-[#09090b]">${item.tanggalPengajuan}</p>
+                      </div>
+                    </div>
+
+                    <!-- Lampiran Berkas (paling bawah) -->
+                    <div class="space-y-2">
+                      <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
+                        <i data-lucide="paperclip" class="w-4 h-4"></i>
+                        <span>Lampiran Berkas</span>
+                      </div>
+                      <div class="flex items-stretch gap-2">
+                        ${(item.links || [])
+                          .map(
+                            (l) => `
+                            <a
+                              href="${l.url}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="flex-1 inline-flex items-center justify-center gap-2 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors"
+                            >
+                              <i data-lucide="${l.label === 'CV' ? 'file-text' : 'folder-open'}" class="w-4 h-4 text-[#71717a]"></i>
+                              <span>Lihat ${l.label}</span>
+                            </a>
+                          `
+                          )
+                          .join('')}
+                        <button
+                          type="button"
+                          onclick="alert('Mahasiswa dapat menambahkan tautan pengumpulan lain (sertifikat, GitHub, demo aplikasi) saat mengisi form pendaftaran.')"
+                          class="inline-flex items-center justify-center h-9 w-9 shrink-0 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] transition-colors"
+                          title="Tautan tambahan dari mahasiswa"
+                        >
+                          <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -5075,7 +5295,7 @@ function renderPelamarTable() {
     if (currentSlice.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" class="py-8 text-center text-sm text-[#71717a]">
+          <td colspan="6" class="py-8 text-center text-sm text-[#71717a]">
             Tidak ada data pendaftar yang cocok dengan kriteria filter.
           </td>
         </tr>
@@ -5085,14 +5305,6 @@ function renderPelamarTable() {
         .map((item, idx) => {
           const rowNum = startIndex + idx + 1;
           const isInternal = item.kategoriMitra === 'internal';
-
-          const statusBadges = {
-            baru: '<span class="inline-flex items-center rounded-md border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-700">Menunggu</span>',
-            diterima: '<span class="inline-flex items-center rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">Diterima</span>',
-            ditolak: '<span class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700">Ditolak</span>',
-            dibatalkan: '<span class="inline-flex items-center rounded-md border border-slate-200 bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-700">Dibatalkan</span>'
-          };
-          const badge = statusBadges[item.status] || statusBadges.baru;
 
           const matkulTags = item.matkulDiambil
             .map((m) => `<span class="px-1.5 py-0.5 text-[10px] rounded bg-blue-50 text-[#0655a7] border border-blue-200 font-medium whitespace-nowrap">${m.nama} (${m.sks} SKS)</span>`)
@@ -5141,7 +5353,6 @@ function renderPelamarTable() {
                   ${matkulTags}
                 </div>
               </td>
-              <td class="px-4 text-center">${badge}</td>
               <td class="px-4 text-center">${actionBtn}</td>
             </tr>
           `;
@@ -5476,6 +5687,18 @@ function initApp() {
     targetTab = slugMap[slug] || slug || 'dashboard';
   }
   switchTab(targetTab);
+
+  // Halaman Kelola Program Kontributor (/admin/kontributor/kelola-program?id=N)
+  // Dikenali dari section khusus agar tidak bentrok dengan subview di halaman direktori.
+  if (document.getElementById('section-mitra-cms')) {
+    const params = new URLSearchParams(window.location.search);
+    const cmsId = Number(params.get('id'));
+    if (cmsId) {
+      populateMitraCmsPage(cmsId);
+    } else {
+      window.location.href = '/admin/kontributor';
+    }
+  }
 }
 
 if (document.readyState === 'loading') {

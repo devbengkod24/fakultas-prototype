@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 interface Props {
   title?: string;
   pageTitle?: string;
@@ -28,6 +30,7 @@ const {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
+  <ClientRouter />
 
   <!-- Google Fonts: Inter (Standar Selaras dengan Admin) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -113,9 +116,30 @@ const {
     .nav-active i {
       color: #0655a7 !important;
     }
+
+    /* Top Progress Bar Loading Indicator (Style NextTopLoader KP) */
+    #top-loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #0655a7, #1E7FD9, #38bdf8);
+      box-shadow: 0 0 10px rgba(6, 85, 167, 0.7), 0 0 5px rgba(30, 127, 217, 0.5);
+      z-index: 99999;
+      pointer-events: none;
+      transition: width 0.35s cubic-bezier(0.1, 0.05, 0.25, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+    #top-loading-bar.loading {
+      opacity: 1;
+    }
   </style>
 </head>
 <body x-data class="min-h-screen bg-[#fafafa] text-[#09090b] antialiased overflow-x-hidden">
+  <!-- Top loading bar indicator -->
+  <div id="top-loading-bar" aria-hidden="true"></div>
+
   <div class="flex min-h-screen w-full bg-[#fafafa]">
 
     <!-- ==================================================== -->
@@ -158,7 +182,7 @@ const {
         <nav class="flex flex-col gap-1 mt-2">
           <!-- 1. Dashboard -->
           <a
-            href="/mitra/dashboard"
+            href="/contributor/dashboard"
             id="nav-dashboard"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'dashboard' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -171,7 +195,7 @@ const {
 
           <!-- 2. Kelola Program -->
           <a
-            href="/mitra/program"
+            href="/contributor/program"
             id="nav-program"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'program' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -184,7 +208,7 @@ const {
 
           <!-- 3. Form Pendaftaran -->
           <a
-            href="/mitra/form"
+            href="/contributor/form"
             id="nav-form"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'form' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -214,7 +238,7 @@ const {
             <div id="group-anggota-sub" class={`pl-3 space-y-0.5 ${['dosen', 'mahasiswa'].includes(activeNav) ? '' : 'hidden'}`}>
               <!-- Sub 1: Dosen -->
               <a
-                href="/mitra/dosen"
+                href="/contributor/dosen"
                 id="nav-dosen"
                 class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
                   activeNav === 'dosen' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -226,7 +250,7 @@ const {
               </a>
               <!-- Sub 2: Mahasiswa -->
               <a
-                href="/mitra/mahasiswa"
+                href="/contributor/mahasiswa"
                 id="nav-mahasiswa"
                 class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
                   activeNav === 'mahasiswa' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -241,7 +265,7 @@ const {
 
           <!-- 5. Seleksi Pendaftar -->
           <a
-            href="/mitra/seleksi"
+            href="/contributor/seleksi"
             id="nav-seleksi"
             class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
               activeNav === 'seleksi' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
@@ -732,6 +756,47 @@ const {
       setupSidebarToggle();
     }
 
+    // Astro Page Load Event Listener (menjaga icons tetap render saat ClientRouter navigasi)
+    document.addEventListener("astro:page-load", () => {
+      initIcons();
+      setupSidebarToggle();
+    });
+
+    // Top Loading Progress Bar Controller (selaras NextTopLoader KP)
+    document.addEventListener("astro:before-preparation", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.classList.add("loading");
+        bar.style.width = "30%";
+        setTimeout(() => {
+          if (bar.classList.contains("loading")) {
+            bar.style.width = "75%";
+          }
+        }, 150);
+      }
+    });
+
+    document.addEventListener("astro:after-preparation", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.style.width = "95%";
+      }
+    });
+
+    document.addEventListener("astro:page-load", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.style.width = "100%";
+        setTimeout(() => {
+          bar.classList.remove("loading");
+          bar.style.opacity = "0";
+          setTimeout(() => {
+            bar.style.width = "0%";
+          }, 300);
+        }, 150);
+      }
+    });
+
     // Sidebar Toggle Mobile/Desktop
     function setupSidebarToggle() {
       const toggleBtn = document.getElementById("sidebarToggle");
@@ -762,12 +827,12 @@ const {
     // SPA / Multi-Page View Switcher Utama
     function switchNavView(viewName) {
       const routes = {
-        'dashboard': '/mitra/dashboard',
-        'program': '/mitra/program',
-        'form': '/mitra/form',
-        'seleksi': '/mitra/seleksi',
-        'mahasiswa': '/mitra/mahasiswa',
-        'dosen': '/mitra/dosen'
+        'dashboard': '/contributor/dashboard',
+        'program': '/contributor/program',
+        'form': '/contributor/form',
+        'seleksi': '/contributor/seleksi',
+        'mahasiswa': '/contributor/mahasiswa',
+        'dosen': '/contributor/dosen'
       };
 
       const targetPanel = document.getElementById(`view-${viewName}`);

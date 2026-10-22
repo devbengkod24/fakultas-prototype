@@ -2,7 +2,7 @@ export interface UserAccount {
   name: string;
   email: string;
   password: string;
-  role: "admin" | "mitra" | "mahasiswa";
+  role: "admin" | "mitra" | "contributor" | "dosen" | "mahasiswa";
   roleName: string;
   identifier: string;
   avatar: string;
@@ -26,12 +26,23 @@ export const DEMO_ACCOUNTS: UserAccount[] = [
     name: "Dr. Ricardus Anggi, M.Kom.",
     email: "mitra@dinus.ac.id",
     password: "password",
-    role: "mitra",
-    roleName: "Dosen Pembimbing / Kontributor Mitra",
+    role: "contributor",
+    roleName: "Kontributor Mitra Industri",
     identifier: "0686.11.2001.289",
     avatar: "RA",
-    redirectUrl: "/mitra/dashboard",
+    redirectUrl: "/contributor/dashboard",
     description: "Kelola program industri, seleksi pendaftar, direct assign, dan bimbingan anggota binaan."
+  },
+  {
+    name: "Dr. Muljono, S.Si, M.Kom",
+    email: "dosen_a11@dev",
+    password: "buildingcodeforthefuture",
+    role: "dosen",
+    roleName: "Dosen Pembimbing Lapangan (DPL)",
+    identifier: "0686.11.1993.102",
+    avatar: "MJ",
+    redirectUrl: "/dosen/dashboard",
+    description: "Monitoring mahasiswa binaan, review dan ACC logbook mingguan, validasi laporan akhir, dan penilaian sidang."
   },
   {
     name: "Ahmad Rizky Pratama",

@@ -1,233 +1,367 @@
 ---
 // src/pages/admin/dosen-update.astro
-import AdminShell from "../../layouts/AdminShell.astro";
+import AdminShell from '../../layouts/AdminShell.astro';
 ---
 
 <AdminShell currentTab="dosen-update">
-<section
-            id="section-dosen-update" x-show="$store.mbkm.currentSection === 'dosen-update'"
-            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
-          >
-            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
-              <div>
-                <h2 class="text-base font-semibold text-[#09090b]">Alokasi & Update Dospem (Plotting)</h2>
-                <p class="text-[11px] text-[#71717a]">
-                  Antrean mahasiswa diterima mitra yang siap di-plotting ke Dosen Pembimbing Lapangan (DPL) resmi
-                  berdasarkan kesesuaian kepakaran.
-                </p>
-              </div>
-              <div class="flex items-center gap-2">
-                <button
-                  type="button"
-                  onclick="autoAssignDplBatch()"
-                  class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
-                >
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                  <span>Auto-Assign Kepakaran Cerdas</span>
-                </button>
-                <button
-                  type="button"
-                  onclick="simpanSemuaPlotting()"
-                  class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
-                >
-                  <i data-lucide="save" class="w-3.5 h-3.5"></i>
-                  <span>Simpan Plotting Terpilih</span>
-                </button>
-              </div>
-            </div>
+  <section
+    id="section-dosen-update"
+    class="flex flex-col flex-1 min-h-0 gap-3 tab-content"
+    x-data="{
+      searchQuery: '',
+      selectedMhs: null,
+      selectedDosenId: '',
+      isKonversi: false,
+      currentPage: 1,
+      itemsPerPage: 10,
+      dosenList: [
+        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', sisaKuota: 3, nidn: '0625057001' },
+        { id: 2, nama: 'Eko Hari Rachmawanto, M.Kom', sisaKuota: 4, nidn: '0612088401' },
+        { id: 3, nama: 'Christy Atika Sari, M.Kom', sisaKuota: 2, nidn: '0618038601' },
+        { id: 4, nama: 'Affandy, Ph.D', sisaKuota: 5, nidn: '0601076801' },
+        { id: 5, nama: 'Ajib Susanto, M.Kom', sisaKuota: 1, nidn: '0614057201' },
+      ],
+      mhsList: [
+        { id: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', prodi: 'Teknik Informatika', mitra: 'PT Telkom Indonesia', dospem: 'Dr. M. Arief Soeleman, M.Kom', isKonversi: true },
+        { id: 2, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'Teknik Informatika', mitra: 'Tokopedia', dospem: 'Affandy, Ph.D', isKonversi: false },
+        { id: 3, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', prodi: 'Sistem Informasi', mitra: 'Ryuje Tech', dospem: 'Christy Atika Sari, M.Kom', isKonversi: true },
+        { id: 4, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', prodi: 'Teknik Informatika', mitra: 'Diskominfo Jateng', dospem: null, isKonversi: false },
+        { id: 5, nama: 'Dimas Wahyu Nugroho', nim: 'A11.2021.13450', prodi: 'Teknik Informatika', mitra: 'PT Bank Central Asia', dospem: null, isKonversi: true },
+        { id: 6, nama: 'Siti Aminah', nim: 'A12.2022.09911', prodi: 'Sistem Informasi', mitra: 'Shopee Indonesia', dospem: 'Eko Hari Rachmawanto, M.Kom', isKonversi: false },
+      ],
+      activityLogs: [
+        { id: 101, mhsId: 1, desc: 'Koordinator menetapkan Dr. M. Arief Soeleman, M.Kom sebagai DPL', time: '14 Okt 2026, 10:15 WIB' },
+        { id: 102, mhsId: 2, desc: 'Koordinator mengubah dosen pembimbing menjadi Affandy, Ph.D', time: '12 Okt 2026, 14:20 WIB' },
+        { id: 103, mhsId: 3, desc: 'Koordinator menetapkan Christy Atika Sari, M.Kom sebagai DPL', time: '11 Okt 2026, 09:00 WIB' },
+      ],
+      get filteredMhs() {
+        if (!this.searchQuery) return this.mhsList;
+        const q = this.searchQuery.toLowerCase();
+        return this.mhsList.filter(m =>
+          m.nama.toLowerCase().includes(q) ||
+          m.nim.toLowerCase().includes(q) ||
+          (m.dospem && m.dospem.toLowerCase().includes(q))
+        );
+      },
+      get currentLogs() {
+        if (!this.selectedMhs) {
+          return this.activityLogs.slice(0, 5);
+        }
+        return this.activityLogs.filter(l => l.mhsId === this.selectedMhs.id);
+      },
+      selectMahasiswa(m) {
+        this.selectedMhs = m;
+        this.selectedDosenId = '';
+        this.isKonversi = m.isKonversi || false;
+      },
+      simpanDospem() {
+        if (!this.selectedMhs || !this.selectedDosenId) {
+          alert('Silakan pilih dosen pembimbing terlebih dahulu.');
+          return;
+        }
+        const dosen = this.dosenList.find(d => d.id === parseInt(this.selectedDosenId));
+        if (dosen) {
+          this.selectedMhs.dospem = dosen.nama;
+          this.selectedMhs.isKonversi = this.isKonversi;
+          this.activityLogs.unshift({
+            id: Date.now(),
+            mhsId: this.selectedMhs.id,
+            desc: `Koordinator mengubah dosen pembimbing ${this.selectedMhs.nama} menjadi ${dosen.nama}`,
+            time: 'Baru saja'
+          });
+          alert(`Berhasil memperbarui dosen pembimbing untuk ${this.selectedMhs.nama}.`);
+          this.selectedDosenId = '';
+        }
+      },
+      resetDospem() {
+        if (!this.selectedMhs) return;
+        if (confirm(`Apakah Anda yakin ingin mereset/membatalkan dosen pembimbing untuk ${this.selectedMhs.nama}?`)) {
+          const oldDospem = this.selectedMhs.dospem;
+          this.selectedMhs.dospem = null;
+          this.activityLogs.unshift({
+            id: Date.now(),
+            mhsId: this.selectedMhs.id,
+            desc: `Koordinator mereset dosen pembimbing ${this.selectedMhs.nama} (sebelumnya: ${oldDospem})`,
+            time: 'Baru saja'
+          });
+          alert(`Dosen pembimbing untuk ${this.selectedMhs.nama} berhasil direset.`);
+        }
+      }
+    }"
+  >
+    <!-- Header Title & Subtitle Sesuai Style KP -->
+    <div class="flex flex-col gap-0.5 shrink-0 mb-1">
+      <h2 class="text-base font-semibold text-[#09090b]">Update Dosen Pembimbing</h2>
+      <p class="text-[11px] text-[#71717a]">
+        Ubah dosen pembimbing mahasiswa dan batalkan ACC dosen jika diperlukan.
+      </p>
+    </div>
 
-            <!-- Quick Info / Stat Cards Plotting -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 shrink-0">
-                  <i data-lucide="clock" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Antrean Belum Di-Plot</div>
-                  <div class="text-sm font-bold text-amber-700">14 Mahasiswa</div>
-                </div>
-              </div>
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div
-                  class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 shrink-0"
-                >
-                  <i data-lucide="user-check" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Sudah Selesai Di-Plot</div>
-                  <div class="text-sm font-bold text-[#09090b]">186 Mahasiswa</div>
-                </div>
-              </div>
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
-                  <i data-lucide="building-2" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Mitra Terhubung</div>
-                  <div class="text-sm font-bold text-[#09090b]">18 Industri</div>
-                </div>
-              </div>
-              <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl flex items-center gap-3 shadow-2xs">
-                <div class="flex items-center justify-center w-8 h-8 text-indigo-600 rounded-lg bg-indigo-50 shrink-0">
-                  <i data-lucide="sparkles" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <div class="text-[10px] text-[#71717a] font-medium">Rekomendasi Cocok</div>
-                  <div class="text-sm font-bold text-[#09090b]">14 Rekomendasi</div>
-                </div>
-              </div>
-            </div>
+    <!-- 2-Column Split Layout Persis Sesuai KP Role Koordinator -->
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 flex-1 min-h-[580px] h-[calc(100vh-220px)]">
+      <!-- ============================================== -->
+      <!-- KOLOM KIRI: DAFTAR MAHASISWA                    -->
+      <!-- ============================================== -->
+      <div class="border border-[#e4e4e7] rounded-xl overflow-hidden flex flex-col bg-white shadow-2xs h-full">
+        <!-- Header Card Kiri -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-[#e4e4e7] bg-[#fafafa] shrink-0">
+          <i data-lucide="users" class="w-4 h-4 text-[#71717a]"></i>
+          <span class="font-semibold text-sm text-[#09090b]">Daftar Mahasiswa</span>
+          <span class="ml-auto text-xs text-[#71717a]" x-text="`${filteredMhs.length} Mahasiswa`"></span>
+        </div>
 
-            <!-- Tabel Antrean Plotting -->
-            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
-              <table class="w-full text-xs text-left border-collapse">
-                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
-                  <tr>
-                    <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">
-                      <input type="checkbox" onchange="toggleSelectAllPlotting(this)" class="rounded text-[#0655a7]" />
-                    </th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra & Posisi</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Bidang / Track</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Rekomendasi Kepakaran</th>
-                    <th class="w-64 px-3 py-2 font-semibold text-[11px]">Plotting Dospem (Real-time Slot)</th>
-                    <th class="w-24 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="dosen-update-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center">
-                      <input type="checkbox" class="check-plotting-row rounded text-[#0655a7]" value="A11.2022.13901" />
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
-                      <div class="text-[10px] text-[#71717a]">A11.2022.13901 • TI (S1)</div>
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#3f3f46]">Bengkel Koding</div>
-                      <div class="text-[10px] text-[#71717a]">Fullstack Web Developer</div>
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-100"
-                      >
-                        Web Architecture & DB
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">
-                      <div class="flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
-                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        <span>Dr. M. Arief Soeleman, M.Kom</span>
+        <!-- Search Bar -->
+        <div class="px-3 py-2.5 border-b border-[#e4e4e7] bg-white shrink-0">
+          <div class="relative">
+            <i data-lucide="search" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#71717a]"></i>
+            <input
+              type="text"
+              x-model="searchQuery"
+              placeholder="Cari nama atau NIM..."
+              class="w-full pl-8 pr-3 h-8 text-sm rounded-md border border-[#e4e4e7] bg-white text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+        </div>
+
+        <!-- Tabel Mahasiswa -->
+        <div class="overflow-y-auto flex-1 min-h-0">
+          <table class="w-full text-left border-collapse">
+            <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+              <tr>
+                <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Mahasiswa</th>
+                <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Dospem Saat Ini</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#e4e4e7] bg-white">
+              <template x-for="m in filteredMhs" :key="m.id">
+                <tr
+                  @click="selectMahasiswa(m)"
+                  class="cursor-pointer transition-colors hover:bg-[#f4f4f5]/60"
+                  :class="selectedMhs && selectedMhs.id === m.id ? 'bg-[#0655a7]/5 border-l-4 border-l-[#0655a7]' : ''"
+                >
+                  <td class="h-[68px] px-4 text-sm">
+                    <div class="flex items-center gap-3">
+                      <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                        <span x-text="m.nama.charAt(0)"></span>
                       </div>
-                      <div class="text-[10px] text-[#71717a]">Kesesuaian 95% (Slot: 2)</div>
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <select
-                        class="w-full px-2 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                      >
-                        <option value="arief" selected>Dr. M. Arief Soeleman, M.Kom (Sisa: 2)</option>
-                        <option value="eko">Eko Hari Rachmawanto, M.Kom (Sisa: 3)</option>
-                        <option value="atika">Christy Atika Sari, M.Kom (Sisa: 4)</option>
-                      </select>
-                    </td>
-                    <td class="px-3 py-2.5 text-center">
-                      <button
-                        type="button"
-                        onclick="saveIndividualPlotting('A11.2022.13901', 'Faisal Rahman')"
-                        class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold text-[11px] shadow-2xs"
-                      >
-                        Simpan
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center">
-                      <input type="checkbox" class="check-plotting-row rounded text-[#0655a7]" value="A12.2022.09842" />
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#09090b]">Nabila Zahra Putri</div>
-                      <div class="text-[10px] text-[#71717a]">A12.2022.09842 • SI (S1)</div>
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <div class="font-semibold text-[#3f3f46]">Ryuje Tech</div>
-                      <div class="text-[10px] text-[#71717a]">Business Analyst & ERP Intern</div>
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-100"
-                      >
-                        ERP & Business Process
-                      </span>
-                    </td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">
-                      <div class="flex items-center gap-1 text-[11px] text-emerald-700 font-medium">
-                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        <span>Christy Atika Sari, M.Kom</span>
+                      <div class="flex flex-col min-w-0">
+                        <span class="text-sm font-medium text-[#09090b] truncate" x-text="m.nama"></span>
+                        <span class="text-xs text-[#71717a]" x-text="m.nim"></span>
                       </div>
-                      <div class="text-[10px] text-[#71717a]">Kesesuaian 92% (Slot: 4)</div>
-                    </td>
-                    <td class="px-3 py-2.5">
-                      <select
-                        class="w-full px-2 py-1 text-xs rounded-lg border border-[#e4e4e7] bg-white text-[#3f3f46] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                      >
-                        <option value="atika" selected>Christy Atika Sari, M.Kom (Sisa: 4)</option>
-                        <option value="arief">Dr. M. Arief Soeleman, M.Kom (Sisa: 2)</option>
-                      </select>
-                    </td>
-                    <td class="px-3 py-2.5 text-center">
-                      <button
-                        type="button"
-                        onclick="saveIndividualPlotting('A12.2022.09842', 'Nabila Zahra Putri')"
-                        class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold text-[11px] shadow-2xs"
-                      >
-                        Simpan
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                    </div>
+                  </td>
+                  <td class="h-[68px] px-4 text-sm">
+                    <template x-if="m.dospem">
+                      <span class="text-xs font-medium text-[#09090b]" x-text="m.dospem"></span>
+                    </template>
+                    <template x-if="!m.dospem">
+                      <span class="text-xs italic text-[#71717a]">Belum ada</span>
+                    </template>
+                  </td>
+                </tr>
+              </template>
+              <template x-if="filteredMhs.length === 0">
+                <tr>
+                  <td colspan="2" class="h-24 text-center text-xs text-[#71717a]">
+                    Tidak ada mahasiswa ditemukan.
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
 
-            <!-- Pagination & Info -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-0.5">
-              <div class="text-[11px] text-[#71717a]">Menampilkan 4 dari 14 antrean plotting</div>
-              <div class="flex items-center gap-2.5">
-                <div class="flex items-center gap-1">
-                  <button
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
-                    title="Sebelumnya"
-                  >
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0655a7] text-white font-semibold text-xs shadow-2xs"
-                  >
-                    1
-                  </button>
-                  <button
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 rounded-lg border border-[#e4e4e7] bg-white text-[#71717a] hover:bg-gray-50 text-xs transition-colors"
-                    title="Selanjutnya"
-                  >
-                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                  </button>
+        <!-- Standardized Pagination Sesuai Screenshot 1 -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-[#fafafa] shrink-0 mt-auto">
+          <div class="text-xs text-[#71717a]">
+            Menampilkan 1 - <span x-text="filteredMhs.length"></span> dari <span x-text="filteredMhs.length"></span> data
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              disabled
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button
+              type="button"
+              class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+            >
+              1
+            </button>
+            <button
+              type="button"
+              disabled
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
+            >
+              2
+            </button>
+            <button
+              type="button"
+              disabled
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
+            >
+              3
+            </button>
+            <button
+              type="button"
+              disabled
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
+            >
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+            <select
+              class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            >
+              <option value="10">Show 10 items</option>
+              <option value="25">Show 25 items</option>
+              <option value="50">Show 50 items</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- KOLOM KANAN: FORM GANTI DOSPEM & RIWAYAT        -->
+      <!-- ============================================== -->
+      <div class="flex flex-col h-full">
+        <!-- Empty State jika belum pilih mahasiswa (mengisi penuh tinggi kartu kanan) -->
+        <template x-if="!selectedMhs">
+          <div class="border border-[#e4e4e7] rounded-xl overflow-hidden flex flex-col flex-1 items-center justify-center p-6 gap-3 text-[#71717a] bg-[#fafafa]/40 shadow-2xs h-full">
+            <div class="w-12 h-12 rounded-full bg-[#f4f4f5] flex items-center justify-center border border-[#e4e4e7]">
+              <i data-lucide="user-cog" class="w-6 h-6 text-[#71717a] opacity-60"></i>
+            </div>
+            <div class="text-center">
+              <p class="text-sm font-semibold text-[#09090b]">Pilih mahasiswa terlebih dahulu</p>
+              <p class="mt-1 text-xs text-[#71717a] max-w-xs">Klik salah satu baris di tabel kiri untuk mengelola atau menetapkan dosen pembimbing</p>
+            </div>
+          </div>
+        </template>
+
+        <!-- Form Edit jika mahasiswa terpilih -->
+        <template x-if="selectedMhs">
+          <div class="flex flex-col h-full gap-4">
+            <!-- 1. Card Ganti Dosen Pembimbing -->
+            <div class="border border-[#e4e4e7] rounded-xl overflow-hidden bg-white shadow-2xs shrink-0">
+              <div class="flex items-center gap-2 px-4 py-3 border-b border-[#e4e4e7] bg-[#fafafa]">
+                <i data-lucide="user-cog" class="w-4 h-4 text-[#71717a]"></i>
+                <span class="font-semibold text-sm text-[#09090b]">Ganti Dosen Pembimbing</span>
+              </div>
+
+              <div class="p-4 space-y-4">
+                <!-- Info Mahasiswa Terpilih -->
+                <div class="flex items-center gap-3 p-3.5 border border-[#e4e4e7] rounded-lg bg-[#fafafa]">
+                  <div class="h-10 w-10 rounded-full bg-[#0655a7]/10 text-[#0655a7] font-bold text-sm flex items-center justify-center shrink-0">
+                    <span x-text="selectedMhs.nama.charAt(0)"></span>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="text-sm font-semibold text-[#09090b]" x-text="selectedMhs.nama"></span>
+                      <span class="text-xs font-mono px-2 py-0.5 rounded border border-[#e4e4e7] bg-white text-[#71717a]" x-text="selectedMhs.nim"></span>
+                    </div>
+                    <div class="flex items-center gap-1.5 mt-1">
+                      <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                      <span class="text-xs text-[#71717a]">
+                        <template x-if="selectedMhs.dospem">
+                          <span x-text="selectedMhs.dospem"></span>
+                        </template>
+                        <template x-if="!selectedMhs.dospem">
+                          <span class="italic">Belum ada dosen pembimbing</span>
+                        </template>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div class="relative">
+
+                <!-- Selector Dosen Pembimbing Baru -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-[#09090b]">Pilih Dosen Pembimbing Baru *</label>
                   <select
-                    class="appearance-none pl-3 pr-8 py-1.5 text-xs font-medium text-[#09090b] bg-white border border-[#0655a7] rounded-lg focus:outline-none cursor-pointer"
+                    x-model="selectedDosenId"
+                    class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
                   >
-                    <option value="10">Show 10 items</option>
-                    <option value="25">Show 25 items</option>
-                    <option value="50">Show 50 items</option>
+                    <option value="">-- Pilih Dosen Pembimbing --</option>
+                    <template x-for="d in dosenList" :key="d.id">
+                      <option :value="d.id" x-text="`${d.nama} (Sisa Kuota: ${d.sisaKuota})`"></option>
+                    </template>
                   </select>
-                  <i
-                    data-lucide="chevron-down"
-                    class="w-3.5 h-3.5 text-[#09090b] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                  ></i>
+                </div>
+
+                <!-- Checkbox Mahasiswa Konversi Sesuai Style KP -->
+                <div class="flex items-center space-x-2 p-3 bg-[#fafafa] rounded-lg border border-[#e4e4e7]">
+                  <input
+                    type="checkbox"
+                    id="is-konversi"
+                    x-model="isKonversi"
+                    class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7]"
+                  />
+                  <label for="is-konversi" class="text-xs font-medium text-[#09090b] cursor-pointer">
+                    Mahasiswa Konversi SKS
+                  </label>
+                </div>
+
+                <!-- Action Buttons: Simpan & Reset -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1">
+                  <button
+                    type="button"
+                    @click="simpanDospem()"
+                    :disabled="!selectedDosenId"
+                    class="w-full h-9 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+                  >
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    <span x-text="!selectedMhs.dospem ? 'Tambah Dospem' : 'Simpan Perubahan'"></span>
+                  </button>
+                  <button
+                    type="button"
+                    @click="resetDospem()"
+                    :disabled="!selectedMhs.dospem"
+                    class="w-full h-9 rounded-md bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+                  >
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    <span>Reset Dospem</span>
+                  </button>
                 </div>
               </div>
             </div>
-          </section>
+
+            <!-- 2. Card Riwayat Perubahan Dospem Sesuai Style KP -->
+            <div class="border border-[#e4e4e7] rounded-xl overflow-hidden bg-white shadow-2xs flex flex-col flex-1 min-h-[180px]">
+              <div class="flex items-center gap-2 px-4 py-3 border-b border-[#e4e4e7] bg-[#fafafa] shrink-0">
+                <i data-lucide="history" class="w-4 h-4 text-[#71717a]"></i>
+                <span class="font-semibold text-sm text-[#09090b]">Riwayat Perubahan Dospem</span>
+                <span class="ml-auto text-xs text-[#71717a]" x-text="`${currentLogs.length} entri`"></span>
+              </div>
+
+              <div class="overflow-y-auto flex-1 min-h-0">
+                <table class="w-full text-left border-collapse text-xs">
+                  <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+                    <tr>
+                      <th class="h-11 px-4 font-medium text-sm">Aktivitas</th>
+                      <th class="h-11 px-4 font-medium text-sm text-right w-36">Waktu</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[#e4e4e7] bg-white">
+                    <template x-for="log in currentLogs" :key="log.id">
+                      <tr class="hover:bg-[#fafafa] transition-colors">
+                        <td class="h-[68px] px-4 text-sm text-[#09090b]" x-text="log.desc"></td>
+                        <td class="h-[68px] px-4 text-right text-sm text-[#71717a]" x-text="log.time"></td>
+                      </tr>
+                    </template>
+                    <template x-if="currentLogs.length === 0">
+                      <tr>
+                        <td colspan="2" class="h-16 text-center text-[#71717a] text-xs">
+                          Belum ada riwayat aktivitas untuk mahasiswa ini.
+                        </td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
 </AdminShell>

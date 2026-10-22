@@ -24,8 +24,7 @@ const {
   activeNav = "dashboard",
   breadcrumb = activeNav === 'dashboard' ? 'Dashboard' :
                activeNav === 'pengumuman' ? 'Pengumuman' :
-               activeNav === 'katalog' ? 'Katalog Program' :
-               activeNav === 'pendaftaran' ? 'Form Pendaftaran' :
+               activeNav === 'pendaftaran' ? 'Pendaftaran MBKM' :
                activeNav === 'status' ? 'Status Pengajuan' :
                activeNav === 'dosen-pembimbing' ? 'Dosen Pembimbing' :
                activeNav === 'logbook' ? 'Logbook Kegiatan' :
@@ -38,8 +37,8 @@ const {
   subtitle = activeNav === 'dashboard' ? 'Verifikasi data akademik Anda dari database dan pantau progres MBKM.' :
              activeNav === 'pengumuman' ? 'Papan pengumuman dan broadcast informasi resmi pelaksanaan MBKM.' :
              activeNav === 'katalog' ? 'Daftar program MBKM mitra resmi yang terbuka untuk pendaftaran semester ini.' :
-             activeNav === 'pendaftaran' ? 'Formulir pendaftaran MBKM dengan verifikasi 3 tahap mandatori.' :
-             activeNav === 'status' ? 'Pantau status berkas lamaran dan persetujuan dari mitra serta fakultas.' :
+              activeNav === 'pendaftaran' ? 'Katalog program & formulir pendaftaran MBKM.' :
+              activeNav === 'status' ? 'Pantau status berkas lamaran dan persetujuan dari mitra serta fakultas.' :
              activeNav === 'dosen-pembimbing' ? 'Informasi dosen pembimbing lapangan (DPL) dan mentor mitra resmi.' :
              activeNav === 'logbook' ? 'Jurnal kegiatan mingguan mahasiswa dan rekap verifikasi DPL.' :
              activeNav === 'konversi-sks' ? 'Tabel mata kuliah ekuivalensi (maks. 20 SKS) yang telah diverifikasi dan dikunci resmi.' :
@@ -306,61 +305,18 @@ const {
             <span class="truncate">Pengumuman</span>
           </a>
 
-          <!-- 3. Group Pendaftaran MBKM (Collapsible Accordion Sama Persis v2) -->
-          <div class="space-y-0.5">
-            <button
-              type="button"
-              onclick="document.getElementById('group-pendaftaran-sub').classList.toggle('hidden'); document.getElementById('group-pendaftaran-arrow').classList.toggle('rotate-180')"
-              id="group-pendaftaran-btn"
-              class={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors text-left ${
-                ['katalog', 'pendaftaran', 'status'].includes(activeNav) ? 'text-[#0655a7] font-medium' : 'text-[#3f3f46]'
-              }`}
-            >
-              <div class="flex items-center gap-3 truncate">
-                <i data-lucide="folder-kanban" class={`w-4 h-4 shrink-0 ${['katalog', 'pendaftaran', 'status'].includes(activeNav) ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Pendaftaran MBKM</span>
-              </div>
-              <i id="group-pendaftaran-arrow" data-lucide="chevron-down" class={`w-4 h-4 shrink-0 transition-transform duration-200 ${['katalog', 'pendaftaran', 'status'].includes(activeNav) ? 'rotate-180 text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            </button>
-            <div id="group-pendaftaran-sub" class={`pl-3 space-y-0.5 ${['katalog', 'pendaftaran', 'status'].includes(activeNav) ? '' : 'hidden'}`}>
-              <!-- Sub 1: Katalog Program -->
-              <a
-                href="/mahasiswa/katalog"
-                id="nav-katalog"
-                class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
-                  activeNav === 'katalog' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-                }`}
-              >
-                <span class={`active-bar absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'katalog' ? '' : 'hidden'}`}></span>
-                <i data-lucide="compass" class={`w-3.5 h-3.5 shrink-0 ${activeNav === 'katalog' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Katalog Program</span>
-              </a>
-              <!-- Sub 2: Form Pendaftaran -->
-              <a
-                href="/mahasiswa/pendaftaran"
-                id="nav-form-pendaftaran"
-                class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
-                  activeNav === 'pendaftaran' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-                }`}
-              >
-                <span class={`active-bar absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'pendaftaran' ? '' : 'hidden'}`}></span>
-                <i data-lucide="clipboard-list" class={`w-3.5 h-3.5 shrink-0 ${activeNav === 'pendaftaran' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Form Pendaftaran</span>
-              </a>
-              <!-- Sub 3: Status Pengajuan -->
-              <a
-                href="/mahasiswa/status"
-                id="nav-status-pengajuan"
-                class={`nav-item relative flex items-center gap-2.5 px-4 py-2 rounded-lg text-[13px] font-normal hover:bg-black/5 transition-colors w-full text-left ${
-                  activeNav === 'status' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-                }`}
-              >
-                <span class={`active-bar absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'status' ? '' : 'hidden'}`}></span>
-                <i data-lucide="file-check" class={`w-3.5 h-3.5 shrink-0 ${activeNav === 'status' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-                <span class="truncate">Status Pengajuan</span>
-              </a>
-            </div>
-          </div>
+          <!-- 3. Pendaftaran MBKM -->
+          <a
+            href="/mahasiswa/pendaftaran"
+            id="nav-pendaftaran"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'pendaftaran' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'pendaftaran' ? '' : 'hidden'}`}></span>
+            <i data-lucide="clipboard-list" class={`w-4 h-4 shrink-0 ${activeNav === 'pendaftaran' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Pendaftaran MBKM</span>
+          </a>
 
           <!-- 4. Dosen Pembimbing -->
           <a
@@ -412,32 +368,6 @@ const {
             <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'sidang' ? '' : 'hidden'}`}></span>
             <i data-lucide="calendar-check" class={`w-4 h-4 shrink-0 ${activeNav === 'sidang' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
             <span class="truncate">Sidang</span>
-          </a>
-
-          <!-- 8. Sertifikat & Luaran -->
-          <a
-            href="/mahasiswa/sertifikat"
-            id="nav-sertifikat"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'sertifikat' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-            }`}
-          >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'sertifikat' ? '' : 'hidden'}`}></span>
-            <i data-lucide="award" class={`w-4 h-4 shrink-0 ${activeNav === 'sertifikat' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Sertifikat</span>
-          </a>
-
-          <!-- 9. Log Aktivitas -->
-          <a
-            href="/mahasiswa/log-aktivitas"
-            id="nav-log-aktivitas"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'log-aktivitas' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-            }`}
-          >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'log-aktivitas' ? '' : 'hidden'}`}></span>
-            <i data-lucide="history" class={`w-4 h-4 shrink-0 ${activeNav === 'log-aktivitas' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Log Aktivitas</span>
           </a>
         </nav>
       </div>

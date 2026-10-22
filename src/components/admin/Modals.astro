@@ -199,49 +199,24 @@
       </div>
     </div>
 
-    <!-- 3. Modal Tambah Mitra (YAGNI & Clean Shadcn UI) -->
+    <!-- 3. Modal Tambah Kontributor (YAGNI & Clean Shadcn UI) -->
     <div id="modal-tambah-mitra" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-md w-full p-6 space-y-4 text-sm">
         <!-- Dialog Header -->
         <div class="flex items-start justify-between">
           <div>
-            <h3 class="text-lg font-semibold text-[#09090b]">Tambah Mitra</h3>
-            <p class="text-sm text-[#71717a] mt-0.5">Tambahkan mitra baru untuk program MBKM.</p>
+            <h3 id="modal-mitra-title" class="text-lg font-semibold text-[#09090b]">Tambah Kontributor</h3>
+            <p id="modal-mitra-subtitle" class="text-sm text-[#71717a] mt-0.5">Tambahkan kontributor baru untuk program MBKM.</p>
           </div>
-          <button type="button" onclick="closeTambahMitraModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1">
+          <button type="button" onclick="closeTambahMitraModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <!-- Pilihan Kategori Kemitraan (Radio Bersih Tanpa Icon) -->
-        <div class="flex items-center gap-6 pt-1">
-          <label class="flex items-center gap-2 cursor-pointer text-sm">
-            <input
-              type="radio"
-              name="modalMitraType"
-              value="internal"
-              checked
-              onchange="handleModalMitraTypeChange('internal')"
-              class="h-4 w-4 text-[#0655a7] border-[#e4e4e7] focus:ring-[#0655a7]"
-            />
-            <span class="font-medium text-[#09090b]">Mitra Internal</span>
-          </label>
-          <label class="flex items-center gap-2 cursor-pointer text-sm">
-            <input
-              type="radio"
-              name="modalMitraType"
-              value="eksternal"
-              onchange="handleModalMitraTypeChange('eksternal')"
-              class="h-4 w-4 text-[#0655a7] border-[#e4e4e7] focus:ring-[#0655a7]"
-            />
-            <span class="font-medium text-[#09090b]">Mitra Eksternal</span>
-          </label>
-        </div>
-
-        <!-- FORM INTERNAL: Nama Mitra, Penanggung Jawab, Email Akun, Deskripsi -->
+        <!-- FORM INTERNAL: Nama Kontributor, Penanggung Jawab, Email Akun, Password, Deskripsi -->
         <div id="modal-form-mitra-internal" class="space-y-3 pt-1">
           <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-sm">Nama Mitra <span class="text-red-500">*</span></label>
+            <label class="font-medium text-[#09090b] text-sm">Nama Kontributor <span class="text-red-500">*</span></label>
             <input
               type="text"
               id="modal-internal-nama"
@@ -268,20 +243,29 @@
             />
           </div>
           <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-sm">Password Akun <span class="text-red-500">*</span></label>
+            <input
+              type="password"
+              id="modal-internal-password"
+              placeholder="Masukkan password akun kontributor..."
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+          <div class="space-y-1.5">
             <label class="font-medium text-[#09090b] text-sm">Deskripsi</label>
             <textarea
               id="modal-internal-deskripsi"
               rows="2"
-              placeholder="Deskripsi singkat profil mitra..."
+              placeholder="Deskripsi singkat profil kontributor..."
               class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7] leading-relaxed"
             ></textarea>
           </div>
         </div>
 
-        <!-- FORM EKSTERNAL: Nama Mitra / Instansi, Penanggung Jawab, Deskripsi (Tanpa Email Akun) -->
+        <!-- FORM EKSTERNAL: Nama Kontributor / Instansi, Penanggung Jawab, Deskripsi (Tanpa Email Akun & Password) -->
         <div id="modal-form-mitra-eksternal" class="space-y-3 pt-1 hidden">
           <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-sm">Nama Mitra / Instansi <span class="text-red-500">*</span></label>
+            <label class="font-medium text-[#09090b] text-sm">Nama Kontributor / Instansi <span class="text-red-500">*</span></label>
             <input
               type="text"
               id="modal-eksternal-nama"
@@ -1262,17 +1246,14 @@
     <div id="modal-validasi-surekom" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-xl border border-[#e4e4e7] shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden text-sm">
         <!-- Dialog Header -->
-        <div class="p-5 border-b border-[#e4e4e7] flex items-center justify-between bg-[#fafafa]">
+        <div class="p-5 border-b border-[#e4e4e7] flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-lg bg-blue-100 text-[#0655a7] flex items-center justify-center shrink-0">
               <i data-lucide="file-check-2" class="w-5 h-5"></i>
             </div>
             <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-base font-semibold text-[#09090b]">Validasi Surat Rekomendasi (SuReKom)</h3>
-                <span id="modal-surekom-status-badge" class="px-2 py-0.5 text-[10px] font-semibold rounded bg-amber-50 text-amber-700 border border-amber-200">Menunggu</span>
-              </div>
-              <p class="text-xs text-[#71717a] mt-0.5">Verifikasi berkas dan persetujuan penerbitan surat rekomendasi resmi Dekanat.</p>
+              <h3 class="text-base font-semibold text-[#09090b]">Validasi Surat Rekomendasi</h3>
+              <p class="text-xs text-[#71717a] mt-0.5" id="modal-surekom-header-sub">Penerbitan surat rekomendasi.</p>
             </div>
           </div>
           <button type="button" onclick="closeValidasiSurekomModal()" class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded-md">
@@ -1281,174 +1262,72 @@
         </div>
 
         <!-- Dialog Scrollable Body -->
-        <div class="p-6 overflow-y-auto space-y-4 flex-1">
-          <!-- Card Info Mahasiswa & Program Tujuan -->
-          <div class="p-4 rounded-xl border border-[#e4e4e7] bg-[#fafafa] space-y-3">
-            <div class="flex items-start justify-between gap-3">
-              <div class="flex items-center gap-3">
-                <div id="modal-surekom-avatar" class="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm shrink-0">
-                  CR
-                </div>
-                <div>
-                  <h4 id="modal-surekom-nama" class="font-bold text-sm text-[#09090b] leading-tight">Calvin Revianto</h4>
-                  <p id="modal-surekom-nim-prodi" class="text-xs text-[#71717a] mt-0.5">A11.2021.13782 • S1 Teknik Informatika</p>
-                </div>
-              </div>
-              <span class="text-[11px] text-[#71717a] flex items-center gap-1 shrink-0">
-                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-                <span id="modal-surekom-tanggal-val">24 Sep 2026</span>
-              </span>
+        <div class="p-5 overflow-y-auto space-y-4 flex-1">
+          <!-- Info Mahasiswa Ringkas -->
+          <div class="flex items-center gap-3 pb-4 border-b border-[#e4e4e7]">
+            <div id="modal-surekom-avatar" class="w-11 h-11 rounded-full bg-[#0655a7] text-white font-bold flex items-center justify-center text-sm shrink-0">
+              CR
             </div>
-
-            <!-- Program & Mitra Box -->
-            <div class="p-2.5 rounded-lg bg-white border border-[#e4e4e7] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-              <div>
-                <span class="text-[10px] text-[#71717a] uppercase font-semibold">Program MBKM & Mitra</span>
-                <div id="modal-surekom-program" class="font-semibold text-[#09090b] mt-0.5">Kegiatan Wirausaha (Inkubator Bisnis FIK)</div>
-                <div id="modal-surekom-mitra" class="text-[#0655a7] font-medium text-[11px]">Mitra: Inkubator Bisnis FIK</div>
-              </div>
-              <div class="flex items-center gap-2 self-start sm:self-center">
-                <span id="modal-surekom-ipk-badge" class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
-                  IPK 3.42 • 112 SKS
-                </span>
-                <span id="modal-surekom-semester-badge" class="px-2 py-1 rounded-md bg-blue-50 text-[#0655a7] border border-blue-200 text-[11px] font-medium">
-                  Semester 5
-                </span>
-              </div>
+            <div class="min-w-0 flex-1">
+              <h4 id="modal-surekom-nama" class="font-semibold text-sm text-[#09090b] leading-tight">Calvin Revianto</h4>
+              <p id="modal-surekom-nim-prodi" class="text-xs text-[#71717a] mt-0.5 truncate">A11.2021.13782 • S1 Teknik Informatika</p>
             </div>
+            <div class="text-right shrink-0">
+              <p id="modal-surekom-program" class="text-xs font-medium text-[#09090b]">Bengkel Koding</p>
+              
+            </div>
+          </div>
 
-            <!-- Pengecekan Syarat EWS Otomatis -->
-            <div class="grid grid-cols-2 gap-2 text-[11px]">
-              <div class="flex items-center gap-1.5 text-emerald-700">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
-                <span>Status Mahasiswa Aktif SIADIN</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-emerald-700">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
-                <span>Bebas Pelanggaran Kode Etik / Sanksi</span>
+          <!-- Pratinjau Surat Rekomendasi (langsung tampil) -->
+          <div>
+            <span class="text-xs font-semibold text-[#09090b]">Surat Rekomendasi</span>
+            <div class="mt-2 rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-4 max-h-56 overflow-y-auto">
+              <div id="modal-surekom-doc-preview" class="text-[11px] text-[#3f3f46] leading-relaxed font-mono whitespace-pre-wrap">
+                <!-- Isi surat diisi via JS -->
               </div>
             </div>
           </div>
 
-          <!-- Card Dokumen Permohonan & Draf SuReKom -->
-          <div class="space-y-2">
-            <label class="text-xs font-semibold text-[#09090b] flex items-center justify-between">
-              <span>Dokumen Draf Permohonan Rekomendasi Dekanat</span>
-              <span class="text-[11px] text-[#71717a]">PDF Otomatis Sistem</span>
-            </label>
-            <div class="p-3.5 rounded-xl border border-[#e4e4e7] bg-white hover:border-[#0655a7]/50 transition-all flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-200">
-                  <i data-lucide="file-text" class="w-4 h-4"></i>
-                </div>
-                <div class="truncate">
-                  <div id="modal-surekom-doc-filename" class="font-semibold text-xs text-[#09090b] truncate">
-                    Draft_Surat_Rekomendasi_MBKM_A11.2021.13782.pdf
-                  </div>
-                  <p class="text-[11px] text-[#71717a] mt-0.5">Format Standar Dekanat FIK UDINUS • 245 KB</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onclick="bukaPratinjauDrafDoc()"
-                class="px-3 py-1.5 rounded-md text-xs font-medium border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] flex items-center gap-1.5 shrink-0 transition-colors"
-              >
-                <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                <span>Pratinjau Draf</span>
-              </button>
-            </div>
-          </div>
+          <!-- Keputusan Validasi -->
+          <div class="space-y-3">
 
-          <!-- Form Keputusan Validasi -->
-          <div class="space-y-3 pt-2 border-t border-[#e4e4e7]">
-            <div class="flex items-center justify-between">
-              <label class="text-xs font-semibold text-[#09090b]">Keputusan Validasi Koordinator *</label>
-              <span id="modal-decision-label-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Setujui</span>
-            </div>
-
-            <!-- Radio Cards Pilihan -->
-            <div class="grid grid-cols-2 gap-3">
-              <!-- Setujui -->
-              <label
-                id="label-radio-surekom-setujui"
-                class="p-3 rounded-xl border-2 border-emerald-500 bg-emerald-50/50 cursor-pointer flex items-center gap-3 transition-all"
-              >
-                <input
-                  type="radio"
-                  name="modal_surekom_decision"
-                  id="modal-radio-surekom-setujui"
-                  value="Setujui"
-                  checked
-                  onchange="handleModalSurekomDecisionChange(this.value)"
-                  class="w-4 h-4 text-emerald-600 focus:ring-emerald-500"
-                />
-                <div>
-                  <div class="text-xs font-bold text-emerald-950 flex items-center gap-1">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
-                    <span>Setujui</span>
-                  </div>
-                  <p class="text-[10px] text-emerald-700 mt-0.5">Terbitkan Surat Resmi</p>
-                </div>
-              </label>
-
-              <!-- Tolak -->
-              <label
-                id="label-radio-surekom-tolak"
-                class="p-3 rounded-xl border-2 border-[#e4e4e7] bg-white hover:border-rose-300 hover:bg-rose-50/20 cursor-pointer flex items-center gap-3 transition-all"
-              >
-                <input
-                  type="radio"
-                  name="modal_surekom_decision"
-                  id="modal-radio-surekom-tolak"
-                  value="Tolak"
-                  onchange="handleModalSurekomDecisionChange(this.value)"
-                  class="w-4 h-4 text-rose-600 focus:ring-rose-500"
-                />
-                <div>
-                  <div class="text-xs font-bold text-[#3f3f46] flex items-center gap-1">
-                    <i data-lucide="x-circle" class="w-3.5 h-3.5 text-rose-600"></i>
-                    <span>Tolak</span>
-                  </div>
-                  <p class="text-[10px] text-[#71717a] mt-0.5">Minta Revisi Berkas</p>
-                </div>
-              </label>
-            </div>
-
-            <!-- Catatan / Alasan Input -->
+            <!-- Catatan -->
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
-                <label id="modal-surekom-catatan-label" class="text-xs font-medium text-[#09090b]">Catatan / Pesan untuk Mahasiswa (Opsional)</label>
-                <span id="modal-surekom-catatan-hint" class="text-[11px] text-[#71717a]">Opsional jika disetujui</span>
+                <label id="modal-surekom-catatan-label" class="text-xs font-medium text-[#09090b]">Catatan untuk Mahasiswa</label>
+                <span id="modal-surekom-catatan-hint" class="text-[11px] text-[#71717a]">Opsional</span>
               </div>
               <textarea
                 id="modal-surekom-catatan-input"
                 rows="2"
-                placeholder="Tuliskan catatan, pesan penyemangat, atau instruksi revisi..."
-                class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                placeholder="Tuliskan catatan atau instruksi revisi..."
+                class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] resize-none"
               ></textarea>
             </div>
           </div>
         </div>
 
-        <!-- Dialog Footer -->
-        <div class="p-4 border-t border-[#e4e4e7] flex items-center justify-between bg-[#fafafa]">
-          <span class="text-xs text-[#71717a]">TTE Digital Koordinator otomatis dibubuhkan</span>
-          <div class="flex items-center gap-2">
+        <!-- Dialog Footer: Tombol Keputusan -->
+        <div class="p-4 border-t border-[#e4e4e7]">
+          <div class="grid grid-cols-2 gap-2.5">
+            
             <button
               type="button"
-              onclick="closeValidasiSurekomModal()"
-              class="px-4 py-2 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+              id="label-radio-surekom-tolak"
+              onclick="submitValidasiSurekomWithDecision('Tolak')"
+              class="h-10 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#3f3f46] cursor-pointer flex items-center justify-center gap-2 transition-colors"
             >
-              Batal
+              <i data-lucide="x" class="w-4 h-4"></i>
+              <span class="text-sm font-medium">Tolak</span>
             </button>
             <button
               type="button"
-              id="btn-submit-modal-surekom"
-              onclick="submitValidasiSurekomFromModal()"
-              class="px-4 py-2 text-xs font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors flex items-center gap-1.5"
+              id="label-radio-surekom-setujui"
+              onclick="submitValidasiSurekomWithDecision('Setujui')"
+              class="h-10 rounded-md border border-[#0655a7] bg-[#0655a7] hover:bg-[#0655a7]/90 text-white cursor-pointer flex items-center justify-center gap-2 transition-colors"
             >
-              <i data-lucide="send" class="w-3.5 h-3.5"></i>
-              <span id="btn-submit-modal-surekom-text">Kirim Validasi (Setujui)</span>
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span class="text-sm font-semibold">Setujui</span>
             </button>
           </div>
         </div>
@@ -2111,6 +1990,53 @@
             class="px-4 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
           >
             Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Konfirmasi Ubah Status Kontributor -->
+    <div id="modal-toggle-status-mitra" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+      <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-md w-full p-6 space-y-4 text-sm">
+        <div class="flex items-start justify-between">
+          <div class="flex items-start gap-3">
+            <div id="modal-toggle-status-icon" class="h-10 w-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-[#BE123C]">
+              <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 id="modal-toggle-status-title" class="text-base font-semibold text-[#09090b]">Nonaktifkan Kontributor?</h3>
+              <p id="modal-toggle-status-subtitle" class="text-sm text-[#71717a] mt-0.5">Tindakan ini akan membekukan seluruh aktivitas mitra.</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModalToggleStatusMitra()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] px-4 py-3 space-y-1.5">
+          <p class="font-semibold text-[#09090b]" id="modal-toggle-status-nama">-</p>
+          <p class="text-xs text-[#71717a]" id="modal-toggle-status-detail">-</p>
+        </div>
+
+        <p id="modal-toggle-status-warning" class="text-xs text-[#71717a] leading-relaxed">
+          Seluruh program, lowongan, dan akses mahasiswa binaan akan dibekukan sementara. Data tidak dihapus dan dapat diaktifkan kembali kapan saja.
+        </p>
+
+        <div class="flex items-center justify-end gap-2.5 pt-2">
+          <button
+            type="button"
+            onclick="closeModalToggleStatusMitra()"
+            class="h-9 px-4 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            id="modal-toggle-status-confirm"
+            onclick="confirmToggleStatusMitra()"
+            class="h-9 px-4 rounded-lg bg-[#BE123C] hover:bg-[#9F1239] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+          >
+            Ya, Nonaktifkan
           </button>
         </div>
       </div>

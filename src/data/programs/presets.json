@@ -36,7 +36,7 @@
     },
     {
       "id": "stage_3",
-      "name": "Tahap 3: Pengajuan & Validasi Surat Rekomendasi (Surekom)",
+      "name": "Tahap 3: Pengajuan & Validasi Surat Rekomendasi",
       "type": "surekom",
       "rule": "Hanya mahasiswa lolos seleksi mitra yang berhak meminta tanda tangan Koor KB",
       "files": [

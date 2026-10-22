@@ -31,49 +31,49 @@ import AdminShell from "../../layouts/AdminShell.astro";
             <!-- Tabel Sertifikat -->
             <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
               <table class="w-full text-xs text-left border-collapse">
-                <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
                   <tr>
-                    <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">
+                    <th class="h-11 px-4 font-medium text-sm w-10 text-center">
                       <input
                         type="checkbox"
                         onchange="toggleSelectAllSertifikat(this)"
                         class="rounded text-[#0655a7]"
                       />
                     </th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Mahasiswa & Prodi</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Mitra MBKM</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Jenis Luaran Wajib</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Dokumen Berkas</th>
-                    <th class="px-3 py-2 font-semibold text-[11px]">Tgl Unggah</th>
-                    <th class="px-3 py-2 font-semibold text-center text-[11px]">Status KHS</th>
-                    <th class="w-32 px-3 py-2 font-semibold text-center text-[11px]">Aksi</th>
+                    <th class="h-11 px-4 font-medium text-sm">Mahasiswa & Prodi</th>
+                    <th class="h-11 px-4 font-medium text-sm">Mitra MBKM</th>
+                    <th class="h-11 px-4 font-medium text-sm">Jenis Luaran Wajib</th>
+                    <th class="h-11 px-4 font-medium text-sm">Dokumen Berkas</th>
+                    <th class="h-11 px-4 font-medium text-sm">Tgl Unggah</th>
+                    <th class="h-11 px-4 font-medium text-sm text-center">Status KHS</th>
+                    <th class="h-11 px-4 font-medium text-sm w-32 text-center">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="sertifikat-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
                   <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="px-2.5 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <input
                         type="checkbox"
                         class="check-sertifikat-row rounded text-[#0655a7]"
                         value="A11.2022.13901"
                       />
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
                       <div class="text-[10px] text-[#71717a]">A11.2022.13901 • Teknik Informatika</div>
                     </td>
-                    <td class="px-3 py-2.5 text-[#3f3f46]">
+                    <td class="h-[68px] px-4 text-sm text-[#3f3f46]">
                       <div class="font-semibold">Bengkel Koding</div>
                       <div class="text-[10px] text-[#71717a]">Magang MSIB Batch 6</div>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <span
                         class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#0655a7] border border-blue-200"
                       >
                         Sertifikat Mitra Resmi
                       </span>
                     </td>
-                    <td class="px-3 py-2.5">
+                    <td class="h-[68px] px-4 text-sm">
                       <button
                         type="button"
                         onclick="
@@ -85,15 +85,15 @@ import AdminShell from "../../layouts/AdminShell.astro";
                         <span>Lihat PDF</span>
                       </button>
                     </td>
-                    <td class="px-3 py-2.5 text-[#71717a]">10 Jul 2025</td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-sm text-[#71717a]">10 Jul 2025</td>
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <span
                         class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200"
                       >
                         Menunggu Verifikasi
                       </span>
                     </td>
-                    <td class="px-3 py-2.5 text-center">
+                    <td class="h-[68px] px-4 text-center text-sm">
                       <div class="flex items-center justify-center gap-1">
                         <button
                           type="button"

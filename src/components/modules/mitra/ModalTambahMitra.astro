@@ -11,8 +11,8 @@ const { openVar = 'openAddModal' } = Astro.props;
 
 <Modal
   openVar={openVar}
-  title="Tambah Mitra Industri"
-  subtitle="Daftarkan entitas mitra internal atau eksternal untuk program MBKM FIK."
+  title="Tambah Kontributor"
+  subtitle="Daftarkan entitas kontributor internal atau eksternal untuk program MBKM FIK."
   maxWidth="lg"
 >
   <form class="space-y-4 text-sm" @submit.prevent={`${openVar} = false`} x-data="{ mitraType: 'internal' }">
@@ -99,7 +99,7 @@ const { openVar = 'openAddModal' } = Astro.props;
       Batal
     </Button>
     <Button variant="primary" size="sm" @click={`${openVar} = false`}>
-      Simpan Mitra
+      Simpan Kontributor
     </Button>
   </div>
 </Modal>

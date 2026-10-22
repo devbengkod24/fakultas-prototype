@@ -150,29 +150,29 @@ import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
         <h2 class="font-semibold text-base text-[#09090b]">Data Permohonan SuReKom</h2>
         <p class="text-sm text-gray-500 mt-0.5">Berikut adalah data permohonan surat rekomendasi terbaru yang diajukan oleh mahasiswa</p>
       </div>
-      <div class="rounded-md border border-[#e4e4e7] overflow-hidden">
+      <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
         <table class="w-full text-sm">
-          <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-10 px-4 text-left font-medium text-xs text-[#71717a]">Nama Mahasiswa</th>
-              <th class="h-10 px-4 text-left font-medium text-xs text-[#71717a]">Program / Mitra</th>
-              <th class="h-10 px-4 text-left font-medium text-xs text-[#71717a]">Akademik</th>
-              <th class="h-10 px-4 text-center font-medium text-xs text-[#71717a]">Status</th>
-              <th class="h-10 px-4 text-center font-medium text-xs text-[#71717a]">Aksi</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama Mahasiswa</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program / Mitra</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Akademik</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <tr class="h-12 hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="px-4">
+              <td class="h-[68px] px-4 text-sm">
                 <div class="font-medium text-sm text-[#09090b]">Calvin Revianto</div>
                 <div class="text-xs text-[#71717a]">A11.2021.13782</div>
               </td>
-              <td class="px-4 text-sm text-[#71717a]">Kegiatan Wirausaha (Inkubator Bisnis FIK)</td>
-              <td class="px-4 text-xs text-[#71717a]">IPK: 3.42 • 112 SKS</td>
-              <td class="px-4 text-center">
+              <td class="h-[68px] px-4 text-sm text-[#71717a]">Kegiatan Wirausaha (Inkubator Bisnis FIK)</td>
+              <td class="h-[68px] px-4 text-sm text-[#71717a]">IPK: 3.42 • 112 SKS</td>
+              <td class="h-[68px] px-4 text-center text-sm">
                 <span class="inline-flex items-center rounded-md border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-800">Menunggu</span>
               </td>
-              <td class="px-4 text-center">
+              <td class="h-[68px] px-4 text-center text-sm">
                 <button type="button" onclick="switchTab('mhs-rekomendasi')" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
                   <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                   <span>Tinjau</span>
@@ -219,7 +219,7 @@ import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
       title="Aksi Cepat"
       items={[
         { label: 'Buat Pengumuman', icon: 'megaphone', onclick: "switchTab('pengumuman'); showBuatPengumumanModal();" },
-        { label: 'Tambah Mitra', icon: 'building-2', onclick: "switchTab('mitra'); showTambahMitraModal();" },
+        { label: 'Tambah Kontributor', icon: 'building-2', onclick: "switchTab('kontributor'); showTambahMitraModal();" },
         { label: 'Atur Periode Ajaran', icon: 'calendar-range', onclick: "switchTab('periode');" },
       ]}
     />

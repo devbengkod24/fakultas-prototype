@@ -48,7 +48,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
       >
         <option value="semua">Semua Program & Mitra</option>
-        <option value="Kegiatan Wirausaha">Kegiatan Wirausaha</option>
+        <option value="Kegiatan Wirausaha">Bengkel Koding</option>
         <option value="Magang Berdampak">Magang Berdampak</option>
         <option value="Studi Independen">Studi Independen</option>
         <option value="Bangkit Academy">Bangkit Academy</option>
@@ -73,17 +73,18 @@ import AdminShell from '../../layouts/AdminShell.astro';
   </div>
 
   <!-- Tabel Validasi Surekom (Sesuai DataTable di fakultas-fe) -->
-  <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+  <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
     <table class="w-full text-sm">
       <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
         <tr>
-          <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
-          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
-          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program & Mitra Tujuan</th>
-          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Syarat EWS (Akademik)</th>
-          <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
-          <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Tanggal Pengajuan</th>
-          <th class="h-10 w-28 px-4 text-center font-medium text-[#71717a] text-xs">Aksi</th>
+          <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
+          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
+          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mitra</th>
+          <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">IPK</th>
+          <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Total SKS</th>
+          <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+          <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Pengajuan</th>
+          <th class="h-11 px-4 font-medium text-sm w-28 text-center text-[#71717a]">Aksi</th>
         </tr>
       </thead>
       <tbody id="surekom-table-tbody" class="divide-y divide-[#e4e4e7]">

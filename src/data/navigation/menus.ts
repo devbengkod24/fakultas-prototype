@@ -19,16 +19,23 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
     items: [
       { id: "dashboard", label: "Dashboard", href: "/admin/dashboard", icon: "layout-dashboard" },
       { id: "pengumuman", label: "Pengumuman", href: "/admin/pengumuman", icon: "megaphone" },
-      { id: "periode", label: "Periode Ajaran", href: "/admin/periode", icon: "calendar-range" },
-      { id: "form-pendaftaran", label: "Form Pendaftaran", href: "/admin/form-pendaftaran", icon: "clipboard-list" },
-      { id: "mitra", label: "Mitra", href: "/admin/mitra", icon: "building-2" },
-      { id: "pelamar", label: "Pelamar", href: "/admin/pelamar", icon: "user-check" },
+      { id: "kontributor", label: "Kontributor", href: "/admin/kontributor", icon: "building-2" },
       { id: "semua-mahasiswa", label: "Semua Mahasiswa", href: "/admin/semua-mahasiswa", icon: "users" },
-      { id: "surekom", label: "Surat Rekomendasi", href: "/admin/surekom", icon: "file-check" },
-      { id: "program", label: "Program MBKM", href: "/admin/program", icon: "briefcase" },
-      { id: "koordinator", label: "Koordinator", href: "/admin/koordinator", icon: "graduation-cap" },
+      { id: "data-mahasiswa", label: "Data Mahasiswa", href: "/admin/data-mahasiswa", icon: "user-check" },
+      { id: "pelamar", label: "Pendaftar", href: "/admin/pelamar", icon: "users" },
+      { id: "surekom", label: "Validasi Surekom", href: "/admin/surekom", icon: "file-check" },
+      { id: "dosen-update", label: "Update Dosen", href: "/admin/dosen-update", icon: "user-plus" },
+      { id: "dosen-data", label: "Data Dosen", href: "/admin/dosen-data", icon: "graduation-cap" },
+      { id: "dosen-kuota", label: "Kuota Dosen", href: "/admin/dosen-kuota", icon: "pie-chart" },
       { id: "logbook", label: "Logbook Mahasiswa", href: "/admin/logbook", icon: "book-open" },
-      { id: "laporan", label: "Laporan & Sidang", href: "/admin/laporan", icon: "file-text" },
+      { id: "konversi", label: "Validasi Konversi SKS", href: "/admin/konversi", icon: "arrow-left-right" },
+      { id: "gelombang", label: "Gelombang Sidang", href: "/admin/gelombang", icon: "calendar-days" },
+      { id: "data-pengajuan", label: "Data Pengajuan", href: "/admin/data-pengajuan", icon: "file-check-2" },
+      { id: "plotting-jadwal", label: "Plotting Jadwal", href: "/admin/plotting-jadwal", icon: "calendar-clock" },
+      { id: "hasil-sidang", label: "Hasil Sidang", href: "/admin/hasil-sidang", icon: "award" },
+      { id: "form-pendaftaran", label: "Form Pendaftaran", href: "/admin/form-pendaftaran", icon: "clipboard-list" },
+      { id: "periode", label: "Periode MBKM", href: "/admin/periode", icon: "calendar-range" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/admin/log-aktivitas", icon: "history" },
     ]
   },
   mahasiswa: {
@@ -52,12 +59,36 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
     role: "mitra",
     roleTitle: "Mitra & Kontributor",
     items: [
-      { id: "dashboard", label: "Dashboard", href: "/mitra/dashboard", icon: "layout-dashboard" },
-      { id: "program", label: "Kelola Program", href: "/mitra/program", icon: "folder-kanban" },
-      { id: "form", label: "Form Pendaftaran", href: "/mitra/form", icon: "clipboard-list" },
-      { id: "dosen", label: "Dosen Pembina", href: "/mitra/dosen", icon: "graduation-cap" },
-      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/mitra/mahasiswa", icon: "user" },
-      { id: "seleksi", label: "Seleksi Pendaftar", href: "/mitra/seleksi", icon: "user-check" },
+      { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
+      { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
+      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
+      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
+      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
+      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+    ]
+  },
+  contributor: {
+    role: "contributor",
+    roleTitle: "Kontributor Mitra Industri",
+    items: [
+      { id: "dashboard", label: "Dashboard", href: "/contributor/dashboard", icon: "layout-dashboard" },
+      { id: "program", label: "Kelola Program", href: "/contributor/program", icon: "folder-kanban" },
+      { id: "form", label: "Form Pendaftaran", href: "/contributor/form", icon: "clipboard-list" },
+      { id: "dosen", label: "Dosen Pembina", href: "/contributor/dosen", icon: "graduation-cap" },
+      { id: "mahasiswa", label: "Mahasiswa Binaan", href: "/contributor/mahasiswa", icon: "user" },
+      { id: "seleksi", label: "Seleksi Pendaftar", href: "/contributor/seleksi", icon: "user-check" },
+    ]
+  },
+  dosen: {
+    role: "dosen",
+    roleTitle: "Dosen Pembimbing Lapangan (DPL)",
+    items: [
+      { id: "dashboard", label: "Dashboard", href: "/dosen/dashboard", icon: "layout-dashboard" },
+      { id: "pengumuman", label: "Pengumuman", href: "/dosen/pengumuman", icon: "megaphone" },
+      { id: "mahasiswa", label: "Mahasiswa Bimbingan", href: "/dosen/mahasiswa", icon: "users" },
+      { id: "logbook", label: "Logbook Mahasiswa", href: "/dosen/logbook", icon: "book-open" },
+      { id: "sidang", label: "Sidang Evaluasi", href: "/dosen/sidang", icon: "calendar-check" },
+      { id: "log-aktivitas", label: "Log Aktivitas", href: "/dosen/log-aktivitas", icon: "history" },
     ]
   }
 };

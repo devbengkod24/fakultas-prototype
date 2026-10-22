@@ -23,31 +23,40 @@ const navMeta = {
     actionButton: '<button type="button" onclick="showBuatPengumumanModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors shadow-none"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Pengumuman</span></button>',
   },
   periode: {
-    label: 'Periode Ajaran',
+    label: 'MBKM / Periode MBKM',
     icon: 'calendar-range',
-    title: 'Periode Ajaran',
+    parent: 'mbkm',
+    title: 'Periode MBKM',
     subtitle: 'Berikut data periode yang sinkron dengan database tahun ajaran pada SIADIN',
     actionButton: '',
   },
   'form-pendaftaran': {
-    label: 'Form Pendaftaran',
+    label: 'MBKM / Form Pendaftaran',
     icon: 'clipboard-list',
+    parent: 'mbkm',
     title: 'Standarisasi Form Pendaftaran MBKM',
     subtitle: 'Konfigurasi syarat akademik EWS, berkas portofolio, konversi SKS, dan template SuReKom se-fakultas.',
     actionButton: '<button type="button" onclick="openPreviewMahasiswaModal()" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="eye" class="w-4 h-4 text-[#71717a]"></i><span>Pratinjau Tampilan Mahasiswa</span></button>',
   },
   mitra: {
-    label: 'Mitra',
+    label: 'Kontributor',
     icon: 'building-2',
-    title: 'Mitra MBKM',
-    subtitle: 'Kelola akun mitra, daftar formasi program, dosen pembina, dan mahasiswa.',
-    actionButton: '<button type="button" onclick="showTambahMitraModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Mitra</span></button>',
+    title: 'Kontributor MBKM',
+    subtitle: 'Kelola akun kontributor mitra industri, lembaga mitra, dan instansi magang/studi.',
+    actionButton: '',
+  },
+  kontributor: {
+    label: 'Kontributor',
+    icon: 'building-2',
+    title: 'Kontributor MBKM',
+    subtitle: 'Kelola akun kontributor mitra industri, lembaga mitra, dan instansi magang/studi.',
+    actionButton: '',
   },
   'mhs-rekomendasi': {
     label: 'Mahasiswa / Surat Rekomendasi',
     icon: 'graduation-cap',
     parent: 'mahasiswa',
-    title: 'Validasi Surat Rekomendasi (SuReKom)',
+    title: 'Validasi Surat Rekomendasi',
     subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi mitra mahasiswa.',
   },
   'mhs-pelamar': {
@@ -66,6 +75,30 @@ const navMeta = {
     subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di mitra industri.',
     actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
   },
+  'semua-mahasiswa': {
+    label: 'Mahasiswa / Semua Mahasiswa',
+    icon: 'graduation-cap',
+    parent: 'mahasiswa',
+    title: 'Semua Mahasiswa MBKM',
+    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di mitra industri.',
+    actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
+  },
+  'mhs-data': {
+    label: 'Mahasiswa / Data Mahasiswa',
+    icon: 'graduation-cap',
+    parent: 'mahasiswa',
+    title: 'Data Mahasiswa MBKM',
+    subtitle: 'Kelola basis data mahasiswa peserta program MBKM, plotting dosen pembimbing, dan sinkronisasi berkas master.',
+    actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
+  },
+  'data-mahasiswa': {
+    label: 'Mahasiswa / Data Mahasiswa',
+    icon: 'graduation-cap',
+    parent: 'mahasiswa',
+    title: 'Data Mahasiswa MBKM',
+    subtitle: 'Kelola basis data mahasiswa peserta program MBKM, plotting dosen pembimbing, dan sinkronisasi berkas master.',
+    actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
+  },
   'dosen-data': {
     label: 'Dosen Pembimbing / Data Dosen',
     icon: 'user-check',
@@ -82,11 +115,18 @@ const navMeta = {
     subtitle: 'Monitoring beban bimbingan maksimal per dosen per semester.',
   },
   'dosen-update': {
-    label: 'Dosen Pembimbing / Update Dospem',
-    icon: 'user-check',
-    parent: 'dosen',
-    title: 'Update Dosen Pembimbing Lapangan',
-    subtitle: 'Alokasi dan plotting DPL ke mahasiswa yang diterima di mitra.',
+    label: 'Mahasiswa / Update Dosen',
+    icon: 'graduation-cap',
+    parent: 'mahasiswa',
+    title: 'Update Dosen Pembimbing',
+    subtitle: 'Ubah dosen pembimbing mahasiswa dan batalkan ACC dosen jika diperlukan.',
+  },
+  'update-dosen': {
+    label: 'Mahasiswa / Update Dosen',
+    icon: 'graduation-cap',
+    parent: 'mahasiswa',
+    title: 'Update Dosen Pembimbing',
+    subtitle: 'Ubah dosen pembimbing mahasiswa dan batalkan ACC dosen jika diperlukan.',
   },
   logbook: {
     label: 'Logbook Mahasiswa',
@@ -105,6 +145,34 @@ const navMeta = {
     icon: 'award',
     title: 'Sidang MBKM',
     subtitle: 'Penjadwalan sidang akhir, penginputan nilai gabungan, dan rekap kelulusan kegiatan.',
+  },
+  gelombang: {
+    label: 'Sidang / Gelombang Sidang',
+    icon: 'calendar-days',
+    parent: 'sidang',
+    title: 'Gelombang Sidang MBKM',
+    subtitle: 'Manajemen periode dan batas pengajuan sidang evaluasi akhir MBKM.',
+  },
+  'data-pengajuan': {
+    label: 'Sidang / Data Pengajuan',
+    icon: 'file-check-2',
+    parent: 'sidang',
+    title: 'Data Pengajuan Sidang MBKM',
+    subtitle: 'Verifikasi berkas persyaratan dan kelayakan mahasiswa pendaftar sidang.',
+  },
+  'plotting-jadwal': {
+    label: 'Sidang / Plotting Jadwal',
+    icon: 'calendar-clock',
+    parent: 'sidang',
+    title: 'Plotting Jadwal Sidang MBKM',
+    subtitle: 'Atur jadwal, ruang sidang, dan alokasi dosen penguji MBKM.',
+  },
+  'hasil-sidang': {
+    label: 'Sidang / Hasil Sidang',
+    icon: 'award',
+    parent: 'sidang',
+    title: 'Hasil Sidang MBKM',
+    subtitle: 'Berikut data sidang yang sudah diploting jadwalnya.',
   },
   sertifikat: {
     label: 'Sertifikat',
@@ -181,7 +249,7 @@ const PRESETS = {
     },
     {
       id: 'stage_3',
-      name: 'Tahap 3: Pengajuan & Validasi Surat Rekomendasi (Surekom)',
+      name: 'Tahap 3: Pengajuan & Validasi Surat Rekomendasi',
       type: 'surekom',
       rule: 'Hanya mahasiswa lolos seleksi mitra yang berhak meminta tanda tangan Koor KB',
       files: [
@@ -600,7 +668,7 @@ const surekomListData = [
     nama: 'Calvin Revianto',
     nim: 'A11.2021.13782',
     prodi: 'TEKNIK INFORMATIKA S1',
-    program: 'Kegiatan Wirausaha',
+    program: 'Bengkel Koding',
     mitra: 'Inkubator Bisnis FIK',
     ipk: '3.42',
     sksLulus: 112,
@@ -1510,6 +1578,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Cloud Computing', 'DevOps'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Kamis, 24 September 2026, 17:33'
   },
   {
@@ -1535,6 +1607,10 @@ let pelamarListData = [
       { kode: 'A11.54805', nama: 'Deep Learning Terapan', sks: 6 }
     ],
     minat: ['Machine Learning', 'Computer Vision'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Jumat, 25 September 2026, 09:15'
   },
   {
@@ -1560,6 +1636,10 @@ let pelamarListData = [
       { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
     ],
     minat: ['Business Analysis', 'Data Warehouse'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Senin, 28 September 2026, 14:20'
   },
   {
@@ -1585,6 +1665,10 @@ let pelamarListData = [
       { kode: 'A11.54807', nama: 'Arsitektur Perangkat Lunak', sks: 6 }
     ],
     minat: ['Mobile Development', 'Flutter'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Selasa, 29 September 2026, 11:05'
   },
   {
@@ -1610,6 +1694,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Fullstack Web', 'Laravel & React'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Rabu, 30 September 2026, 16:45'
   },
   {
@@ -1635,6 +1723,10 @@ let pelamarListData = [
       { kode: 'A12.54805', nama: 'Interaksi Manusia dan Komputer', sks: 6 }
     ],
     minat: ['Frontend', 'Edutech'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10'
   },
   {
@@ -1660,6 +1752,10 @@ let pelamarListData = [
       { kode: 'A15.54803', nama: 'Desain Interaktif & VR', sks: 6 }
     ],
     minat: ['3D Modeling', 'Blender'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30'
   },
   {
@@ -1685,6 +1781,10 @@ let pelamarListData = [
       { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
     ],
     minat: ['Data Engineering', 'BigQuery'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Senin, 21 September 2026, 08:30'
   },
   {
@@ -1710,6 +1810,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Cloud Architecture', 'GCP'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Selasa, 22 September 2026, 14:00'
   },
   {
@@ -1735,6 +1839,10 @@ let pelamarListData = [
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
     minat: ['Cyber Security', 'Network'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
     tanggalPengajuan: 'Rabu, 23 September 2026, 11:20'
   }
 ];

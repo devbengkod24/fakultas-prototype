@@ -1,9 +1,14 @@
 ---
 // src/components/admin/mitra/MitraCms.astro
+interface Props {
+  /** Tampilkan langsung (dipakai pada halaman /admin/kontributor/kelola-program) */
+  standalone?: boolean;
+}
+const { standalone = false } = Astro.props;
 ---
 
 <!-- Subview 3: CMS Halaman Publik Detail Mitra (Hero, Profil & Showcase) -->
-<div id="subview-program-cms" class="space-y-4 hidden">
+<div id="subview-program-cms" class:list={["space-y-4", standalone ? "" : "hidden"]}>
   <!-- Top Navigation Header -->
   <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#e4e4e7] gap-3">
     <div class="flex items-center gap-3">
@@ -11,13 +16,13 @@
         type="button"
         onclick="closeProgramCms()"
         class="inline-flex items-center justify-center h-8 w-8 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] transition-colors shrink-0"
-        title="Kembali ke Detail Mitra"
+        title="Kembali ke Detail Kontributor"
       >
         <i data-lucide="arrow-left" class="w-4 h-4"></i>
       </button>
       <div>
         <h2 id="cms-program-page-title" class="text-lg font-semibold text-[#09090b]">Kelola Program</h2>
-        <p id="cms-program-page-subtitle" class="text-xs text-[#71717a] mt-0.5">Pengaturan profil mitra, narasi hero, fasilitas mahasiswa, penanggung jawab/koordinator, dan showcase hasil karya.</p>
+        <p id="cms-program-page-subtitle" class="text-xs text-[#71717a] mt-0.5">Pengaturan profil kontributor, narasi hero, fasilitas mahasiswa, penanggung jawab/koordinator, dan showcase hasil karya.</p>
       </div>
     </div>
     <div id="cms-header-action-btn" class="flex items-center gap-2 shrink-0">
