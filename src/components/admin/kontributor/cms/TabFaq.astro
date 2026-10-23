@@ -1,0 +1,148 @@
+---
+// src/components/admin/form-pendaftaran/TabFaq.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const defaultFaqs = [
+  {
+    q: "Apa saja syarat akademik untuk mendaftar?",
+    a: "Sistem memvalidasi data akademik secara otomatis. Kriteria umum mencakup IPK minimal 3,00, minimal semester 5, dan minimal 80 SKS tempuh. Ketentuan khusus mengikuti aturan program yang berlaku.",
+  },
+  {
+    q: "Dokumen apa yang perlu disiapkan?",
+    a: "Siapkan tautan dokumen yang memuat CV ATS dalam format PDF, portofolio karya, serta sertifikat atau bukti pengalaman yang relevan.",
+  },
+  {
+    q: "Apakah program ini dikonversi otomatis 20 SKS?",
+    a: "Ya, setelah menyelesaikan seluruh silabus dan evaluasi, program ini dapat dikonversi hingga maksimal 20 SKS mata kuliah ekuivalensi sesuai ketentuan fakultas.",
+  },
+  {
+    q: "Bagaimana jika persyaratanku belum terpenuhi?",
+    a: "Mahasiswa yang belum memenuhi persyaratan tidak dapat melanjutkan ke tahap pendaftaran berikutnya. Periksa kembali data akademikmu di SIADIN atau hubungi pihak fakultas.",
+  },
+];
+---
+
+<div class:list={["rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs font-sans", className]}>
+  <div class="border-b border-gray-100 pb-4">
+    <h3 class="text-lg font-bold text-gray-900">
+      Tanya Jawab (FAQ) Program
+    </h3>
+    <p class="mt-1 text-sm text-gray-500">
+      Kelola daftar pertanyaan dan jawaban seputar program yang tampil di accordion halaman detail.
+    </p>
+  </div>
+
+  <div id="faq-items-container" class="mt-6 space-y-4">
+    {defaultFaqs.map((faq, idx) => (
+      <details open class="faq-item group rounded-xl border border-gray-200 bg-gray-50/60 overflow-hidden transition-all">
+        <summary class="flex items-center justify-between cursor-pointer list-none px-5 py-4 bg-gray-50/80 hover:bg-gray-100/80 select-none border-b border-gray-200 [&::-webkit-details-marker]:hidden">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 group-open:rotate-180"></i>
+            <span class="faq-item-title text-sm font-bold text-gray-900">Pertanyaan #{idx + 1}</span>
+          </div>
+          <button type="button" onclick="event.stopPropagation(); hapusFaq(this)" class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition" title="Hapus FAQ">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </summary>
+        <div class="p-5 space-y-4 bg-white">
+          <div>
+            <label class="mb-2 block text-sm font-semibold text-gray-700">Pertanyaan <span class="text-rose-500">*</span></label>
+            <input
+              type="text"
+              value={faq.q}
+              placeholder="Contoh: Apakah program ini dikonversi otomatis 20 SKS?"
+              class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+            />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm font-semibold text-gray-700">Jawaban Penjelasan <span class="text-rose-500">*</span></label>
+            <textarea
+              rows="3"
+              placeholder="Contoh: Ya, setelah menyelesaikan seluruh silabus dan evaluasi..."
+              class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 leading-relaxed transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+            >{faq.a}</textarea>
+          </div>
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <div class="mt-6 pt-2">
+    <button
+      type="button"
+      id="btn-tambah-faq"
+      onclick="tambahFaq()"
+      class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-dashed border-[#1063B9] bg-blue-50/50 hover:bg-blue-50 px-5 py-3 text-sm font-semibold text-[#1063B9] transition shadow-2xs"
+    >
+      <i data-lucide="plus" class="w-4 h-4"></i>
+      <span>Tambah Pertanyaan FAQ Baru</span>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  function updateFaqNumbers() {
+    const container = document.getElementById('faq-items-container');
+    if (!container) return;
+    const items = container.querySelectorAll('.faq-item');
+    items.forEach((item, idx) => {
+      const title = item.querySelector('.faq-item-title');
+      if (title) title.textContent = `Pertanyaan #${idx + 1}`;
+    });
+    const countEl = document.getElementById('faq-count-badge');
+    if (countEl) countEl.textContent = `${items.length} FAQ`;
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function hapusFaq(btn) {
+    const item = btn.closest('.faq-item');
+    if (item) {
+      item.remove();
+      updateFaqNumbers();
+    }
+  }
+
+  function tambahFaq() {
+    const container = document.getElementById('faq-items-container');
+    if (!container) return;
+    const count = container.querySelectorAll('.faq-item').length + 1;
+    const item = document.createElement('details');
+    item.className = 'faq-item group rounded-xl border border-gray-200 bg-gray-50/60 overflow-hidden transition-all';
+    item.open = true;
+    item.innerHTML = `
+      <summary class="flex items-center justify-between cursor-pointer list-none px-5 py-4 bg-gray-50/80 hover:bg-gray-100/80 select-none border-b border-gray-200 [&::-webkit-details-marker]:hidden">
+        <div class="flex items-center gap-2.5">
+          <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500 transition-transform duration-200 group-open:rotate-180"></i>
+          <span class="faq-item-title text-sm font-bold text-gray-900">Pertanyaan #${count}</span>
+        </div>
+        <button type="button" onclick="event.stopPropagation(); hapusFaq(this)" class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition" title="Hapus FAQ">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </summary>
+      <div class="p-5 space-y-4 bg-white">
+        <div>
+          <label class="mb-2 block text-sm font-semibold text-gray-700">Pertanyaan <span class="text-rose-500">*</span></label>
+          <input
+            type="text"
+            placeholder="Contoh: Apakah program ini dikonversi otomatis 20 SKS?"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+          />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-semibold text-gray-700">Jawaban Penjelasan <span class="text-rose-500">*</span></label>
+          <textarea
+            rows="3"
+            placeholder="Contoh: Ya, setelah menyelesaikan seluruh silabus dan evaluasi..."
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 leading-relaxed transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+          ></textarea>
+        </div>
+      </div>
+    `;
+    container.appendChild(item);
+    updateFaqNumbers();
+  }
+</script>

@@ -45,9 +45,9 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
   },
   'form-pendaftaran': {
     label: 'MBKM / Form Pendaftaran',
-    title: 'Standarisasi Form Pendaftaran MBKM',
-    subtitle: 'Konfigurasi syarat akademik EWS, berkas portofolio, konversi SKS, dan template SuReKom se-fakultas.',
-    actionButton: '<button type="button" onclick="openPreviewMahasiswaModal()" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="eye" class="w-4 h-4 text-[#71717a]"></i><span>Pratinjau Tampilan Mahasiswa</span></button>',
+    title: 'Form Pendaftaran Mahasiswa',
+    subtitle: 'Konfigurasi tahapan identitas, dokumen pendaftaran, dan persetujuan komitmen pendaftar.',
+    actionButton: '<div class="flex items-center gap-2.5 shrink-0"><a href="/pendaftaran-mahasiswa" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-semibold rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 transition-all shadow-2xs"><i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i><span>Pratinjau Formulir Mahasiswa</span></a><button type="button" onclick="handleSaveFormPendaftaran()" class="inline-flex items-center justify-center gap-2 h-9 px-4 text-xs font-bold rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white shadow-2xs transition-all active:scale-95 cursor-pointer"><i data-lucide="save" class="w-3.5 h-3.5"></i><span>Simpan Perubahan</span></button></div>',
   },
   kontributor: {
     label: 'Kontributor',

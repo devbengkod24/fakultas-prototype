@@ -1,0 +1,228 @@
+---
+// src/components/admin/form-pendaftaran/TabIdentitasStudi.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const defaultFields = [
+  { id: 'f-1', name: 'Nama Lengkap', type: 'text', source: 'siakad', required: true },
+  { id: 'f-2', name: 'NIM', type: 'text', source: 'siakad', required: true },
+  { id: 'f-3', name: 'Email Mahasiswa', type: 'email', source: 'siakad', required: true },
+  { id: 'f-4', name: 'Nomor Telepon / WhatsApp', type: 'text', source: 'manual', required: true },
+  { id: 'f-5', name: 'Program Studi', type: 'select', source: 'siakad', required: true },
+  { id: 'f-6', name: 'Semester Aktif', type: 'number', source: 'siakad', required: true },
+  { id: 'f-7', name: 'IPK Kumulatif', type: 'number', source: 'siakad', required: true },
+  { id: 'f-8', name: 'SKS Tempuh', type: 'number', source: 'siakad', required: true },
+];
+
+const inputTypes = [
+  { val: 'text', label: 'Teks Singkat' },
+  { val: 'number', label: 'Angka (Number)' },
+  { val: 'email', label: 'Email' },
+  { val: 'url', label: 'Tautan / URL (Google Drive / Web)' },
+  { val: 'textarea', label: 'Teks Panjang (Textarea)' },
+  { val: 'select', label: 'Pilihan (Dropdown)' },
+];
+---
+
+<div class:list={['space-y-6 font-sans', className]}>
+  <!-- CARD 1: FORM BUILDER IDENTITAS & DATA STUDI -->
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-4 gap-3">
+      <div>
+        <h3 class="text-lg font-bold text-gray-900">
+          Formulir Identitas &amp; Data Studi Mahasiswa
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Kelola daftar kolom masukan yang wajib diisi atau ditarik otomatis pada Tahap 1 formulir pendaftaran.
+        </p>
+      </div>
+      <button
+        type="button"
+        onclick="tambahFieldIdentitas()"
+        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1063B9] text-white text-xs font-semibold hover:bg-[#0E4F96] transition shadow-2xs shrink-0 cursor-pointer"
+      >
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        <span>Tambah Form Input</span>
+      </button>
+    </div>
+
+    <!-- Container Daftar Form Fields Dinamis -->
+    <div id="identitas-fields-container" class="mt-6 space-y-4">
+      {defaultFields.map((field) => (
+        <div class="field-item-row flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-white hover:border-gray-300 transition-all">
+          <!-- Input Nama Field -->
+          <div class="flex-1 min-w-0">
+            <label class="mb-1.5 block text-xs font-semibold text-gray-700">Nama Field / Label Input</label>
+            <input
+              type="text"
+              value={field.name}
+              placeholder="Contoh: Nomor Telepon / WhatsApp"
+              class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+            />
+          </div>
+
+          <!-- Select Tipe Inputan -->
+          <div class="w-full sm:w-56 shrink-0">
+            <label class="mb-1.5 block text-xs font-semibold text-gray-700">Tipe Inputan</label>
+            <select
+              class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+            >
+              {inputTypes.map((t) => (
+                <option value={t.val} selected={t.val === field.type}>{t.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Wajib Diisi Checkbox -->
+          <div class="flex items-center gap-2 pt-2 sm:pt-5 shrink-0">
+            <label class="flex items-center gap-2 text-xs font-semibold text-gray-700 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={field.required}
+                class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
+              />
+              <span>Wajib Diisi</span>
+            </label>
+          </div>
+
+          <!-- Tombol Hapus -->
+          <div class="pt-2 sm:pt-5 shrink-0 flex justify-end">
+            <button
+              type="button"
+              onclick="hapusFieldItem(this)"
+              class="p-2 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+              title="Hapus Form Input"
+            >
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- CARD 2: AMBANG BATAS KELAYAKAN AKADEMIK -->
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+    <div class="border-b border-gray-100 pb-4">
+      <h3 class="text-lg font-bold text-gray-900">
+        Ambang Batas Kelayakan Akademik
+      </h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Parameter minimal kelayakan akademik pendaftar yang diverifikasi otomatis oleh sistem SIAKAD.
+      </p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div>
+        <label for="cfg-ipk-min" class="mb-2 block text-sm font-semibold text-gray-700">
+          IPK Kumulatif Minimal <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="number"
+          id="cfg-ipk-min"
+          step="0.05"
+          min="2.00"
+          max="4.00"
+          value="3.00"
+          oninput="triggerAutosave && triggerAutosave('ipkMin', this.value)"
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        />
+      </div>
+
+      <div>
+        <label for="cfg-semester-min" class="mb-2 block text-sm font-semibold text-gray-700">
+          Semester Aktif Minimal <span class="text-rose-500">*</span>
+        </label>
+        <select
+          id="cfg-semester-min"
+          onchange="triggerAutosave && triggerAutosave('semesterMin', this.value)"
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        >
+          <option value="4">Semester 4</option>
+          <option value="5" selected>Semester 5</option>
+          <option value="6">Semester 6</option>
+          <option value="7">Semester 7</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="cfg-sks-min" class="mb-2 block text-sm font-semibold text-gray-700">
+          SKS Tempuh Minimal <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="number"
+          id="cfg-sks-min"
+          step="1"
+          min="40"
+          max="144"
+          value="80"
+          oninput="triggerAutosave && triggerAutosave('sksMin', this.value)"
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  function hapusFieldItem(btn) {
+    const row = btn.closest('.field-item-row');
+    if (row) row.remove();
+  }
+
+  function tambahFieldIdentitas() {
+    const container = document.getElementById('identitas-fields-container');
+    if (!container) return;
+
+    const newRow = document.createElement('div');
+    newRow.className = 'field-item-row flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-white hover:border-gray-300 transition-all';
+    newRow.innerHTML = `
+      <div class="flex-1 min-w-0">
+        <label class="mb-1.5 block text-xs font-semibold text-gray-700">Nama Field / Label Input</label>
+        <input
+          type="text"
+          placeholder="Nama field baru..."
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        />
+      </div>
+      <div class="w-full sm:w-56 shrink-0">
+        <label class="mb-1.5 block text-xs font-semibold text-gray-700">Tipe Inputan</label>
+        <select
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        >
+          <option value="text" selected>Teks Singkat</option>
+          <option value="number">Angka (Number)</option>
+          <option value="email">Email</option>
+          <option value="url">Tautan / URL (Google Drive / Web)</option>
+          <option value="textarea">Teks Panjang (Textarea)</option>
+          <option value="select">Pilihan (Dropdown)</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-2 pt-2 sm:pt-5 shrink-0">
+        <label class="flex items-center gap-2 text-xs font-semibold text-gray-700 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked
+            class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
+          />
+          <span>Wajib Diisi</span>
+        </label>
+      </div>
+      <div class="pt-2 sm:pt-5 shrink-0 flex justify-end">
+        <button
+          type="button"
+          onclick="hapusFieldItem(this)"
+          class="p-2 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+          title="Hapus Form Input"
+        >
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+    `;
+    container.appendChild(newRow);
+    if (window.lucide) window.lucide.createIcons();
+  }
+</script>

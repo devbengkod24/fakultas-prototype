@@ -475,13 +475,16 @@ function switchTab(tabKey) {
   if (meta) {
     updateBreadcrumb(meta.label);
 
-    const hTitle = document.getElementById('header-page-title');
-    if (hTitle) hTitle.textContent = meta.title || meta.label;
-    const hSub = document.getElementById('header-page-subtitle');
-    if (hSub) hSub.textContent = meta.subtitle || '';
+    const isCmsStandalone = !!document.getElementById('section-kontributor-cms');
+    if (!isCmsStandalone) {
+      const hTitle = document.getElementById('header-page-title');
+      if (hTitle) hTitle.textContent = meta.title || meta.label;
+      const hSub = document.getElementById('header-page-subtitle');
+      if (hSub) hSub.textContent = meta.subtitle || '';
 
-    const actionSlot = document.getElementById('header-action-slot');
-    if (actionSlot) actionSlot.innerHTML = meta.actionButton || '';
+      const actionSlot = document.getElementById('header-action-slot');
+      if (actionSlot) actionSlot.innerHTML = meta.actionButton || '';
+    }
   }
   if (window.lucide) window.lucide.createIcons();
 
@@ -3455,8 +3458,12 @@ function handleSaveEditPeriode(e) {
 
 
 function switchFormTab(tabId) {
+  if (tabId === 'akademik') tabId = 'identitas';
+  if (tabId === 'berkas') tabId = 'dokumen';
+  if (tabId === 'konversi' || tabId === 'surekom') tabId = 'persetujuan';
+
   formPendaftaranConfig.activeTab = tabId;
-  const tabs = ['akademik', 'berkas', 'konversi', 'surekom'];
+  const tabs = ['identitas', 'dokumen', 'persetujuan', 'akademik', 'berkas', 'konversi', 'surekom'];
 
   tabs.forEach((t) => {
     const btn = document.getElementById('btn-form-tab-' + t);
@@ -3465,13 +3472,15 @@ function switchFormTab(tabId) {
     if (t === tabId) {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors shrink-0';
+          'form-tab-btn inline-flex items-center px-5 py-3 text-sm font-semibold border-b-2 border-primary-600 text-primary-700 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'true');
       }
       if (content) content.classList.remove('hidden');
     } else {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors shrink-0';
+          'form-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'false');
       }
       if (content) content.classList.add('hidden');
     }
@@ -4657,22 +4666,26 @@ const closeKontributorCms = closeProgramCms;
 
 function switchCmsSubTab(subTab) {
   activeCmsSubTabKey = subTab;
-  const btnHero = document.getElementById('btn-subtab-cms-hero');
-  const btnShowcase = document.getElementById('btn-subtab-cms-showcase');
-  const paneHero = document.getElementById('pane-cms-hero');
-  const paneShowcase = document.getElementById('pane-cms-showcase');
+  const tabs = ['hero', 'timeline', 'syarat', 'showcase', 'faq'];
 
-  if (subTab === 'hero') {
-    if (btnHero) btnHero.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-[#0655a7] text-[#0655a7] transition-colors';
-    if (btnShowcase) btnShowcase.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors';
-    if (paneHero) paneHero.classList.remove('hidden');
-    if (paneShowcase) paneShowcase.classList.add('hidden');
-  } else {
-    if (btnShowcase) btnShowcase.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-[#0655a7] text-[#0655a7] transition-colors';
-    if (btnHero) btnHero.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors';
-    if (paneShowcase) paneShowcase.classList.remove('hidden');
-    if (paneHero) paneHero.classList.add('hidden');
-  }
+  tabs.forEach((t) => {
+    const btn = document.getElementById('btn-subtab-cms-' + t);
+    const pane = document.getElementById('pane-cms-' + t);
+    if (t === subTab) {
+      if (btn) {
+        btn.className = 'cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-semibold border-b-2 border-primary-600 text-primary-700 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'true');
+      }
+      if (pane) pane.classList.remove('hidden');
+    } else {
+      if (btn) {
+        btn.className = 'cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'false');
+      }
+      if (pane) pane.classList.add('hidden');
+    }
+  });
+
   if (window.lucide) window.lucide.createIcons();
 }
 
