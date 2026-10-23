@@ -1,0 +1,109 @@
+---
+// src/components/mbkm/detail/DetailTabs.astro
+import { cn } from '../../../utils/cn';
+---
+
+<!-- ========================================== -->
+<!-- TAB INFORMASI PROGRAM                      -->
+<!-- ========================================== -->
+<section
+  id="informasi-program"
+  class="relative isolate scroll-mt-24 overflow-x-clip pt-4 pb-20 sm:pt-6 sm:pb-24 lg:pt-8 lg:pb-28"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Container Utama Tabbar (Tepat di Tengah Layar) -->
+    <div class="mx-auto max-w-3xl border-b border-gray-200">
+      <div role="tablist" aria-label="Informasi program" class="-mb-px flex justify-center gap-8 sm:gap-12">
+        <button type="button" role="tab" id="tab-informasi" data-tab-target="panel-informasi" aria-selected="true" aria-controls="panel-informasi" class={cn("tab-btn shrink-0 whitespace-nowrap pb-4 text-base font-semibold text-[#1E7FD9] sm:text-lg")}>Informasi</button>
+        <button type="button" role="tab" id="tab-persyaratan" data-tab-target="panel-persyaratan" aria-selected="false" aria-controls="panel-persyaratan" class={cn("tab-btn shrink-0 whitespace-nowrap pb-4 text-base font-semibold text-[#1E7FD9] sm:text-lg")}>Persyaratan</button>
+        <button type="button" role="tab" id="tab-kontributor" data-tab-target="panel-kontributor" aria-selected="false" aria-controls="panel-kontributor" class={cn("tab-btn shrink-0 whitespace-nowrap pb-4 text-base font-semibold text-[#1E7FD9] sm:text-lg")}>Kontributor</button>
+      </div>
+    </div>
+
+    <!-- Panel: Informasi (Presisi Sempurna di Tengah) -->
+    <div role="tabpanel" id="panel-informasi" aria-labelledby="tab-informasi" tabindex="0" class="tab-panel min-h-[220px] pt-8 sm:pt-10">
+      <div class="mx-auto max-w-3xl sm:translate-x-6 md:translate-x-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:gap-x-12">
+        <div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="users" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Kuota Peserta</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">3 / 10 Mahasiswa</p></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="calendar-days" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Periode Pelaksanaan</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Februari – Juni 2026</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="map-pin" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Lokasi Kegiatan</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">H.6 Nexa UDINUS</p></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="layers" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Usulan Konversi</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">20 SKS</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Persyaratan -->
+    <div role="tabpanel" id="panel-persyaratan" aria-labelledby="tab-persyaratan" tabindex="0" hidden class="tab-panel min-h-[220px] pt-8 sm:pt-10">
+      <div class="mx-auto max-w-3xl sm:translate-x-6 md:translate-x-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:gap-x-12">
+        <div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="graduation-cap" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">IPK Kumulatif</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Minimal 3,00</p></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="calendar-check" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Semester Aktif</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Minimal Semester 5</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="book-check" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">SKS Tempuh</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Minimal 80 SKS</p></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="file-text" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Dokumen Pendukung</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">CV ATS &amp; Portofolio</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Kontributor -->
+    <div role="tabpanel" id="panel-kontributor" aria-labelledby="tab-kontributor" tabindex="0" hidden class="tab-panel min-h-[220px] pt-8 sm:pt-10">
+      <div class="mx-auto max-w-3xl sm:translate-x-6 md:translate-x-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:gap-x-12">
+        <div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="user-round" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Koordinator MBKM</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Dr. M. Arief Soeleman, M.Kom</p></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="user-round" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Dosen Pembimbing</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Eko Hari Rachmawanto, M.Kom</p></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="user-round" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Dosen Pembimbing</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Christy Atika Sari, M.Kom</p></div>
+          </div>
+          <div class="flex items-center gap-4 border-b border-gray-100 py-5">
+            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-primary-600 shadow-xs ring-4 ring-blue-50/50"><i data-lucide="user-round" class="h-5 w-5"></i></div>
+            <div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-wider text-gray-500">Dosen Pembimbing</p><p class="mt-1 text-base font-bold text-gray-900 sm:text-lg whitespace-nowrap">Ajib Susanto, M.Kom</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="./tabs-switcher.ts"></script>
+<style>
+  .tab-btn { position: relative; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .tab-btn:hover, .tab-btn[aria-selected="true"] { color: #114d91; }
+  .tab-btn[aria-selected="true"] { border-bottom-color: #114d91; font-weight: 800; }
+  .tab-panel[hidden] { display: none; }
+  .tab-panel { min-height: 220px; }
+</style>

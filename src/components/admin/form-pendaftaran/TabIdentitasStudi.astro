@@ -52,177 +52,180 @@ const inputTypes = [
     <!-- Container Daftar Form Fields Dinamis -->
     <div id="identitas-fields-container" class="mt-6 space-y-4">
       {defaultFields.map((field) => (
-        <div class="field-item-row flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-white hover:border-gray-300 transition-all">
-          <!-- Input Nama Field -->
-          <div class="flex-1 min-w-0">
-            <label class="mb-1.5 block text-xs font-semibold text-gray-700">Nama Field / Label Input</label>
-            <input
-              type="text"
-              value={field.name}
-              placeholder="Contoh: Nomor Telepon / WhatsApp"
-              class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-            />
-          </div>
-
-          <!-- Select Tipe Inputan -->
-          <div class="w-full sm:w-56 shrink-0">
-            <label class="mb-1.5 block text-xs font-semibold text-gray-700">Tipe Inputan</label>
-            <select
-              class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-            >
-              {inputTypes.map((t) => (
-                <option value={t.val} selected={t.val === field.type}>{t.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <!-- Wajib Diisi Checkbox -->
-          <div class="flex items-center gap-2 pt-2 sm:pt-5 shrink-0">
-            <label class="flex items-center gap-2 text-xs font-semibold text-gray-700 cursor-pointer select-none">
+        <div class="field-item-card rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition-all space-y-3.5 shadow-2xs">
+          <!-- Top: Question Title (Editable input styled seamlessly as text) & Required indicator -->
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex-1 flex items-center gap-1.5">
               <input
-                type="checkbox"
-                checked={field.required}
-                class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
+                type="text"
+                value={field.name}
+                placeholder="Judul pertanyaan..."
+                class="field-name-input text-base font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-0 py-0.5 w-full sm:max-w-md"
               />
-              <span>Wajib Diisi</span>
-            </label>
+              <span class:list={['required-asterisk text-rose-500 font-bold text-base select-none', !field.required && 'hidden']}>*</span>
+            </div>
           </div>
 
-          <!-- Tombol Hapus -->
-          <div class="pt-2 sm:pt-5 shrink-0 flex justify-end">
-            <button
-              type="button"
-              onclick="hapusFieldItem(this)"
-              class="p-2 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
-              title="Hapus Form Input"
-            >
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
+          <!-- Middle: Question Preview (Google Forms style) -->
+          <div class="pt-1 pb-2">
+            <div class="w-full sm:max-w-md">
+              <p class="field-placeholder-text text-sm text-gray-400 select-none font-normal">
+                {field.type === 'number'
+                  ? 'Angka (desimal / bulat)'
+                  : field.type === 'email'
+                  ? 'Teks email (jawaban singkat)'
+                  : field.type === 'select'
+                  ? 'Opsi pilihan dropdown'
+                  : field.type === 'textarea'
+                  ? 'Teks jawaban panjang'
+                  : 'Teks jawaban singkat'}
+              </p>
+              <div class="mt-2 w-full border-b border-gray-200"></div>
+            </div>
+          </div>
+
+          <!-- Bottom: Configuration Toolbar -->
+          <div class="flex flex-wrap items-center justify-between border-t border-gray-100 pt-3 gap-3 text-xs">
+            <!-- Left: Tipe Inputan Selector -->
+            <div class="flex items-center gap-2">
+              <span class="text-gray-400 text-xs">Tipe:</span>
+              <select
+                onchange="updateFieldTypePreview(this)"
+                class="rounded-lg border border-gray-200 bg-gray-50/70 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-white focus:outline-none focus:border-[#1063B9] transition-colors cursor-pointer"
+              >
+                {inputTypes.map((t) => (
+                  <option value={t.val} selected={t.val === field.type}>{t.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <!-- Right: Wajib Diisi & Hapus -->
+            <div class="flex items-center gap-4">
+              <label class="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer select-none">
+                <span>Wajib diisi</span>
+                <input
+                  type="checkbox"
+                  checked={field.required}
+                  onchange="toggleAsterisk(this)"
+                  class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+                />
+              </label>
+              <div class="h-4 w-px bg-gray-200"></div>
+              <button
+                type="button"
+                onclick="hapusFieldItem(this)"
+                class="p-1.5 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                title="Hapus Pertanyaan"
+              >
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
           </div>
         </div>
       ))}
-    </div>
-  </div>
-
-  <!-- CARD 2: AMBANG BATAS KELAYAKAN AKADEMIK -->
-  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
-    <div class="border-b border-gray-100 pb-4">
-      <h3 class="text-lg font-bold text-gray-900">
-        Ambang Batas Kelayakan Akademik
-      </h3>
-      <p class="mt-1 text-sm text-gray-500">
-        Parameter minimal kelayakan akademik pendaftar yang diverifikasi otomatis oleh sistem SIAKAD.
-      </p>
-    </div>
-
-    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
-      <div>
-        <label for="cfg-ipk-min" class="mb-2 block text-sm font-semibold text-gray-700">
-          IPK Kumulatif Minimal <span class="text-rose-500">*</span>
-        </label>
-        <input
-          type="number"
-          id="cfg-ipk-min"
-          step="0.05"
-          min="2.00"
-          max="4.00"
-          value="3.00"
-          oninput="triggerAutosave && triggerAutosave('ipkMin', this.value)"
-          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-        />
-      </div>
-
-      <div>
-        <label for="cfg-semester-min" class="mb-2 block text-sm font-semibold text-gray-700">
-          Semester Aktif Minimal <span class="text-rose-500">*</span>
-        </label>
-        <select
-          id="cfg-semester-min"
-          onchange="triggerAutosave && triggerAutosave('semesterMin', this.value)"
-          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-        >
-          <option value="4">Semester 4</option>
-          <option value="5" selected>Semester 5</option>
-          <option value="6">Semester 6</option>
-          <option value="7">Semester 7</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="cfg-sks-min" class="mb-2 block text-sm font-semibold text-gray-700">
-          SKS Tempuh Minimal <span class="text-rose-500">*</span>
-        </label>
-        <input
-          type="number"
-          id="cfg-sks-min"
-          step="1"
-          min="40"
-          max="144"
-          value="80"
-          oninput="triggerAutosave && triggerAutosave('sksMin', this.value)"
-          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-        />
-      </div>
     </div>
   </div>
 </div>
 
 <script is:inline>
   function hapusFieldItem(btn) {
-    const row = btn.closest('.field-item-row');
-    if (row) row.remove();
+    const card = btn.closest('.field-item-card');
+    if (card) card.remove();
+  }
+
+  function toggleAsterisk(checkbox) {
+    const card = checkbox.closest('.field-item-card');
+    if (!card) return;
+    const asterisk = card.querySelector('.required-asterisk');
+    if (asterisk) {
+      if (checkbox.checked) {
+        asterisk.classList.remove('hidden');
+      } else {
+        asterisk.classList.add('hidden');
+      }
+    }
+  }
+
+  function updateFieldTypePreview(select) {
+    const card = select.closest('.field-item-card');
+    if (!card) return;
+    const preview = card.querySelector('.field-placeholder-text');
+    if (!preview) return;
+    const val = select.value;
+    if (val === 'textarea') preview.textContent = 'Teks jawaban panjang';
+    else if (val === 'number') preview.textContent = 'Angka (desimal / bulat)';
+    else if (val === 'email') preview.textContent = 'Teks email (jawaban singkat)';
+    else if (val === 'select') preview.textContent = 'Opsi pilihan dropdown';
+    else if (val === 'url') preview.textContent = 'Tautan URL (Google Drive / Web)';
+    else preview.textContent = 'Teks jawaban singkat';
   }
 
   function tambahFieldIdentitas() {
     const container = document.getElementById('identitas-fields-container');
     if (!container) return;
 
-    const newRow = document.createElement('div');
-    newRow.className = 'field-item-row flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-white hover:border-gray-300 transition-all';
-    newRow.innerHTML = `
-      <div class="flex-1 min-w-0">
-        <label class="mb-1.5 block text-xs font-semibold text-gray-700">Nama Field / Label Input</label>
-        <input
-          type="text"
-          placeholder="Nama field baru..."
-          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-        />
-      </div>
-      <div class="w-full sm:w-56 shrink-0">
-        <label class="mb-1.5 block text-xs font-semibold text-gray-700">Tipe Inputan</label>
-        <select
-          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
-        >
-          <option value="text" selected>Teks Singkat</option>
-          <option value="number">Angka (Number)</option>
-          <option value="email">Email</option>
-          <option value="url">Tautan / URL (Google Drive / Web)</option>
-          <option value="textarea">Teks Panjang (Textarea)</option>
-          <option value="select">Pilihan (Dropdown)</option>
-        </select>
-      </div>
-      <div class="flex items-center gap-2 pt-2 sm:pt-5 shrink-0">
-        <label class="flex items-center gap-2 text-xs font-semibold text-gray-700 cursor-pointer select-none">
+    const newCard = document.createElement('div');
+    newCard.className = 'field-item-card rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition-all space-y-3.5 shadow-2xs';
+    newCard.innerHTML = `
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 flex items-center gap-1.5">
           <input
-            type="checkbox"
-            checked
-            class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
+            type="text"
+            placeholder="Judul pertanyaan baru..."
+            class="field-name-input text-base font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-0 py-0.5 w-full sm:max-w-md"
           />
-          <span>Wajib Diisi</span>
-        </label>
+          <span class="required-asterisk text-rose-500 font-bold text-base select-none">*</span>
+        </div>
       </div>
-      <div class="pt-2 sm:pt-5 shrink-0 flex justify-end">
-        <button
-          type="button"
-          onclick="hapusFieldItem(this)"
-          class="p-2 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
-          title="Hapus Form Input"
-        >
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
+
+      <div class="pt-1 pb-2">
+        <div class="w-full sm:max-w-md">
+          <p class="field-placeholder-text text-sm text-gray-400 select-none font-normal">Teks jawaban singkat</p>
+          <div class="mt-2 w-full border-b border-gray-200"></div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between border-t border-gray-100 pt-3 gap-3 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-gray-400 text-xs">Tipe:</span>
+          <select
+            onchange="updateFieldTypePreview(this)"
+            class="rounded-lg border border-gray-200 bg-gray-50/70 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-white focus:outline-none focus:border-[#1063B9] transition-colors cursor-pointer"
+          >
+            <option value="text" selected>Teks Singkat</option>
+            <option value="number">Angka (Number)</option>
+            <option value="email">Email</option>
+            <option value="url">Tautan / URL (Google Drive / Web)</option>
+            <option value="textarea">Teks Panjang (Textarea)</option>
+            <option value="select">Pilihan (Dropdown)</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <label class="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer select-none">
+            <span>Wajib diisi</span>
+            <input
+              type="checkbox"
+              checked
+              onchange="toggleAsterisk(this)"
+              class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+            />
+          </label>
+          <div class="h-4 w-px bg-gray-200"></div>
+          <button
+            type="button"
+            onclick="hapusFieldItem(this)"
+            class="p-1.5 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+            title="Hapus Pertanyaan"
+          >
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
     `;
-    container.appendChild(newRow);
+    container.appendChild(newCard);
     if (window.lucide) window.lucide.createIcons();
+    const input = newCard.querySelector('input[type="text"]');
+    if (input) input.focus();
   }
 </script>

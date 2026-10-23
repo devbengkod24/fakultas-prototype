@@ -1,0 +1,76 @@
+    <!-- Modal / Dialog: Tambah/Edit Skema Program (Global Modal) -->
+    <div id="modal-crud-skema" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <h3 id="modal-skema-title" class="text-sm font-bold text-[#09090b]">Tambah Skema Program</h3>
+          <button type="button" onclick="closeSkemaModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <form onsubmit="handleSaveSkema(event)" class="flex flex-col gap-3">
+          <input type="hidden" id="modal-skema-id" value="" />
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Nama Skema Program *</label>
+            <input
+              type="text"
+              id="modal-skema-nama"
+              required
+              placeholder="Contoh: Bengkel Koding Skema Cyber Security"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1.5">
+              <label class="font-medium text-[#3f3f46]">Kode Prodi *</label>
+              <select
+                id="modal-skema-prodi"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              >
+                <option value="A11">A11 - Teknik Informatika</option>
+                <option value="A12">A12 - Sistem Informasi</option>
+                <option value="A14">A14 - DKV</option>
+                <option value="A15">A15 - Ilmu Komunikasi</option>
+                <option value="A16">A16 - Film & TV</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-medium text-[#3f3f46]">Status Pendanaan *</label>
+              <select
+                id="modal-skema-pendanaan"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              >
+                <option value="sudah">sudah</option>
+                <option value="belum">belum</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Dosen Pembina / Koordinator Skema *</label>
+            <input
+              type="text"
+              id="modal-skema-dosen"
+              required
+              value="Nurul Anisa Sri Winarsih, S.Kom, M.Cs"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7] mt-2">
+            <button
+              type="button"
+              onclick="closeSkemaModal()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold"
+            >
+              Simpan Skema
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

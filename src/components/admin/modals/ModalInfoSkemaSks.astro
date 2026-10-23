@@ -1,0 +1,104 @@
+    <!-- MODALS BAGIAN 1 (ISSUE #17)                          -->
+    <!-- ==================================================== -->
+    <!-- Modal 1: Panduan 5 Skema Batas SKS Dinamis -->
+    <div id="modal-info-skema-sks" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center">
+              <i data-lucide="help-circle" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-[#09090b]">Ketentuan 5 Skema Batas SKS Konversi MBKM</h3>
+              <p class="text-[11px] text-[#71717a]">Panduan resmi aturan batas ekuivalensi CPL kurikulum fakultas.</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModalInfoSkemaSks()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 gap-2.5">
+          <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl hover:border-blue-300 transition-colors">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-[#0655a7] text-[13px]"
+                >1. Skema 10 - 12 SKS (Magang Pendek / Program Terbatas)</span
+              >
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-[#0655a7]">10 - 12 SKS</span>
+            </div>
+            <p class="text-[11px] text-[#71717a]">
+              Diperuntukkan bagi program magang durasi 3 bulan, studi mandiri paruh waktu, atau sertifikasi
+              mikrokredensial industri terbatas.
+            </p>
+          </div>
+
+          <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl hover:border-blue-300 transition-colors">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-[#0655a7] text-[13px]"
+                >2. Skema Maksimal 12 SKS (Studi Independen Bersertifikat Tertentu)</span
+              >
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-[#0655a7]">Maks 12 SKS</span>
+            </div>
+            <p class="text-[11px] text-[#71717a]">
+              Khusus untuk kurikulum kontributor dengan durasi beban jam kerja setara 300 - 450 jam atau program
+              non-pengembangan produk utuh.
+            </p>
+          </div>
+
+          <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl hover:border-blue-300 transition-colors">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-[#0655a7] text-[13px]"
+                >3. Skema Maksimal 15 SKS (Kewirausahaan / Riset Terpandu)</span
+              >
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700">Maks 15 SKS</span>
+            </div>
+            <p class="text-[11px] text-[#71717a]">
+              Berlaku bagi program inkubasi bisnis rintisan (startup), riset inovasi laboratorium dosen, atau proyek
+              kemanusiaan tematik.
+            </p>
+          </div>
+
+          <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl hover:border-blue-300 transition-colors">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-[#0655a7] text-[13px]"
+                >4. Skema Maksimal 20 SKS (Standar MSIB / Kampus Mengajar / PMM)</span
+              >
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700"
+                >Maks 20 SKS</span
+              >
+            </div>
+            <p class="text-[11px] text-[#71717a]">
+              Skema standar reguler nasional Kemendikbudristek untuk Magang & Studi Independen Bersertifikat 1 semester
+              penuh (min. 800-900 jam).
+            </p>
+          </div>
+
+          <div class="p-3 bg-white border border-[#e4e4e7] rounded-xl hover:border-purple-300 transition-colors">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-purple-700 text-[13px]"
+                >5. Skema Maksimal 24 SKS (Magang Industri + Luaran Publikasi Ilmiah)</span
+              >
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700"
+                >Maks 24 SKS</span
+              >
+            </div>
+            <p class="text-[11px] text-[#71717a]">
+              Khusus mahasiswa semester 7-8 yang menghasilkan luaran tambahan berupa artikel jurnal terakreditasi SINTA
+              / prosiding internasional atau HAKI terdaftar.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            onclick="closeModalInfoSkemaSks()"
+            class="px-4 py-1.5 rounded-lg bg-[#0655a7] text-white font-semibold"
+          >
+            Tutup Panduan
+          </button>
+        </div>
+      </div>
+    </div>

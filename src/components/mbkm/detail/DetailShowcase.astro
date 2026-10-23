@@ -1,0 +1,127 @@
+---
+// src/components/mbkm/detail/DetailShowcase.astro
+---
+
+<!-- ==================== SHOWCASE KARYA: CAROUSEL COVERFLOW ==================== -->
+<section id="showcase" class="relative isolate scroll-mt-6 overflow-x-clip pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12">
+  <div class="pointer-events-none absolute -right-24 top-0 -z-10 h-80 w-80 rounded-full bg-primary-100/70 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-72 w-72 rounded-full bg-[#F3BC45]/20 blur-2xl"></div>
+  <div class="pointer-events-none absolute left-1/2 top-1/3 -z-10 h-64 w-[36rem] max-w-full -translate-x-1/2 rounded-full bg-[#86BEF3]/20 blur-3xl"></div>
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 opacity-[0.07]"
+    style='background-image: radial-gradient(#114d91 1.2px, transparent 1.4px); background-size: 24px 24px; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent);'
+  ></div>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-[38%] -z-10 select-none text-center text-[22vw] font-black uppercase leading-none tracking-tighter text-[#114D91]/[0.045] lg:text-[15rem]">
+    Karya
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="flex items-center justify-center gap-3">
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+        <p class="text-sm font-bold uppercase tracking-[0.16em] text-primary-700">Luaran Program</p>
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+      </div>
+      <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">Showcase Karya Mahasiswa</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">Luaran program yang dihasilkan peserta MBKM sebagai hasil akhir pembelajaran selama mengikuti kegiatan.</p>
+    </div>
+
+    <!-- CAROUSEL -->
+    <div class="relative mt-10 sm:mt-12 lg:mt-14">
+      <div class="sc-glow" aria-hidden="true"><span data-showcase-glow></span><span data-showcase-glow></span></div>
+      <div class="sc-floor" aria-hidden="true"></div>
+
+      <button type="button" data-showcase-prev aria-label="Karya sebelumnya" class="sc-arrow sc-arrow--prev">
+        <i data-lucide="chevron-left" class="h-5 w-5"></i>
+      </button>
+      <button type="button" data-showcase-next aria-label="Karya berikutnya" class="sc-arrow sc-arrow--next">
+        <i data-lucide="chevron-right" class="h-5 w-5"></i>
+      </button>
+
+      <div data-showcase-stage class="sc-stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Showcase karya mahasiswa">
+        <!-- KARYA 1 -->
+        <article class="project-card" data-accent="#F3BC45" style="--accent: #F3BC45" aria-label="Pengembangan Aplikasi Digital">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi dashboard analitik digital" loading="lazy" draggable="false" class="project-image" />
+          <div class="sc-shade"></div>
+          <span class="sc-num">01</span>
+          <div class="sc-body">
+            <h3 class="sc-title">Pengembangan Aplikasi Digital</h3>
+            <span class="sc-rule"></span>
+            <div class="sc-extra"><p class="sc-desc">Ruang untuk menampilkan deskripsi solusi, teknologi, kontribusi mahasiswa, dan dokumentasi hasil proyek.</p></div>
+          </div>
+        </article>
+
+        <!-- KARYA 2 -->
+        <article class="project-card" data-accent="#F3BC45" style="--accent: #F3BC45" aria-label="Penelitian dan Analisis Data">
+          <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi pengembangan perangkat lunak" loading="lazy" draggable="false" class="project-image" />
+          <div class="sc-shade"></div>
+          <span class="sc-num">02</span>
+          <div class="sc-body">
+            <h3 class="sc-title">Penelitian dan Analisis Data</h3>
+            <span class="sc-rule"></span>
+            <div class="sc-extra"><p class="sc-desc">Ruang untuk menjelaskan latar belakang penelitian, metode yang digunakan, dan ringkasan hasil penelitian.</p></div>
+          </div>
+        </article>
+
+        <!-- KARYA 3 -->
+        <article class="project-card" data-accent="#F3BC45" style="--accent: #F3BC45" aria-label="Dokumentasi Kegiatan Asistensi">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi teknologi dan sistem komputasi" loading="lazy" draggable="false" class="project-image" />
+          <div class="sc-shade"></div>
+          <span class="sc-num">03</span>
+          <div class="sc-body">
+            <h3 class="sc-title">Dokumentasi Kegiatan Asistensi</h3>
+            <span class="sc-rule"></span>
+            <div class="sc-extra"><p class="sc-desc">Ruang untuk menampilkan kegiatan, peran mahasiswa, dokumentasi pelaksanaan, dan hasil pendampingan.</p></div>
+          </div>
+        </article>
+
+        <!-- KARYA 4 -->
+        <article class="project-card" data-accent="#F3BC45" style="--accent: #F3BC45" aria-label="Dashboard Visualisasi Data">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi visualisasi data dan laporan analitik" loading="lazy" draggable="false" class="project-image" />
+          <div class="sc-shade"></div>
+          <span class="sc-num">04</span>
+          <div class="sc-body">
+            <h3 class="sc-title">Dashboard Visualisasi Data</h3>
+            <span class="sc-rule"></span>
+            <div class="sc-extra"><p class="sc-desc">Contoh karya pengolahan data menjadi visualisasi interaktif untuk membantu membaca informasi dan mengambil keputusan.</p></div>
+          </div>
+        </article>
+
+        <!-- KARYA 5 -->
+        <article class="project-card" data-accent="#F3BC45" style="--accent: #F3BC45" aria-label="Desain UI/UX Aplikasi">
+          <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi desain antarmuka aplikasi" loading="lazy" draggable="false" class="project-image" />
+          <div class="sc-shade"></div>
+          <span class="sc-num">05</span>
+          <div class="sc-body">
+            <h3 class="sc-title">Desain UI/UX Aplikasi</h3>
+            <span class="sc-rule"></span>
+            <div class="sc-extra"><p class="sc-desc">Contoh rancangan pengalaman pengguna yang mencakup eksplorasi kebutuhan, wireframe, prototipe, dan evaluasi antarmuka.</p></div>
+          </div>
+        </article>
+
+        <!-- KARYA 6 -->
+        <article class="project-card" data-accent="#F3BC45" style="--accent: #F3BC45" aria-label="Pendampingan Literasi Digital">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Ilustrasi kolaborasi dan pembelajaran digital" loading="lazy" draggable="false" class="project-image" />
+          <div class="sc-shade"></div>
+          <span class="sc-num">06</span>
+          <div class="sc-body">
+            <h3 class="sc-title">Pendampingan Literasi Digital</h3>
+            <span class="sc-rule"></span>
+            <div class="sc-extra"><p class="sc-desc">Contoh dokumentasi kegiatan pendampingan penggunaan teknologi digital, materi pembelajaran, dan hasil evaluasi kegiatan.</p></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- DOTS NAVIGASI -->
+    <div class="mt-6 flex justify-center sm:mt-7">
+      <div data-showcase-dots class="flex items-center justify-center gap-2" aria-label="Navigasi showcase"></div>
+    </div>
+  </div>
+</section>
+
+<script src="./showcase-carousel.ts"></script>
+
+<style is:global>
+  @import "./showcase.css";
+</style>

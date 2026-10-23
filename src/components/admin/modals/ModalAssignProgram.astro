@@ -1,0 +1,103 @@
+    <!-- Modal / Dialog: Kelola Alokasi Program MBKM (1 Koordinator : N Program) -->
+    <div id="modal-assign-program" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-xl w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-sm font-bold text-[#09090b]">Kelola Alokasi Program MBKM</h3>
+            <p class="text-[11px] text-[#71717a]">
+              Pilih satu atau lebih program yang ditugaskan kepada koordinator ini (1 Dosen : N Program).
+            </p>
+          </div>
+          <button type="button" onclick="closeAssignProgramModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Target Dosen Banner -->
+        <div class="flex items-center justify-between p-3 border border-blue-100 rounded-xl bg-blue-50/70">
+          <div class="flex items-center gap-2.5">
+            <div
+              class="w-8 h-8 rounded-full bg-[#0655a7] text-white flex items-center justify-center font-bold text-xs"
+            >
+              <i data-lucide="user" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div id="modal-assign-dosen-name" class="font-semibold text-xs text-[#09090b]">-</div>
+              <div id="modal-assign-dosen-meta" class="text-[11px] text-[#71717a]">-</div>
+            </div>
+          </div>
+          <div
+            id="modal-assign-selected-count"
+            class="px-2.5 py-1 rounded-full bg-white border border-blue-200 text-[#0655a7] font-semibold text-[11px]"
+          >
+            0 Program Dipilih
+          </div>
+        </div>
+
+        <!-- Search & Quick Selection -->
+        <div class="flex items-center justify-between gap-2 pt-1">
+          <div class="relative flex-1">
+            <i
+              data-lucide="search"
+              class="w-3.5 h-3.5 text-[#a1a1aa] absolute left-2.5 top-2.5 pointer-events-none"
+            ></i>
+            <input
+              type="text"
+              id="search-assign-program"
+              oninput="handleAssignProgramSearch(this.value)"
+              placeholder="Cari program MBKM atau kategori..."
+              class="pl-8 pr-3 py-1.5 text-xs rounded-lg border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-full"
+            />
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button
+              type="button"
+              onclick="handleSelectAllPrograms(true)"
+              class="px-2 py-1 text-[11px] rounded border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 transition-colors"
+            >
+              Pilih Semua
+            </button>
+            <button
+              type="button"
+              onclick="handleSelectAllPrograms(false)"
+              class="px-2 py-1 text-[11px] rounded border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 transition-colors"
+            >
+              Batal Semua
+            </button>
+          </div>
+        </div>
+
+        <form onsubmit="handleSaveProgramAssignment(event)" class="flex flex-col gap-2">
+          <input type="hidden" id="modal-assign-koordinator-id" value="" />
+
+          <!-- Checklist Container -->
+          <div
+            id="modal-assign-program-list"
+            class="max-h-64 overflow-y-auto space-y-1.5 rounded-xl border border-[#e4e4e7] bg-white p-2"
+          >
+            <!-- Dynamically populated checkboxes via renderAssignProgramList() -->
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-[#e4e4e7] mt-1">
+            <span class="text-[11px] text-[#71717a]">Centang untuk menambahkan, hapus centang untuk melepaskan.</span>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                onclick="closeAssignProgramModal()"
+                class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold shadow-none"
+              >
+                Simpan Alokasi
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>

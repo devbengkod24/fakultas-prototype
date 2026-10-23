@@ -1,0 +1,98 @@
+---
+// src/components/mbkm/detail/DetailFaq.astro
+---
+
+<!-- ==================== FAQ ==================== -->
+<section id="faq" class="relative isolate scroll-mt-6 overflow-x-clip pt-8 pb-16 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24">
+  <div class="pointer-events-none absolute -right-24 top-0 -z-10 h-80 w-80 rounded-full bg-primary-100/70 blur-3xl"></div>
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="flex items-center justify-center gap-3">
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+        <p class="text-sm font-bold uppercase tracking-[0.16em] text-primary-700">FAQ</p>
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+      </div>
+      <h2 class="mt-4 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">Pertanyaan Yang Sering Diajukan</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">Temukan jawaban seputar persyaratan, dokumen, dan proses konversi sebelum kamu mengajukan pendaftaran Dicoding ASAH 2026.</p>
+    </div>
+
+    <div class="mt-10 space-y-3 sm:mt-12">
+      <!-- 1 (terbuka default) -->
+      <details name="faq" open class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden">
+          <span>Apa saja syarat akademik untuk mendaftar?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Sistem memvalidasi data akademikmu secara otomatis. Kriteria umum mencakup IPK minimal 3,00, minimal semester 5 (atau sesuai ketentuan program), dan minimal 80 SKS tempuh. Ketentuan khusus, termasuk riwayat cuti, mengikuti aturan program yang berlaku.
+        </div>
+      </details>
+
+      <!-- 2 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden">
+          <span>Dokumen apa yang perlu disiapkan?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Siapkan satu tautan Google Drive yang memuat CV ATS dalam format PDF, portofolio karya, serta sertifikat atau bukti pengalaman. Pastikan tautan dapat diakses oleh pihak yang memeriksa, dan data semester, IPK, serta SKS di sistem akademik sudah sesuai.
+        </div>
+      </details>
+
+      <!-- 3 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden">
+          <span>Berapa SKS yang bisa dikonversi?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Program ini dapat dikonversi hingga maksimal 20 SKS. Pelajari hak dan kewajiban program, lalu siapkan draf usulan mata kuliah konversi sebelum mengajukan pendaftaran.
+        </div>
+      </details>
+
+      <!-- 4 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden">
+          <span>Apa perbedaan Asistensi, Proyek, dan Riset/Publikasi?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Asistensi berfokus pada pendampingan dan pelaksanaan tugas, Proyek pada pengembangan solusi atau produk, sedangkan Riset/Publikasi pada penelitian terstruktur hingga publikasi hasil. Detailnya bisa kamu lihat pada bagian Kegiatan Program di atas.
+        </div>
+      </details>
+
+      <!-- 5 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden">
+          <span>Apakah Showcase termasuk proses pendaftaran?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Tidak. Showcase adalah informasi publik untuk menampilkan karya, proyek, atau hasil penelitian mahasiswa, dan bukan bagian dari proses pengajuan pendaftaran.
+        </div>
+      </details>
+
+      <!-- 6 -->
+      <details name="faq" class="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-colors">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 text-sm font-bold text-gray-900 transition-colors hover:bg-gray-50 group-open:bg-[#F3BC45] group-open:text-[#0D2544] sm:text-[15px] [&::-webkit-details-marker]:hidden">
+          <span>Bagaimana jika persyaratanku belum terpenuhi?</span>
+          <i data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-[#D0670F] transition-transform duration-300 group-open:rotate-180 group-open:text-[#0D2544]"></i>
+        </summary>
+        <div class="faq-answer px-6 pb-5 pt-4 text-sm leading-7 text-gray-600">
+          Mahasiswa yang belum memenuhi persyaratan tidak dapat melanjutkan ke tahap pendaftaran berikutnya. Periksa kembali data akademikmu atau hubungi pihak fakultas untuk informasi lebih lanjut.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes faq-fade {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  details[open] > .faq-answer { animation: faq-fade 0.35s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    details[open] > .faq-answer { animation: none; }
+  }
+</style>

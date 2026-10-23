@@ -1,0 +1,84 @@
+    <!-- MODAL 6: TAMBAH FIELD KUSTOM FORM PENDAFTARAN        -->
+    <!-- ==================================================== -->
+    <div id="modal-tambah-custom-field" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+      <div class="bg-white rounded-xl border border-[#e4e4e7] shadow-xl max-w-md w-full p-6 space-y-4 text-sm">
+        <div class="flex items-start justify-between pb-3 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-base font-semibold text-[#09090b]">Tambah Field / Pertanyaan Kustom</h3>
+            <p class="text-xs text-[#71717a] mt-0.5">Field ini akan langsung ditambahkan ke form pendaftaran mahasiswa.</p>
+          </div>
+          <button type="button" onclick="closeTambahCustomFieldModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form id="form-tambah-custom-field" onsubmit="handleSimpanCustomField(event)" class="space-y-3.5">
+          <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-xs">Label / Pertanyaan Field *</label>
+            <input
+              type="text"
+              id="input-cf-label"
+              required
+              placeholder="Contoh: Tautan Profil LinkedIn / GitHub"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-xs">Tipe Input / Format Jawaban *</label>
+            <select
+              id="select-cf-type"
+              required
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            >
+              <option value="text">Teks Singkat (Short Text)</option>
+              <option value="textarea">Esai / Paragraf Panjang</option>
+              <option value="url">Tautan Web / Live URL / Drive</option>
+              <option value="file">Unggah Berkas Tambahan (PDF)</option>
+              <option value="select">Dropdown Pilihan Kategori</option>
+            </select>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-xs">Petunjuk Pengisian / Placeholder</label>
+            <input
+              type="text"
+              id="input-cf-placeholder"
+              placeholder="Contoh: Masukkan URL lengkap dengan https://"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+
+          <div class="space-y-1.5 p-3 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-medium text-[#09090b]">Sifat Pengisian Field</span>
+                <p class="text-[11px] text-[#71717a]">Wajib diisi mahasiswa untuk dapat melanjutkan pendaftaran.</p>
+              </div>
+              <input
+                type="checkbox"
+                id="checkbox-cf-required"
+                checked
+                class="w-4 h-4 rounded border-gray-300 text-[#0655a7] focus:ring-[#0655a7]"
+              />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
+            <button
+              type="button"
+              onclick="closeTambahCustomFieldModal()"
+              class="px-3.5 py-2 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 text-xs font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"
+            >
+              Simpan Field
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

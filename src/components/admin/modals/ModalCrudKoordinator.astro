@@ -1,0 +1,76 @@
+    <!-- Modal / Dialog: Tambah/Edit Koordinator Dosen MBKM -->
+    <div id="modal-crud-koordinator" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <h3 id="modal-koordinator-title" class="text-sm font-bold text-[#09090b]">Tambah Koordinator Baru</h3>
+          <button type="button" onclick="closeKoordinatorModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <form onsubmit="handleSaveKoordinator(event)" class="flex flex-col gap-3">
+          <input type="hidden" id="modal-koordinator-id" value="" />
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Nama Lengkap & Gelar Dosen *</label>
+            <input
+              type="text"
+              id="modal-koordinator-nama"
+              required
+              placeholder="Contoh: Dr. Muljono, S.Si, M.Kom"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1.5">
+              <label class="font-medium text-[#3f3f46]">NIDN / NPP *</label>
+              <input
+                type="text"
+                id="modal-koordinator-nidn"
+                required
+                placeholder="Contoh: 0686.11.1993.001"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-medium text-[#3f3f46]">Homebase Prodi *</label>
+              <select
+                id="modal-koordinator-prodi"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              >
+                <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
+                <option value="S1 Sistem Informasi">S1 Sistem Informasi</option>
+                <option value="S1 Desain Komunikasi Visual">S1 DKV</option>
+                <option value="S1 Ilmu Komunikasi">S1 Ilmu Komunikasi</option>
+                <option value="S1 Film dan Televisi">S1 Film & TV</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Email Institusi *</label>
+            <input
+              type="email"
+              id="modal-koordinator-email"
+              required
+              placeholder="Contoh: dosen@fik.dinus.ac.id"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7] mt-2">
+            <button
+              type="button"
+              onclick="closeKoordinatorModal()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold"
+            >
+              Simpan Koordinator
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
