@@ -11,31 +11,26 @@ const defaultTimelineSteps = [
     step: 1,
     title: "Onboarding Peserta",
     desc: "Aktivasi akun dan orientasi program.",
-    icon: "user-check",
   },
   {
     step: 2,
     title: "Pembelajaran Mandiri",
     desc: "Modul industri dan mentoring praktisi.",
-    icon: "book-open-check",
   },
   {
     step: 3,
     title: "Proyek Nyata",
     desc: "Capstone Project berbasis kasus industri.",
-    icon: "folder-kanban",
   },
   {
     step: 4,
     title: "Pembekalan Karir",
     desc: "Soft skills dan kesiapan kerja.",
-    icon: "briefcase",
   },
   {
     step: 5,
     title: "Konversi SKS",
     desc: "Luaran diakui hingga 20 SKS.",
-    icon: "graduation-cap",
   },
 ];
 ---
@@ -44,11 +39,11 @@ const defaultTimelineSteps = [
   <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
     <!-- Header Card (Statis sesuai Alur Kegiatan) -->
     <div class="border-b border-gray-100 pb-4">
-      <h3 class="text-lg font-bold text-gray-900">
+      <h3 class="text-base font-semibold text-[#09090b]">
         Alur Kegiatan (Timeline)
       </h3>
-      <p class="mt-1 text-sm text-gray-500">
-        Tahapan yang kamu jalani setelah resmi diterima sebagai peserta, hingga luaran pembelajarannya diakui.
+      <p class="mt-0.5 text-xs text-[#71717a]">
+        Tahapan kegiatan yang dijalani mahasiswa setelah resmi diterima sebagai peserta, hingga luaran pembelajarannya diakui.
       </p>
     </div>
 
@@ -56,46 +51,43 @@ const defaultTimelineSteps = [
     <div class="mt-6">
       <div class="space-y-4" id="timeline-steps-container">
         {defaultTimelineSteps.map((step) => (
-          <div class="timeline-step-row flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-white hover:border-gray-300 transition-all">
-            <!-- Indikator Angka & Icon -->
-            <div class="flex items-center gap-3 shrink-0">
-              <span class="step-num flex h-8 w-8 items-center justify-center rounded-lg bg-[#114D91] text-xs font-bold text-white shadow-2xs">
+          <div class="timeline-step-row rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all shadow-2xs space-y-3">
+            <!-- Header Langkah: Badge Nomor & Tombol Hapus -->
+            <div class="flex items-center justify-between pb-2.5 border-b border-gray-100">
+              <span class="step-num flex h-6 w-6 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs">
                 {step.step}
               </span>
-              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-[#114D91] border border-blue-100">
-                <i data-lucide={step.icon} class="h-5 w-5"></i>
-              </div>
+              <button
+                type="button"
+                onclick="hapusTimelineStep(this)"
+                class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                title="Hapus Tahap"
+              >
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
             </div>
 
-            <!-- Inputs: Judul Tahap & Deskripsi Ringkas -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 min-w-0">
+            <!-- Inputs: Judul & Deskripsi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="mb-1.5 block text-xs font-semibold text-gray-700">Nama Tahapan</label>
+                <label class="mb-1.5 block text-xs font-semibold text-gray-700">Judul</label>
                 <input
                   type="text"
                   value={step.title}
+                  placeholder="Contoh: Onboarding Peserta"
                   class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
                 />
               </div>
               <div>
-                <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi Ringkas</label>
+                <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi</label>
                 <input
                   type="text"
                   value={step.desc}
+                  placeholder="Contoh: Aktivasi akun dan orientasi program."
                   class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
                 />
               </div>
             </div>
-
-            <!-- Tombol Hapus -->
-            <button
-              type="button"
-              onclick="hapusTimelineStep(this)"
-              class="self-end sm:self-center p-2 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
-              title="Hapus Tahap"
-            >
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
           </div>
         ))}
       </div>
@@ -171,42 +163,39 @@ const defaultTimelineSteps = [
 
     const newStepNum = count + 1;
     const newRow = document.createElement('div');
-    newRow.className = 'timeline-step-row flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-white hover:border-gray-300 transition-all';
+    newRow.className = 'timeline-step-row rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all shadow-2xs space-y-3';
     newRow.innerHTML = `
-      <div class="flex items-center gap-3 shrink-0">
-        <span class="step-num flex h-8 w-8 items-center justify-center rounded-lg bg-[#114D91] text-xs font-bold text-white shadow-2xs">
+      <div class="flex items-center justify-between pb-2.5 border-b border-gray-100">
+        <span class="step-num flex h-6 w-6 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs">
           ${newStepNum}
         </span>
-        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-[#114D91] border border-blue-100">
-          <i data-lucide="check-circle" class="h-5 w-5"></i>
-        </div>
+        <button
+          type="button"
+          onclick="hapusTimelineStep(this)"
+          class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+          title="Hapus Tahap"
+        >
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 min-w-0">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label class="mb-1.5 block text-xs font-semibold text-gray-700">Nama Tahapan</label>
+          <label class="mb-1.5 block text-xs font-semibold text-gray-700">Judul</label>
           <input
             type="text"
-            placeholder="Nama Tahap ${newStepNum}"
+            placeholder="Judul Tahap ${newStepNum}"
             class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
           />
         </div>
         <div>
-          <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi Ringkas</label>
+          <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi</label>
           <input
             type="text"
-            placeholder="Deskripsi ringkas aktivitas tahap ${newStepNum}..."
+            placeholder="Deskripsi aktivitas tahap ${newStepNum}..."
             class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
           />
         </div>
       </div>
-      <button
-        type="button"
-        onclick="hapusTimelineStep(this)"
-        class="self-end sm:self-center p-2 rounded-lg text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
-        title="Hapus Tahap"
-      >
-        <i data-lucide="trash-2" class="w-4 h-4"></i>
-      </button>
     `;
     container.appendChild(newRow);
     updateTimelineStepState();

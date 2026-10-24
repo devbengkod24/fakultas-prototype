@@ -13,13 +13,13 @@ const { standalone = false } = Astro.props;
 ---
 
 <!-- Subview 3: CMS Halaman Publik Detail Kontributor & Program MBKM -->
-<div id="subview-program-cms" class:list={["space-y-6 font-sans", standalone ? "" : "hidden"]}>
+<div id="subview-program-cms" class:list={["font-sans", standalone ? "" : "hidden"]}>
   <!-- Hidden title holders for controller compatibility -->
   <span id="cms-program-page-title" class="hidden"></span>
   <span id="cms-program-page-subtitle" class="hidden"></span>
 
   <!-- Navigasi 4 Tab Utama CMS (Spacious & Clean) -->
-  <div class="w-full border-b border-gray-200">
+  <div class="w-full border-b border-gray-200 mb-6">
     <div class="flex items-center gap-2 overflow-x-auto" role="tablist">
       <button
         type="button"

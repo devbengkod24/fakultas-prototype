@@ -4,207 +4,662 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
 ---
 
 <MahasiswaShell
-  title="Dashboard Mahasiswa | Kampus Berdampak FIK UDINUS"
+  title="Dashboard - Kerja Praktek"
   activeNav="dashboard"
-  pageTitle="Dashboard Mahasiswa"
+  pageTitle="Dashboard"
   breadcrumb="Dashboard"
 >
-  <section id="view-dashboard" class="space-y-6">
-    <!-- Page Header (Standar Typography contributor) -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Dashboard Mahasiswa</h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">Informasi profil, kelayakan persyaratan umum MBKM, dan status pendaftaran program.</p>
-      </div>
-    </div>
-
-    <!-- User Profile & Eligibility Overview Card -->
-    <div class="p-5 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-full bg-[#1063B9] text-white font-semibold text-lg flex items-center justify-center shrink-0">
-          AR
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h3 class="text-[16px] font-semibold text-[#09090b]" id="mahasiswa-name">Ahmad Rizky Pratama</h3>
-          </div>
-          <p class="text-[13px] text-[#71717a] mt-0.5">NIM: A11.2022.14253 • Teknik Informatika (S1)</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4 KPI Cards Persyaratan Umum MBKM -->
-    <div>
-      <div class="mb-3">
-        <h3 class="text-[14px] font-semibold text-[#09090b]">Persyaratan Umum MBKM</h3>
-        <p class="text-[12px] text-[#71717a]">Standar kelayakan mahasiswa untuk mendaftar program MBKM Fakultas Ilmu Komputer.</p>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Card 1: Semester -->
-        <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
-          <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
-            <span>Status Semester</span>
-            <i data-lucide="calendar" class="w-4 h-4 text-[#1063B9]"></i>
-          </div>
-          <div class="text-[24px] font-bold text-[#09090b]" id="val-semester">Semester 6</div>
-          <div class="flex items-center justify-between text-[12px] mt-2 pt-2 border-t border-gray-100">
-            <span class="text-[#71717a]">Syarat: Smt 6, 7, atau 8</span>
-            <span class="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[11px]" id="badge-semester">
-              <i data-lucide="check" class="w-3 h-3"></i> Memenuhi
-            </span>
-          </div>
-        </div>
-
-        <!-- Card 2: IPK Minimal 3.00 -->
-        <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
-          <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
-            <span>IPK Kumulatif</span>
-            <i data-lucide="award" class="w-4 h-4 text-[#1063B9]"></i>
-          </div>
-          <div class="text-[24px] font-bold text-[#09090b]" id="val-ipk">3.72</div>
-          <div class="flex items-center justify-between text-[12px] mt-2 pt-2 border-t border-gray-100">
-            <span class="text-[#71717a]">Syarat: Min. IPK 3.00</span>
-            <span class="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[11px]" id="badge-ipk">
-              <i data-lucide="check" class="w-3 h-3"></i> Memenuhi
-            </span>
-          </div>
-        </div>
-
-        <!-- Card 4: SKS Ditempuh -->
-        <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
-          <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
-            <span>SKS Ditempuh</span>
-            <i data-lucide="book-open" class="w-4 h-4 text-[#1063B9]"></i>
-          </div>
-          <div class="text-[24px] font-bold text-[#09090b]" id="val-sks">104 SKS</div>
-          <div class="flex items-center justify-between text-[12px] mt-2 pt-2 border-t border-gray-100">
-            <span class="text-[#71717a]">Syarat: Min. 100 SKS</span>
-            <span class="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[11px]" id="badge-sks">
-              <i data-lucide="check" class="w-3 h-3"></i> Memenuhi
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Section: Status Pendaftaran Program MBKM -->
-    <div class="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
-      <div class="p-5 flex-1 space-y-4">
-        <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
-          <div>
-            <h3 class="text-[15px] font-bold text-[#09090b]">Program MBKM Terdaftar</h3>
-            <p class="text-[12px] text-[#71717a]">Katalog program MBKM yang sedang Anda ajukan.</p>
-          </div>
-        </div>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Program 1: Bengkel Koding -->
-          <div class="border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
-            <div class="p-5 flex-1 space-y-4">
-              <div class="flex items-start justify-between">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center font-bold border border-blue-100">BK</div>
-                  <div>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-100 mb-1">Skema: Proyek Industri</span>
-                    <h3 class="text-[15px] font-bold text-[#09090b]">Bengkel Koding — Proyek Web & Mobile</h3>
-                    <p class="text-[12px] text-[#71717a]">Kontributor: Laboratorium Bengkel Koding FIK</p>
-                  </div>
-                </div>
-                <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">20 SKS</span>
-              </div>
-              <div class="space-y-2 text-[12px] py-3 border-y border-gray-50">
-                <div class="flex justify-between"><span class="text-[#71717a]">Status:</span> <span class="font-semibold text-amber-600">Menunggu Verifikasi</span></div>
-                <div class="flex justify-between"><span class="text-[#71717a]">Durasi Kegiatan:</span> <span class="font-medium text-[#09090b]">1 Semester (6 Bulan)</span></div>
-                <div class="flex justify-between"><span class="text-[#71717a]">Dosen Pembina Kontributor:</span> <span class="font-medium text-[#1063B9]">Dr. Ricardus Anggi, M.Kom</span></div>
-              </div>
-            </div>
-            <div class="px-5 py-3 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-between">
-              <span class="text-[11px] text-[#71717a]">Daftar: 10 Okt 2025</span>
-              <a href="/mahasiswa/pendaftaran-detail" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.95]">
-                <i data-lucide="send" class="w-4 h-4"></i>
-                <span>Detail Pendaftaran</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Program 2: IDSS -->
-          <div class="border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
-            <div class="p-5 flex-1 space-y-4">
-              <div class="flex items-start justify-between">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold border border-purple-100">ID</div>
-                  <div>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-purple-50 text-purple-700 border border-purple-100 mb-1">Skema: Publikasi / Riset</span>
-                    <h3 class="text-[15px] font-bold text-[#09090b]">IDSS — Riset Decision Support & AI</h3>
-                    <p class="text-[12px] text-[#71717a]">Kontributor: Lab Intelligent Decision Support System</p>
-                  </div>
-                </div>
-                <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">20 SKS</span>
-              </div>
-              <div class="space-y-2 text-[12px] py-3 border-y border-gray-50">
-                <div class="flex justify-between"><span class="text-[#71717a]">Status:</span> <span class="font-semibold text-emerald-600">Selesai</span></div>
-                <div class="flex justify-between"><span class="text-[#71717a]">Durasi Kegiatan:</span> <span class="font-medium text-[#09090b]">1 Semester (6 Bulan)</span></div>
-                <div class="flex justify-between"><span class="text-[#71717a]">Dosen Pembina Kontributor:</span> <span class="font-medium text-[#1063B9]">Prof. Dr. Supriadi, M.Kom</span></div>
-              </div>
-            </div>
-            <div class="px-5 py-3 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-between">
-              <span class="text-[11px] text-[#71717a]">Daftar: 15 Agu 2025</span>
-              <a href="/mahasiswa/pendaftaran-detail" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.95]">
-                <i data-lucide="send" class="w-4 h-4"></i>
-                <span>Detail Pendaftaran</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script is:inline>
-    function simulasiKelayakan(layak) {
-      const badgeKelayakan = document.getElementById('badge-status-kelayakan');
-      const bSemester = document.getElementById('badge-semester');
-      const bIpk = document.getElementById('badge-ipk');
-      const bCuti = document.getElementById('badge-cuti');
-      const bSks = document.getElementById('badge-sks');
-
-      const vSemester = document.getElementById('val-semester');
-      const vIpk = document.getElementById('val-ipk');
-      const vCuti = document.getElementById('val-cuti');
-      const vSks = document.getElementById('val-sks');
-
-      if (layak) {
-        badgeKelayakan.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200";
-        badgeKelayakan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Layak MBKM';
-
-        vSemester.textContent = 'Semester 6';
-        vIpk.textContent = '3.72';
-        vCuti.textContent = 'Tidak Cuti';
-        vSks.textContent = '104 SKS';
-
-        [bSemester, bIpk, bCuti, bSks].forEach(el => {
-          el.className = 'inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded text-[11px]';
-          el.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i> Memenuhi';
-        });
-      } else {
-        badgeKelayakan.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-rose-50 text-rose-800 border border-rose-200";
-        badgeKelayakan.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Belum Memenuhi';
-
-        vSemester.textContent = 'Semester 4';
-        vIpk.textContent = '2.85';
-        vCuti.textContent = 'Pernah Cuti';
-        vSks.textContent = '82 SKS';
-
-        [bSemester, bIpk, bCuti, bSks].forEach(el => {
-          el.className = 'inline-flex items-center gap-1 font-semibold text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded text-[11px]';
-          el.innerHTML = '<i data-lucide="x" class="w-3 h-3"></i> Belum Memenuhi';
-        });
-      }
-
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-      }
+  <div class="space-y-6" x-data="{
+    copiedGlobal: false,
+    copiedDospem: false,
+    showOfferBanner: false,
+    showPaktaModal: false,
+    paktaSubmitted: false,
+    copyLink(url, type) {
+      if (!url) return;
+      navigator.clipboard.writeText(url).then(() => {
+        if (type === 'global') {
+          this.copiedGlobal = true;
+          setTimeout(() => this.copiedGlobal = false, 2000);
+        } else {
+          this.copiedDospem = true;
+          setTimeout(() => this.copiedDospem = false, 2000);
+        }
+      });
+    },
+    acceptOffer() {
+      this.showPaktaModal = true;
+    },
+    submitPakta() {
+      this.paktaSubmitted = true;
+      this.showPaktaModal = false;
     }
-  </script>
-</MahasiswaShell>
+  }">
 
+    <!-- Header Sambutan -->
+    <header class="flex items-start justify-between gap-4">
+      <div>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Selamat Datang, Mhs TA KP A11 di prodi Teknik Informatika</h2>
+        <p class="text-sm text-[#71717a] mt-1" x-text="$store.mahasiswaSim.state === 'aktif' ? 'Berikut adalah data-data yang dapat Anda akses.' : 'Berikut adalah data pendaftaran program MBKM yang Anda ajukan.'">
+          Berikut adalah data-data yang dapat Anda akses.
+        </p>
+      </div>
+    </header>
+
+    <!-- ==================================================== -->
+    <!-- STATE 1: PENDAFTARAN MULTI-PROGRAM (BELUM JOIN MBKM) -->
+    <!-- (TIDAK ADA KARTU LOGBOOK / SIDANG / DOSPEM)          -->
+    <!-- ==================================================== -->
+    <div x-show="$store.mahasiswaSim.state === 'belum_daftar'" x-cloak class="space-y-6">
+
+      <!-- BANNER: Tawaran Mitra Diterima (Hanya Tampil Jika Diterima) -->
+      <div
+        x-show="showOfferBanner && !paktaSubmitted"
+        class="rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 text-emerald-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all"
+      >
+        <div class="flex items-start gap-3">
+          <div class="w-5 h-5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="party-popper" class="h-3.5 w-3.5 text-emerald-700"></i>
+          </div>
+          <div>
+            <h5 class="font-semibold text-emerald-950 text-sm">Selamat! Anda Diterima di Bengkel Koding</h5>
+            <p class="text-xs text-emerald-800 mt-0.5">
+              Mitra <strong>Laboratorium Bengkel Koding FIK</strong> telah menerima berkas Anda. Konfirmasi penerimaan ini untuk mengisi Pakta Integritas dan melanjutkan ke tahap pengajuan Konversi SKS.
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            @click="acceptOffer()"
+            class="px-3.5 py-2 rounded-lg bg-[#0655a7] hover:bg-[#054587] text-white text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            <span>Ambil Tawaran & Isi Pakta</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BANNER: Status Pakta Integritas Menunggu ACC Koordinator -->
+      <div
+        x-show="paktaSubmitted"
+        class="rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-amber-950 flex items-start gap-3 transition-all"
+      >
+        <div class="w-5 h-5 rounded-full bg-amber-100 border border-amber-300 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+          <i data-lucide="clock" class="h-3.5 w-3.5 text-amber-700"></i>
+        </div>
+        <div class="text-sm leading-relaxed">
+          <h5 class="font-semibold text-amber-950 mb-0.5">Pakta Integritas Berhasil Dikirim — Menunggu ACC Koordinator</h5>
+          <p class="text-xs text-amber-800">
+            Berkas Pakta Integritas program <strong>Bengkel Koding</strong> telah diunggah dan sedang dalam antrean persetujuan Koordinator MBKM Prodi. Setelah di-ACC, menu <strong>Konversi SKS</strong> akan terbuka untuk penyusunan matriks 20 SKS.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Stat Cards: Informasi Konkret yang Dibutuhkan Mahasiswa Pendaftar -->
+      <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <!-- Card 1: Status Pengajuan -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Status Pengajuan</h3>
+            <i data-lucide="file-text" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div
+              class="text-xl font-semibold mb-2"
+              :class="showOfferBanner ? 'text-emerald-600' : 'text-amber-600'"
+              x-text="showOfferBanner ? '1 Tawaran Masuk' : 'Menunggu Review'"
+            >
+              Menunggu Review
+            </div>
+            <p
+              class="text-xs text-[#71717a]"
+              x-text="showOfferBanner ? 'Bengkel Koding (Siap Diambil)' : '2 Program sedang ditinjau mitra'"
+            >
+              2 Program sedang ditinjau mitra
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: Jadwal Seleksi Terdekat -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Jadwal Seleksi</h3>
+            <i data-lucide="calendar-clock" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-base font-semibold mb-2 text-[#09090b]">20 - 22 Okt 2025</div>
+            <p class="text-xs text-[#71717a]">Wawancara daring mitra Bengkel Koding</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Pengumuman Kelulusan -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Pengumuman Hasil</h3>
+            <i data-lucide="megaphone" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-base font-semibold mb-2 text-[#09090b]">25 Oktober 2025</div>
+            <p class="text-xs text-[#71717a]">Batas akhir verifikasi kelulusan serentak</p>
+          </div>
+        </div>
+
+        <!-- Card 4: Periode Aktif -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Periode Aktif</h3>
+            <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-lg font-semibold mb-2 text-[#09090b]">2026/2027</div>
+            <div class="mt-2">
+              <div class="flex items-center gap-2 text-sm font-medium text-[#09090b]">
+                <p>Gelombang Aktif</p>
+              </div>
+              <p class="text-xs text-[#71717a]">Gelombang 1 MBKM 2026/2027</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TABEL FLAT LIST PENDAFTARAN (TANPA CARD DALAM CARD) -->
+      <section class="grid gap-4 lg:grid-cols-3 items-start">
+
+        <!-- Kolom Kiri: Tabel Program yang Diajukan Mahasiswa -->
+        <div class="lg:col-span-2">
+          <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+            <div class="flex flex-col space-y-1.5 p-4 pb-3 border-b border-[#e4e4e7]">
+              <div class="flex items-center justify-between">
+                <h3 class="text-base font-semibold text-[#09090b]">Daftar Program MBKM yang Diajukan</h3>
+                <a
+                  href="/mahasiswa/pendaftaran"
+                  class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0655a7] hover:underline"
+                >
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Daftar Program Lain</span>
+                </a>
+              </div>
+              <p class="text-sm text-[#71717a]">Kelola formulir yang telah diajukan. Anda dapat mengedit berkas selama pendaftaran belum ditutup mitra.</p>
+            </div>
+
+            <!-- Tabel Flat List Murni -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                  <tr class="border-b border-[#e4e4e7] bg-[#fafafa] text-xs font-semibold text-[#71717a]">
+                    <th class="py-3 px-4">Program & Mitra</th>
+                    <th class="py-3 px-4">Skema / SKS</th>
+                    <th class="py-3 px-4">Tanggal Daftar</th>
+                    <th class="py-3 px-4">Status Seleksi</th>
+                    <th class="py-3 px-4 text-right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#e4e4e7]">
+                  <!-- Program 1: Bengkel Koding -->
+                  <tr class="hover:bg-gray-50/50 transition-colors">
+                    <td class="py-3.5 px-4 font-medium text-[#09090b]">
+                      <div class="font-semibold text-sm">Bengkel Koding — Proyek Web & Mobile</div>
+                      <div class="text-xs text-[#71717a]">Laboratorium Bengkel Koding FIK</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#3f3f46]">
+                      <span class="font-medium">Proyek Industri</span>
+                      <div class="text-[#71717a]">20 SKS</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      10 Okt 2025
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <template x-if="!showOfferBanner">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                          Menunggu Review
+                        </span>
+                      </template>
+                      <template x-if="showOfferBanner && !paktaSubmitted">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          Diterima Mitra
+                        </span>
+                      </template>
+                      <template x-if="paktaSubmitted">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-[#0655a7] border border-blue-200">
+                          Menunggu ACC Pakta
+                        </span>
+                      </template>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <div class="inline-flex items-center gap-1.5">
+                        <a
+                          href="/pendaftaran-mahasiswa?program=bk"
+                          class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+                          title="Edit Formulir Pendaftaran"
+                        >
+                          <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                          <span>Edit</span>
+                        </a>
+                        <template x-if="showOfferBanner && !paktaSubmitted">
+                          <button
+                            type="button"
+                            @click="acceptOffer()"
+                            class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-md bg-[#0655a7] hover:bg-[#054587] text-white transition-colors cursor-pointer"
+                          >
+                            <span>Ambil</span>
+                          </button>
+                        </template>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Program 2: IDSS Riset Decision Support -->
+                  <tr class="hover:bg-gray-50/50 transition-colors" :class="paktaSubmitted ? 'opacity-40' : ''">
+                    <td class="py-3.5 px-4 font-medium text-[#09090b]">
+                      <div class="font-semibold text-sm">IDSS — Riset Decision Support & AI</div>
+                      <div class="text-xs text-[#71717a]">Lab Intelligent Decision Support System</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#3f3f46]">
+                      <span class="font-medium">Publikasi / Riset</span>
+                      <div class="text-[#71717a]">20 SKS</div>
+                    </td>
+                    <td class="py-3.5 px-4 text-xs text-[#71717a]">
+                      15 Okt 2025
+                    </td>
+                    <td class="py-3.5 px-4">
+                      <template x-if="!paktaSubmitted">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                          Menunggu Review
+                        </span>
+                      </template>
+                      <template x-if="paktaSubmitted">
+                        <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-gray-100 text-gray-500 border border-gray-200">
+                          Gugur (Withdrawn)
+                        </span>
+                      </template>
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                      <template x-if="!paktaSubmitted">
+                        <a
+                          href="/pendaftaran-mahasiswa?program=idss"
+                          class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+                          title="Edit Formulir Pendaftaran"
+                        >
+                          <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                          <span>Edit</span>
+                        </a>
+                      </template>
+                      <template x-if="paktaSubmitted">
+                        <span class="text-xs text-gray-400 italic">Tertutup</span>
+                      </template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="p-4 border-t border-[#e4e4e7] flex items-center justify-between text-xs text-[#71717a]">
+              <span>Format pengajuan multi-mitra dengan 1 kuota penerimaan resmi.</span>
+              <a href="/mahasiswa/pendaftaran-detail" class="font-semibold text-[#0655a7] hover:underline">
+                Lihat Detail Berkas Pendaftaran &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Grup Global MBKM & Info Pendaftaran -->
+        <div class="space-y-4">
+          <!-- Grup Koordinasi MBKM (Hanya Grup Global, TANPA Dospem) -->
+          <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+            <div class="flex flex-col space-y-1.5 p-4 pb-2">
+              <h3 class="flex items-center gap-2 text-base font-semibold text-[#09090b]">
+                <i data-lucide="message-square" class="h-5 w-5 text-[#09090b]"></i>
+                Grup Koordinasi MBKM
+              </h3>
+              <p class="text-sm text-[#71717a]">Akses komunikasi resmi calon pendaftar</p>
+            </div>
+            <div class="p-4 pt-0 space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="flex size-10 items-center justify-center rounded-full bg-blue-100 shrink-0">
+                  <i data-lucide="message-square" class="size-4 text-blue-600"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-semibold text-[#09090b] text-sm mb-1">Grup Pendaftar MBKM 2025</h4>
+                  <p class="text-xs text-[#71717a]">Diskusi pengumuman seleksi dan koordinasi fakultas</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="flex-1 bg-gray-50 rounded-md p-2.5 px-3 border border-gray-200 min-w-0">
+                  <p class="text-xs text-gray-600 font-medium truncate overflow-hidden">https://chat.whatsapp.com/MBKM-Calon-2025</p>
+                </div>
+                <button
+                  type="button"
+                  @click="copyLink('https://chat.whatsapp.com/MBKM-Calon-2025', 'global')"
+                  class="h-9 w-9 p-0 rounded-md border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 cursor-pointer shrink-0 transition-colors"
+                  title="Salin Tautan"
+                >
+                  <i x-show="!copiedGlobal" data-lucide="copy" class="h-4 w-4"></i>
+                  <i x-show="copiedGlobal" data-lucide="check" class="h-4 w-4 text-green-600"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pengumuman Penting Seleksi -->
+          <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-4">
+            <div class="text-sm font-medium mb-2 flex items-center gap-2 justify-between">
+              <span class="text-sm font-medium text-[#09090b]">Pengumuman Penting</span>
+              <i data-lucide="info" class="h-4 w-4 text-[#71717a]"></i>
+            </div>
+            <div class="flex flex-col items-center justify-center py-6 text-center">
+              <div class="rounded-full bg-gray-100 p-2 mb-2">
+                <i data-lucide="info" class="h-4 w-4 text-[#71717a]"></i>
+              </div>
+              <h3 class="text-base font-medium text-[#09090b]">Tidak ada pengumuman</h3>
+              <p class="text-xs text-[#71717a] mt-1 max-w-md">Belum ada pengumuman yang ditambahkan</p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- MODAL PENGISIAN PAKTA INTEGRITAS -->
+      <div
+        x-show="showPaktaModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs"
+        x-cloak
+      >
+        <div class="w-full max-w-lg rounded-xl border border-[#e4e4e7] bg-white p-6 shadow-xl space-y-5" @click.outside="showPaktaModal = false">
+          <div class="border-b border-[#e4e4e7] pb-3">
+            <h3 class="text-lg font-semibold text-[#09090b]">Konfirmasi Penerimaan & Pakta Integritas</h3>
+            <p class="text-xs text-[#71717a] mt-0.5">Program: Bengkel Koding — Proyek Web & Mobile</p>
+          </div>
+
+          <div class="space-y-3.5 text-xs text-[#3f3f46]">
+            <p class="leading-relaxed">
+              Dengan mengambil tawaran ini, Anda berkomitmen mengikuti kegiatan MBKM sampai selesai. Program pendaftaran lain yang Anda ajukan akan otomatis digugurkan oleh sistem.
+            </p>
+
+            <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-3 space-y-2">
+              <span class="font-semibold text-[#09090b] block">Surat Pakta Integritas Mahasiswa:</span>
+              <div class="flex items-center justify-between">
+                <span class="text-[#71717a]">Template Surat:</span>
+                <a href="#" class="text-[#0655a7] font-semibold hover:underline flex items-center gap-1">
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i> Unduh Format PDF
+                </a>
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="font-semibold text-[#09090b] block">Unggah Tautan Berkas Bertanda Tangan (Google Drive):</label>
+              <input
+                type="url"
+                value="https://drive.google.com/file/d/pakta-integritas-faisal.pdf"
+                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-mono text-gray-800 focus:outline-none focus:border-[#0655a7]"
+                placeholder="https://drive.google.com/..."
+              />
+            </div>
+          </div>
+
+          <div class="border-t border-[#e4e4e7] pt-3 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              @click="showPaktaModal = false"
+              class="px-4 py-2 rounded-lg border border-[#e4e4e7] text-xs font-medium text-[#71717a] hover:bg-gray-50"
+            >
+              Batal
+            </button>
+            <button
+              type="button"
+              @click="submitPakta()"
+              class="px-4 py-2 rounded-lg bg-[#0655a7] text-white text-xs font-semibold hover:bg-[#054587]"
+            >
+              Kirim ke Koordinator
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- STATE 2: DITERIMA & AKTIF                            -->
+    <!-- (PERSIS 100% SEPERTI GAMBAR 3 KERJA PRAKTEK)         -->
+    <!-- ==================================================== -->
+    <div x-show="$store.mahasiswaSim.state === 'aktif'" x-cloak class="space-y-6">
+
+      <!-- 4 Stat Cards KP (Persis Gambar 3) -->
+      <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <!-- Card 1: Status Pengajuan -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Status Pengajuan</h3>
+            <i data-lucide="graduation-cap" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-xl font-semibold mb-2 text-green-700">Diterima</div>
+            <p class="text-xs text-[#71717a]">Dospem: Dosen A11</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Log Mahasiswa -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Log Mahasiswa</h3>
+            <i data-lucide="book-open" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-2xl font-semibold mb-2 text-[#09090b]">5/5</div>
+            <p class="text-xs text-[#71717a]">Progress 100%</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Jadwal Sidang -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Jadwal Sidang</h3>
+            <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-base font-semibold mb-2 text-[#09090b]">Selasa, 27 Oktober 2026</div>
+            <p class="text-xs text-[#71717a]">Jam 09:00 - 09:45</p>
+          </div>
+        </div>
+
+        <!-- Card 4: Periode Aktif -->
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">
+          <div class="flex flex-row items-center justify-between space-y-0 p-4 pb-2">
+            <h3 class="text-sm font-medium text-[#09090b]">Periode Aktif</h3>
+            <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
+          </div>
+          <div class="p-4 pt-0">
+            <div class="text-lg font-semibold mb-2 text-[#09090b]">2026/2027</div>
+            <div class="mt-2">
+              <div class="flex items-center gap-2 text-sm font-medium text-[#09090b]">
+                <p>Gelombang Aktif</p>
+              </div>
+              <p class="text-xs text-[#71717a]">Gelombang 1 KP 2026/2027</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grid 2 Kolom Layout (Persis Gambar 3 KP) -->
+      <section class="grid gap-4 lg:grid-cols-3 items-start">
+
+        <!-- Kolom Kiri (2/3 width): Logbook Bimbingan -->
+        <div class="lg:col-span-2">
+          <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+            <div class="flex flex-col space-y-1.5 p-4 pb-2">
+              <h3 class="flex items-center gap-2 text-base font-semibold text-[#09090b]">
+                <i data-lucide="book-open" class="h-5 w-5 text-[#09090b]"></i>
+                Logbook Bimbingan
+              </h3>
+              <p class="text-sm text-[#71717a]">Progress pengerjaan logbook dan checklist KP</p>
+            </div>
+            <div class="p-4 pt-0 space-y-5">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-[#09090b]">Progress checklist</span>
+                  <span class="font-medium text-[#09090b]">75%</span>
+                </div>
+                <div class="relative h-2 w-full overflow-hidden rounded-full bg-[#f4f4f5]">
+                  <div class="h-full bg-[#0655a7] rounded-full w-[75%] transition-all"></div>
+                </div>
+              </div>
+
+              <div class="space-y-2.5">
+                <!-- Item 1: Pengajuan ke dosen pembimbing -->
+                <div class="flex items-start gap-3 rounded-2xl border border-[#e4e4e7] p-3">
+                  <div class="mt-0.5 rounded-full p-1 bg-emerald-100 text-emerald-600 shrink-0">
+                    <i data-lucide="check-circle-2" class="h-4 w-4"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <p class="font-medium text-sm text-[#09090b]">Pengajuan ke dosen pembimbing</p>
+                      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#0655a7] text-white">Selesai</span>
+                    </div>
+                    <p class="mt-1 text-xs text-[#71717a]">Pembimbing: Dosen A11</p>
+                  </div>
+                </div>
+
+                <!-- Item 2: Bab Sudah Diverifikasi -->
+                <div class="flex items-start gap-3 rounded-2xl border border-[#e4e4e7] p-3">
+                  <div class="mt-0.5 rounded-full p-1 bg-emerald-100 text-emerald-600 shrink-0">
+                    <i data-lucide="check-circle-2" class="h-4 w-4"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <p class="font-medium text-sm text-[#09090b]">Bab Sudah Diverifikasi</p>
+                      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#0655a7] text-white">Selesai</span>
+                    </div>
+                    <p class="mt-1 text-xs text-[#71717a]">5/5 bab sudah diverifikasi</p>
+                  </div>
+                </div>
+
+                <!-- Item 3: Sudah mendapatkan jadwal sidang -->
+                <div class="flex items-start gap-3 rounded-2xl border border-[#e4e4e7] p-3">
+                  <div class="mt-0.5 rounded-full p-1 bg-emerald-100 text-emerald-600 shrink-0">
+                    <i data-lucide="check-circle-2" class="h-4 w-4"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <p class="font-medium text-sm text-[#09090b]">Sudah mendapatkan jadwal sidang</p>
+                      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#0655a7] text-white">Selesai</span>
+                    </div>
+                    <p class="mt-1 text-xs text-[#71717a]">Jadwal: Selasa, 27 Oktober 2026 • 09:00 - 09:45</p>
+                  </div>
+                </div>
+
+                <!-- Item 4: Sidang KP sudah dinilai -->
+                <div class="flex items-start gap-3 rounded-2xl border border-[#e4e4e7] p-3">
+                  <div class="mt-0.5 rounded-full p-1 bg-[#f4f4f5] text-[#71717a] shrink-0">
+                    <i data-lucide="circle" class="h-4 w-4"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <p class="font-medium text-sm text-[#09090b]">Sidang KP sudah dinilai</p>
+                      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#fef3c7] text-[#b45309]">
+                        Belum
+                      </span>
+                    </div>
+                    <p class="mt-1 text-xs text-[#71717a]">Sidang KP belum dinilai.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan (1/3 width): Grup KP & Pengumuman Penting -->
+        <div class="space-y-4">
+          <!-- Card 1: Grup Kerja Praktek -->
+          <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+            <div class="flex flex-col space-y-1.5 p-4 pb-2">
+              <h3 class="flex items-center gap-2 text-base font-semibold text-[#09090b]">
+                <i data-lucide="message-square" class="h-5 w-5 text-[#09090b]"></i>
+                Grup Kerja Praktek
+              </h3>
+              <p class="text-sm text-[#71717a]">Akses grup diskusi KP</p>
+            </div>
+            <div class="p-4 pt-0 space-y-6">
+              <!-- Grup Global -->
+              <div>
+                <div class="flex items-start gap-3 mb-3">
+                  <div class="flex size-10 items-center justify-center rounded-full bg-blue-100 shrink-0">
+                    <i data-lucide="message-square" class="size-4 text-blue-600"></i>
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="font-semibold text-[#09090b] text-sm mb-1">Grup Global Kerja Praktek</h4>
+                    <p class="text-xs text-[#71717a]">Diskusi bersama koordinator dan mahasiswa</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="flex-1 bg-gray-50 rounded-md p-2.5 px-3 border border-gray-200 min-w-0">
+                    <p class="text-xs text-gray-600 font-medium truncate overflow-hidden">Link belum tersedia</p>
+                  </div>
+                  <button type="button" disabled class="h-9 w-9 p-0 rounded-md bg-[#0655a7] text-white flex items-center justify-center opacity-50 cursor-not-allowed shrink-0">
+                    <i data-lucide="external-link" class="h-4 w-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="border-t border-[#e4e4e7]"></div>
+
+              <!-- Grup Dosen Pembimbing -->
+              <div>
+                <div class="flex items-start gap-3 mb-3">
+                  <div class="flex size-10 items-center justify-center rounded-full bg-violet-100 shrink-0">
+                    <i data-lucide="users" class="size-4 text-violet-600"></i>
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="font-semibold text-[#09090b] text-sm mb-1">Grup Dosen Pembimbing</h4>
+                    <p class="text-xs text-[#71717a]">Komunikasi dengan dosen pembimbing</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <div class="flex-1 bg-gray-50 rounded-md p-2.5 px-3 border border-gray-200 min-w-0">
+                    <p class="text-xs text-gray-600 font-medium truncate overflow-hidden select-all">https://chat.whatsapp.com/demo-kp-a11</p>
+                  </div>
+                  <button
+                    type="button"
+                    @click="copyLink('https://chat.whatsapp.com/demo-kp-a11', 'dospem')"
+                    class="h-9 w-9 p-0 rounded-md border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 cursor-pointer shrink-0 transition-colors"
+                    title="Salin tautan"
+                  >
+                    <i x-show="!copiedDospem" data-lucide="copy" class="h-4 w-4"></i>
+                    <i x-show="copiedDospem" data-lucide="check" class="h-4 w-4 text-green-600"></i>
+                  </button>
+                  <a
+                    href="https://chat.whatsapp.com/demo-kp-a11"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="h-9 w-9 p-0 rounded-md bg-[#0655a7] hover:bg-[#054587] text-white flex items-center justify-center shrink-0 transition-colors"
+                    title="Buka grup WhatsApp"
+                  >
+                    <i data-lucide="external-link" class="h-4 w-4"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Pengumuman Penting -->
+          <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-4">
+            <div class="text-sm font-medium mb-2 flex items-center gap-2 justify-between">
+              <span class="text-sm font-medium text-[#09090b]">Pengumuman Penting</span>
+              <i data-lucide="info" class="h-4 w-4 text-[#71717a]"></i>
+            </div>
+            <div class="flex flex-col items-center justify-center py-6 text-center">
+              <div class="rounded-full bg-gray-100 p-2 mb-2">
+                <i data-lucide="info" class="h-4 w-4 text-[#71717a]"></i>
+              </div>
+              <h3 class="text-base font-medium text-[#09090b]">Tidak ada pengumuman</h3>
+              <p class="text-xs text-[#71717a] mt-1 max-w-md">Belum ada pengumuman yang ditambahkan</p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+</MahasiswaShell>

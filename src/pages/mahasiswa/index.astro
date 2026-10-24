@@ -1,0 +1,20 @@
+---
+// src/pages/mahasiswa/index.astro
+// Mengarahkan akses /mahasiswa ke /mahasiswa/dashboard
+return Astro.redirect('/mahasiswa/dashboard');
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0;url=/mahasiswa/dashboard">
+  <title>Mengarahkan ke Dashboard Mahasiswa...</title>
+  <script is:inline>
+    window.location.replace('/mahasiswa/dashboard');
+  </script>
+</head>
+<body class="bg-[#fafafa] flex items-center justify-center min-h-screen text-[#71717a] text-sm">
+  <p>Mengarahkan ke <a href="/mahasiswa/dashboard" class="text-[#0655a7] underline">Dashboard Mahasiswa</a>...</p>
+</body>
+</html>
