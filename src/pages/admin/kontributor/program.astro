@@ -1,0 +1,190 @@
+---
+// src/pages/admin/kontributor/program.astro
+import AdminShell from '../../../layouts/AdminShell.astro';
+
+const programActions = `
+  <div class="flex items-center gap-2.5 shrink-0">
+    <a
+      href="/admin/kontributor"
+      class="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-semibold rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 transition-all shadow-2xs"
+    >
+      <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-gray-500"></i>
+      <span>Kembali</span>
+    </a>
+    <button
+      type="button"
+      onclick="handleSaveProgramOperasional()"
+      id="btn-save-program-operasional"
+      class="inline-flex items-center justify-center gap-2 h-9 px-4 text-xs font-bold rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white shadow-2xs transition-all active:scale-95 cursor-pointer"
+    >
+      <i data-lucide="save" class="w-3.5 h-3.5"></i>
+      <span>Simpan Pengaturan</span>
+    </button>
+  </div>
+`;
+---
+
+<AdminShell
+  currentTab="kontributor"
+  pageTitle="Kelola Program MBKM"
+  subtitle="Pengaturan kapasitas kuota pendaftaran, skema total konversi SKS, dan jadwal operasional program."
+  actionButton={programActions}
+>
+  <section
+    id="section-kelola-program"
+    class="flex flex-col flex-1 min-h-0 pr-1 overflow-y-auto font-sans space-y-6"
+  >
+    <!-- Header Card: Profil Mitra Persis Seperti di Detail Kontributor -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 flex items-start sm:items-center gap-4 shadow-none">
+      <div id="prog-partner-avatar" class="h-14 w-14 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-[#09090b] font-semibold text-lg flex items-center justify-center shrink-0">
+        DC
+      </div>
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <h2 id="prog-partner-name" class="text-lg sm:text-xl font-semibold text-[#09090b]">
+            PT. Presentologics (Dicoding Indonesia)
+          </h2>
+          <span id="prog-partner-badge" class="inline-flex items-center gap-1.5 rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#09090b]">
+            <i data-lucide="globe" class="w-3.5 h-3.5 text-[#71717a]"></i>
+            <span>Kontributor Eksternal</span>
+          </span>
+        </div>
+        <p id="prog-partner-deskripsi" class="text-xs text-[#71717a] max-w-2xl leading-relaxed">
+          Platform edukasi teknologi terakreditasi Kemendikbudristek untuk program pengembang AI dan cloud software engineering.
+        </p>
+        <div class="flex flex-wrap items-center gap-3 pt-1 text-xs text-[#71717a]">
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="user" class="w-3.5 h-3.5 text-[#71717a]"></i>
+            <span id="prog-partner-pic">Narenda Wicaksono</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Form Utama: Styling Identik dengan TabInfoSyarat & TabProfilHero -->
+    <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+      <div class="border-b border-gray-100 pb-4">
+        <h3 class="text-base font-semibold text-[#09090b]">
+          Pengaturan Kuota &amp; Jadwal Pendaftaran
+        </h3>
+        <p class="mt-0.5 text-xs text-[#71717a]">
+          Tentukan batas kuota peserta, total konversi SKS, serta jadwal buka dan tutup pendaftaran.
+        </p>
+      </div>
+
+      <!-- Form Grid 2 Kolom Senada Halaman Lain -->
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <!-- 1. Kuota Pendaftaran -->
+        <div>
+          <label for="input-kuota" class="mb-2 block text-sm font-semibold text-gray-700">
+            Kuota Pendaftaran Peserta <span class="text-rose-500">*</span>
+          </label>
+          <input
+            type="number"
+            id="input-kuota"
+            min="1"
+            value="10"
+            placeholder="Contoh: 10"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+          />
+        </div>
+
+        <!-- 2. Total Konversi SKS -->
+        <div>
+          <label for="select-sks" class="mb-2 block text-sm font-semibold text-gray-700">
+            Total Konversi SKS <span class="text-rose-500">*</span>
+          </label>
+          <select
+            id="select-sks"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100 cursor-pointer"
+          >
+            <option value="10">10 SKS</option>
+            <option value="12">12 SKS</option>
+            <option value="15">15 SKS</option>
+            <option value="20" selected>20 SKS</option>
+            <option value="24">24 SKS</option>
+          </select>
+        </div>
+
+        <!-- 3. Jadwal Buka Pendaftaran -->
+        <div>
+          <label for="jadwal-buka" class="mb-2 block text-sm font-semibold text-gray-700">
+            Jadwal Buka Pendaftaran <span class="text-rose-500">*</span>
+          </label>
+          <input
+            type="datetime-local"
+            id="jadwal-buka"
+            value="2026-02-01T08:00"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100 cursor-pointer"
+          />
+        </div>
+
+        <!-- 4. Jadwal Tutup Pendaftaran -->
+        <div>
+          <label for="jadwal-tutup" class="mb-2 block text-sm font-semibold text-gray-700">
+            Jadwal Tutup Pendaftaran <span class="text-rose-500">*</span>
+          </label>
+          <input
+            type="datetime-local"
+            id="jadwal-tutup"
+            value="2026-02-28T23:59"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100 cursor-pointer"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</AdminShell>
+
+<script is:inline>
+  const urlParams = new URLSearchParams(window.location.search);
+  const kontributorId = parseInt(urlParams.get('id') || '1');
+
+  function initProgramOperasionalPage() {
+    const sec = document.getElementById('section-kelola-program');
+    if (sec) sec.classList.remove('hidden');
+
+    const hTitle = document.getElementById('header-page-title');
+    if (hTitle) hTitle.textContent = 'Kelola Program MBKM';
+    const hSub = document.getElementById('header-page-subtitle');
+    if (hSub) hSub.textContent = 'Pengaturan kapasitas kuota pendaftaran, skema total konversi SKS, dan jadwal operasional program.';
+
+    if (typeof updateBreadcrumb === 'function') {
+      updateBreadcrumb(['Kontributor', 'Kelola Program']);
+    }
+
+    if (typeof kontributorListData !== 'undefined') {
+      const kontributor = kontributorListData.find(m => m.id === kontributorId);
+      if (kontributor) {
+        const nameEl = document.getElementById('prog-partner-name');
+        const badgeEl = document.getElementById('prog-partner-badge');
+        const avatarEl = document.getElementById('prog-partner-avatar');
+        const descEl = document.getElementById('prog-partner-deskripsi');
+        const picEl = document.getElementById('prog-partner-pic');
+
+        if (nameEl) nameEl.textContent = kontributor.nama;
+        if (avatarEl) avatarEl.textContent = kontributor.avatar || kontributor.nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+        if (badgeEl) {
+          const isInt = kontributor.tipe === 'internal';
+          badgeEl.innerHTML = `<i data-lucide="${isInt ? 'building' : 'globe'}" class="w-3.5 h-3.5 text-[#71717a]"></i><span>${isInt ? 'Kontributor Internal' : 'Kontributor Eksternal'}</span>`;
+        }
+        if (descEl) descEl.textContent = kontributor.deskripsi || '-';
+        if (picEl) picEl.textContent = kontributor.picNama || '-';
+      }
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function handleSaveProgramOperasional() {
+    const kuota = document.getElementById('input-kuota')?.value || '10';
+    const sks = document.getElementById('select-sks')?.value || '20';
+    const buka = document.getElementById('jadwal-buka')?.value || '';
+    const tutup = document.getElementById('jadwal-tutup')?.value || '';
+
+    alert(`Pengaturan Program berhasil disimpan!\n• Kuota Pendaftaran: ${kuota} Mahasiswa\n• Total Konversi: ${sks} SKS\n• Jadwal Buka: ${buka.replace('T', ' ')}\n• Jadwal Tutup: ${tutup.replace('T', ' ')}`);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initProgramOperasionalPage();
+  });
+</script>
