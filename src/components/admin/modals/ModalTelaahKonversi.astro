@@ -1,0 +1,165 @@
+    <!-- Modal 2: Detail Telaah Ekuivalensi Matkul & Kunci Konversi SKS -->
+    <div id="modal-telaah-konversi" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-3xl w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-sm font-bold text-[#09090b]">Telaah Ekuivalensi Mata Kuliah MBKM terhadap CPL</h3>
+            <p id="modal-telaah-subtitle" class="text-[11px] text-[#71717a]">
+              Memeriksa kesesuaian capaian kompetensi kontributor dengan kurikulum prodi.
+            </p>
+          </div>
+          <button type="button" onclick="closeModalTelaahKonversi()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Ringkasan Mahasiswa & Skema -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3 bg-[#fafafa] border border-[#e4e4e7] rounded-xl">
+          <div>
+            <div class="text-[10px] text-[#71717a]">Nama Mahasiswa</div>
+            <div id="modal-telaah-nama" class="font-bold text-[#09090b] text-[12px]">-</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-[#71717a]">NIM / Prodi</div>
+            <div id="modal-telaah-nim-prodi" class="text-[11px] text-[#3f3f46]">-</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-[#71717a]">Kontributor MBKM</div>
+            <div id="modal-telaah-kontributor" class="font-semibold text-[#3f3f46]">-</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-[#71717a]">Skema SKS Terpilih</div>
+            <div id="modal-telaah-skema-badge" class="font-bold text-[#0655a7]">-</div>
+          </div>
+        </div>
+
+        <!-- Tabel Pemetaan Mata Kuliah -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-[#09090b]">Daftar Mata Kuliah yang Diusulkan Dikonversi</span>
+            <span id="modal-telaah-sks-total" class="font-bold text-[#0655a7]">Total: 20 SKS</span>
+          </div>
+          <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead class="bg-[#fafafa] border-b border-[#e4e4e7] text-[#3f3f46]">
+                <tr>
+                  <th class="w-10 px-2.5 py-2 font-semibold text-center text-[11px]">No</th>
+                  <th class="px-3 py-2 font-semibold text-[11px]">Kode & Mata Kuliah Kurikulum</th>
+                  <th class="px-3 py-2 font-semibold text-center text-[11px]">SKS</th>
+                  <th class="px-3 py-2 font-semibold text-[11px]">Aktivitas / Modul Kontributor Ekuivalen</th>
+                  <th class="px-3 py-2 font-semibold text-[11px]">Capaian Pembelajaran (CPL)</th>
+                  <th class="px-3 py-2 font-semibold text-center text-[11px]">Status CPL</th>
+                </tr>
+              </thead>
+              <tbody id="modal-telaah-tbody" class="divide-y divide-[#e4e4e7] bg-white">
+                <tr>
+                  <td class="px-2.5 py-2 text-center text-[#71717a]">1</td>
+                  <td class="px-3 py-2">
+                    <div class="font-semibold text-[#09090b]">A11.54403 Rekayasa Perangkat Lunak Lanjut</div>
+                  </td>
+                  <td class="px-3 py-2 text-center font-bold text-[#0655a7]">4</td>
+                  <td class="px-3 py-2 text-[#3f3f46]">Sprint Planning & Agile Scrum Architecture</td>
+                  <td class="px-3 py-2 text-[#71717a]">CPL-02: Mampu merancang sistem berskala besar</td>
+                  <td class="px-3 py-2 text-center">
+                    <span
+                      class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700"
+                    >
+                      Sesuai (100%)
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2.5 py-2 text-center text-[#71717a]">2</td>
+                  <td class="px-3 py-2">
+                    <div class="font-semibold text-[#09090b]">A11.54608 Pemrograman Web Berbasis Komponen</div>
+                  </td>
+                  <td class="px-3 py-2 text-center font-bold text-[#0655a7]">4</td>
+                  <td class="px-3 py-2 text-[#3f3f46]">Frontend React & Next.js Microservices</td>
+                  <td class="px-3 py-2 text-[#71717a]">CPL-05: Mampu mengimplementasikan UI responsif</td>
+                  <td class="px-3 py-2 text-center">
+                    <span
+                      class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700"
+                    >
+                      Sesuai (100%)
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2.5 py-2 text-center text-[#71717a]">3</td>
+                  <td class="px-3 py-2">
+                    <div class="font-semibold text-[#09090b]">A11.54701 Magang Industri & Studi Terapan</div>
+                  </td>
+                  <td class="px-3 py-2 text-center font-bold text-[#0655a7]">6</td>
+                  <td class="px-3 py-2 text-[#3f3f46]">Full-time Placement di Bengkel Koding</td>
+                  <td class="px-3 py-2 text-[#71717a]">CPL-08: Pengalaman profesional dunia industri</td>
+                  <td class="px-3 py-2 text-center">
+                    <span
+                      class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700"
+                    >
+                      Sesuai (100%)
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2.5 py-2 text-center text-[#71717a]">4</td>
+                  <td class="px-3 py-2">
+                    <div class="font-semibold text-[#09090b]">A11.54502 Komunikasi Profesional & Etika Profesi</div>
+                  </td>
+                  <td class="px-3 py-2 text-center font-bold text-[#0655a7]">2</td>
+                  <td class="px-3 py-2 text-[#3f3f46]">Daily Standup & Client Stakeholder Review</td>
+                  <td class="px-3 py-2 text-[#71717a]">CPL-09: Softskill & etika kerja tim</td>
+                  <td class="px-3 py-2 text-center">
+                    <span
+                      class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700"
+                    >
+                      Sesuai (100%)
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-2.5 py-2 text-center text-[#71717a]">5</td>
+                  <td class="px-3 py-2">
+                    <div class="font-semibold text-[#09090b]">A11.54804 Proyek Capstone MBKM</div>
+                  </td>
+                  <td class="px-3 py-2 text-center font-bold text-[#0655a7]">4</td>
+                  <td class="px-3 py-2 text-[#3f3f46]">Deliverable Platform Aplikasi Production</td>
+                  <td class="px-3 py-2 text-[#71717a]">CPL-10: Penyelesaian proyek perangkat lunak</td>
+                  <td class="px-3 py-2 text-center">
+                    <span
+                      class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700"
+                    >
+                      Sesuai (100%)
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-[#e4e4e7]">
+          <div class="text-[11px] text-[#71717a]">
+            Catatan: Setelah dikunci, data SKS akan langsung ditransfer ke sistem KHS SIADIN.
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              onclick="closeModalTelaahKonversi()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+            >
+              Tutup
+            </button>
+            <button
+              id="modal-telaah-btn-kunci"
+              type="button"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold flex items-center gap-1.5"
+            >
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>Sahkan & Kunci Konversi SKS</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,46 @@
+    <!-- Modal Konfirmasi Ubah Status Kontributor -->
+    <div id="modal-toggle-status-kontributor" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+      <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-md w-full p-6 space-y-4 text-sm">
+        <div class="flex items-start justify-between">
+          <div class="flex items-start gap-3">
+            <div id="modal-toggle-status-icon" class="h-10 w-10 rounded-full flex items-center justify-center shrink-0 bg-rose-50 text-[#BE123C]">
+              <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 id="modal-toggle-status-title" class="text-base font-semibold text-[#09090b]">Nonaktifkan Kontributor?</h3>
+              <p id="modal-toggle-status-subtitle" class="text-sm text-[#71717a] mt-0.5">Tindakan ini akan membekukan seluruh aktivitas kontributor.</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeModalToggleStatusKontributor()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md -mt-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] px-4 py-3 space-y-1.5">
+          <p class="font-semibold text-[#09090b]" id="modal-toggle-status-nama">-</p>
+          <p class="text-xs text-[#71717a]" id="modal-toggle-status-detail">-</p>
+        </div>
+
+        <p id="modal-toggle-status-warning" class="text-xs text-[#71717a] leading-relaxed">
+          Seluruh program, lowongan, dan akses mahasiswa binaan akan dibekukan sementara. Data tidak dihapus dan dapat diaktifkan kembali kapan saja.
+        </p>
+
+        <div class="flex items-center justify-end gap-2.5 pt-2">
+          <button
+            type="button"
+            onclick="closeModalToggleStatusKontributor()"
+            class="h-9 px-4 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            id="modal-toggle-status-confirm"
+            onclick="confirmToggleStatusKontributor()"
+            class="h-9 px-4 rounded-lg bg-[#BE123C] hover:bg-[#9F1239] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+          >
+            Ya, Nonaktifkan
+          </button>
+        </div>
+      </div>
+    </div>

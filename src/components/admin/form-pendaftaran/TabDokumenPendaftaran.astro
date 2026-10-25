@@ -1,0 +1,227 @@
+---
+// src/components/admin/form-pendaftaran/TabDokumenPendaftaran.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const defaultDocs = [
+  { id: 'doc-1', name: 'Curriculum Vitae (CV ATS Format PDF)', type: 'url', required: true },
+  { id: 'doc-2', name: 'Portofolio Karya & Repositori Proyek', type: 'url', required: true },
+  { id: 'doc-3', name: 'Sertifikat / Bukti Pengalaman', type: 'url', required: true },
+  { id: 'doc-4', name: 'Transkrip Nilai / Dokumen Pendukung', type: 'url', required: false },
+];
+
+const inputTypes = [
+  { val: 'url', label: 'Tautan (URL)' },
+  { val: 'file', label: 'Unggah Berkas' },
+  { val: 'text', label: 'Jawaban Singkat' },
+  { val: 'textarea', label: 'Paragraf' },
+];
+---
+
+<div class:list={['space-y-4 font-sans', className]}>
+  <!-- Grid 2 Kolom Kanan-Kiri Berurutan (1, 2, 3, 4...) -->
+  <div id="dokumen-fields-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+    {defaultDocs.map((doc, idx) => (
+      <div class="doc-item-card rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all space-y-3.5 shadow-2xs">
+        <!-- Top: Number Badge, Document Title & Required indicator -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex-1 flex items-center gap-2.5">
+            <span class="doc-item-num flex h-6 min-w-6 px-1.5 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs shrink-0 select-none">
+              {idx + 1}
+            </span>
+            <input
+              type="text"
+              value={doc.name}
+              placeholder="Nama dokumen / berkas..."
+              class="doc-name-input text-sm font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-1 py-0.5 w-full"
+            />
+            <span class:list={['required-asterisk text-rose-500 font-bold text-sm select-none', !doc.required && 'hidden']}>*</span>
+          </div>
+        </div>
+
+        <!-- Middle: Document Preview Line -->
+        <div class="pt-0.5 pb-1">
+          <div class="w-full">
+            <p class="doc-placeholder-text text-xs text-gray-400 select-none font-normal">
+              {doc.type === 'file'
+                ? 'Unggah berkas (PDF / ZIP maks. 10MB)'
+                : doc.type === 'textarea'
+                ? 'Teks jawaban panjang'
+                : doc.type === 'text'
+                ? 'Teks jawaban singkat'
+                : 'Tautan URL (Google Drive / Web publik)'}
+            </p>
+            <div class="mt-2 w-full border-b border-gray-200"></div>
+          </div>
+        </div>
+
+        <!-- Bottom: Configuration Toolbar -->
+        <div class="flex flex-wrap items-center justify-between pt-1 gap-2 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-400 text-xs">Format:</span>
+            <select
+              onchange="updateDocTypePreview(this)"
+              class="rounded-lg border border-gray-200 bg-gray-50/70 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-white focus:outline-none focus:border-[#1063B9] transition-colors cursor-pointer"
+            >
+              {inputTypes.map((t) => (
+                <option value={t.val} selected={t.val === doc.type}>{t.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer select-none">
+              <span>Wajib</span>
+              <input
+                type="checkbox"
+                checked={doc.required}
+                onchange="toggleDocAsterisk(this)"
+                class="h-3.5 w-3.5 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+              />
+            </label>
+            <div class="h-3.5 w-px bg-gray-200"></div>
+            <button
+              type="button"
+              onclick="hapusDocItem(this)"
+              class="p-1.5 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+              title="Hapus Dokumen"
+            >
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Tombol Tambah Dokumen Input (di Bawah Grid) -->
+  <div class="pt-2">
+    <button
+      type="button"
+      onclick="tambahFieldDokumen()"
+      class="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl border border-dashed border-[#1063B9]/40 bg-blue-50/30 hover:bg-blue-50/70 text-[#1063B9] text-xs font-semibold transition-all shadow-2xs cursor-pointer hover:border-[#1063B9]"
+    >
+      <i data-lucide="plus" class="w-4 h-4"></i>
+      <span>Tambah Dokumen Input Baru</span>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  function updateAllDocNumbers() {
+    const container = document.getElementById('dokumen-fields-container');
+    if (!container) return;
+    const cards = container.querySelectorAll('.doc-item-card');
+    cards.forEach((card, idx) => {
+      const numEl = card.querySelector('.doc-item-num');
+      if (numEl) numEl.textContent = idx + 1;
+    });
+  }
+
+  function hapusDocItem(btn) {
+    const card = btn.closest('.doc-item-card');
+    if (card) {
+      card.remove();
+      updateAllDocNumbers();
+    }
+  }
+
+  function toggleDocAsterisk(checkbox) {
+    const card = checkbox.closest('.doc-item-card');
+    if (!card) return;
+    const asterisk = card.querySelector('.required-asterisk');
+    if (asterisk) {
+      if (checkbox.checked) {
+        asterisk.classList.remove('hidden');
+      } else {
+        asterisk.classList.add('hidden');
+      }
+    }
+  }
+
+  function updateDocTypePreview(select) {
+    const card = select.closest('.doc-item-card');
+    if (!card) return;
+    const preview = card.querySelector('.doc-placeholder-text');
+    if (!preview) return;
+    const val = select.value;
+    if (val === 'file') preview.textContent = 'Unggah berkas (PDF / ZIP maks. 10MB)';
+    else if (val === 'textarea') preview.textContent = 'Teks jawaban panjang';
+    else if (val === 'text') preview.textContent = 'Teks jawaban singkat';
+    else preview.textContent = 'Tautan URL (Google Drive / Web publik)';
+  }
+
+  function tambahFieldDokumen() {
+    const container = document.getElementById('dokumen-fields-container');
+    if (!container) return;
+
+    const count = container.querySelectorAll('.doc-item-card').length + 1;
+    const newCard = document.createElement('div');
+    newCard.className = 'doc-item-card rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all space-y-3.5 shadow-2xs';
+    newCard.innerHTML = `
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 flex items-center gap-2.5">
+          <span class="doc-item-num flex h-6 min-w-6 px-1.5 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs shrink-0 select-none">
+            ${count}
+          </span>
+          <input
+            type="text"
+            placeholder="Nama dokumen baru..."
+            class="doc-name-input text-sm font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-1 py-0.5 w-full"
+          />
+          <span class="required-asterisk text-rose-500 font-bold text-sm select-none">*</span>
+        </div>
+      </div>
+
+      <div class="pt-0.5 pb-1">
+        <div class="w-full">
+          <p class="doc-placeholder-text text-xs text-gray-400 select-none font-normal">Tautan URL (Google Drive / Web publik)</p>
+          <div class="mt-2 w-full border-b border-gray-200"></div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between pt-1 gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-gray-400 text-xs">Format:</span>
+          <select
+            onchange="updateDocTypePreview(this)"
+            class="rounded-lg border border-gray-200 bg-gray-50/70 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-white focus:outline-none focus:border-[#1063B9] transition-colors cursor-pointer"
+          >
+            <option value="url" selected>Tautan (URL)</option>
+            <option value="file">Unggah Berkas</option>
+            <option value="text">Jawaban Singkat</option>
+            <option value="textarea">Paragraf</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer select-none">
+            <span>Wajib</span>
+            <input
+              type="checkbox"
+              checked
+              onchange="toggleDocAsterisk(this)"
+              class="h-3.5 w-3.5 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+            />
+          </label>
+          <div class="h-3.5 w-px bg-gray-200"></div>
+          <button
+            type="button"
+            onclick="hapusDocItem(this)"
+            class="p-1.5 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+            title="Hapus Dokumen"
+          >
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    `;
+    container.appendChild(newCard);
+    if (window.lucide) window.lucide.createIcons();
+    const input = newCard.querySelector('input[type="text"]');
+    if (input) input.focus();
+  }
+</script>

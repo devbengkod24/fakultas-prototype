@@ -1,0 +1,220 @@
+---
+// src/components/admin/form-pendaftaran/TabInfoSyarat.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const durasiOptions = ['1 Semester (6 Bulan)', '1 Tahun (12 Bulan)', '3 Bulan Intensif'];
+const semesterOptions = [
+  { val: '4', label: 'Semester 4' },
+  { val: '5', label: 'Semester 5', selected: true },
+  { val: '6', label: 'Semester 6' },
+  { val: '7', label: 'Semester 7' },
+];
+const dokumenList = [
+  { id: 'dok-cv', label: 'CV ATS Format PDF' },
+  { id: 'dok-portofolio', label: 'Portofolio Karya' },
+  { id: 'dok-transkrip', label: 'Transkrip Nilai Akademik' },
+  { id: 'dok-ktp-ktm', label: 'KTP / KTM' },
+];
+
+const inputFieldCls = 'w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100';
+---
+
+<div class:list={['space-y-6', className]}>
+  <!-- CARD 1: INFORMASI PROGRAM -->
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+    <div class="border-b border-gray-100 pb-4">
+      <h3 class="text-base font-semibold text-[#09090b]">
+        Informasi Program
+      </h3>
+      <p class="mt-0.5 text-xs text-[#71717a]">
+        Atribut operasional kegiatan yang tampil pada tab Informasi detail program.
+      </p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div>
+        <label for="info-kuota" class="mb-2 block text-sm font-semibold text-gray-700">
+          Kuota Kursi Peserta <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="number"
+          id="info-kuota"
+          name="kuota_peserta"
+          min="1"
+          value="10"
+          class={inputFieldCls}
+        />
+      </div>
+
+      <div>
+        <label for="info-periode" class="mb-2 block text-sm font-semibold text-gray-700">
+          Periode Pelaksanaan <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="info-periode"
+          name="periode_pelaksanaan"
+          value="Februari – Juni 2026"
+          class={inputFieldCls}
+        />
+      </div>
+
+      <div>
+        <label for="info-durasi" class="mb-2 block text-sm font-semibold text-gray-700">
+          Durasi Kegiatan <span class="text-rose-500">*</span>
+        </label>
+        <select id="info-durasi" name="durasi_kegiatan" class={inputFieldCls}>
+          {durasiOptions.map((opt) => <option value={opt}>{opt}</option>)}
+        </select>
+      </div>
+
+      <div>
+        <label for="info-konversi" class="mb-2 block text-sm font-semibold text-gray-700">
+          Usulan Konversi SKS <span class="text-rose-500">*</span>
+        </label>
+        <select id="info-konversi" name="usulan_konversi_sks" class={inputFieldCls}>
+          <option value="10">10 SKS</option>
+          <option value="12">12 SKS</option>
+          <option value="15">15 SKS</option>
+          <option value="20" selected>20 SKS</option>
+          <option value="24">24 SKS</option>
+        </select>
+      </div>
+
+      <div class="sm:col-span-2">
+        <label for="info-lokasi" class="mb-2 block text-sm font-semibold text-gray-700">
+          Lokasi &amp; Moda Kegiatan <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="info-lokasi"
+          name="lokasi_moda"
+          value="Hybrid (Daring & Lab FIK UDINUS)"
+          class={inputFieldCls}
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2: PERSYARATAN AKADEMIK SIAKAD -->
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+    <div class="border-b border-gray-100 pb-4">
+      <h3 class="text-base font-semibold text-[#09090b]">
+        Persyaratan Akademik SIAKAD
+      </h3>
+      <p class="mt-0.5 text-xs text-[#71717a]">
+        Kriteria minimal kelayakan pendaftar yang diverifikasi otomatis via SIAKAD.
+      </p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div>
+        <label for="syarat-ipk" class="mb-2 block text-sm font-semibold text-gray-700">
+          IPK Kumulatif Minimal <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="number"
+          id="syarat-ipk"
+          name="ipk_minimal"
+          step="0.05"
+          min="0.00"
+          max="4.00"
+          value="3.00"
+          class={inputFieldCls}
+        />
+      </div>
+
+      <div>
+        <label for="syarat-semester" class="mb-2 block text-sm font-semibold text-gray-700">
+          Semester Aktif Minimal <span class="text-rose-500">*</span>
+        </label>
+        <select id="syarat-semester" name="semester_minimal" class={inputFieldCls}>
+          {semesterOptions.map((opt) => (
+            <option value={opt.val} selected={opt.selected}>{opt.label}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label for="syarat-sks" class="mb-2 block text-sm font-semibold text-gray-700">
+          SKS Tempuh Minimal <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="number"
+          id="syarat-sks"
+          name="sks_minimal"
+          min="0"
+          max="160"
+          value="80"
+          class={inputFieldCls}
+        />
+      </div>
+    </div>
+
+    <!-- Dokumen Wajib Diunggah -->
+    <div class="mt-6">
+      <label class="mb-3 block text-sm font-semibold text-gray-700">
+        Dokumen Wajib Diunggah <span class="text-rose-500">*</span>
+      </label>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {dokumenList.map((doc) => (
+          <label class="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50/70 p-3.5 transition-colors hover:bg-white hover:border-gray-300 cursor-pointer">
+            <input
+              type="checkbox"
+              id={doc.id}
+              name="dokumen_wajib"
+              value={doc.label}
+              checked
+              class="h-4 w-4 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9]"
+            />
+            <span class="text-sm font-medium text-gray-800">{doc.label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3: JADWAL PENDAFTARAN -->
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+    <div class="border-b border-gray-100 pb-4">
+      <h3 class="text-base font-semibold text-[#09090b]">
+        Jadwal Pendaftaran
+      </h3>
+      <p class="mt-0.5 text-xs text-[#71717a]">
+        Periode pembukaan registrasi dan batas akhir submit berkas mahasiswa.
+      </p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div>
+        <label for="jadwal-buka" class="mb-2 block text-sm font-semibold text-gray-700">
+          Tanggal Buka Pendaftaran <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="date"
+          id="jadwal-buka"
+          name="tgl_buka_pendaftaran"
+          value="2026-02-01"
+          class={inputFieldCls}
+        />
+      </div>
+
+      <div>
+        <label for="jadwal-tutup" class="mb-2 block text-sm font-semibold text-gray-700">
+          Tanggal Batas Akhir Submit Berkas <span class="text-rose-500">*</span>
+        </label>
+        <input
+          type="date"
+          id="jadwal-tutup"
+          name="tgl_batas_akhir_submit"
+          value="2026-02-28"
+          class={inputFieldCls}
+        />
+      </div>
+    </div>
+  </div>
+</div>

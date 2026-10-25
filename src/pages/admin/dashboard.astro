@@ -36,7 +36,7 @@ import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
         onclick="switchTab('logbook')"
       />
 
-      <!-- Card 3: Mahasiswa Sidang / Pelamar Mitra -->
+      <!-- Card 3: Mahasiswa Sidang / Pelamar Kontributor -->
       <ActionNavCard
         title="Mahasiswa Sidang"
         subtitle="Pengajuan sidang mahasiswa"
@@ -155,7 +155,7 @@ import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
               <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama Mahasiswa</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program / Mitra</th>
+              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program / Kontributor</th>
               <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Akademik</th>
               <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
               <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
@@ -219,7 +219,7 @@ import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
       title="Aksi Cepat"
       items={[
         { label: 'Buat Pengumuman', icon: 'megaphone', onclick: "switchTab('pengumuman'); showBuatPengumumanModal();" },
-        { label: 'Tambah Kontributor', icon: 'building-2', onclick: "switchTab('kontributor'); showTambahMitraModal();" },
+        { label: 'Tambah Kontributor', icon: 'building-2', onclick: "switchTab('kontributor'); showTambahKontributorModal();" },
         { label: 'Atur Periode Ajaran', icon: 'calendar-range', onclick: "switchTab('periode');" },
       ]}
     />
@@ -229,7 +229,7 @@ import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
       title="Aktivitas Terkini"
       activities={[
         { text: 'SuReKom Calvin Revianto masuk antrean', time: '10 menit lalu', color: 'blue' },
-        { text: 'Budi Santoso direkomendasikan mitra', time: '1 jam lalu', color: 'green' },
+        { text: 'Budi Santoso direkomendasikan kontributor', time: '1 jam lalu', color: 'green' },
       ]}
     />
   </div>

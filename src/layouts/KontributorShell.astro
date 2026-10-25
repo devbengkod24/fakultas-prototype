@@ -1,0 +1,938 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title?: string;
+  pageTitle?: string;
+  subtitle?: string;
+  activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'anggota' | 'seleksi' | 'log-aktivitas' | string;
+  breadcrumbTitle?: string | string[];
+  /** Tombol aksi (HTML string) di kanan header halaman. */
+  actionButton?: string;
+  /** Sembunyikan blok judul halaman (untuk halaman dengan header mandiri). */
+  hidePageHeader?: boolean;
+}
+
+const {
+  title = "Portal Contributor | Kampus Berdampak FIK UDINUS",
+  activeNav = "dashboard",
+  breadcrumbTitle = activeNav === 'dashboard' ? 'Dashboard' :
+                    activeNav === 'pengumuman' ? 'Pengumuman' :
+                    activeNav === 'program' ? 'Kelola MBKM' :
+                    activeNav === 'anggota' ? 'Anggota' :
+                    activeNav === 'seleksi' ? 'Pendaftar' :
+                    activeNav === 'log-aktivitas' ? 'Log Aktivitas' :
+                    'Dashboard',
+  pageTitle,
+  subtitle = "Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa.",
+  actionButton = '',
+  hidePageHeader = true
+} = Astro.props;
+
+const breadcrumbParts: string[] = Array.isArray(breadcrumbTitle) ? breadcrumbTitle : [breadcrumbTitle];
+const displayTitle = pageTitle || breadcrumbParts[breadcrumbParts.length - 1];
+const isMbkmActive = activeNav === 'program' || activeNav === 'kelola-cms';
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <ClientRouter />
+
+  <!-- Google Fonts: Inter (Standar Selaras dengan Admin) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN (Tema Selaras dengan Admin) -->
+  <script is:inline src="https://cdn.tailwindcss.com"></script>
+  <script is:inline>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#0655a7',
+              dark: '#114d91',
+              light: '#f1f7fe',
+            },
+            primary: {
+              50: '#F1F7FE',
+              100: '#E2EEFC',
+              200: '#BFDBF8',
+              300: '#86BEF3',
+              400: '#1E7FD9',
+              500: '#1E7FD9',
+              600: '#1063B9',
+              700: '#114D91',
+              800: '#10447C',
+              900: '#133A67',
+              950: '#0D2544',
+            },
+            secondary: {
+              50: '#FEFAEC',
+              100: '#FCEEC9',
+              200: '#F8DB8F',
+              300: '#F4BD45',
+              400: '#F2AB2D',
+              500: '#F3BC45',
+              600: '#D0670F',
+            },
+          },
+          boxShadow: {
+            '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script is:inline src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Alpine.js Core CDN (defer) -->
+  <script is:inline defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  <style is:global>
+    [x-cloak] {
+      display: none !important;
+    }
+    html,
+    body {
+      min-height: 100vh;
+      margin: 0;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .nav-active {
+      color: #0655a7 !important;
+      font-weight: 500 !important;
+      background-color: rgba(6, 85, 167, 0.08) !important;
+      position: relative;
+    }
+    .nav-active .active-bar {
+      display: block !important;
+    }
+    .nav-active i {
+      color: #0655a7 !important;
+    }
+    .nav-sub-active {
+      color: #0655a7 !important;
+      font-weight: 600 !important;
+      background-color: rgba(6, 85, 167, 0.08) !important;
+      position: relative;
+    }
+    .nav-sub-active .sub-active-bar {
+      display: block !important;
+    }
+
+    /* Top Progress Bar Loading Indicator (Style NextTopLoader KP) */
+    #top-loading-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #0655a7, #1E7FD9, #38bdf8);
+      box-shadow: 0 0 10px rgba(6, 85, 167, 0.7), 0 0 5px rgba(30, 127, 217, 0.5);
+      z-index: 99999;
+      pointer-events: none;
+      transition: width 0.35s cubic-bezier(0.1, 0.05, 0.25, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+    #top-loading-bar.loading {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body x-data class="min-h-screen bg-[#fafafa] text-[#09090b] antialiased overflow-x-hidden">
+  <!-- Top loading bar indicator -->
+  <div id="top-loading-bar" aria-hidden="true"></div>
+
+  <div class="flex min-h-screen w-full bg-[#fafafa]">
+
+    <!-- ==================================================== -->
+    <!-- 1. SIDEBAR KONTRIBUTOR (SELARAS 100% DENGAN ADMIN)         -->
+    <!-- ==================================================== -->
+    <aside
+      id="sidebar"
+      class="w-64 shrink-0 bg-[#fafafa] flex flex-col justify-between p-3 border-r border-[#e4e4e7]/60 min-h-screen sticky top-0 h-screen overflow-y-auto transition-all duration-200"
+    >
+      <div class="flex flex-col gap-2">
+        <!-- Logo Institusi UDINUS -->
+        <div class="flex items-center gap-2.5 p-2 mb-1">
+          <img
+            src="/assets/logo.png"
+            alt="Logo UDINUS"
+            class="object-contain w-9 h-9"
+            onerror="this.src = 'https://dinus.ac.id/img/logo-dinus.png'"
+          />
+          <div class="flex flex-col leading-tight">
+            <span class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase">UNIVERSITAS</span>
+            <span class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase">DIAN NUSWANTORO</span>
+          </div>
+        </div>
+
+        <!-- Kartu Identitas Modul Sub-App -->
+        <div class="w-full h-12 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none">
+          <div class="flex items-center gap-2.5 overflow-hidden">
+            <div class="w-8 h-8 rounded bg-[#114d91] text-white flex items-center justify-center shrink-0">
+              <i data-lucide="building-2" class="w-4 h-4"></i>
+            </div>
+            <div class="flex flex-col overflow-hidden leading-tight">
+              <span class="text-[13px] font-semibold text-[#3f3f46] truncate">Kampus Berdampak</span>
+              <span class="text-[11px] text-[#71717a] truncate">Portal Contributor</span>
+            </div>
+          </div>
+          <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+        </div>
+
+        <!-- Menu Navigasi Kontributor (Style Selaras Admin) -->
+        <nav class="flex flex-col gap-1 mt-2">
+          <!-- 1. Dashboard -->
+          <a
+            href="/contributor/dashboard"
+            id="nav-dashboard"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'dashboard' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'dashboard' ? '' : 'hidden'}`}></span>
+            <i data-lucide="layout-dashboard" class={`w-4 h-4 shrink-0 ${activeNav === 'dashboard' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Dashboard</span>
+          </a>
+
+          <!-- 2. Pengumuman -->
+          <a
+            href="/contributor/pengumuman"
+            id="nav-pengumuman"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'pengumuman' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'pengumuman' ? '' : 'hidden'}`}></span>
+            <i data-lucide="megaphone" class={`w-4 h-4 shrink-0 ${activeNav === 'pengumuman' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Pengumuman</span>
+          </a>
+
+          <!-- 3. Kelola MBKM (Sub-menu: Kelola CMS, Kelola Program) -->
+          <div class="flex flex-col">
+            <button
+              type="button"
+              onclick="toggleNavGroup('mbkm')"
+              id="nav-mbkm"
+              class={`nav-item relative flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                isMbkmActive ? 'text-[#0655a7] font-medium' : 'text-[#3f3f46]'
+              }`}
+            >
+              <div class="flex items-center gap-3">
+                <i data-lucide="folder-kanban" class={`w-4 h-4 shrink-0 ${isMbkmActive ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+                <span class="truncate">Kelola MBKM</span>
+              </div>
+              <i
+                id="group-mbkm-arrow"
+                data-lucide="chevron-down"
+                class={`w-3.5 h-3.5 transition-transform duration-200 ${isMbkmActive ? 'text-[#0655a7]' : 'text-[#71717a]'} ${isMbkmActive ? 'rotate-180' : ''}`}
+              ></i>
+            </button>
+            <div
+              id="group-mbkm-sub"
+              class={`flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7] ${isMbkmActive ? 'flex' : 'hidden'}`}
+            >
+              <a
+                href="/contributor/kelola-cms"
+                id="nav-sub-mbkm-cms"
+                class={`nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center ${
+                  activeNav === 'kelola-cms' ? 'nav-sub-active' : 'text-[#71717a]'
+                }`}
+              >
+                <span class={`sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'kelola-cms' ? '' : 'hidden'}`}></span>
+                <span>Kelola CMS</span>
+              </a>
+              <a
+                href="/contributor/program"
+                id="nav-sub-mbkm-program"
+                class={`nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center ${
+                  activeNav === 'program' ? 'nav-sub-active' : 'text-[#71717a]'
+                }`}
+              >
+                <span class={`sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'program' ? '' : 'hidden'}`}></span>
+                <span>Kelola Program</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 3. Anggota (tab Dosen & Mahasiswa di dalam halaman) -->
+          <a
+            href="/contributor/anggota"
+            id="nav-anggota"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'anggota' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'anggota' ? '' : 'hidden'}`}></span>
+            <i data-lucide="users" class={`w-4 h-4 shrink-0 ${activeNav === 'anggota' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Anggota</span>
+          </a>
+
+          <!-- 5. Pendaftar -->
+          <a
+            href="/contributor/seleksi"
+            id="nav-seleksi"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'seleksi' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'seleksi' ? '' : 'hidden'}`}></span>
+            <i data-lucide="user-check" class={`w-4 h-4 shrink-0 ${activeNav === 'seleksi' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Pendaftar</span>
+          </a>
+
+          <!-- 6. Log Aktivitas -->
+          <a
+            href="/contributor/log-aktivitas"
+            id="nav-log-aktivitas"
+            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+              activeNav === 'log-aktivitas' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
+            }`}
+          >
+            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'log-aktivitas' ? '' : 'hidden'}`}></span>
+            <i data-lucide="history" class={`w-4 h-4 shrink-0 ${activeNav === 'log-aktivitas' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+            <span class="truncate">Log Aktivitas</span>
+          </a>
+
+        </nav>
+      </div>
+
+      <!-- Footer Profil Kontributor (Selaras Admin) -->
+      <div class="pt-2 mt-auto">
+        <div class="w-full h-14 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none">
+          <div class="flex items-center gap-2.5 overflow-hidden">
+            <div class="w-8 h-8 rounded-full bg-[#114d91] text-white font-semibold text-xs flex items-center justify-center shrink-0">
+              RA
+            </div>
+            <div class="flex flex-col overflow-hidden leading-tight">
+              <span class="text-[12px] font-semibold text-[#09090b] truncate">Dr. Ricardus Anggi, M.Kom.</span>
+              <span class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5">
+                Kontributor
+              </span>
+            </div>
+          </div>
+          <a href="/login" title="Keluar / Logout" class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded hover:bg-gray-100 transition-colors">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================================================== -->
+    <!-- 2. MAIN CANVAS CONTAINER (SELARAS DENGAN ADMIN)      -->
+    <!-- ==================================================== -->
+    <main class="flex flex-col flex-1 min-w-0 p-4 sm:p-6 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
+      <!-- Top Breadcrumb Header Bar 1 -->
+      <header class="flex w-full items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            onclick="document.getElementById('sidebar').classList.toggle('-ml-64')"
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+            title="Toggle Sidebar"
+          >
+            <i data-lucide="panel-left" class="w-4 h-4"></i>
+          </button>
+          <div class="h-4 w-[1px] bg-[#e4e4e7] mx-1"></div>
+          <nav id="breadcrumb-container" class="flex items-center gap-2 text-sm text-[#71717a]">
+            {breadcrumbParts.map((part, index) => (
+              <>
+                {index > 0 && <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a] shrink-0" />}
+                {index === breadcrumbParts.length - 1 ? (
+                  <span class="bg-white border border-[#e4e4e7] py-1 px-3 rounded-lg text-sm font-medium text-[#09090b] shadow-none">
+                    <span>{part}</span>
+                  </span>
+                ) : (
+                  <span class="text-[#71717a] font-normal cursor-default text-sm">{part}</span>
+                )}
+              </>
+            ))}
+          </nav>
+        </div>
+
+        </header>
+
+      <!-- Full-width Separator (Selaras Admin) -->
+      <div class="w-[calc(100%+3rem)] -mx-6 border-b border-[#e4e4e7] mb-5 shrink-0"></div>
+
+      <!-- Dynamic Title Header (Judul halaman + tombol aksi) -->
+      {!hidePageHeader && (
+        <header id="dashboard-header-bar-2" class="mb-4 flex items-start justify-between gap-4 shrink-0">
+          <div>
+            <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">{displayTitle}</h2>
+            <p class="text-sm text-[#71717a] mt-0.5" id="header-page-subtitle">{subtitle}</p>
+          </div>
+          <div id="header-action-slot" class="shrink-0 flex items-center gap-2">
+            {actionButton && <Fragment set:html={actionButton} />}
+          </div>
+        </header>
+      )}
+
+      <!-- Container Konten Halaman (Isi Asli Kontributor) -->
+      <div class="flex-1 w-full flex flex-col">
+        <slot />
+      </div>
+    </main>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: DIRECT ASSIGN MAHASISWA BINAAN                   -->
+  <!-- ======================================================== -->
+  <div id="directAssignModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-lg w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="user-plus" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Direct Assign Mahasiswa Binaan</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Penugasan langsung mahasiswa bimbingan Tugas Akhir ke program binaan.</p>
+        </div>
+        <button type="button" onclick="closeDirectAssignModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="directAssignForm" onsubmit="handleDirectAssignSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Nomor Induk Mahasiswa (NIM) <span class="text-red-500">*</span></label>
+          <div class="flex gap-2">
+            <input type="text" id="inputNim" required placeholder="Contoh: A11.2023.14999" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+            <button type="button" onclick="verifyNimSiakad()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors shrink-0">
+              Cek SIAKAD
+            </button>
+          </div>
+        </div>
+
+        <!-- Box Verifikasi SIAKAD -->
+        <div id="siakadResultBox" class="p-3 bg-gray-50 rounded-lg border border-gray-200 text-xs space-y-1">
+          <div class="flex justify-between">
+            <span class="text-gray-500">Nama Mahasiswa:</span>
+            <span class="font-semibold text-gray-900" id="verifiedName">-</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Program Studi:</span>
+            <span class="font-medium text-gray-800" id="verifiedProdi">-</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Status Validasi:</span>
+            <span class="font-semibold text-gray-500" id="verifiedStatusText">Masukkan NIM untuk verifikasi</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Topik Bimbingan Riset / Judul Tugas Akhir <span class="text-red-500">*</span></label>
+          <input type="text" id="assignTopic" required placeholder="Contoh: Implementasi YOLOv8 untuk Deteksi Kerusakan Jalan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Dosen Pembimbing yang Ditugaskan <span class="text-red-500">*</span></label>
+          <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
+            <option>Dr. Ricardus Anggi, M.Kom. (Sisa Kuota: 2)</option>
+            <option>Dr. Aris Kusumawati, M.Cs. (Sisa Kuota: 2)</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeDirectAssignModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Tugaskan Mahasiswa
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: PREVIEW DOKUMEN (TRANSKRIP / CV)                 -->
+  <!-- ======================================================== -->
+  <div id="previewDocModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 class="text-sm font-bold text-gray-900" id="previewModalTitle">Preview Berkas Mahasiswa</h3>
+          <p class="text-xs text-gray-500 mt-0.5" id="previewFileName">Dokumen_Akademik.pdf</p>
+        </div>
+        <button type="button" onclick="closePreviewDocModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="p-8 border border-dashed border-gray-200 rounded-xl bg-gray-50 text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-[#1063B9] mx-auto flex items-center justify-center">
+          <i data-lucide="file-text" class="w-6 h-6"></i>
+        </div>
+        <div class="text-xs text-gray-600">
+          <p class="font-semibold text-gray-900">Dokumen PDF Terverifikasi SIAKAD</p>
+          <p class="text-gray-500 mt-1">Ukuran berkas: 1.4 MB • Format valid</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2.5 pt-4 mt-4 border-t border-gray-100">
+        <button type="button" onclick="closePreviewDocModal()" class="px-4 py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-50">
+          Tutup
+        </button>
+        <button type="button" onclick="showToast('Unduh Dokumen', 'Berkas PDF berhasil diunduh.')" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs">
+          Unduh File Asli
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: TAMBAH DOSEN PEMBINA                            -->
+  <!-- ======================================================== -->
+  <div id="addDosenModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs">
+    <div class="bg-white rounded-2xl border border-gray-200 max-w-md w-full p-6 shadow-xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div>
+          <h3 class="text-base font-bold text-gray-900 flex items-center gap-2">
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-[#1063B9]"></i>
+            <span>Tambah Dosen Pembina</span>
+          </h3>
+          <p class="text-xs text-gray-500 mt-0.5">Tugaskan dosen baru ke dalam tim pengampu program binaan ini.</p>
+        </div>
+        <button type="button" onclick="closeAddDosenModal()" class="text-gray-400 hover:text-gray-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="addDosenForm" onsubmit="handleAddDosenSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Nama Lengkap &amp; Gelar Dosen <span class="text-red-500">*</span></label>
+          <input type="text" id="inputDosenName" required placeholder="Contoh: Dr. Suprianto, M.Kom." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">NPP / NIDN <span class="text-red-500">*</span></label>
+          <input type="text" id="inputDosenNpp" required placeholder="Contoh: 0686.11.2009.412" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Bidang Keahlian / Kajian Riset <span class="text-red-500">*</span></label>
+          <input type="text" id="inputDosenBidang" required placeholder="Contoh: Artificial Intelligence &amp; Robotics" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div>
+          <label class="block font-semibold text-gray-700 mb-1">Maksimal Alokasi Kuota Bimbingan <span class="text-red-500">*</span></label>
+          <input type="number" id="inputDosenKuota" required value="4" min="1" max="15" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none" />
+        </div>
+
+        <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-gray-100">
+          <button type="button" onclick="closeAddDosenModal()" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white font-semibold rounded-lg shadow-2xs">
+            Tambahkan Dosen
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <div id="toastNotification" class="hidden fixed bottom-5 right-5 z-50 flex items-center gap-3 bg-gray-900 text-white px-4 py-3 rounded-xl shadow-xl border border-gray-800 transition-all">
+    <div class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+      <i data-lucide="check-circle" class="w-4 h-4"></i>
+    </div>
+    <div class="text-xs">
+      <p class="font-semibold" id="toastTitle">Berhasil</p>
+      <p class="text-gray-400" id="toastMessage">Operasi selesai dieksekusi.</p>
+    </div>
+    <button type="button" onclick="hideToast()" class="text-gray-400 hover:text-white ml-2 p-1">
+      <i data-lucide="x" class="w-3.5 h-3.5"></i>
+    </button>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS                                   -->
+  <!-- ======================================================== -->
+  <script is:inline>
+    /**
+     * ==============================================================================
+     * MOCK DATA & ROUTING CONFIG — Kontributor MBKM v2
+     * Fakultas Ilmu Komputer UDINUS
+     * ==============================================================================
+     */
+    const breadcrumbNames = {
+      dashboard: "Ringkasan Kontributor",
+      pengumuman: "Pengumuman",
+      program: "CMS Program & Lowongan",
+      seleksi: "Pendaftar",
+      mahasiswa: "Mahasiswa Binaan",
+      dosen: "Dosen Pembina"
+    };
+
+    const fileMap = {
+      dashboard: "dashboard.html",
+      pengumuman: "pengumuman.html",
+      program: "program.html",
+      seleksi: "seleksi.html",
+      mahasiswa: "mahasiswa.html",
+      dosen: "dosen.html"
+    };
+
+    /**
+     * ==============================================================================
+     * CONTROLLER & INTERACTION LOGIC — Kontributor MBKM v2
+     * Fakultas Ilmu Komputer UDINUS
+     * ==============================================================================
+     */
+    function initIcons() {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener("DOMContentLoaded", () => {
+        initIcons();
+        setupSidebarToggle();
+      });
+    } else {
+      initIcons();
+      setupSidebarToggle();
+    }
+
+    // Astro Page Load Event Listener (menjaga icons tetap render saat ClientRouter navigasi)
+    document.addEventListener("astro:page-load", () => {
+      initIcons();
+      setupSidebarToggle();
+    });
+
+    // Top Loading Progress Bar Controller (selaras NextTopLoader KP)
+    document.addEventListener("astro:before-preparation", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.classList.add("loading");
+        bar.style.width = "30%";
+        setTimeout(() => {
+          if (bar.classList.contains("loading")) {
+            bar.style.width = "75%";
+          }
+        }, 150);
+      }
+    });
+
+    document.addEventListener("astro:after-preparation", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.style.width = "95%";
+      }
+    });
+
+    document.addEventListener("astro:page-load", () => {
+      const bar = document.getElementById("top-loading-bar");
+      if (bar) {
+        bar.style.width = "100%";
+        setTimeout(() => {
+          bar.classList.remove("loading");
+          bar.style.opacity = "0";
+          setTimeout(() => {
+            bar.style.width = "0%";
+          }, 300);
+        }, 150);
+      }
+    });
+
+    // Sidebar Toggle Mobile/Desktop
+    function setupSidebarToggle() {
+      const toggleBtn = document.getElementById("sidebarToggle");
+      const sidebar = document.getElementById("mainSidebar");
+      if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("hidden");
+        });
+      }
+    }
+
+    // Toggle Collapsible Nav Group (Anggota)
+    function toggleNavGroup(groupName) {
+      const sub = document.getElementById(`group-${groupName}-sub`);
+      const arrow = document.getElementById(`group-${groupName}-arrow`);
+      if (sub) {
+        const isHidden = sub.classList.toggle("hidden");
+        if (arrow) {
+          if (isHidden) {
+            arrow.classList.remove("rotate-180");
+          } else {
+            arrow.classList.add("rotate-180");
+          }
+        }
+      }
+    }
+
+    // SPA / Multi-Page View Switcher Utama
+    function switchNavView(viewName) {
+      const routes = {
+        'dashboard': '/contributor/dashboard',
+        'pengumuman': '/contributor/pengumuman',
+        'program': '/contributor/program',
+        'kelola-cms': '/contributor/kelola-cms',
+        'seleksi': '/contributor/seleksi',
+        'log-aktivitas': '/contributor/log-aktivitas',
+        'anggota': '/contributor/anggota',
+        'mahasiswa': '/contributor/anggota#mahasiswa',
+        'dosen': '/contributor/anggota#dosen'
+      };
+
+      const targetPanel = document.getElementById(`view-${viewName}`);
+
+      // Jika panel tidak ada di halaman ini, navigasikan ke route halaman yang sesuai
+      if (!targetPanel && routes[viewName]) {
+        window.location.href = routes[viewName];
+        return;
+      }
+
+      // 1. Sembunyikan semua panel konten di halaman aktif
+      document.querySelectorAll(".view-panel").forEach(panel => {
+        panel.classList.add("hidden");
+      });
+
+      // 2. Tampilkan panel yang dituju
+      if (targetPanel) {
+        targetPanel.classList.remove("hidden");
+      }
+
+      // 3. Reset semua styling menu navigasi
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.className = "nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#3f3f46] font-normal hover:bg-black/5 hover:text-[#09090b] transition-colors w-full text-left no-underline";
+        const indicator = item.querySelector(".active-indicator");
+        if (indicator) indicator.classList.add("hidden");
+        const icon = item.querySelector(".nav-icon");
+        if (icon) {
+          icon.classList.remove("text-[#0655a7]");
+          icon.classList.add("text-[#71717a]");
+        }
+      });
+
+      // 4. Set menu yang aktif
+      const activeNav = document.getElementById(`nav-${viewName}`);
+      if (activeNav) {
+        activeNav.className = "nav-item relative flex items-center px-4 py-2.5 rounded-lg text-[14px] text-[#0655a7] font-medium bg-transparent hover:bg-black/5 transition-colors w-full text-left no-underline";
+        const indicator = activeNav.querySelector(".active-indicator");
+        if (indicator) indicator.classList.remove("hidden");
+        const icon = activeNav.querySelector(".nav-icon");
+        if (icon) {
+          icon.classList.remove("text-[#71717a]");
+          icon.classList.add("text-[#0655a7]");
+        }
+      }
+
+      // 5. Update Breadcrumb Badge
+      const breadcrumbNames = {
+        'dashboard': 'Dashboard',
+        'program': 'Kelola Program Binaan',
+        'seleksi': 'Pendaftar',
+        'log-aktivitas': 'Log Aktivitas',
+        'anggota': 'Anggota',
+        'mahasiswa': 'Anggota / Mahasiswa Binaan',
+        'dosen': 'Anggota / Dosen Pembina'
+      };
+      const badge = document.getElementById("breadcrumbBadge");
+      if (badge && breadcrumbNames[viewName]) {
+        badge.textContent = breadcrumbNames[viewName];
+      }
+
+      // Update URL hash smoothly jika berada di halaman anggota
+      if (window.location.hash !== '#' + viewName && (viewName === 'dosen' || viewName === 'mahasiswa')) {
+        history.replaceState(null, '', '#' + viewName);
+      }
+
+      initIcons();
+    }
+
+    // Search Tabel Mahasiswa
+    function searchMahasiswa() {
+      const q = document.getElementById("searchMahasiswaInput").value.toLowerCase();
+      document.querySelectorAll(".mhs-row").forEach(row => {
+        const name = (row.getAttribute("data-name") || "").toLowerCase();
+        const nim = (row.getAttribute("data-nim") || "").toLowerCase();
+        if (name.includes(q) || nim.includes(q)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // Verifikasi NIM SIAKAD (Modal Direct Assign)
+    function verifyNimSiakad() {
+      const nim = document.getElementById("inputNim").value.trim();
+      const statusText = document.getElementById("verifiedStatusText");
+      const nameText = document.getElementById("verifiedName");
+      const prodiText = document.getElementById("verifiedProdi");
+      const box = document.getElementById("siakadResultBox");
+
+      if (!nim) {
+        alert("Silakan ketikkan NIM terlebih dahulu.");
+        return;
+      }
+
+      statusText.innerHTML = `<span class="text-emerald-700 font-bold flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Terverifikasi SIAKAD (Memenuhi Syarat MBKM)</span>`;
+      nameText.textContent = "Arya Wicaksana Dewanto";
+      prodiText.textContent = "Teknik Informatika (S1) • Semester 7";
+      box.className = "p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs space-y-1";
+      initIcons();
+    }
+
+    // Submit Direct Assign Mahasiswa
+    function handleDirectAssignSubmit(e) {
+      e.preventDefault();
+      const nim = document.getElementById("inputNim").value;
+      const name = document.getElementById("verifiedName").textContent !== "-" ? document.getElementById("verifiedName").textContent : "Arya Wicaksana Dewanto";
+      const topic = document.getElementById("assignTopic").value;
+
+      const tbody = document.getElementById("mahasiswaTableBody");
+      if (tbody) {
+        const newRow = document.createElement("tr");
+        newRow.className = "mhs-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
+        newRow.setAttribute("data-name", name);
+        newRow.setAttribute("data-nim", nim);
+        newRow.innerHTML = `
+          <td class="px-3 text-center text-[#71717a] text-xs">-</td>
+          <td class="px-4">
+            <div class="font-medium text-[#09090b] text-sm">${name}</div>
+            <div class="text-[#71717a] text-xs">${nim}</div>
+          </td>
+          <td class="px-4 text-sm text-[#71717a]">S1 Teknik Informatika</td>
+          <td class="px-4 text-sm text-[#09090b]">Nurul Anisa S.W., M.Cs</td>
+          <td class="px-4 text-center">
+            <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
+          </td>
+        `;
+        tbody.prepend(newRow);
+      }
+
+      // Update counters
+      const countEl = document.getElementById("statMahasiswaCount");
+      const countAll = document.getElementById("countMhsAll");
+      const filledQuota = document.getElementById("statFilledQuota");
+
+      if (countEl) countEl.textContent = parseInt(countEl.textContent || '6') + 1;
+      if (countAll) countAll.textContent = parseInt(countAll.textContent || '6') + 1;
+      if (filledQuota) filledQuota.textContent = parseInt(filledQuota.textContent || '6') + 1;
+
+      closeDirectAssignModal();
+      showToast("Mahasiswa Berhasil Ditugaskan", `${name} (${nim}) telah ditambahkan ke Mahasiswa Binaan.`);
+      initIcons();
+    }
+
+    // Submit Tambah Dosen Pembina
+    function handleAddDosenSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("inputDosenName").value;
+      const npp = document.getElementById("inputDosenNpp").value;
+      const bidang = document.getElementById("inputDosenBidang").value;
+      const kuota = document.getElementById("inputDosenKuota").value;
+
+      const initials = name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase();
+      const tbody = document.getElementById("dosenTableBody");
+      if (tbody) {
+        const newRow = document.createElement("tr");
+        newRow.className = "dsn-row hover:bg-gray-50/70 transition-colors animate-in fade-in";
+        newRow.setAttribute("data-npp", npp);
+        newRow.setAttribute("data-name", name);
+        newRow.innerHTML = `
+          <td class="px-3 text-center text-[#71717a] text-xs">-</td>
+          <td class="px-4 font-medium text-[#09090b] text-sm">${name}</td>
+          <td class="px-4 text-xs text-[#71717a]">${npp}</td>
+          <td class="px-4 text-sm text-[#71717a]">S1 Teknik Informatika</td>
+        `;
+        tbody.prepend(newRow);
+      }
+
+      closeAddDosenModal();
+      showToast("Dosen Pembina Ditambahkan", `${name} berhasil didaftarkan ke tim pengampu.`);
+      initIcons();
+    }
+
+    // Modal Handlers
+    function openDirectAssignModal() {
+      const modal = document.getElementById("directAssignModal");
+      if (modal) modal.classList.remove("hidden");
+    }
+    function closeDirectAssignModal() {
+      const modal = document.getElementById("directAssignModal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function openAddDosenModal() {
+      const modal = document.getElementById("addDosenModal");
+      if (modal) modal.classList.remove("hidden");
+    }
+    function closeAddDosenModal() {
+      const modal = document.getElementById("addDosenModal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function previewDoc(name, type) {
+      const title = document.getElementById("previewModalTitle");
+      const fileName = document.getElementById("previewFileName");
+      if (title) title.textContent = `Berkas: ${name}`;
+      if (fileName) fileName.textContent = type === 'transkrip' ? "Transkrip_Akademik_SIAKAD.pdf" : "Curriculum_Vitae_Terbaru.pdf";
+      const modal = document.getElementById("previewDocModal");
+      if (modal) modal.classList.remove("hidden");
+    }
+    function closePreviewDocModal() {
+      const modal = document.getElementById("previewDocModal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    // Simpan Profil MBKM (tab Profil di Kelola Program)
+    function saveProgramContent() {
+      const kuota = document.getElementById('input-kuota')?.value || '10';
+      const sks = document.getElementById('select-sks')?.value || '20';
+      const buka = document.getElementById('jadwal-buka')?.value || '';
+      const tutup = document.getElementById('jadwal-tutup')?.value || '';
+
+      alert(`Pengaturan Program berhasil disimpan!\n• Kuota Pendaftaran: ${kuota} Mahasiswa\n• Total Konversi: ${sks} SKS\n• Jadwal Buka: ${buka.replace('T', ' ')}\n• Jadwal Tutup: ${tutup.replace('T', ' ')}`);
+    }
+
+    // Alias handleSaveProgramOperasional
+    function handleSaveProgramOperasional() {
+      saveProgramContent();
+    }
+
+    // Floating Toast Utility
+    let toastTimeout;
+    function showToast(title, message) {
+      const toast = document.getElementById("toastNotification");
+      const titleEl = document.getElementById("toastTitle");
+      const msgEl = document.getElementById("toastMessage");
+      if (titleEl) titleEl.textContent = title;
+      if (msgEl) msgEl.textContent = message;
+      if (toast) toast.classList.remove("hidden");
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        hideToast();
+      }, 3500);
+      initIcons();
+    }
+    function hideToast() {
+      const toast = document.getElementById("toastNotification");
+      if (toast) toast.classList.add("hidden");
+    }
+  </script>
+</body>
+</html>

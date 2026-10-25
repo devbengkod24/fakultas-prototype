@@ -1,0 +1,78 @@
+---
+// src/components/mbkm/pendaftaran/StepDokumen.astro
+---
+
+<!-- TAHAP 2: BERKAS & DOKUMEN PENDUKUNG -->
+<section id="step-2" class="step-content space-y-6">
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+    <div class="border-b border-gray-100 pb-4">
+      <h3 class="text-lg font-bold text-gray-900">Dokumen Pendaftaran</h3>
+      <p class="mt-1 text-sm text-gray-500">
+        Cantumkan tautan dokumen untuk proses pendaftaran. Pastikan akses tautan diatur ke publik.
+      </p>
+    </div>
+
+    <!-- Form Berkas Utama -->
+    <div class="mt-6 space-y-5">
+      <!-- Dokumen 1: CV ATS (PDF) -->
+      <div>
+        <label for="cv-url" class="mb-2 block text-sm font-semibold text-gray-700">
+          CV<span class="text-rose-500">*</span>
+        </label>
+        <input
+          id="cv-url"
+          name="cvUrl"
+          type="url"
+          inputmode="url"
+          placeholder="https://drive.google.com/file/d/..."
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        />
+      </div>
+
+      <!-- Dokumen 2: Portofolio -->
+      <div>
+        <label for="portfolio-url" class="mb-2 block text-sm font-semibold text-gray-700">
+          Portofolio <span class="text-rose-500">*</span>
+        </label>
+        <input
+          id="portfolio-url"
+          name="portfolioUrl"
+          type="url"
+          inputmode="url"
+          placeholder="https://github.com/username atau https://behance.net/username"
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        />
+      </div>
+
+      <!-- Dokumen 3: Sertifikat / Bukti Pengalaman -->
+      <div>
+        <label for="certificate-url" class="mb-2 block text-sm font-semibold text-gray-700">
+          Sertifikat<span class="text-rose-500">*</span>
+        </label>
+        <input
+          id="certificate-url"
+          name="certificateUrl"
+          type="url"
+          inputmode="url"
+          placeholder="https://drive.google.com/file/d/..."
+          class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+        />
+      </div>
+
+      <!-- Container untuk Lampiran Tambahan Dinamis (Lampiran 1 s.d. 3) -->
+      <div id="additional-attachments" class="hidden space-y-5"></div>
+
+      <!-- Tombol Tambahkan Lampiran -->
+      <div>
+        <button
+          type="button"
+          id="add-attachment-btn"
+          class="focus-ring inline-flex items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:border-primary-400 hover:bg-primary-50/50 hover:text-primary-700 px-4 py-2 text-sm font-semibold text-gray-700 transition cursor-pointer"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Tambah Lampiran</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

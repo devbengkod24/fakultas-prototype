@@ -1,278 +1,486 @@
 ---
 // src/pages/mahasiswa/logbook.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+
+// Mock data riwayat Kegiatan kerja praktek / skripsi
+const KegiatanList = [
+  {
+    id: 1,
+    bab: 'Kegiatan Bab 1',
+    status: 'Diterima',
+    terakhir: '7 September 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Senin, 7 Sep 2026',
+    deskripsi: 'Penyusunan Bab 1 Pendahuluan, latar belakang masalah, dan analisis kebutuhan sistem dashboard.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab1-sample',
+    dokumenNama: 'Dokumen_Bab_1_Final.pdf'
+  },
+  {
+    id: 2,
+    bab: 'Kegiatan Bab 2',
+    status: 'Diterima',
+    terakhir: '17 September 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Kamis, 17 Sep 2026',
+    deskripsi: 'Penyusunan Bab 2 Profil umum PT Telkom Indonesia, struktur organisasi, dan lingkungan kerja.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab2-sample',
+    dokumenNama: 'Dokumen_Bab_2_Revisi.pdf'
+  },
+  {
+    id: 3,
+    bab: 'Kegiatan Bab 3',
+    status: 'Diterima',
+    terakhir: '28 September 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Senin, 28 Sep 2026',
+    deskripsi: 'Penyusunan Bab 3 Metodologi pelaksanaan kerja praktek, analisis proses bisnis, dan rancangan arsitektur basis data.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab3-sample',
+    dokumenNama: 'Dokumen_Bab_3_Final.pdf'
+  },
+  {
+    id: 4,
+    bab: 'Kegiatan Bab 4',
+    status: 'Diterima',
+    terakhir: '10 Oktober 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Sabtu, 10 Okt 2026',
+    deskripsi: 'Penyusunan Bab 4 Implementasi antarmuka front-end, pengujian fungsional modul kerja praktek, dan integrasi API.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab4-sample',
+    dokumenNama: 'Dokumen_Bab_4_Implementasi.pdf'
+  },
+  {
+    id: 5,
+    bab: 'Kegiatan Bab 5',
+    status: 'Diterima',
+    terakhir: '21 Oktober 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Rabu, 21 Okt 2026',
+    deskripsi: 'Penyusunan Bab 5 Kesimpulan pelaksanaan kerja praktek, evaluasi sistem, rekomendasi, dan kelengkapan berkas lampiran.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab5-sample',
+    dokumenNama: 'Dokumen_Bab_5_Laporan_Lengkap.pdf'
+  }
+];
 ---
 
 <MahasiswaShell
-  title="Logbook Kegiatan Mingguan | Mahasiswa - FIK Udinus"
+  title="Logbook Kegiatan | Mahasiswa - FIK Udinus"
   activeNav="logbook"
-  pageTitle="Logbook Kegiatan Mingguan MBKM"
+  pageTitle="Daftar Logbook Kegiatan"
   breadcrumb="Logbook Kegiatan"
 >
-  <section id="view-logbook" class="space-y-6">
-    <!-- Header -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Logbook Kegiatan Mingguan</h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">Pencatatan aktivitas mingguan program MBKM.</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <button type="button" onclick="openLogbookModal()" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.98]">
-          <i data-lucide="plus" class="w-4 h-4"></i> Isi Logbook
-        </button>
-      </div>
+  <div class="space-y-6">
+    <!-- Header Halaman -->
+    <div>
+      <h1 class="text-[22px] font-bold text-[#09090b] tracking-tight">Daftar Logbook Kegiatan</h1>
+      <p class="text-[13px] text-[#71717a] mt-0.5">Berikut adalah daftar logbook mahasiswa Kegiatan.</p>
     </div>
 
-    <!-- Riwayat Logbook -->
-    <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
-        <div>
-          <h3 class="text-[14px] font-semibold text-[#09090b]">Riwayat Logbook Kegiatan</h3>
-          <p class="text-[12px] text-[#71717a]">Daftar pencatatan kegiatan mingguan MBKM.</p>
+    <!-- Kartu Profil Mahasiswa & Progres Kerja Praktek -->
+    <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 shadow-2xs">
+      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+        <!-- Kolom Kiri: Avatar & Biodata -->
+        <div class="flex items-start gap-4">
+          <!-- Avatar Lingkaran Inisial -->
+          <div class="w-16 h-16 rounded-full bg-[#f4f4f5] border border-[#e4e4e7] flex items-center justify-center shrink-0">
+            <span class="text-[20px] font-semibold text-[#3f3f46]">MB</span>
+          </div>
+
+          <!-- Rincian Mahasiswa -->
+          <div class="space-y-1">
+            <h2 class="text-[18px] font-bold text-[#09090b] leading-tight">Mahasiswa Kampus Berdampak</h2>
+            <p class="text-[13px] text-[#71717a]">A11.2020.00001</p>
+            <p class="text-[13px] text-[#3f3f46]">Dosen Pembimbing: Dosen A11</p>
+
+            <!-- Status Badge -->
+            <div class="pt-1">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-[#ecfdf5] text-[#15803d] border border-[#bbf7d0]">
+                Selesai
+              </span>
+            </div>
+
+            <!-- Total Kegiatan & Bab Terakhir -->
+            <div class="pt-3 space-y-1.5">
+              <div class="flex items-center gap-2 text-[13px] text-[#3f3f46]">
+                <i data-lucide="file-text" class="w-4 h-4 text-[#71717a]"></i>
+                <span>Total Kegiatan: <strong class="font-semibold text-[#09090b]">5</strong></span>
+              </div>
+              <div class="flex items-center gap-2 text-[13px] text-[#3f3f46]">
+                <i data-lucide="file-text" class="w-4 h-4 text-[#71717a]"></i>
+                <span>Bab Terakhir: <strong class="font-semibold text-[#09090b]">5</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Tombol Aksi & Progres Bar -->
+        <div class="flex flex-col justify-between items-start lg:items-end self-stretch gap-6 lg:min-w-[340px]">
+          <!-- Baris Tombol Aksi -->
+          <div class="flex items-center gap-2.5">
+            <button
+              type="button"
+              onclick="openTambahModal()"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-95"
+            >
+              <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+              <span>Tambah Logbook</span>
+            </button>
+            <button
+              type="button"
+              onclick="openFolderModal()"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] text-xs font-semibold rounded-lg shadow-2xs transition-colors"
+            >
+              <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span>Edit Folder Kampus Berdampak</span>
+            </button>
+          </div>
+
+          <!-- Progress Kerja Praktek -->
+          <div class="w-full space-y-1.5 mt-auto">
+            <div class="flex items-center justify-between text-xs font-medium">
+              <span class="text-[#3f3f46]">Progress Kerja Praktek</span>
+              <span class="text-[#09090b] font-semibold">100%</span>
+            </div>
+            <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-[#1063B9] rounded-full w-full transition-all duration-500"></div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider border-b border-[#e4e4e7]">
-              <th class="py-2.5 px-3">Minggu</th>
-              <th class="py-2.5 px-3">Rentang Tanggal</th>
-              <th class="py-2.5 px-3">Aktivitas</th>
-              <th class="py-2.5 px-3">Bukti</th>
-              <th class="py-2.5 px-3 text-right">Aksi</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100">
-            <!-- Logbook 1 -->
-            <tr class="hover:bg-gray-50/70 transition-colors">
-              <td class="py-3 px-3">
-                <div class="flex items-center gap-2">
-                  <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">1</div>
-                  <span class="font-medium text-[#09090b]">Minggu 1</span>
-                </div>
-              </td>
-              <td class="py-3 px-3 text-[#71717a]">06 - 10 Okt 2025</td>
-              <td class="py-3 px-3">
-                <div class="font-medium text-[13px] text-[#09090b]">Kick-off & Setup Repositori</div>
-                <div class="text-[11px] text-[#71717a]">Inisialisasi repo GitHub dan CI/CD</div>
-              </td>
-              <td class="py-3 px-3">
-                <a href="https://drive.google.com/" target="_blank" class="text-[#1063B9] hover:underline flex items-center gap-1 text-[11px]">
-                  <i data-lucide="external-link" class="w-3 h-3"></i> GDrive
-                </a>
-              </td>
-              <td class="py-3 px-3 text-right">
-                <button type="button" onclick="viewDetail(1)" class="px-2.5 py-1 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded text-xs font-medium transition-colors">
-                  Detail
-                </button>
-              </td>
-            </tr>
-
-            <!-- Logbook 2 -->
-            <tr class="hover:bg-gray-50/70 transition-colors">
-              <td class="py-3 px-3">
-                <div class="flex items-center gap-2">
-                  <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">2</div>
-                  <span class="font-medium text-[#09090b]">Minggu 2</span>
-                </div>
-              </td>
-              <td class="py-3 px-3 text-[#71717a]">13 - 17 Okt 2025</td>
-              <td class="py-3 px-3">
-                <div class="font-medium text-[13px] text-[#09090b]">Fitur Autentikasi & RBAC</div>
-                <div class="text-[11px] text-[#71717a]">JWT Auth, Role-Based Access Control</div>
-              </td>
-              <td class="py-3 px-3">
-                <a href="https://drive.google.com/" target="_blank" class="text-[#1063B9] hover:underline flex items-center gap-1 text-[11px]">
-                  <i data-lucide="external-link" class="w-3 h-3"></i> GDrive
-                </a>
-              </td>
-              <td class="py-3 px-3 text-right">
-                <button type="button" onclick="viewDetail(2)" class="px-2.5 py-1 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded text-xs font-medium transition-colors">
-                  Detail
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
-  </section>
 
-  <!-- Modal: Detail Logbook (View/Edit) -->
-  <div id="modal-detail-logbook" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-      <div class="sticky top-0 bg-white border-b border-[#e4e4e7] p-5 flex items-center justify-between">
-        <h3 class="text-[16px] font-semibold text-[#09090b]">Detail Logbook Minggu</h3>
-        <button type="button" onclick="closeDetailModal()" class="text-[#71717a] hover:text-[#09090b]">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-      <div class="p-5 space-y-4" id="detail-content">
-        <!-- Content will be populated dynamically -->
-      </div>
-      <div class="sticky bottom-0 bg-white border-t border-[#e4e4e7] p-4 flex items-center justify-end gap-2">
-        <button type="button" onclick="closeDetailModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
-          Tutup
-        </button>
-        <button type="button" onclick="editLogbook()" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
-          Edit
-        </button>
+    <!-- Bagian Riwayat Kegiatan -->
+    <div class="pt-2">
+      <h2 class="text-[17px] font-bold text-[#09090b] mb-4">Riwayat Kegiatan</h2>
+
+      <!-- Timeline List -->
+      <div class="space-y-4 relative" id="timeline-container">
+        {KegiatanList.map((item, index) => {
+          const isLast = index === KegiatanList.length - 1;
+          return (
+            <div class="relative flex items-start gap-4">
+              <!-- Garis Penghubung Vertikal Antar Step -->
+              {!isLast && (
+                <div class="absolute left-3.5 top-7 -bottom-4 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2 z-0"></div>
+              )}
+
+              <!-- Lingkaran Penomoran -->
+              <div class="relative z-10 w-7 h-7 rounded-full bg-[#eff6ff] text-[#1063B9] text-xs font-semibold flex items-center justify-center shrink-0 border border-[#bfdbfe]">
+                {item.id}
+              </div>
+
+              <!-- Kartu Kegiatan Accordion -->
+              <div class="flex-1 bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs hover:border-[#cbd5e1] transition-colors">
+                <!-- Header Kartu (Klik untuk buka/tutup accordion) -->
+                <div
+                  class="flex items-start justify-between cursor-pointer select-none group"
+                  onclick={`toggleAccordion(${item.id})`}
+                >
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2.5">
+                      <h3 class="text-[15px] font-bold text-[#09090b] group-hover:text-[#1063B9] transition-colors">
+                        {item.bab}
+                      </h3>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#ecfdf5] text-[#15803d] border border-[#bbf7d0]">
+                        {item.status}
+                      </span>
+                    </div>
+                    <p class="text-[12px] text-[#71717a]">Terakhir: {item.terakhir}</p>
+                    <p class="text-[12px] text-[#71717a]">{item.frekuensi}</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    class="p-1 text-[#71717a] hover:text-[#09090b] rounded transition-transform duration-200"
+                    id={`chevron-${item.id}`}
+                  >
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </button>
+                </div>
+
+                <!-- Konten Rincian Kegiatan (Collapsible Body) -->
+                <div id={`content-${item.id}`} class="mt-4 pt-4 border-t border-[#f4f4f5] space-y-3">
+                  <!-- Tanggal Kegiatan -->
+                  <div class="flex items-center gap-1.5 text-xs text-[#71717a]">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                    <span class="font-medium text-[#52525b]">{item.hariTanggal}</span>
+                  </div>
+
+                  <!-- Ringkasan Deskripsi Aktivitas -->
+                  <p class="text-[13px] text-[#27272a] leading-relaxed">
+                    {item.deskripsi}
+                  </p>
+
+                  <!-- Tombol Lihat Dokumen -->
+                  <div class="pt-1">
+                    <button
+                      type="button"
+                      onclick={`openDocModal('${item.bab}', '${item.hariTanggal}', '${item.deskripsi}', '${item.dokumenNama}')`}
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors"
+                    >
+                      <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                      <span>Lihat Dokumen</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   </div>
 
-  <!-- Modal: Isi Logbook (Form Input) -->
-  <div id="modal-logbook" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+  <!-- Modal: Tambah Logbook -->
+  <div id="modal-tambah-logbook" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#e4e4e7]">
       <div class="sticky top-0 bg-white border-b border-[#e4e4e7] p-5 flex items-center justify-between">
-        <h3 class="text-[16px] font-semibold text-[#09090b]">Isi Logbook Mingguan</h3>
-        <button type="button" onclick="closeLogbookModal()" class="text-[#71717a] hover:text-[#09090b]">
+        <div>
+          <h3 class="text-[16px] font-bold text-[#09090b]">Tambah Logbook Kegiatan</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Catat aktivitas konsultasi dan progres bab kerja praktek.</p>
+        </div>
+        <button type="button" onclick="closeTambahModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
-      <form onsubmit="submitLogbook(event)" class="p-5 space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="form-group">
-            <label class="text-[12px] font-medium text-[#09090b] block mb-1">Minggu Ke- <span class="text-red-500">*</span></label>
-            <select class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required>
-              <option value="3">Minggu 3</option>
-              <option value="4">Minggu 4</option>
-              <option value="5">Minggu 5</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="text-[12px] font-medium text-[#09090b] block mb-1">Rentang Tanggal <span class="text-red-500">*</span></label>
-            <input type="text" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-[#1063B9]" placeholder="20 - 24 Okt 2025" required />
-          </div>
+
+      <form onsubmit="handleTambahSubmit(event)" class="p-5 space-y-4">
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Bab Kegiatan <span class="text-red-500">*</span></label>
+          <select id="input-bab" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required>
+            <option value="Kegiatan Bab 1">Kegiatan Bab 1 - Pendahuluan</option>
+            <option value="Kegiatan Bab 2">Kegiatan Bab 2 - Gambaran Umum Instansi</option>
+            <option value="Kegiatan Bab 3">Kegiatan Bab 3 - Metodologi & Rancangan</option>
+            <option value="Kegiatan Bab 4">Kegiatan Bab 4 - Implementasi & Pengujian</option>
+            <option value="Kegiatan Bab 5">Kegiatan Bab 5 - Penutup & Kesimpulan</option>
+          </select>
         </div>
 
-        <div class="form-group">
-          <label class="text-[12px] font-medium text-[#09090b] block mb-1">Rincian Aktivitas <span class="text-red-500">*</span></label>
-          <textarea rows="4" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-y" placeholder="Deskripsikan pekerjaan yang diselesaikan minggu ini..." required></textarea>
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Tanggal Kegiatan <span class="text-red-500">*</span></label>
+          <input id="input-tanggal" type="date" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required />
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="form-group">
-            <label class="text-[12px] font-medium text-[#09090b] block mb-1">Kendala yang Dihadapi</label>
-            <textarea rows="3" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-y" placeholder="Hambatan teknis atau non-teknis..."></textarea>
-          </div>
-          <div class="form-group">
-            <label class="text-[12px] font-medium text-[#09090b] block mb-1">Solusi / Tindak Lanjut</label>
-            <textarea rows="3" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-y" placeholder="Cara mengatasi kendala..."></textarea>
-          </div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Rincian Pembahasan / Aktivitas <span class="text-red-500">*</span></label>
+          <textarea id="input-deskripsi" rows="3" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-none" placeholder="Uraikan materi yang dibahas bersama dosen pembimbing..." required></textarea>
         </div>
 
-        <div class="form-group">
-          <label class="text-[12px] font-medium text-[#09090b] block mb-1">Tautan Bukti Kegiatan (Google Drive) <span class="text-red-500">*</span></label>
-          <input type="url" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-[13px] focus:outline-none focus:ring-2 focus:ring-[#1063B9]" placeholder="https://drive.google.com/..." required />
-          <p class="text-[11px] text-[#71717a] mt-1">Screenshot hasil kerja, commit log, atau dokumentasi aktivitas.</p>
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Tautan Dokumen / Google Drive <span class="text-red-500">*</span></label>
+          <input id="input-dokumen" type="url" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" placeholder="https://drive.google.com/file/..." required />
+          <p class="text-[11px] text-[#71717a] mt-1">Pastikan link dapat diakses oleh dosen pembimbing (hak akses Lihat/Komentar).</p>
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
-          <button type="button" onclick="closeLogbookModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+          <button type="button" onclick="closeTambahModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
             Batal
           </button>
           <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
-            Kirim Logbook
+            Simpan Logbook
           </button>
         </div>
       </form>
     </div>
   </div>
 
-  <script is:inline>
-    const logbooks = {
-      1: {
-        minggu: 1,
-        tanggal: '06 - 10 Okt 2025',
-        aktivitas: 'Kick-off & Setup Repositori Proyek',
-        deskripsi: 'Inisialisasi repo GitHub, konfigurasi CI/CD, dan riset kebutuhan sistem modul Dashboard.',
-        kendala: '-',
-        solusi: '-',
-        bukti: 'https://drive.google.com/drive/folders/1xxx'
-      },
-      2: {
-        minggu: 2,
-        tanggal: '13 - 17 Okt 2025',
-        aktivitas: 'Pengembangan Fitur Autentikasi & RBAC',
-        deskripsi: 'Implementasi JWT Auth, Role-Based Access Control, dan unit testing endpoint API.',
-        kendala: 'Kompleksitas integrasi OAuth2',
-        solusi: 'Review dokumentasi dan konsultasi dengan mentor',
-        bukti: 'https://drive.google.com/drive/folders/1yyy'
-      }
-    };
+  <!-- Modal: Edit Folder Kampus Berdampak -->
+  <div id="modal-folder-Kampus Berdampak" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
+      <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
+        <div>
+          <h3 class="text-[16px] font-bold text-[#09090b]">Edit Folder Kampus Berdampak</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Tautan repositori Google Drive berkas kerja praktek.</p>
+        </div>
+        <button type="button" onclick="closeFolderModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
 
-    let currentLogbookId = null;
+      <form onsubmit="handleFolderSubmit(event)" class="p-5 space-y-4">
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Tautan Folder Google Drive <span class="text-red-500">*</span></label>
+          <input
+            id="input-folder-url"
+            type="url"
+            value="https://drive.google.com/drive/folders/kerja-praktek-a11-2020-00001"
+            class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]"
+            required
+          />
+          <p class="text-[11px] text-[#71717a] mt-1">Semua dokumen revisi dan laporan kerja praktek disatukan di folder ini.</p>
+        </div>
 
-    function viewDetail(id) {
-      currentLogbookId = id;
-      const data = logbooks[id];
-      if (!data) return;
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
+          <button type="button" onclick="closeFolderModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-      const content = `
-        <div class="space-y-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div class="p-3 bg-gray-50 rounded-lg">
-              <div class="text-[11px] text-[#71717a] mb-1">Minggu Ke-</div>
-              <div class="text-[15px] font-semibold text-[#09090b]">Minggu ${data.minggu}</div>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-              <div class="text-[11px] text-[#71717a] mb-1">Rentang Tanggal</div>
-              <div class="text-[15px] font-semibold text-[#09090b]">${data.tanggal}</div>
-            </div>
+  <!-- Modal: Lihat Dokumen -->
+  <div id="modal-lihat-dokumen" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
+      <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
           </div>
-          <div class="space-y-2">
-            <h4 class="text-[12px] font-bold text-[#09090b] uppercase">Aktivitas</h4>
-            <div class="text-[14px] text-[#09090b] font-medium">${data.aktivitas}</div>
-            <p class="text-[13px] text-[#71717a]">${data.deskripsi}</p>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-[12px] font-bold text-[#09090b] uppercase">Kendala</h4>
-            <p class="text-[13px] text-[#71717a]">${data.kendala}</p>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-[12px] font-bold text-[#09090b] uppercase">Solusi</h4>
-            <p class="text-[13px] text-[#71717a]">${data.solusi}</p>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-[12px] font-bold text-[#09090b] uppercase">Bukti Kegiatan</h4>
-            <a href="${data.bukti}" target="_blank" class="flex items-center gap-2 text-[#1063B9] hover:underline text-[13px]">
-              <i data-lucide="external-link" class="w-4 h-4"></i>
-              ${data.bukti}
-            </a>
+          <div>
+            <h3 class="text-[15px] font-bold text-[#09090b]" id="doc-modal-title">Dokumen Kegiatan</h3>
+            <p class="text-xs text-[#71717a]" id="doc-modal-date">Senin, 7 Sep 2026</p>
           </div>
         </div>
-      `;
-      document.getElementById('detail-content').innerHTML = content;
-      document.getElementById('modal-detail-logbook').classList.remove('hidden');
-      
-      if (typeof lucide !== 'undefined') lucide.createIcons();
+        <button type="button" onclick="closeDocModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <div>
+          <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Nama Berkas</div>
+          <div class="flex items-center gap-2 p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg">
+            <i data-lucide="file-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <span class="text-xs font-medium text-[#09090b] truncate" id="doc-modal-file">Dokumen_Bab_1_Final.pdf</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Catatan Pembahasan</div>
+          <p class="text-xs text-[#52525b] leading-relaxed p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg" id="doc-modal-desc">
+            Penyusunan Bab 1 Pendahuluan, latar belakang masalah, dan analisis kebutuhan sistem dashboard.
+          </p>
+        </div>
+
+        <div class="p-3 bg-emerald-50/60 border border-emerald-200/60 rounded-lg flex items-center gap-2 text-xs text-emerald-800">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+          <span>Status verifikasi: <strong>Telah disetujui Dosen Pembimbing</strong></span>
+        </div>
+      </div>
+
+      <div class="p-4 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-end gap-2 rounded-b-xl">
+        <button type="button" onclick="closeDocModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-white transition-colors">
+          Tutup
+        </button>
+        <a
+          id="doc-modal-link"
+          href="https://drive.google.com/"
+          target="_blank"
+          class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors"
+        >
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>Buka di Google Drive</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Accordion Toggle
+    function toggleAccordion(id) {
+      const content = document.getElementById('content-' + id);
+      const chevron = document.getElementById('chevron-' + id);
+      if (!content || !chevron) return;
+
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        chevron.style.transform = 'rotate(0deg)';
+      } else {
+        content.classList.add('hidden');
+        chevron.style.transform = 'rotate(-180deg)';
+      }
     }
 
-    function closeDetailModal() {
-      document.getElementById('modal-detail-logbook').classList.add('hidden');
-      currentLogbookId = null;
+    // Modal Tambah Logbook
+    function openTambahModal() {
+      const modal = document.getElementById('modal-tambah-logbook');
+      if (modal) modal.classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
     }
 
-    function editLogbook() {
-      closeDetailModal();
-      openLogbookModal();
+    function closeTambahModal() {
+      const modal = document.getElementById('modal-tambah-logbook');
+      if (modal) modal.classList.add('hidden');
     }
 
-    function openLogbookModal() {
-      document.getElementById('modal-logbook').classList.remove('hidden');
-      if (typeof lucide !== 'undefined') lucide.createIcons();
-    }
-
-    function closeLogbookModal() {
-      document.getElementById('modal-logbook').classList.add('hidden');
-    }
-
-    function submitLogbook(event) {
+    function handleTambahSubmit(event) {
       event.preventDefault();
-      alert('Logbook berhasil dikirim ke dosen pembimbing untuk verifikasi!');
-      closeLogbookModal();
+      const bab = document.getElementById('input-bab').value;
+      alert(`Logbook "${bab}" berhasil disimpan dan diajukan ke Dosen Pembimbing!`);
+      closeTambahModal();
     }
+
+    // Modal Edit Folder Kampus Berdampak
+    function openFolderModal() {
+      const modal = document.getElementById('modal-folder-Kampus Berdampak');
+      if (modal) modal.classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeFolderModal() {
+      const modal = document.getElementById('modal-folder-Kampus Berdampak');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleFolderSubmit(event) {
+      event.preventDefault();
+      alert('Tautan Folder Google Drive Kerja Praktek berhasil diperbarui!');
+      closeFolderModal();
+    }
+
+    // Modal Lihat Dokumen
+    function openDocModal(bab, date, desc, file) {
+      const titleEl = document.getElementById('doc-modal-title');
+      const dateEl = document.getElementById('doc-modal-date');
+      const descEl = document.getElementById('doc-modal-desc');
+      const fileEl = document.getElementById('doc-modal-file');
+      const linkEl = document.getElementById('doc-modal-link');
+
+      if (titleEl) titleEl.textContent = bab;
+      if (dateEl) dateEl.textContent = date;
+      if (descEl) descEl.textContent = desc;
+      if (fileEl) fileEl.textContent = file;
+      if (linkEl) linkEl.href = 'https://drive.google.com/';
+
+      const modal = document.getElementById('modal-lihat-dokumen');
+      if (modal) modal.classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeDocModal() {
+      const modal = document.getElementById('modal-lihat-dokumen');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Close modals on Escape key or backdrop click
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeTambahModal();
+        closeFolderModal();
+        closeDocModal();
+      }
+    });
+
+    ['modal-tambah-logbook', 'modal-folder-Kampus Berdampak', 'modal-lihat-dokumen'].forEach((modalId) => {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
+          }
+        });
+      }
+    });
+
+    // Re-initialize Lucide icons on load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    });
   </script>
 </MahasiswaShell>

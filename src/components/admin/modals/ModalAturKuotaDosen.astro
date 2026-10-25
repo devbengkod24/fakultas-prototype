@@ -1,0 +1,62 @@
+    <!-- Modal 3: Atur Batas Kuota Dosen Fakultas -->
+    <div id="modal-atur-kuota-dosen" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-md w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-sm font-bold text-[#09090b]">Atur Batas Kuota Beban Dospem Fakultas</h3>
+            <p class="text-[11px] text-[#71717a]">Penetapan batas standar maksimal mahasiswa per dosen se-fakultas.</p>
+          </div>
+          <button type="button" onclick="closeModalSetBatasKuota()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <form onsubmit="handleSaveBatasKuotaFakultas(event)" class="flex flex-col gap-3">
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Batas Kuota Standar Dosen (Mahasiswa) *</label>
+            <input
+              type="number"
+              id="input-kuota-standar-fakultas"
+              required
+              min="1"
+              max="20"
+              value="8"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+            <span class="text-[10px] text-[#71717a]"
+              >Rekomendasi FIK: 8 s.d. 10 mahasiswa per dosen pembimbing aktif.</span
+            >
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Berlaku Untuk Program Studi</label>
+            <select
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            >
+              <option value="all">Semua Prodi di Lingkungan FIK</option>
+              <option value="ti">Khusus S1 Teknik Informatika</option>
+              <option value="si">Khusus S1 Sistem Informasi</option>
+              <option value="dkv">Khusus S1 DKV</option>
+              <option value="ilkom">Khusus S1 Ilmu Komunikasi</option>
+              <option value="ftv">Khusus S1 Film dan Televisi</option>
+              <option value="Animasi">Khusus S1 Animasi</option>
+            </select>
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7] mt-1">
+            <button
+              type="button"
+              onclick="closeModalSetBatasKuota()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold"
+            >
+              Terapkan Kuota
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

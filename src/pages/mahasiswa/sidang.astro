@@ -1,150 +1,740 @@
 ---
 // src/pages/mahasiswa/sidang.astro
+// @ts-nocheck
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+
+// Data Pengajuan Sidang Kampus Berdampak
+const sidangData = {
+  status: 'Sudah Terjadwal',
+  // Card 1: Informasi Kampus Berdampak
+  judulKB: 'Pengembangan Sistem Dashboard Monitoring Magang Berbasis Web',
+  perusahaan: 'PT Telkom Indonesia',
+  posisi: 'Fullstack Developer',
+  periodeMulai: 'Minggu, 23 Agustus 2026',
+  periodeSelesai: 'Sabtu, 21 November 2026',
+  alamatPerusahaan: 'Jl. Pahlawan No. 10, Pleburan, Kec. Semarang Selatan, Kota Semarang, Jawa Tengah 50241',
+  dosenPembimbing: 'Dosen A11 - Dr. Ricardus Anggi, M.Kom',
+  linkSuratDiterima: 'https://drive.google.com/file/d/demo-surat-magang/view',
+
+  // Card 2: Informasi Penyelia
+  penyelia: {
+    nama: 'Budi Santoso, S.Kom.',
+    posisi: 'Senior Lead Software Engineer',
+    perusahaan: 'PT Telkom Indonesia',
+    telepon: '081234567891',
+    nilaiEvaluasi: '90'
+  },
+
+  // Card 3: Dokumen Pendukung
+  berkas: [
+    {
+      nama: 'Laporan_Akhir_Kampus Berdampak_A11.2020.00001.pdf',
+      kategori: 'Draf Laporan Akhir Kampus Berdampak',
+      ukuran: '4.8 MB',
+      status: 'Terverifikasi Dospem'
+    },
+    {
+      nama: 'Lembar_Penilaian_Evaluasi_Penyelia.pdf',
+      kategori: 'Formulir Nilai Pembimbing Lapangan',
+      ukuran: '1.5 MB',
+      status: 'Nilai: 90 (A)'
+    },
+    {
+      nama: 'Sertifikat_Penyelesaian_Magang_Telkom.pdf',
+      kategori: 'Sertifikat Resmi Kontributor',
+      ukuran: '1.2 MB',
+      status: 'Terverifikasi Kontributor'
+    },
+    {
+      nama: 'Rekap_Logbook_Kegiatan_Kampus Berdampak.pdf',
+      kategori: 'Rekapitulasi Logbook Mingguan',
+      ukuran: '850 KB',
+      status: 'Lengkap (100%)'
+    }
+  ],
+  folderDrive: 'https://drive.google.com/drive/folders/berkas-sidang-Kampus Berdampak-a11-2020-00001',
+
+  // Jadwal & Tim Penguji
+  jadwal: {
+    tanggal: 'Kamis, 15 Januari 2027',
+    waktu: '09:00 - 10:30 WIB',
+    lokasi: 'Lab Bengkel Koding (Gedung H Lt. 5) & Google Meet Daring',
+    ruang: 'Ruang Sidang H.5.2',
+    linkMeet: 'https://meet.google.com/Kampus Berdampak-sidang-a11'
+  },
+  penguji: [
+    {
+      inisial: 'RA',
+      nama: 'Dr. Ricardus Anggi, M.Kom',
+      peran: 'Penguji Akademis 1 & Dospem Kampus Berdampak',
+      bobot: '40%',
+      bg: 'bg-blue-50 text-[#1063B9]'
+    },
+    {
+      inisial: 'EM',
+      nama: 'Dr. Ir. Edi Mulyanto, M.Kom',
+      peran: 'Penguji Akademis 2 (Kaprodi / Reviewer)',
+      bobot: '30%',
+      bg: 'bg-emerald-50 text-emerald-700'
+    },
+    {
+      inisial: 'BS',
+      nama: 'Budi Santoso, S.Kom.',
+      peran: 'Penilai Kinerja Kontributor (Penyelia PT Telkom)',
+      bobot: '30%',
+      bg: 'bg-amber-50 text-amber-700'
+    }
+  ]
+};
 ---
 
 <MahasiswaShell
-  title="Sidang Evaluasi Akhir | Mahasiswa - FIK Udinus"
+  title="Pengajuan Sidang Kampus Berdampak | Mahasiswa - FIK Udinus"
   activeNav="sidang"
-  pageTitle="Sidang Evaluasi Akhir MBKM"
-  breadcrumb="Sidang"
-  subtitle="Pendaftaran sidang dan pengunggahan laporan akhir MBKM."
+  pageTitle="Pengajuan Sidang"
+  breadcrumb="Pengajuan Sidang"
 >
-  <div id="view-sidang" class="w-full">
-<!-- Sidang Evaluasi Akhir MBKM (Sama Persis Pola KP: Bobot 40-30-30) -->
-<div style="margin-bottom:24px;">
-
-  <!-- Header Section -->
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+  <div class="space-y-6" x-data="{ activeTab: 'informasi' }">
+    <!-- Header Halaman -->
     <div>
-      <h2 style="font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px;">
-        <i data-lucide="calendar-check" style="color:var(--primary);width:20px;height:20px;"></i>
-        Sidang Evaluasi Akhir MBKM
-      </h2>
-      <p style="font-size:13px;color:#64748b;margin-top:2px;">
-        Pendaftaran sidang akhir, unggah Laporan Akhir MBKM, serta jadwal penguji &amp; mentor mitra.
-      </p>
-    </div>
-    <span class="badge badge-warning"><i data-lucide="clock" style="width:12px;height:12px;"></i> Sidang Dibuka: 20 Jan 2026</span>
-  </div>
-
-  <!-- Banner Alur Persyaratan Sidang -->
-  <div class="alert alert-warning" style="margin-bottom:22px;padding:16px;border-radius:10px;background:#fffbeb;border-left:4px solid #d97706;">
-    <div style="display:flex;gap:14px;align-items:flex-start;">
-      <i data-lucide="alert-triangle" style="width:22px;height:22px;color:#d97706;flex-shrink:0;margin-top:2px;"></i>
-      <div style="font-size:12.5px;color:#92400e;line-height:1.6;">
-        <strong>Persyaratan Wajib Sebelum Mendaftar Sidang Akhir:</strong>
-        <ol style="margin:6px 0 0 16px;padding:0;">
-          <li>Logbook mingguan terisi &amp; disetujui DPL minimal <strong>13 dari 16 Minggu (&ge;80%)</strong>.</li>
-          <li>Laporan Akhir MBKM dalam format PDF diunggah ke sistem &amp; tautan repositori/GDrive disertakan.</li>
-          <li>Luaran wajib (Sertifikat Resmi Mitra atau LoA Publikasi Ilmiah) telah diunggah &amp; diverifikasi Koordinator.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <!-- Form Pendaftaran Sidang & Unggah Laporan Akhir -->
-  <div class="card" style="padding:22px;margin-bottom:22px;">
-    <div class="card-header" style="margin-bottom:16px;">
-      <span class="card-title" style="font-size:15px;display:flex;align-items:center;gap:8px;">
-        <i data-lucide="file-up" style="color:var(--primary);width:18px;height:18px;"></i>
-        Pendaftaran Sidang &amp; Unggah Laporan Akhir MBKM
-      </span>
-      <span class="badge" style="background:#fef3c7;color:#d97706;border:1px solid #fde68a;">Pendaftaran Dibuka 20 Jan 2026</span>
+      <h1 class="text-[22px] font-bold text-[#09090b] tracking-tight">Pengajuan Sidang</h1>
+      <p class="text-[13px] text-[#71717a] mt-0.5">Berikut adalah halaman untuk mengajukan sidang Kampus Berdampak.</p>
     </div>
 
-    <div style="margin-bottom:16px;">
-      <!-- Unggah PDF Laporan Akhir -->
-      <div class="form-group">
-        <label class="form-label">Unggah Draf Laporan Akhir MBKM (Format PDF) <span style="color:#dc2626;">*</span></label>
-        <div style="border:2px dashed #cbd5e1;border-radius:10px;padding:20px;text-align:center;cursor:pointer;background:#f8fafc;transition:border-color 0.2s;" id="drop-laporan" onclick="document.getElementById('file-laporan-akhir').click()">
-          <div style="width:44px;height:44px;border-radius:10px;background:#eff6ff;color:var(--primary);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
-            <i data-lucide="file-text" style="width:22px;height:22px;"></i>
-          </div>
-          <div style="font-size:13px;font-weight:600;color:#1e293b;">Klik untuk Unggah PDF Laporan</div>
-          <div style="font-size:11px;color:#94a3b8;margin-top:4px;">Format PDF, Maks. 25 MB</div>
-          <input type="file" id="file-laporan-akhir" accept=".pdf" style="display:none;" />
+    <!-- Banner Status: Pengajuan Sidang Sudah Terjadwal -->
+    <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-3.5">
+        <!-- Icon Container Kalender -->
+        <div class="w-10 h-10 rounded-lg bg-gray-50 border border-[#e4e4e7] flex items-center justify-center shrink-0">
+          <i data-lucide="calendar" class="w-5 h-5 text-[#3f3f46]"></i>
+        </div>
+
+        <div class="flex items-center gap-3 flex-wrap">
+          <h2 class="text-[15px] font-bold text-[#09090b]">Pengajuan Sidang Sudah Terjadwal</h2>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#ecfdf5] text-[#15803d] border border-[#bbf7d0]">
+            {sidangData.status}
+          </span>
         </div>
       </div>
     </div>
 
-    <div style="display:flex;justify-content:flex-end;">
-      <button class="btn btn-primary btn-lg" onclick="alert('Laporan akhir berhasil dikirim.')">
-        <i data-lucide="send"></i> Kirim Laporan Akhir MBKM
-      </button>
-    </div>
-  </div>
+    <!-- Tab Bar Navigasi (Sesuai Referensi Gambar) -->
+    <div class="border-b border-[#e4e4e7]">
+      <div class="flex items-center gap-8 overflow-x-auto">
+        <!-- Tab 1: Informasi -->
+        <button
+          type="button"
+          @click="activeTab = 'informasi'"
+          :class="activeTab === 'informasi' ? 'text-[#1063B9] font-bold border-b-2 border-[#1063B9]' : 'text-[#71717a] font-medium border-b-2 border-transparent hover:text-[#09090b]'"
+          class="pb-3 pt-1 text-[14px] transition-colors whitespace-nowrap -mb-px cursor-pointer"
+        >
+          Informasi
+        </button>
 
-  <!-- Jadwal & Daftar Dosen Penguji + Mentor Mitra Penilai -->
-  <div class="grid grid-2" style="gap:18px;margin-bottom:22px;">
-    <!-- Informasi Jadwal Sidang -->
-    <div class="card" style="padding:22px;">
-      <div class="card-header" style="margin-bottom:14px;">
-        <span class="card-title" style="font-size:14px;display:flex;align-items:center;gap:8px;">
-          <i data-lucide="calendar" style="color:var(--primary);"></i> Informasi Jadwal Pelaksanaan Sidang
+        <!-- Tab 2: Dokumen -->
+        <button
+          type="button"
+          @click="activeTab = 'dokumen'"
+          :class="activeTab === 'dokumen' ? 'text-[#1063B9] font-bold border-b-2 border-[#1063B9]' : 'text-[#71717a] font-medium border-b-2 border-transparent hover:text-[#09090b]'"
+          class="pb-3 pt-1 text-[14px] transition-colors whitespace-nowrap -mb-px cursor-pointer"
+        >
+          Dokumen
+        </button>
+
+        <!-- Tab 3: Jadwal -->
+        <button
+          type="button"
+          @click="activeTab = 'jadwal'"
+          :class="activeTab === 'jadwal' ? 'text-[#1063B9] font-bold border-b-2 border-[#1063B9]' : 'text-[#71717a] font-medium border-b-2 border-transparent hover:text-[#09090b]'"
+          class="pb-3 pt-1 text-[14px] transition-colors whitespace-nowrap -mb-px cursor-pointer"
+        >
+          Jadwal
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT 1: Informasi (Card 1: Informasi Kampus Berdampak & Card 2: Informasi Penyelia) -->
+    <div x-show="activeTab === 'informasi'" x-cloak class="space-y-6">
+      <!-- CARD 1: Informasi Kampus Berdampak -->
+      <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 shadow-2xs space-y-6">
+      <!-- Card Header -->
+      <div class="flex items-center gap-3 pb-2 border-b border-[#f4f4f5]">
+        <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center shrink-0">
+          <i data-lucide="file-text" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-[16px] font-bold text-[#09090b]">Informasi Kampus Berdampak</h2>
+          <p class="text-[12px] text-[#71717a]">Detail lengkap mengenai Kampus Berdampak yang telah dilaksanakan</p>
+        </div>
+      </div>
+
+      <!-- Field 1: Judul Kampus Berdampak -->
+      <div>
+        <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#1063B9] inline-block shrink-0"></span>
+          <span>Judul Kampus Berdampak <span class="text-red-500">*</span></span>
+        </label>
+        <input
+          type="text"
+          readonly
+          value={sidangData.judulKB}
+          class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#1063B9]"
+        />
+      </div>
+
+      <!-- Grid 2 Kolom: Nama Perusahaan & Posisi Magang -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Nama Perusahaan -->
+        <div>
+          <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+            <i data-lucide="building-2" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+            <span>Nama Perusahaan <span class="text-red-500">*</span></span>
+          </label>
+          <input
+            type="text"
+            readonly
+            value={sidangData.perusahaan}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#1063B9]"
+          />
+        </div>
+
+        <!-- Posisi Magang -->
+        <div>
+          <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+            <i data-lucide="user" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+            <span>Posisi Magang <span class="text-red-500">*</span></span>
+          </label>
+          <input
+            type="text"
+            readonly
+            value={sidangData.posisi}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#1063B9]"
+          />
+        </div>
+      </div>
+
+      <!-- Kotak: Periode Magang -->
+      <div class="p-4 bg-gray-50/50 border border-[#e4e4e7] rounded-xl space-y-3">
+        <div class="space-y-0.5">
+          <div class="flex items-center gap-2 text-xs font-semibold text-[#09090b]">
+            <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+            <span>Periode Magang</span>
+          </div>
+          <p class="text-[11px] text-[#71717a]">Tentukan tanggal mulai dan berakhirnya periode magang</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+          <div>
+            <label class="text-[11px] font-medium text-[#71717a] block mb-1">
+              Tanggal Mulai <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                type="text"
+                readonly
+                value={sidangData.periodeMulai}
+                class="w-full px-3.5 py-2.5 bg-white border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b] pr-9"
+              />
+              <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-3 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[11px] font-medium text-[#71717a] block mb-1">
+              Tanggal Selesai <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                type="text"
+                readonly
+                value={sidangData.periodeSelesai}
+                class="w-full px-3.5 py-2.5 bg-white border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b] pr-9"
+              />
+              <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-3 pointer-events-none"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alamat Perusahaan -->
+      <div>
+        <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+          <span>Alamat Perusahaan <span class="text-red-500">*</span></span>
+        </label>
+        <input
+          type="text"
+          readonly
+          value={sidangData.alamatPerusahaan}
+          class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+        />
+      </div>
+
+      <!-- Link Surat Diterima Magang -->
+      <div>
+        <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+          <i data-lucide="link-2" class="w-3.5 h-3.5 text-[#1063B9]"></i>
+          <span>Link Surat Diterima Magang <span class="text-red-500">*</span></span>
+        </label>
+        <div class="relative">
+          <input
+            type="url"
+            readonly
+            value={sidangData.linkSuratDiterima}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b] pr-28"
+          />
+          <a
+            href={sidangData.linkSuratDiterima}
+            target="_blank"
+            class="absolute right-2 top-2 px-2.5 py-1 bg-white hover:bg-gray-50 border border-[#e4e4e7] rounded text-[11px] font-medium text-[#1063B9] flex items-center gap-1 shadow-2xs"
+          >
+            <i data-lucide="external-link" class="w-3 h-3"></i>
+            <span>Buka Link</span>
+          </a>
+        </div>
+        <div class="flex items-center gap-1.5 text-[11px] text-[#71717a] mt-1.5">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+          <span>Pastikan link dapat diakses oleh dosen pembimbing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2: Informasi Penyelia -->
+    <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 shadow-2xs space-y-6">
+      <!-- Card Header -->
+      <div class="flex items-center gap-3 pb-2 border-b border-[#f4f4f5]">
+        <div class="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-600 flex items-center justify-center shrink-0">
+          <i data-lucide="user" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-[16px] font-bold text-[#09090b]">Informasi Penyelia</h2>
+          <p class="text-[12px] text-[#71717a]">Detail lengkap mengenai penyelia yang membimbing selama Kampus Berdampak</p>
+        </div>
+      </div>
+
+      <!-- Grid 2 Kolom: Nama Penyelia & Posisi Penyelia -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Nama Penyelia -->
+        <div>
+          <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-500 inline-block shrink-0"></span>
+            <span>Nama Penyelia <span class="text-red-500">*</span></span>
+          </label>
+          <input
+            type="text"
+            readonly
+            value={sidangData.penyelia.nama}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+          />
+        </div>
+
+        <!-- Posisi Penyelia -->
+        <div>
+          <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+            <i data-lucide="star" class="w-3.5 h-3.5 text-amber-500"></i>
+            <span>Posisi Penyelia <span class="text-red-500">*</span></span>
+          </label>
+          <input
+            type="text"
+            readonly
+            value={sidangData.penyelia.posisi}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+          />
+        </div>
+      </div>
+
+      <!-- Grid 2 Kolom: Nama Perusahaan & Nomor Telepon -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Nama Perusahaan -->
+        <div>
+          <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+            <i data-lucide="building-2" class="w-3.5 h-3.5 text-amber-500"></i>
+            <span>Nama Perusahaan <span class="text-red-500">*</span></span>
+          </label>
+          <input
+            type="text"
+            readonly
+            value={sidangData.penyelia.perusahaan}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+          />
+        </div>
+
+        <!-- Nomor Telepon -->
+        <div>
+          <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+            <i data-lucide="phone" class="w-3.5 h-3.5 text-amber-500"></i>
+            <span>Nomor Telepon <span class="text-red-500">*</span></span>
+          </label>
+          <input
+            type="text"
+            readonly
+            value={sidangData.penyelia.telepon}
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+          />
+        </div>
+      </div>
+
+      <!-- Nilai Evaluasi dari Penyelia -->
+      <div>
+        <label class="flex items-center gap-2 text-xs font-semibold text-[#09090b] mb-1.5">
+          <i data-lucide="star" class="w-3.5 h-3.5 text-amber-500"></i>
+          <span>Nilai Evaluasi dari Penyelia <span class="text-red-500">*</span></span>
+        </label>
+        <input
+          type="text"
+          readonly
+          value={sidangData.penyelia.nilaiEvaluasi}
+          class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+        />
+        <div class="flex items-center gap-1.5 text-[11px] text-[#71717a] mt-1.5">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+          <span>Nilai yang diberikan oleh penyelia berdasarkan performa selama magang</span>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- TAB CONTENT 2: Dokumen (Card 3: Dokumen Pendukung) -->
+    <div x-show="activeTab === 'dokumen'" x-cloak class="space-y-6">
+      <!-- CARD 3: Dokumen Pendukung (Sesuai Screenshot Referensi) -->
+      <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 shadow-2xs space-y-5">
+      <!-- Card Header -->
+      <div class="flex items-center gap-3 pb-2 border-b border-[#f4f4f5]">
+        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+          <i data-lucide="file-text" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h2 class="text-[16px] font-bold text-[#09090b]">Dokumen Pendukung</h2>
+          <p class="text-[12px] text-[#71717a]">Upload dokumen yang diperlukan untuk pengajuan sidang</p>
+        </div>
+      </div>
+
+      <!-- Item 1: Laporan Akhir Kampus Berdampak -->
+      <div class="p-5 bg-white border border-[#e4e4e7] rounded-xl space-y-3">
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-[14px] font-bold text-[#09090b]">
+              Laporan Akhir Kampus Berdampak <span class="text-red-500">*</span>
+            </h3>
+            <p class="text-[12px] text-[#71717a]">Upload laporan akhir yang telah disusun sesuai dengan format yang ditentukan</p>
+          </div>
+        </div>
+
+        <div>
+          <input
+            type="url"
+            readonly
+            value="https://drive.google.com/file/d/laporan-akhir-Kampus Berdampak-a11.pdf"
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+          />
+        </div>
+
+        <div class="flex items-center gap-1.5 text-[11px] text-[#71717a]">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#71717a]"></i>
+          <span>Format: PDF</span>
+        </div>
+      </div>
+
+      <!-- Item 2: Dokumen Evaluasi Penyelia -->
+      <div class="p-5 bg-white border border-[#e4e4e7] rounded-xl space-y-3">
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-[14px] font-bold text-[#09090b]">
+              Dokumen Evaluasi Penyelia <span class="text-red-500">*</span>
+            </h3>
+            <p class="text-[12px] text-[#71717a]">Dokumen evaluasi atau sertifikat yang diberikan oleh penyelia di tempat magang</p>
+          </div>
+        </div>
+
+        <div>
+          <input
+            type="url"
+            readonly
+            value="https://drive.google.com/file/d/lembar-nilai-penyelia.pdf"
+            class="w-full px-3.5 py-2.5 bg-gray-50/70 border border-[#e4e4e7] rounded-lg text-xs font-medium text-[#09090b]"
+          />
+        </div>
+
+        <div class="flex items-center gap-1.5 text-[11px] text-[#71717a]">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#71717a]"></i>
+          <span>Dokumen harus ditandatangani perusahaan</span>
+        </div>
+      </div>
+
+      <!-- Item 3: Checklist Dokumen -->
+      <div class="p-5 bg-[#f8fafc] border border-[#e4e4e7] rounded-xl space-y-2.5">
+        <div class="flex items-center gap-2">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-[#3f3f46]"></i>
+          <h4 class="text-[13px] font-bold text-[#09090b]">Checklist Dokumen</h4>
+        </div>
+        <ul class="text-[12px] text-[#52525b] space-y-1 pl-6 list-disc">
+          <li>Pastikan semua dokumen dalam format PDF</li>
+          <li>Link dokumen dapat diakses oleh dosen pembimbing</li>
+          <li>Laporan akhir sesuai dengan template yang diberikan</li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+    <!-- TAB CONTENT 3: Jadwal (Card 4: Jadwal Pelaksanaan Sidang & Tim Penguji) -->
+    <div x-show="activeTab === 'jadwal'" x-cloak class="space-y-6">
+      <!-- CARD 4: Jadwal Sidang & Dosen Penguji -->
+      <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 shadow-2xs space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-[#f4f4f5] flex-wrap gap-2">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center">
+            <i data-lucide="calendar-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-[15px] font-bold text-[#09090b]">Jadwal Pelaksanaan Sidang & Tim Penguji</h3>
+            <p class="text-xs text-[#71717a]">Pelaksanaan sidang evaluasi akhir Kampus Berdampak.</p>
+          </div>
+        </div>
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#ecfdf5] text-[#15803d] border border-[#bbf7d0]">
+          Terkonfirmasi
         </span>
-        <span class="badge" style="background:#fef3c7;color:#d97706;border:1px solid #fde68a;">Belum Dijadwalkan</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;">
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">Periode Pendaftaran:</span>
-          <span style="font-weight:600;">20 Jan — 03 Feb 2026</span>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div class="p-3 bg-gray-50 rounded-lg space-y-1">
+          <span class="text-[#71717a] block text-[11px]">Hari & Tanggal</span>
+          <span class="font-semibold text-[#09090b] text-[13px]">{sidangData.jadwal.tanggal}</span>
         </div>
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">Pelaksanaan Sidang:</span>
-          <span style="font-weight:600;">10 — 21 Feb 2026</span>
+
+        <div class="p-3 bg-gray-50 rounded-lg space-y-1">
+          <span class="text-[#71717a] block text-[11px]">Waktu Pelaksanaan</span>
+          <span class="font-semibold text-[#09090b] text-[13px]">{sidangData.jadwal.waktu}</span>
         </div>
-        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #f1f5f9;padding-bottom:8px;">
-          <span style="color:#64748b;">Lokasi Sidang:</span>
-          <span style="font-weight:600;">Lab Bengkel Koding / Daring</span>
+
+        <div class="p-3 bg-gray-50 rounded-lg space-y-1">
+          <span class="text-[#71717a] block text-[11px]">Ruang Sidang</span>
+          <span class="font-semibold text-[#09090b] text-[13px]">{sidangData.jadwal.ruang}</span>
         </div>
-        <div style="display:flex;justify-content:space-between;">
-          <span style="color:#64748b;">Tanggal Sidang Saya:</span>
-          <span style="font-weight:700;color:#d97706;">Belum Ditentukan</span>
+      </div>
+
+      <!-- Tautan Google Meet -->
+      <div class="p-3 bg-blue-50/60 border border-blue-100 rounded-lg flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <i data-lucide="video" class="w-4 h-4 text-[#1063B9]"></i>
+          <span class="text-xs font-semibold text-[#1063B9]">Tautan Google Meet:</span>
+          <span class="text-xs text-[#3f3f46] font-medium">{sidangData.jadwal.linkMeet}</span>
         </div>
+        <a
+          href={sidangData.jadwal.linkMeet}
+          target="_blank"
+          class="text-xs font-semibold text-[#1063B9] hover:underline flex items-center gap-1"
+        >
+          Masuk Room <i data-lucide="external-link" class="w-3 h-3"></i>
+        </a>
+      </div>
+
+      <!-- Tim Dosen Penguji & Penilai Kontributor -->
+      <div class="pt-3 border-t border-[#f4f4f5] space-y-2.5">
+        <h4 class="text-xs font-bold text-[#09090b] uppercase tracking-wider">Tim Penguji & Penilai Kampus Berdampak</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {sidangData.penguji.map((item) => (
+            <div class="p-3 border border-[#e4e4e7] rounded-xl bg-white space-y-1.5 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <div class={`w-7 h-7 rounded-md ${item.bg} flex items-center justify-center font-bold text-xs shrink-0`}>
+                  {item.inisial}
+                </div>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 text-[#3f3f46]">
+                  Bobot {item.bobot}
+                </span>
+              </div>
+              <div class="font-semibold text-[#09090b] text-xs leading-tight">{item.nama}</div>
+              <div class="text-[11px] text-[#71717a]">{item.peran}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Tombol Aksi Bawah -->
+      <div class="pt-4 border-t border-[#f4f4f5] flex items-center justify-end gap-3 flex-wrap">
+        <button
+          type="button"
+          onclick="openRescheduleModal()"
+          class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] text-xs font-semibold rounded-lg shadow-2xs transition-colors"
+        >
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-[#71717a]"></i>
+          <span>Ajukan Reschedule</span>
+        </button>
+        <button
+          type="button"
+          onclick="cetakBukti()"
+          class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-95"
+        >
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span>Cetak Bukti Pendaftaran Sidang</span>
+        </button>
       </div>
     </div>
+    </div>
+  </div>
 
-    <!-- Daftar Penguji & Mentor Mitra -->
-    <div class="card" style="padding:22px;">
-      <div class="card-header" style="margin-bottom:14px;">
-        <span class="card-title" style="font-size:14px;display:flex;align-items:center;gap:8px;">
-          <i data-lucide="users" style="color:var(--primary);"></i> Dosen Penguji &amp; Mentor Mitra Penilai
-        </span>
-        <span class="badge badge-success">Ditetapkan</span>
+  <!-- Modal: Detail Jadwal Sidang -->
+  <div id="modal-jadwal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
+      <div class="p-5 border-b border-[#e4e4e7] flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-[15px] font-bold text-[#09090b]">Informasi Sidang Kampus Berdampak</h3>
+            <p class="text-xs text-[#71717a]">Detail jadwal & instruksi pelaksanaan sidang.</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeJadwalModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#f8fafc;border-radius:8px;">
-          <div style="width:36px;height:36px;border-radius:8px;background:#eff6ff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">RA</div>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:#0f172a;">Dr. Ricardus Anggi, M.Kom</div>
-            <div style="font-size:11px;color:#64748b;">Penguji Akademis 1 &bull; DPL Resmi UDI</div>
-          </div>
-          <span class="badge badge-primary" style="margin-left:auto;font-size:10px;">40%</span>
+
+      <div class="p-5 space-y-3.5 text-xs">
+        <div class="p-3 bg-gray-50 rounded-lg space-y-1">
+          <div class="text-[11px] text-[#71717a]">Hari, Tanggal & Jam</div>
+          <div class="font-bold text-[#09090b] text-[13px]">{sidangData.jadwal.tanggal} &bull; {sidangData.jadwal.waktu}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#f8fafc;border-radius:8px;">
-          <div style="width:36px;height:36px;border-radius:8px;background:#f0fdf4;color:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">EM</div>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:#0f172a;">Dr. Ir. Edi Mulyanto, M.Kom</div>
-            <div style="font-size:11px;color:#64748b;">Penguji Akademis 2 &bull; Kaprodi</div>
-          </div>
-          <span class="badge badge-success" style="margin-left:auto;font-size:10px;">30%</span>
+
+        <div class="p-3 bg-gray-50 rounded-lg space-y-1">
+          <div class="text-[11px] text-[#71717a]">Lokasi Ruangan</div>
+          <div class="font-semibold text-[#09090b]">{sidangData.jadwal.lokasi}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px;background:#fffbeb;border-radius:8px;">
-          <div style="width:36px;height:36px;border-radius:8px;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;">FN</div>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:#0f172a;">Fajar Nugraha, S.Kom., M.T.</div>
-            <div style="font-size:11px;color:#64748b;">Penilai Kinerja Mitra &bull; PIC Bengkel Koding</div>
+
+        <div class="p-3 bg-amber-50 border border-amber-200/60 rounded-lg space-y-1 text-amber-900">
+          <div class="font-semibold flex items-center gap-1.5">
+            <i data-lucide="alert-circle" class="w-4 h-4 text-amber-700"></i>
+            Tata Tertib Sidang Kampus Berdampak
           </div>
-          <span class="badge badge-warning" style="margin-left:auto;font-size:10px;">30%</span>
+          <p class="text-[11px] leading-relaxed text-amber-800">
+            Mahasiswa diwajibkan hadir 15 menit sebelum sidang dimulai, mengenakan jas almamater resmi, kemeja putih, dan menyiapkan slide presentasi maksimal 15 slide (durasi presentasi 15 menit).
+          </p>
         </div>
+      </div>
+
+      <div class="p-4 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-end rounded-b-xl">
+        <button type="button" onclick="closeJadwalModal()" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
+          Tutup
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- Modal: Reschedule Sidang -->
+  <div id="modal-reschedule" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
+      <div class="p-5 border-b border-[#e4e4e7] flex items-center justify-between">
+        <div>
+          <h3 class="text-[15px] font-bold text-[#09090b]">Pengajuan Reschedule Sidang</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Permohonan penjadwalan ulang sidang Kampus Berdampak.</p>
+        </div>
+        <button type="button" onclick="closeRescheduleModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
 
+      <form id="form-reschedule-sidang" class="p-5 space-y-4">
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Alasan Pengajuan <span class="text-red-500">*</span></label>
+          <textarea rows="3" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-none" placeholder="Jelaskan alasan rescheduling secara jelas..." required></textarea>
+        </div>
 
-</div>
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Usulan Tanggal Alternatif <span class="text-red-500">*</span></label>
+          <input type="date" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required />
+        </div>
 
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
+          <button type="button" onclick="closeRescheduleModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+            Batal
+          </button>
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
+            Kirim Permohonan
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
+
+  <script is:inline>
+    window.openJadwalModal = function openJadwalModal() {
+      const m = document.getElementById('modal-jadwal');
+      if (m) m.classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
+    };
+
+    window.closeJadwalModal = function closeJadwalModal() {
+      const m = document.getElementById('modal-jadwal');
+      if (m) m.classList.add('hidden');
+    };
+
+    window.openRescheduleModal = function openRescheduleModal() {
+      const m = document.getElementById('modal-reschedule');
+      if (m) m.classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
+    };
+
+    window.closeRescheduleModal = function closeRescheduleModal() {
+      const m = document.getElementById('modal-reschedule');
+      if (m) m.classList.add('hidden');
+    };
+
+    window.handleRescheduleSubmit = function handleRescheduleSubmit(e) {
+      if (e) e.preventDefault();
+      alert('Permohonan penjadwalan ulang sidang Kampus Berdampak berhasil dikirim ke Koordinator Program.');
+      window.closeRescheduleModal();
+    };
+
+    window.cetakBukti = function cetakBukti() {
+      window.print();
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeJadwalModal();
+        closeRescheduleModal();
+      }
+    });
+
+    ['modal-jadwal', 'modal-reschedule'].forEach((id) => {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.classList.add('hidden');
+        });
+      }
+    });
+
+    const setupRescheduleForm = () => {
+      const rescheduleForm = document.getElementById('form-reschedule-sidang');
+      if (rescheduleForm && !rescheduleForm.dataset.bound) {
+        rescheduleForm.dataset.bound = 'true';
+        rescheduleForm.addEventListener('submit', (e) => {
+          window.handleRescheduleSubmit(e);
+        });
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+      setupRescheduleForm();
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+      setupRescheduleForm();
+    });
+
+    setupRescheduleForm();
+  </script>
 </MahasiswaShell>

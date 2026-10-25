@@ -1,0 +1,193 @@
+---
+// src/components/admin/form-pendaftaran/TabPersetujuanProgram.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const defaultAgreements = [
+  {
+    id: 'agr-1',
+    title: 'Persetujuan Ketentuan Program',
+    text: 'Saya telah membaca dan memahami hak mahasiswa serta aturan pelaksanaan program.',
+    required: true,
+  },
+  {
+    id: 'agr-2',
+    title: 'Pemenuhan Kewajiban Program',
+    text: 'Saya bersedia mengikuti kegiatan, mematuhi peraturan program dan kontributor, menjaga etika, serta menyelesaikan laporan dan luaran sesuai ketentuan.',
+    required: true,
+  },
+  {
+    id: 'agr-3',
+    title: 'Kebenaran Data dan Dokumen',
+    text: 'Saya menyatakan data dan dokumen yang diberikan benar dan memahami bahwa data yang tidak sesuai dapat memengaruhi proses verifikasi pengajuan.',
+    required: true,
+  },
+  {
+    id: 'agr-4',
+    title: 'Komitmen Kehadiran & Sanksi Akademik',
+    text: 'Saya berkomitmen untuk hadir penuh waktu dan bersedia menerima sanksi akademik jika mengundurkan diri tanpa alasan yang sah.',
+    required: true,
+  },
+];
+---
+
+<div class:list={['space-y-4 font-sans', className]}>
+  <!-- Grid 2 Kolom Kanan-Kiri Berurutan (1, 2, 3, 4...) -->
+  <div id="persetujuan-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+    {defaultAgreements.map((agr, idx) => (
+      <div class="agr-item-card rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all space-y-3 shadow-2xs">
+        <!-- Top: Number Badge, Klausul Title & Asterisk -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex-1 flex items-center gap-2.5">
+            <span class="agr-item-num flex h-6 min-w-6 px-1.5 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs shrink-0 select-none">
+              {idx + 1}
+            </span>
+            <input
+              type="text"
+              value={agr.title}
+              placeholder="Judul klausul persetujuan..."
+              class="agr-title-input text-sm font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-1 py-0.5 w-full"
+            />
+            <span class:list={['required-asterisk text-rose-500 font-bold text-sm select-none', !agr.required && 'hidden']}>*</span>
+          </div>
+        </div>
+
+        <!-- Middle: Textarea Klausul -->
+        <div>
+          <textarea
+            rows="2"
+            placeholder="Isi klausul pernyataan persetujuan pendaftar..."
+            class="w-full rounded-lg border border-gray-200 bg-gray-50/50 p-2.5 text-xs text-gray-700 leading-relaxed transition focus:bg-white focus:border-[#1063B9] focus:outline-none"
+          >{agr.text}</textarea>
+        </div>
+
+        <!-- Bottom Toolbar (Tanpa teks format checklist & tanpa divider border-t) -->
+        <div class="flex items-center justify-end gap-3 pt-1 text-xs">
+          <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer select-none">
+            <span>Wajib</span>
+            <input
+              type="checkbox"
+              checked={agr.required}
+              onchange="toggleAgrAsterisk(this)"
+              class="h-3.5 w-3.5 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+            />
+          </label>
+          <div class="h-3.5 w-px bg-gray-200"></div>
+          <button
+            type="button"
+            onclick="hapusAgrItem(this)"
+            class="p-1.5 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+            title="Hapus Butir Pernyataan"
+          >
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Tombol Tambah Butir Pernyataan (di Bawah Grid) -->
+  <div class="pt-2">
+    <button
+      type="button"
+      onclick="tambahButirPersetujuan()"
+      class="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl border border-dashed border-[#1063B9]/40 bg-blue-50/30 hover:bg-blue-50/70 text-[#1063B9] text-xs font-semibold transition-all shadow-2xs cursor-pointer hover:border-[#1063B9]"
+    >
+      <i data-lucide="plus" class="w-4 h-4"></i>
+      <span>Tambah Butir Pernyataan Baru</span>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  function updateAllAgrNumbers() {
+    const container = document.getElementById('persetujuan-items-container');
+    if (!container) return;
+    const cards = container.querySelectorAll('.agr-item-card');
+    cards.forEach((card, idx) => {
+      const numEl = card.querySelector('.agr-item-num');
+      if (numEl) numEl.textContent = idx + 1;
+    });
+  }
+
+  function hapusAgrItem(btn) {
+    const card = btn.closest('.agr-item-card');
+    if (card) {
+      card.remove();
+      updateAllAgrNumbers();
+    }
+  }
+
+  function toggleAgrAsterisk(checkbox) {
+    const card = checkbox.closest('.agr-item-card');
+    if (!card) return;
+    const asterisk = card.querySelector('.required-asterisk');
+    if (asterisk) {
+      if (checkbox.checked) {
+        asterisk.classList.remove('hidden');
+      } else {
+        asterisk.classList.add('hidden');
+      }
+    }
+  }
+
+  function tambahButirPersetujuan() {
+    const container = document.getElementById('persetujuan-items-container');
+    if (!container) return;
+
+    const count = container.querySelectorAll('.agr-item-card').length + 1;
+    const newCard = document.createElement('div');
+    newCard.className = 'agr-item-card rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all space-y-3 shadow-2xs';
+    newCard.innerHTML = `
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 flex items-center gap-2.5">
+          <span class="agr-item-num flex h-6 min-w-6 px-1.5 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs shrink-0 select-none">
+            ${count}
+          </span>
+          <input
+            type="text"
+            placeholder="Judul klausul persetujuan baru..."
+            class="agr-title-input text-sm font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-1 py-0.5 w-full"
+          />
+          <span class="required-asterisk text-rose-500 font-bold text-sm select-none">*</span>
+        </div>
+      </div>
+
+      <div>
+        <textarea
+          rows="2"
+          placeholder="Isi klausul pernyataan persetujuan pendaftar..."
+          class="w-full rounded-lg border border-gray-200 bg-gray-50/50 p-2.5 text-xs text-gray-700 leading-relaxed transition focus:bg-white focus:border-[#1063B9] focus:outline-none"
+        ></textarea>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-1 text-xs">
+        <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer select-none">
+          <span>Wajib</span>
+          <input
+            type="checkbox"
+            checked
+            onchange="toggleAgrAsterisk(this)"
+            class="h-3.5 w-3.5 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+          />
+        </label>
+        <div class="h-3.5 w-px bg-gray-200"></div>
+        <button
+          type="button"
+          onclick="hapusAgrItem(this)"
+          class="p-1.5 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+          title="Hapus Butir Pernyataan"
+        >
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    `;
+    container.appendChild(newCard);
+    if (window.lucide) window.lucide.createIcons();
+    const input = newCard.querySelector('input[type="text"]');
+    if (input) input.focus();
+  }
+</script>

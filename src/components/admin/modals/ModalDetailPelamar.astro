@@ -1,0 +1,88 @@
+    <!-- 4. Modal Detail Pelamar & Final Approval -->
+    <div id="modal-detail-pelamar" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+      <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-lg w-full p-6 space-y-4 text-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+          <h3 class="text-lg font-semibold text-[#09090b]">Final Approval Pelamar Kontributor</h3>
+          <button type="button" onclick="closePelamarDetailModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <div class="space-y-4">
+          <!-- Profil Mahasiswa -->
+          <div class="flex items-center justify-between p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
+            <div class="flex items-center gap-3">
+              <div id="modal-pelamar-avatar" class="h-9 w-9 rounded-full bg-muted text-[#71717a] font-medium text-xs flex items-center justify-center shrink-0">
+                MHS
+              </div>
+              <div>
+                <div id="modal-pelamar-nama" class="font-medium text-[#09090b] text-sm">-</div>
+                <div id="modal-pelamar-meta" class="text-xs text-[#71717a]">-</div>
+              </div>
+            </div>
+            <div id="modal-pelamar-status-badge">
+              <span class="inline-flex items-center rounded-md border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-800">Menunggu</span>
+            </div>
+          </div>
+
+          <!-- Rincian Kontributor & Formasi -->
+          <div class="grid grid-cols-2 gap-3 p-3.5 rounded-lg border border-[#e4e4e7]">
+            <div>
+              <span class="text-xs text-[#71717a]">Kontributor Penempatan</span>
+              <div id="modal-pelamar-kontributor" class="font-medium text-[#09090b] text-sm mt-0.5">-</div>
+            </div>
+            <div>
+              <span class="text-xs text-[#71717a]">Posisi / Formasi</span>
+              <div id="modal-pelamar-posisi" class="font-medium text-[#09090b] text-sm mt-0.5">-</div>
+            </div>
+          </div>
+
+          <!-- Hasil Rekomendasi Kontributor -->
+          <div class="p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-medium text-[#09090b]">Hasil Seleksi Internal Kontributor:</span>
+              <span id="modal-pelamar-skor" class="font-semibold text-xs text-[#0655a7]">Skor: 92/100</span>
+            </div>
+            <p id="modal-pelamar-catatan-kontributor" class="text-xs text-[#71717a] leading-relaxed italic">
+              "Mahasiswa menunjukkan portofolio memuaskan dan lolos live coding challenge."
+            </p>
+          </div>
+
+          <!-- Catatan / Input Keputusan Koordinator -->
+          <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-xs">Catatan Koordinator MBKM (Opsional):</label>
+            <textarea
+              id="modal-pelamar-catatan-koor"
+              rows="2"
+              placeholder="Tambahkan catatan resmi persetujuan atau penolakan..."
+              class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            onclick="closePelamarDetailModal()"
+            class="inline-flex items-center justify-center h-9 px-4 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+          >
+            Tutup
+          </button>
+          <button
+            type="button"
+            id="btn-modal-pelamar-tolak"
+            class="inline-flex items-center justify-center gap-1.5 h-9 px-3 text-sm font-medium rounded-md border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 transition-colors"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+            <span>Tolak</span>
+          </button>
+          <button
+            type="button"
+            id="btn-modal-pelamar-setujui"
+            class="inline-flex items-center justify-center gap-1.5 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"
+          >
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Setujui (Approval)</span>
+          </button>
+        </div>
+      </div>
+    </div>

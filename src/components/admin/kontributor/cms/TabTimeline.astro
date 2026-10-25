@@ -1,0 +1,207 @@
+---
+// src/components/admin/kontributor/cms/TabTimeline.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const defaultTimelineSteps = [
+  {
+    step: 1,
+    title: "Onboarding Peserta",
+    desc: "Aktivasi akun dan orientasi program.",
+  },
+  {
+    step: 2,
+    title: "Pembelajaran Mandiri",
+    desc: "Modul industri dan mentoring praktisi.",
+  },
+  {
+    step: 3,
+    title: "Proyek Nyata",
+    desc: "Capstone Project berbasis kasus industri.",
+  },
+  {
+    step: 4,
+    title: "Pembekalan Karir",
+    desc: "Soft skills dan kesiapan kerja.",
+  },
+  {
+    step: 5,
+    title: "Konversi SKS",
+    desc: "Luaran diakui hingga 20 SKS.",
+  },
+];
+---
+
+<div class:list={["space-y-6 font-sans", className]}>
+  <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+    <!-- Header Card (Statis sesuai Alur Kegiatan) -->
+    <div class="border-b border-gray-100 pb-4">
+      <h3 class="text-base font-semibold text-[#09090b]">
+        Alur Kegiatan (Timeline)
+      </h3>
+      <p class="mt-0.5 text-xs text-[#71717a]">
+        Tahapan kegiatan yang dijalani mahasiswa setelah resmi diterima sebagai peserta, hingga luaran pembelajarannya diakui.
+      </p>
+    </div>
+
+    <!-- Daftar 5 Langkah Alur Kegiatan (Maksimal 5 Tahap) -->
+    <div class="mt-6">
+      <div class="space-y-4" id="timeline-steps-container">
+        {defaultTimelineSteps.map((step) => (
+          <div class="timeline-step-row rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all shadow-2xs space-y-3">
+            <!-- Header Langkah: Badge Nomor & Tombol Hapus -->
+            <div class="flex items-center justify-between pb-2.5 border-b border-gray-100">
+              <span class="step-num flex h-6 w-6 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs">
+                {step.step}
+              </span>
+              <button
+                type="button"
+                onclick="hapusTimelineStep(this)"
+                class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                title="Hapus Tahap"
+              >
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Inputs: Judul & Deskripsi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="mb-1.5 block text-xs font-semibold text-gray-700">Judul</label>
+                <input
+                  type="text"
+                  value={step.title}
+                  placeholder="Contoh: Onboarding Peserta"
+                  class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+                />
+              </div>
+              <div>
+                <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi</label>
+                <input
+                  type="text"
+                  value={step.desc}
+                  placeholder="Contoh: Aktivasi akun dan orientasi program."
+                  class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Tombol Tambah Tahap (Otomatis disembunyikan jika sudah 5 tahap maksimal) -->
+      <div class="mt-5">
+        <button
+          type="button"
+          id="btn-tambah-timeline-step"
+          onclick="tambahTimelineStep()"
+          class="hidden items-center justify-center gap-2 rounded-lg border border-dashed border-[#1063B9] bg-blue-50/50 hover:bg-blue-50 px-5 py-3 text-sm font-semibold text-[#1063B9] transition shadow-2xs cursor-pointer w-full sm:w-auto"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Tambah Tahap</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const MAX_TIMELINE_STEPS = 5;
+
+  function updateTimelineStepState() {
+    const container = document.getElementById('timeline-steps-container');
+    const btnTambah = document.getElementById('btn-tambah-timeline-step');
+    const badge = document.getElementById('timeline-count-badge');
+    if (!container) return;
+
+    const rows = container.querySelectorAll('.timeline-step-row');
+    const count = rows.length;
+
+    // Perbarui penomoran langkah
+    rows.forEach((row, idx) => {
+      const numEl = row.querySelector('.step-num');
+      if (numEl) numEl.textContent = idx + 1;
+    });
+
+    // Update badge teks
+    if (badge) {
+      badge.textContent = count >= MAX_TIMELINE_STEPS
+        ? `${count} dari ${MAX_TIMELINE_STEPS} Tahap (Maksimal)`
+        : `${count} dari ${MAX_TIMELINE_STEPS} Tahap`;
+    }
+
+    // Sembunyikan tombol jika sudah maksimal 5 tahap
+    if (btnTambah) {
+      if (count >= MAX_TIMELINE_STEPS) {
+        btnTambah.classList.add('hidden');
+        btnTambah.classList.remove('inline-flex');
+      } else {
+        btnTambah.classList.remove('hidden');
+        btnTambah.classList.add('inline-flex');
+      }
+    }
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function hapusTimelineStep(btn) {
+    const row = btn.closest('.timeline-step-row');
+    if (row) {
+      row.remove();
+      updateTimelineStepState();
+    }
+  }
+
+  function tambahTimelineStep() {
+    const container = document.getElementById('timeline-steps-container');
+    if (!container) return;
+    const count = container.querySelectorAll('.timeline-step-row').length;
+    if (count >= MAX_TIMELINE_STEPS) return;
+
+    const newStepNum = count + 1;
+    const newRow = document.createElement('div');
+    newRow.className = 'timeline-step-row rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all shadow-2xs space-y-3';
+    newRow.innerHTML = `
+      <div class="flex items-center justify-between pb-2.5 border-b border-gray-100">
+        <span class="step-num flex h-6 w-6 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs">
+          ${newStepNum}
+        </span>
+        <button
+          type="button"
+          onclick="hapusTimelineStep(this)"
+          class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+          title="Hapus Tahap"
+        >
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="mb-1.5 block text-xs font-semibold text-gray-700">Judul</label>
+          <input
+            type="text"
+            placeholder="Judul Tahap ${newStepNum}"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+          />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi</label>
+          <input
+            type="text"
+            placeholder="Deskripsi aktivitas tahap ${newStepNum}..."
+            class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+          />
+        </div>
+      </div>
+    `;
+    container.appendChild(newRow);
+    updateTimelineStepState();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateTimelineStepState();
+  });
+</script>

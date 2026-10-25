@@ -1,0 +1,105 @@
+---
+import Modal from '../../ui/Modal.astro';
+import Button from '../../ui/Button.astro';
+
+interface Props {
+  openVar?: string;
+}
+
+const { openVar = 'openAddModal' } = Astro.props;
+---
+
+<Modal
+  openVar={openVar}
+  title="Tambah Kontributor"
+  subtitle="Daftarkan entitas kontributor internal atau eksternal untuk program MBKM FIK."
+  maxWidth="lg"
+>
+  <form class="space-y-4 text-sm" @submit.prevent={`${openVar} = false`} x-data="{ kontributorType: 'internal' }">
+    <!-- Tipe Kerja Sama -->
+    <div>
+      <label class="block font-semibold text-slate-800 text-xs uppercase tracking-wider mb-2">Kategori Kerja Sama</label>
+      <div class="grid grid-cols-2 gap-3">
+        <label
+          class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 cursor-pointer transition-colors"
+          :class="kontributorType === 'internal' ? 'bg-blue-50/70 border-[#0655a7] text-[#0655a7]' : 'hover:bg-slate-50 text-slate-700'"
+        >
+          <input
+            type="radio"
+            name="kontributorType"
+            value="internal"
+            x-model="kontributorType"
+            class="text-[#0655a7] focus:ring-[#0655a7]"
+          />
+          <span class="text-xs font-semibold">Kontributor Internal (UDINUS)</span>
+        </label>
+
+        <label
+          class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 cursor-pointer transition-colors"
+          :class="kontributorType === 'eksternal' ? 'bg-blue-50/70 border-[#0655a7] text-[#0655a7]' : 'hover:bg-slate-50 text-slate-700'"
+        >
+          <input
+            type="radio"
+            name="kontributorType"
+            value="eksternal"
+            x-model="kontributorType"
+            class="text-[#0655a7] focus:ring-[#0655a7]"
+          />
+          <span class="text-xs font-semibold">Kontributor Eksternal (Industri)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Nama Kontributor -->
+    <div class="space-y-1.5">
+      <label class="block font-medium text-slate-700 text-xs">Nama Perusahaan / Unit Kontributor <span class="text-rose-500">*</span></label>
+      <input
+        type="text"
+        required
+        placeholder="Contoh: PT Telkom Indonesia atau Bengkel Koding"
+        class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+      />
+    </div>
+
+    <!-- PIC & Email -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="space-y-1.5">
+        <label class="block font-medium text-slate-700 text-xs">Penanggung Jawab (PIC) <span class="text-rose-500">*</span></label>
+        <input
+          type="text"
+          required
+          placeholder="Nama PIC Kontributor"
+          class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label class="block font-medium text-slate-700 text-xs">Email Akun Kontributor <span class="text-rose-500">*</span></label>
+        <input
+          type="email"
+          required
+          placeholder="email@perusahaan.com"
+          class="h-9.5 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+        />
+      </div>
+    </div>
+
+    <!-- Deskripsi -->
+    <div class="space-y-1.5">
+      <label class="block font-medium text-slate-700 text-xs">Deskripsi Profil Singkat</label>
+      <textarea
+        rows="3"
+        placeholder="Informasi bidang bisnis atau fokus kerja sama industri..."
+        class="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:border-[#0655a7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none placeholder:text-slate-400"
+      ></textarea>
+    </div>
+  </form>
+
+  <div slot="footer" class="flex items-center gap-2">
+    <Button variant="ghost" size="sm" @click={`${openVar} = false`}>
+      Batal
+    </Button>
+    <Button variant="primary" size="sm" @click={`${openVar} = false`}>
+      Simpan Kontributor
+    </Button>
+  </div>
+</Modal>

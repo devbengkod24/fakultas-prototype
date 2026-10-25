@@ -39,10 +39,10 @@ document.addEventListener('alpine:init', () => {
       this.currentTab = tabKey;
 
       // Sinkronkan state submenu jika tab berada di bawah parent
-      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tabKey)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota'].includes(tabKey)) {
+      if (['dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(tabKey)) {
         this.dosenSubmenuOpen = true;
       }
 
@@ -109,10 +109,10 @@ document.addEventListener('alpine:init', () => {
         tab = slugMap[slug] || slug || 'dashboard';
       }
       this.currentTab = tab;
-      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tab)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota'].includes(tab)) {
+      if (['dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(tab)) {
         this.dosenSubmenuOpen = true;
       }
       if (['form-pendaftaran', 'periode'].includes(tab)) {
@@ -137,9 +137,9 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('alpine:init', () => {
   /**
    * Komponen direktori kontributor: state tab, pencarian, dan override status.
-   * Dipakai oleh tabel Astro statis di MitraTable.astro agar badge status reaktif.
+   * Dipakai oleh tabel Astro statis di KontributorTable.astro agar badge status reaktif.
    */
-  Alpine.data('mitraDirectory', () => ({
+  Alpine.data('kontributorDirectory', () => ({
     activeTab: 'eksternal',
     searchQuery: '',
     statusOverrides: {},
@@ -379,10 +379,11 @@ function switchTab(tabKey) {
     targetId = 'section-koordinator';
   } else if (tabKey === 'sidang' && !document.getElementById('section-sidang')) {
     targetId = 'section-sidang';
-  } else if ((tabKey === 'mitra' || tabKey === 'kontributor') && !document.getElementById('section-' + tabKey)) {
-    // Halaman kontributor memakai id section-mitra / section-mitra-cms
-    if (document.getElementById('section-mitra')) targetId = 'section-mitra';
-    else if (document.getElementById('section-mitra-cms')) targetId = 'section-mitra-cms';
+  } else if (tabKey === 'kontributor' && !document.getElementById('section-' + tabKey)) {
+    // Halaman kontributor memakai id section-kontributor / section-kontributor-cms / section-kelola-program
+    if (document.getElementById('section-kontributor')) targetId = 'section-kontributor';
+    else if (document.getElementById('section-kontributor-cms')) targetId = 'section-kontributor-cms';
+    else if (document.getElementById('section-kelola-program')) targetId = 'section-kelola-program';
   }
 
   const targetSec = document.getElementById(targetId);
@@ -451,7 +452,7 @@ function switchTab(tabKey) {
       subBtn = document.getElementById('nav-sub-mhs-semua');
     }
     if ((tabKey === 'dosen-update' || tabKey === 'update-dosen') && !subBtn) {
-      subBtn = document.getElementById('nav-sub-mhs-update-dosen');
+      subBtn = document.getElementById('nav-sub-dosen-update') || document.getElementById('nav-sub-mhs-update-dosen');
     }
     if (subBtn) {
       subBtn.classList.remove('text-[#71717a]');
@@ -461,7 +462,7 @@ function switchTab(tabKey) {
     }
   } else {
     let activeBtn = document.getElementById('nav-' + tabKey);
-    if (!activeBtn && tabKey === 'mitra') {
+    if (!activeBtn && tabKey === 'kontributor') {
       activeBtn = document.getElementById('nav-kontributor');
     }
     if (activeBtn) {
@@ -475,13 +476,16 @@ function switchTab(tabKey) {
   if (meta) {
     updateBreadcrumb(meta.label);
 
-    const hTitle = document.getElementById('header-page-title');
-    if (hTitle) hTitle.textContent = meta.title || meta.label;
-    const hSub = document.getElementById('header-page-subtitle');
-    if (hSub) hSub.textContent = meta.subtitle || '';
+    const isCmsStandalone = !!document.getElementById('section-kontributor-cms') || !!document.getElementById('section-kelola-program');
+    if (!isCmsStandalone) {
+      const hTitle = document.getElementById('header-page-title');
+      if (hTitle) hTitle.textContent = meta.title || meta.label;
+      const hSub = document.getElementById('header-page-subtitle');
+      if (hSub) hSub.textContent = meta.subtitle || '';
 
-    const actionSlot = document.getElementById('header-action-slot');
-    if (actionSlot) actionSlot.innerHTML = meta.actionButton || '';
+      const actionSlot = document.getElementById('header-action-slot');
+      if (actionSlot) actionSlot.innerHTML = meta.actionButton || '';
+    }
   }
   if (window.lucide) window.lucide.createIcons();
 
@@ -495,8 +499,8 @@ function switchTab(tabKey) {
     renderPeriodeData();
   } else if (tabKey === 'form-pendaftaran') {
     renderFormPendaftaranUI();
-  } else if (tabKey === 'mitra') {
-    renderMitraTable();
+  } else if (tabKey === 'kontributor') {
+    renderKontributorTable();
   } else if (tabKey === 'mhs-pelamar') {
     renderPelamarTable();
   } else if (tabKey === 'mhs-semua') {
@@ -512,7 +516,7 @@ function switchTab(tabKey) {
   }
   hideSurekomDetail();
   hideLogbookDetail();
-  hideMitraDetail();
+  hideKontributorDetail();
   const bar2 = document.getElementById('dashboard-header-bar-2');
   if (bar2) bar2.classList.remove('hidden');
 
@@ -1923,7 +1927,7 @@ function populateProgramKategoriDropdown() {
   }
 
   if (internalList.length > 0) {
-    html += `<optgroup label="MBKM Internal (Penugasan Mitra / Auto-Lolos)">`;
+    html += `<optgroup label="MBKM Internal (Penugasan Kontributor / Auto-Lolos)">`;
     internalList.forEach((k) => {
       html += `<option value="${k.id}">${k.nama}</option>`;
     });
@@ -1978,7 +1982,7 @@ function getFilteredSurekomData() {
       item.nama.toLowerCase().includes(surekomSearchQuery) ||
       item.nim.toLowerCase().includes(surekomSearchQuery) ||
       item.program.toLowerCase().includes(surekomSearchQuery) ||
-      (item.mitra && item.mitra.toLowerCase().includes(surekomSearchQuery));
+      (item.kontributor && item.kontributor.toLowerCase().includes(surekomSearchQuery));
 
     const matchStatus =
       surekomFilterStatus === 'semua' || item.status === surekomFilterStatus;
@@ -1986,7 +1990,7 @@ function getFilteredSurekomData() {
     const matchProgram =
       surekomFilterProgram === 'semua' ||
       item.program.toLowerCase().includes(surekomFilterProgram.toLowerCase()) ||
-      (item.mitra && item.mitra.toLowerCase().includes(surekomFilterProgram.toLowerCase()));
+      (item.kontributor && item.kontributor.toLowerCase().includes(surekomFilterProgram.toLowerCase()));
 
     const matchProdi =
       surekomFilterProdi === 'semua' ||
@@ -2076,7 +2080,7 @@ function renderSurekomTable() {
               </div>
             </td>
             <td class="px-4">
-              <div class="text-sm font-medium text-[#09090b]">${item.mitra}</div>
+              <div class="text-sm font-medium text-[#09090b]">${item.kontributor}</div>
             </td>
             <td class="px-4 text-center text-sm font-medium text-[#09090b]">${item.ipk}</td>
             <td class="px-4 text-center text-sm text-[#71717a]">${item.sksLulus}</td>
@@ -2182,8 +2186,8 @@ function openValidasiSurekomModal(id) {
   const program = document.getElementById('modal-surekom-program');
   if (program) program.textContent = item.program;
 
-  const mitra = document.getElementById('modal-surekom-mitra');
-  if (mitra) mitra.textContent = item.mitra;
+  const kontributor = document.getElementById('modal-surekom-kontributor');
+  if (kontributor) kontributor.textContent = item.kontributor;
 
   // Isi pratinjau surat langsung di dalam modal
   const previewEl = document.getElementById('modal-surekom-doc-preview');
@@ -2342,7 +2346,7 @@ Program Studi : ${item.prodi}
 Semester      : ${item.semester}
 IPK Kumulatif : ${item.ipk} (Total ${item.sksLulus} SKS Lulus)
 
-Untuk mengikuti program ${item.program} pada instansi ${item.mitra} periode Semester Gasal 2026/2027.
+Untuk mengikuti program ${item.program} pada instansi ${item.kontributor} periode Semester Gasal 2026/2027.
 
 Berdasarkan data akademik EWS & SIADIN, yang bersangkutan dinyatakan memenuhi seluruh persyaratan kualifikasi akademik dan bebas sanksi kode etik.
 
@@ -3079,7 +3083,7 @@ function handleSavePengumuman(e) {
 
   const sasaranLabels = {
     semua_mhs: 'Semua Mahasiswa MBKM',
-    mitra_dpl: 'Mitra & DPL',
+    kontributor_dospem: 'Kontributor & Dosen Pembimbing',
     magang: 'Peserta Magang Industri',
     studi_independen: 'Peserta Studi Independen'
   };
@@ -3455,8 +3459,12 @@ function handleSaveEditPeriode(e) {
 
 
 function switchFormTab(tabId) {
+  if (tabId === 'akademik') tabId = 'identitas';
+  if (tabId === 'berkas') tabId = 'dokumen';
+  if (tabId === 'konversi' || tabId === 'surekom') tabId = 'persetujuan';
+
   formPendaftaranConfig.activeTab = tabId;
-  const tabs = ['akademik', 'berkas', 'konversi', 'surekom'];
+  const tabs = ['identitas', 'dokumen', 'persetujuan', 'akademik', 'berkas', 'konversi', 'surekom'];
 
   tabs.forEach((t) => {
     const btn = document.getElementById('btn-form-tab-' + t);
@@ -3465,13 +3473,15 @@ function switchFormTab(tabId) {
     if (t === tabId) {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors shrink-0';
+          'form-tab-btn inline-flex items-center px-5 py-3 text-sm font-semibold border-b-2 border-primary-600 text-primary-700 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'true');
       }
       if (content) content.classList.remove('hidden');
     } else {
       if (btn) {
         btn.className =
-          'inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors shrink-0';
+          'form-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'false');
       }
       if (content) content.classList.add('hidden');
     }
@@ -3746,7 +3756,7 @@ function insertSurekomTag(tag) {
 
 function resetSurekomTemplate() {
   const defaultTpl =
-    'Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_mitra} untuk periode {semester_ajaran}.';
+    'Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_kontributor} untuk periode {semester_ajaran}.';
   const el = document.getElementById('cfg-surekom-template');
   if (el) el.value = defaultTpl;
   triggerAutosave('surekomTemplate', defaultTpl);
@@ -3842,7 +3852,7 @@ function openPreviewMahasiswaModal() {
       .replace(/{program_studi}/g, 'S1 Teknik Informatika')
       .replace(/{ipk}/g, '3.68')
       .replace(/{sks_lulus}/g, '112')
-      .replace(/{nama_mitra}/g, 'PT. Presentologics (Dicoding Indonesia)')
+      .replace(/{nama_kontributor}/g, 'PT. Presentologics (Dicoding Indonesia)')
       .replace(/{semester_ajaran}/g, 'Semester Gasal 2026/2027');
     surekomEl.textContent = text;
   }
@@ -3881,30 +3891,30 @@ function switchPreviewStep(step) {
   if (window.lucide) window.lucide.createIcons();
 }
 
-// 4. MODUL MITRA (REVISI TABEL & HERO CARD DETAIL MITRA + ADAPTIVE TABS)
-let mitraCategoryTab = 'internal'; // 'internal' | 'eksternal'
-let modalMitraType = 'internal';
-let activeDetailMitraId = null;
+// 4. MODUL KONTRIBUTOR (REVISI TABEL & HERO CARD DETAIL KONTRIBUTOR + ADAPTIVE TABS)
+let kontributorCategoryTab = 'internal'; // 'internal' | 'eksternal'
+let modalKontributorType = 'internal';
+let activeDetailKontributorId = null;
 
 
 
-let mitraSearchQuery = '';
-let mitraCurrentPage = 1;
-const mitraItemsPerPage = 10;
-let modalMitraActiveTab = 'manual';
+let kontributorSearchQuery = '';
+let kontributorCurrentPage = 1;
+const kontributorItemsPerPage = 10;
+let modalKontributorActiveTab = 'manual';
 
-function handleSearchMitra(val) {
-  mitraSearchQuery = (val || '').toLowerCase().trim();
-  mitraCurrentPage = 1;
-  renderMitraTable();
+function handleSearchKontributor(val) {
+  kontributorSearchQuery = (val || '').toLowerCase().trim();
+  kontributorCurrentPage = 1;
+  renderKontributorTable();
 }
 
-function switchMitraCategoryTab(cat) {
-  mitraCategoryTab = cat;
-  mitraCurrentPage = 1;
-  const btnInt = document.getElementById('btn-tab-mitra-internal');
-  const btnEks = document.getElementById('btn-tab-mitra-eksternal');
-  const thAkunPic = document.getElementById('th-mitra-akun-pic');
+function switchKontributorCategoryTab(cat) {
+  kontributorCategoryTab = cat;
+  kontributorCurrentPage = 1;
+  const btnInt = document.getElementById('btn-tab-kontributor-internal');
+  const btnEks = document.getElementById('btn-tab-kontributor-eksternal');
+  const thAkunPic = document.getElementById('th-kontributor-akun-pic');
 
   if (cat === 'internal') {
     if (btnInt) btnInt.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-[#0655a7] text-[#0655a7] transition-colors';
@@ -3915,54 +3925,54 @@ function switchMitraCategoryTab(cat) {
     if (btnInt) btnInt.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors';
     if (thAkunPic) thAkunPic.textContent = 'Penanggung Jawab';
   }
-  renderMitraTable();
+  renderKontributorTable();
 }
 
-function updateMitraCategoryBadges() {
-  const countInt = mitraListData.filter(m => m.tipe === 'internal').length;
-  const countEks = mitraListData.filter(m => m.tipe === 'eksternal').length;
-  const badgeInt = document.getElementById('badge-count-mitra-internal');
-  const badgeEks = document.getElementById('badge-count-mitra-eksternal');
+function updateKontributorCategoryBadges() {
+  const countInt = kontributorListData.filter(m => m.tipe === 'internal').length;
+  const countEks = kontributorListData.filter(m => m.tipe === 'eksternal').length;
+  const badgeInt = document.getElementById('badge-count-kontributor-internal');
+  const badgeEks = document.getElementById('badge-count-kontributor-eksternal');
   if (badgeInt) badgeInt.textContent = countInt;
   if (badgeEks) badgeEks.textContent = countEks;
 }
 
-function getFilteredMitraData() {
-  return mitraListData.filter((m) => {
-    const matchCategory = m.tipe === mitraCategoryTab;
+function getFilteredKontributorData() {
+  return kontributorListData.filter((m) => {
+    const matchCategory = m.tipe === kontributorCategoryTab;
     const matchQuery =
-      !mitraSearchQuery ||
-      m.nama.toLowerCase().includes(mitraSearchQuery) ||
-      (m.deskripsi && m.deskripsi.toLowerCase().includes(mitraSearchQuery)) ||
-      (m.sektor && m.sektor.toLowerCase().includes(mitraSearchQuery)) ||
-      (m.picNama && m.picNama.toLowerCase().includes(mitraSearchQuery)) ||
-      (m.picEmail && m.picEmail.toLowerCase().includes(mitraSearchQuery));
+      !kontributorSearchQuery ||
+      m.nama.toLowerCase().includes(kontributorSearchQuery) ||
+      (m.deskripsi && m.deskripsi.toLowerCase().includes(kontributorSearchQuery)) ||
+      (m.sektor && m.sektor.toLowerCase().includes(kontributorSearchQuery)) ||
+      (m.picNama && m.picNama.toLowerCase().includes(kontributorSearchQuery)) ||
+      (m.picEmail && m.picEmail.toLowerCase().includes(kontributorSearchQuery));
     return matchCategory && matchQuery;
   });
 }
 
-function renderMitraTable() {
-  const tbody = document.getElementById('mitra-table-tbody');
-  const infoEl = document.getElementById('mitra-table-info');
-  const paginationEl = document.getElementById('mitra-pagination-controls');
+function renderKontributorTable() {
+  const tbody = document.getElementById('kontributor-table-tbody');
+  const infoEl = document.getElementById('kontributor-table-info');
+  const paginationEl = document.getElementById('kontributor-pagination-controls');
   if (!tbody) return;
 
-  updateMitraCategoryBadges();
+  updateKontributorCategoryBadges();
 
-  const filtered = getFilteredMitraData();
+  const filtered = getFilteredKontributorData();
   const totalItems = filtered.length;
-  const totalPages = Math.ceil(totalItems / mitraItemsPerPage) || 1;
-  if (mitraCurrentPage > totalPages) mitraCurrentPage = totalPages;
+  const totalPages = Math.ceil(totalItems / kontributorItemsPerPage) || 1;
+  if (kontributorCurrentPage > totalPages) kontributorCurrentPage = totalPages;
 
-  const startIndex = (mitraCurrentPage - 1) * mitraItemsPerPage;
-  const endIndex = Math.min(startIndex + mitraItemsPerPage, totalItems);
+  const startIndex = (kontributorCurrentPage - 1) * kontributorItemsPerPage;
+  const endIndex = Math.min(startIndex + kontributorItemsPerPage, totalItems);
   const currentSlice = filtered.slice(startIndex, endIndex);
 
   if (currentSlice.length === 0) {
     tbody.innerHTML = `
       <tr>
         <td colspan="7" class="py-8 text-center text-sm text-[#71717a]">
-          Tidak ada data mitra ${mitraCategoryTab === 'internal' ? 'internal' : 'eksternal'} yang cocok dengan kriteria pencarian.
+          Tidak ada data kontributor ${kontributorCategoryTab === 'internal' ? 'internal' : 'eksternal'} yang cocok dengan kriteria pencarian.
         </td>
       </tr>
     `;
@@ -3982,7 +3992,7 @@ function renderMitraTable() {
           `
           : `
             <div class="font-medium text-[#09090b] text-sm">${item.picNama}</div>
-            <div class="text-xs text-[#71717a] mt-0.5">${item.sektor || 'Instansi Mitra'}</div>
+            <div class="text-xs text-[#71717a] mt-0.5">${item.sektor || 'Instansi Kontributor'}</div>
           `;
 
         return `
@@ -4022,7 +4032,7 @@ function renderMitraTable() {
           <td class="px-4 text-center">
             <button
               type="button"
-              onclick="showMitraDetail(${item.id})"
+              onclick="showKontributorDetail(${item.id})"
               class="inline-flex items-center justify-center gap-1.5 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
               title="Lihat Detail"
             >
@@ -4039,7 +4049,7 @@ function renderMitraTable() {
   if (infoEl) {
     infoEl.textContent = totalItems === 0
       ? 'Page 0 of 0 (0 total items)'
-      : `Page ${mitraCurrentPage} of ${totalPages} (${totalItems} total items)`;
+      : `Page ${kontributorCurrentPage} of ${totalPages} (${totalItems} total items)`;
   }
 
   if (paginationEl) {
@@ -4047,19 +4057,19 @@ function renderMitraTable() {
     html += `
       <button
         type="button"
-        onclick="goToMitraPage(${mitraCurrentPage - 1})"
-        ${mitraCurrentPage === 1 ? 'disabled' : ''}
+        onclick="goToKontributorPage(${kontributorCurrentPage - 1})"
+        ${kontributorCurrentPage === 1 ? 'disabled' : ''}
         class="inline-flex items-center justify-center h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Prev
       </button>
     `;
     for (let p = 1; p <= totalPages; p++) {
-      const isActive = p === mitraCurrentPage;
+      const isActive = p === kontributorCurrentPage;
       html += `
         <button
           type="button"
-          onclick="goToMitraPage(${p})"
+          onclick="goToKontributorPage(${p})"
           class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${ isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]' }"
         >
           ${p}
@@ -4069,8 +4079,8 @@ function renderMitraTable() {
     html += `
       <button
         type="button"
-        onclick="goToMitraPage(${mitraCurrentPage + 1})"
-        ${mitraCurrentPage === totalPages ? 'disabled' : ''}
+        onclick="goToKontributorPage(${kontributorCurrentPage + 1})"
+        ${kontributorCurrentPage === totalPages ? 'disabled' : ''}
         class="inline-flex items-center justify-center h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
       >
         Next
@@ -4082,36 +4092,36 @@ function renderMitraTable() {
   if (window.lucide) window.lucide.createIcons();
 }
 
-function goToMitraPage(p) {
-  const totalPages = Math.ceil(getFilteredMitraData().length / mitraItemsPerPage) || 1;
+function goToKontributorPage(p) {
+  const totalPages = Math.ceil(getFilteredKontributorData().length / kontributorItemsPerPage) || 1;
   if (p < 1 || p > totalPages) return;
-  mitraCurrentPage = p;
-  renderMitraTable();
+  kontributorCurrentPage = p;
+  renderKontributorTable();
 }
 
-function toggleMitraStatus(id) {
-  const item = mitraListData.find((m) => m.id === id);
+function toggleKontributorStatus(id) {
+  const item = kontributorListData.find((m) => m.id === id);
   if (!item) return;
   item.status = item.status === 'aktif' ? 'nonaktif' : 'aktif';
-  renderMitraTable();
+  renderKontributorTable();
 }
 
 // ====================================================
 // Modal Konfirmasi Ubah Status Kontributor
 // ====================================================
-let pendingToggleMitraId = null;
+let pendingToggleKontributorId = null;
 
-function openModalToggleStatusMitra(id) {
-  const item = mitraListData.find((m) => m.id === id);
+function openModalToggleStatusKontributor(id) {
+  const item = kontributorListData.find((m) => m.id === id);
   if (!item) return;
 
   const isAktif = item.status === 'aktif';
   const totalDosen = item.dosen ? item.dosen.length : 0;
   const totalMhs = item.mhs ? item.mhs.length : 0;
 
-  pendingToggleMitraId = id;
+  pendingToggleKontributorId = id;
 
-  const modal = document.getElementById('modal-toggle-status-mitra');
+  const modal = document.getElementById('modal-toggle-status-kontributor');
   const iconEl = document.getElementById('modal-toggle-status-icon');
   const titleEl = document.getElementById('modal-toggle-status-title');
   const subtitleEl = document.getElementById('modal-toggle-status-subtitle');
@@ -4131,8 +4141,8 @@ function openModalToggleStatusMitra(id) {
 
   if (titleEl) titleEl.textContent = isAktif ? 'Nonaktifkan Kontributor?' : 'Aktifkan Kontributor?';
   if (subtitleEl) subtitleEl.textContent = isAktif
-    ? 'Tindakan ini akan membekukan seluruh aktivitas mitra.'
-    : 'Aktivitas mitra akan dijalankan kembali.';
+    ? 'Tindakan ini akan membekukan seluruh aktivitas kontributor.'
+    : 'Aktivitas kontributor akan dijalankan kembali.';
 
   if (namaEl) namaEl.textContent = item.nama;
   if (detailEl) detailEl.textContent = `${totalDosen} dosen binaan · ${totalMhs} mahasiswa aktif · ${item.sektor || '-'}`;
@@ -4154,27 +4164,27 @@ function openModalToggleStatusMitra(id) {
   }
 }
 
-function closeModalToggleStatusMitra() {
-  pendingToggleMitraId = null;
-  const modal = document.getElementById('modal-toggle-status-mitra');
+function closeModalToggleStatusKontributor() {
+  pendingToggleKontributorId = null;
+  const modal = document.getElementById('modal-toggle-status-kontributor');
   if (modal) modal.classList.add('hidden');
 }
 
-function confirmToggleStatusMitra() {
-  if (pendingToggleMitraId === null) return;
-  const id = pendingToggleMitraId;
-  pendingToggleMitraId = null;
+function confirmToggleStatusKontributor() {
+  if (pendingToggleKontributorId === null) return;
+  const id = pendingToggleKontributorId;
+  pendingToggleKontributorId = null;
 
-  const modal = document.getElementById('modal-toggle-status-mitra');
+  const modal = document.getElementById('modal-toggle-status-kontributor');
   if (modal) modal.classList.add('hidden');
 
   // Sinkronkan data mock (jika tabel dirender via controller legacy)
-  const item = mitraListData.find((m) => m.id === id);
+  const item = kontributorListData.find((m) => m.id === id);
   const nowAktif = item ? item.status !== 'aktif' : true;
   if (item) item.status = nowAktif ? 'aktif' : 'nonaktif';
 
   // Update Alpine state (tabel Astro statis)
-  const root = document.getElementById('subview-mitra-list');
+  const root = document.getElementById('subview-kontributor-list');
   if (root && window.Alpine) {
     const data = window.Alpine.$data(root);
     if (data && typeof data.setStatus === 'function') {
@@ -4186,8 +4196,8 @@ function confirmToggleStatusMitra() {
 }
 
 // Controller Modal Tambah Kontributor (YAGNI & Clean Handler)
-function showTambahMitraModal(type = 'eksternal') {
-  const modal = document.getElementById('modal-tambah-mitra');
+function showTambahKontributorModal(type = 'eksternal') {
+  const modal = document.getElementById('modal-tambah-kontributor');
   if (!modal) return;
 
   // Reset input fields
@@ -4210,28 +4220,28 @@ function showTambahMitraModal(type = 'eksternal') {
   if (eDesk) eDesk.value = '';
 
   // Sesuaikan tipe kontributor
-  modalMitraType = (type === 'internal') ? 'internal' : 'eksternal';
+  modalKontributorType = (type === 'internal') ? 'internal' : 'eksternal';
 
-  const titleEl = document.getElementById('modal-mitra-title');
+  const titleEl = document.getElementById('modal-kontributor-title');
   if (titleEl) {
-    titleEl.textContent = modalMitraType === 'internal' ? 'Tambah Kontributor Internal' : 'Tambah Kontributor Eksternal';
+    titleEl.textContent = modalKontributorType === 'internal' ? 'Tambah Kontributor Internal' : 'Tambah Kontributor Eksternal';
   }
 
-  handleModalMitraTypeChange(modalMitraType);
+  handleModalKontributorTypeChange(modalKontributorType);
 
   modal.classList.remove('hidden');
   if (window.lucide) window.lucide.createIcons();
 }
 
-function closeTambahMitraModal() {
-  const modal = document.getElementById('modal-tambah-mitra');
+function closeTambahKontributorModal() {
+  const modal = document.getElementById('modal-tambah-kontributor');
   if (modal) modal.classList.add('hidden');
 }
 
-function handleModalMitraTypeChange(type) {
-  modalMitraType = type;
-  const formInt = document.getElementById('modal-form-mitra-internal');
-  const formEks = document.getElementById('modal-form-mitra-eksternal');
+function handleModalKontributorTypeChange(type) {
+  modalKontributorType = type;
+  const formInt = document.getElementById('modal-form-kontributor-internal');
+  const formEks = document.getElementById('modal-form-kontributor-eksternal');
 
   if (type === 'internal') {
     if (formInt) formInt.classList.remove('hidden');
@@ -4243,8 +4253,8 @@ function handleModalMitraTypeChange(type) {
   if (window.lucide) window.lucide.createIcons();
 }
 
-function handleSubmitTambahMitra() {
-  if (modalMitraType === 'internal') {
+function handleSubmitTambahKontributor() {
+  if (modalKontributorType === 'internal') {
     const nama = document.getElementById('modal-internal-nama')?.value.trim();
     const picNama = document.getElementById('modal-internal-pic-nama')?.value.trim();
     const picEmail = document.getElementById('modal-internal-pic-email')?.value.trim();
@@ -4266,14 +4276,14 @@ function handleSubmitTambahMitra() {
       return;
     }
 
-    const newId = mitraListData.length > 0 ? Math.max(...mitraListData.map(m => m.id)) + 1 : 1;
+    const newId = kontributorListData.length > 0 ? Math.max(...kontributorListData.map(m => m.id)) + 1 : 1;
     const avatar = nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() || 'MI';
 
-    mitraListData.unshift({
+    kontributorListData.unshift({
       id: newId,
       nama,
       tipe: 'internal',
-      deskripsi: deskripsi || 'Mitra industri internal binaan FIK.',
+      deskripsi: deskripsi || 'Kontributor industri internal binaan FIK.',
       sektor: 'Teknologi Informasi & Software',
       picNama,
       picEmail,
@@ -4288,9 +4298,9 @@ function handleSubmitTambahMitra() {
       mhs: []
     });
 
-    closeTambahMitraModal();
+    closeTambahKontributorModal();
     alert(`Kontributor Internal "${nama}" berhasil ditambahkan!`);
-    switchMitraCategoryTab('internal');
+    switchKontributorCategoryTab('internal');
   } else {
     const nama = document.getElementById('modal-eksternal-nama')?.value.trim();
     const picNama = document.getElementById('modal-eksternal-pic-nama')?.value.trim();
@@ -4302,14 +4312,14 @@ function handleSubmitTambahMitra() {
       return;
     }
 
-    const newId = mitraListData.length > 0 ? Math.max(...mitraListData.map(m => m.id)) + 1 : 1;
+    const newId = kontributorListData.length > 0 ? Math.max(...kontributorListData.map(m => m.id)) + 1 : 1;
     const avatar = nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() || 'ME';
 
-    mitraListData.unshift({
+    kontributorListData.unshift({
       id: newId,
       nama,
       tipe: 'eksternal',
-      deskripsi: deskripsi || 'Mitra industri eksternal program nasional / mandiri.',
+      deskripsi: deskripsi || 'Kontributor industri eksternal program nasional / mandiri.',
       sektor: 'Industri & Bisnis Luar',
       picNama: picNama || '-',
       picEmail: '',
@@ -4324,30 +4334,30 @@ function handleSubmitTambahMitra() {
       mhs: []
     });
 
-    closeTambahMitraModal();
+    closeTambahKontributorModal();
     alert(`Kontributor Eksternal "${nama}" berhasil ditambahkan!`);
-    switchMitraCategoryTab('eksternal');
+    switchKontributorCategoryTab('eksternal');
   }
 }
 
 // Legacy handler alias
-function handleSaveMitra(e) {
+function handleSaveKontributor(e) {
   if (e) e.preventDefault();
-  handleSubmitTambahMitra();
+  handleSubmitTambahKontributor();
 }
 
 // ====================================================
-// CONTROLLER DETAIL MITRA (HERO CARD + 3 MINI KPI + ADAPTIVE TABS)
+// CONTROLLER DETAIL KONTRIBUTOR (HERO CARD + 3 MINI KPI + ADAPTIVE TABS)
 // ====================================================
-let activeDetailMitraTabPane = 1;
+let activeDetailKontributorTabPane = 1;
 
-function showMitraDetail(id) {
-  const item = mitraListData.find((m) => m.id === id);
+function showKontributorDetail(id) {
+  const item = kontributorListData.find((m) => m.id === id);
   if (!item) return;
 
-  activeDetailMitraId = id;
-  document.getElementById('subview-mitra-list').classList.add('hidden');
-  const detailView = document.getElementById('subview-mitra-detail');
+  activeDetailKontributorId = id;
+  document.getElementById('subview-kontributor-list').classList.add('hidden');
+  const detailView = document.getElementById('subview-kontributor-detail');
   detailView.classList.remove('hidden');
 
   // Sembunyikan Header Baris 2 Direktori & Tombol Tambah Kontributor
@@ -4357,16 +4367,16 @@ function showMitraDetail(id) {
   updateBreadcrumb(['Kontributor', 'Detail']);
 
   // 1. Populate Hero Profile Card
-  const avatarEl = document.getElementById('mitra-detail-avatar');
+  const avatarEl = document.getElementById('kontributor-detail-avatar');
   if (avatarEl) {
     avatarEl.className = 'h-14 w-14 rounded-xl border border-[#e4e4e7] bg-[#f4f4f5] text-[#09090b] font-semibold text-lg flex items-center justify-center shrink-0';
     avatarEl.textContent = item.avatar;
   }
-  const nameEl = document.getElementById('mitra-detail-name');
+  const nameEl = document.getElementById('kontributor-detail-name');
   if (nameEl) nameEl.textContent = item.nama;
-  const deskEl = document.getElementById('mitra-detail-deskripsi');
+  const deskEl = document.getElementById('kontributor-detail-deskripsi');
   if (deskEl) deskEl.textContent = item.deskripsi || '-';
-  const picEl = document.getElementById('mitra-detail-pic');
+  const picEl = document.getElementById('kontributor-detail-pic');
   if (picEl) {
     picEl.textContent = item.tipe === 'internal' && item.picEmail
       ? `${item.picNama} (${item.picEmail})`
@@ -4374,7 +4384,7 @@ function showMitraDetail(id) {
   }
 
   // Badge Tipe Kontributor
-  const typeBadge = document.getElementById('mitra-detail-type-badge');
+  const typeBadge = document.getElementById('kontributor-detail-type-badge');
   if (typeBadge) {
     typeBadge.className = 'inline-flex items-center gap-1.5 rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#09090b]';
     if (item.tipe === 'internal') {
@@ -4388,20 +4398,20 @@ function showMitraDetail(id) {
   const totalDosen = item.dosen ? item.dosen.length : 0;
   const totalMhs = item.mhs ? item.mhs.length : 0;
 
-  const kpiVal2 = document.getElementById('kpi-mitra-val-2');
+  const kpiVal2 = document.getElementById('kpi-kontributor-val-2');
   if (kpiVal2) kpiVal2.textContent = `${totalDosen} Dosen`;
 
-  const kpiVal3 = document.getElementById('kpi-mitra-val-3');
+  const kpiVal3 = document.getElementById('kpi-kontributor-val-3');
   if (kpiVal3) kpiVal3.textContent = `${totalMhs} Mahasiswa`;
 
   // 3. Render Tabs Header (Hanya Daftar Mahasiswa & Daftar Dosen)
-  const tabsHeader = document.getElementById('mitra-detail-tabs-header');
+  const tabsHeader = document.getElementById('kontributor-detail-tabs-header');
   if (tabsHeader) {
     tabsHeader.innerHTML = `
       <button
         type="button"
         id="btn-detail-tab-1"
-        onclick="switchMitraDetailTab(1)"
+        onclick="switchKontributorDetailTab(1)"
         class="detail-tab-btn flex items-center px-4 py-2.5 text-sm font-medium border-b-2 border-[#0655a7] text-[#0655a7] transition-colors"
       >
         <i data-lucide="users" class="mr-2 h-4 w-4"></i>
@@ -4410,7 +4420,7 @@ function showMitraDetail(id) {
       <button
         type="button"
         id="btn-detail-tab-2"
-        onclick="switchMitraDetailTab(2)"
+        onclick="switchKontributorDetailTab(2)"
         class="detail-tab-btn flex items-center px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
       >
         <i data-lucide="user-check" class="mr-2 h-4 w-4"></i>
@@ -4420,11 +4430,11 @@ function showMitraDetail(id) {
   }
 
   // 4. Render Pane Content
-  const pane1 = document.getElementById('mitra-detail-pane-1');
-  const pane2 = document.getElementById('mitra-detail-pane-2');
-  const pane3 = document.getElementById('mitra-detail-pane-3');
+  const pane1 = document.getElementById('kontributor-detail-pane-1');
+  const pane2 = document.getElementById('kontributor-detail-pane-2');
+  const pane3 = document.getElementById('kontributor-detail-pane-3');
 
-  // Helper render tabel mahasiswa bersih (No, Mahasiswa, Prodi, DPL, Status)
+  // Helper render tabel mahasiswa bersih (No, Mahasiswa, Prodi, Dospem, Status)
   const renderTableMahasiswa = (mhsList) => `
     <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
       <table class="w-full text-sm">
@@ -4487,14 +4497,14 @@ function showMitraDetail(id) {
   if (pane2) pane2.innerHTML = renderTableDosen(item.dosen || []);
   if (pane3) pane3.innerHTML = '';
 
-  switchMitraDetailTab(1);
+  switchKontributorDetailTab(1);
   if (window.lucide) window.lucide.createIcons();
 }
 
-function switchMitraDetailTab(paneIndex) {
-  activeDetailMitraTabPane = paneIndex;
+function switchKontributorDetailTab(paneIndex) {
+  activeDetailKontributorTabPane = paneIndex;
   for (let i = 1; i <= 3; i++) {
-    const pane = document.getElementById('mitra-detail-pane-' + i);
+    const pane = document.getElementById('kontributor-detail-pane-' + i);
     const btn = document.getElementById('btn-detail-tab-1') && document.getElementById('btn-detail-tab-' + i);
     if (pane) {
       if (i === paneIndex) pane.classList.remove('hidden');
@@ -4511,12 +4521,12 @@ function switchMitraDetailTab(paneIndex) {
   if (window.lucide) window.lucide.createIcons();
 }
 
-function hideMitraDetail() {
-  const list = document.getElementById('subview-mitra-list');
-  const detail = document.getElementById('subview-mitra-detail');
+function hideKontributorDetail() {
+  const list = document.getElementById('subview-kontributor-list');
+  const detail = document.getElementById('subview-kontributor-detail');
   if (list) list.classList.remove('hidden');
   if (detail) detail.classList.add('hidden');
-  activeDetailMitraId = null;
+  activeDetailKontributorId = null;
 
   // Tampilkan kembali Header Baris 2 Direktori & Tombol Tambah Kontributor
   const bar2 = document.getElementById('dashboard-header-bar-2');
@@ -4526,65 +4536,79 @@ function hideMitraDetail() {
 }
 
 // Legacy alias for compatibility
-function switchMitraTab(tabKey) {
-  if (tabKey === 'program') switchMitraDetailTab(1);
-  else if (tabKey === 'dosen') switchMitraDetailTab(2);
-  else if (tabKey === 'mhs') switchMitraDetailTab(3);
+function switchKontributorTab(tabKey) {
+  if (tabKey === 'program') switchKontributorDetailTab(1);
+  else if (tabKey === 'dosen') switchKontributorDetailTab(2);
+  else if (tabKey === 'mhs') switchKontributorDetailTab(3);
 }
 
 // ====================================================
-// DATA & CONTROLLER CMS HALAMAN PUBLIK MITRA MBKM
+// NAVIGASI KELOLA PROGRAM (HALAMAN TERSENDIRI)
 // ====================================================
-let activeCmsMitraId = null;
+function openKontributorProgram(kontributorId) {
+  const kontributor = kontributorListData.find((m) => m.id === kontributorId);
+  const id = kontributor ? kontributor.id : (kontributorId || 1);
+  window.location.href = `/admin/kontributor/program?id=${id}`;
+}
+
+// Alias backward compatibility
+function openModalKelolaProgram(kontributorId) {
+  openKontributorProgram(kontributorId);
+}
+
+// ====================================================
+// DATA & CONTROLLER CMS HALAMAN PUBLIK KONTRIBUTOR MBKM
+// ====================================================
+let activeCmsKontributorId = null;
 let activeCmsSubTabKey = 'hero'; // 'hero' | 'showcase'
 
 
-function openMitraCms(mitraId) {
-  const mitra = mitraListData.find((m) => m.id === mitraId);
-  if (!mitra) return;
+function openKontributorCms(kontributorId) {
+  const kontributor = kontributorListData.find((m) => m.id === kontributorId);
+  if (!kontributor) return;
 
   // Navigasi ke halaman Kelola Program tersendiri
-  window.location.href = `/admin/kontributor/kelola-program?id=${mitraId}`;
+  window.location.href = `/admin/kontributor/kelola-program?id=${kontributorId}`;
 }
 
 /**
- * Mengisi seluruh field CMS berdasarkan mitraId.
+ * Mengisi seluruh field CMS berdasarkan kontributorId.
  * Dipanggil oleh halaman /admin/kontributor/kelola-program.
  */
-function populateMitraCmsPage(mitraId) {
-  const mitra = mitraListData.find((m) => m.id === mitraId);
-  if (!mitra) return;
+function populateKontributorCmsPage(kontributorId) {
+  const kontributor = kontributorListData.find((m) => m.id === kontributorId);
+  if (!kontributor) return;
 
-  activeCmsMitraId = mitraId;
+  activeCmsKontributorId = kontributorId;
 
   const titleEl = document.getElementById('cms-program-page-title');
-  if (titleEl) titleEl.textContent = `Kelola Program — ${mitra.nama}`;
+  if (titleEl) titleEl.textContent = `Kelola Program — ${kontributor.nama}`;
 
-  // Get or initialize mitra CMS data
-  let data = mitraCmsDataMap[mitraId];
+  // Get or initialize kontributor CMS data
+  let data = kontributorCmsDataMap[kontributorId];
   if (!data) {
     data = {
-      mitra: mitra.nama,
-      sektor: mitra.sektor || 'Industri & Teknologi',
-      lokasi: mitra.alamat || 'Hybrid (Daring & Luring)',
+      kontributor: kontributor.nama,
+      sektor: kontributor.sektor || 'Industri & Teknologi',
+      lokasi: kontributor.alamat || 'Hybrid (Daring & Luring)',
       periode: 'Semester Gasal 2026/2027',
-      mou: mitra.mou || '042/MoU/FIK-UDINUS/2026',
-      badge: mitra.tipe === 'internal' ? 'Mitra Internal Kampus' : 'Mitra Nasional MBKM',
+      mou: kontributor.mou || '042/MoU/FIK-UDINUS/2026',
+      badge: kontributor.tipe === 'internal' ? 'Kontributor Internal Kampus' : 'Kontributor Nasional MBKM',
       deadline: '25 Oktober 2026 • 23:59 WIB',
-      deskripsiHero: mitra.deskripsi || `Kemitraan strategis MBKM antara FIK UDINUS dan ${mitra.nama} dalam memberikan pengalaman kerja profesional industri terakreditasi konversi 20 SKS.`,
+      deskripsiHero: kontributor.deskripsi || `Kerja Sama strategis MBKM antara FIK UDINUS dan ${kontributor.nama} dalam memberikan pengalaman kerja profesional industri terakreditasi konversi 20 SKS.`,
       poin1: 'Mentoring Mentor Industri Profesional',
       poin2: 'Pengalaman Proyek Nyata Skala Enterprise',
       poin3: 'Konversi Akademik Terjamin hingga 20 SKS',
-      koorNama: mitra.tipe === 'internal' ? mitra.picNama : 'Nurul Anisa S.W., M.Cs',
-      koorJabatan: mitra.tipe === 'internal' ? 'PIC Kontributor Mitra' : 'Koordinator Kampus Berdampak FIK UDINUS',
+      koorNama: kontributor.tipe === 'internal' ? kontributor.picNama : 'Nurul Anisa S.W., M.Cs',
+      koorJabatan: kontributor.tipe === 'internal' ? 'PIC Kontributor' : 'Koordinator Kampus Berdampak FIK UDINUS',
       koorFoto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=256',
       showcases: []
     };
-    mitraCmsDataMap[mitraId] = data;
+    kontributorCmsDataMap[kontributorId] = data;
   }
 
   // Setup Authority Mode (Internal = Read-Only | Eksternal = CRUD)
-  const isInternal = mitra.tipe === 'internal';
+  const isInternal = kontributor.tipe === 'internal';
   const btnSaveTop = document.getElementById('btn-save-cms-top');
   const previewBadge = document.getElementById('cms-preview-badge');
   const btnAddShowcase = document.getElementById('btn-tambah-showcase');
@@ -4600,7 +4624,7 @@ function populateMitraCmsPage(mitraId) {
   }
 
   // Populate Form Fields
-  document.getElementById('cms-input-mitra').value = data.mitra || '';
+  document.getElementById('cms-input-kontributor').value = data.kontributor || '';
   document.getElementById('cms-input-klaster').value = data.sektor || '';
   document.getElementById('cms-input-moda').value = data.lokasi || '';
   document.getElementById('cms-input-periode').value = data.periode || 'Semester Gasal 2026/2027';
@@ -4630,12 +4654,32 @@ function populateMitraCmsPage(mitraId) {
   renderShowcaseGrid();
   switchCmsSubTab('hero');
 
+  // Update Partner Info Card
+  const partnerNameEl = document.getElementById('cms-partner-name');
+  const partnerAvatarEl = document.getElementById('cms-partner-avatar');
+  const partnerBadgeEl = document.getElementById('cms-partner-badge');
+  const partnerDeskripsiEl = document.getElementById('cms-partner-deskripsi');
+  const partnerPicEl = document.getElementById('cms-partner-pic');
+
+  if (partnerNameEl) partnerNameEl.textContent = kontributor.nama;
+  if (partnerAvatarEl) partnerAvatarEl.textContent = kontributor.avatar || kontributor.nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  if (partnerBadgeEl) {
+    const isInt = kontributor.tipe === 'internal';
+    partnerBadgeEl.innerHTML = `<i data-lucide="${isInt ? 'building' : 'globe'}" class="w-3.5 h-3.5 text-[#71717a]"></i><span>${isInt ? 'Kontributor Internal' : 'Kontributor Eksternal'}</span>`;
+  }
+  if (partnerDeskripsiEl) {
+    partnerDeskripsiEl.textContent = kontributor.deskripsi || '-';
+  }
+  if (partnerPicEl) {
+    partnerPicEl.textContent = kontributor.picNama || '-';
+  }
+
   if (window.lucide) window.lucide.createIcons();
 }
 
 // Legacy alias for compatibility
-function openProgramCms(progName, mitraId) {
-  openMitraCms(mitraId);
+function openProgramCms(progName, kontributorId) {
+  openKontributorCms(kontributorId);
 }
 
 function closeProgramCms() {
@@ -4647,32 +4691,36 @@ function closeProgramCms() {
 
   const cmsView = document.getElementById('subview-program-cms');
   if (cmsView) cmsView.classList.add('hidden');
-  const detailView = document.getElementById('subview-mitra-detail');
+  const detailView = document.getElementById('subview-kontributor-detail');
   if (detailView) detailView.classList.remove('hidden');
 
-  updateBreadcrumb(['Mitra', 'Detail']);
+  updateBreadcrumb(['Kontributor', 'Detail']);
   if (window.lucide) window.lucide.createIcons();
 }
-const closeMitraCms = closeProgramCms;
+const closeKontributorCms = closeProgramCms;
 
 function switchCmsSubTab(subTab) {
   activeCmsSubTabKey = subTab;
-  const btnHero = document.getElementById('btn-subtab-cms-hero');
-  const btnShowcase = document.getElementById('btn-subtab-cms-showcase');
-  const paneHero = document.getElementById('pane-cms-hero');
-  const paneShowcase = document.getElementById('pane-cms-showcase');
+  const tabs = ['hero', 'timeline', 'syarat', 'showcase', 'faq'];
 
-  if (subTab === 'hero') {
-    if (btnHero) btnHero.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-[#0655a7] text-[#0655a7] transition-colors';
-    if (btnShowcase) btnShowcase.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors';
-    if (paneHero) paneHero.classList.remove('hidden');
-    if (paneShowcase) paneShowcase.classList.add('hidden');
-  } else {
-    if (btnShowcase) btnShowcase.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-[#0655a7] text-[#0655a7] transition-colors';
-    if (btnHero) btnHero.className = 'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors';
-    if (paneShowcase) paneShowcase.classList.remove('hidden');
-    if (paneHero) paneHero.classList.add('hidden');
-  }
+  tabs.forEach((t) => {
+    const btn = document.getElementById('btn-subtab-cms-' + t);
+    const pane = document.getElementById('pane-cms-' + t);
+    if (t === subTab) {
+      if (btn) {
+        btn.className = 'cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-semibold border-b-2 border-primary-600 text-primary-700 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'true');
+      }
+      if (pane) pane.classList.remove('hidden');
+    } else {
+      if (btn) {
+        btn.className = 'cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer';
+        btn.setAttribute('aria-selected', 'false');
+      }
+      if (pane) pane.classList.add('hidden');
+    }
+  });
+
   if (window.lucide) window.lucide.createIcons();
 }
 
@@ -4681,12 +4729,12 @@ function renderShowcaseGrid() {
   const countBadge = document.getElementById('badge-count-showcase');
   if (!container) return;
 
-  const data = mitraCmsDataMap[activeCmsMitraId];
+  const data = kontributorCmsDataMap[activeCmsKontributorId];
   const list = data && data.showcases ? data.showcases : [];
   if (countBadge) countBadge.textContent = list.length;
 
-  const mitra = mitraListData.find((m) => m.id === activeCmsMitraId);
-  const isInternal = mitra && mitra.tipe === 'internal';
+  const kontributor = kontributorListData.find((m) => m.id === activeCmsKontributorId);
+  const isInternal = kontributor && kontributor.tipe === 'internal';
 
   if (list.length === 0) {
     container.innerHTML = `
@@ -4695,7 +4743,7 @@ function renderShowcaseGrid() {
           <i data-lucide="layout-grid" class="w-5 h-5"></i>
         </div>
         <h4 class="text-sm font-semibold text-[#09090b]">Belum Ada Proyek Showcase</h4>
-        <p class="text-xs text-[#71717a] mt-1 max-w-sm">Tambahkan hasil karya atau prototipe capstone mahasiswa binaan selama berkegiatan di mitra ini.</p>
+        <p class="text-xs text-[#71717a] mt-1 max-w-sm">Tambahkan hasil karya atau prototipe capstone mahasiswa binaan selama berkegiatan di kontributor ini.</p>
         ${!isInternal ? `
           <button
             type="button"
@@ -4776,7 +4824,7 @@ function openShowcaseModal(editIdx) {
   const descInput = document.getElementById('modal-showcase-deskripsi');
   const techInput = document.getElementById('modal-showcase-tech');
 
-  const data = mitraCmsDataMap[activeCmsMitraId];
+  const data = kontributorCmsDataMap[activeCmsKontributorId];
   const list = data && data.showcases ? data.showcases : [];
 
   if (editIdx !== undefined && editIdx !== null && list[editIdx]) {
@@ -4811,7 +4859,7 @@ function closeShowcaseModal() {
 
 function handleSaveShowcase(e) {
   e.preventDefault();
-  const data = mitraCmsDataMap[activeCmsMitraId];
+  const data = kontributorCmsDataMap[activeCmsKontributorId];
   if (!data) return;
   if (!data.showcases) data.showcases = [];
 
@@ -4846,7 +4894,7 @@ function handleSaveShowcase(e) {
 }
 
 function handleDeleteShowcase(idx) {
-  const data = mitraCmsDataMap[activeCmsMitraId];
+  const data = kontributorCmsDataMap[activeCmsKontributorId];
   if (!data || !data.showcases || !data.showcases[idx]) return;
 
   if (confirm(`Hapus proyek showcase "${data.showcases[idx].judul}"?`)) {
@@ -4856,10 +4904,10 @@ function handleDeleteShowcase(idx) {
 }
 
 function handleSaveCmsHero() {
-  const data = mitraCmsDataMap[activeCmsMitraId];
+  const data = kontributorCmsDataMap[activeCmsKontributorId];
   if (!data) return;
 
-  data.mitra = document.getElementById('cms-input-mitra').value.trim();
+  data.kontributor = document.getElementById('cms-input-kontributor').value.trim();
   data.sektor = document.getElementById('cms-input-klaster').value.trim();
   data.lokasi = document.getElementById('cms-input-moda').value.trim();
   data.periode = document.getElementById('cms-input-periode').value;
@@ -4873,7 +4921,7 @@ function handleSaveCmsHero() {
   data.koorNama = document.getElementById('cms-input-koor-nama').value.trim();
   data.koorJabatan = document.getElementById('cms-input-koor-jabatan').value.trim();
 
-  alert('Perubahan CMS Halaman Publik Mitra berhasil disimpan!');
+  alert('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!');
 }
 
 function handleCmsPhotoUpload(e) {
@@ -4887,7 +4935,7 @@ function handleCmsPhotoUpload(e) {
     const statusText = document.getElementById('cms-foto-status');
     if (statusText) statusText.textContent = `Foto terpilih: ${file.name}`;
 
-    const data = mitraCmsDataMap[activeCmsMitraId];
+    const data = kontributorCmsDataMap[activeCmsKontributorId];
     if (data) data.koorFoto = evt.target.result;
   };
   reader.readAsDataURL(file);
@@ -4898,7 +4946,7 @@ let pendaftarActiveStatusTab = 'baru'; // 'baru' | 'diterima' | 'ditolak' | 'dib
 let pendaftarViewMode = 'kartu'; // 'kartu' | 'tabel'
 let pendaftarSort = 'terbaru';
 let pelamarSearchQuery = '';
-let pelamarFilterMitra = 'eksternal'; // default: 'eksternal' sesuai arahan pengguna
+let pelamarFilterKontributor = 'eksternal'; // default: 'eksternal' sesuai arahan pengguna
 let pelamarFilterProdi = 'semua';
 let pelamarCurrentPage = 1;
 const pelamarItemsPerPage = 5;
@@ -4951,8 +4999,8 @@ function handleSearchPelamar(val) {
   renderPelamarTable();
 }
 
-function handleFilterPelamarMitra(val) {
-  pelamarFilterMitra = val;
+function handleFilterPelamarKontributor(val) {
+  pelamarFilterKontributor = val;
   pelamarCurrentPage = 1;
   renderPelamarTable();
 }
@@ -4992,24 +5040,24 @@ function getFilteredPelamarData() {
       p.nama.toLowerCase().includes(pelamarSearchQuery) ||
       p.nim.toLowerCase().includes(pelamarSearchQuery) ||
       p.program.toLowerCase().includes(pelamarSearchQuery) ||
-      p.mitra.toLowerCase().includes(pelamarSearchQuery) ||
+      p.kontributor.toLowerCase().includes(pelamarSearchQuery) ||
       p.deskripsi.toLowerCase().includes(pelamarSearchQuery);
 
-    // Mitra Filter (Semua, Eksternal, Internal, atau Nama Spesifik)
-    let matchMitra = true;
-    if (pelamarFilterMitra === 'eksternal') {
-      matchMitra = p.kategoriMitra === 'eksternal';
-    } else if (pelamarFilterMitra === 'internal') {
-      matchMitra = p.kategoriMitra === 'internal';
-    } else if (pelamarFilterMitra !== 'semua') {
-      matchMitra = p.mitra === pelamarFilterMitra;
+    // Kontributor Filter (Semua, Eksternal, Internal, atau Nama Spesifik)
+    let matchKontributor = true;
+    if (pelamarFilterKontributor === 'eksternal') {
+      matchKontributor = p.kategoriKontributor === 'eksternal';
+    } else if (pelamarFilterKontributor === 'internal') {
+      matchKontributor = p.kategoriKontributor === 'internal';
+    } else if (pelamarFilterKontributor !== 'semua') {
+      matchKontributor = p.kontributor === pelamarFilterKontributor;
     }
 
     // Prodi Filter
     const matchProdi =
       pelamarFilterProdi === 'semua' || p.prodi === pelamarFilterProdi;
 
-    return matchStatus && matchQuery && matchMitra && matchProdi;
+    return matchStatus && matchQuery && matchKontributor && matchProdi;
   });
 
   // Sorting
@@ -5055,7 +5103,7 @@ function renderPelamarTable() {
     } else {
       cardsContainer.innerHTML = currentSlice
         .map((item) => {
-          const isInternal = item.kategoriMitra === 'internal';
+          const isInternal = item.kategoriKontributor === 'internal';
 
           // Badges Status & Kategori
           const kategoriBadge = isInternal
@@ -5079,7 +5127,7 @@ function renderPelamarTable() {
                   <i data-lucide="lock" class="w-3.5 h-3.5"></i>
                   <span>Read-Only (Kontributor)</span>
                 </span>
-                <p class="text-[10px] text-amber-700 mt-0.5">Seleksi mitra internal dikelola penuh oleh Kontributor Mitra terkait.</p>
+                <p class="text-[10px] text-amber-700 mt-0.5">Seleksi kontributor internal dikelola penuh oleh Kontributor terkait.</p>
               </div>
             `;
           } else {
@@ -5206,16 +5254,16 @@ function renderPelamarTable() {
 
                   <!-- Konten -->
                   <div class="p-5 space-y-6 flex-1 flex flex-col justify-center">
-                    <!-- Program & Mitra -->
+                    <!-- Program & Kontributor -->
                     <div class="space-y-2">
                       <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
                         <i data-lucide="notebook-pen" class="w-4 h-4"></i>
-                        <span>Mitra</span>
+                        <span>Kontributor</span>
                       </div>
                       <p class="text-lg font-medium text-[#09090b] leading-snug">${item.program}</p>
                       <div class="flex items-center gap-1.5">
                         <i data-lucide="building-2" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-                        <span class="text-sm text-[#0655a7] font-medium">${item.mitra}</span>
+                        <span class="text-sm text-[#0655a7] font-medium">${item.kontributor}</span>
                       </div>
                     </div>
 
@@ -5304,7 +5352,7 @@ function renderPelamarTable() {
       tbody.innerHTML = currentSlice
         .map((item, idx) => {
           const rowNum = startIndex + idx + 1;
-          const isInternal = item.kategoriMitra === 'internal';
+          const isInternal = item.kategoriKontributor === 'internal';
 
           const matkulTags = item.matkulDiambil
             .map((m) => `<span class="px-1.5 py-0.5 text-[10px] rounded bg-blue-50 text-[#0655a7] border border-blue-200 font-medium whitespace-nowrap">${m.nama} (${m.sks} SKS)</span>`)
@@ -5342,7 +5390,7 @@ function renderPelamarTable() {
               </td>
               <td class="px-4">
                 <div class="font-medium text-[#09090b] text-sm">${item.program}</div>
-                <div class="text-xs text-[#0655a7]">${item.mitra} <span class="text-[10px] text-[#71717a]">(${item.kategoriMitra})</span></div>
+                <div class="text-xs text-[#0655a7]">${item.kontributor} <span class="text-[10px] text-[#71717a]">(${item.kategoriKontributor})</span></div>
               </td>
               <td class="px-4">
                 <div class="font-semibold text-xs text-[#09090b]">IPK ${item.ipk}</div>
@@ -5421,20 +5469,20 @@ function goToPelamarPage(p) {
 function terimaPelamar(id) {
   const item = pelamarListData.find((p) => p.id === id);
   if (!item) return;
-  if (item.kategoriMitra === 'internal') {
-    alert('Seleksi mitra internal hanya dapat dilakukan oleh akun Kontributor Mitra.');
+  if (item.kategoriKontributor === 'internal') {
+    alert('Seleksi kontributor internal hanya dapat dilakukan oleh akun Kontributor.');
     return;
   }
   item.status = 'diterima';
-  alert(`Pendaftar ${item.nama} BERHASIL DITERIMA sebagai peserta resmi MBKM di ${item.mitra}!`);
+  alert(`Pendaftar ${item.nama} BERHASIL DITERIMA sebagai peserta resmi MBKM di ${item.kontributor}!`);
   renderPelamarTable();
 }
 
 function tolakPelamar(id) {
   const item = pelamarListData.find((p) => p.id === id);
   if (!item) return;
-  if (item.kategoriMitra === 'internal') {
-    alert('Seleksi mitra internal hanya dapat dilakukan oleh akun Kontributor Mitra.');
+  if (item.kategoriKontributor === 'internal') {
+    alert('Seleksi kontributor internal hanya dapat dilakukan oleh akun Kontributor.');
     return;
   }
   if (confirm(`Tolak pengajuan pendaftar ${item.nama}?`)) {
@@ -5469,7 +5517,7 @@ function closeTranskripModal() {
 
 
 let semuaMhsSearchQuery = '';
-let semuaMhsFilterMitra = 'semua';
+let semuaMhsFilterKontributor = 'semua';
 let semuaMhsFilterProdi = 'semua';
 let semuaMhsCurrentPage = 1;
 const semuaMhsItemsPerPage = 10;
@@ -5480,8 +5528,8 @@ function handleSearchSemuaMhs(val) {
   renderSemuaMhsTable();
 }
 
-function handleFilterSemuaMhsMitra(val) {
-  semuaMhsFilterMitra = val;
+function handleFilterSemuaMhsKontributor(val) {
+  semuaMhsFilterKontributor = val;
   semuaMhsCurrentPage = 1;
   renderSemuaMhsTable();
 }
@@ -5499,11 +5547,11 @@ function getFilteredSemuaMhsData() {
       m.nama.toLowerCase().includes(semuaMhsSearchQuery) ||
       m.nim.toLowerCase().includes(semuaMhsSearchQuery) ||
       m.dpl.toLowerCase().includes(semuaMhsSearchQuery);
-    const matchMitra =
-      semuaMhsFilterMitra === 'semua' || m.mitra === semuaMhsFilterMitra;
+    const matchKontributor =
+      semuaMhsFilterKontributor === 'semua' || m.kontributor === semuaMhsFilterKontributor;
     const matchProdi =
       semuaMhsFilterProdi === 'semua' || m.prodi === semuaMhsFilterProdi;
-    return matchQuery && matchMitra && matchProdi;
+    return matchQuery && matchKontributor && matchProdi;
   });
 }
 
@@ -5561,7 +5609,7 @@ function renderSemuaMhsTable() {
             </div>
           </td>
           <td class="px-4">
-            <div class="font-medium text-[#09090b] text-sm">${item.mitra}</div>
+            <div class="font-medium text-[#09090b] text-sm">${item.kontributor}</div>
             <div class="text-xs text-[#0655a7] font-medium">${item.posisi}</div>
           </td>
           <td class="px-4 text-sm text-[#09090b]">${item.dpl}</td>
@@ -5650,6 +5698,10 @@ function exportDataMahasiswa() {
   alert('Mengunduh rekap direktori seluruh mahasiswa aktif MBKM (Format: XLSX Spreadsheet)...');
 }
 
+function exportDataPelamar() {
+  alert('Mengunduh data pendaftar mahasiswa MBKM (Format: Excel .xlsx)...');
+}
+
 // ====================================================
 // INISIALISASI APLIKASI (SAFE RUNTIME TOP-LEVEL INIT)
 // ====================================================
@@ -5662,7 +5714,7 @@ function initApp() {
   renderLaporanTable();
   renderPengumumanCards();
   renderPeriodeData();
-  renderMitraTable();
+  renderKontributorTable();
   renderPelamarTable();
   renderSemuaMhsTable();
   populateProgramKategoriDropdown();
@@ -5690,11 +5742,11 @@ function initApp() {
 
   // Halaman Kelola Program Kontributor (/admin/kontributor/kelola-program?id=N)
   // Dikenali dari section khusus agar tidak bentrok dengan subview di halaman direktori.
-  if (document.getElementById('section-mitra-cms')) {
+  if (document.getElementById('section-kontributor-cms')) {
     const params = new URLSearchParams(window.location.search);
     const cmsId = Number(params.get('id'));
     if (cmsId) {
-      populateMitraCmsPage(cmsId);
+      populateKontributorCmsPage(cmsId);
     } else {
       window.location.href = '/admin/kontributor';
     }
@@ -5730,10 +5782,10 @@ function closeModalInfoSkemaSks() {
   if (modal) modal.classList.add('hidden');
 }
 
-function openModalTelaahKonversi(nama, nim, prodi, mitra, skema, totalSks, matkulCount) {
+function openModalTelaahKonversi(nama, nim, prodi, kontributor, skema, totalSks, matkulCount) {
   document.getElementById('modal-telaah-nama').textContent = nama;
   document.getElementById('modal-telaah-nim-prodi').textContent = `${nim} • ${prodi}`;
-  document.getElementById('modal-telaah-mitra').textContent = mitra;
+  document.getElementById('modal-telaah-kontributor').textContent = kontributor;
   document.getElementById('modal-telaah-skema-badge').textContent = skema;
   document.getElementById('modal-telaah-sks-total').textContent =
     `Total: ${totalSks} SKS (${matkulCount} Matkul)`;
@@ -5801,7 +5853,7 @@ function handleSaveBatasKuotaFakultas(e) {
   e.preventDefault();
   const kuota = document.getElementById('input-kuota-standar-fakultas').value;
   closeModalSetBatasKuota();
-  alert(`Batas standar kuota DPL fakultas berhasil diperbarui menjadi ${kuota} mahasiswa per dosen.`);
+  alert(`Batas standar kuota Dospem fakultas berhasil diperbarui menjadi ${kuota} mahasiswa per dosen.`);
 }
 
 function openModalEditBatasDosen(dosenNama, kuota, terpakai) {
@@ -5854,24 +5906,24 @@ function filterDosenData() {
 function autoAssignDplBatch() {
   if (
     confirm(
-      'Jalankan Auto-Assign Cerdas?\nSistem akan mencocokkan mahasiswa dengan DPL berdasarkan kesesuaian domain kepakaran dan sisa kuota terbanyak.'
+      'Jalankan Auto-Assign Cerdas?\nSistem akan mencocokkan mahasiswa dengan Dospem berdasarkan kesesuaian domain kepakaran dan sisa kuota terbanyak.'
     )
   ) {
-    alert('Berhasil! 14 mahasiswa dalam antrean telah dipasangkan dengan DPL yang sesuai secara otomatis.');
+    alert('Berhasil! 14 mahasiswa dalam antrean telah dipasangkan dengan Dospem yang sesuai secara otomatis.');
   }
 }
 
 function simpanSemuaPlotting() {
   const selected = document.querySelectorAll('.check-plotting-row:checked');
   if (selected.length === 0) {
-    alert('Pilih minimal satu mahasiswa untuk disimpan hasil plotting DPL-nya.');
+    alert('Pilih minimal satu mahasiswa untuk disimpan hasil plotting Dospem-nya.');
     return;
   }
-  alert(`Berhasil menyimpan penugasan DPL untuk ${selected.length} mahasiswa terpilih.`);
+  alert(`Berhasil menyimpan penugasan Dospem untuk ${selected.length} mahasiswa terpilih.`);
 }
 
 function saveIndividualPlotting(nim, nama) {
-  alert(`Plotting DPL untuk ${nama} (${nim}) berhasil disimpan.`);
+  alert(`Plotting Dospem untuk ${nama} (${nim}) berhasil disimpan.`);
 }
 
 function toggleSelectAllPlotting(source) {
@@ -5880,7 +5932,7 @@ function toggleSelectAllPlotting(source) {
   });
 }
 
-// 4. Modul Sidang MBKM & Evaluasi Gabungan (60% Mitra + 40% DPL)
+// 4. Modul Sidang MBKM & Evaluasi Gabungan (60% Kontributor + 40% Dospem)
 function openModalJadwalSidang() {
   const modal = document.getElementById('modal-jadwal-sidang');
   if (modal) modal.classList.remove('hidden');
@@ -5898,11 +5950,11 @@ function handleSaveJadwalSidang(e) {
   alert('Jadwal sidang evaluasi akhir MBKM berhasil disimpan.');
 }
 
-function openModalInputNilaiSidang(nama, nim, mitra, dpl, nilaiMitra, nilaiDpl) {
+function openModalInputNilaiSidang(nama, nim, kontributor, dpl, nilaiKontributor, nilaiDpl) {
   document.getElementById('modal-sidang-mhs-info').textContent = `${nama} (${nim})`;
-  document.getElementById('modal-sidang-mitra').textContent = mitra;
+  document.getElementById('modal-sidang-kontributor').textContent = kontributor;
   document.getElementById('modal-sidang-dpl').textContent = dpl;
-  document.getElementById('input-nilai-mitra').value = nilaiMitra || '';
+  document.getElementById('input-nilai-kontributor').value = nilaiKontributor || '';
   document.getElementById('input-nilai-dpl').value = nilaiDpl || '';
   hitungNilaiAkhirSidang();
   const modal = document.getElementById('modal-input-nilai-sidang');
@@ -5916,9 +5968,9 @@ function closeModalInputNilaiSidang() {
 }
 
 function hitungNilaiAkhirSidang() {
-  const nMitra = parseFloat(document.getElementById('input-nilai-mitra').value) || 0;
+  const nKontributor = parseFloat(document.getElementById('input-nilai-kontributor').value) || 0;
   const nDpl = parseFloat(document.getElementById('input-nilai-dpl').value) || 0;
-  const nAkhir = 0.6 * nMitra + 0.4 * nDpl;
+  const nAkhir = 0.6 * nKontributor + 0.4 * nDpl;
 
   let grade = '-';
   if (nAkhir >= 85) grade = 'A';
@@ -5972,7 +6024,7 @@ function verifikasiSertifikatIndividu(nim, nama, disetujui) {
 function mintaRevisiSertifikat(nim, nama) {
   const catatan = prompt(
     `Masukkan catatan revisi untuk ${nama} (${nim}):`,
-    'Mohon unggah dokumen bertanda tangan resmi / cap basah mitra.'
+    'Mohon unggah dokumen bertanda tangan resmi / cap basah kontributor.'
   );
   if (catatan) {
     alert(`Permintaan revisi telah dikirimkan ke mahasiswa dengan catatan: "${catatan}"`);

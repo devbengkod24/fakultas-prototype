@@ -1,0 +1,200 @@
+---
+// src/components/admin/kontributor/KontributorTable.astro
+import DataTable from '../../ui/DataTable.astro';
+import Badge from '../../ui/Badge.astro';
+import type { DataTableTab } from '../../../types';
+import { partnersData } from '../../../data/partners/partners';
+
+const tabs: DataTableTab[] = [
+  { id: 'eksternal', label: 'Kontributor Eksternal', count: partnersData.filter((p) => p.tipe === 'eksternal').length },
+  { id: 'internal', label: 'Kontributor Internal', count: partnersData.filter((p) => p.tipe === 'internal').length },
+  { id: 'all', label: 'Semua Kontributor', count: partnersData.length },
+];
+---
+
+<!-- Subview 1: Direktori Kontributor (Menggunakan Reusable DataTable) -->
+<div id="subview-kontributor-list" x-data="kontributorDirectory()">
+  <DataTable
+    tabs={tabs}
+    activeTabModel="activeTab"
+    searchPlaceholder="Cari nama kontributor, deskripsi, atau PIC..."
+    searchModel="searchQuery"
+    totalItems={partnersData.length}
+    infoText={`Menampilkan 1 - ${partnersData.length} dari ${partnersData.length} data`}
+  >
+    <!-- Actions Slot: Tombol Tambah Kontributor hanya di tab Eksternal dan Internal -->
+    <div slot="actions">
+      <button
+        type="button"
+        x-show="activeTab !== 'all'"
+        @click="window.showTambahKontributorModal ? window.showTambahKontributorModal(activeTab) : showTambahKontributorModal(activeTab)"
+        class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors cursor-pointer"
+      >
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>Tambah Kontributor</span>
+      </button>
+    </div>
+
+    <!-- Table Header Slot -->
+    <tr slot="head">
+      <th class="h-11 w-16 px-4 font-medium text-sm text-[#71717a]">No</th>
+      <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Nama Kontributor & Deskripsi</th>
+      <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Akun & PIC</th>
+      <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Dosen</th>
+      <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Mahasiswa</th>
+      <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
+      <th class="h-11 w-24 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
+    </tr>
+
+    <!-- Table Body Rows (Typed Partner) -->
+    {partnersData.map((partner, idx) => (
+      <tr
+        class="hover:bg-slate-50/70 transition-colors"
+        x-show={`(activeTab === 'all' || activeTab === '${partner.tipe}') && ('${partner.nama.toLowerCase()}'.includes(searchQuery.toLowerCase()) || '${partner.sektor.toLowerCase()}'.includes(searchQuery.toLowerCase()))`}
+      >
+        <td class="h-[68px] px-4 text-[#71717a] text-sm">
+          {idx + 1}
+        </td>
+        <td class="h-[68px] px-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0655a7] font-bold text-xs flex items-center justify-center shrink-0 border border-blue-200/60">
+              {partner.avatar || partner.nama.substring(0, 2).toUpperCase()}
+            </div>
+            <div>
+              <p class="font-semibold text-sm text-[#09090b] leading-tight">{partner.nama}</p>
+              <p class="text-[13px] text-[#71717a] mt-0.5 max-w-md truncate">{partner.deskripsi}</p>
+            </div>
+          </div>
+        </td>
+        <td class="h-[68px] px-4 text-sm">
+          <p class="font-medium text-[#09090b]">{partner.picNama}</p>
+          <p class="text-[#71717a]">{partner.picEmail}</p>
+        </td>
+        <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]">
+          {partner.dosen ? partner.dosen.length : 0}
+        </td>
+        <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]">
+          {partner.mhs ? partner.mhs.length : 0}
+        </td>
+        <td class="h-[68px] px-4 text-center">
+          <template x-if={`isAktif(${partner.id}, '${partner.status}')`}>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#BBF7D0] bg-[#DCFCE7] text-[13px] font-medium text-[#15803D]">
+              Aktif
+            </span>
+          </template>
+          <template x-if={`!isAktif(${partner.id}, '${partner.status}')`}>
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FECDD3] bg-[#FFE4E6] text-[13px] font-medium text-[#BE123C]">
+              Non-Aktif
+            </span>
+          </template>
+        </td>
+        <td class="h-[68px] px-4 text-center">
+          <div class="relative inline-block text-left" x-data="{ openAction: false }">
+            <button
+              type="button"
+              @click="openAction = !openAction"
+              @click.outside="openAction = false"
+              class="h-8 w-8 inline-flex items-center justify-center rounded-md hover:bg-[#f4f4f5] text-[#71717a] transition-colors cursor-pointer"
+              title="Menu aksi"
+            >
+              <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+            </button>
+            <div
+              x-show="openAction"
+              x-cloak
+              class="absolute right-0 mt-1 w-44 rounded-md border border-[#e4e4e7] bg-white py-1 shadow-lg z-20 text-xs"
+            >
+              <button
+                type="button"
+                onclick={`showKontributorDetail(${partner.id})`}
+                class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              >
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Detail</span>
+              </button>
+              <button
+                type="button"
+                onclick={`openKontributorProgram(${partner.id})`}
+                class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              >
+                <i data-lucide="sliders" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Kelola Program</span>
+              </button>
+              <button
+                type="button"
+                onclick={`openKontributorCms(${partner.id})`}
+                class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              >
+                <i data-lucide="layout-template" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Kelola CMS</span>
+              </button>
+              <div class="my-1 h-px bg-[#e4e4e7]"></div>
+              <template x-if={`isAktif(${partner.id}, '${partner.status}')`}>
+                <button
+                  type="button"
+                  onclick={`openModalToggleStatusKontributor(${partner.id})`}
+                  class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#BE123C] hover:bg-rose-50 transition-colors"
+                >
+                  <i data-lucide="pause-circle" class="w-3.5 h-3.5"></i>
+                  <span>Nonaktifkan</span>
+                </button>
+              </template>
+              <template x-if={`!isAktif(${partner.id}, '${partner.status}')`}>
+                <button
+                  type="button"
+                  onclick={`openModalToggleStatusKontributor(${partner.id})`}
+                  class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#15803D] hover:bg-emerald-50 transition-colors"
+                >
+                  <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  <span>Aktifkan</span>
+                </button>
+              </template>
+            </div>
+          </div>
+        </td>
+      </tr>
+    ))}
+
+    <!-- Standard Pagination Slot (Sesuai Gambar 1) -->
+    <div slot="pagination" class="flex items-center gap-2">
+      <button
+        type="button"
+        disabled
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+      >
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
+      >
+        1
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+      >
+        2
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
+      >
+        3
+      </button>
+      <button
+        type="button"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
+      >
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </button>
+      <select
+        class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="10">Show 10 items</option>
+        <option value="25">Show 25 items</option>
+        <option value="50">Show 50 items</option>
+      </select>
+    </div>
+  </DataTable>
+</div>

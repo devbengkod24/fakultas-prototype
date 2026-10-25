@@ -1,0 +1,30 @@
+    <!-- ==================================================== -->
+    <!-- MODAL 10: VIEWER DRAF SURAT REKOMENDASI              -->
+    <!-- ==================================================== -->
+    <div id="modal-surekom-doc-viewer" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/50">
+      <div class="bg-white rounded-xl max-w-2xl w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150">
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 id="modal-doc-viewer-title" class="text-sm font-bold text-[#09090b]">Pratinjau Draf Dokumen</h3>
+          </div>
+          <button type="button" onclick="closeSurekomDocModal()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-[#e4e4e7] bg-[#fafafa] text-xs text-[#09090b] font-mono whitespace-pre-wrap max-h-80 overflow-y-auto leading-relaxed shadow-inner" id="modal-doc-viewer-content">
+          <!-- Text preview inserted dynamically -->
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            onclick="closeSurekomDocModal()"
+            class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold transition-colors"
+          >
+            Tutup Pratinjau
+          </button>
+        </div>
+      </div>
+    </div>

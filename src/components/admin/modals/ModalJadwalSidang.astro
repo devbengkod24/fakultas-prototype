@@ -1,0 +1,240 @@
+    <!-- Modal 5: Input & Edit Nilai Sidang MBKM (60% Kontributor + 40% Dospem) -->
+    <div
+      id="modal-input-nilai-sidang"
+      class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-sm font-bold text-[#09090b]">Form Input Nilai Gabungan Sidang MBKM</h3>
+            <p id="modal-sidang-mhs-info" class="text-[11px] text-[#71717a]">Faisal Rahman (A11.2022.13901)</p>
+          </div>
+          <button type="button" onclick="closeModalInputNilaiSidang()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <form onsubmit="handleSaveNilaiSidang(event)" class="flex flex-col gap-3">
+          <!-- Info Dosen & Kontributor -->
+          <div class="grid grid-cols-2 gap-2 p-2.5 bg-[#fafafa] border border-[#e4e4e7] rounded-xl text-[11px]">
+            <div>
+              <div class="text-[#71717a]">Kontributor Penempatan:</div>
+              <div id="modal-sidang-kontributor" class="font-semibold text-[#09090b]">-</div>
+            </div>
+            <div>
+              <div class="text-[#71717a]">Dosen Pembimbing:</div>
+              <div id="modal-sidang-dpl" class="font-semibold text-[#09090b]">-</div>
+            </div>
+          </div>
+
+          <!-- Input Komponen Nilai -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1.5 p-3 border border-blue-100 rounded-xl bg-blue-50/40">
+              <label class="font-bold text-[#0655a7]">1. Nilai Mentor Kontributor (60%) *</label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                max="100"
+                id="input-nilai-kontributor"
+                required
+                oninput="hitungNilaiAkhirSidang()"
+                placeholder="Skala 0 - 100"
+                class="px-3 py-2 bg-white rounded-lg border border-[#e4e4e7] font-bold text-sm focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              />
+              <span class="text-[10px] text-[#71717a]">Kedisiplinan, etos kerja, penguasaan teknis proyek.</span>
+            </div>
+
+            <div class="flex flex-col gap-1.5 p-3 border border-indigo-100 rounded-xl bg-indigo-50/40">
+              <label class="font-bold text-indigo-700">2. Nilai Dospem Fakultas (40%) *</label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                max="100"
+                id="input-nilai-dpl"
+                required
+                oninput="hitungNilaiAkhirSidang()"
+                placeholder="Skala 0 - 100"
+                class="px-3 py-2 bg-white rounded-lg border border-[#e4e4e7] font-bold text-sm focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              />
+              <span class="text-[10px] text-[#71717a]">Kualitas laporan, presentasi, capaian luaran CPL.</span>
+            </div>
+          </div>
+
+          <!-- Kalkulasi Otomatis Nilai Akhir -->
+          <div class="flex items-center justify-between p-3 border bg-emerald-50/60 border-emerald-200 rounded-xl">
+            <div>
+              <div class="text-[10px] font-semibold text-emerald-800">Rumus: (0.6 x Kontributor) + (0.4 x Dospem)</div>
+              <div class="text-sm font-bold text-emerald-900 mt-0.5">Nilai Akhir Terkalkulasi:</div>
+            </div>
+            <div class="flex items-center gap-2">
+              <div id="display-nilai-angka" class="text-lg font-extrabold text-[#0655a7]">0.0</div>
+              <span id="display-nilai-huruf" class="px-2 py-0.5 rounded text-xs font-extrabold bg-[#0655a7] text-white">
+                Grade -
+              </span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+            <button
+              type="button"
+              onclick="closeModalInputNilaiSidang()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold"
+            >
+              Simpan & Sahkan Nilai
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 6: Penjadwalan Sidang Baru (Tanpa Gelombang) -->
+    <div id="modal-jadwal-sidang" class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40">
+      <div
+        class="bg-white rounded-2xl max-w-md w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-sm font-bold text-[#09090b]">Jadwalkan Sidang Evaluasi MBKM</h3>
+            <p class="text-[11px] text-[#71717a]">Jadwal kontinu/berkala per mahasiswa yang siap diuji.</p>
+          </div>
+          <button type="button" onclick="closeModalJadwalSidang()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+        <form onsubmit="handleSaveJadwalSidang(event)" class="flex flex-col gap-3">
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Mahasiswa Peserta *</label>
+            <select
+              required
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            >
+              <option value="">-- Pilih Mahasiswa Siap Sidang --</option>
+              <option value="A11.2022.13901">A11.2022.13901 - Faisal Rahman (Bengkel Koding)</option>
+              <option value="A12.2022.09842">A12.2022.09842 - Nabila Zahra Putri (Ryuje Tech)</option>
+              <option value="A14.2022.05123">A14.2022.05123 - Dimas Anggara (Dicoding)</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="flex flex-col gap-1.5">
+              <label class="font-medium text-[#3f3f46]">Tanggal Sidang *</label>
+              <input
+                type="date"
+                required
+                value="2025-07-20"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label class="font-medium text-[#3f3f46]">Jam Sidang *</label>
+              <input
+                type="time"
+                required
+                value="09:00"
+                class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Dosen Penguji Pendamping *</label>
+            <select
+              required
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            >
+              <option value="affandy">Affandy, Ph.D</option>
+              <option value="atika">Christy Atika Sari, M.Kom</option>
+              <option value="eko">Eko Hari Rachmawanto, M.Kom</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="font-medium text-[#3f3f46]">Ruangan / Tautan GMeet *</label>
+            <input
+              type="text"
+              required
+              placeholder="Contoh: Ruang H.5.2 atau link meet.google.com/..."
+              value="Ruang H.5.2 (Hybrid)"
+              class="px-3 py-2 rounded-lg border border-[#e4e4e7] focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
+            />
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+            <button
+              type="button"
+              onclick="closeModalJadwalSidang()"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold"
+            >
+              Simpan Jadwal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 7: Preview Dokumen Bukti Luaran (Sertifikat / LoA Publikasi) -->
+    <div
+      id="modal-preview-dokumen-luaran"
+      class="fixed inset-0 z-50 flex items-center justify-center hidden p-4 bg-black/40"
+    >
+      <div
+        class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-3 text-xs animate-in fade-in zoom-in-95 duration-150 max-h-[90vh]"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 id="modal-preview-doc-title" class="text-sm font-bold text-[#09090b]">
+              Pratinjau Dokumen Bukti Luaran
+            </h3>
+            <p id="modal-preview-doc-sub" class="text-[11px] text-[#71717a]">Sertifikat Resmi Kontributor • Faisal Rahman</p>
+          </div>
+          <button type="button" onclick="closeModalPreviewDokumen()" class="text-[#71717a] hover:text-[#09090b]">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Box Simulasi PDF Preview -->
+        <div
+          class="h-80 bg-gray-50 border border-dashed border-[#e4e4e7] rounded-xl flex flex-col items-center justify-center text-center p-6 text-[#71717a]"
+        >
+          <div class="w-14 h-14 rounded-2xl bg-blue-50 text-[#0655a7] flex items-center justify-center mb-3">
+            <i data-lucide="file-check-2" class="w-7 h-7"></i>
+          </div>
+          <div id="modal-preview-filename" class="font-bold text-[#09090b] text-sm">Sertifikat_Faisal_BK.pdf</div>
+          <div class="text-[11px] text-[#71717a] mt-1 max-w-md">
+            Dokumen sah berformat PDF dengan tanda tangan pimpinan kontributor atau DOI publikasi terverifikasi.
+          </div>
+          <div class="flex items-center gap-2 mt-4">
+            <button
+              type="button"
+              onclick="alert('Membuka file asli di tab baru')"
+              class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] font-medium flex items-center gap-1.5 shadow-2xs"
+            >
+              <i data-lucide="external-link" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+              <span>Buka di Tab Baru</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            onclick="closeModalPreviewDokumen()"
+            class="px-4 py-1.5 rounded-lg border border-[#e4e4e7] text-[#3f3f46] hover:bg-gray-50 font-medium"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>

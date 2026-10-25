@@ -1,0 +1,93 @@
+    <!-- ==================================================== -->
+    <!-- MODAL 9: VALIDASI SURAT REKOMENDASI (POPUP DIALOG)   -->
+    <!-- ==================================================== -->
+    <div id="modal-validasi-surekom" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
+      <div class="bg-white rounded-xl border border-[#e4e4e7] shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden text-sm">
+        <!-- Dialog Header -->
+        <div class="p-5 border-b border-[#e4e4e7] flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-blue-100 text-[#0655a7] flex items-center justify-center shrink-0">
+              <i data-lucide="file-check-2" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-[#09090b]">Validasi Surat Rekomendasi</h3>
+              <p class="text-xs text-[#71717a] mt-0.5" id="modal-surekom-header-sub">Penerbitan surat rekomendasi.</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeValidasiSurekomModal()" class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded-md">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Dialog Scrollable Body -->
+        <div class="p-5 overflow-y-auto space-y-4 flex-1">
+          <!-- Info Mahasiswa Ringkas -->
+          <div class="flex items-center gap-3 pb-4 border-b border-[#e4e4e7]">
+            <div id="modal-surekom-avatar" class="w-11 h-11 rounded-full bg-[#0655a7] text-white font-bold flex items-center justify-center text-sm shrink-0">
+              CR
+            </div>
+            <div class="min-w-0 flex-1">
+              <h4 id="modal-surekom-nama" class="font-semibold text-sm text-[#09090b] leading-tight">Calvin Revianto</h4>
+              <p id="modal-surekom-nim-prodi" class="text-xs text-[#71717a] mt-0.5 truncate">A11.2021.13782 • S1 Teknik Informatika</p>
+            </div>
+            <div class="text-right shrink-0">
+              <p id="modal-surekom-program" class="text-xs font-medium text-[#09090b]">Bengkel Koding</p>
+              
+            </div>
+          </div>
+
+          <!-- Pratinjau Surat Rekomendasi (langsung tampil) -->
+          <div>
+            <span class="text-xs font-semibold text-[#09090b]">Surat Rekomendasi</span>
+            <div class="mt-2 rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-4 max-h-56 overflow-y-auto">
+              <div id="modal-surekom-doc-preview" class="text-[11px] text-[#3f3f46] leading-relaxed font-mono whitespace-pre-wrap">
+                <!-- Isi surat diisi via JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Keputusan Validasi -->
+          <div class="space-y-3">
+
+            <!-- Catatan -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label id="modal-surekom-catatan-label" class="text-xs font-medium text-[#09090b]">Catatan untuk Mahasiswa</label>
+                <span id="modal-surekom-catatan-hint" class="text-[11px] text-[#71717a]">Opsional</span>
+              </div>
+              <textarea
+                id="modal-surekom-catatan-input"
+                rows="2"
+                placeholder="Tuliskan catatan atau instruksi revisi..."
+                class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] resize-none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dialog Footer: Tombol Keputusan -->
+        <div class="p-4 border-t border-[#e4e4e7]">
+          <div class="grid grid-cols-2 gap-2.5">
+            
+            <button
+              type="button"
+              id="label-radio-surekom-tolak"
+              onclick="submitValidasiSurekomWithDecision('Tolak')"
+              class="h-10 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#3f3f46] cursor-pointer flex items-center justify-center gap-2 transition-colors"
+            >
+              <i data-lucide="x" class="w-4 h-4"></i>
+              <span class="text-sm font-medium">Tolak</span>
+            </button>
+            <button
+              type="button"
+              id="label-radio-surekom-setujui"
+              onclick="submitValidasiSurekomWithDecision('Setujui')"
+              class="h-10 rounded-md border border-[#0655a7] bg-[#0655a7] hover:bg-[#0655a7]/90 text-white cursor-pointer flex items-center justify-center gap-2 transition-colors"
+            >
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span class="text-sm font-semibold">Setujui</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>

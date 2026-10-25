@@ -1,0 +1,239 @@
+---
+// src/components/admin/form-pendaftaran/TabIdentitasStudi.astro
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const defaultFields = [
+  { id: 'f-1', name: 'Nama Lengkap', type: 'text', source: 'siakad', required: true },
+  { id: 'f-2', name: 'NIM', type: 'text', source: 'siakad', required: true },
+  { id: 'f-3', name: 'Email Mahasiswa', type: 'email', source: 'siakad', required: true },
+  { id: 'f-4', name: 'Nomor Telepon / WhatsApp', type: 'text', source: 'manual', required: true },
+  { id: 'f-5', name: 'Program Studi', type: 'select', source: 'siakad', required: true },
+  { id: 'f-6', name: 'Semester Aktif', type: 'number', source: 'siakad', required: true },
+  { id: 'f-7', name: 'IPK Kumulatif', type: 'number', source: 'siakad', required: true },
+  { id: 'f-8', name: 'SKS Tempuh', type: 'number', source: 'siakad', required: true },
+];
+
+const inputTypes = [
+  { val: 'text', label: 'Jawaban Singkat' },
+  { val: 'textarea', label: 'Paragraf' },
+  { val: 'number', label: 'Angka' },
+  { val: 'email', label: 'Email' },
+  { val: 'url', label: 'Tautan (URL)' },
+  { val: 'select', label: 'Dropdown' },
+];
+---
+
+<div class:list={['space-y-4 font-sans', className]}>
+  <!-- Grid 2 Kolom Kanan-Kiri Berurutan (1, 2, 3, 4, 5, 6, 7, 8...) -->
+  <div id="identitas-fields-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+    {defaultFields.map((field, idx) => (
+      <div class="field-item-card rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all space-y-3.5 shadow-2xs">
+        <!-- Top: Number Badge, Question Title & Required indicator -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex-1 flex items-center gap-2.5">
+            <span class="field-item-num flex h-6 min-w-6 px-1.5 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs shrink-0 select-none">
+              {idx + 1}
+            </span>
+            <input
+              type="text"
+              value={field.name}
+              placeholder="Judul pertanyaan..."
+              class="field-name-input text-sm font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-1 py-0.5 w-full"
+            />
+            <span class:list={['required-asterisk text-rose-500 font-bold text-sm select-none', !field.required && 'hidden']}>*</span>
+          </div>
+        </div>
+
+        <!-- Middle: Question Preview Line -->
+        <div class="pt-0.5 pb-1">
+          <div class="w-full">
+            <p class="field-placeholder-text text-xs text-gray-400 select-none font-normal">
+              {field.type === 'number'
+                ? 'Angka (desimal / bulat)'
+                : field.type === 'email'
+                ? 'Teks email (jawaban singkat)'
+                : field.type === 'select'
+                ? 'Opsi pilihan dropdown'
+                : field.type === 'textarea'
+                ? 'Teks jawaban panjang'
+                : 'Teks jawaban singkat'}
+            </p>
+            <div class="mt-2 w-full border-b border-gray-200"></div>
+          </div>
+        </div>
+
+        <!-- Bottom: Configuration Toolbar -->
+        <div class="flex flex-wrap items-center justify-between pt-1 gap-2 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-400 text-xs">Tipe:</span>
+            <select
+              onchange="updateFieldTypePreview(this)"
+              class="rounded-lg border border-gray-200 bg-gray-50/70 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-white focus:outline-none focus:border-[#1063B9] transition-colors cursor-pointer"
+            >
+              {inputTypes.map((t) => (
+                <option value={t.val} selected={t.val === field.type}>{t.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer select-none">
+              <span>Wajib</span>
+              <input
+                type="checkbox"
+                checked={field.required}
+                onchange="toggleAsterisk(this)"
+                class="h-3.5 w-3.5 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+              />
+            </label>
+            <div class="h-3.5 w-px bg-gray-200"></div>
+            <button
+              type="button"
+              onclick="hapusFieldItem(this)"
+              class="p-1.5 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+              title="Hapus Pertanyaan"
+            >
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Tombol Tambah Form Input (Full Width di Bawah Grid) -->
+  <div class="pt-2">
+    <button
+      type="button"
+      onclick="tambahFieldIdentitas()"
+      class="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl border border-dashed border-[#1063B9]/40 bg-blue-50/30 hover:bg-blue-50/70 text-[#1063B9] text-xs font-semibold transition-all shadow-2xs cursor-pointer hover:border-[#1063B9]"
+    >
+      <i data-lucide="plus" class="w-4 h-4"></i>
+      <span>Tambah Form Input Baru</span>
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  function updateAllFieldNumbers() {
+    const container = document.getElementById('identitas-fields-container');
+    if (!container) return;
+    const cards = container.querySelectorAll('.field-item-card');
+    cards.forEach((card, idx) => {
+      const numEl = card.querySelector('.field-item-num');
+      if (numEl) numEl.textContent = idx + 1;
+    });
+  }
+
+  function hapusFieldItem(btn) {
+    const card = btn.closest('.field-item-card');
+    if (card) {
+      card.remove();
+      updateAllFieldNumbers();
+    }
+  }
+
+  function toggleAsterisk(checkbox) {
+    const card = checkbox.closest('.field-item-card');
+    if (!card) return;
+    const asterisk = card.querySelector('.required-asterisk');
+    if (asterisk) {
+      if (checkbox.checked) {
+        asterisk.classList.remove('hidden');
+      } else {
+        asterisk.classList.add('hidden');
+      }
+    }
+  }
+
+  function updateFieldTypePreview(select) {
+    const card = select.closest('.field-item-card');
+    if (!card) return;
+    const preview = card.querySelector('.field-placeholder-text');
+    if (!preview) return;
+    const val = select.value;
+    if (val === 'textarea') preview.textContent = 'Teks jawaban panjang';
+    else if (val === 'number') preview.textContent = 'Angka (desimal / bulat)';
+    else if (val === 'email') preview.textContent = 'Teks email (jawaban singkat)';
+    else if (val === 'select') preview.textContent = 'Opsi pilihan dropdown';
+    else if (val === 'url') preview.textContent = 'Tautan URL (Google Drive / Web)';
+    else preview.textContent = 'Teks jawaban singkat';
+  }
+
+  function tambahFieldIdentitas() {
+    const container = document.getElementById('identitas-fields-container');
+    if (!container) return;
+
+    const count = container.querySelectorAll('.field-item-card').length + 1;
+    const newCard = document.createElement('div');
+    newCard.className = 'field-item-card rounded-xl border border-gray-200 bg-white p-4 sm:p-5 hover:border-gray-300 transition-all space-y-3.5 shadow-2xs';
+    newCard.innerHTML = `
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 flex items-center gap-2.5">
+          <span class="field-item-num flex h-6 min-w-6 px-1.5 items-center justify-center rounded-md bg-[#114D91] text-xs font-bold text-white shadow-2xs shrink-0 select-none">
+            ${count}
+          </span>
+          <input
+            type="text"
+            placeholder="Judul pertanyaan baru..."
+            class="field-name-input text-sm font-semibold text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-[#1063B9] focus:outline-none transition-colors px-1 py-0.5 w-full"
+          />
+          <span class="required-asterisk text-rose-500 font-bold text-sm select-none">*</span>
+        </div>
+      </div>
+
+      <div class="pt-0.5 pb-1">
+        <div class="w-full">
+          <p class="field-placeholder-text text-xs text-gray-400 select-none font-normal">Teks jawaban singkat</p>
+          <div class="mt-2 w-full border-b border-gray-200"></div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between pt-1 gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-gray-400 text-xs">Tipe:</span>
+          <select
+            onchange="updateFieldTypePreview(this)"
+            class="rounded-lg border border-gray-200 bg-gray-50/70 px-2.5 py-1.5 text-xs font-medium text-gray-700 hover:bg-white focus:outline-none focus:border-[#1063B9] transition-colors cursor-pointer"
+          >
+            <option value="text" selected>Jawaban Singkat</option>
+            <option value="textarea">Paragraf</option>
+            <option value="number">Angka</option>
+            <option value="email">Email</option>
+            <option value="url">Tautan (URL)</option>
+            <option value="select">Dropdown</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer select-none">
+            <span>Wajib</span>
+            <input
+              type="checkbox"
+              checked
+              onchange="toggleAsterisk(this)"
+              class="h-3.5 w-3.5 rounded border-gray-300 text-[#1063B9] focus:ring-[#1063B9] cursor-pointer"
+            />
+          </label>
+          <div class="h-3.5 w-px bg-gray-200"></div>
+          <button
+            type="button"
+            onclick="hapusFieldItem(this)"
+            class="p-1.5 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+            title="Hapus Pertanyaan"
+          >
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    `;
+    container.appendChild(newCard);
+    if (window.lucide) window.lucide.createIcons();
+    const input = newCard.querySelector('input[type="text"]');
+    if (input) input.focus();
+  }
+</script>

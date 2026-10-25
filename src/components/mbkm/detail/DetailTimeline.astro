@@ -1,0 +1,103 @@
+---
+// src/components/mbkm/detail/DetailTimeline.astro
+---
+
+<!-- ========================================== -->
+<!-- KEGIATAN PROGRAM (3 SKEMA)                 -->
+<!-- ========================================== -->
+<section
+  id="skema"
+  class="relative isolate scroll-mt-6 overflow-x-clip bg-[#114D91] py-16 sm:py-20 lg:py-24"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- JUDUL (rata tengah) -->
+    <div class="mx-auto max-w-3xl text-center">
+      <div class="flex items-center justify-center gap-3">
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+        <p class="text-sm font-bold uppercase tracking-[0.16em] text-[#F3BC45]">
+          Timeline
+        </p>
+        <span class="h-px w-10 bg-[#F3BC45]"></span>
+      </div>
+
+      <h2
+        class="mt-4 text-2xl font-extrabold leading-[1.2] tracking-tight text-white sm:text-3xl lg:text-4xl"
+      >
+        Alur Kegiatan
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-2xl text-[15px] leading-7 text-blue-100/80">
+        Tahapan yang kamu jalani setelah resmi diterima sebagai peserta, hingga
+        luaran pembelajarannya diakui.
+      </p>
+    </div>
+
+    <!-- TIMELINE 5 LANGKAH (Lingkaran Node + Garis Horizontal Terhubung) -->
+    <div class="relative mt-12 lg:mt-16">
+      <ol class="relative grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
+        <!-- LANGKAH 01 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
+          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+            <i data-lucide="user-check" class="h-6 w-6"></i>
+          </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">Onboarding Peserta</h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">Aktivasi akun dan orientasi program.</p>
+          </div>
+        </li>
+
+        <!-- LANGKAH 02 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
+          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+            <i data-lucide="book-open-check" class="h-6 w-6"></i>
+          </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">Pembelajaran Mandiri</h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">Modul industri dan mentoring praktisi.</p>
+          </div>
+        </li>
+
+        <!-- LANGKAH 03 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
+          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+            <i data-lucide="folder-kanban" class="h-6 w-6"></i>
+          </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">Proyek Nyata</h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">Capstone Project berbasis kasus industri.</p>
+          </div>
+        </li>
+
+        <!-- LANGKAH 04 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
+          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+            <i data-lucide="briefcase" class="h-6 w-6"></i>
+          </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">Pembekalan Karir</h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">Soft skills dan kesiapan kerja.</p>
+          </div>
+        </li>
+
+        <!-- LANGKAH 05 -->
+        <li class="relative flex flex-col items-center text-center">
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+            <i data-lucide="graduation-cap" class="h-6 w-6"></i>
+          </div>
+          <div class="min-w-0 pt-5">
+            <h3 class="text-base font-extrabold leading-snug text-white">Konversi SKS</h3>
+            <p class="mt-2 text-sm leading-6 text-blue-100/80">Luaran diakui hingga 20 SKS.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>

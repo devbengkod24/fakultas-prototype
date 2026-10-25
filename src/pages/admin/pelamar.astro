@@ -14,7 +14,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
 <div class="space-y-4">
   <!-- Status Tabs Row (Sesuai Gambar Tugas Akhir Pengajuan Mahasiswa) -->
-  <div class="border-b border-[#e4e4e7] mb-2">
+  <div class="border-b border-[#e4e4e7] mb-2 flex items-center justify-between gap-4">
     <div class="flex items-center gap-6 overflow-x-auto pb-0">
       <button
         type="button"
@@ -60,6 +60,20 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <span id="badge-count-pendaftar-dibatalkan" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-700">0</span>
       </button>
     </div>
+
+    <!-- Tombol Export Excel -->
+    <div class="pb-2.5 shrink-0">
+      <button
+        type="button"
+        onclick="exportDataPelamar()"
+        id="btn-export-pelamar"
+        class="inline-flex items-center gap-2 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors shadow-none cursor-pointer"
+        title="Export Data Pendaftar ke Excel"
+      >
+        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+        <span>Export Excel</span>
+      </button>
+    </div>
   </div>
 
   <!-- Filter & Search Toolbar (Sesuai Gambar Pengajuan Mahasiswa) -->
@@ -99,15 +113,15 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <option value="nama-asc">🔤 Nama (A - Z)</option>
       </select>
 
-      <!-- Filter Kategori / Mitra -->
+      <!-- Filter Kategori / Kontributor -->
       <select
-        id="filter-pelamar-mitra"
-        onchange="handleFilterPelamarMitra(this.value)"
+        id="filter-pelamar-kontributor"
+        onchange="handleFilterPelamarKontributor(this.value)"
         class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
       >
-        <option value="semua">Semua Mitra</option>
-        <option value="eksternal" selected>Mitra Eksternal (Koordinator)</option>
-        <option value="internal">Mitra Internal (Read-Only)</option>
+        <option value="semua">Semua Kontributor</option>
+        <option value="eksternal" selected>Kontributor Eksternal (Koordinator)</option>
+        <option value="internal">Kontributor Internal (Read-Only)</option>
         <option value="Dicoding Indonesia">Dicoding Indonesia</option>
         <option value="Bangkit Academy">Bangkit Academy</option>
         <option value="PT Telkom Indonesia">PT Telkom Indonesia</option>
@@ -142,7 +156,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <tr>
           <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
           <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program & Mitra MBKM</th>
+          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program & Kontributor MBKM</th>
           <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Akademik</th>
           <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Matakuliah Diambil</th>
           <th class="h-11 px-4 font-medium text-sm w-36 text-center text-[#71717a]">Aksi</th>

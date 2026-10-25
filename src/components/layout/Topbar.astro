@@ -3,7 +3,7 @@ import { Menu, Bell, User } from 'lucide-astro';
 import RoleSwitcher from './RoleSwitcher.astro';
 
 interface Props {
-  role: 'admin' | 'mahasiswa' | 'mitra';
+  role: 'admin' | 'mahasiswa' | 'kontributor';
   title?: string;
   subtitle?: string;
 }
@@ -13,7 +13,7 @@ const { role, title, subtitle } = Astro.props;
 const userProfiles = {
   admin: { name: 'Dr. Nurul Anisa, M.Kom', roleLabel: 'Koordinator MBKM FIK' },
   mahasiswa: { name: 'Ahmad Faiz Robbani', roleLabel: 'A11.2023.14920' },
-  mitra: { name: 'Budi Santoso', roleLabel: 'PIC PT Telkom Indonesia' },
+  kontributor: { name: 'Budi Santoso', roleLabel: 'PIC PT Telkom Indonesia' },
 };
 
 const currentProfile = userProfiles[role] || userProfiles.admin;

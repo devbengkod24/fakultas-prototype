@@ -1,0 +1,140 @@
+---
+// src/components/admin/kontributor/KontributorCms.astro
+import TabProfilHero from './cms/TabProfilHero.astro';
+import TabTimeline from './cms/TabTimeline.astro';
+import TabTimShowcase from './cms/TabTimShowcase.astro';
+import TabFaq from './cms/TabFaq.astro';
+
+interface Props {
+  /** Tampilkan langsung (dipakai pada halaman /admin/kontributor/kelola-program) */
+  standalone?: boolean;
+}
+const { standalone = false } = Astro.props;
+---
+
+<!-- Subview 3: CMS Halaman Publik Detail Kontributor & Program MBKM -->
+<div id="subview-program-cms" class:list={["font-sans", standalone ? "" : "hidden"]}>
+  <!-- Hidden title holders for controller compatibility -->
+  <span id="cms-program-page-title" class="hidden"></span>
+  <span id="cms-program-page-subtitle" class="hidden"></span>
+
+  <!-- Navigasi 4 Tab Utama CMS (Spacious & Clean) -->
+  <div class="w-full border-b border-gray-200 mb-6">
+    <div class="flex items-center gap-2 overflow-x-auto" role="tablist">
+      <button
+        type="button"
+        id="btn-subtab-cms-hero"
+        onclick="switchCmsSubTab('hero')"
+        role="tab"
+        aria-selected="true"
+        class="cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-semibold border-b-2 border-primary-600 text-primary-700 transition-colors shrink-0 cursor-pointer"
+      >
+        <span>Detail Program</span>
+      </button>
+
+      <button
+        type="button"
+        id="btn-subtab-cms-timeline"
+        onclick="switchCmsSubTab('timeline')"
+        role="tab"
+        aria-selected="false"
+        class="cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer"
+      >
+        <span>Timeline</span>
+      </button>
+
+      <button
+        type="button"
+        id="btn-subtab-cms-showcase"
+        onclick="switchCmsSubTab('showcase')"
+        role="tab"
+        aria-selected="false"
+        class="cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer"
+      >
+        <span>Showcase</span>
+      </button>
+
+      <button
+        type="button"
+        id="btn-subtab-cms-faq"
+        onclick="switchCmsSubTab('faq')"
+        role="tab"
+        aria-selected="false"
+        class="cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer"
+      >
+        <span>FAQ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PANE 1: DETAIL PROGRAM (HERO, TENTANG PROGRAM, & 2 TABBAR: INFORMASI, PERSYARATAN) -->
+  <div id="pane-cms-hero" class="cms-pane space-y-6">
+    <TabProfilHero />
+  </div>
+
+  <!-- PANE 2: TIMELINE — ALUR KEGIATAN PROGRAM -->
+  <div id="pane-cms-timeline" class="cms-pane space-y-6 hidden">
+    <TabTimeline />
+  </div>
+
+  <!-- PANE 3: SHOWCASE HASIL KARYA MAHASISWA -->
+  <div id="pane-cms-showcase" class="cms-pane space-y-6 hidden">
+    <TabTimShowcase />
+  </div>
+
+  <!-- PANE 4: TANYA JAWAB (FAQ) -->
+  <div id="pane-cms-faq" class="cms-pane space-y-6 hidden">
+    <TabFaq />
+  </div>
+
+  <!-- Hidden compatibility inputs for _controller.js populateKontributorCmsPage -->
+  <div class="hidden" aria-hidden="true">
+    <input type="hidden" id="cms-input-kontributor" value="" />
+    <input type="hidden" id="cms-input-klaster" value="" />
+    <input type="hidden" id="cms-input-moda" value="" />
+    <input type="hidden" id="cms-input-periode" value="" />
+    <input type="hidden" id="cms-input-sks" value="" />
+    <input type="hidden" id="cms-input-badge" value="" />
+    <input type="hidden" id="cms-input-deadline" value="" />
+    <input type="hidden" id="cms-input-deskripsi-hero" value="" />
+    <input type="hidden" id="cms-input-poin-1" value="" />
+    <input type="hidden" id="cms-input-poin-2" value="" />
+    <input type="hidden" id="cms-input-poin-3" value="" />
+    <input type="hidden" id="cms-input-koor-nama" value="" />
+    <input type="hidden" id="cms-input-koor-jabatan" value="" />
+    <img id="cms-koor-foto-preview" src="" class="hidden" />
+    <button type="button" id="btn-tambah-showcase" class="hidden"></button>
+  </div>
+</div>
+
+<script is:inline>
+  function switchCmsSubTab(subTab) {
+    const tabs = ['hero', 'timeline', 'showcase', 'faq'];
+    tabs.forEach((t) => {
+      const btn = document.getElementById('btn-subtab-cms-' + t);
+      const pane = document.getElementById('pane-cms-' + t);
+      if (t === subTab) {
+        if (btn) {
+          btn.className = 'cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-semibold border-b-2 border-primary-600 text-primary-700 transition-colors shrink-0 cursor-pointer';
+          btn.setAttribute('aria-selected', 'true');
+        }
+        if (pane) pane.classList.remove('hidden');
+      } else {
+        if (btn) {
+          btn.className = 'cms-tab-btn inline-flex items-center px-5 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors shrink-0 cursor-pointer';
+          btn.setAttribute('aria-selected', 'false');
+        }
+        if (pane) pane.classList.add('hidden');
+      }
+    });
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  function handleSaveCmsHero() {
+    alert('Perubahan CMS Halaman Publik Detail Program berhasil disimpan!');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>

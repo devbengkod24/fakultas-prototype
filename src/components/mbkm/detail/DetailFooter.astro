@@ -1,0 +1,79 @@
+---
+// src/components/mbkm/detail/DetailFooter.astro
+---
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="w-full max-w-full overflow-x-hidden bg-[linear-gradient(105.661deg,#114D91_0%,#1E7FD9_100%)] text-white">
+  <div class="w-full max-w-[1920px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-16 2xl:px-24">
+    <!-- Footer main -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1.15fr_1.15fr_1fr_1fr] gap-8 xl:gap-10 py-10 xl:py-12">
+      <!-- Identitas & Kontak -->
+      <div class="min-w-0">
+        <div class="flex items-center gap-3">
+          <img src="/assets/images/logo-dinus.png" alt="Logo Universitas Dian Nuswantoro" class="w-14 h-14 shrink-0 object-contain" />
+          <div class="flex flex-col leading-[1.15] font-extrabold tracking-[0.3px] text-white text-[14px]">
+            <span>UNIVERSITAS</span><span>DIAN NUSWANTORO</span>
+          </div>
+        </div>
+        <p class="mt-5 max-w-[390px] text-[14px] leading-[1.55] text-primary-100">
+          Mempersiapkan generasi digital yang kompeten, inovatif, dan siap menghadapi tantangan teknologi masa depan.
+        </p>
+        <div class="mt-5 space-y-3 text-[14px] leading-[1.55] text-primary-100">
+          <div class="flex items-start gap-3">
+            <i data-lucide="map-pin" class="w-5 h-5 shrink-0 mt-0.5"></i>
+            <span>Jl. Imam Bonjol No. 207, Pendrikan Kidul, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50131</span>
+          </div>
+          <div class="flex items-center gap-3"><i data-lucide="phone" class="w-5 h-5 shrink-0"></i><span>(024) 3517261</span></div>
+          <div class="flex items-center gap-3"><i data-lucide="mail" class="w-5 h-5 shrink-0"></i><!-- TODO: isi alamat email --></div>
+        </div>
+      </div>
+
+      <!-- Program Studi -->
+      <div class="min-w-0">
+        <h2 class="text-[17px] font-semibold leading-6 text-white">Program Studi</h2>
+        <ul class="mt-5 space-y-2.5 text-[14px] leading-6 text-slate-300">
+          <li class="flex items-start gap-2"><span class="text-slate-400">•</span><span>Program Studi Sarjana (S1)</span></li>
+          <li class="flex items-start gap-2"><span class="text-slate-400">•</span><span>Program Diploma &amp; Sarjana Terapan (D3 &amp; SST)</span></li>
+          <li class="flex items-start gap-2"><span class="text-slate-400">•</span><span>Program Diploma &amp; Sarjana Magister (S2)</span></li>
+          <li class="flex items-start gap-2"><span class="text-slate-400">•</span><span>Program Studi Doktor (S3)</span></li>
+          <li class="flex items-start gap-2"><span class="text-slate-400">•</span><span>Program Pendidikan Jarak Jauh (PJJ)</span></li>
+        </ul>
+      </div>
+
+      <!-- Organisasi & Biro -->
+      <div class="min-w-0">
+        <h2 class="text-[17px] font-semibold leading-6 text-white">Organisasi Mahasiswa</h2>
+        <ul class="mt-5 space-y-2.5 text-[14px] leading-6 text-slate-300">
+          <li>BEM FIK</li><li>DPM FIK</li>
+        </ul>
+        <h2 class="mt-8 text-[17px] font-semibold leading-6 text-white">Biro</h2>
+        <ul class="mt-4 space-y-2.5 text-[14px] leading-6 text-slate-300">
+          <li>Biro Akademik</li><li>Biro Keuangan</li><li>Biro Mahasiswa</li>
+        </ul>
+      </div>
+
+      <!-- Unit -->
+      <div class="min-w-0">
+        <h2 class="text-[17px] font-semibold leading-6 text-white">Unit</h2>
+        <ul class="mt-5 space-y-2.5 text-[14px] leading-6 text-slate-300">
+          <li>UPT Perpustakaan</li><li>UPT Career Center</li><li>UPT Dinustek</li><li>UPT LSP</li><li>UPT Penerbitan</li><li>UPT Poliklinik</li><li>UPT TVKU</li>
+        </ul>
+        <h2 class="mt-8 text-[17px] font-semibold leading-6 text-white">Layanan MBKM &amp; Akademik</h2>
+        <ul class="mt-4 space-y-2.5 text-[14px] leading-6 text-slate-300">
+          <li><a href="/mbkm" class="hover:text-white transition-colors">Katalog Kampus Berdampak</a></li>
+          <li><a href="/apps" class="hover:text-white transition-colors">Portal Aplikasi Terpadu (Apps)</a></li>
+          <li><a href="/mahasiswa/dashboard" class="hover:text-white transition-colors">Portal Mahasiswa Pelamar</a></li>
+          <li><a href="/dosen/dashboard" class="hover:text-white transition-colors">Portal Dosen Pembimbing</a></li>
+          <li><a href="/contributor/dashboard" class="hover:text-white transition-colors">Portal Kontributor</a></li>
+          <li><a href="https://siadin.dinus.ac.id" target="_blank" rel="noopener" class="hover:text-white transition-colors">SIADIN Akademik UDINUS</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer bottom -->
+    <div class="border-t border-white/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-6 text-[13px] text-slate-300">
+      <span>© 2025 Universitas Dian Nuswantoro. All rights reserved.</span>
+      <a href="#" class="hover:text-white transition-colors">About Developer</a>
+    </div>
+  </div>
+</footer>

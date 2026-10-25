@@ -22,17 +22,17 @@ import AdminShell from '../../layouts/AdminShell.astro';
         { id: 5, nama: 'Ajib Susanto, M.Kom', sisaKuota: 1, nidn: '0614057201' },
       ],
       mhsList: [
-        { id: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', prodi: 'Teknik Informatika', mitra: 'PT Telkom Indonesia', dospem: 'Dr. M. Arief Soeleman, M.Kom', isKonversi: true },
-        { id: 2, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'Teknik Informatika', mitra: 'Tokopedia', dospem: 'Affandy, Ph.D', isKonversi: false },
-        { id: 3, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', prodi: 'Sistem Informasi', mitra: 'Ryuje Tech', dospem: 'Christy Atika Sari, M.Kom', isKonversi: true },
-        { id: 4, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', prodi: 'Teknik Informatika', mitra: 'Diskominfo Jateng', dospem: null, isKonversi: false },
-        { id: 5, nama: 'Dimas Wahyu Nugroho', nim: 'A11.2021.13450', prodi: 'Teknik Informatika', mitra: 'PT Bank Central Asia', dospem: null, isKonversi: true },
-        { id: 6, nama: 'Siti Aminah', nim: 'A12.2022.09911', prodi: 'Sistem Informasi', mitra: 'Shopee Indonesia', dospem: 'Eko Hari Rachmawanto, M.Kom', isKonversi: false },
+        { id: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', prodi: 'Teknik Informatika', kontributor: 'PT Telkom Indonesia', dospem: 'Dr. M. Arief Soeleman, M.Kom', isKonversi: true },
+        { id: 2, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'Teknik Informatika', kontributor: 'Tokopedia', dospem: 'Affandy, Ph.D', isKonversi: false },
+        { id: 3, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', prodi: 'Sistem Informasi', kontributor: 'Ryuje Tech', dospem: 'Christy Atika Sari, M.Kom', isKonversi: true },
+        { id: 4, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', prodi: 'Teknik Informatika', kontributor: 'Diskominfo Jateng', dospem: null, isKonversi: false },
+        { id: 5, nama: 'Dimas Wahyu Nugroho', nim: 'A11.2021.13450', prodi: 'Teknik Informatika', kontributor: 'PT Bank Central Asia', dospem: null, isKonversi: true },
+        { id: 6, nama: 'Siti Aminah', nim: 'A12.2022.09911', prodi: 'Sistem Informasi', kontributor: 'Shopee Indonesia', dospem: 'Eko Hari Rachmawanto, M.Kom', isKonversi: false },
       ],
       activityLogs: [
-        { id: 101, mhsId: 1, desc: 'Koordinator menetapkan Dr. M. Arief Soeleman, M.Kom sebagai DPL', time: '14 Okt 2026, 10:15 WIB' },
+        { id: 101, mhsId: 1, desc: 'Koordinator menetapkan Dr. M. Arief Soeleman, M.Kom sebagai Dosen Pembimbing', time: '14 Okt 2026, 10:15 WIB' },
         { id: 102, mhsId: 2, desc: 'Koordinator mengubah dosen pembimbing menjadi Affandy, Ph.D', time: '12 Okt 2026, 14:20 WIB' },
-        { id: 103, mhsId: 3, desc: 'Koordinator menetapkan Christy Atika Sari, M.Kom sebagai DPL', time: '11 Okt 2026, 09:00 WIB' },
+        { id: 103, mhsId: 3, desc: 'Koordinator menetapkan Christy Atika Sari, M.Kom sebagai Dosen Pembimbing', time: '11 Okt 2026, 09:00 WIB' },
       ],
       get filteredMhs() {
         if (!this.searchQuery) return this.mhsList;
@@ -89,11 +89,11 @@ import AdminShell from '../../layouts/AdminShell.astro';
       }
     }"
   >
-    <!-- Header Title & Subtitle Sesuai Style KP -->
+    <!-- Header Title & Subtitle Sesuai Style MBKM -->
     <div class="flex flex-col gap-0.5 shrink-0 mb-1">
-      <h2 class="text-base font-semibold text-[#09090b]">Update Dosen Pembimbing</h2>
+      <h2 class="text-base font-semibold text-[#09090b]">Plotting Dosen</h2>
       <p class="text-[11px] text-[#71717a]">
-        Ubah dosen pembimbing mahasiswa dan batalkan ACC dosen jika diperlukan.
+        Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program MBKM.
       </p>
     </div>
 

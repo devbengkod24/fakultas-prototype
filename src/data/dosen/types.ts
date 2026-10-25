@@ -29,8 +29,8 @@ export interface MahasiswaBinaan {
   email: string;
   noWa: string;
   prodi: string;
-  mitra: string;
-  mitraLogo?: string;
+  kontributor: string;
+  kontributorLogo?: string;
   skema: "Magang Industri" | "Studi Independen";
   posisi: string;
   mentor: string;
@@ -62,11 +62,11 @@ export interface PengajuanSidangDosen {
   id: string;
   mahasiswaId: string;
   judulLaporan: string;
-  mitra: string;
+  kontributor: string;
   mentor: string;
   dokumenLaporanPdf: string;
-  dokumenNilaiMitraPdf: string;
-  nilaiMitra: number; // 0 - 100 (bobot 60%)
+  dokumenNilaiKontributorPdf: string;
+  nilaiKontributor: number; // 0 - 100 (bobot 60%)
   tanggalPengajuan: string;
   status: "menunggu_review" | "acc_maju_sidang" | "revisi";
   catatanDpl?: string;
@@ -80,9 +80,9 @@ export interface SidangDosen {
   jamSidang: string;
   ruangMeeting: string;
   linkMeeting?: string;
-  nilaiMitra: number; // Bobot 60%
+  nilaiKontributor: number; // Bobot 60%
   nilaiDpl: number | null; // Bobot 40% (null jika belum sidang)
-  nilaiAkhir: number | null; // Komposit 60% Mitra + 40% DPL
+  nilaiAkhir: number | null; // Komposit 60% Kontributor + 40% Dospem
   grade: string | null; // A, AB, B, dsb
   status: "terjadwal" | "selesai" | "menunggu_nilai";
 }
@@ -93,7 +93,7 @@ export interface PengumumanDosenItem {
   tanggal: string;
   waktu: string;
   pengirim: string;
-  kategori: "Bimbingan DPL" | "Sidang Evaluasi" | "Kebijakan Fakultas" | "Umum";
+  kategori: "Bimbingan Dospem" | "Sidang Evaluasi" | "Kebijakan Fakultas" | "Umum";
   ringkasan: string;
   kontenLengkap: string;
   lampiranNama?: string;

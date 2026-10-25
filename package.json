@@ -17,7 +17,10 @@
     "@types/alpinejs": "^3.17.0",
     "alpinejs": "^3.17.4",
     "astro": "^7.4.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "lucide-astro": "^0.556.0",
+    "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
