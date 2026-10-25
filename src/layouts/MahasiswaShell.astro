@@ -1,473 +1,590 @@
 ---
 // src/layouts/MahasiswaShell.astro
+// @ts-nocheck
 interface Props {
   title?: string;
   pageTitle?: string;
   subtitle?: string;
   breadcrumb?: string;
   activeNav?:
-    | 'dashboard'
-    | 'pengumuman'
-    | 'katalog'
-    | 'pendaftaran'
-    | 'status'
-    | 'dosen-pembimbing'
-    | 'logbook'
-    | 'konversi-sks'
-    | 'sidang'
-    | 'sertifikat'
-    | 'log-aktivitas'
+    | "dashboard"
+    | "pengumuman"
+    | "katalog"
+    | "pendaftaran"
+    | "status"
+    | "dosen-pembimbing"
+    | "logbook"
+    | "konversi-sks"
+    | "sidang"
+    | "sertifikat"
+    | "log-aktivitas"
     | string;
 }
 
 const {
   activeNav = "dashboard",
-  breadcrumb = activeNav === 'dashboard' ? 'Dashboard' :
-               activeNav === 'pengumuman' ? 'Pengumuman' :
-               activeNav === 'pendaftaran' ? 'Pendaftaran MBKM' :
-               activeNav === 'status' ? 'Status Pengajuan' :
-               activeNav === 'dosen-pembimbing' ? 'Dosen Pembimbing' :
-               activeNav === 'logbook' ? 'Logbook Kegiatan' :
-               activeNav === 'konversi-sks' ? 'Konversi SKS' :
-               activeNav === 'sidang' ? 'Sidang Evaluasi Akhir' :
-               activeNav === 'sertifikat' ? 'Sertifikat & Luaran' :
-               activeNav === 'log-aktivitas' ? 'Log Aktivitas' :
-               'Dashboard',
+  breadcrumb = activeNav === "dashboard"
+    ? "Dashboard"
+    : activeNav === "pengumuman"
+      ? "Pengumuman"
+      : activeNav === "pendaftaran"
+        ? "Pendaftaran Kampus Berdampak"
+        : activeNav === "status"
+          ? "Status Pengajuan"
+          : activeNav === "dosen-pembimbing"
+            ? "Dosen Pembimbing"
+            : activeNav === "logbook"
+              ? "Logbook Kegiatan"
+              : activeNav === "konversi-sks"
+                ? "Pengajuan Konversi"
+                : activeNav === "sidang"
+                  ? "Sidang Evaluasi Akhir"
+                  : activeNav === "sertifikat"
+                    ? "Sertifikat & Luaran"
+                    : activeNav === "log-aktivitas"
+                      ? "Log Aktivitas"
+                      : "Dashboard",
   pageTitle = breadcrumb,
-  subtitle = activeNav === 'dashboard' ? 'Verifikasi data akademik Anda dari database dan pantau progres MBKM.' :
-             activeNav === 'pengumuman' ? 'Papan pengumuman dan broadcast informasi resmi pelaksanaan MBKM.' :
-             activeNav === 'katalog' ? 'Daftar program MBKM kontributor resmi yang terbuka untuk pendaftaran semester ini.' :
-              activeNav === 'pendaftaran' ? 'Katalog program & formulir pendaftaran MBKM.' :
-              activeNav === 'status' ? 'Pantau status berkas lamaran dan persetujuan dari kontributor serta fakultas.' :
-             activeNav === 'dosen-pembimbing' ? 'Informasi dosen pembimbing lapangan (DPL) dan mentor kontributor resmi.' :
-             activeNav === 'logbook' ? 'Jurnal kegiatan mingguan mahasiswa dan rekap verifikasi DPL.' :
-             activeNav === 'konversi-sks' ? 'Tabel mata kuliah ekuivalensi (maks. 20 SKS) yang telah diverifikasi dan dikunci resmi.' :
-             activeNav === 'sidang' ? 'Pengajuan dan jadwal sidang evaluasi akhir MBKM bobot penilaian terstandar.' :
-             activeNav === 'sertifikat' ? 'Sertifikat penyelesaian program dan verifikasi target luaran wajib.' :
-             activeNav === 'log-aktivitas' ? 'Audit trail kronologis seluruh aksi dan verifikasi sistem Anda.' :
-             '',
-  title = `${pageTitle} | Mahasiswa Kampus Berdampak - FIK Udinus`
+  title = `${pageTitle} | Mahasiswa Kampus Berdampak - FIK Udinus`,
 } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
 
-  <!-- Google Fonts: Inter (Standar Selaras dengan Admin) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet"
-  />
+    <!-- Google Fonts: Inter (Standar Selaras dengan Admin) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Tailwind CSS CDN (Tema Selaras dengan Admin) -->
-  <script is:inline src="https://cdn.tailwindcss.com"></script>
-  <script is:inline>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              DEFAULT: '#0655a7',
-              dark: '#114d91',
-              light: '#f1f7fe',
+    <!-- Tailwind CSS CDN (Tema Selaras dengan Admin) -->
+    <script is:inline src="https://cdn.tailwindcss.com"></script>
+    <script is:inline>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
             },
-            primary: {
-              50: '#F1F7FE',
-              100: '#E2EEFC',
-              200: '#BFDBF8',
-              300: '#86BEF3',
-              400: '#1E7FD9',
-              500: '#1E7FD9',
-              600: '#1063B9',
-              700: '#114D91',
-              800: '#10447C',
-              900: '#133A67',
-              950: '#0D2544',
+            colors: {
+              brand: {
+                DEFAULT: "#0655a7",
+                dark: "#114d91",
+                light: "#f1f7fe",
+              },
+              primary: {
+                50: "#F1F7FE",
+                100: "#E2EEFC",
+                200: "#BFDBF8",
+                300: "#86BEF3",
+                400: "#1E7FD9",
+                500: "#1E7FD9",
+                600: "#1063B9",
+                700: "#114D91",
+                800: "#10447C",
+                900: "#133A67",
+                950: "#0D2544",
+              },
+              secondary: {
+                50: "#FEFAEC",
+                100: "#FCEEC9",
+                200: "#F8DB8F",
+                300: "#F4BD45",
+                400: "#F2AB2D",
+                500: "#F3BC45",
+                600: "#D0670F",
+              },
             },
-            secondary: {
-              50: '#FEFAEC',
-              100: '#FCEEC9',
-              200: '#F8DB8F',
-              300: '#F4BD45',
-              400: '#F2AB2D',
-              500: '#F3BC45',
-              600: '#D0670F',
+            boxShadow: {
+              "2xs": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
             },
-          },
-          boxShadow: {
-            '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
           },
         },
-      },
-    };
-  </script>
+      };
+    </script>
 
-  <!-- Lucide Icons CDN -->
-  <script is:inline src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons CDN -->
+    <script is:inline src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Alpine.js Core CDN (defer) -->
-  <script is:inline defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <!-- Alpine.js Core CDN (defer) -->
+    <script
+      is:inline
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"
+    ></script>
 
-  <!-- Inisialisasi State Store Simulasi Mahasiswa -->
-  <script is:inline>
-    (function () {
-      const STORAGE_KEY = 'fik_mahasiswa_sim_state';
+    <!-- Inisialisasi State Store Simulasi Mahasiswa -->
+    <script is:inline>
+      (function () {
+        const STORAGE_KEY = "fik_mahasiswa_sim_state";
 
-      function initMahasiswaStore() {
-        if (!window.Alpine || window.Alpine.store('mahasiswaSim')) return;
+        function initMahasiswaStore() {
+          if (!window.Alpine || window.Alpine.store("mahasiswaSim")) return;
 
-        let savedState = 'aktif';
-        try {
-          savedState = localStorage.getItem(STORAGE_KEY) || 'aktif';
-          if (savedState !== 'belum_daftar' && savedState !== 'aktif') {
-            savedState = 'aktif';
+          let savedState = "aktif";
+          try {
+            savedState = localStorage.getItem(STORAGE_KEY) || "aktif";
+            if (savedState !== "belum_daftar" && savedState !== "aktif") {
+              savedState = "aktif";
+            }
+          } catch (e) {
+            console.warn("localStorage read error:", e);
           }
-        } catch (e) {
-          console.warn('localStorage read error:', e);
+
+          window.Alpine.store("mahasiswaSim", {
+            state: savedState,
+
+            setState(newState) {
+              if (newState !== "belum_daftar" && newState !== "aktif") return;
+              this.state = newState;
+              try {
+                localStorage.setItem(STORAGE_KEY, newState);
+              } catch (e) {
+                console.warn("localStorage write error:", e);
+              }
+              window.dispatchEvent(
+                new CustomEvent("mahasiswa-sim-changed", {
+                  detail: { state: newState },
+                }),
+              );
+              setTimeout(() => {
+                if (window.lucide) {
+                  window.lucide.createIcons();
+                }
+              }, 50);
+            },
+
+            isBelumDaftar() {
+              return this.state === "belum_daftar";
+            },
+
+            isAktif() {
+              return this.state === "aktif";
+            },
+
+            toggle() {
+              this.setState(
+                this.state === "belum_daftar" ? "aktif" : "belum_daftar",
+              );
+            },
+          });
         }
 
-        window.Alpine.store('mahasiswaSim', {
-          state: savedState,
+        if (window.Alpine) {
+          initMahasiswaStore();
+        } else {
+          document.addEventListener("alpine:init", initMahasiswaStore);
+        }
+      })();
+    </script>
 
-          setState(newState) {
-            if (newState !== 'belum_daftar' && newState !== 'aktif') return;
-            this.state = newState;
-            try {
-              localStorage.setItem(STORAGE_KEY, newState);
-            } catch (e) {
-              console.warn('localStorage write error:', e);
-            }
-            window.dispatchEvent(
-              new CustomEvent('mahasiswa-sim-changed', { detail: { state: newState } })
-            );
-            setTimeout(() => {
-              if (window.lucide) {
-                window.lucide.createIcons();
-              }
-            }, 50);
-          },
-
-          isBelumDaftar() {
-            return this.state === 'belum_daftar';
-          },
-
-          isAktif() {
-            return this.state === 'aktif';
-          },
-
-          toggle() {
-            this.setState(this.state === 'belum_daftar' ? 'aktif' : 'belum_daftar');
-          }
-        });
+    <style is:global>
+      [x-cloak] {
+        display: none !important;
       }
-
-      if (window.Alpine) {
-        initMahasiswaStore();
-      } else {
-        document.addEventListener('alpine:init', initMahasiswaStore);
+      html,
+      body {
+        min-height: 100vh;
+        margin: 0;
       }
-    })();
-  </script>
-
-  <style is:global>
-    [x-cloak] {
-      display: none !important;
-    }
-    html,
-    body {
-      min-height: 100vh;
-      margin: 0;
-    }
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-    .nav-active {
-      color: #0655a7 !important;
-      font-weight: 500 !important;
-      background-color: rgba(6, 85, 167, 0.08) !important;
-      position: relative;
-    }
-    .nav-active .active-bar {
-      display: block !important;
-    }
-    .nav-active i {
-      color: #0655a7 !important;
-    }
-  </style>
-</head>
-<body x-data class="min-h-screen bg-[#fafafa] text-[#09090b] antialiased overflow-x-hidden">
-  <div class="flex min-h-screen w-full bg-[#fafafa]">
-
-    <!-- ==================================================== -->
-    <!-- 1. SIDEBAR MAHASISWA (SELARAS 100% DENGAN ADMIN)     -->
-    <!-- ==================================================== -->
-    <aside
-      id="sidebar"
-      class="w-64 shrink-0 bg-[#fafafa] flex flex-col justify-between p-3 border-r border-[#e4e4e7]/60 min-h-screen sticky top-0 h-screen overflow-y-auto transition-all duration-200"
-    >
-      <div class="flex flex-col gap-2">
-        <!-- Logo Institusi UDINUS -->
-        <div class="flex items-center gap-2.5 p-2 mb-1">
-          <img
-            src="/assets/logo.png"
-            alt="Logo UDINUS"
-            class="object-contain w-9 h-9"
-            onerror="this.src = 'https://dinus.ac.id/img/logo-dinus.png'"
-          />
-          <div class="flex flex-col leading-tight">
-            <span class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase">UNIVERSITAS</span>
-            <span class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase">DIAN NUSWANTORO</span>
-          </div>
-        </div>
-
-        <!-- Kartu Identitas Modul Sub-App (AppSwitcher) -->
-        <div class="w-full h-12 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none cursor-pointer">
-          <div class="flex items-center gap-2.5 overflow-hidden">
-            <div class="w-8 h-8 rounded-lg bg-[#0655a7] text-white flex items-center justify-center shrink-0">
-              <i data-lucide="briefcase" class="w-4 h-4"></i>
-            </div>
-            <div class="flex flex-col overflow-hidden leading-tight">
-              <span class="text-[13px] font-semibold text-[#09090b] truncate">Kerja Praktek</span>
-              <span class="text-[11px] text-[#71717a] truncate">Mahasiswa</span>
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      /* [DIHAPUS] Dosen Pembimbing */
+      .nav-dospem-hide {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body
+    x-data
+    class="min-h-screen bg-[#fafafa] text-[#09090b] antialiased overflow-x-hidden"
+  >
+    <div class="flex min-h-screen w-full bg-[#fafafa]">
+      <!-- ==================================================== -->
+      <!-- 1. SIDEBAR MAHASISWA (SELARAS 100% DENGAN ADMIN)     -->
+      <!-- ==================================================== -->
+      <aside
+        id="sidebar"
+        class="w-64 shrink-0 bg-[#fafafa] flex flex-col justify-between p-3 border-r border-[#e4e4e7]/60 min-h-screen sticky top-0 h-screen overflow-y-auto transition-all duration-200"
+      >
+        <div class="flex flex-col gap-2">
+          <!-- Logo Institusi UDINUS -->
+          <div class="flex items-center gap-2.5 p-2 mb-1">
+            <img
+              src="/assets/logo.png"
+              alt="Logo UDINUS"
+              class="object-contain w-9 h-9"
+            />
+            <div class="flex flex-col leading-tight">
+              <span
+                class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase"
+                >UNIVERSITAS</span
+              >
+              <span
+                class="text-[11px] font-extrabold text-[#114d91] tracking-wider uppercase"
+                >DIAN NUSWANTORO</span
+              >
             </div>
           </div>
-          <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-        </div>
 
-        <!-- Menu Navigasi Mahasiswa (Style Selaras Admin) -->
-        <nav class="flex flex-col gap-1 mt-2">
-          <!-- 1. Dashboard -->
-          <a
-            href="/mahasiswa/dashboard"
-            id="nav-dashboard"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'dashboard' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-            }`}
+          <!-- Kartu Identitas Modul Sub-App (AppSwitcher) -->
+          <div
+            class="w-full h-12 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none cursor-pointer hover:bg-gray-50/80 transition-colors"
           >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'dashboard' ? '' : 'hidden'}`}></span>
-            <i data-lucide="layout-dashboard" class={`w-4 h-4 shrink-0 ${activeNav === 'dashboard' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Dashboard</span>
-          </a>
-
-          <!-- 2. Pengumuman -->
-          <a
-            href="/mahasiswa/pengumuman"
-            id="nav-pengumuman"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'pengumuman' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-            }`}
-          >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'pengumuman' ? '' : 'hidden'}`}></span>
-            <i data-lucide="megaphone" class={`w-4 h-4 shrink-0 ${activeNav === 'pengumuman' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Pengumuman</span>
-          </a>
-
-          <!-- 3. Pendaftaran MBKM -->
-          <a
-            href="/mahasiswa/pendaftaran"
-            id="nav-pendaftaran"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'pendaftaran' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-            }`}
-          >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'pendaftaran' ? '' : 'hidden'}`}></span>
-            <i data-lucide="clipboard-list" class={`w-4 h-4 shrink-0 ${activeNav === 'pendaftaran' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Pendaftaran MBKM</span>
-          </a>
-
-          <!-- 4. Dosen Pembimbing (Terkunci jika belum aktif) -->
-          <div :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''" title={activeNav !== 'dosen-pembimbing' ? 'Terkunci: Memerlukan status pendaftaran diterima' : undefined}>
-            <a
-              href="/mahasiswa/dosen-pembimbing"
-              id="nav-dosen-pembimbing"
-              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
-              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                activeNav === 'dosen-pembimbing' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-              }`}
-            >
-              <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'dosen-pembimbing' ? '' : 'hidden'}`}></span>
-              <i data-lucide="graduation-cap" class={`w-4 h-4 shrink-0 ${activeNav === 'dosen-pembimbing' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-              <span class="truncate flex-1">Dosen Pembimbing</span>
-              <span x-show="$store.mahasiswaSim.state === 'belum_daftar'" class="text-[#71717a] ml-auto">
-                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-              </span>
-            </a>
-          </div>
-
-          <!-- 5. Logbook Kegiatan (Terkunci jika belum aktif) -->
-          <div :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''" title={activeNav !== 'logbook' ? 'Terkunci: Memerlukan status pendaftaran diterima' : undefined}>
-            <a
-              href="/mahasiswa/logbook"
-              id="nav-logbook"
-              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
-              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                activeNav === 'logbook' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-              }`}
-            >
-              <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'logbook' ? '' : 'hidden'}`}></span>
-              <i data-lucide="book-open" class={`w-4 h-4 shrink-0 ${activeNav === 'logbook' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-              <span class="truncate flex-1">Logbook Kegiatan</span>
-              <span x-show="$store.mahasiswaSim.state === 'belum_daftar'" class="text-[#71717a] ml-auto">
-                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-              </span>
-            </a>
-          </div>
-
-          <!-- 6. Konversi SKS (Terkunci jika belum aktif) -->
-          <div :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''" title={activeNav !== 'konversi-sks' ? 'Terkunci: Memerlukan status pendaftaran diterima' : undefined}>
-            <a
-              href="/mahasiswa/konversi-sks"
-              id="nav-konversi-sks"
-              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
-              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                activeNav === 'konversi-sks' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-              }`}
-            >
-              <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'konversi-sks' ? '' : 'hidden'}`}></span>
-              <i data-lucide="layers" class={`w-4 h-4 shrink-0 ${activeNav === 'konversi-sks' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-              <span class="truncate flex-1">Konversi SKS</span>
-              <span x-show="$store.mahasiswaSim.state === 'belum_daftar'" class="text-[#71717a] ml-auto">
-                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-              </span>
-            </a>
-          </div>
-
-          <!-- 7. Sidang Evaluasi Akhir (Terkunci jika belum aktif) -->
-          <div :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''" title={activeNav !== 'sidang' ? 'Terkunci: Memerlukan status pendaftaran diterima' : undefined}>
-            <a
-              href="/mahasiswa/sidang"
-              id="nav-sidang"
-              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
-              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                activeNav === 'sidang' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-              }`}
-            >
-              <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'sidang' ? '' : 'hidden'}`}></span>
-              <i data-lucide="calendar-check" class={`w-4 h-4 shrink-0 ${activeNav === 'sidang' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-              <span class="truncate flex-1">Pengajuan Sidang</span>
-              <span x-show="$store.mahasiswaSim.state === 'belum_daftar'" class="text-[#71717a] ml-auto">
-                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-              </span>
-            </a>
-          </div>
-        </nav>
-      </div>
-
-      <!-- Footer Profil Mahasiswa (Persis Gambar KP) -->
-      <div class="pt-2 mt-auto">
-        <div class="w-full h-14 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none">
-          <div class="flex items-center gap-2.5 overflow-hidden">
-            <div class="w-8 h-8 rounded-lg bg-red-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-              N
+            <div class="flex items-center gap-2.5 overflow-hidden">
+              <div
+                class="w-8 h-8 rounded-lg bg-[#114d91] text-white flex items-center justify-center shrink-0"
+              >
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <div class="flex flex-col overflow-hidden leading-tight">
+                <span class="text-[13px] font-semibold text-[#09090b] truncate"
+                  >Kampus Berdampak</span
+                >
+                <span class="text-[11px] text-[#71717a] truncate"
+                  >Mahasiswa</span
+                >
+              </div>
             </div>
-            <div class="flex flex-col overflow-hidden leading-tight">
-              <span class="text-[13px] font-semibold text-[#09090b] truncate">Mhs TA KP A11</span>
-              <span class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5">
-                Teknik Informatika (A11)
-              </span>
-            </div>
+            <i
+              data-lucide="chevrons-up-down"
+              class="w-4 h-4 text-[#71717a] shrink-0"></i>
           </div>
-          <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-        </div>
-      </div>
-    </aside>
 
-    <!-- ==================================================== -->
-    <!-- 2. MAIN CANVAS CONTAINER (SELARAS 100% DENGAN KP)     -->
-    <!-- ==================================================== -->
-    <main class="flex flex-col flex-1 p-4 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
-      <!-- Top Breadcrumb Header Bar 1 -->
-      <header class="flex w-full items-center justify-between pb-3 shrink-0">
-        <div class="flex items-center gap-2">
-          <button
-            type="button"
-            onclick="document.getElementById('sidebar').classList.toggle('-ml-64')"
-            class="h-7 w-7 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
-            title="Toggle Sidebar"
-          >
-            <i data-lucide="panel-left" class="w-4 h-4 text-[#71717a]"></i>
-          </button>
-          <div class="h-4 w-[1px] bg-[#e4e4e7] mx-1"></div>
-          <nav id="breadcrumb-container" class="flex items-center gap-2 text-sm text-[#71717a]">
-            <div class="bg-white border border-[#e4e4e7] py-1 px-2.5 rounded-lg text-xs font-medium text-[#09090b] shadow-none flex items-center gap-1.5">
-              Dashboard
+          <!-- Menu Navigasi Mahasiswa (Style Selaras Admin) -->
+          <nav class="flex flex-col gap-1 mt-2">
+            <!-- 1. Dashboard -->
+            <a
+              href="/mahasiswa/dashboard"
+              id="nav-dashboard"
+              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                activeNav === "dashboard"
+                  ? "nav-active text-[#0655a7]"
+                  : "text-[#3f3f46]"
+              }`}
+            >
+              <span
+                class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "dashboard" ? "" : "hidden"}`}
+              ></span>
+              <i
+                data-lucide="layout-dashboard"
+                class={`w-4 h-4 shrink-0 ${activeNav === "dashboard" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+              ></i>
+              <span class="truncate">Dashboard</span>
+            </a>
+
+            <!-- 2. Pengumuman -->
+            <a
+              href="/mahasiswa/pengumuman"
+              id="nav-pengumuman"
+              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                activeNav === "pengumuman"
+                  ? "nav-active text-[#0655a7]"
+                  : "text-[#3f3f46]"
+              }`}
+            >
+              <span
+                class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "pengumuman" ? "" : "hidden"}`}
+              ></span>
+              <i
+                data-lucide="megaphone"
+                class={`w-4 h-4 shrink-0 ${activeNav === "pengumuman" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+              ></i>
+              <span class="truncate">Pengumuman</span>
+            </a>
+
+            <!-- 3. Pendaftaran Kampus Berdampak -->
+            <a
+              href="/mahasiswa/pendaftaran"
+              id="nav-pendaftaran"
+              class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                activeNav === "pendaftaran"
+                  ? "nav-active text-[#0655a7]"
+                  : "text-[#3f3f46]"
+              }`}
+            >
+              <span
+                class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "pendaftaran" ? "" : "hidden"}`}
+              ></span>
+              <i
+                data-lucide="clipboard-list"
+                class={`w-4 h-4 shrink-0 ${activeNav === "pendaftaran" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+              ></i>
+              <span class="truncate">Pendaftaran KB</span>
+            </a>
+
+            <!-- 4. Dosen Pembimbing (DIHAPUS) -->
+            <div class="nav-dospem-hide">
+              <a
+                href="/mahasiswa/dosen-pembimbing"
+                id="nav-dosen-pembimbing"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
+                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                  activeNav === "dosen-pembimbing"
+                    ? "nav-active text-[#0655a7]"
+                    : "text-[#3f3f46]"
+                }`}
+              >
+                <span
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "dosen-pembimbing" ? "" : "hidden"}`}
+                ></span>
+                <i
+                  data-lucide="graduation-cap"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "dosen-pembimbing" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                ></i>
+                <span class="truncate flex-1">Dosen Pembimbing</span>
+                <span
+                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
+                  class="text-[#71717a] ml-auto"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </span>
+              </a>
+            </div>
+
+            <!-- 5. Logbook Kegiatan (Terkunci jika belum aktif) -->
+            <div
+              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
+              title={activeNav !== "logbook"
+                ? "Terkunci: Memerlukan status pendaftaran diterima"
+                : undefined}
+            >
+              <a
+                href="/mahasiswa/logbook"
+                id="nav-logbook"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
+                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                  activeNav === "logbook"
+                    ? "nav-active text-[#0655a7]"
+                    : "text-[#3f3f46]"
+                }`}
+              >
+                <span
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "logbook" ? "" : "hidden"}`}
+                ></span>
+                <i
+                  data-lucide="book-open"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "logbook" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                ></i>
+                <span class="truncate flex-1">Logbook Kegiatan</span>
+                <span
+                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
+                  class="text-[#71717a] ml-auto"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </span>
+              </a>
+            </div>
+
+            <!-- 6. Pengajuan Konversi (Terkunci jika belum aktif) -->
+            <div
+              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
+              title={activeNav !== "konversi-sks"
+                ? "Terkunci: Memerlukan status pendaftaran diterima"
+                : undefined}
+            >
+              <a
+                href="/mahasiswa/konversi-sks"
+                id="nav-konversi-sks"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
+                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                  activeNav === "konversi-sks"
+                    ? "nav-active text-[#0655a7]"
+                    : "text-[#3f3f46]"
+                }`}
+              >
+                <span
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "konversi-sks" ? "" : "hidden"}`}
+                ></span>
+                <i
+                  data-lucide="layers"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "konversi-sks" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                ></i>
+                <span class="truncate flex-1">Pengajuan Konversi</span>
+                <span
+                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
+                  class="text-[#71717a] ml-auto"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </span>
+              </a>
+            </div>
+
+            <!-- 7. Sidang Evaluasi Akhir (Terkunci jika belum aktif) -->
+            <div
+              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
+              title={activeNav !== "sidang"
+                ? "Terkunci: Memerlukan status pendaftaran diterima"
+                : undefined}
+            >
+              <a
+                href="/mahasiswa/sidang"
+                id="nav-sidang"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
+                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                  activeNav === "sidang"
+                    ? "nav-active text-[#0655a7]"
+                    : "text-[#3f3f46]"
+                }`}
+              >
+                <span
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "sidang" ? "" : "hidden"}`}
+                ></span>
+                <i
+                  data-lucide="calendar-check"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "sidang" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                ></i>
+                <span class="truncate flex-1">Pengajuan Sidang</span>
+                <span
+                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
+                  class="text-[#71717a] ml-auto"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </span>
+              </a>
             </div>
           </nav>
         </div>
 
-        <!-- Simulation State Switcher (Pill Toggle) -->
-        <div class="flex items-center gap-1.5 bg-[#f4f4f5] p-1 rounded-lg border border-[#e4e4e7] text-xs" x-cloak>
-          <span class="text-[11px] font-medium text-[#71717a] px-2 flex items-center gap-1.5 select-none">
-            <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-[#71717a]"></i>
-            <span class="hidden sm:inline">Simulasi:</span>
-          </span>
-
-          <!-- Option 1: Belum Ada Pengajuan -->
-          <button
-            type="button"
-            @click="$store.mahasiswaSim.setState('belum_daftar')"
-            :class="$store.mahasiswaSim.state === 'belum_daftar'
-              ? 'bg-white text-[#09090b] font-semibold shadow-2xs border border-[#e4e4e7]/60'
-              : 'text-[#71717a] hover:text-[#09090b] border border-transparent'"
-            class="px-2.5 py-1 rounded-md text-xs transition-all flex items-center gap-1.5 cursor-pointer"
-            title="Simulasi: Belum Ada Pengajuan MBKM"
+        <!-- Footer Profil Mahasiswa (Persis Gambar KB) -->
+        <div class="pt-2 mt-auto">
+          <div
+            class="w-full h-14 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none"
           >
-            <span
-              class="w-1.5 h-1.5 rounded-full"
-              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'bg-amber-500' : 'bg-[#a1a1aa]'"
-            ></span>
-            <span>Belum Ada Pengajuan</span>
-          </button>
-
-          <!-- Option 2: Diterima & Aktif -->
-          <button
-            type="button"
-            @click="$store.mahasiswaSim.setState('aktif')"
-            :class="$store.mahasiswaSim.state === 'aktif'
-              ? 'bg-[#0655a7] text-white font-semibold shadow-2xs border border-[#0655a7]'
-              : 'text-[#71717a] hover:text-[#09090b] border border-transparent'"
-            class="px-2.5 py-1 rounded-md text-xs transition-all flex items-center gap-1.5 cursor-pointer"
-            title="Simulasi: Diterima & Aktif di Program MBKM"
-          >
-            <span
-              class="w-1.5 h-1.5 rounded-full"
-              :class="$store.mahasiswaSim.state === 'aktif' ? 'bg-emerald-400' : 'bg-[#a1a1aa]'"
-            ></span>
-            <span>Diterima & Aktif</span>
-          </button>
+            <div class="flex items-center gap-2.5 overflow-hidden">
+              <div
+                class="w-8 h-8 rounded-lg bg-red-600 text-white font-bold text-xs flex items-center justify-center shrink-0"
+              >
+                N
+              </div>
+              <div class="flex flex-col overflow-hidden leading-tight">
+                <span class="text-[13px] font-semibold text-[#09090b] truncate"
+                  >Mhs TA KB A11</span
+                >
+                <span
+                  class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5"
+                >
+                  Teknik Informatika (A11)
+                </span>
+              </div>
+            </div>
+            <i
+              data-lucide="chevrons-up-down"
+              class="w-4 h-4 text-[#71717a] shrink-0"></i>
+          </div>
         </div>
-      </header>
+      </aside>
 
-      <!-- Full-width Separator (Edge-to-Edge) -->
-      <div class="w-[calc(100%+2rem)] -mx-4 border-b border-[#e4e4e7] my-3 shrink-0"></div>
+      <!-- ==================================================== -->
+      <!-- 2. MAIN CANVAS CONTAINER (SELARAS 100% DENGAN KP)     -->
+      <!-- ==================================================== -->
+      <main
+        class="flex flex-col flex-1 p-4 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]"
+      >
+        <!-- Top Breadcrumb Header Bar 1 -->
+        <header class="flex w-full items-center justify-between pb-3 shrink-0">
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              onclick="document.getElementById('sidebar').classList.toggle('-ml-64')"
+              class="h-7 w-7 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              title="Toggle Sidebar"
+            >
+              <i data-lucide="panel-left" class="w-4 h-4 text-[#71717a]"></i>
+            </button>
+            <div class="h-4 w-[1px] bg-[#e4e4e7] mx-1"></div>
+            <nav
+              id="breadcrumb-container"
+              class="flex items-center gap-2 text-sm text-[#71717a]"
+            >
+              <div
+                class="bg-white border border-[#e4e4e7] py-1 px-2.5 rounded-lg text-xs font-medium text-[#09090b] shadow-none flex items-center gap-1.5"
+              >
+                Dashboard
+              </div>
+            </nav>
+          </div>
 
+          <!-- Simulation State Switcher (Pill Toggle) -->
+          <div
+            class="flex items-center gap-1.5 bg-[#f4f4f5] p-1 rounded-lg border border-[#e4e4e7] text-xs"
+            x-cloak
+          >
+            <span
+              class="text-[11px] font-medium text-[#71717a] px-2 flex items-center gap-1.5 select-none"
+            >
+              <i
+                data-lucide="sliders-horizontal"
+                class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span class="hidden sm:inline">Simulasi:</span>
+            </span>
 
+            <!-- Option 1: Belum Ada Pengajuan -->
+            <button
+              type="button"
+              @click="$store.mahasiswaSim.setState('belum_daftar')"
+              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'bg-white text-[#09090b] font-semibold shadow-2xs border border-[#e4e4e7]/60' : 'text-[#71717a] hover:text-[#09090b] border border-transparent'"
+              class="px-2.5 py-1 rounded-md text-xs transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Simulasi: Belum Ada Pengajuan MBKM"
+            >
+              <span
+                class="w-1.5 h-1.5 rounded-full"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'bg-amber-500' : 'bg-[#a1a1aa]'"
+              ></span>
+              <span>Belum Ada Pengajuan</span>
+            </button>
 
-      <!-- Container Konten Halaman (Isi Asli Mahasiswa) -->
-      <div class="flex-1 w-full flex flex-col">
-        <slot />
-      </div>
-    </main>
-  </div>
+            <!-- Option 2: Diterima & Aktif -->
+            <button
+              type="button"
+              @click="$store.mahasiswaSim.setState('aktif')"
+              :class="$store.mahasiswaSim.state === 'aktif' ? 'bg-[#0655a7] text-white font-semibold shadow-2xs border border-[#0655a7]' : 'text-[#71717a] hover:text-[#09090b] border border-transparent'"
+              class="px-2.5 py-1 rounded-md text-xs transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Simulasi: Diterima & Aktif di Program MBKM"
+            >
+              <span
+                class="w-1.5 h-1.5 rounded-full"
+                :class="$store.mahasiswaSim.state === 'aktif' ? 'bg-emerald-400' : 'bg-[#a1a1aa]'"
+              ></span>
+              <span>Diterima & Aktif</span>
+            </button>
+          </div>
+        </header>
 
-  <!-- Runtime Script Mahasiswa -->
-  <script is:inline src="/mahasiswa/_mock-data.js"></script>
-  <script is:inline src="/mahasiswa/_controller.js"></script>
-  <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) {
-        window.lucide.createIcons();
-      }
-    });
-  </script>
-</body>
+        <!-- Full-width Separator (Edge-to-Edge) -->
+        <div
+          class="w-[calc(100%+2rem)] -mx-4 border-b border-[#e4e4e7] my-3 shrink-0"
+        >
+        </div>
+
+        <!-- Container Konten Halaman (Isi Asli Mahasiswa) -->
+        <div class="flex-1 w-full flex flex-col">
+          <slot />
+        </div>
+      </main>
+    </div>
+
+    <!-- Runtime Script Mahasiswa -->
+    <script is:inline src="/mahasiswa/_mock-data.js"></script>
+    <script is:inline src="/mahasiswa/_controller.js"></script>
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
 </html>
