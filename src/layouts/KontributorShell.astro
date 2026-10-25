@@ -6,7 +6,11 @@ interface Props {
   pageTitle?: string;
   subtitle?: string;
   activeNav?: 'dashboard' | 'pengumuman' | 'program' | 'anggota' | 'seleksi' | 'log-aktivitas' | string;
-  breadcrumbTitle?: string;
+  breadcrumbTitle?: string | string[];
+  /** Tombol aksi (HTML string) di kanan header halaman. */
+  actionButton?: string;
+  /** Sembunyikan blok judul halaman (untuk halaman dengan header mandiri). */
+  hidePageHeader?: boolean;
 }
 
 const {
@@ -14,14 +18,20 @@ const {
   activeNav = "dashboard",
   breadcrumbTitle = activeNav === 'dashboard' ? 'Dashboard' :
                     activeNav === 'pengumuman' ? 'Pengumuman' :
-                    activeNav === 'program' ? 'Kelola Program Binaan' :
+                    activeNav === 'program' ? 'Kelola MBKM' :
                     activeNav === 'anggota' ? 'Anggota' :
                     activeNav === 'seleksi' ? 'Pendaftar' :
                     activeNav === 'log-aktivitas' ? 'Log Aktivitas' :
                     'Dashboard',
-  pageTitle = breadcrumbTitle,
-  subtitle = "Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa."
+  pageTitle,
+  subtitle = "Ringkasan operasional program MBKM binaan, pendaftar baru, dan aktivitas bimbingan mahasiswa.",
+  actionButton = '',
+  hidePageHeader = true
 } = Astro.props;
+
+const breadcrumbParts: string[] = Array.isArray(breadcrumbTitle) ? breadcrumbTitle : [breadcrumbTitle];
+const displayTitle = pageTitle || breadcrumbParts[breadcrumbParts.length - 1];
+const isMbkmActive = activeNav === 'program' || activeNav === 'kelola-cms';
 ---
 
 <!DOCTYPE html>
@@ -116,6 +126,15 @@ const {
     .nav-active i {
       color: #0655a7 !important;
     }
+    .nav-sub-active {
+      color: #0655a7 !important;
+      font-weight: 600 !important;
+      background-color: rgba(6, 85, 167, 0.08) !important;
+      position: relative;
+    }
+    .nav-sub-active .sub-active-bar {
+      display: block !important;
+    }
 
     /* Top Progress Bar Loading Indicator (Style NextTopLoader KP) */
     #top-loading-bar {
@@ -206,18 +225,52 @@ const {
             <span class="truncate">Pengumuman</span>
           </a>
 
-          <!-- 2. Kelola Program -->
-          <a
-            href="/contributor/program"
-            id="nav-program"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'program' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-            }`}
-          >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'program' ? '' : 'hidden'}`}></span>
-            <i data-lucide="folder-kanban" class={`w-4 h-4 shrink-0 ${activeNav === 'program' ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
-            <span class="truncate">Kelola Program</span>
-          </a>
+          <!-- 3. Kelola MBKM (Sub-menu: Kelola CMS, Kelola Program) -->
+          <div class="flex flex-col">
+            <button
+              type="button"
+              onclick="toggleNavGroup('mbkm')"
+              id="nav-mbkm"
+              class={`nav-item relative flex items-center justify-between px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                isMbkmActive ? 'text-[#0655a7] font-medium' : 'text-[#3f3f46]'
+              }`}
+            >
+              <div class="flex items-center gap-3">
+                <i data-lucide="folder-kanban" class={`w-4 h-4 shrink-0 ${isMbkmActive ? 'text-[#0655a7]' : 'text-[#71717a]'}`}></i>
+                <span class="truncate">Kelola MBKM</span>
+              </div>
+              <i
+                id="group-mbkm-arrow"
+                data-lucide="chevron-down"
+                class={`w-3.5 h-3.5 transition-transform duration-200 ${isMbkmActive ? 'text-[#0655a7]' : 'text-[#71717a]'} ${isMbkmActive ? 'rotate-180' : ''}`}
+              ></i>
+            </button>
+            <div
+              id="group-mbkm-sub"
+              class={`flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7] ${isMbkmActive ? 'flex' : 'hidden'}`}
+            >
+              <a
+                href="/contributor/kelola-cms"
+                id="nav-sub-mbkm-cms"
+                class={`nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center ${
+                  activeNav === 'kelola-cms' ? 'nav-sub-active' : 'text-[#71717a]'
+                }`}
+              >
+                <span class={`sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'kelola-cms' ? '' : 'hidden'}`}></span>
+                <span>Kelola CMS</span>
+              </a>
+              <a
+                href="/contributor/program"
+                id="nav-sub-mbkm-program"
+                class={`nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center ${
+                  activeNav === 'program' ? 'nav-sub-active' : 'text-[#71717a]'
+                }`}
+              >
+                <span class={`sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'program' ? '' : 'hidden'}`}></span>
+                <span>Kelola Program</span>
+              </a>
+            </div>
+          </div>
 
           <!-- 3. Anggota (tab Dosen & Mahasiswa di dalam halaman) -->
           <a
@@ -285,9 +338,9 @@ const {
     <!-- ==================================================== -->
     <!-- 2. MAIN CANVAS CONTAINER (SELARAS DENGAN ADMIN)      -->
     <!-- ==================================================== -->
-    <main class="flex flex-col flex-1 p-6 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
+    <main class="flex flex-col flex-1 min-w-0 p-4 sm:p-6 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
       <!-- Top Breadcrumb Header Bar 1 -->
-      <header class="flex w-full items-center justify-between pb-3 shrink-0">
+      <header class="flex w-full items-center justify-between shrink-0">
         <div class="flex items-center gap-2">
           <button
             type="button"
@@ -299,9 +352,18 @@ const {
           </button>
           <div class="h-4 w-[1px] bg-[#e4e4e7] mx-1"></div>
           <nav id="breadcrumb-container" class="flex items-center gap-2 text-sm text-[#71717a]">
-            <span class="bg-white border border-[#e4e4e7] py-1 px-3 rounded-lg text-sm font-medium text-[#09090b] shadow-none">
-              <span>{breadcrumbTitle}</span>
-            </span>
+            {breadcrumbParts.map((part, index) => (
+              <>
+                {index > 0 && <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a] shrink-0" />}
+                {index === breadcrumbParts.length - 1 ? (
+                  <span class="bg-white border border-[#e4e4e7] py-1 px-3 rounded-lg text-sm font-medium text-[#09090b] shadow-none">
+                    <span>{part}</span>
+                  </span>
+                ) : (
+                  <span class="text-[#71717a] font-normal cursor-default text-sm">{part}</span>
+                )}
+              </>
+            ))}
           </nav>
         </div>
 
@@ -310,7 +372,18 @@ const {
       <!-- Full-width Separator (Selaras Admin) -->
       <div class="w-[calc(100%+3rem)] -mx-6 border-b border-[#e4e4e7] mb-5 shrink-0"></div>
 
-
+      <!-- Dynamic Title Header (Judul halaman + tombol aksi) -->
+      {!hidePageHeader && (
+        <header id="dashboard-header-bar-2" class="mb-4 flex items-start justify-between gap-4 shrink-0">
+          <div>
+            <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">{displayTitle}</h2>
+            <p class="text-sm text-[#71717a] mt-0.5" id="header-page-subtitle">{subtitle}</p>
+          </div>
+          <div id="header-action-slot" class="shrink-0 flex items-center gap-2">
+            {actionButton && <Fragment set:html={actionButton} />}
+          </div>
+        </header>
+      )}
 
       <!-- Container Konten Halaman (Isi Asli Kontributor) -->
       <div class="flex-1 w-full flex flex-col">
@@ -614,6 +687,7 @@ const {
         'dashboard': '/contributor/dashboard',
         'pengumuman': '/contributor/pengumuman',
         'program': '/contributor/program',
+        'kelola-cms': '/contributor/kelola-cms',
         'seleksi': '/contributor/seleksi',
         'log-aktivitas': '/contributor/log-aktivitas',
         'anggota': '/contributor/anggota',
@@ -735,28 +809,15 @@ const {
         newRow.setAttribute("data-name", name);
         newRow.setAttribute("data-nim", nim);
         newRow.innerHTML = `
-          <td class="py-3.5 px-4">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">${name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()}</div>
-              <div>
-                <div class="font-medium text-[13px] text-[#09090b] leading-tight">${name}</div>
-                <div class="text-[12px] text-[#71717a]">${nim} • TI-S1</div>
-              </div>
-            </div>
-
+          <td class="px-3 text-center text-[#71717a] text-xs">-</td>
+          <td class="px-4">
+            <div class="font-medium text-[#09090b] text-sm">${name}</div>
+            <div class="text-[#71717a] text-xs">${nim}</div>
           </td>
-            <td class="py-3.5 px-4">
-            <span class="font-medium text-gray-800">${topic}</span>
-            <div class="text-[#71717a] text-[11px]">Bimbingan Tugas Akhir</div>
-          </td>
-          <td class="py-3.5 px-4">
-            <span class="font-semibold text-[#1063B9]">20 SKS</span>
-            <div class="text-[#71717a] text-[11px]">5 Mata Kuliah</div>
-          </td>
-          <td class="py-3.5 px-4 text-right">
-            <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
-              Profil
-            </button>
+          <td class="px-4 text-sm text-[#71717a]">S1 Teknik Informatika</td>
+          <td class="px-4 text-sm text-[#09090b]">Nurul Anisa S.W., M.Cs</td>
+          <td class="px-4 text-center">
+            <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
           </td>
         `;
         tbody.prepend(newRow);
@@ -792,35 +853,10 @@ const {
         newRow.setAttribute("data-npp", npp);
         newRow.setAttribute("data-name", name);
         newRow.innerHTML = `
-          <td class="py-3.5 px-4">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-primary-100 text-[#114D91] font-bold text-xs flex items-center justify-center shrink-0 border border-primary-200">
-                ${initials}
-              </div>
-              <div>
-                <div class="font-medium text-[13px] text-[#09090b] leading-tight">${name}</div>
-                <div class="text-[11px] text-[#71717a]">Dosen Pembimbing</div>
-              </div>
-            </div>
-          </td>
-          <td class="py-3.5 px-4 text-xs text-[#71717a]">${npp}</td>
-          <td class="py-3.5 px-4 text-gray-800">${bidang}</td>
-          <td class="py-3.5 px-4">
-            <div class="flex items-center gap-2">
-              <span class="font-medium text-[#09090b]">0 / ${kuota} Mahasiswa</span>
-              <span class="text-[10px] text-emerald-700 font-medium bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">Sisa ${kuota}</span>
-            </div>
-          </td>
-          <td class="py-3.5 px-4">
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">
-              <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Pembimbing Riset
-            </span>
-          </td>
-          <td class="py-3.5 px-4 text-right">
-            <button type="button" onclick="kagOpenProfileFromRow(this)" class="px-2.5 py-1 text-xs text-[#1063B9] hover:bg-blue-50 rounded border border-blue-200 font-medium">
-              Profil
-            </button>
-          </td>
+          <td class="px-3 text-center text-[#71717a] text-xs">-</td>
+          <td class="px-4 font-medium text-[#09090b] text-sm">${name}</td>
+          <td class="px-4 text-xs text-[#71717a]">${npp}</td>
+          <td class="px-4 text-sm text-[#71717a]">S1 Teknik Informatika</td>
         `;
         tbody.prepend(newRow);
       }
@@ -864,8 +900,17 @@ const {
 
     // Simpan Profil MBKM (tab Profil di Kelola Program)
     function saveProgramContent() {
-      const title = document.getElementById("progTitle") ? document.getElementById("progTitle").value : "Program Binaan";
-      showToast("Perubahan Disimpan", `Konten "${title}" berhasil diperbarui untuk halaman detail.`);
+      const kuota = document.getElementById('input-kuota')?.value || '10';
+      const sks = document.getElementById('select-sks')?.value || '20';
+      const buka = document.getElementById('jadwal-buka')?.value || '';
+      const tutup = document.getElementById('jadwal-tutup')?.value || '';
+
+      alert(`Pengaturan Program berhasil disimpan!\n• Kuota Pendaftaran: ${kuota} Mahasiswa\n• Total Konversi: ${sks} SKS\n• Jadwal Buka: ${buka.replace('T', ' ')}\n• Jadwal Tutup: ${tutup.replace('T', ' ')}`);
+    }
+
+    // Alias handleSaveProgramOperasional
+    function handleSaveProgramOperasional() {
+      saveProgramContent();
     }
 
     // Floating Toast Utility

@@ -3,159 +3,319 @@
 import KontributorShell from '../../layouts/KontributorShell.astro';
 ---
 
-<KontributorShell activeNav="log-aktivitas" breadcrumbTitle="Log Aktivitas" title="Log Aktivitas | Kampus Berdampak FIK UDINUS">
-  <section id="view-log-aktivitas" class="view-panel mt-5 space-y-6">
-    <!-- Page Header -->
-    <div>
-      <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Log Aktivitas</h2>
-      <p class="text-[14px] leading-[20px] text-[#71717a]">Riwayat tindakan pada akun kontributor: perubahan program, pengumuman, dan status seleksi pendaftar. Hanya dapat dibaca.</p>
-    </div>
+<KontributorShell
+  activeNav="log-aktivitas"
+  breadcrumbTitle={["Dashboard", "Kontributor"]}
+  pageTitle="Log Aktivitas"
+  subtitle="Aktivitas yang telah dilakukan oleh dosen dan mahasiswa."
+  hidePageHeader={false}
+  title="Log Aktivitas | Portal Kontributor"
+>
+  <section
+    id="section-log-aktivitas"
+    class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
+    x-data="{
+      searchQuery: '',
+      activeTab: 'all',
+      currentPage: 1,
+      pageSize: 10,
 
-    <!-- Chip jenis aksi + pencarian -->
-    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-      <div id="klg-chips" class="flex flex-wrap items-center gap-2"></div>
-      <div class="relative w-full lg:w-72">
-        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-        <input
-          type="text"
-          oninput="klgSetFilter('q', this.value)"
-          placeholder="Cari aktivitas..."
-          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        />
+      tabs: [
+        { status: 'all', label: 'Semua', icon: 'users' },
+        { status: 'pengajuan', label: 'Pengajuan', icon: 'user' },
+        { status: 'logbook', label: 'Logbook', icon: 'file-text' },
+        { status: 'pengajuan-sidang', label: 'Pengajuan Sidang', icon: 'list-checks' },
+        { status: 'sidang', label: 'Sidang', icon: 'calendar' }
+      ],
+
+      activities: [
+        {
+          id: 1,
+          category: 'sidang',
+          date: 'Jumat, 24 Oktober 2026',
+          time: '14:22',
+          description: 'Koordinator MBKM (Nurul Anisa, M.Cs) mengesahkan dan mengunci konversi 20 SKS untuk mahasiswa Faisal Rahman (A11.2022.13901).'
+        },
+        {
+          id: 2,
+          category: 'sidang',
+          date: 'Jumat, 24 Oktober 2026',
+          time: '11:15',
+          description: 'Koordinator MBKM mem-plotting jadwal ujian sidang untuk 3 mahasiswa pada Gelombang 1.'
+        },
+        {
+          id: 3,
+          category: 'logbook',
+          date: 'Jumat, 24 Oktober 2026',
+          time: '09:40',
+          description: 'Dosen Pembimbing (Dr. M. Arief Soeleman, M.Kom) menyetujui logbook Minggu ke-8 mahasiswa Faisal Rahman.'
+        },
+        {
+          id: 4,
+          category: 'pengajuan-sidang',
+          date: 'Kamis, 23 Oktober 2026',
+          time: '16:05',
+          description: 'Mahasiswa Tarissa Aura Azzahra (A11.2020.13158) mengajukan pendaftaran sidang akhir MBKM.'
+        },
+        {
+          id: 5,
+          category: 'pengajuan',
+          date: 'Kamis, 23 Oktober 2026',
+          time: '13:30',
+          description: 'Koordinator MBKM menetapkan Dosen Pembimbing untuk mahasiswa Rizky Aditya Pratama (A11.2022.14012).'
+        },
+        {
+          id: 6,
+          category: 'pengajuan',
+          date: 'Kamis, 23 Oktober 2026',
+          time: '10:12',
+          description: 'Koordinator MBKM memvalidasi dan menerbitkan Surat Rekomendasi (SuReKom) untuk Nabila Zahra Putri (A12.2022.09842).'
+        },
+        {
+          id: 7,
+          category: 'logbook',
+          date: 'Rabu, 22 Oktober 2026',
+          time: '15:45',
+          description: 'Mahasiswa Dimas Wahyu Nugroho (A11.2021.13450) mengisi logbook mingguan Minggu ke-7.'
+        },
+        {
+          id: 8,
+          category: 'pengajuan-sidang',
+          date: 'Rabu, 22 Oktober 2026',
+          time: '11:20',
+          description: 'Koordinator MBKM memverifikasi kelengkapan berkas laporan akhir sidang mahasiswa Calvin Revianto.'
+        },
+        {
+          id: 9,
+          category: 'sidang',
+          date: 'Selasa, 21 Oktober 2026',
+          time: '14:00',
+          description: 'Dosen Pembimbing (Affandy, Ph.D) menginput nilai bimbingan sidang mahasiswa Tarissa Aura Azzahra.'
+        },
+        {
+          id: 10,
+          category: 'pengajuan',
+          date: 'Selasa, 21 Oktober 2026',
+          time: '09:15',
+          description: 'Mahasiswa baru Siti Aminah (A12.2022.09911) mendaftar program Shopee Indonesia.'
+        }
+      ],
+
+      get filteredActivities() {
+        return this.activities.filter(a => {
+          const matchTab = this.activeTab === 'all' || a.category === this.activeTab;
+          const q = this.searchQuery.trim().toLowerCase();
+          const matchSearch = q === '' || a.description.toLowerCase().includes(q);
+          return matchTab && matchSearch;
+        });
+      },
+
+      get paginatedActivities() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredActivities.slice(start, start + this.pageSize);
+      },
+
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredActivities.length / this.pageSize));
+      },
+
+      get groupedActivities() {
+        const groups = {};
+        this.paginatedActivities.forEach(item => {
+          if (!groups[item.date]) {
+            groups[item.date] = [];
+          }
+          groups[item.date].push(item);
+        });
+        return Object.entries(groups).map(([date, logs]) => ({ date, logs }));
+      },
+
+      handleTabChange(status) {
+        this.activeTab = status;
+        this.currentPage = 1;
+        this.reinitLucide();
+      },
+
+      handleClearSearch() {
+        this.searchQuery = '';
+        this.currentPage = 1;
+        this.reinitLucide();
+      },
+
+      reinitLucide() {
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+      }
+    }"
+  >
+    <!-- Toolbar: SearchControl & CustomSolidTabs -->
+    <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+      <!-- Search Control (w-full sm:w-1/4) -->
+      <div class="w-full sm:w-1/4 min-w-[220px]">
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#71717a]"></i>
+          <input
+            type="text"
+            x-model="searchQuery"
+            @input="currentPage = 1; reinitLucide()"
+            placeholder="Cari aktivitas..."
+            class="w-full h-10 pl-9 pr-9 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+          <button
+            type="button"
+            x-show="searchQuery.length > 0"
+            @click="handleClearSearch()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#71717a] hover:text-[#09090b] cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- CustomSolidTabs Style -->
+      <div class="w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 sm:ml-auto">
+        <div class="flex items-center gap-2">
+          <template x-for="t in tabs" :key="t.status">
+            <button
+              type="button"
+              @click="handleTabChange(t.status)"
+              class="border rounded-lg py-2 px-3.5 text-xs font-semibold inline-flex items-center gap-2 transition-all cursor-pointer select-none"
+              :class="activeTab === t.status
+                ? 'bg-[#0655a7] text-white border-[#0655a7] shadow-none hover:bg-[#114D91]'
+                : 'bg-white text-gray-600 border-[#e4e4e7] hover:text-[#0655a7] hover:border-[#0655a7]'"
+            >
+              <i :data-lucide="t.icon" class="w-3.5 h-3.5"></i>
+              <span x-text="t.label"></span>
+            </button>
+          </template>
+        </div>
       </div>
     </div>
 
-    <!-- Timeline -->
-    <div class="bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs">
-      <div id="klg-list" class="divide-y divide-[#e4e4e7]"></div>
-      <div class="px-4 py-3 border-t border-[#e4e4e7] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#71717a]">
-        <div id="klg-info">Menampilkan aktivitas</div>
-        <button type="button" id="klg-more" onclick="klgMore()" class="px-3 py-1.5 border border-[#e4e4e7] rounded-md bg-white text-[#09090b] hover:bg-gray-50">Muat lebih banyak</button>
+    <!-- Empty State jika tidak ada aktivitas -->
+    <template x-if="filteredActivities.length === 0">
+      <div class="flex flex-col items-center justify-center py-12 text-center h-[calc(100vh-320px)] bg-white rounded-md border border-[#e4e4e7]">
+        <template x-if="searchQuery">
+          <div class="flex flex-col items-center">
+            <div class="rounded-full bg-[#f4f4f5] p-3 mb-4">
+              <i data-lucide="search" class="h-6 w-6 text-[#71717a]"></i>
+            </div>
+            <h3 class="text-lg font-medium text-[#09090b]">Tidak ditemukan hasil pencarian</h3>
+            <p class="text-sm text-[#71717a] mt-1 max-w-md" x-text="`Tidak ada aktivitas yang sesuai dengan pencarian '${searchQuery}' pada kategori ini.`"></p>
+            <button
+              type="button"
+              @click="handleClearSearch()"
+              class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-none text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none cursor-pointer"
+            >
+              Hapus Pencarian
+            </button>
+          </div>
+        </template>
+        <template x-if="!searchQuery">
+          <div class="flex flex-col items-center">
+            <div class="rounded-full bg-[#f4f4f5] p-3 mb-4">
+              <i data-lucide="alert-circle" class="h-6 w-6 text-[#71717a]"></i>
+            </div>
+            <h3 class="text-lg font-medium text-[#09090b]">Belum ada aktivitas</h3>
+            <p class="text-sm text-[#71717a] mt-1 max-w-md">Belum ada aktivitas yang tercatat dalam sistem pada kategori ini.</p>
+          </div>
+        </template>
+      </div>
+    </template>
+
+    <!-- Activity Log Content: Grouped by Date -->
+    <div class="flex-1 overflow-hidden flex flex-col bg-white rounded-md border border-[#e4e4e7]" x-show="filteredActivities.length > 0">
+      <div class="flex-1 divide-y divide-slate-200 overflow-y-auto">
+        <template x-for="(group, gIdx) in groupedActivities" :key="group.date">
+          <div>
+            <!-- Date Header -->
+            <div class="px-4 py-2.5 text-xs sm:text-sm bg-blue-500/5 font-semibold text-[#0655a7] border-b border-gray-200">
+              <span x-text="group.date"></span>
+            </div>
+
+            <!-- Timeline Items -->
+            <div class="divide-y divide-slate-100">
+              <template x-for="log in group.logs" :key="log.id">
+                <div class="relative pl-8 sm:pl-10 py-3.5 group hover:bg-[#fafafa] transition-colors">
+                  <!-- Bullet + Line -->
+                  <div class="flex flex-col sm:flex-row items-start mb-1 group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:w-[1px] before:bg-slate-300 sm:before:ml-[1.25rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-[#0655a7] after:border-2 after:box-content after:border-slate-50 after:rounded-full sm:after:ml-[1.25rem] after:-translate-x-1/2 after:translate-y-1.5"></div>
+
+                  <!-- Description -->
+                  <div class="text-[#09090b] text-xs sm:text-sm pr-4">
+                    <span class="font-medium break-words leading-relaxed" x-text="log.description"></span>
+                  </div>
+
+                  <!-- Time -->
+                  <div class="text-[#71717a] text-xs mt-1" x-text="log.time"></div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="p-4 border-t border-[#e4e4e7] bg-white mt-auto">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredActivities.length} total items)`">
+          </span>
+
+          <div class="flex gap-4 items-center">
+            <div class="flex items-center gap-1">
+              <button
+                type="button"
+                @click="currentPage--; reinitLucide()"
+                :disabled="currentPage <= 1"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+              >
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <template x-for="p in totalPages" :key="p">
+                <button
+                  type="button"
+                  @click="currentPage = p; reinitLucide()"
+                  class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
+                  :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
+                  x-text="p"
+                >
+                </button>
+              </template>
+              <button
+                type="button"
+                @click="currentPage++; reinitLucide()"
+                :disabled="currentPage >= totalPages"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+              >
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div class="relative">
+              <select
+                x-model.number="pageSize"
+                @change="currentPage = 1; reinitLucide()"
+                class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+              >
+                <option value="5">Show 5 items</option>
+                <option value="10">Show 10 items</option>
+                <option value="20">Show 20 items</option>
+                <option value="50">Show 50 items</option>
+              </select>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
-  <script is:inline>
-    /**
-     * Log Aktivitas Kontributor — audit trail (read-only), data mock.
-     * Prefix `klg`. Jenis aksi: program | pengumuman | seleksi.
-     */
-    var KLG_PAGE = 12;
-    var KLG_ACTOR = 'Dr. Ricardus Anggi, M.Kom.';
-    var KLG_TYPES = {
-      program: { label: 'Program', icon: 'folder-kanban', cls: 'bg-blue-50 text-blue-700 border-blue-200' },
-      pengumuman: { label: 'Pengumuman', icon: 'megaphone', cls: 'bg-amber-50 text-amber-700 border-amber-200' },
-      seleksi: { label: 'Seleksi', icon: 'user-check', cls: 'bg-emerald-50 text-emerald-700 border-emerald-200' }
-    };
-
-    // time: ISO lokal. detail: keterangan tambahan (opsional)
-    var klgData = [
-      { id: 1, type: 'seleksi', text: 'mengubah status pendaftar Fajar Nugroho menjadi Lolos Internal', detail: 'Dari Wawancara · skor 88', time: '2026-10-22T10:42' },
-      { id: 2, type: 'seleksi', text: 'mengubah status pendaftar Annisa Nabila Rahma menjadi Wawancara', detail: 'Dari Menunggu Review', time: '2026-10-22T09:15' },
-      { id: 3, type: 'program', text: 'menyembunyikan proyek showcase "Autonomous Robotic Trash Segregator for Green Campus"', detail: 'Dari Dipublikasikan ke Disembunyikan', time: '2026-10-21T16:20' },
-      { id: 4, type: 'pengumuman', text: 'mempublikasikan pengumuman "Jadwal Wawancara Seleksi Batch 1"', detail: 'Sasaran: Semua (Peserta & Pelamar)', time: '2026-10-21T14:05' },
-      { id: 5, type: 'seleksi', text: 'mengubah status pendaftar Rizky Aditya Pratama menjadi Gugur', detail: 'Dari Menunggu Review · skor 55', time: '2026-10-21T11:30' },
-      { id: 6, type: 'program', text: 'memperbarui ketentuan pendaftaran', detail: 'Kuota 15 → 20 · IPK minimal 3,00', time: '2026-10-20T15:48' },
-      { id: 7, type: 'program', text: 'menambahkan proyek showcase "Chatbot Layanan Akademik" sebagai draf', detail: '', time: '2026-10-20T10:12' },
-      { id: 8, type: 'pengumuman', text: 'mengedit pengumuman "Format Laporan Bimbingan Mingguan untuk Dosen Pembimbing"', detail: '', time: '2026-10-19T13:25' },
-      { id: 9, type: 'seleksi', text: 'memperbarui penilaian pendaftar Intan Permata Sari', detail: 'Skor 85', time: '2026-10-19T09:40' },
-      { id: 10, type: 'program', text: 'memperbarui profil MBKM', detail: 'Narasi hero dan 3 poin keunggulan', time: '2026-10-18T17:05' },
-      { id: 11, type: 'pengumuman', text: 'menyimpan draf pengumuman "Perpanjangan Batas Pendaftaran Gelombang 1"', detail: '', time: '2026-10-18T11:50' },
-      { id: 12, type: 'program', text: 'mempublikasikan proyek showcase "Vision-Based Automated Academic Attendance & Fraud Detection"', detail: '', time: '2026-10-17T14:30' },
-      { id: 13, type: 'seleksi', text: 'mengubah status pendaftar Muhammad Raihan Pratama menjadi Menunggu Review', detail: '', time: '2026-10-17T08:55' },
-      { id: 14, type: 'program', text: 'membuka pendaftaran', detail: 'Batas akhir 25 Oktober 2026', time: '2026-10-16T09:00' },
-      { id: 15, type: 'pengumuman', text: 'menghapus pengumuman "Pembekalan Peserta (Uji Coba)"', detail: '', time: '2026-10-15T16:10' }
-    ];
-    var klgState = { type: 'semua', q: '', shown: KLG_PAGE };
-
-    function klgEsc(s) {
-      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-      });
-    }
-    function klgEl(id) { return document.getElementById(id); }
-    function klgIcons() { if (typeof lucide !== 'undefined') lucide.createIcons(); }
-
-    function klgSetFilter(key, val) {
-      klgState[key] = key === 'q' ? String(val || '').toLowerCase().trim() : val;
-      klgState.shown = KLG_PAGE;
-      klgRender();
-    }
-    function klgMore() { klgState.shown += KLG_PAGE; klgRender(); }
-
-    function klgFiltered() {
-      return klgData
-        .filter(function (l) {
-          var okT = klgState.type === 'semua' || l.type === klgState.type;
-          var okQ = !klgState.q || (l.text + ' ' + l.detail).toLowerCase().indexOf(klgState.q) > -1;
-          return okT && okQ;
-        })
-        .sort(function (a, b) { return b.time.localeCompare(a.time); });
-    }
-
-    function klgDayLabel(iso) {
-      var d = new Date(iso);
-      return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-    }
-    function klgTime(iso) {
-      return new Date(iso).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':');
-    }
-
-    function klgRender() {
-      var list = klgEl('klg-list');
-      if (!list) return;
-
-      var counts = { semua: klgData.length };
-      Object.keys(KLG_TYPES).forEach(function (k) { counts[k] = klgData.filter(function (l) { return l.type === k; }).length; });
-      var chips = [['semua', 'Semua']].concat(Object.keys(KLG_TYPES).map(function (k) { return [k, KLG_TYPES[k].label]; }));
-      klgEl('klg-chips').innerHTML = chips.map(function (c) {
-        var on = klgState.type === c[0];
-        return '<button type="button" onclick="klgSetFilter(\'type\',\'' + c[0] + '\')" aria-pressed="' + on + '" class="px-3 py-1 rounded-full text-xs border transition-colors ' +
-          (on ? 'bg-[#0655a7] border-[#0655a7] text-white font-medium' : 'bg-white border-[#e4e4e7] text-[#52525b] hover:bg-gray-50') + '">' +
-          c[1] + ' <span class="' + (on ? 'text-white/80' : 'text-[#71717a]') + '">' + counts[c[0]] + '</span></button>';
-      }).join('');
-
-      var all = klgFiltered();
-      var items = all.slice(0, klgState.shown);
-
-      if (!items.length) {
-        list.innerHTML = '<div class="py-12 text-center"><i data-lucide="history" class="w-6 h-6 text-[#a1a1aa] mx-auto mb-1"></i>' +
-          '<p class="text-sm font-semibold text-[#09090b]">Tidak ada aktivitas yang cocok</p>' +
-          '<p class="text-xs text-[#71717a]">Ubah kata kunci atau jenis aksi.</p></div>';
-      } else {
-        var html = '', lastDay = '';
-        items.forEach(function (l) {
-          var day = klgDayLabel(l.time);
-          if (day !== lastDay) {
-            html += '<div class="px-4 py-2 bg-gray-50 text-[11px] font-semibold text-[#71717a] uppercase tracking-wider">' + klgEsc(day) + '</div>';
-            lastDay = day;
-          }
-          var t = KLG_TYPES[l.type];
-          html += '<div class="flex items-start gap-3 px-4 py-3">' +
-            '<div class="w-8 h-8 rounded-full border flex items-center justify-center shrink-0 ' + t.cls + '"><i data-lucide="' + t.icon + '" class="w-3.5 h-3.5"></i></div>' +
-            '<div class="min-w-0 flex-1">' +
-              '<p class="text-[13px] text-[#09090b] leading-snug"><span class="font-medium">' + klgEsc(KLG_ACTOR) + '</span> ' + klgEsc(l.text) + '</p>' +
-              (l.detail ? '<p class="text-xs text-[#71717a] mt-0.5">' + klgEsc(l.detail) + '</p>' : '') +
-            '</div>' +
-            '<div class="flex flex-col items-end gap-1 shrink-0">' +
-              '<span class="text-xs text-[#71717a]">' + klgTime(l.time) + '</span>' +
-              '<span class="px-2 py-0.5 rounded text-[10px] font-medium border ' + t.cls + '">' + t.label + '</span>' +
-            '</div></div>';
-        });
-        list.innerHTML = html;
-      }
-
-      klgEl('klg-info').textContent = all.length ? 'Menampilkan ' + items.length + ' dari ' + all.length + ' aktivitas' : '0 aktivitas';
-      klgEl('klg-more').classList.toggle('hidden', items.length >= all.length);
-      klgIcons();
-    }
-
-    function klgInit() {
-      if (!klgEl('klg-list')) return;
-      klgRender();
-    }
-    document.removeEventListener('astro:page-load', window.__klgInit);
-    window.__klgInit = klgInit;
-    document.addEventListener('astro:page-load', klgInit);
-  </script>
 </KontributorShell>
+
+<script is:inline>
+  document.addEventListener('astro:page-load', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>

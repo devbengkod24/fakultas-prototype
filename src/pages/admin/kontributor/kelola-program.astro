@@ -40,7 +40,7 @@ const cmsActions = `
 
 <AdminShell
   currentTab="kontributor"
-  pageTitle="Kelola CMS Kontributor"
+  pageTitle="Kelola CMS"
   subtitle="Kelola konten publik halaman detail program (profil hero, timeline kegiatan, showcase, dan FAQ)."
   actionButton={cmsActions}
 >
@@ -82,7 +82,7 @@ const cmsActions = `
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
     const hTitle = document.getElementById('header-page-title');
-    if (hTitle) hTitle.textContent = 'Kelola CMS Kontributor';
+    if (hTitle) hTitle.textContent = 'Kelola CMS';
     const hSub = document.getElementById('header-page-subtitle');
     if (hSub) hSub.textContent = 'Kelola konten publik halaman detail program (profil hero, timeline kegiatan, showcase, dan FAQ).';
     if (typeof updateBreadcrumb === 'function') {
