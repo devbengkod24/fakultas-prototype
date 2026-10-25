@@ -38,7 +38,7 @@ export const DEMO_ACCOUNTS: UserAccount[] = [
     email: "dosen_a11@dev",
     password: "buildingcodeforthefuture",
     role: "dosen",
-    roleName: "Dosen Pembimbing Lapangan (DPL)",
+    roleName: "Dosen Pembimbing",
     identifier: "0686.11.1993.102",
     avatar: "MJ",
     redirectUrl: "/dosen/dashboard",

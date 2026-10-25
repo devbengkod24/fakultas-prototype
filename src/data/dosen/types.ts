@@ -82,7 +82,7 @@ export interface SidangDosen {
   linkMeeting?: string;
   nilaiKontributor: number; // Bobot 60%
   nilaiDpl: number | null; // Bobot 40% (null jika belum sidang)
-  nilaiAkhir: number | null; // Komposit 60% Kontributor + 40% DPL
+  nilaiAkhir: number | null; // Komposit 60% Kontributor + 40% Dospem
   grade: string | null; // A, AB, B, dsb
   status: "terjadwal" | "selesai" | "menunggu_nilai";
 }
@@ -93,7 +93,7 @@ export interface PengumumanDosenItem {
   tanggal: string;
   waktu: string;
   pengirim: string;
-  kategori: "Bimbingan DPL" | "Sidang Evaluasi" | "Kebijakan Fakultas" | "Umum";
+  kategori: "Bimbingan Dospem" | "Sidang Evaluasi" | "Kebijakan Fakultas" | "Umum";
   ringkasan: string;
   kontenLengkap: string;
   lampiranNama?: string;

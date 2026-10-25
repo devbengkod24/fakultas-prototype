@@ -3,178 +3,303 @@
 import AdminShell from '../../layouts/AdminShell.astro';
 ---
 
-<AdminShell currentTab="hasil-sidang">
+<AdminShell
+  currentTab="hasil-sidang"
+  pageTitle="Hasil Sidang Kerja Praktek"
+  subtitle="Berikut data sidang yang sudah diploting jadwalnya."
+>
   <section
     id="section-hasil-sidang"
-    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
     x-data="{
       searchQuery: '',
-      gelombangFilter: 'semua',
+      selectedGelombangId: 'all',
+      currentPage: 1,
+      pageSize: 10,
       isDownloadOpen: false,
       isPreviewTtdOpen: false,
       isTambahTtdOpen: false,
-      ttdSignatureUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=koor-mbkm-ttd',
-      hasilList: [
+      isDownloadingPDF: false,
+      ttdSignatureUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=koor-kp-ttd',
+      toastMessage: '',
+      showToast: false,
+
+      gelombangList: [
+        { id: 'all', nama: 'Semua Gelombang' },
+        { id: '1', nama: 'Gelombang 1' },
+        { id: '2', nama: 'Gelombang 2' },
+        { id: '3', nama: 'Gelombang 3' }
+      ],
+
+      hasilSidangList: [
         {
-          id: 1,
-          nama: 'AL-IZZA NAZARUDDIN FIRDAUS',
-          nim: 'A11.2020.12887',
-          pembimbing: 'YANI PARTI ASTUTI S.Si, M.Kom',
-          gelombang: 'cth1',
-          nilaiPenyelia: '90.00',
-          nilaiPembimbing: '90.00',
-          nilaiPenguji1: '85.00',
-          nilaiPenguji2: null,
-          nilaiPenguji3: null,
-          nilaiAkhir: '88.50',
-          status: 'Selesai'
+          sidang_id: 1,
+          mahasiswa: { nama: 'AL-IZZA NAZARUDDIN FIRDAUS', nim: 'A11.2020.12887' },
+          pembimbing: { nama: 'YANI PARTI ASTUTI S.Si, M.Kom' },
+          penguji_1: { nama: 'Affandy, Ph.D' },
+          penguji_2: null,
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          jadwal_sidang: { tanggal: '2026-06-25', jam: '09:00 - 10:00' },
+          nilai_penyelia: 90,
+          nilai_pembimbing: 90,
+          nilai_penguji_1: 85,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          nilai_akhir: 88.50,
+          sidang_status: 'selesai'
         },
         {
-          id: 2,
-          nama: 'DEMO MHS CIHUY',
-          nim: 'A11.2026.99999',
-          pembimbing: 'YANI PARTI ASTUTI S.Si, M.Kom',
-          gelombang: 'cth1',
-          nilaiPenyelia: '90.00',
-          nilaiPembimbing: '90.00',
-          nilaiPenguji1: '90.00',
-          nilaiPenguji2: null,
-          nilaiPenguji3: null,
-          nilaiAkhir: '90.00',
-          status: 'Selesai'
+          sidang_id: 2,
+          mahasiswa: { nama: 'DEMO MHS CIHUY', nim: 'A11.2026.99999' },
+          pembimbing: { nama: 'YANI PARTI ASTUTI S.Si, M.Kom' },
+          penguji_1: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          penguji_2: null,
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          jadwal_sidang: { tanggal: '2026-06-25', jam: '10:00 - 11:00' },
+          nilai_penyelia: 90,
+          nilai_pembimbing: 90,
+          nilai_penguji_1: 90,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          nilai_akhir: 90.00,
+          sidang_status: 'selesai'
         },
         {
-          id: 3,
-          nama: 'FAISAL RAHMAN',
-          nim: 'A11.2022.13901',
-          pembimbing: 'Dr. M. Arief Soeleman, M.Kom',
-          gelombang: 'cth1',
-          nilaiPenyelia: '92.00',
-          nilaiPembimbing: '88.00',
-          nilaiPenguji1: '85.00',
-          nilaiPenguji2: null,
-          nilaiPenguji3: null,
-          nilaiAkhir: '88.50',
-          status: 'Selesai'
+          sidang_id: 3,
+          mahasiswa: { nama: 'FAISAL RAHMAN', nim: 'A11.2022.13901' },
+          pembimbing: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          penguji_1: { nama: 'Affandy, Ph.D' },
+          penguji_2: { nama: 'Ajib Susanto, M.Kom' },
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          jadwal_sidang: { tanggal: '2026-06-25', jam: '09:00 - 10:00' },
+          nilai_penyelia: 92,
+          nilai_pembimbing: 88,
+          nilai_penguji_1: 85,
+          nilai_penguji_2: 90,
+          nilai_penguji_3: null,
+          nilai_akhir: 88.80,
+          sidang_status: 'selesai'
         },
         {
-          id: 4,
-          nama: 'TARISSA AURA AZZAHRA',
-          nim: 'A11.2020.13158',
-          pembimbing: 'Affandy, Ph.D',
-          gelombang: 'cth1',
-          nilaiPenyelia: '95.00',
-          nilaiPembimbing: '92.00',
-          nilaiPenguji1: '90.00',
-          nilaiPenguji2: null,
-          nilaiPenguji3: null,
-          nilaiAkhir: '93.10',
-          status: 'Selesai'
+          sidang_id: 4,
+          mahasiswa: { nama: 'TARISSA AURA AZZAHRA', nim: 'A11.2020.13158' },
+          pembimbing: { nama: 'Affandy, Ph.D' },
+          penguji_1: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          penguji_2: { nama: 'Christy Atika Sari, M.Kom' },
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          jadwal_sidang: { tanggal: '2026-06-25', jam: '10:00 - 11:00' },
+          nilai_penyelia: 95,
+          nilai_pembimbing: 92,
+          nilai_penguji_1: 90,
+          nilai_penguji_2: 94,
+          nilai_penguji_3: null,
+          nilai_akhir: 92.90,
+          sidang_status: 'selesai'
         },
         {
-          id: 5,
-          nama: 'RIZKY ADITYA PRATAMA',
-          nim: 'A11.2022.14012',
-          pembimbing: 'Eko Hari Rachmawanto, M.Kom',
-          gelombang: 'cth2',
-          nilaiPenyelia: '88.00',
-          nilaiPembimbing: '85.00',
-          nilaiPenguji1: null,
-          nilaiPenguji2: null,
-          nilaiPenguji3: null,
-          nilaiAkhir: null,
-          status: 'Belum'
+          sidang_id: 5,
+          mahasiswa: { nama: 'RIZKY ADITYA PRATAMA', nim: 'A11.2022.14012' },
+          pembimbing: { nama: 'Eko Hari Rachmawanto, M.Kom' },
+          penguji_1: { nama: 'Ajib Susanto, M.Kom' },
+          penguji_2: null,
+          penguji_3: null,
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          jadwal_sidang: { tanggal: '2026-06-26', jam: '11:00 - 12:00' },
+          nilai_penyelia: 88,
+          nilai_pembimbing: 85,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          nilai_akhir: null,
+          sidang_status: null
         }
       ],
-      get filteredHasil() {
-        return this.hasilList.filter(h => {
-          const matchSearch = h.nama.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                              h.nim.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                              h.pembimbing.toLowerCase().includes(this.searchQuery.toLowerCase());
-          const matchGelombang = this.gelombangFilter === 'semua' || h.gelombang === this.gelombangFilter;
-          return matchSearch && matchGelombang;
-        });
+
+      isComplete(item) {
+        const hasP2 = item.penguji_2 != null;
+        const hasP3 = item.penguji_3 != null;
+        return (
+          item.nilai_penyelia != null &&
+          item.nilai_pembimbing != null &&
+          item.nilai_penguji_1 != null &&
+          (!hasP2 || item.nilai_penguji_2 != null) &&
+          (!hasP3 || item.nilai_penguji_3 != null)
+        );
       },
-      updateNilai(item, key, val) {
-        item[key] = val;
-        const p1 = parseFloat(item.nilaiPenguji1);
-        const pb = parseFloat(item.nilaiPembimbing);
-        const py = parseFloat(item.nilaiPenyelia);
-        if (!isNaN(p1) && !isNaN(pb) && !isNaN(py)) {
-          item.nilaiAkhir = ((py * 0.4) + (pb * 0.3) + (p1 * 0.3)).toFixed(2);
-          item.status = 'Selesai';
+
+      recalcNilai(item) {
+        const py = item.nilai_penyelia != null ? Number(item.nilai_penyelia) : null;
+        const pb = item.nilai_pembimbing != null ? Number(item.nilai_pembimbing) : null;
+        const p1 = item.nilai_penguji_1 != null ? Number(item.nilai_penguji_1) : null;
+        const p2 = item.penguji_2 ? (item.nilai_penguji_2 != null ? Number(item.nilai_penguji_2) : null) : null;
+        const p3 = item.penguji_3 ? (item.nilai_penguji_3 != null ? Number(item.nilai_penguji_3) : null) : null;
+
+        if (py !== null && pb !== null && p1 !== null) {
+          const pengujiScores = [p1];
+          if (item.penguji_2 && p2 !== null) pengujiScores.push(p2);
+          if (item.penguji_3 && p3 !== null) pengujiScores.push(p3);
+          const avgPenguji = pengujiScores.reduce((a, b) => a + b, 0) / pengujiScores.length;
+
+          item.nilai_akhir = Number(((py * 0.4) + (pb * 0.3) + (avgPenguji * 0.3)).toFixed(2));
+          item.sidang_status = 'selesai';
+        } else {
+          item.nilai_akhir = null;
+          item.sidang_status = null;
         }
       },
-      downloadExcel() {
-        alert('Mengekspor rekap nilai hasil sidang MBKM dalam format Excel (.xlsx)...');
-        this.isDownloadOpen = false;
+
+      updateNilaiField(item, field, rawVal) {
+        const val = rawVal.trim() === '' ? null : Math.min(100, Math.max(0, Number(rawVal)));
+        item[field] = isNaN(val) ? null : val;
+        this.recalcNilai(item);
+        this.triggerToast('Nilai berhasil disimpan');
       },
-      downloadAllPdf() {
-        alert('Mengunduh seluruh berkas berita acara sidang MBKM (.pdf)...');
+
+      get filteredList() {
+        return this.hasilSidangList.filter(item => {
+          const matchGel = this.selectedGelombangId === 'all' || (item.gelombang && item.gelombang.id.toString() === this.selectedGelombangId);
+          const q = this.searchQuery.trim().toLowerCase();
+          const matchSearch = q === '' ||
+            item.mahasiswa.nama.toLowerCase().includes(q) ||
+            item.mahasiswa.nim.includes(q) ||
+            (item.pembimbing?.nama && item.pembimbing.nama.toLowerCase().includes(q));
+          return matchGel && matchSearch;
+        });
+      },
+
+      get paginatedList() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredList.slice(start, start + this.pageSize);
+      },
+
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredList.length / this.pageSize));
+      },
+
+      handleDownloadExcel() {
+        alert('File Excel monitoring-sidang-kp.xlsx berhasil diunduh');
         this.isDownloadOpen = false;
+        this.triggerToast('File Excel berhasil diunduh');
+      },
+
+      handleDownloadAllPDF() {
+        this.isDownloadingPDF = true;
+        setTimeout(() => {
+          this.isDownloadingPDF = false;
+          this.isDownloadOpen = false;
+          alert('File ZIP berita-acara-sidang-all.zip berhasil didownload');
+          this.triggerToast('File ZIP berhasil didownload');
+        }, 1000);
+      },
+
+      handleUploadTtd(e) {
+        const file = e.target.files?.[0];
+        if (file) {
+          this.ttdSignatureUrl = URL.createObjectURL(file);
+          this.isTambahTtdOpen = false;
+          this.triggerToast('Tanda tangan berhasil diunggah');
+        }
+      },
+
+      triggerToast(msg) {
+        this.toastMessage = msg;
+        this.showToast = true;
+        this.reinitLucide();
+        setTimeout(() => { this.showToast = false; }, 3000);
+      },
+
+      reinitLucide() {
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
       }
     }"
   >
-    <!-- Toolbar Persis Sesuai Screenshot KP Koordinator -->
-    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
-      <!-- Search Input -->
-      <div class="relative w-full sm:w-72 md:w-80">
-        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-        <input
-          type="text"
-          x-model="searchQuery"
-          placeholder="Cari mahasiswa..."
-          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        />
+    <!-- Toolbar: Sesuai MonitoringSidangToolbar di fakultas-fe -->
+    <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
+      <!-- Search Input (w-full sm:w-1/4) -->
+      <div class="w-full sm:w-1/4 min-w-[200px]">
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#71717a]"></i>
+          <input
+            type="text"
+            x-model="searchQuery"
+            @input="currentPage = 1; reinitLucide()"
+            placeholder="Cari mahasiswa..."
+            class="w-full h-10 pl-9 pr-9 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+          <button
+            type="button"
+            x-show="searchQuery.length > 0"
+            @click="searchQuery = ''; currentPage = 1; reinitLucide()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#71717a] hover:text-[#09090b] cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- Action Group Kanan -->
+      <!-- Action Group Kanan (Gelombang, Download Dropdown, Preview TTD, Tambah TTD) -->
       <div class="flex items-center gap-2 ml-auto flex-wrap">
         <!-- Gelombang Selector -->
-        <div class="w-[180px] sm:w-[200px] flex-shrink-0">
-          <select
-            x-model="gelombangFilter"
-            class="h-9 w-full px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-          >
-            <option value="semua">Semua Gelombang</option>
-            <option value="cth1">cth1</option>
-            <option value="cth2">cth2</option>
-          </select>
+        <div class="w-[200px] flex-shrink-0">
+          <div class="relative">
+            <select
+              x-model="selectedGelombangId"
+              @change="currentPage = 1; reinitLucide()"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <template x-for="g in gelombangList" :key="g.id">
+                <option :value="g.id" x-text="g.nama"></option>
+              </template>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
         </div>
 
-        <!-- Tombol Dropdown Download -->
+        <!-- Dropdown Download Button (Excel / PDF) -->
         <div class="relative" @click.outside="isDownloadOpen = false">
           <button
             type="button"
-            @click="isDownloadOpen = !isDownloadOpen"
-            class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-none"
+            @click="isDownloadOpen = !isDownloadOpen; reinitLucide()"
+            class="h-9 px-3.5 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
           >
-            <i data-lucide="download" class="w-4 h-4"></i>
-            <span>Download</span>
-            <i data-lucide="chevron-right" class="w-3.5 h-3.5 transition-transform" :class="isDownloadOpen ? 'rotate-90' : ''"></i>
+            <i data-lucide="download" class="h-4 w-4"></i>
+            <span x-text="isDownloadingPDF ? 'Downloading...' : 'Download'"></span>
+            <template x-if="isDownloadOpen">
+              <i data-lucide="chevron-down" class="h-4 w-4"></i>
+            </template>
+            <template x-if="!isDownloadOpen">
+              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+            </template>
           </button>
 
-          <!-- Dropdown Menu Download -->
+          <!-- Dropdown Menu -->
           <div
             x-show="isDownloadOpen"
             x-cloak
-            class="absolute right-0 mt-1.5 w-48 rounded-md bg-white border border-[#e4e4e7] shadow-lg py-1 z-30 text-xs"
+            class="absolute right-0 mt-1.5 w-56 rounded-md bg-white border border-[#e4e4e7] shadow-lg py-1 z-30 text-sm animate-in fade-in zoom-in-95 duration-100"
           >
             <button
               type="button"
-              @click="downloadExcel()"
-              class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+              @click="handleDownloadExcel()"
+              class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#f4f4f5] text-[#09090b] transition-colors cursor-pointer"
             >
-              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
+              <i data-lucide="file-spreadsheet" class="h-4 w-4 mr-1 text-[#71717a]"></i>
               <span>Export Excel</span>
             </button>
             <button
               type="button"
-              @click="downloadAllPdf()"
-              class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#f4f4f5] text-[#09090b] transition-colors border-t border-[#e4e4e7]/60"
+              @click="handleDownloadAllPDF()"
+              :disabled="isDownloadingPDF"
+              class="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#f4f4f5] text-[#09090b] transition-colors border-t border-[#e4e4e7]/60 cursor-pointer"
             >
-              <i data-lucide="file-text" class="w-4 h-4 text-rose-600"></i>
-              <span>Download All PDF</span>
+              <i data-lucide="file-text" class="h-4 w-4 mr-1 text-[#71717a]"></i>
+              <span x-text="isDownloadingPDF ? 'Downloading...' : 'Download All PDF'"></span>
             </button>
           </div>
         </div>
@@ -182,219 +307,278 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <!-- Tombol Preview TTD Koor -->
         <button
           type="button"
-          @click="isPreviewTtdOpen = true"
-          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-none"
+          @click="isPreviewTtdOpen = true; reinitLucide()"
+          class="h-9 px-3.5 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
         >
-          <i data-lucide="eye" class="w-4 h-4"></i>
+          <i data-lucide="eye" class="h-4 w-4"></i>
           <span>Preview TTD Koor</span>
         </button>
 
         <!-- Tombol Tambah TTD Koor -->
         <button
           type="button"
-          @click="isTambahTtdOpen = true"
-          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-none"
+          @click="isTambahTtdOpen = true; reinitLucide()"
+          class="h-9 px-3.5 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
         >
-          <i data-lucide="plus" class="w-4 h-4"></i>
+          <i data-lucide="plus" class="h-4 w-4"></i>
           <span>Tambah TTD Koor</span>
         </button>
       </div>
     </div>
 
-    <!-- Tabel Hasil Sidang Persis Sesuai Screenshot KP Koordinator -->
-    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-            <tr>
-              <th class="h-11 px-4 font-medium text-sm w-10 text-left text-[#71717a]">No</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[170px]">Mahasiswa</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[150px]">Pembimbing</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a] min-w-[95px]">Gelombang</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penyelia</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[95px]">Nilai Pembimbing</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penguji 1</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penguji 2</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Nilai Penguji 3</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[80px]">Nilai Akhir</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[80px]">Status</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-[#e4e4e7] bg-white">
-            <template x-for="(h, idx) in filteredHasil" :key="h.id">
-              <tr class="hover:bg-[#fafafa] transition-colors">
-                <!-- No -->
-                <td class="h-[68px] px-4 text-left text-sm text-[#09090b] font-medium" x-text="idx + 1"></td>
-
-                <!-- Mahasiswa (Nama Bold Uppercase & NIM di bawah) -->
-                <td class="h-[68px] px-4 text-sm">
-                  <div class="flex flex-col min-w-0">
-                    <span class="font-bold text-[#09090b] text-xs uppercase tracking-tight" x-text="h.nama"></span>
-                    <span class="text-xs text-[#71717a] mt-0.5" x-text="h.nim"></span>
-                  </div>
-                </td>
-
-                <!-- Pembimbing -->
-                <td class="h-[68px] px-4 text-sm text-[#09090b] font-medium" x-text="h.pembimbing"></td>
-
-                <!-- Gelombang -->
-                <td class="h-[68px] px-4 text-left text-sm text-[#71717a]" x-text="h.gelombang"></td>
-
-                <!-- Nilai Penyelia (Rounded Input Box persis seperti screenshot KP) -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <input
-                    type="text"
-                    :value="h.nilaiPenyelia || ''"
-                    @change="updateNilai(h, 'nilaiPenyelia', $event.target.value)"
-                    placeholder="-"
-                    class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
-                  />
-                </td>
-
-                <!-- Nilai Pembimbing -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <input
-                    type="text"
-                    :value="h.nilaiPembimbing || ''"
-                    @change="updateNilai(h, 'nilaiPembimbing', $event.target.value)"
-                    placeholder="-"
-                    class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
-                  />
-                </td>
-
-                <!-- Nilai Penguji 1 -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <input
-                    type="text"
-                    :value="h.nilaiPenguji1 || ''"
-                    @change="updateNilai(h, 'nilaiPenguji1', $event.target.value)"
-                    placeholder="-"
-                    class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
-                  />
-                </td>
-
-                <!-- Nilai Penguji 2 (Tampil '-' jika kosong seperti screenshot) -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <template x-if="h.nilaiPenguji2 !== null">
-                    <input
-                      type="text"
-                      :value="h.nilaiPenguji2"
-                      @change="updateNilai(h, 'nilaiPenguji2', $event.target.value)"
-                      class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
-                    />
-                  </template>
-                  <template x-if="h.nilaiPenguji2 === null">
-                    <span class="text-xs text-[#71717a] font-normal">-</span>
-                  </template>
-                </td>
-
-                <!-- Nilai Penguji 3 (Tampil '-' jika kosong seperti screenshot) -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <template x-if="h.nilaiPenguji3 !== null">
-                    <input
-                      type="text"
-                      :value="h.nilaiPenguji3"
-                      @change="updateNilai(h, 'nilaiPenguji3', $event.target.value)"
-                      class="h-8 w-16 px-1.5 text-center text-xs rounded-md border border-[#e4e4e7] bg-white focus:outline-none focus:ring-1 focus:ring-[#0655a7] font-medium text-[#09090b]"
-                    />
-                  </template>
-                  <template x-if="h.nilaiPenguji3 === null">
-                    <span class="text-xs text-[#71717a] font-normal">-</span>
-                  </template>
-                </td>
-
-                <!-- Nilai Akhir (Bold) -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <span class="font-bold text-[#09090b] text-xs" x-text="h.nilaiAkhir || '-'"></span>
-                </td>
-
-                <!-- Status (Badge Hijau Selesai / Gray Belum) -->
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <span
-                    class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
-                    :class="h.status === 'Selesai' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-gray-100 text-gray-600 border-gray-200'"
-                    x-text="h.status"
-                  ></span>
-                </td>
-              </tr>
-            </template>
-
-            <template x-if="filteredHasil.length === 0">
-              <tr>
-                <td colspan="11" class="h-32 text-center text-xs text-[#71717a]">
-                  Tidak ada data sidang yang cocok.
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Pagination Style Persis Screenshot KP Koordinator -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-white">
-        <div class="text-xs text-[#71717a]">
-          Page 1 of 1 (<span x-text="filteredHasil.length"></span> total items)
+    <!-- Empty State jika tidak ada data -->
+    <template x-if="filteredList.length === 0">
+      <div class="flex flex-col items-center justify-center py-12 text-center h-[calc(100vh-320px)] bg-white rounded-md border border-[#e4e4e7]">
+        <div class="rounded-full bg-[#f4f4f5] p-3 mb-4">
+          <i data-lucide="calendar-check" class="h-6 w-6 text-[#71717a]"></i>
         </div>
-        <div class="flex items-center gap-1.5">
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
-          >
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-          <button
-            type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-          >
-            1
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
-          >
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-          <select
-            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] ml-1"
-          >
-            <option value="10">Show 10 items</option>
-            <option value="25">Show 25 items</option>
-            <option value="50">Show 50 items</option>
-          </select>
+        <h3 class="text-lg font-medium text-[#09090b]">Belum Ada Hasil Sidang</h3>
+        <p class="text-sm text-[#71717a] mt-1 max-w-md">
+          Data sidang akan muncul setelah jadwal dipasang di menu Plotting Jadwal.
+        </p>
+      </div>
+    </template>
+
+    <!-- Table View: DataTable Sesuai Columns di fakultas-fe -->
+    <div class="rounded-md border border-[#e4e4e7] overflow-x-auto bg-white" x-show="filteredList.length > 0">
+      <table class="w-full caption-bottom text-sm border-collapse min-w-[1100px]">
+        <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+          <tr>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[50px] w-14">No</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[200px] max-w-[260px]">Mahasiswa</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[180px] max-w-[240px]">Pembimbing</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[120px]">Gelombang</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[110px]">Nilai Penyelia</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[110px]">Nilai Pembimbing</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[110px]">Nilai Penguji 1</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[110px]">Nilai Penguji 2</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[110px]">Nilai Penguji 3</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[100px]">Nilai Akhir</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[120px]">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e4e4e7]">
+          <template x-for="(row, index) in paginatedList" :key="row.sidang_id">
+            <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
+              <!-- No -->
+              <td class="p-4 align-middle text-sm text-[#09090b] font-medium min-w-[50px]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
+
+              <!-- Mahasiswa -->
+              <td class="p-4 align-middle min-w-[200px] max-w-[260px]">
+                <div class="font-medium truncate text-sm text-[#09090b]" x-text="row.mahasiswa?.nama ?? '—'"></div>
+                <div class="text-sm text-[#71717a]" x-text="row.mahasiswa?.nim ?? '—'"></div>
+              </td>
+
+              <!-- Pembimbing -->
+              <td class="p-4 align-middle min-w-[180px] max-w-[240px] text-sm text-[#09090b]">
+                <div class="truncate" x-text="row.pembimbing?.nama ?? '—'"></div>
+              </td>
+
+              <!-- Gelombang -->
+              <td class="p-4 align-middle min-w-[120px] text-sm text-[#09090b]">
+                <div x-text="row.gelombang?.nama_gelombang ?? '—'"></div>
+              </td>
+
+              <!-- Nilai Penyelia (Editable) -->
+              <td class="p-4 align-middle text-center min-w-[110px]">
+                <div class="flex justify-center">
+                  <input
+                    type="text"
+                    inputmode="numeric"
+                    :value="row.nilai_penyelia !== null ? row.nilai_penyelia : ''"
+                    @change="updateNilaiField(row, 'nilai_penyelia', $event.target.value)"
+                    placeholder="-"
+                    class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                  />
+                </div>
+              </td>
+
+              <!-- Nilai Pembimbing (Editable) -->
+              <td class="p-4 align-middle text-center min-w-[110px]">
+                <div class="flex justify-center">
+                  <input
+                    type="text"
+                    inputmode="numeric"
+                    :value="row.nilai_pembimbing !== null ? row.nilai_pembimbing : ''"
+                    @change="updateNilaiField(row, 'nilai_pembimbing', $event.target.value)"
+                    placeholder="-"
+                    class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                  />
+                </div>
+              </td>
+
+              <!-- Nilai Penguji 1 (Editable) -->
+              <td class="p-4 align-middle text-center min-w-[110px]">
+                <div class="flex justify-center">
+                  <input
+                    type="text"
+                    inputmode="numeric"
+                    :value="row.nilai_penguji_1 !== null ? row.nilai_penguji_1 : ''"
+                    @change="updateNilaiField(row, 'nilai_penguji_1', $event.target.value)"
+                    placeholder="-"
+                    class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                  />
+                </div>
+              </td>
+
+              <!-- Nilai Penguji 2 (Editable / Slot Empty) -->
+              <td class="p-4 align-middle text-center min-w-[110px]">
+                <div class="flex justify-center">
+                  <template x-if="row.penguji_2 != null">
+                    <input
+                      type="text"
+                      inputmode="numeric"
+                      :value="row.nilai_penguji_2 !== null ? row.nilai_penguji_2 : ''"
+                      @change="updateNilaiField(row, 'nilai_penguji_2', $event.target.value)"
+                      placeholder="-"
+                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                    />
+                  </template>
+                  <template x-if="row.penguji_2 == null">
+                    <span class="text-[#71717a] text-xs select-none" title="Penguji belum di-plotting">-</span>
+                  </template>
+                </div>
+              </td>
+
+              <!-- Nilai Penguji 3 (Editable / Slot Empty) -->
+              <td class="p-4 align-middle text-center min-w-[110px]">
+                <div class="flex justify-center">
+                  <template x-if="row.penguji_3 != null">
+                    <input
+                      type="text"
+                      inputmode="numeric"
+                      :value="row.nilai_penguji_3 !== null ? row.nilai_penguji_3 : ''"
+                      @change="updateNilaiField(row, 'nilai_penguji_3', $event.target.value)"
+                      placeholder="-"
+                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                    />
+                  </template>
+                  <template x-if="row.penguji_3 == null">
+                    <span class="text-[#71717a] text-xs select-none" title="Penguji belum di-plotting">-</span>
+                  </template>
+                </div>
+              </td>
+
+              <!-- Nilai Akhir -->
+              <td class="p-4 align-middle text-center min-w-[100px]">
+                <span class="font-medium text-sm text-[#09090b]" x-text="row.nilai_akhir !== null ? Number(row.nilai_akhir).toFixed(2) : '-'"></span>
+              </td>
+
+              <!-- Status Badge (Selesai: success, Belum: secondary) -->
+              <td class="p-4 align-middle text-center min-w-[120px]">
+                <div class="flex justify-center">
+                  <template x-if="isComplete(row)">
+                    <span class="inline-flex items-center rounded-md border border-green-400/60 bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-600">
+                      Selesai
+                    </span>
+                  </template>
+                  <template x-if="!isComplete(row)">
+                    <span class="inline-flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#71717a]">
+                      Belum
+                    </span>
+                  </template>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls (Sesuai PaginationControls di fakultas-fe) -->
+    <div class="pt-4 bg-white" x-show="filteredList.length > 0">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredList.length} total items)`">
+        </span>
+
+        <div class="flex gap-4 items-center">
+          <div class="flex items-center gap-1">
+            <button
+              type="button"
+              @click="currentPage--; reinitLucide()"
+              :disabled="currentPage <= 1"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <template x-for="p in totalPages" :key="p">
+              <button
+                type="button"
+                @click="currentPage = p; reinitLucide()"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
+                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
+                x-text="p"
+              >
+              </button>
+            </template>
+            <button
+              type="button"
+              @click="currentPage++; reinitLucide()"
+              :disabled="currentPage >= totalPages"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            >
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="relative">
+            <select
+              x-model.number="pageSize"
+              @change="currentPage = 1; reinitLucide()"
+              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <option value="5">Show 5 items</option>
+              <option value="10">Show 10 items</option>
+              <option value="20">Show 20 items</option>
+              <option value="50">Show 50 items</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal Preview TTD Koordinator -->
+    <!-- ==================================================== -->
+    <!-- MODAL 1: PREVIEW TTD KOORDINATOR (PreviewTtdKoor)    -->
+    <!-- ==================================================== -->
     <div
       x-show="isPreviewTtdOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      @keydown.escape.window="isPreviewTtdOpen = false"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
     >
       <div
         @click.outside="isPreviewTtdOpen = false"
-        class="bg-white rounded-xl max-w-sm w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
       >
-        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
-          <h3 class="text-sm font-semibold text-[#09090b]">Tanda Tangan Koordinator MBKM</h3>
-          <button @click="isPreviewTtdOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-        <div class="p-6 flex flex-col items-center justify-center">
-          <div class="border border-[#e4e4e7] rounded-lg p-4 w-48 h-48 flex items-center justify-center bg-[#fafafa]">
-            <img :src="ttdSignatureUrl" alt="Tanda Tangan Koordinator" class="max-w-full max-h-full object-contain" />
-          </div>
-          <span class="text-xs text-[#71717a] mt-3">Tanda tangan digital aktif tersimpan di sistem</span>
-        </div>
-        <div class="flex items-center justify-end px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <h3 class="text-base font-semibold leading-none tracking-tight text-[#09090b]">Tanda Tangan Koordinator</h3>
           <button
             type="button"
             @click="isPreviewTtdOpen = false"
-            class="h-8 px-4 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] hover:bg-gray-50"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="py-4 flex justify-center">
+          <template x-if="ttdSignatureUrl">
+            <div class="border border-[#e4e4e7] rounded-md p-4 w-64 h-64 relative flex items-center justify-center bg-[#fafafa]">
+              <img :src="ttdSignatureUrl" alt="TTD Koordinator" class="max-w-full max-h-full object-contain" />
+            </div>
+          </template>
+          <template x-if="!ttdSignatureUrl">
+            <div class="p-4 text-center text-[#71717a] text-sm">
+              Belum ada tanda tangan yang diunggah.
+            </div>
+          </template>
+        </div>
+
+        <div class="flex items-center justify-end pt-3 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            @click="isPreviewTtdOpen = false"
+            class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
           >
             Tutup
           </button>
@@ -402,48 +586,67 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
     </div>
 
-    <!-- Modal Tambah / Unggah TTD Koordinator -->
+    <!-- ==================================================== -->
+    <!-- MODAL 2: TAMBAH TTD KOORDINATOR (TambahTtdKoor)      -->
+    <!-- ==================================================== -->
     <div
       x-show="isTambahTtdOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      @keydown.escape.window="isTambahTtdOpen = false"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
     >
       <div
         @click.outside="isTambahTtdOpen = false"
-        class="bg-white rounded-xl max-w-sm w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
       >
-        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
-          <h3 class="text-sm font-semibold text-[#09090b]">Unggah Tanda Tangan Koordinator</h3>
-          <button @click="isTambahTtdOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-        <div class="p-5 space-y-3 text-xs">
-          <div class="border-2 border-dashed border-[#e4e4e7] hover:border-[#0655a7] rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-[#fafafa]">
-            <i data-lucide="upload" class="w-8 h-8 text-[#71717a] mb-2"></i>
-            <span class="font-medium text-[#09090b]">Pilih berkas tanda tangan</span>
-            <span class="text-[11px] text-[#71717a] mt-0.5">Format PNG atau JPG transparan (Maks. 2MB)</span>
-            <input type="file" accept="image/*" class="hidden" id="file-ttd-upload" />
-          </div>
-        </div>
-        <div class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <div class="flex items-center justify-between pb-2 border-b border-[#e4e4e7]">
+          <h3 class="text-base font-semibold leading-none tracking-tight text-[#09090b]">Unggah Tanda Tangan</h3>
           <button
             type="button"
             @click="isTambahTtdOpen = false"
-            class="h-8 px-4 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] hover:bg-gray-50"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
           >
-            Batal
+            <i data-lucide="x" class="w-4 h-4"></i>
           </button>
+        </div>
+
+        <div class="py-2 space-y-3">
+          <label class="block text-xs font-medium text-[#71717a]">
+            Pilih berkas tanda tangan transparan (PNG/JPG, maks 2MB):
+          </label>
+          <label class="border-2 border-dashed border-[#e4e4e7] hover:border-[#0655a7] rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-colors bg-[#fafafa]">
+            <i data-lucide="upload" class="w-8 h-8 text-[#71717a] mb-2"></i>
+            <span class="font-medium text-xs text-[#09090b]">Klik untuk memilih berkas</span>
+            <span class="text-[11px] text-[#71717a] mt-0.5">PNG atau JPG transparan</span>
+            <input type="file" accept="image/png, image/jpeg, image/jpg" class="hidden" @change="handleUploadTtd($event)" />
+          </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
           <button
             type="button"
-            @click="isTambahTtdOpen = false; alert('Tanda tangan Koordinator berhasil diperbarui!')"
-            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
+            @click="isTambahTtdOpen = false"
+            class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
           >
-            Simpan
+            Batal
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Toast Notification (Sesuai Sonner toast di fakultas-fe) -->
+    <div
+      x-show="showToast"
+      x-cloak
+      class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-emerald-600 text-white text-xs font-semibold shadow-lg animate-in slide-in-from-bottom-5 duration-200"
+    >
+      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+      <span x-text="toastMessage"></span>
+    </div>
   </section>
 </AdminShell>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>

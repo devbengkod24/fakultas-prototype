@@ -39,10 +39,10 @@ document.addEventListener('alpine:init', () => {
       this.currentTab = tabKey;
 
       // Sinkronkan state submenu jika tab berada di bawah parent
-      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tabKey)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota'].includes(tabKey)) {
+      if (['dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(tabKey)) {
         this.dosenSubmenuOpen = true;
       }
 
@@ -109,10 +109,10 @@ document.addEventListener('alpine:init', () => {
         tab = slugMap[slug] || slug || 'dashboard';
       }
       this.currentTab = tab;
-      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi', 'dosen-update', 'update-dosen'].includes(tab)) {
+      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota'].includes(tab)) {
+      if (['dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(tab)) {
         this.dosenSubmenuOpen = true;
       }
       if (['form-pendaftaran', 'periode'].includes(tab)) {
@@ -380,9 +380,10 @@ function switchTab(tabKey) {
   } else if (tabKey === 'sidang' && !document.getElementById('section-sidang')) {
     targetId = 'section-sidang';
   } else if (tabKey === 'kontributor' && !document.getElementById('section-' + tabKey)) {
-    // Halaman kontributor memakai id section-kontributor / section-kontributor-cms
+    // Halaman kontributor memakai id section-kontributor / section-kontributor-cms / section-kelola-program
     if (document.getElementById('section-kontributor')) targetId = 'section-kontributor';
     else if (document.getElementById('section-kontributor-cms')) targetId = 'section-kontributor-cms';
+    else if (document.getElementById('section-kelola-program')) targetId = 'section-kelola-program';
   }
 
   const targetSec = document.getElementById(targetId);
@@ -451,7 +452,7 @@ function switchTab(tabKey) {
       subBtn = document.getElementById('nav-sub-mhs-semua');
     }
     if ((tabKey === 'dosen-update' || tabKey === 'update-dosen') && !subBtn) {
-      subBtn = document.getElementById('nav-sub-mhs-update-dosen');
+      subBtn = document.getElementById('nav-sub-dosen-update') || document.getElementById('nav-sub-mhs-update-dosen');
     }
     if (subBtn) {
       subBtn.classList.remove('text-[#71717a]');
@@ -475,7 +476,7 @@ function switchTab(tabKey) {
   if (meta) {
     updateBreadcrumb(meta.label);
 
-    const isCmsStandalone = !!document.getElementById('section-kontributor-cms');
+    const isCmsStandalone = !!document.getElementById('section-kontributor-cms') || !!document.getElementById('section-kelola-program');
     if (!isCmsStandalone) {
       const hTitle = document.getElementById('header-page-title');
       if (hTitle) hTitle.textContent = meta.title || meta.label;
@@ -3082,7 +3083,7 @@ function handleSavePengumuman(e) {
 
   const sasaranLabels = {
     semua_mhs: 'Semua Mahasiswa MBKM',
-    kontributor_dpl: 'Kontributor & DPL',
+    kontributor_dospem: 'Kontributor & Dosen Pembimbing',
     magang: 'Peserta Magang Industri',
     studi_independen: 'Peserta Studi Independen'
   };
@@ -4433,7 +4434,7 @@ function showKontributorDetail(id) {
   const pane2 = document.getElementById('kontributor-detail-pane-2');
   const pane3 = document.getElementById('kontributor-detail-pane-3');
 
-  // Helper render tabel mahasiswa bersih (No, Mahasiswa, Prodi, DPL, Status)
+  // Helper render tabel mahasiswa bersih (No, Mahasiswa, Prodi, Dospem, Status)
   const renderTableMahasiswa = (mhsList) => `
     <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
       <table class="w-full text-sm">
@@ -4542,6 +4543,20 @@ function switchKontributorTab(tabKey) {
 }
 
 // ====================================================
+// NAVIGASI KELOLA PROGRAM (HALAMAN TERSENDIRI)
+// ====================================================
+function openKontributorProgram(kontributorId) {
+  const kontributor = kontributorListData.find((m) => m.id === kontributorId);
+  const id = kontributor ? kontributor.id : (kontributorId || 1);
+  window.location.href = `/admin/kontributor/program?id=${id}`;
+}
+
+// Alias backward compatibility
+function openModalKelolaProgram(kontributorId) {
+  openKontributorProgram(kontributorId);
+}
+
+// ====================================================
 // DATA & CONTROLLER CMS HALAMAN PUBLIK KONTRIBUTOR MBKM
 // ====================================================
 let activeCmsKontributorId = null;
@@ -4638,6 +4653,26 @@ function populateKontributorCmsPage(kontributorId) {
   // Render Showcases
   renderShowcaseGrid();
   switchCmsSubTab('hero');
+
+  // Update Partner Info Card
+  const partnerNameEl = document.getElementById('cms-partner-name');
+  const partnerAvatarEl = document.getElementById('cms-partner-avatar');
+  const partnerBadgeEl = document.getElementById('cms-partner-badge');
+  const partnerDeskripsiEl = document.getElementById('cms-partner-deskripsi');
+  const partnerPicEl = document.getElementById('cms-partner-pic');
+
+  if (partnerNameEl) partnerNameEl.textContent = kontributor.nama;
+  if (partnerAvatarEl) partnerAvatarEl.textContent = kontributor.avatar || kontributor.nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+  if (partnerBadgeEl) {
+    const isInt = kontributor.tipe === 'internal';
+    partnerBadgeEl.innerHTML = `<i data-lucide="${isInt ? 'building' : 'globe'}" class="w-3.5 h-3.5 text-[#71717a]"></i><span>${isInt ? 'Kontributor Internal' : 'Kontributor Eksternal'}</span>`;
+  }
+  if (partnerDeskripsiEl) {
+    partnerDeskripsiEl.textContent = kontributor.deskripsi || '-';
+  }
+  if (partnerPicEl) {
+    partnerPicEl.textContent = kontributor.picNama || '-';
+  }
 
   if (window.lucide) window.lucide.createIcons();
 }
@@ -5663,6 +5698,10 @@ function exportDataMahasiswa() {
   alert('Mengunduh rekap direktori seluruh mahasiswa aktif MBKM (Format: XLSX Spreadsheet)...');
 }
 
+function exportDataPelamar() {
+  alert('Mengunduh data pendaftar mahasiswa MBKM (Format: Excel .xlsx)...');
+}
+
 // ====================================================
 // INISIALISASI APLIKASI (SAFE RUNTIME TOP-LEVEL INIT)
 // ====================================================
@@ -5814,7 +5853,7 @@ function handleSaveBatasKuotaFakultas(e) {
   e.preventDefault();
   const kuota = document.getElementById('input-kuota-standar-fakultas').value;
   closeModalSetBatasKuota();
-  alert(`Batas standar kuota DPL fakultas berhasil diperbarui menjadi ${kuota} mahasiswa per dosen.`);
+  alert(`Batas standar kuota Dospem fakultas berhasil diperbarui menjadi ${kuota} mahasiswa per dosen.`);
 }
 
 function openModalEditBatasDosen(dosenNama, kuota, terpakai) {
@@ -5867,24 +5906,24 @@ function filterDosenData() {
 function autoAssignDplBatch() {
   if (
     confirm(
-      'Jalankan Auto-Assign Cerdas?\nSistem akan mencocokkan mahasiswa dengan DPL berdasarkan kesesuaian domain kepakaran dan sisa kuota terbanyak.'
+      'Jalankan Auto-Assign Cerdas?\nSistem akan mencocokkan mahasiswa dengan Dospem berdasarkan kesesuaian domain kepakaran dan sisa kuota terbanyak.'
     )
   ) {
-    alert('Berhasil! 14 mahasiswa dalam antrean telah dipasangkan dengan DPL yang sesuai secara otomatis.');
+    alert('Berhasil! 14 mahasiswa dalam antrean telah dipasangkan dengan Dospem yang sesuai secara otomatis.');
   }
 }
 
 function simpanSemuaPlotting() {
   const selected = document.querySelectorAll('.check-plotting-row:checked');
   if (selected.length === 0) {
-    alert('Pilih minimal satu mahasiswa untuk disimpan hasil plotting DPL-nya.');
+    alert('Pilih minimal satu mahasiswa untuk disimpan hasil plotting Dospem-nya.');
     return;
   }
-  alert(`Berhasil menyimpan penugasan DPL untuk ${selected.length} mahasiswa terpilih.`);
+  alert(`Berhasil menyimpan penugasan Dospem untuk ${selected.length} mahasiswa terpilih.`);
 }
 
 function saveIndividualPlotting(nim, nama) {
-  alert(`Plotting DPL untuk ${nama} (${nim}) berhasil disimpan.`);
+  alert(`Plotting Dospem untuk ${nama} (${nim}) berhasil disimpan.`);
 }
 
 function toggleSelectAllPlotting(source) {
@@ -5893,7 +5932,7 @@ function toggleSelectAllPlotting(source) {
   });
 }
 
-// 4. Modul Sidang MBKM & Evaluasi Gabungan (60% Kontributor + 40% DPL)
+// 4. Modul Sidang MBKM & Evaluasi Gabungan (60% Kontributor + 40% Dospem)
 function openModalJadwalSidang() {
   const modal = document.getElementById('modal-jadwal-sidang');
   if (modal) modal.classList.remove('hidden');

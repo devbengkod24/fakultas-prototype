@@ -114,11 +114,19 @@ const tabs: DataTableTab[] = [
               </button>
               <button
                 type="button"
+                onclick={`openKontributorProgram(${partner.id})`}
+                class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              >
+                <i data-lucide="sliders" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Kelola Program</span>
+              </button>
+              <button
+                type="button"
                 onclick={`openKontributorCms(${partner.id})`}
                 class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
               >
-                <i data-lucide="settings-2" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                <span>Kelola Program</span>
+                <i data-lucide="layout-template" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Kelola CMS</span>
               </button>
               <div class="my-1 h-px bg-[#e4e4e7]"></div>
               <template x-if={`isAktif(${partner.id}, '${partner.status}')`}>

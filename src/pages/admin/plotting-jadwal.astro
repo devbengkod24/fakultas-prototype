@@ -3,608 +3,912 @@
 import AdminShell from '../../layouts/AdminShell.astro';
 ---
 
-<AdminShell currentTab="plotting-jadwal">
+<AdminShell
+  currentTab="plotting-jadwal"
+  pageTitle="Plotting Jadwal Sidang"
+  subtitle="Atur jadwal sidang sebelum hasil sidang ditampilkan."
+>
   <section
     id="section-plotting-jadwal"
-    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
     x-data="{
       searchQuery: '',
+      selectedGelombangId: 'all',
       statusFilter: 'semua',
-      gelombangFilter: 'semua',
+      sortDir: 'asc',
       selectedIds: [],
-      isSkModalOpen: false,
+      currentPage: 1,
+      pageSize: 10,
+
+      // Dialog States
       isBuatModalOpen: false,
       isEditModalOpen: false,
+      isUndanganModalOpen: false,
+      isStatusDropdownOpen: false,
       editTarget: null,
-      skNumber: '042/SK-PENGUJI/FIK-UDINUS/VI/2026',
+      toastMessage: '',
+      showToast: false,
+
+      // Buat Jadwal Form States
+      buatTglSidang: '',
+      buatRuanganId: '',
+      buatJamMulai: '',
+      buatPreview: [],
+
+      // Edit Jadwal Form States
+      editTglSidang: '',
+      editJamMulai: '',
+      editRuanganId: '',
+      editPengujiId: '',
+      editPenguji2Id: '',
+      editPenguji3Id: '',
+
+      // Undangan Modal States
+      undanganMode: 'personal',
+      undanganKode: '042/SK-PENGUJI/FIK-UDINUS/VI/2026',
+      undanganTgl: '2026-06-20',
+      undanganDosenId: '',
+
+      gelombangList: [
+        { id: 'all', nama: 'Semua Gelombang', status: 0 },
+        { id: '1', nama: 'Gelombang 1', status: 1 },
+        { id: '2', nama: 'Gelombang 2', status: 0 },
+        { id: '3', nama: 'Gelombang 3', status: 0 }
+      ],
+
       ruanganList: [
-        'Lab AI (H.4.1)',
-        'Lab RPL (H.4.3)',
-        'Lab Jaringan (H.4.5)',
-        'Ruang Sidang Dekanat (H.1.2)',
-        'Ruang Sidang MBKM Kampus Berdampak (Online Zoom)'
+        { id: 1, nama: 'Lab AI (H.4.1)' },
+        { id: 2, nama: 'Lab RPL (H.4.3)' },
+        { id: 3, nama: 'Lab Jaringan (H.4.5)' },
+        { id: 4, nama: 'Ruang Sidang Dekanat (H.1.2)' },
+        { id: 5, nama: 'Ruang Sidang Online (Zoom Room 1)' }
       ],
+
       dosenList: [
-        'Dr. M. Arief Soeleman, M.Kom',
-        'Affandy, Ph.D',
-        'Christy Atika Sari, M.Kom',
-        'Eko Hari Rachmawanto, M.Kom',
-        'Ajib Susanto, M.Kom'
+        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
+        { id: 2, nama: 'Affandy, Ph.D' },
+        { id: 3, nama: 'Christy Atika Sari, M.Kom' },
+        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom' },
+        { id: 5, nama: 'Ajib Susanto, M.Kom' },
+        { id: 6, nama: 'Nurul Anisa S.W., M.Cs' }
       ],
-      jadwalList: [
+
+      jamOptions: ['09:00', '10:00', '11:00', '12:00'],
+
+      plottingData: [
         {
-          id: 1,
-          tgl: '2026-06-25',
-          jam: '09:00 - 10:15 WIB',
-          ruangan: 'Lab AI (H.4.1)',
-          mhs: 'Faisal Rahman',
-          nim: 'A11.2022.13901',
-          kontributor: 'PT Telkom Indonesia',
-          pembimbing: 'Dr. M. Arief Soeleman, M.Kom',
-          penguji1: 'Affandy, Ph.D',
-          penguji2: 'Ajib Susanto, M.Kom',
-          gelombang: 'Gelombang 1',
-          status: 'Terjadwal'
+          sidang_id: 1,
+          pengajuan_sidang_id: 101,
+          pembimbing: { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          mahasiswa: { id: 101, nama: 'Faisal Rahman', nim: 'A11.2022.13901' },
+          jadwal: { tanggal: '2026-06-25', jam: '09:00 - 10:00', status: 'terjadwal' },
+          ruangan: { id: 1, nama: 'Lab AI (H.4.1)' },
+          penguji_1: { id: 2, nama: 'Affandy, Ph.D' },
+          penguji_2: { id: 5, nama: 'Ajib Susanto, M.Kom' },
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 92,
+          nilai_pembimbing: 90,
+          nilai_penguji_1: 88,
+          nilai_penguji_2: 91,
+          nilai_penguji_3: null,
+          sidang_status: 'selesai'
         },
         {
-          id: 2,
-          tgl: '2026-06-25',
-          jam: '10:30 - 11:45 WIB',
-          ruangan: 'Lab AI (H.4.1)',
-          mhs: 'Tarissa Aura Azzahra',
-          nim: 'A11.2020.13158',
-          kontributor: 'Tokopedia',
-          pembimbing: 'Affandy, Ph.D',
-          penguji1: 'Dr. M. Arief Soeleman, M.Kom',
-          penguji2: 'Christy Atika Sari, M.Kom',
-          gelombang: 'Gelombang 1',
-          status: 'Terjadwal'
+          sidang_id: 2,
+          pengajuan_sidang_id: 102,
+          pembimbing: { id: 2, nama: 'Affandy, Ph.D' },
+          mahasiswa: { id: 102, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158' },
+          jadwal: { tanggal: '2026-06-25', jam: '10:00 - 11:00', status: 'terjadwal' },
+          ruangan: { id: 1, nama: 'Lab AI (H.4.1)' },
+          penguji_1: { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          penguji_2: { id: 3, nama: 'Christy Atika Sari, M.Kom' },
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 95,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          sidang_status: null
         },
         {
-          id: 3,
-          tgl: '2026-06-26',
-          jam: '13:00 - 14:15 WIB',
-          ruangan: 'Lab RPL (H.4.3)',
-          mhs: 'Nabila Zahra Putri',
-          nim: 'A12.2022.09842',
-          kontributor: 'Ryuje Tech',
-          pembimbing: 'Christy Atika Sari, M.Kom',
-          penguji1: 'Eko Hari Rachmawanto, M.Kom',
-          penguji2: 'Ajib Susanto, M.Kom',
-          gelombang: 'Gelombang 1',
-          status: 'Terjadwal'
+          sidang_id: 3,
+          pengajuan_sidang_id: 103,
+          pembimbing: { id: 3, nama: 'Christy Atika Sari, M.Kom' },
+          mahasiswa: { id: 103, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842' },
+          jadwal: { tanggal: '2026-06-26', jam: '11:00 - 12:00', status: 'terjadwal' },
+          ruangan: { id: 2, nama: 'Lab RPL (H.4.3)' },
+          penguji_1: { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom' },
+          penguji_2: { id: 5, nama: 'Ajib Susanto, M.Kom' },
+          penguji_3: null,
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 88,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          sidang_status: null
         },
         {
-          id: 4,
-          tgl: null,
-          jam: null,
+          sidang_id: 4,
+          pengajuan_sidang_id: 104,
+          pembimbing: { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom' },
+          mahasiswa: { id: 104, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012' },
+          jadwal: { tanggal: null, jam: null, status: 'belum' },
           ruangan: null,
-          mhs: 'Rizky Aditya Pratama',
-          nim: 'A11.2022.14012',
-          kontributor: 'Diskominfo Jawa Tengah',
-          pembimbing: 'Eko Hari Rachmawanto, M.Kom',
-          penguji1: null,
-          penguji2: null,
-          gelombang: 'Gelombang 2',
-          status: 'Belum Terjadwal'
+          penguji_1: null,
+          penguji_2: null,
+          penguji_3: null,
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: null,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          sidang_status: null
         },
         {
-          id: 5,
-          tgl: null,
-          jam: null,
+          sidang_id: 5,
+          pengajuan_sidang_id: 105,
+          pembimbing: { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          mahasiswa: { id: 105, nama: 'Dimas Wahyu Nugroho', nim: 'A11.2021.13450' },
+          jadwal: { tanggal: null, jam: null, status: 'belum' },
           ruangan: null,
-          mhs: 'Dimas Wahyu Nugroho',
-          nim: 'A11.2021.13450',
-          kontributor: 'PT Bank Central Asia Tbk',
-          pembimbing: 'Dr. M. Arief Soeleman, M.Kom',
-          penguji1: null,
-          penguji2: null,
-          gelombang: 'Gelombang 2',
-          status: 'Belum Terjadwal'
+          penguji_1: null,
+          penguji_2: null,
+          penguji_3: null,
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: null,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          nilai_penguji_3: null,
+          sidang_status: null
         }
       ],
-      get filteredJadwal() {
-        return this.jadwalList.filter(j => {
-          const matchSearch = j.mhs.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                              j.nim.includes(this.searchQuery) ||
-                              j.pembimbing.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                              (j.penguji1 && j.penguji1.toLowerCase().includes(this.searchQuery.toLowerCase()));
-          const matchStatus = this.statusFilter === 'semua' || j.status === this.statusFilter;
-          const matchGelombang = this.gelombangFilter === 'semua' || j.gelombang === this.gelombangFilter;
-          return matchSearch && matchStatus && matchGelombang;
+
+      isScheduled(item) {
+        return !!item.jadwal.tanggal;
+      },
+
+      get filteredRows() {
+        return this.plottingData.filter(item => {
+          const matchGel = this.selectedGelombangId === 'all' || (item.gelombang && item.gelombang.id.toString() === this.selectedGelombangId);
+          const scheduled = this.isScheduled(item);
+          const matchStatus = this.statusFilter === 'semua' || (this.statusFilter === 'sudah' ? scheduled : !scheduled);
+          const q = this.searchQuery.trim().toLowerCase();
+          const matchSearch = q === '' ||
+            item.mahasiswa.nama.toLowerCase().includes(q) ||
+            item.mahasiswa.nim.includes(q) ||
+            (item.pembimbing?.nama && item.pembimbing.nama.toLowerCase().includes(q)) ||
+            (item.penguji_1?.nama && item.penguji_1.nama.toLowerCase().includes(q)) ||
+            (item.ruangan?.nama && item.ruangan.nama.toLowerCase().includes(q));
+          return matchGel && matchStatus && matchSearch;
         });
       },
-      get belumTerjadwalList() {
-        return this.jadwalList.filter(j => j.status === 'Belum Terjadwal');
+
+      get sortedRows() {
+        if (!this.sortDir) return this.filteredRows;
+        return [...this.filteredRows].sort((a, b) => {
+          const da = `${a.jadwal.tanggal ?? ''} ${a.jadwal.jam ?? ''}`.trim();
+          const db = `${b.jadwal.tanggal ?? ''} ${b.jadwal.jam ?? ''}`.trim();
+          return this.sortDir === 'asc' ? da.localeCompare(db) : db.localeCompare(da);
+        });
       },
+
+      get paginatedRows() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.sortedRows.slice(start, start + this.pageSize);
+      },
+
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.sortedRows.length / this.pageSize));
+      },
+
+      get belumIds() {
+        return this.filteredRows.filter(s => !this.isScheduled(s)).map(s => s.sidang_id);
+      },
+
       get allBelumSelected() {
-        const belumIds = this.belumTerjadwalList.map(j => j.id);
-        return belumIds.length > 0 && belumIds.every(id => this.selectedIds.includes(id));
+        return this.belumIds.length > 0 && this.belumIds.every(id => this.selectedIds.includes(id));
       },
+
       toggleSelectAll() {
-        const belumIds = this.belumTerjadwalList.map(j => j.id);
         if (this.allBelumSelected) {
-          this.selectedIds = this.selectedIds.filter(id => !belumIds.includes(id));
+          this.selectedIds = [];
         } else {
-          this.selectedIds = Array.from(new Set([...this.selectedIds, ...belumIds]));
+          this.selectedIds = [...this.belumIds];
         }
       },
+
       toggleSelect(id) {
         if (this.selectedIds.includes(id)) {
-          this.selectedIds = this.selectedIds.filter(item => item !== id);
+          this.selectedIds = this.selectedIds.filter(x => x !== id);
         } else {
           this.selectedIds.push(id);
         }
       },
-      downloadAllJadwal() {
-        alert('Mengunduh Jadwal Sidang MBKM 2025 2026 Genap.pdf untuk seluruh mahasiswa peserta sidang MBKM...');
+
+      handleBuatJadwalModal() {
+        if (this.selectedIds.length === 0) return;
+        const selectedMhs = this.plottingData.filter(s => this.selectedIds.includes(s.sidang_id));
+        this.buatTglSidang = '2026-06-27';
+        this.buatRuanganId = '1';
+        this.buatJamMulai = '09:00';
+
+        // Auto-assign dosen penguji (exclude pembimbing)
+        this.buatPreview = selectedMhs.map((m, idx) => {
+          const eligibleDosen = this.dosenList.filter(d => d.id !== m.pembimbing?.id);
+          const p1 = eligibleDosen[idx % eligibleDosen.length] || null;
+          const p2 = eligibleDosen[(idx + 1) % eligibleDosen.length] || null;
+          return {
+            sidang_id: m.sidang_id,
+            mahasiswa: m.mahasiswa,
+            pembimbing: m.pembimbing,
+            urutan: idx + 1,
+            penguji_id: p1 ? p1.id : null,
+            penguji_2_id: p2 ? p2.id : null,
+            penguji_3_id: null
+          };
+        });
+
+        this.isBuatModalOpen = true;
+        this.reinitLucide();
       },
-      unduhSkDosen() {
-        this.isSkModalOpen = false;
-        alert(`Berhasil generate file SK Undangan Penguji dengan No. SK: ${this.skNumber}\nDokumen otomatis terunduh dalam format PDF resmi bertanda tangan.`);
-      },
-      openEditJadwal(item) {
-        this.editTarget = { ...item };
-        this.isEditModalOpen = true;
-      },
-      simpanEditJadwal() {
-        if (!this.editTarget) return;
-        const idx = this.jadwalList.findIndex(j => j.id === this.editTarget.id);
-        if (idx !== -1) {
-          this.editTarget.status = 'Terjadwal';
-          this.jadwalList[idx] = { ...this.editTarget };
-        }
-        alert(`Jadwal dan alokasi dewan penguji sidang untuk ${this.editTarget.mhs} berhasil disimpan.`);
-        this.isEditModalOpen = false;
-        this.editTarget = null;
-      },
-      prosesBuatJadwalMassal() {
-        this.selectedIds.forEach(id => {
-          const item = this.jadwalList.find(j => j.id === id);
+
+      simpanBuatJadwalBulk() {
+        const ruanganObj = this.ruanganList.find(r => r.id.toString() === this.buatRuanganId.toString()) || null;
+        this.buatPreview.forEach((p, idx) => {
+          const item = this.plottingData.find(s => s.sidang_id === p.sidang_id);
           if (item) {
-            item.tgl = '2026-06-27';
-            item.jam = '09:00 - 10:15 WIB';
-            item.ruangan = 'Lab AI (H.4.1)';
-            item.penguji1 = 'Affandy, Ph.D';
-            item.penguji2 = 'Ajib Susanto, M.Kom';
-            item.status = 'Terjadwal';
+            const startH = 9 + idx;
+            const jamStr = `${String(startH).padStart(2, '0')}:00 - ${String(startH + 1).padStart(2, '0')}:00`;
+            item.jadwal = { tanggal: this.buatTglSidang, jam: jamStr, status: 'terjadwal' };
+            item.ruangan = ruanganObj;
+            item.penguji_1 = this.dosenList.find(d => d.id === p.penguji_id) || null;
+            item.penguji_2 = this.dosenList.find(d => d.id === p.penguji_2_id) || null;
+            item.penguji_3 = null;
           }
         });
-        alert(`Berhasil mem-plotting jadwal otomatis untuk ${this.selectedIds.length} mahasiswa terpilih.`);
+        this.triggerToast(`Berhasil membuat jadwal untuk ${this.buatPreview.length} mahasiswa`);
         this.selectedIds = [];
         this.isBuatModalOpen = false;
+        this.reinitLucide();
+      },
+
+      openEditJadwal(item) {
+        this.editTarget = item;
+        this.editTglSidang = item.jadwal.tanggal || '';
+        this.editJamMulai = item.jadwal.jam ? item.jadwal.jam.split(' - ')[0] : '09:00';
+        this.editRuanganId = item.ruangan?.id?.toString() || '';
+        this.editPengujiId = item.penguji_1?.id?.toString() || '';
+        this.editPenguji2Id = item.penguji_2?.id?.toString() || '';
+        this.editPenguji3Id = item.penguji_3?.id?.toString() || '';
+        this.isEditModalOpen = true;
+        this.reinitLucide();
+      },
+
+      simpanEditJadwal() {
+        if (!this.editTarget) return;
+        const target = this.plottingData.find(s => s.sidang_id === this.editTarget.sidang_id);
+        if (target) {
+          const [h] = (this.editJamMulai || '09:00').split(':').map(Number);
+          const jamSelesai = `${String(h + 1).padStart(2, '0')}:00`;
+          target.jadwal = {
+            tanggal: this.editTglSidang,
+            jam: `${this.editJamMulai} - ${jamSelesai}`,
+            status: 'terjadwal'
+          };
+          target.ruangan = this.ruanganList.find(r => r.id.toString() === this.editRuanganId) || null;
+          target.penguji_1 = this.dosenList.find(d => d.id.toString() === this.editPengujiId) || null;
+          target.penguji_2 = this.dosenList.find(d => d.id.toString() === this.editPenguji2Id) || null;
+          target.penguji_3 = this.dosenList.find(d => d.id.toString() === this.editPenguji3Id) || null;
+        }
+        this.triggerToast('Berhasil memperbarui jadwal sidang');
+        this.isEditModalOpen = false;
+        this.editTarget = null;
+        this.reinitLucide();
+      },
+
+      handleDownloadUndangan() {
+        if (!this.undanganKode.trim()) {
+          alert('Nomor SK / Kode Undangan wajib diisi.');
+          return;
+        }
+        alert(`Mengunduh lembar undangan dewan penguji sidang (PDF) dengan Nomor SK: ${this.undanganKode}...`);
+        this.isUndanganModalOpen = false;
+      },
+
+      formatDate(dateStr) {
+        if (!dateStr) return '-';
+        try {
+          const [y, m, d] = dateStr.split('-');
+          return `${d}/${m}/${y}`;
+        } catch {
+          return dateStr;
+        }
+      },
+
+      triggerToast(msg) {
+        this.toastMessage = msg;
+        this.showToast = true;
+        this.reinitLucide();
+        setTimeout(() => { this.showToast = false; }, 3000);
+      },
+
+      reinitLucide() {
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
       }
     }"
   >
-    <!-- Toolbar Style KP Koordinator -->
-    <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 shrink-0">
-      <!-- Search & Status Filter -->
-      <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto">
-        <div class="relative w-full sm:w-72">
-          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+    <!-- Toolbar: Sesuai PlottingJadwalKoordinator di fakultas-fe -->
+    <div class="flex flex-wrap gap-2 items-center">
+      <!-- Search Input (w-full sm:w-1/4 min-w-[200px]) -->
+      <div class="w-full sm:w-1/4 min-w-[200px]">
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#71717a]"></i>
           <input
             type="text"
             x-model="searchQuery"
-            placeholder="Cari mahasiswa, NIM, penguji..."
-            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-xs text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            @input="currentPage = 1; reinitLucide()"
+            placeholder="Cari nama atau NIM..."
+            class="w-full h-10 pl-9 pr-9 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
           />
+          <button
+            type="button"
+            x-show="searchQuery.length > 0"
+            @click="searchQuery = ''; currentPage = 1; reinitLucide()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#71717a] hover:text-[#09090b] cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
         </div>
-
-        <select
-          x-model="statusFilter"
-          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        >
-          <option value="semua">Semua Status</option>
-          <option value="Terjadwal">Terjadwal</option>
-          <option value="Belum Terjadwal">Belum Terjadwal</option>
-        </select>
-
-        <select
-          x-model="gelombangFilter"
-          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        >
-          <option value="semua">Semua Gelombang</option>
-          <option value="Gelombang 1">Gelombang 1</option>
-          <option value="Gelombang 2">Gelombang 2</option>
-        </select>
       </div>
 
-      <!-- Action Buttons Sisi Kanan (Sesuai KP Koordinator & Request Bu Nurul) -->
-      <div class="flex items-center gap-2 ml-auto flex-wrap">
-        <!-- 1. Download Jadwal Mahasiswa All -->
-        <button
-          type="button"
-          @click="downloadAllJadwal()"
-          class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors shadow-2xs"
-          title="Unduh rekap jadwal PDF untuk seluruh mahasiswa"
-        >
-          <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
-          <span>Jadwal Mahasiswa (.pdf)</span>
-        </button>
+      <!-- Controls Group Kanan (Gelombang, Status Dropdown, Download Undangan, Buat Jadwal) -->
+      <div class="flex gap-2 ml-auto flex-wrap">
+        <!-- Gelombang Selector -->
+        <div class="w-[200px] flex-shrink-0">
+          <div class="relative">
+            <select
+              x-model="selectedGelombangId"
+              @change="currentPage = 1; reinitLucide()"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <template x-for="g in gelombangList" :key="g.id">
+                <option :value="g.id" x-text="g.nama"></option>
+              </template>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+        </div>
 
-        <!-- 2. Download Undangan / SK Dosen Penguji -->
+        <!-- Status Filter DropdownMenu Sesuai Radix/Shadcn UI -->
+        <div class="relative" @click.outside="isStatusDropdownOpen = false">
+          <button
+            type="button"
+            @click="isStatusDropdownOpen = !isStatusDropdownOpen; reinitLucide()"
+            class="h-10 px-3.5 inline-flex items-center gap-2 min-w-[160px] justify-between rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-normal text-[#09090b] transition-colors cursor-pointer"
+          >
+            <span x-text="statusFilter === 'semua' ? 'Semua Status' : statusFilter === 'belum' ? 'Belum Dijadwalkan' : 'Sudah Dijadwalkan'"></span>
+            <i data-lucide="chevrons-up-down" class="h-4 w-4 opacity-50 shrink-0"></i>
+          </button>
+
+          <div
+            x-show="isStatusDropdownOpen"
+            x-cloak
+            class="absolute right-0 mt-1 min-w-[180px] rounded-md border border-[#e4e4e7] bg-white shadow-lg py-1 z-30 text-sm animate-in fade-in zoom-in-95 duration-100"
+          >
+            <button
+              type="button"
+              @click="statusFilter = 'semua'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
+              class="w-full text-left px-3 py-1.5 text-xs text-[#09090b] hover:bg-[#f4f4f5] transition-colors flex items-center justify-between"
+              :class="statusFilter === 'semua' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
+            >
+              <span>Semua Status</span>
+            </button>
+            <button
+              type="button"
+              @click="statusFilter = 'belum'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
+              class="w-full text-left px-3 py-1.5 text-xs text-[#09090b] hover:bg-[#f4f4f5] transition-colors flex items-center justify-between"
+              :class="statusFilter === 'belum' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
+            >
+              <span>Belum Dijadwalkan</span>
+            </button>
+            <button
+              type="button"
+              @click="statusFilter = 'sudah'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
+              class="w-full text-left px-3 py-1.5 text-xs text-[#09090b] hover:bg-[#f4f4f5] transition-colors flex items-center justify-between"
+              :class="statusFilter === 'sudah' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
+            >
+              <span>Sudah Dijadwalkan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Download Undangan Button -->
         <button
           type="button"
-          @click="isSkModalOpen = true"
-          class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-blue-200 bg-blue-50/60 hover:bg-blue-100/70 text-xs font-medium text-[#0655a7] transition-colors shadow-2xs"
-          title="Input nomor SK & unduh surat undangan dewan penguji"
+          @click="isUndanganModalOpen = true; reinitLucide()"
+          class="h-10 px-4 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors shrink-0 cursor-pointer"
         >
-          <i data-lucide="mail" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+          <i data-lucide="mail" class="h-4 w-4"></i>
           <span>Download Undangan</span>
         </button>
 
-        <!-- 3. Buat Jadwal Massal / Plotting Baru -->
+        <!-- Buat Jadwal Button -->
         <button
           type="button"
-          @click="isBuatModalOpen = true"
+          @click="handleBuatJadwalModal()"
           :disabled="selectedIds.length === 0"
-          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium transition-colors shadow-2xs disabled:opacity-50 disabled:cursor-not-allowed"
-          title="Plotting jadwal mahasiswa yang dicentang"
+          class="h-10 px-4 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-          <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
+          <i data-lucide="calendar-plus" class="h-4 w-4"></i>
           <span>Buat Jadwal</span>
-          <span x-show="selectedIds.length > 0" x-text="`(${selectedIds.length})`" class="ml-0.5 font-bold"></span>
+          <span x-show="selectedIds.length > 0" x-text="`(${selectedIds.length})`" class="font-bold"></span>
         </button>
       </div>
     </div>
 
-    <!-- Tabel Plotting Jadwal Style KP Koordinator -->
-    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-            <tr>
-              <th class="h-11 px-4 font-medium text-sm w-9 text-center">
-                <input
-                  type="checkbox"
-                  @change="toggleSelectAll()"
-                  :checked="allBelumSelected"
-                  :disabled="belumTerjadwalList.length === 0"
-                  class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7]"
-                  title="Pilih semua yang belum terjadwal"
-                />
-              </th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[125px]">Tanggal & Jam</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[110px]">Ruangan</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[180px]">Mahasiswa</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[150px]">DPL MBKM</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[150px]">Penguji 1</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a] min-w-[150px]">Penguji 2</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[100px]">Gelombang</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[100px]">Status</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a] min-w-[85px]">Aksi</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-[#e4e4e7] bg-white">
-            <template x-for="j in filteredJadwal" :key="j.id">
-              <tr
-                class="hover:bg-[#f4f4f5]/60 transition-colors"
-                :class="selectedIds.includes(j.id) ? 'bg-[#0655a7]/5' : ''"
-              >
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <template x-if="j.status === 'Belum Terjadwal'">
-                    <input
-                      type="checkbox"
-                      :checked="selectedIds.includes(j.id)"
-                      @change="toggleSelect(j.id)"
-                      class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7]"
-                    />
-                  </template>
-                  <template x-if="j.status === 'Terjadwal'">
-                    <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600 mx-auto"></i>
-                  </template>
-                </td>
-                <td class="h-[68px] px-4 text-sm">
-                  <template x-if="j.tgl">
-                    <div class="flex flex-col">
-                      <span class="font-semibold text-[#09090b] text-xs" x-text="j.tgl"></span>
-                      <span class="text-[11px] text-[#71717a]" x-text="j.jam"></span>
-                    </div>
-                  </template>
-                  <template x-if="!j.tgl">
-                    <span class="text-xs italic text-[#71717a]">Belum diset</span>
-                  </template>
-                </td>
-                <td class="h-[68px] px-4 text-sm">
-                  <template x-if="j.ruangan">
-                    <div class="flex items-center gap-1.5 text-xs text-[#09090b]">
-                      <i data-lucide="map-pin" class="w-3 h-3 text-[#71717a] shrink-0"></i>
-                      <span x-text="j.ruangan"></span>
-                    </div>
-                  </template>
-                  <template x-if="!j.ruangan">
-                    <span class="text-xs text-[#71717a]">-</span>
-                  </template>
-                </td>
-                <td class="h-[68px] px-4 text-sm">
-                  <div class="flex flex-col">
-                    <span class="font-semibold text-[#09090b] text-xs" x-text="j.mhs"></span>
-                    <span class="text-[11px] text-[#71717a]" x-text="`${j.nim} • ${j.kontributor}`"></span>
-                  </div>
-                </td>
-                <td class="h-[68px] px-4 text-sm text-[#09090b]" x-text="j.pembimbing"></td>
-                <td class="h-[68px] px-4 text-sm text-[#09090b]">
-                  <template x-if="j.penguji1">
-                    <span x-text="j.penguji1"></span>
-                  </template>
-                  <template x-if="!j.penguji1">
-                    <span class="text-[#71717a] italic">Belum diplot</span>
-                  </template>
-                </td>
-                <td class="h-[68px] px-4 text-sm text-[#09090b]">
-                  <template x-if="j.penguji2">
-                    <span x-text="j.penguji2"></span>
-                  </template>
-                  <template x-if="!j.penguji2">
-                    <span class="text-[#71717a] italic">Belum diplot</span>
-                  </template>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="j.gelombang"></td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <span
-                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium"
-                    :class="j.status === 'Terjadwal' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600'"
-                    x-text="j.status"
-                  ></span>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <div class="flex items-center justify-center gap-1.5">
-                    <!-- Action Button 1: Edit / Atur Jadwal -->
-                    <button
-                      type="button"
-                      @click="openEditJadwal(j)"
-                      class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-blue-50/60 text-[#0655a7] hover:border-blue-200 transition-colors shadow-2xs"
-                      :title="j.status === 'Terjadwal' ? 'Edit Jadwal & Penguji' : 'Atur Jadwal Sekarang'"
-                    >
-                      <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                    </button>
-                    <!-- Action Button 2: Unduh Undangan Khusus Mahasiswa Ini -->
-                    <button
-                      type="button"
-                      @click="alert(`Mengunduh lembar undangan ujian sidang untuk penguji: ${j.mhs} (PDF)`)"
-                      class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#71717a] hover:text-[#09090b] transition-colors shadow-2xs"
-                      title="Unduh Undangan Penguji Mahasiswa Ini"
-                    >
-                      <i data-lucide="file-badge-2" class="w-3.5 h-3.5"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </template>
-            <template x-if="filteredJadwal.length === 0">
-              <tr>
-                <td colspan="10" class="h-32 text-center text-xs text-[#71717a]">
-                  Tidak ada jadwal sidang MBKM yang sesuai kriteria pencarian.
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Standardized Pagination Sesuai Screenshot 1 -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-[#fafafa]">
-        <div class="text-xs text-[#71717a]">
-          Menampilkan 1 - <span x-text="filteredJadwal.length"></span> dari <span x-text="filteredJadwal.length"></span> data
+    <!-- Empty State jika tidak ada data -->
+    <template x-if="sortedRows.length === 0">
+      <div class="flex flex-col items-center justify-center py-12 text-center h-[calc(100vh-320px)] bg-white rounded-md border border-[#e4e4e7]">
+        <div class="rounded-full bg-[#f4f4f5] p-3 mb-4">
+          <i data-lucide="file-text" class="h-6 w-6 text-[#71717a]"></i>
         </div>
-        <div class="flex items-center gap-2">
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
-          >
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-          <button
-            type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-          >
-            1
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
-          >
-            2
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
-          >
-            3
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
-          >
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-          <select
-            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-          >
-            <option value="10">Show 10 items</option>
-            <option value="25">Show 25 items</option>
-            <option value="50">Show 50 items</option>
-          </select>
+        <h3 class="text-lg font-medium text-[#09090b]">Tidak ada data</h3>
+        <p class="text-sm text-[#71717a] mt-1 max-w-md">
+          Belum ada sidang yang sesuai filter.
+        </p>
+      </div>
+    </template>
+
+    <!-- Table View: Sesuai Table di PlottingJadwalKoordinator fakultas-fe -->
+    <div class="rounded-md border border-[#e4e4e7] overflow-x-auto bg-white" x-show="sortedRows.length > 0">
+      <table class="w-full caption-bottom text-sm border-collapse min-w-[1000px]">
+        <thead class="bg-white border-b border-[#e4e4e7]">
+          <tr>
+            <th class="w-10 px-4 py-3 text-center align-middle">
+              <input
+                type="checkbox"
+                @change="toggleSelectAll()"
+                :checked="allBelumSelected"
+                :disabled="belumIds.length === 0"
+                class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7] h-4 w-4 cursor-pointer"
+                aria-label="Pilih semua"
+              />
+            </th>
+            <th
+              class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm cursor-pointer select-none whitespace-nowrap"
+              @click="sortDir = (sortDir === null ? 'asc' : sortDir === 'asc' ? 'desc' : null); reinitLucide()"
+            >
+              <span class="flex items-center gap-1">
+                Tanggal
+                <template x-if="sortDir === 'asc'">
+                  <i data-lucide="arrow-up" class="h-3 w-3 text-[#09090b]"></i>
+                </template>
+                <template x-if="sortDir === 'desc'">
+                  <i data-lucide="arrow-down" class="h-3 w-3 text-[#09090b]"></i>
+                </template>
+                <template x-if="sortDir === null">
+                  <i data-lucide="arrow-up-down" class="h-3 w-3 opacity-40"></i>
+                </template>
+              </span>
+            </th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Ruangan</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Mahasiswa</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Pembimbing</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Penguji 1</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Penguji 2</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Penguji 3</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Gelombang</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm">Status</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e4e4e7]">
+          <template x-for="(item, idx) in paginatedRows" :key="item.sidang_id">
+            <tr
+              class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]"
+              :class="[
+                idx % 2 === 0 ? 'bg-[#fafafa]/50' : 'bg-white',
+                selectedIds.includes(item.sidang_id) ? 'bg-blue-50/40' : ''
+              ]"
+            >
+              <!-- Checkbox -->
+              <td class="p-4 align-middle text-center">
+                <template x-if="!isScheduled(item)">
+                  <input
+                    type="checkbox"
+                    :checked="selectedIds.includes(item.sidang_id)"
+                    @change="toggleSelect(item.sidang_id)"
+                    class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7] h-4 w-4 cursor-pointer"
+                  />
+                </template>
+              </td>
+
+              <!-- Tanggal & Jam -->
+              <td class="p-4 align-middle">
+                <template x-if="item.jadwal.tanggal">
+                  <div class="flex flex-col">
+                    <span class="text-sm font-medium text-[#09090b]" x-text="formatDate(item.jadwal.tanggal)"></span>
+                    <span class="text-xs text-[#71717a] whitespace-nowrap" x-text="item.jadwal.jam"></span>
+                  </div>
+                </template>
+                <template x-if="!item.jadwal.tanggal">
+                  <span class="text-[#71717a] text-xs">-</span>
+                </template>
+              </td>
+
+              <!-- Ruangan -->
+              <td class="p-4 align-middle text-sm text-[#09090b]">
+                <span x-text="item.ruangan?.nama || '-'"></span>
+              </td>
+
+              <!-- Mahasiswa -->
+              <td class="p-4 align-middle">
+                <div class="flex flex-col">
+                  <span class="font-medium text-sm text-[#09090b]" x-text="item.mahasiswa.nama"></span>
+                  <span class="text-xs text-[#71717a]" x-text="item.mahasiswa.nim"></span>
+                </div>
+              </td>
+
+              <!-- Pembimbing -->
+              <td class="p-4 align-middle text-sm text-[#09090b]">
+                <span x-text="item.pembimbing?.nama || '-'"></span>
+              </td>
+
+              <!-- Penguji 1 -->
+              <td class="p-4 align-middle text-sm">
+                <template x-if="item.penguji_1?.nama">
+                  <span class="text-[#09090b]" x-text="item.penguji_1.nama"></span>
+                </template>
+                <template x-if="!item.penguji_1?.nama">
+                  <span class="text-[#71717a] text-xs italic">Belum diplot</span>
+                </template>
+              </td>
+
+              <!-- Penguji 2 -->
+              <td class="p-4 align-middle text-sm text-[#09090b]">
+                <span x-text="item.penguji_2?.nama || '-'"></span>
+              </td>
+
+              <!-- Penguji 3 -->
+              <td class="p-4 align-middle text-sm text-[#09090b]">
+                <span x-text="item.penguji_3?.nama || '-'"></span>
+              </td>
+
+              <!-- Gelombang -->
+              <td class="p-4 align-middle text-sm text-[#71717a]">
+                <span x-text="item.gelombang?.nama_gelombang || item.gelombang?.nama || '-'"></span>
+              </td>
+
+              <!-- Status Badge (Selesai: success, Terjadwal: secondary, Belum: secondary) -->
+              <td class="p-4 align-middle text-center">
+                <template x-if="item.sidang_status === 'selesai' || item.nilai_akhir != null">
+                  <span class="inline-flex items-center rounded-md border border-green-400/60 bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-600">
+                    Selesai
+                  </span>
+                </template>
+                <template x-if="item.sidang_status !== 'selesai' && item.nilai_akhir == null && isScheduled(item)">
+                  <span class="inline-flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#71717a]">
+                    Terjadwal
+                  </span>
+                </template>
+                <template x-if="item.sidang_status !== 'selesai' && item.nilai_akhir == null && !isScheduled(item)">
+                  <span class="inline-flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#71717a]">
+                    Belum
+                  </span>
+                </template>
+              </td>
+
+              <!-- Aksi: Edit Button Pencil (h-7 w-7 variant outline) -->
+              <td class="p-4 align-middle text-center">
+                <template x-if="isScheduled(item)">
+                  <button
+                    type="button"
+                    @click="openEditJadwal(item)"
+                    class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors cursor-pointer"
+                    title="Edit Jadwal"
+                  >
+                    <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
+                  </button>
+                </template>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls (Sesuai PaginationControls di fakultas-fe) -->
+    <div class="pt-4 bg-white" x-show="sortedRows.length > 0">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${sortedRows.length} total items)`">
+        </span>
+
+        <div class="flex gap-4 items-center">
+          <div class="flex items-center gap-1">
+            <button
+              type="button"
+              @click="currentPage--; reinitLucide()"
+              :disabled="currentPage <= 1"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <template x-for="p in totalPages" :key="p">
+              <button
+                type="button"
+                @click="currentPage = p; reinitLucide()"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
+                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
+                x-text="p"
+              >
+              </button>
+            </template>
+            <button
+              type="button"
+              @click="currentPage++; reinitLucide()"
+              :disabled="currentPage >= totalPages"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            >
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="relative">
+            <select
+              x-model.number="pageSize"
+              @change="currentPage = 1; reinitLucide()"
+              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <option value="5">Show 5 items</option>
+              <option value="10">Show 10 items</option>
+              <option value="20">Show 20 items</option>
+              <option value="50">Show 50 items</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- MODAL 1: FORM INPUT SK & DOWNLOAD UNDANGAN PENGUJI   -->
+    <!-- MODAL 1: BUAT JADWAL SIDANG (BULK DIALOG Sesuai FE)   -->
     <!-- ==================================================== -->
     <div
-      x-show="isSkModalOpen"
+      x-show="isBuatModalOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      @keydown.escape.window="isSkModalOpen = false"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
     >
       <div
-        @click.outside="isSkModalOpen = false"
-        class="bg-white rounded-xl max-w-md w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+        @click.outside="isBuatModalOpen = false"
+        class="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-5"
       >
-        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
-          <div class="flex items-center gap-2">
-            <i data-lucide="mail" class="w-4 h-4 text-[#0655a7]"></i>
-            <h3 class="text-sm font-semibold text-[#09090b]">Cetak SK Undangan Penguji MBKM</h3>
+        <div class="flex items-start justify-between pb-3 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-lg font-semibold text-[#09090b]">Buat Jadwal Sidang</h3>
+            <p class="text-sm text-[#71717a] mt-0.5" x-text="`${buatPreview.length} mahasiswa dipilih`"></p>
           </div>
-          <button @click="isSkModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+          <button
+            type="button"
+            @click="isBuatModalOpen = false"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
+          >
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <div class="p-5 space-y-4 text-xs">
-          <p class="text-[#71717a]">
-            Masukkan nomor surat keputusan (SK) dekanat untuk diterbitkan pada lembar undangan penguji sidang MBKM Kampus Berdampak:
-          </p>
-
+        <!-- Global Parameter Bar: Tanggal, Ruangan, Jam Basis -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="space-y-1.5">
-            <label class="block font-semibold text-[#09090b]">Nomor SK Penguji *</label>
+            <label class="text-xs font-semibold text-[#09090b]">Tanggal Sidang *</label>
             <input
-              type="text"
-              x-model="skNumber"
-              placeholder="Contoh: 042/SK-PENGUJI/FIK-UDINUS/VI/2026"
-              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] font-mono focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+              type="date"
+              x-model="buatTglSidang"
+              required
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             />
           </div>
 
-          <div class="p-3 bg-blue-50/60 rounded-lg border border-blue-200 text-xs text-[#0655a7] space-y-1">
-            <div class="font-semibold flex items-center gap-1.5">
-              <i data-lucide="info" class="w-3.5 h-3.5 shrink-0"></i>
-              <span>Format Nama File Otomatis:</span>
-            </div>
-            <p class="font-mono text-[11px] text-[#09090b]">
-              UNDANGAN PENGUJI KAMPUS BERDAMPAK - [Nama Dosen].pdf
-            </p>
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-[#09090b]">Ruangan *</label>
+            <select
+              x-model="buatRuanganId"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            >
+              <template x-for="r in ruanganList" :key="r.id">
+                <option :value="r.id" x-text="r.nama"></option>
+              </template>
+            </select>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-[#09090b]">Jam Mulai Basis</label>
+            <select
+              x-model="buatJamMulai"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            >
+              <template x-for="j in jamOptions" :key="j">
+                <option :value="j" x-text="j"></option>
+              </template>
+            </select>
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <!-- Tabel Pratinjau Alokasi Penguji -->
+        <div class="rounded-md border border-[#e4e4e7] overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+              <tr>
+                <th class="h-9 px-3 font-medium text-[#71717a] w-12 text-center">Urutan</th>
+                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[180px]">Mahasiswa</th>
+                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[150px]">Pembimbing</th>
+                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[180px]">Ketua Penguji *</th>
+                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[180px]">Anggota 1</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#e4e4e7]">
+              <template x-for="(p, idx) in buatPreview" :key="p.sidang_id">
+                <tr class="hover:bg-[#fafafa]">
+                  <td class="p-3 text-center font-medium" x-text="p.urutan"></td>
+                  <td class="p-3">
+                    <div class="font-medium text-[#09090b]" x-text="p.mahasiswa.nama"></div>
+                    <div class="text-[11px] text-[#71717a]" x-text="p.mahasiswa.nim"></div>
+                  </td>
+                  <td class="p-3 text-[#71717a]" x-text="p.pembimbing?.nama || '-'"></td>
+                  <td class="p-3">
+                    <select
+                      x-model.number="p.penguji_id"
+                      class="h-8 w-full rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                    >
+                      <option value="">Pilih Ketua</option>
+                      <template x-for="d in dosenList" :key="d.id">
+                        <option :value="d.id" x-text="d.nama" :disabled="d.id === p.pembimbing?.id"></option>
+                      </template>
+                    </select>
+                  </td>
+                  <td class="p-3">
+                    <select
+                      x-model.number="p.penguji_2_id"
+                      class="h-8 w-full rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                    >
+                      <option value="">Pilih Anggota</option>
+                      <template x-for="d in dosenList" :key="d.id">
+                        <option :value="d.id" x-text="d.nama" :disabled="d.id === p.pembimbing?.id || d.id === p.penguji_id"></option>
+                      </template>
+                    </select>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
           <button
             type="button"
-            @click="isSkModalOpen = false"
-            class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-gray-50"
+            @click="isBuatModalOpen = false"
+            class="h-10 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
           >
             Batal
           </button>
           <button
             type="button"
-            @click="unduhSkDosen()"
-            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium inline-flex items-center gap-1.5"
+            @click="simpanBuatJadwalBulk()"
+            class="h-10 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
           >
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Cetak & Unduh SK</span>
+            Simpan Semua Jadwal
           </button>
         </div>
       </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- MODAL 2: EDIT JADWAL & PENGUJI SIDANG                -->
+    <!-- MODAL 2: EDIT JADWAL SIDANG (Sesuai EditJadwalDialog) -->
     <!-- ==================================================== -->
     <div
       x-show="isEditModalOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      @keydown.escape.window="isEditModalOpen = false"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
     >
       <div
         @click.outside="isEditModalOpen = false"
-        class="bg-white rounded-xl max-w-lg w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+        class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
       >
-        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
-          <div class="flex items-center gap-2">
-            <i data-lucide="calendar-clock" class="w-4 h-4 text-[#0655a7]"></i>
-            <h3 class="text-sm font-semibold text-[#09090b]">Setting Jadwal & Dewan Penguji</h3>
+        <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-lg font-semibold text-[#09090b]">Edit Jadwal Sidang</h3>
+            <p class="text-sm text-[#71717a] mt-0.5" x-text="editTarget ? `${editTarget.mahasiswa.nama} (${editTarget.mahasiswa.nim})` : ''"></p>
           </div>
-          <button @click="isEditModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+          <button
+            type="button"
+            @click="isEditModalOpen = false"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
+          >
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <div class="p-5 space-y-3.5 text-xs" x-if="editTarget">
-          <!-- Info Mahasiswa -->
-          <div class="p-3 bg-[#fafafa] rounded-lg border border-[#e4e4e7]">
-            <div class="font-semibold text-sm text-[#09090b]" x-text="editTarget?.mhs"></div>
-            <div class="text-[#71717a]" x-text="`${editTarget?.nim} • DPL: ${editTarget?.pembimbing}`"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-[#09090b]">Tanggal Sidang *</label>
+            <input
+              type="date"
+              x-model="editTglSidang"
+              required
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            />
           </div>
 
-          <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="block font-medium text-[#09090b]">Tanggal Sidang *</label>
-              <input
-                type="date"
-                x-model="editTarget.tgl"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              />
-            </div>
-            <div class="space-y-1">
-              <label class="block font-medium text-[#09090b]">Jam Pelaksanaan *</label>
-              <input
-                type="text"
-                x-model="editTarget.jam"
-                placeholder="09:00 - 10:15 WIB"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              />
-            </div>
-          </div>
-
-          <div class="space-y-1">
-            <label class="block font-medium text-[#09090b]">Ruang Sidang / Link Online *</label>
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-[#09090b]">Jam Mulai Sidang *</label>
             <select
-              x-model="editTarget.ruangan"
-              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+              x-model="editJamMulai"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             >
-              <option value="">-- Pilih Ruangan --</option>
-              <template x-for="r in ruanganList" :key="r">
-                <option :value="r" x-text="r"></option>
+              <template x-for="j in jamOptions" :key="j">
+                <option :value="j" x-text="`${j} – ${String(Number(j.split(':')[0]) + 1).padStart(2, '0')}:00`"></option>
               </template>
             </select>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 pt-1">
-            <div class="space-y-1">
-              <label class="block font-medium text-[#09090b]">Dosen Penguji 1 *</label>
-              <select
-                x-model="editTarget.penguji1"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              >
-                <option value="">-- Pilih Penguji 1 --</option>
-                <template x-for="d in dosenList" :key="d">
-                  <option :value="d" x-text="d"></option>
-                </template>
-              </select>
-            </div>
-            <div class="space-y-1">
-              <label class="block font-medium text-[#09090b]">Dosen Penguji 2 *</label>
-              <select
-                x-model="editTarget.penguji2"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              >
-                <option value="">-- Pilih Penguji 2 --</option>
-                <template x-for="d in dosenList" :key="d">
-                  <option :value="d" x-text="d"></option>
-                </template>
-              </select>
-            </div>
+          <div class="space-y-1.5 md:col-span-2">
+            <label class="text-xs font-semibold text-[#09090b]">Ruangan *</label>
+            <select
+              x-model="editRuanganId"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            >
+              <template x-for="r in ruanganList" :key="r.id">
+                <option :value="r.id" x-text="r.nama"></option>
+              </template>
+            </select>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-[#09090b]">Ketua Penguji *</label>
+            <select
+              x-model="editPengujiId"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            >
+              <option value="">Pilih Ketua Penguji</option>
+              <template x-for="d in dosenList" :key="d.id">
+                <option :value="d.id" x-text="d.nama" :disabled="editTarget && d.id === editTarget.pembimbing?.id"></option>
+              </template>
+            </select>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-[#09090b]">Penguji 2</label>
+            <select
+              x-model="editPenguji2Id"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            >
+              <option value="">Pilih Penguji 2</option>
+              <template x-for="d in dosenList" :key="d.id">
+                <option :value="d.id" x-text="d.nama" :disabled="editTarget && (d.id === editTarget.pembimbing?.id || d.id.toString() === editPengujiId)"></option>
+              </template>
+            </select>
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
           <button
             type="button"
             @click="isEditModalOpen = false"
-            class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-gray-50"
+            class="h-10 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
           >
             Batal
           </button>
           <button
             type="button"
             @click="simpanEditJadwal()"
-            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
+            class="h-10 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
           >
             Simpan Jadwal
           </button>
@@ -613,59 +917,116 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </div>
 
     <!-- ==================================================== -->
-    <!-- MODAL 3: PLOTTING JADWAL MASSAL                      -->
+    <!-- MODAL 3: DOWNLOAD UNDANGAN PENGUJI (DownloadModal)   -->
     <!-- ==================================================== -->
     <div
-      x-show="isBuatModalOpen"
+      x-show="isUndanganModalOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      @keydown.escape.window="isBuatModalOpen = false"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
     >
       <div
-        @click.outside="isBuatModalOpen = false"
-        class="bg-white rounded-xl max-w-md w-full border border-[#e4e4e7] shadow-xl overflow-hidden flex flex-col"
+        @click.outside="isUndanganModalOpen = false"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
       >
-        <div class="flex items-center justify-between px-5 py-3.5 border-b border-[#e4e4e7] bg-[#fafafa]">
-          <div class="flex items-center gap-2">
-            <i data-lucide="calendar-plus" class="w-4 h-4 text-[#0655a7]"></i>
-            <h3 class="text-sm font-semibold text-[#09090b]">Plotting Jadwal Otomatis</h3>
+        <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-base font-semibold text-[#09090b]">Download Undangan Penguji</h3>
+            <p class="text-xs text-[#71717a] mt-0.5">Cetak lembar undangan resmi dewan penguji sidang.</p>
           </div>
-          <button @click="isBuatModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
+          <button
+            type="button"
+            @click="isUndanganModalOpen = false"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
+          >
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <div class="p-5 space-y-3 text-xs">
-          <p class="text-[#71717a]">
-            Sistem akan secara otomatis menetapkan ruang sidang yang tersedia serta menugaskan 2 Dosen Penguji bebas jadwal bentrok untuk <strong class="text-[#09090b]" x-text="selectedIds.length"></strong> mahasiswa terpilih:
-          </p>
+        <div class="space-y-4 text-xs">
+          <!-- Pilihan Mode Undangan -->
+          <div class="space-y-2">
+            <label class="block font-semibold text-[#09090b]">Pilih Format Undangan</label>
+            <div class="space-y-1.5">
+              <label class="flex items-center gap-2 cursor-pointer text-[#09090b]">
+                <input type="radio" value="personal" x-model="undanganMode" class="text-[#0655a7] focus:ring-[#0655a7]" />
+                <span>Undangan Personal (Semua Penguji Masing-Masing)</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer text-[#09090b]">
+                <input type="radio" value="pilih" x-model="undanganMode" class="text-[#0655a7] focus:ring-[#0655a7]" />
+                <span>Pilih Penguji Tertentu Saja</span>
+              </label>
+            </div>
+          </div>
 
-          <div class="p-3 bg-blue-50/60 rounded-lg border border-blue-200 text-xs text-[#0655a7]">
-            <p class="font-medium">Aturan Alokasi Penguji MBKM:</p>
-            <ul class="list-disc list-inside mt-1 space-y-0.5 text-[11px] text-[#09090b]">
-              <li>Penguji 1 & 2 tidak boleh sama dengan DPL MBKM.</li>
-              <li>Sistem memprioritaskan dosen dengan beban sidang terendah.</li>
-            </ul>
+          <div x-show="undanganMode === 'pilih'" class="space-y-1">
+            <label class="block font-medium text-[#09090b]">Pilih Dosen Penguji</label>
+            <select
+              x-model="undanganDosenId"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            >
+              <option value="">Pilih Dosen</option>
+              <template x-for="d in dosenList" :key="d.id">
+                <option :value="d.id" x-text="d.nama"></option>
+              </template>
+            </select>
+          </div>
+
+          <!-- Input Nomor SK / Kode Undangan -->
+          <div class="space-y-1">
+            <label class="block font-semibold text-[#09090b]">Nomor SK / Kode Undangan *</label>
+            <input
+              type="text"
+              x-model="undanganKode"
+              placeholder="Contoh: 042/SK-PENGUJI/FIK-UDINUS/VI/2026"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+
+          <!-- Input Tanggal Undangan -->
+          <div class="space-y-1">
+            <label class="block font-semibold text-[#09090b]">Tanggal Surat Undangan *</label>
+            <input
+              type="date"
+              x-model="undanganTgl"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+            />
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-2 px-5 py-3 border-t border-[#e4e4e7] bg-[#fafafa]">
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
           <button
             type="button"
-            @click="isBuatModalOpen = false"
-            class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-gray-50"
+            @click="isUndanganModalOpen = false"
+            class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-gray-50 cursor-pointer"
           >
             Batal
           </button>
           <button
             type="button"
-            @click="prosesBuatJadwalMassal()"
-            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
+            @click="handleDownloadUndangan()"
+            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer shadow-none"
           >
-            Mulai Plotting
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Download PDF</span>
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Toast Notification (Sesuai Sonner toast di fakultas-fe) -->
+    <div
+      x-show="showToast"
+      x-cloak
+      class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-emerald-600 text-white text-xs font-semibold shadow-lg animate-in slide-in-from-bottom-5 duration-200"
+    >
+      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+      <span x-text="toastMessage"></span>
+    </div>
   </section>
 </AdminShell>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>
