@@ -377,7 +377,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
             kagField('Angkatan', kagEsc(m.angkatan)) + kagField('IPK', kagEsc(m.ipk)) + kagField('SKS lulus', kagEsc(m.sks)) + '</dl>') +
           kagSection('Program', '<dl>' +
             kagField('Fokus riset / tugas akhir', kagEsc(m.topik)) +
-            kagField('DPL pendamping', dplHtml) + kagField('Tanggal mulai', m.mulai ? kagDate(m.mulai) : '—') + '</dl>') +
+            kagField('Dosen Pembimbing', dplHtml) + kagField('Tanggal mulai', m.mulai ? kagDate(m.mulai) : '—') + '</dl>') +
           kagSection('Berkas Administrasi', '<ul class="space-y-1.5">' + berkas + '</ul>');
       }
       body.innerHTML = html;

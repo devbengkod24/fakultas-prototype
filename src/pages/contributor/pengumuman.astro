@@ -43,7 +43,7 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
         <option value="semua">Semua Sasaran</option>
         <option value="semua_peserta">Semua (Peserta &amp; Pelamar)</option>
         <option value="diterima">Peserta Diterima</option>
-        <option value="dpl">DPL</option>
+        <option value="dospem">Dospem</option>
       </select>
     </div>
 
@@ -115,7 +115,7 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
             <select id="kpg-sasaran" class="w-full px-3.5 py-2 text-xs border border-gray-300 rounded-lg focus:border-[#1063B9] outline-none bg-white">
               <option value="semua_peserta">Semua (Peserta &amp; Pelamar)</option>
               <option value="diterima">Peserta Diterima</option>
-              <option value="dpl">DPL</option>
+              <option value="dospem">Dospem</option>
             </select>
             <p id="kpg-sasaran-hint" class="text-[11px] text-[#71717a]"></p>
           </div>
@@ -189,18 +189,18 @@ import KontributorShell from '../../layouts/KontributorShell.astro';
     var KPG_SASARAN = {
       semua_peserta: 'Semua (Peserta & Pelamar)',
       diterima: 'Peserta Diterima',
-      dpl: 'DPL'
+      dpl: 'Dosen Pembimbing'
     };
     var KPG_SASARAN_HINT = {
       semua_peserta: 'Diterima oleh peserta aktif dan mahasiswa yang mendaftar tetapi belum diterima.',
       diterima: 'Hanya mahasiswa yang sudah resmi diterima di program ini.',
-      dpl: 'Hanya Dosen Pembimbing Lapangan yang ditempatkan di program ini.'
+      dpl: 'Hanya Dosen Pembimbing yang ditempatkan di program ini.'
     };
 
     var kpgData = [
       { id: 1, judul: 'Jadwal Wawancara Seleksi Batch 1', isi: '<p>Wawancara seleksi dilaksanakan pada <b>22–23 Oktober 2026</b> secara daring. Pelamar yang lolos tahap administrasi akan dihubungi melalui email.</p><ul><li>Siapkan portofolio</li><li>Hadir 10 menit lebih awal</li></ul>', sasaran: 'semua_peserta', status: 'published', tgl: '2026-10-18T09:00', lampiran: 'https://drive.google.com/file/d/jadwal-wawancara' },
       { id: 2, judul: 'Pembekalan Peserta Diterima', isi: '<p>Pembekalan peserta diterima diadakan Senin, 26 Oktober 2026 pukul 09.00 WIB. Tautan grup koordinasi akan dibagikan pada sesi ini.</p>', sasaran: 'diterima', status: 'published', tgl: '2026-10-16T14:30', lampiran: '' },
-      { id: 3, judul: 'Format Laporan Bimbingan Mingguan untuk DPL', isi: '<p>Mohon DPL menggunakan format laporan terbaru pada lampiran dan mengumpulkannya setiap hari Jumat.</p>', sasaran: 'dpl', status: 'published', tgl: '2026-10-14T10:15', lampiran: 'https://docs.google.com/document/d/format-laporan-dpl' },
+      { id: 3, judul: 'Format Laporan Bimbingan Mingguan untuk Dosen Pembimbing', isi: '<p>Mohon Dospem menggunakan format laporan terbaru pada lampiran dan mengumpulkannya setiap hari Jumat.</p>', sasaran: 'dospem', status: 'published', tgl: '2026-10-14T10:15', lampiran: 'https://docs.google.com/document/d/format-laporan-dospem' },
       { id: 4, judul: 'Perpanjangan Batas Pendaftaran Gelombang 1', isi: '<p>Batas pendaftaran diperpanjang hingga <i>25 Oktober 2026</i>.</p>', sasaran: 'semua_peserta', status: 'draft', tgl: '', lampiran: '' }
     ];
     var kpgState = { q: '', sasaran: 'semua', status: 'published', page: 1, deleteId: null };

@@ -1,219 +1,360 @@
 ---
 // src/pages/admin/konversi.astro
-import AdminShell from "../../layouts/AdminShell.astro";
+import AdminShell from '../../layouts/AdminShell.astro';
+import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifikasiKonversi.astro';
 ---
 
 <AdminShell currentTab="konversi">
-<section
-            id="section-konversi" x-show="$store.mbkm.currentSection === 'konversi'"
-            class="flex flex-col flex-1 hidden min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+  <section
+    id="section-konversi"
+    class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
+    x-data="{
+      searchQuery: '',
+      statusFilter: 'semua',
+      currentPage: 1,
+      pageSize: 10,
+
+      isVerifOpen: false,
+      verifTarget: null,
+      verifRows: [],
+      verifCatatan: '',
+
+      toast: { show: false, message: '' },
+
+      konversiList: [
+        {
+          id: 1, nim: 'A11.2022.13901', nama: 'Faisal Rahman', mitra: 'Bengkel Koding', sks: 20, status: 'Disetujui',
+          matkul: [
+            { kode: 'A11.54403', nama: 'Rekayasa Perangkat Lunak Lanjut', sks: 4, aktivitas: 'Sprint Planning dan Agile Scrum Architecture' },
+            { kode: 'A11.54608', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, aktivitas: 'Frontend React dan Next.js Microservices' },
+            { kode: 'A11.54701', nama: 'Magang Industri dan Studi Terapan', sks: 6, aktivitas: 'Full-time Placement di Bengkel Koding' },
+            { kode: 'A11.54502', nama: 'Komunikasi Profesional dan Etika Profesi', sks: 2, aktivitas: 'Daily Standup dan Client Stakeholder Review' },
+            { kode: 'A11.54804', nama: 'Proyek Capstone MBKM', sks: 4, aktivitas: 'Deliverable Platform Aplikasi Production' }
+          ]
+        },
+        {
+          id: 2, nim: 'A11.2022.14012', nama: 'Rizky Aditya Pratama', mitra: 'PT Matic Edukasi Mandiri', sks: 24, status: 'Belum Ditinjau',
+          matkul: [
+            { kode: 'A11.54403', nama: 'Rekayasa Perangkat Lunak Lanjut', sks: 4, aktivitas: 'Sprint Planning Produk EdTech' },
+            { kode: 'A11.54608', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, aktivitas: 'Frontend Vue dan Nuxt Modular' },
+            { kode: 'A11.54609', nama: 'Basis Data Terdistribusi', sks: 4, aktivitas: 'Desain Skema Multi-tenant LMS' },
+            { kode: 'A11.54701', nama: 'Magang Industri dan Studi Terapan', sks: 6, aktivitas: 'Full-time Placement di PT Matic Edukasi Mandiri' },
+            { kode: 'A11.54502', nama: 'Komunikasi Profesional dan Etika Profesi', sks: 2, aktivitas: 'Sosialisasi Produk dan Demo Klien' },
+            { kode: 'A11.54804', nama: 'Proyek Capstone MBKM', sks: 4, aktivitas: 'Deliverable Modul Learning Management System' }
+          ]
+        },
+        {
+          id: 3, nim: 'A11.2020.13158', nama: 'Tarissa Aura Azzahra', mitra: 'PT Tokopedia', sks: 20, status: 'Revisi',
+          matkul: [
+            { kode: 'A11.54403', nama: 'Rekayasa Perangkat Lunak Lanjut', sks: 4, aktivitas: 'Microservices Order Management' },
+            { kode: 'A11.54608', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, aktivitas: 'Frontend React Design System' },
+            { kode: 'A11.54701', nama: 'Magang Industri dan Studi Terapan', sks: 6, aktivitas: 'Full-time Placement di PT Tokopedia' },
+            { kode: 'A11.54502', nama: 'Komunikasi Profesional dan Etika Profesi', sks: 2, aktivitas: 'Squad Ritual dan Review Berkala' },
+            { kode: 'A11.54804', nama: 'Proyek Capstone MBKM', sks: 4, aktivitas: 'Deliverable Fitur Checkout' }
+          ]
+        },
+        {
+          id: 4, nim: 'A12.2022.09842', nama: 'Nabila Zahra Putri', mitra: 'Ryuje Tech Solusindo', sks: 15, status: 'Disetujui',
+          matkul: [
+            { kode: 'A11.54403', nama: 'Rekayasa Perangkat Lunak Lanjut', sks: 4, aktivitas: 'Sprint Planning Produk Internal' },
+            { kode: 'A11.54608', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, aktivitas: 'Frontend Laravel Livewire' },
+            { kode: 'A11.54701', nama: 'Magang Industri dan Studi Terapan', sks: 5, aktivitas: 'Full-time Placement di Ryuje Tech Solusindo' },
+            { kode: 'A11.54502', nama: 'Komunikasi Profesional dan Etika Profesi', sks: 2, aktivitas: 'Dokumentasi Teknis dan Review Klien' }
+          ]
+        },
+        {
+          id: 5, nim: 'A11.2021.13450', nama: 'Dimas Wahyu Nugroho', mitra: 'PT Bank Central Asia Tbk', sks: 12, status: 'Revisi',
+          matkul: [
+            { kode: 'A11.54403', nama: 'Rekayasa Perangkat Lunak Lanjut', sks: 4, aktivitas: 'Sprint Planning Core Banking' },
+            { kode: 'A11.54609', nama: 'Basis Data Terdistribusi', sks: 4, aktivitas: 'Optimasi Query Transaksi Harian' },
+            { kode: 'A11.54502', nama: 'Komunikasi Profesional dan Etika Profesi', sks: 2, aktivitas: 'Koordinasi Vendor dan Dokumentasi' },
+            { kode: 'A11.54901', nama: 'Keamanan Informasi', sks: 2, aktivitas: 'Implementasi Standar OWASP' }
+          ]
+        },
+        {
+          id: 6, nim: 'A12.2022.09911', nama: 'Siti Aminah', mitra: 'Shopee Indonesia', sks: 20, status: 'Belum Ditinjau',
+          matkul: [
+            { kode: 'A11.54403', nama: 'Rekayasa Perangkat Lunak Lanjut', sks: 4, aktivitas: 'Sprint Planning Marketplace' },
+            { kode: 'A11.54608', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, aktivitas: 'Frontend React Native Web' },
+            { kode: 'A11.54701', nama: 'Magang Industri dan Studi Terapan', sks: 6, aktivitas: 'Full-time Placement di Shopee Indonesia' },
+            { kode: 'A11.54502', nama: 'Komunikasi Profesional dan Etika Profesi', sks: 2, aktivitas: 'Squad Ritual dan Stakeholder Review' },
+            { kode: 'A11.54804', nama: 'Proyek Capstone MBKM', sks: 4, aktivitas: 'Deliverable Fitur Seller Center' }
+          ]
+        }
+      ],
+
+      get filteredList() {
+        return this.konversiList.filter(item => {
+          const matchStatus = this.statusFilter === 'semua' || item.status === this.statusFilter;
+          const q = this.searchQuery.trim().toLowerCase();
+          const matchSearch = q === '' ||
+            item.nama.toLowerCase().includes(q) ||
+            item.nim.toLowerCase().includes(q) ||
+            item.mitra.toLowerCase().includes(q);
+          return matchStatus && matchSearch;
+        });
+      },
+
+      get paginatedList() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredList.slice(start, start + this.pageSize);
+      },
+
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredList.length / this.pageSize));
+      },
+
+      get verifTotalSks() {
+        return this.verifRows.reduce((sum, r) => sum + r.sks, 0);
+      },
+
+      get verifAllChecked() {
+        return this.verifRows.length > 0 && this.verifRows.every(r => r.checked);
+      },
+
+      openVerifikasi(item) {
+        this.verifTarget = item;
+        this.verifRows = (item.matkul || []).map(m => ({ ...m, checked: item.status === 'Disetujui' }));
+        this.verifCatatan = item.catatan || '';
+        this.isVerifOpen = true;
+        this.reinitLucide();
+      },
+
+      closeVerifikasi() {
+        this.isVerifOpen = false;
+        this.verifTarget = null;
+        this.verifRows = [];
+        this.verifCatatan = '';
+      },
+
+      toggleAllVerif() {
+        const next = !this.verifAllChecked;
+        this.verifRows.forEach(r => { r.checked = next; });
+      },
+
+      submitVerifikasi(mode) {
+        if (!this.verifTarget) return;
+
+        const target = this.verifTarget;
+        const nama = target.nama;
+
+        if (mode === 'setuju') {
+          target.status = 'Disetujui';
+          target.catatan = this.verifCatatan.trim();
+          target.matkul.forEach(m => { m.disetujui = true; });
+          this.closeVerifikasi();
+          this.showToast(`Konversi ${this.verifTotalSks} SKS untuk ${nama} berhasil disahkan.`);
+          return;
+        }
+
+        target.status = 'Revisi';
+        target.catatan = this.verifCatatan.trim();
+        this.verifRows.forEach((r, i) => {
+          target.matkul[i].disetujui = r.checked;
+        });
+        this.closeVerifikasi();
+        this.showToast(`Revisi dikirim ke ${nama}. Mahasiswa harus mengajukan ulang konversi.`);
+      },
+
+      showToast(message) {
+        this.toast = { show: true, message };
+        this.reinitLucide();
+        window.clearTimeout(this._toastTimer);
+        this._toastTimer = window.setTimeout(() => {
+          this.toast = { show: false, message: '' };
+        }, 3500);
+      },
+
+      reinitLucide() {
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+      }
+    }"
+  >
+    <!-- Toolbar: Pencarian & Filter Status -->
+    <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+      <div class="w-full sm:w-80">
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#71717a]"></i>
+          <input
+            type="text"
+            x-model="searchQuery"
+            @input="currentPage = 1; reinitLucide()"
+            placeholder="Cari mahasiswa, NIM, atau mitra..."
+            class="w-full h-10 pl-9 pr-9 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+          <button
+            type="button"
+            x-show="searchQuery.length > 0"
+            @click="searchQuery = ''; currentPage = 1; reinitLucide()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#71717a] hover:text-[#09090b] cursor-pointer"
           >
-            <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pb-0.5">
-              <div>
-                <h2 class="text-base font-semibold text-[#09090b]">Validasi Konversi SKS</h2>
-                <p class="text-[11px] text-[#71717a]">
-                  Verifikasi ekuivalensi usulan mata kuliah terhadap Capaian Pembelajaran Lulusan (CPL) kurikulum
-                  program studi dan pengesahan konversi SKS resmi.
-                </p>
-              </div>
-              <div class="flex items-center gap-2">
-                <button
-                  type="button"
-                  onclick="openModalInfoSkemaSks()"
-                  class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
-                >
-                  <i data-lucide="help-circle" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-                  <span>Panduan 5 Skema SKS</span>
-                </button>
-                <button
-                  type="button"
-                  onclick="kunciKonversiMassal()"
-                  class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"
-                >
-                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                  <span>Sahkan & Kunci Terpilih</span>
-                </button>
-              </div>
-            </div>
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
 
-            <!-- Banner Info 5 Skema SKS Dinamis -->
-            <div class="flex items-start gap-3 p-3 border border-blue-200 bg-blue-50/70 rounded-xl">
-              <div
-                class="w-7 h-7 rounded-lg bg-blue-100 text-[#0655a7] flex items-center justify-center shrink-0 mt-0.5"
+      <div class="w-full sm:w-[200px] flex-shrink-0 sm:ml-auto">
+        <div class="relative">
+          <select
+            x-model="statusFilter"
+            @change="currentPage = 1; reinitLucide()"
+            class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+          >
+            <option value="semua">Semua Status</option>
+            <option value="Belum Ditinjau">Belum Ditinjau</option>
+            <option value="Disetujui">Disetujui</option>
+            <option value="Revisi">Revisi</option>
+          </select>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <template x-if="filteredList.length === 0">
+      <div class="flex flex-col items-center justify-center py-12 text-center h-[calc(100vh-300px)] bg-white rounded-md border border-[#e4e4e7]">
+        <div class="rounded-full bg-[#f4f4f5] p-3 mb-4">
+          <i data-lucide="arrow-left-right" class="h-6 w-6 text-[#71717a]"></i>
+        </div>
+        <h3 class="text-lg font-medium text-[#09090b]">Tidak ada data konversi</h3>
+        <p class="text-sm text-[#71717a] mt-1 max-w-md">
+          Belum ada usulan konversi SKS yang cocok dengan pencarian.
+        </p>
+      </div>
+    </template>
+
+    <!-- Tabel Konversi SKS -->
+    <div class="rounded-md border border-[#e4e4e7] overflow-x-auto bg-white" x-show="filteredList.length > 0">
+      <table class="w-full caption-bottom text-sm border-collapse">
+        <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+          <tr>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm w-14">No</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[200px]">Mahasiswa</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[180px]">MBKM</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-24">SKS</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[140px]">Status</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-32">Aksi</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e4e4e7]">
+          <template x-for="(item, idx) in paginatedList" :key="item.id">
+            <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
+              <td class="p-4 align-middle text-sm text-[#09090b] font-medium" x-text="(currentPage - 1) * pageSize + idx + 1"></td>
+
+              <td class="p-4 align-middle">
+                <div class="font-medium text-sm text-[#09090b]" x-text="item.nama"></div>
+                <div class="text-xs text-[#71717a] mt-0.5" x-text="item.nim"></div>
+              </td>
+
+              <td class="p-4 align-middle text-sm text-[#09090b]" x-text="item.mitra"></td>
+
+              <td class="p-4 align-middle text-center text-sm font-semibold text-[#0655a7]" x-text="`${item.sks} SKS`"></td>
+
+              <td class="p-4 align-middle text-center">
+                <template x-if="item.status === 'Disetujui'">
+                  <span class="inline-flex items-center whitespace-nowrap rounded-md border border-green-400/60 bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-600">
+                    Disetujui
+                  </span>
+                </template>
+                <template x-if="item.status === 'Revisi'">
+                  <span class="inline-flex items-center whitespace-nowrap rounded-md border border-amber-200 bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">
+                    Revisi
+                  </span>
+                </template>
+                <template x-if="item.status === 'Belum Ditinjau'">
+                  <span class="inline-flex items-center whitespace-nowrap rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#71717a]">
+                    Belum Ditinjau
+                  </span>
+                </template>
+              </td>
+
+              <td class="p-4 align-middle text-center">
+                <button
+                  type="button"
+                  @click="openVerifikasi(item)"
+                  class="h-8 px-3.5 inline-flex items-center justify-center rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium transition-colors cursor-pointer"
+                >
+                  <span>Verifikasi</span>
+                </button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pt-2 bg-white" x-show="filteredList.length > 0">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredList.length} total items)`"></span>
+
+        <div class="flex gap-4 items-center">
+          <div class="flex items-center gap-1">
+            <button
+              type="button"
+              @click="currentPage--; reinitLucide()"
+              :disabled="currentPage <= 1"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <template x-for="p in totalPages" :key="p">
+              <button
+                type="button"
+                @click="currentPage = p; reinitLucide()"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
+                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
+                x-text="p"
               >
-                <i data-lucide="info" class="w-4 h-4"></i>
-              </div>
-              <div class="flex-1 text-xs">
-                <div class="font-semibold text-[#0655a7] text-[13px]">
-                  Ketentuan Batas Konversi SKS Dinamis Fakultas
-                </div>
-                <p class="text-[11px] text-[#3f3f46] mt-0.5">
-                  Penetapan batas SKS konversi MBKM mengacu pada 5 skema resmi:
-                  <span class="inline-flex font-semibold text-[#09090b]">10-12 SKS</span> (Magang Pendek),
-                  <span class="inline-flex font-semibold text-[#09090b]">Maks 12 SKS</span> (Studi Independen Tertentu),
-                  <span class="inline-flex font-semibold text-[#09090b]">Maks 15 SKS</span> (Kewirausahaan/Riset),
-                  <span class="inline-flex font-semibold text-[#09090b]">Maks 20 SKS</span> (MSIB/Kampus Mengajar
-                  Standar), dan <span class="inline-flex font-semibold text-[#09090b]">Maks 24 SKS</span> (Magang
-                  Industri Full-time + Publikasi).
-                </p>
-              </div>
-            </div>
+              </button>
+            </template>
+            <button
+              type="button"
+              @click="currentPage++; reinitLucide()"
+              :disabled="currentPage >= totalPages"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            >
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
 
-            <!-- Tabel Konversi SKS -->
-            <div class="overflow-x-auto rounded-xl border border-[#e4e4e7]">
-              <table class="w-full text-xs text-left border-collapse">
-                <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-                  <tr>
-                    <th class="h-11 px-4 font-medium text-sm w-10 text-center">
-                      <input type="checkbox" onchange="toggleSelectAllKonversi(this)" class="rounded text-[#0655a7]" />
-                    </th>
-                    <th class="h-11 px-4 font-medium text-sm">Mahasiswa & Prodi</th>
-                    <th class="h-11 px-4 font-medium text-sm">Program / Kontributor</th>
-                    <th class="h-11 px-4 font-medium text-sm">Skema SKS Dipilih</th>
-                    <th class="h-11 px-4 font-medium text-sm text-center">Usulan SKS</th>
-                    <th class="h-11 px-4 font-medium text-sm">Matkul Ekuivalensi</th>
-                    <th class="h-11 px-4 font-medium text-sm text-center">Status Konversi</th>
-                    <th class="h-11 px-4 font-medium text-sm w-24 text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="konversi-tbody-embed" class="divide-y divide-[#e4e4e7] bg-white">
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <input type="checkbox" class="check-konversi-row rounded text-[#0655a7]" value="A11.2022.13901" />
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <div class="font-semibold text-[#09090b]">Faisal Rahman</div>
-                      <div class="text-[10px] text-[#71717a]">A11.2022.13901 • Teknik Informatika</div>
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <div class="font-semibold text-[#3f3f46]">Bengkel Koding</div>
-                      <div class="text-[10px] text-[#71717a]">Magang MSIB Kampus Merdeka</div>
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#0655a7] border border-blue-200"
-                      >
-                        Maks 20 SKS
-                      </span>
-                    </td>
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <span class="font-bold text-[#0655a7]">20</span>
-                      <span class="text-[10px] text-[#71717a]">/ 20 SKS</span>
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <div class="text-[11px] font-medium text-[#3f3f46]">5 Mata Kuliah Terpetakan</div>
-                      <div class="text-[10px] text-emerald-700">CPL Capaian: 100% Sesuai</div>
-                    </td>
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200"
-                      >
-                        Review Tim CPL
-                      </span>
-                    </td>
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <button
-                        type="button"
-                        onclick="kunciKonversiIndividu('A11.2022.13901', 'Faisal Rahman')"
-                        class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold text-[11px] shadow-2xs inline-flex items-center gap-1"
-                      >
-                        <i data-lucide="lock" class="w-3 h-3"></i>
-                        <span>Kunci</span>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr class="transition-colors hover:bg-blue-50/30">
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <input type="checkbox" class="check-konversi-row rounded text-[#0655a7]" value="A11.2022.14012" />
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <div class="font-semibold text-[#09090b]">Rizky Aditya Pratama</div>
-                      <div class="text-[10px] text-[#71717a]">A11.2022.14012 • Teknik Informatika</div>
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <div class="font-semibold text-[#3f3f46]">PT Matic</div>
-                      <div class="text-[10px] text-[#71717a]">Magang Industri + Luaran Publikasi</div>
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 text-purple-700 border border-purple-200"
-                      >
-                        Maks 24 SKS
-                      </span>
-                    </td>
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <span class="font-bold text-purple-700">24</span>
-                      <span class="text-[10px] text-[#71717a]">/ 24 SKS</span>
-                    </td>
-                    <td class="h-[68px] px-4 text-sm">
-                      <div class="text-[11px] font-medium text-[#3f3f46]">6 Mata Kuliah Terpetakan</div>
-                      <div class="text-[10px] text-purple-700">+ 1 Publikasi Ilmiah SINTA</div>
-                    </td>
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
-                      >
-                        Disetujui Kaprodi
-                      </span>
-                    </td>
-                    <td class="h-[68px] px-4 text-center text-sm">
-                      <button
-                        type="button"
-                        onclick="kunciKonversiIndividu('A11.2022.14012', 'Rizky Aditya Pratama')"
-                        class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white font-semibold text-[11px] shadow-2xs inline-flex items-center gap-1"
-                      >
-                        <i data-lucide="lock" class="w-3 h-3"></i>
-                        <span>Kunci</span>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="relative">
+            <select
+              x-model.number="pageSize"
+              @change="currentPage = 1; reinitLucide()"
+              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <option value="5">Show 5 items</option>
+              <option value="10">Show 10 items</option>
+              <option value="20">Show 20 items</option>
+              <option value="50">Show 50 items</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <!-- Pagination & Info Standar -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-              <div class="text-xs text-[#71717a]">Menampilkan 1 - 2 dari 28 data</div>
-              <div class="flex items-center gap-2">
-                <button
-                  type="button"
-                  disabled
-                  class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
-                >
-                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
-                </button>
-                <button
-                  type="button"
-                  class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-                >
-                  1
-                </button>
-                <button
-                  type="button"
-                  class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-                >
-                  2
-                </button>
-                <button
-                  type="button"
-                  class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-                >
-                  3
-                </button>
-                <button
-                  type="button"
-                  class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
-                >
-                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                </button>
-                <select
-                  class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                >
-                  <option value="10">Show 10 items</option>
-                  <option value="25">Show 25 items</option>
-                  <option value="50">Show 50 items</option>
-                </select>
-              </div>
-            </div>
-          </section>
+    <!-- Modal Verifikasi Konversi -->
+    <ModalVerifikasiKonversi />
+
+    <!-- Toast -->
+    <div
+      x-show="toast.show"
+      x-cloak
+      x-transition.opacity.duration.200ms
+      class="fixed bottom-6 right-6 z-[60] flex items-start gap-2.5 rounded-lg border border-green-400/60 bg-green-50 px-4 py-3 shadow-lg max-w-sm"
+    >
+      <i data-lucide="check-circle-2" class="h-4 w-4 text-green-600 mt-0.5 shrink-0"></i>
+      <p class="text-xs font-medium text-green-700 leading-relaxed" x-text="toast.message"></p>
+    </div>
+  </section>
 </AdminShell>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>

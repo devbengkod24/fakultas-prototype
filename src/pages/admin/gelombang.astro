@@ -3,102 +3,299 @@
 import AdminShell from '../../layouts/AdminShell.astro';
 ---
 
-<AdminShell currentTab="gelombang">
+<AdminShell
+  currentTab="gelombang"
+  pageTitle="Gelombang Sidang"
+  subtitle="Berikut data gelombang sidang yang telah dibuat."
+>
   <section
     id="section-gelombang"
-    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
     x-data="{
       searchQuery: '',
+      selectedPeriodeId: '1',
       isModalOpen: false,
       modalMode: 'tambah',
-      selectedGelombang: null,
-      gelombangList: [
-        { id: 1, nama: 'Gelombang 1 - Genap 2025/2026', tglAwal: '2026-06-01', tglAkhir: '2026-06-15', kuota: 50, terdaftar: 42, aktif: true },
-        { id: 2, nama: 'Gelombang 2 - Genap 2025/2026', tglAwal: '2026-06-20', tglAkhir: '2026-07-05', kuota: 60, terdaftar: 18, aktif: false },
-        { id: 3, nama: 'Gelombang Khusus - MBKM Industri', tglAwal: '2026-07-10', tglAkhir: '2026-07-20', kuota: 30, terdaftar: 0, aktif: false },
+      selectedGelombang: { id: null, nama_gelombang: '', periode_id: 1, tgl_awal: '', tgl_akhir: '' },
+      errorMessage: '',
+      toastMessage: '',
+      showToast: false,
+      currentPage: 1,
+      pageSize: 5,
+
+      periodeList: [
+        { id: 1, tahun_ajaran: '2024/2025 Genap', status: 1 },
+        { id: 2, tahun_ajaran: '2024/2025 Ganjil', status: 0 },
+        { id: 3, tahun_ajaran: '2023/2024 Genap', status: 0 },
+        { id: 4, tahun_ajaran: '2023/2024 Ganjil', status: 0 }
       ],
+
+      gelombangList: [
+        { id: 1, nama_gelombang: 'Gelombang 1', periode_id: 1, tgl_awal: '2024-06-01', tgl_akhir: '2024-06-15', status: 1 },
+        { id: 2, nama_gelombang: 'Gelombang 2', periode_id: 1, tgl_awal: '2024-06-20', tgl_akhir: '2024-07-05', status: 0 },
+        { id: 3, nama_gelombang: 'Gelombang 3', periode_id: 1, tgl_awal: '2024-07-10', tgl_akhir: '2024-07-25', status: 0 },
+        { id: 4, nama_gelombang: 'Gelombang 1', periode_id: 2, tgl_awal: '2024-01-10', tgl_akhir: '2024-01-25', status: 0 }
+      ],
+
+      get isAktifPeriode() {
+        const p = this.periodeList.find(item => item.id.toString() === this.selectedPeriodeId.toString());
+        return p ? p.status === 1 : false;
+      },
+
+      get filteredList() {
+        return this.gelombangList.filter(item => {
+          const matchPeriode = item.periode_id.toString() === this.selectedPeriodeId.toString();
+          const matchSearch = this.searchQuery.trim() === '' || item.nama_gelombang.toLowerCase().includes(this.searchQuery.toLowerCase());
+          return matchPeriode && matchSearch;
+        });
+      },
+
+      get paginatedList() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredList.slice(start, start + this.pageSize);
+      },
+
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredList.length / this.pageSize));
+      },
+
+      handleClearSearch() {
+        this.searchQuery = '';
+        this.currentPage = 1;
+        this.reinitLucide();
+      },
+
+      handlePeriodeChange() {
+        this.currentPage = 1;
+        this.reinitLucide();
+      },
+
       openTambahModal() {
         this.modalMode = 'tambah';
-        this.selectedGelombang = { nama: '', tglAwal: '', tglAkhir: '', kuota: 50 };
+        this.errorMessage = '';
+        this.selectedGelombang = {
+          id: null,
+          nama_gelombang: '',
+          periode_id: Number(this.selectedPeriodeId),
+          tgl_awal: '',
+          tgl_akhir: ''
+        };
         this.isModalOpen = true;
+        this.reinitLucide();
       },
+
       openEditModal(item) {
         this.modalMode = 'edit';
+        this.errorMessage = '';
         this.selectedGelombang = { ...item };
         this.isModalOpen = true;
+        this.reinitLucide();
       },
+
       toggleStatus(item) {
-        item.aktif = !item.aktif;
+        item.status = item.status === 1 ? 0 : 1;
+        this.triggerToast('Berhasil mengubah status gelombang');
+      },
+
+      handleSave() {
+        if (!this.selectedGelombang.nama_gelombang.trim()) {
+          this.errorMessage = 'Nama gelombang wajib diisi.';
+          return;
+        }
+        if (!this.selectedGelombang.tgl_awal || !this.selectedGelombang.tgl_akhir) {
+          this.errorMessage = 'Tanggal awal dan akhir wajib diisi.';
+          return;
+        }
+        if (this.selectedGelombang.tgl_akhir <= this.selectedGelombang.tgl_awal) {
+          this.errorMessage = 'Tanggal akhir harus setelah tanggal awal.';
+          return;
+        }
+
+        if (this.modalMode === 'tambah') {
+          const newId = this.gelombangList.length > 0 ? Math.max(...this.gelombangList.map(g => g.id)) + 1 : 1;
+          this.gelombangList.push({
+            id: newId,
+            nama_gelombang: this.selectedGelombang.nama_gelombang.trim(),
+            periode_id: Number(this.selectedGelombang.periode_id),
+            tgl_awal: this.selectedGelombang.tgl_awal,
+            tgl_akhir: this.selectedGelombang.tgl_akhir,
+            status: 0
+          });
+          this.triggerToast('Berhasil menambahkan gelombang');
+        } else {
+          const idx = this.gelombangList.findIndex(g => g.id === this.selectedGelombang.id);
+          if (idx !== -1) {
+            this.gelombangList[idx] = {
+              ...this.gelombangList[idx],
+              nama_gelombang: this.selectedGelombang.nama_gelombang.trim(),
+              tgl_awal: this.selectedGelombang.tgl_awal,
+              tgl_akhir: this.selectedGelombang.tgl_akhir,
+            };
+          }
+          this.triggerToast('Berhasil memperbarui gelombang');
+        }
+        this.isModalOpen = false;
+        this.reinitLucide();
+      },
+
+      triggerToast(msg) {
+        this.toastMessage = msg;
+        this.showToast = true;
+        this.reinitLucide();
+        setTimeout(() => { this.showToast = false; }, 3000);
+      },
+
+      reinitLucide() {
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
       }
     }"
   >
-    <!-- Toolbar Style KP -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-      <div class="relative w-full sm:w-72 md:w-80">
-        <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-        <input
-          type="text"
-          x-model="searchQuery"
-          placeholder="Cari gelombang sidang..."
-          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-        />
+    <!-- Gelombang Toolbar View (Sesuai GelombangToolbarView di fakultas-fe) -->
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-2 items-stretch sm:items-center">
+      <!-- Search Control Input -->
+      <div class="w-full sm:w-1/3 sm:flex-shrink-0">
+        <div class="relative w-full">
+          <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#71717a]"></i>
+          <input
+            type="text"
+            x-model="searchQuery"
+            @input="currentPage = 1; reinitLucide()"
+            placeholder="Cari gelombang..."
+            class="w-full h-10 pl-9 pr-9 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+          <button
+            type="button"
+            x-show="searchQuery.length > 0"
+            @click="handleClearSearch()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#71717a] hover:text-[#09090b] cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
 
-      <button
-        type="button"
-        @click="openTambahModal()"
-        class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium shadow-none transition-colors ml-auto sm:ml-0"
-      >
-        <i data-lucide="plus" class="w-4 h-4"></i>
-        <span>Tambah Gelombang</span>
-      </button>
+      <!-- Select Periode (Auto Select Active & Push to Right) -->
+      <div class="w-full sm:w-[180px] sm:flex-shrink-0 sm:ml-auto">
+        <div class="relative">
+          <select
+            x-model="selectedPeriodeId"
+            @change="handlePeriodeChange()"
+            class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+          >
+            <template x-for="p in periodeList" :key="p.id">
+              <option :value="p.id" x-text="p.tahun_ajaran"></option>
+            </template>
+          </select>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+      </div>
+
+      <!-- Tambah Gelombang Button (Hanya tampil jika periode aktif) -->
+      <template x-if="isAktifPeriode">
+        <div class="w-full sm:w-auto">
+          <button
+            type="button"
+            @click="openTambahModal()"
+            class="h-10 w-full sm:w-auto px-4 inline-flex items-center justify-center rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
+          >
+            <i data-lucide="plus-circle" class="h-4 w-4 mr-2"></i>
+            <span>Tambah Gelombang</span>
+          </button>
+        </div>
+      </template>
     </div>
 
-    <!-- Tabel Gelombang Sidang Style KP -->
-    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+    <!-- Gelombang Table View (Sesuai GelombangTable di fakultas-fe) -->
+    <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
+      <div class="relative w-full overflow-auto">
+        <table class="w-full caption-bottom text-sm border-collapse">
+          <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm w-12 text-center text-[#71717a]">No</th>
-              <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Gelombang Sidang MBKM</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Awal</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Tanggal Akhir</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Kuota / Pendaftar</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
+              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm w-16">No.</th>
+              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Gelombang Sidang</th>
+              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Tanggal Awal</th>
+              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Tanggal Akhir</th>
+              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Status</th>
+              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Aksi</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-[#e4e4e7] bg-white">
-            <template x-for="(g, idx) in gelombangList.filter(item => item.nama.toLowerCase().includes(searchQuery.toLowerCase()))" :key="g.id">
-              <tr class="hover:bg-[#fafafa] transition-colors">
-                <td class="h-[68px] px-4 text-center text-sm text-[#71717a] font-medium" x-text="idx + 1"></td>
-                <td class="h-[68px] px-4 text-sm">
-                  <span class="font-semibold text-[#09090b] text-xs" x-text="g.nama"></span>
+          <tbody class="divide-y divide-[#e4e4e7]">
+            <!-- Empty State jika tidak ada data -->
+            <template x-if="paginatedList.length === 0">
+              <tr>
+                <td colspan="6" class="p-8 text-center">
+                  <div class="flex flex-col items-center justify-center py-6 text-center">
+                    <div class="rounded-full bg-[#f4f4f5] p-3 mb-3">
+                      <i data-lucide="alert-circle" class="w-6 h-6 text-[#71717a]"></i>
+                    </div>
+                    <h3 class="text-base font-medium text-[#09090b]">Belum Ada Gelombang</h3>
+                    <p class="text-xs text-[#71717a] mt-1 max-w-md">
+                      Belum ada gelombang kerja praktek yang dibuat. Mulai dengan menambahkan gelombang pertama.
+                    </p>
+                    <template x-if="isAktifPeriode">
+                      <button
+                        type="button"
+                        @click="openTambahModal()"
+                        class="mt-3.5 inline-flex items-center gap-2 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+                      >
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Tambah Gelombang</span>
+                      </button>
+                    </template>
+                  </div>
                 </td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="g.tglAwal"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="g.tglAkhir"></td>
-                <td class="h-[68px] px-4 text-center font-medium text-sm text-[#09090b]" x-text="`${g.terdaftar} / ${g.kuota} Mahasiswa`"></td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <button
-                    type="button"
-                    @click="toggleStatus(g)"
-                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium transition-colors"
-                    :class="g.aktif ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600'"
-                  >
-                    <span class="h-1.5 w-1.5 rounded-full" :class="g.aktif ? 'bg-emerald-500' : 'bg-gray-400'"></span>
-                    <span x-text="g.aktif ? 'Aktif' : 'Tutup'"></span>
-                  </button>
+              </tr>
+            </template>
+
+            <!-- Baris Data Gelombang -->
+            <template x-for="(row, index) in paginatedList" :key="row.id">
+              <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
+                <td class="p-4 align-middle font-medium text-sm text-[#09090b]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
+                <td class="p-4 align-middle text-sm font-medium text-[#09090b]" x-text="row.nama_gelombang"></td>
+                <td class="p-4 align-middle text-sm text-[#09090b]" x-text="row.tgl_awal"></td>
+                <td class="p-4 align-middle text-sm text-[#09090b]" x-text="row.tgl_akhir"></td>
+                <td class="p-4 align-middle text-sm">
+                  <!-- Badge Success (Aktif) -->
+                  <template x-if="row.status === 1">
+                    <span class="inline-flex items-center rounded-md border border-green-400/60 bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-600 text-center">
+                      Aktif
+                    </span>
+                  </template>
+                  <!-- Badge Destructive Outline (Tidak Aktif) -->
+                  <template x-if="row.status === 0">
+                    <span class="inline-flex items-center rounded-md border border-red-200 bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-600 text-center">
+                      Tidak Aktif
+                    </span>
+                  </template>
                 </td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <div class="flex items-center justify-center gap-1.5">
+                <td class="p-4 align-middle text-sm">
+                  <div class="flex items-center space-x-2">
+                    <!-- Edit Button -->
                     <button
                       type="button"
-                      @click="openEditModal(g)"
-                      class="h-7 w-7 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-blue-50/60 text-[#0655a7] hover:border-blue-200 transition-colors shadow-2xs"
+                      @click="openEditModal(row)"
+                      class="h-8 w-8 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors cursor-pointer"
                       title="Edit Gelombang"
                     >
-                      <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                      <i data-lucide="pencil" class="h-4 w-4"></i>
+                    </button>
+
+                    <!-- Toggle Switch -->
+                    <button
+                      type="button"
+                      role="switch"
+                      :aria-checked="row.status === 1"
+                      @click="toggleStatus(row)"
+                      class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0655a7]"
+                      :class="row.status === 1 ? 'bg-[#0655a7]' : 'bg-[#e4e4e7]'"
+                      title="Ubah Status Gelombang"
+                    >
+                      <span
+                        class="pointer-events-none block h-4 w-4 rounded-full bg-white shadow-lg ring-0 transition-transform"
+                        :class="row.status === 1 ? 'translate-x-4' : 'translate-x-0'"
+                      ></span>
                     </button>
                   </div>
                 </td>
@@ -107,132 +304,203 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </tbody>
         </table>
       </div>
+    </div>
 
-      <!-- Standardized Pagination Sesuai Screenshot 1 -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-[#fafafa]">
-        <div class="text-xs text-[#71717a]">Menampilkan 1 - 3 dari 3 data</div>
-        <div class="flex items-center gap-2">
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
-          >
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-          <button
-            type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-          >
-            1
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
-          >
-            2
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
-          >
-            3
-          </button>
-          <button
-            type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
-          >
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-          <select
-            class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-          >
-            <option value="10">Show 10 items</option>
-            <option value="25">Show 25 items</option>
-            <option value="50">Show 50 items</option>
-          </select>
+    <!-- Pagination Controls (Sesuai PaginationControls di fakultas-fe) -->
+    <div class="pt-4 bg-white" x-show="filteredList.length > 0">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredList.length} total items)`">
+        </span>
+
+        <div class="flex gap-4 items-center">
+          <div class="flex items-center gap-1">
+            <button
+              type="button"
+              @click="currentPage--; reinitLucide()"
+              :disabled="currentPage <= 1"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <template x-for="p in totalPages" :key="p">
+              <button
+                type="button"
+                @click="currentPage = p; reinitLucide()"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors"
+                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
+                x-text="p"
+              >
+              </button>
+            </template>
+            <button
+              type="button"
+              @click="currentPage++; reinitLucide()"
+              :disabled="currentPage >= totalPages"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="relative">
+            <select
+              x-model.number="pageSize"
+              @change="currentPage = 1; reinitLucide()"
+              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <option value="5">Show 5 items</option>
+              <option value="10">Show 10 items</option>
+              <option value="20">Show 20 items</option>
+              <option value="50">Show 50 items</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal Tambah / Edit Gelombang -->
+    <!-- Modal Form (Sesuai GelombangFormView di fakultas-fe) -->
     <div
       x-show="isModalOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
     >
       <div
         @click.outside="isModalOpen = false"
-        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+        class="w-full max-w-[500px] rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
       >
-        <div class="flex items-center justify-between">
-          <h3 class="text-base font-semibold text-[#09090b]" x-text="modalMode === 'tambah' ? 'Tambah Gelombang Sidang' : 'Edit Gelombang Sidang'"></h3>
+        <div class="flex items-start justify-between">
+          <div>
+            <h3
+              class="text-lg font-semibold leading-none tracking-tight text-[#09090b]"
+              x-text="modalMode === 'tambah' ? 'Tambah Gelombang' : 'Edit Gelombang'"
+            ></h3>
+            <p class="text-sm text-[#71717a] mt-1.5">Isi informasi gelombang.</p>
+          </div>
           <button
             type="button"
             @click="isModalOpen = false"
-            class="h-8 w-8 rounded-md hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
           >
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-medium text-[#09090b] mb-1">Nama Gelombang Sidang *</label>
-            <input
-              type="text"
-              x-model="selectedGelombang.nama"
-              placeholder="Contoh: Gelombang 1 - Genap 2025/2026"
-              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-            />
+        <!-- Alert Error Message -->
+        <template x-if="errorMessage">
+          <div class="p-3 text-xs rounded-lg border border-red-200 bg-red-50 text-red-700 flex items-center gap-2">
+            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0 text-red-600"></i>
+            <span x-text="errorMessage"></span>
           </div>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-xs font-medium text-[#09090b] mb-1">Tanggal Mulai *</label>
-              <input
-                type="date"
-                x-model="selectedGelombang.tglAwal"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              />
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-[#09090b] mb-1">Tanggal Selesai *</label>
-              <input
-                type="date"
-                x-model="selectedGelombang.tglAkhir"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              />
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-medium text-[#09090b] mb-1">Kuota Maksimal Mahasiswa *</label>
-            <input
-              type="number"
-              x-model="selectedGelombang.kuota"
-              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-            />
-          </div>
-        </div>
+        </template>
 
-        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
-          <button
-            type="button"
-            @click="isModalOpen = false"
-            class="h-9 px-4 rounded-md border border-[#e4e4e7] text-xs font-medium text-[#71717a] hover:bg-[#f4f4f5]"
-          >
-            Batal
-          </button>
-          <button
-            type="button"
-            @click="isModalOpen = false; alert('Pengaturan gelombang sidang berhasil disimpan!')"
-            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
-          >
-            Simpan
-          </button>
-        </div>
+        <form @submit.prevent="handleSave()" class="space-y-4">
+          <div class="flex flex-col gap-4 py-4">
+            <!-- Field 1: Nama -->
+            <div class="grid grid-cols-4 items-center gap-4">
+              <label for="nama_gelombang" class="text-right text-sm font-medium text-[#09090b]">
+                Nama
+              </label>
+              <div class="col-span-3">
+                <input
+                  type="text"
+                  id="nama_gelombang"
+                  x-model="selectedGelombang.nama_gelombang"
+                  placeholder="cth. Gelombang 1"
+                  required
+                  class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                />
+              </div>
+            </div>
+
+            <!-- Field 2: Periode (Disabled jika aktif) -->
+            <div class="grid grid-cols-4 items-center gap-4">
+              <label for="modal_periode" class="text-right text-sm font-medium text-[#09090b]">
+                Periode
+              </label>
+              <div class="col-span-3">
+                <select
+                  id="modal_periode"
+                  disabled
+                  class="h-10 w-full rounded-md border border-[#e4e4e7] bg-gray-50 px-3 text-sm text-[#09090b] focus:outline-none cursor-not-allowed opacity-80"
+                >
+                  <template x-for="p in periodeList" :key="p.id">
+                    <option :value="p.id" x-text="p.tahun_ajaran" :selected="p.id == selectedGelombang.periode_id"></option>
+                  </template>
+                </select>
+                <p class="text-xs text-[#71717a] mt-1">
+                  Gelombang dibuat di periode aktif.
+                </p>
+              </div>
+            </div>
+
+            <!-- Field 3: Tgl Awal -->
+            <div class="grid grid-cols-4 items-center gap-4">
+              <label for="modal_tgl_awal" class="text-right text-sm font-medium text-[#09090b]">
+                Tgl Awal
+              </label>
+              <div class="col-span-3">
+                <input
+                  type="date"
+                  id="modal_tgl_awal"
+                  x-model="selectedGelombang.tgl_awal"
+                  required
+                  class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+                />
+              </div>
+            </div>
+
+            <!-- Field 4: Tgl Akhir -->
+            <div class="grid grid-cols-4 items-center gap-4">
+              <label for="modal_tgl_akhir" class="text-right text-sm font-medium text-[#09090b]">
+                Tgl Akhir
+              </label>
+              <div class="col-span-3">
+                <input
+                  type="date"
+                  id="modal_tgl_akhir"
+                  x-model="selectedGelombang.tgl_akhir"
+                  required
+                  class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
+            <button
+              type="button"
+              @click="isModalOpen = false"
+              class="h-10 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              class="h-10 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
+            >
+              Simpan
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
+
+    <!-- Toast Notification (Sesuai Sonner toast di fakultas-fe) -->
+    <div
+      x-show="showToast"
+      x-cloak
+      class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-emerald-600 text-white text-xs font-semibold shadow-lg animate-in slide-in-from-bottom-5 duration-200"
+    >
+      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+      <span x-text="toastMessage"></span>
     </div>
   </section>
 </AdminShell>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
+</script>
