@@ -6,8 +6,8 @@
     "node": ">=22.22.0"
   },
   "scripts": {
-    "dev": "UV_THREADPOOL_SIZE=2 astro dev",
-    "build": "UV_THREADPOOL_SIZE=2 astro build",
+    "dev": "astro dev",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -87,7 +87,7 @@ const KegiatanList = [
 
           <!-- Rincian Mahasiswa -->
           <div class="space-y-1">
-            <h2 class="text-[18px] font-bold text-[#09090b] leading-tight">Mahasiswa MBKM</h2>
+            <h2 class="text-[18px] font-bold text-[#09090b] leading-tight">Mahasiswa Kampus Berdampak</h2>
             <p class="text-[13px] text-[#71717a]">A11.2020.00001</p>
             <p class="text-[13px] text-[#3f3f46]">Dosen Pembimbing: Dosen A11</p>
 
@@ -130,7 +130,7 @@ const KegiatanList = [
               class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] text-xs font-semibold rounded-lg shadow-2xs transition-colors"
             >
               <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#71717a]"></i>
-              <span>Edit Folder MBKM</span>
+              <span>Edit Folder Kampus Berdampak</span>
             </button>
           </div>
 
@@ -283,12 +283,12 @@ const KegiatanList = [
     </div>
   </div>
 
-  <!-- Modal: Edit Folder MBKM -->
-  <div id="modal-folder-MBKM" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+  <!-- Modal: Edit Folder Kampus Berdampak -->
+  <div id="modal-folder-Kampus Berdampak" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
       <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
         <div>
-          <h3 class="text-[16px] font-bold text-[#09090b]">Edit Folder MBKM</h3>
+          <h3 class="text-[16px] font-bold text-[#09090b]">Edit Folder Kampus Berdampak</h3>
           <p class="text-xs text-[#71717a] mt-0.5">Tautan repositori Google Drive berkas kerja praktek.</p>
         </div>
         <button type="button" onclick="closeFolderModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
@@ -414,15 +414,15 @@ const KegiatanList = [
       closeTambahModal();
     }
 
-    // Modal Edit Folder MBKM
+    // Modal Edit Folder Kampus Berdampak
     function openFolderModal() {
-      const modal = document.getElementById('modal-folder-MBKM');
+      const modal = document.getElementById('modal-folder-Kampus Berdampak');
       if (modal) modal.classList.remove('hidden');
       if (window.lucide) window.lucide.createIcons();
     }
 
     function closeFolderModal() {
-      const modal = document.getElementById('modal-folder-MBKM');
+      const modal = document.getElementById('modal-folder-Kampus Berdampak');
       if (modal) modal.classList.add('hidden');
     }
 
@@ -465,7 +465,7 @@ const KegiatanList = [
       }
     });
 
-    ['modal-tambah-logbook', 'modal-folder-MBKM', 'modal-lihat-dokumen'].forEach((modalId) => {
+    ['modal-tambah-logbook', 'modal-folder-Kampus Berdampak', 'modal-lihat-dokumen'].forEach((modalId) => {
       const modal = document.getElementById(modalId);
       if (modal) {
         modal.addEventListener('click', (e) => {

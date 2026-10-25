@@ -212,9 +212,6 @@ function setupRouting() {
       const activeEl = document.getElementById(current.id);
       activeEl?.classList.add("active");
 
-      // Dynamic fetch loader removed for Astro SSG
-      }
-
       // Update breadcrumb, judul dan subtitle halaman (DESIGN.md Bab 15.2)
       const bcCurrent = document.getElementById("breadcrumb-current");
       const pageTitle = document.getElementById("page-title");
@@ -287,12 +284,12 @@ function openAnnouncementModal(id) {
 
   if (!modal) return;
   if (id === 1) {
-    if (badgesEl) badgesEl.innerHTML = "<span class="badge badge-danger">PENTING</span><span class="badge badge-primary">Koordinator MBKM</span>";
+    if (badgesEl) badgesEl.innerHTML = '<span class="badge badge-danger">PENTING</span><span class="badge badge-primary">Koordinator MBKM</span>';
     if (titleEl) titleEl.innerText = "Jadwal Pembekalan Teknis & Verifikasi SuReKom Semester Genap 2025/2026";
     if (metaEl) metaEl.innerText = "Dipublikasikan: 10 Oktober 2025 • Oleh: Nurul Anisa Sri Winarsih, M.Cs";
-    if (contentEl) contentEl.innerHTML = "<p>Diberitahukan kepada seluruh mahasiswa calon pendaftar program Kampus Berdampak, verifikasi berkas Surat Rekomendasi (SuReKom) dekanat ditutup pada tanggal 18 Oktober 2025 pukul 23:59 WIB.</p><p style="margin-top:8px;">Pastikan data akademik pada sistem EWS telah memenuhi kualifikasi minimal 100 SKS dan IPK 3.00. Mahasiswa yang lolos verifikasi SuReKom akan menerima salinan PDF digital bertanda tangan dekanat untuk dilampirkan ke kontributor.</p>";
+    if (contentEl) contentEl.innerHTML = '<p>Diberitahukan kepada seluruh mahasiswa calon pendaftar program Kampus Berdampak, verifikasi berkas Surat Rekomendasi (SuReKom) dekanat ditutup pada tanggal 18 Oktober 2025 pukul 23:59 WIB.</p><p style="margin-top:8px;">Pastikan data akademik pada sistem EWS telah memenuhi kualifikasi minimal 100 SKS dan IPK 3.00. Mahasiswa yang lolos verifikasi SuReKom akan menerima salinan PDF digital bertanda tangan dekanat untuk dilampirkan ke kontributor.</p>';
   } else {
-    if (badgesEl) badgesEl.innerHTML = "<span class="badge badge-success">Kontributor Resmi</span>";
+    if (badgesEl) badgesEl.innerHTML = '<span class="badge badge-success">Kontributor Resmi</span>';
     if (titleEl) titleEl.innerText = "Detail Informasi Pengumuman Resmi MBKM";
     if (metaEl) metaEl.innerText = "Dipublikasikan: Oktober 2025";
     if (contentEl) contentEl.innerHTML = "<p>Informasi teknis kegiatan dapat dikoordinasikan langsung melalui kanal komunikasi resmi kontributor atau Dosen Pembimbing.</p>";
@@ -610,7 +607,7 @@ function updateUI() {
       bannerDesc.innerText = "Data akademik Anda telah diverifikasi oleh sistem database. Anda memenuhi semua syarat untuk mendaftar Program MBKM Mandiri semester ini.";
     }
     if (heroBtn) {
-      heroBtn.innerHTML = "<i data-lucide="file-edit"></i> Buka Pendaftaran Mandiri";
+      heroBtn.innerHTML = '<i data-lucide="file-edit"></i> Buka Pendaftaran Mandiri';
       heroBtn.href = "/mahasiswa/lamaran";
       heroBtn.style.display = "inline-flex";
     }
@@ -640,7 +637,7 @@ function updateUI() {
       bannerDesc.innerText = "Mohon maaf, Anda belum memenuhi syarat pendaftaran MBKM (Semester 6-8, IPK >= 3.00, SKS >= 100). Pendaftaran saat ini terkunci.";
     }
     if (heroBtn) {
-      heroBtn.innerHTML = "<i data-lucide="lock"></i> Pendaftaran Terkunci";
+      heroBtn.innerHTML = '<i data-lucide="lock"></i> Pendaftaran Terkunci';
       heroBtn.href = "/mahasiswa/lamaran";
     }
     if (navBadgePendaftaran) {
@@ -682,12 +679,12 @@ function setCardStatus(type, isOk, valText, reqText) {
   if (isOk) {
     if (badge) {
       badge.className = "badge badge-success";
-      badge.innerHTML = "<i data-lucide="check" style="width:12px;height:12px;"></i> Memenuhi";
+      badge.innerHTML = '<i data-lucide="check" style="width:12px;height:12px;"></i> Memenuhi';
     }
   } else {
     if (badge) {
       badge.className = "badge badge-danger";
-      badge.innerHTML = "<i data-lucide="x" style="width:12px;height:12px;"></i> Belum Lolos";
+      badge.innerHTML = '<i data-lucide="x" style="width:12px;height:12px;"></i> Belum Lolos';
     }
   }
 }
