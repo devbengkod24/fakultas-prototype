@@ -113,12 +113,8 @@ function initRegistrationStepper() {
   const nextButton = document.getElementById("next-button");
   const nextLabel = document.getElementById("next-label");
   const submitButton = document.getElementById("submit-button");
-  const successScreen = document.getElementById("success-screen");
   const registrationPanel = document.getElementById("registration-panel");
   const formNavigation = document.getElementById("form-navigation");
-
-  const studentName = document.getElementById("student-name");
-  const studentNim = document.getElementById("student-nim");
 
   let currentStep = 1;
 
@@ -189,41 +185,12 @@ function initRegistrationStepper() {
   if (prevButton) prevButton.addEventListener("click", () => goToStep(currentStep - 1));
 
   // ------------------------------------------------
-  // Submit (simulasi, tanpa validasi)
+  // Submit (tanpa validasi) → kembali ke detail program
   // ------------------------------------------------
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    const successName = document.getElementById("success-name");
-    const successNim = document.getElementById("success-nim");
-    if (successName) successName.textContent = studentName?.value.trim() || "-";
-    if (successNim) successNim.textContent = studentNim?.value.trim() || "-";
-
-    form.hidden = true;
-    if (registrationPanel) registrationPanel.hidden = true;
-    if (formNavigation) formNavigation.hidden = true;
-    if (successScreen) successScreen.hidden = false;
-
-    if (window.lucide) lucide.createIcons();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.location.href = "/detail-mbkm";
   });
-
-  const restartButton = document.getElementById("restart-button");
-  if (restartButton) {
-    restartButton.addEventListener("click", () => {
-      form.reset();
-
-      attachmentList = [];
-      renderAttachments();
-
-      form.hidden = false;
-      if (registrationPanel) registrationPanel.hidden = false;
-      if (formNavigation) formNavigation.hidden = false;
-      if (successScreen) successScreen.hidden = true;
-
-      goToStep(1);
-    });
-  }
 
   // ------------------------------------------------
   // Inisialisasi
