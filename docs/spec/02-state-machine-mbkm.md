@@ -12,11 +12,10 @@
 
 ## 1. Definisi State Lengkap
 
-Sistem mengenal 18 state resmi yang terbagi ke dalam 5 fase siklus hidup:
+Sistem mengenal 17 state resmi yang terbagi ke dalam 5 fase siklus hidup:
 
 | State ID | Fase | Label UI | Warna Badge | Deskripsi |
 | :--- | :--- | :--- | :--- | :--- |
-| `DRAFT` | Pendaftaran | Draf | Abu-abu (`bg-slate-100 text-slate-700`) | Mahasiswa sedang mengisi form stepper 3 tahap, belum submit |
 | `SUBMITTED` | Pendaftaran | Menunggu Seleksi | Kuning (`bg-amber-50 text-amber-700`) | Berkas pendaftaran telah dikirim, masuk ke antrean kontributor |
 | `REJECTED` | Seleksi | Ditolak Mitra | Merah (`bg-rose-50 text-rose-700`) | Kontributor menolak berkas pendaftaran mahasiswa |
 | `OFFERED` | Seleksi | Lolos Seleksi | Hijau muda (`bg-emerald-50 text-emerald-700`) | Kontributor menerima mahasiswa, menunggu konfirmasi penerimaan |
@@ -45,10 +44,8 @@ Diagram dipecah menjadi dua bagian agar tetap terbaca pada media cetak maupun la
 
 ```mermaid
 stateDiagram-v2
-    [*] --> DRAFT: Buka Form Stepper
-
     state "FASE 1: PENDAFTARAN & SELEKSI" as F1 {
-        DRAFT --> SUBMITTED: SUBMIT_APPLICATION
+        [*] --> SUBMITTED: SUBMIT_APPLICATION
         SUBMITTED --> REJECTED: PARTNER_REJECT
         REJECTED --> [*]
         SUBMITTED --> OFFERED: PARTNER_ACCEPT
@@ -104,7 +101,7 @@ stateDiagram-v2
 
 | Dari State | Event / Trigger | Aktor | Guard Condition (Syarat Sah) | Ke State | Side Effect / Efek Samping |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `DRAFT` | `SUBMIT_APPLICATION` | Mahasiswa | Data identitas valid, IPK $\ge 3.00$, SKS $\ge 80$, 3 checkbox persetujuan dicentang | `SUBMITTED` | Berkas masuk ke antrean seleksi mitra di `/contributor/seleksi` |
+| `[*]` | `SUBMIT_APPLICATION` | Mahasiswa | Mengisi form stepper (data identitas valid, IPK $\ge 3.00$, SKS $\ge 80$, 3 checkbox persetujuan dicentang) | `SUBMITTED` | Berkas masuk ke antrean seleksi mitra di `/contributor/seleksi` |
 | `SUBMITTED` | `PARTNER_ACCEPT` | Kontributor | Kuota program masih tersedia | `OFFERED` | Banner penawaran lolos tampil di dashboard mahasiswa; timer 72 jam berjalan |
 | `SUBMITTED` | `PARTNER_REJECT` | Kontributor | Catatan penolakan diisi (opsional) | `REJECTED` | Status lamaran ditutup; kuota tidak berkurang |
 | `OFFERED` | `ACCEPT_OFFER` | Mahasiswa | Waktu belum lewat batas 72 jam | `OFFER_ACCEPTED` | **Semua lamaran lain mahasiswa di program lain otomatis berstatus `WITHDRAWN_AUTO`** |
