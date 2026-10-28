@@ -1,0 +1,128 @@
+---
+// src/components/admin/kontributor/cms/ImageDropzone.astro
+// Dropzone upload gambar dengan pratinjau instan (kartu file horizontal).
+// `id` dipertahankan pada <input type="hidden"> (nilai: URL awal atau data URL hasil upload),
+// `previewId` pada <img> pratinjau, agar kontrak DOM lama tetap berlaku.
+import { cn } from '../../../../utils/cn';
+
+interface Props {
+  id: string;
+  previewId: string;
+  value?: string;
+  alt?: string;
+  hint?: string;
+  ratio?: '21/9' | '16/9' | '4/3' | '1/1';
+  class?: string;
+}
+
+const { id, previewId, value = '', alt = 'Pratinjau gambar', hint = 'PNG, JPG, atau WebP. Maksimal 2 MB.', ratio = '16/9', class: className } = Astro.props;
+const ratioClass = { '21/9': 'aspect-[21/9]', '16/9': 'aspect-video', '4/3': 'aspect-[4/3]', '1/1': 'aspect-square' }[ratio];
+const filled = !!value;
+const btn = 'h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors';
+---
+
+<div class={className} data-dropzone data-hint={hint}>
+  <input type="hidden" id={id} value={value} />
+  <input type="file" accept="image/png,image/jpeg,image/webp" class="hidden" data-dropzone-input />
+
+  <div
+    data-dropzone-area
+    class="flex flex-col gap-4 rounded-lg border border-[#e4e4e7] bg-white p-3 transition-colors sm:flex-row sm:items-center data-[drag=true]:border-[#0655a7] data-[drag=true]:bg-[#fafafa] data-[drag=true]:ring-4 data-[drag=true]:ring-[#0655a7]/10"
+  >
+    <!-- Thumbnail / placeholder -->
+    <div class={cn('relative flex w-full shrink-0 items-center justify-center overflow-hidden rounded-md border border-[#e4e4e7] bg-[#f4f4f5] sm:w-56', ratioClass)}>
+      <img
+        id={previewId}
+        src={value}
+        alt={alt}
+        data-dropzone-preview
+        class={cn('h-full w-full object-cover', !filled && 'hidden')}
+      />
+      <i data-lucide="image" data-dropzone-placeholder class={cn('w-4 h-4 text-[#71717a]', filled && 'hidden')}></i>
+    </div>
+
+    <!-- Info file -->
+    <div class="min-w-0 flex-1 space-y-0.5">
+      <p data-dropzone-title class="truncate text-sm font-medium text-[#09090b]">
+        {filled ? 'Gambar saat ini' : 'Belum ada gambar'}
+      </p>
+      <p data-dropzone-sub class="text-xs text-[#71717a] leading-relaxed">
+        {filled ? `Tarik file ke sini atau klik Ganti untuk mengubah.` : 'Tarik file ke sini atau klik Pilih File. ' + hint}
+      </p>
+    </div>
+
+    <!-- Aksi -->
+    <div class="flex shrink-0 items-center gap-2">
+      <button type="button" data-dropzone-pick class={cn(btn, !filled && 'bg-[#0655a7] border-[#0655a7] text-white hover:bg-[#114d91]')}>
+        {filled ? 'Ganti' : 'Pilih File'}
+      </button>
+      <button type="button" data-dropzone-clear class={cn(btn, 'text-rose-700 hover:bg-rose-50', !filled && 'hidden')}>
+        Hapus
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const MAX_BYTES = 2 * 1024 * 1024;
+  const TYPES = ['image/png', 'image/jpeg', 'image/webp'];
+  const PICK_PRIMARY = ['bg-[#0655a7]', 'border-[#0655a7]', 'text-white', 'hover:bg-[#114d91]'];
+  const PICK_OUTLINE = ['bg-white', 'hover:bg-[#f4f4f5]', 'text-[#09090b]'];
+
+  function initDropzone(root: HTMLElement) {
+    const q = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const hidden = q<HTMLInputElement>('input[type="hidden"]');
+    const fileInput = q<HTMLInputElement>('[data-dropzone-input]');
+    const area = q('[data-dropzone-area]');
+    const preview = q<HTMLImageElement>('[data-dropzone-preview]');
+    const placeholder = q('[data-dropzone-placeholder]');
+    const title = q('[data-dropzone-title]');
+    const sub = q('[data-dropzone-sub]');
+    const pickBtn = q('[data-dropzone-pick]');
+    const clearBtn = q('[data-dropzone-clear]');
+    const hint = root.dataset.hint ?? '';
+
+
+    const render = (src: string, name: string, info: string, error = false) => {
+      const has = !!src;
+      hidden.value = src;
+      preview.src = src;
+      preview.classList.toggle('hidden', !has);
+      placeholder.classList.toggle('hidden', has);
+      clearBtn.classList.toggle('hidden', !has);
+      pickBtn.textContent = has ? 'Ganti' : 'Pilih File';
+      PICK_PRIMARY.forEach((c) => pickBtn.classList.toggle(c, !has));
+      PICK_OUTLINE.forEach((c) => pickBtn.classList.toggle(c, has));
+      title.textContent = name;
+      sub.textContent = info;
+      sub.classList.toggle('text-rose-700', error);
+      sub.classList.toggle('text-[#71717a]', !error);
+    };
+
+    const handle = (file?: File) => {
+      if (!file) return;
+      const keep = () => ({ src: hidden.value, name: title.textContent ?? '' });
+      if (!TYPES.includes(file.type)) return render(keep().src, keep().name, 'Format harus PNG, JPG, atau WebP.', true);
+      if (file.size > MAX_BYTES) return render(keep().src, keep().name, 'Ukuran file melebihi 2 MB.', true);
+      const reader = new FileReader();
+      const kb = Math.max(1, Math.round(file.size / 1024));
+      reader.onload = () => render(String(reader.result), file.name, `${file.type.replace('image/', '').toUpperCase()} · ${kb} KB`);
+      reader.readAsDataURL(file);
+    };
+
+    pickBtn.addEventListener('click', () => fileInput.click());
+    clearBtn.addEventListener('click', () => {
+      fileInput.value = '';
+      render('', 'Belum ada gambar', `Tarik file ke sini atau klik Pilih File. ${hint}`);
+    });
+    fileInput.addEventListener('change', () => handle(fileInput.files?.[0]));
+
+    ['dragenter', 'dragover'].forEach((ev) =>
+      area.addEventListener(ev, (e) => { e.preventDefault(); area.dataset.drag = 'true'; }));
+    ['dragleave', 'drop'].forEach((ev) =>
+      area.addEventListener(ev, (e) => { e.preventDefault(); area.dataset.drag = 'false'; }));
+    area.addEventListener('drop', (e) => handle((e as DragEvent).dataTransfer?.files?.[0]));
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-dropzone]').forEach(initDropzone);
+</script>
