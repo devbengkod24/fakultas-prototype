@@ -3206,20 +3206,22 @@ function renderPeriodeData() {
   if (currentSlice.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="6" class="py-8 text-center text-sm text-[#71717a]">
+        <td colspan="7" class="py-8 text-center text-xs text-[#71717a]">
           Belum ada data periode yang sesuai filter.
         </td>
       </tr>
     `;
   } else {
     tbody.innerHTML = currentSlice
-      .map((item) => {
+      .map((item, idx) => {
+        const rowNumber = startIndex + idx + 1;
         const statusBadge = item.status === 1
-          ? '<span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>'
-          : '<span class="inline-flex items-center rounded-md border border-red-200 bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-600">Nonaktif</span>';
+          ? '<span class="inline-flex items-center rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Aktif</span>'
+          : '<span class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700">Nonaktif</span>';
 
         return `
         <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
+          <td class="h-12 px-2 text-center text-xs font-medium text-[#71717a] w-12">${rowNumber}</td>
           <td class="px-4 text-sm font-medium text-[#09090b]">${item.kode}</td>
           <td class="px-4 text-sm text-[#09090b]">${item.tahun}</td>
           <td class="px-4 text-sm text-[#71717a]">${item.mulai}</td>
@@ -3229,7 +3231,7 @@ function renderPeriodeData() {
             <button
               type="button"
               onclick="showEditPeriodeModal(${item.id})"
-              class="inline-flex items-center justify-center h-8 w-8 rounded-md text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
+              class="inline-flex items-center justify-center h-8 w-8 rounded-md text-[#09090b] hover:bg-[#f4f4f5] transition-colors cursor-pointer"
               title="Edit Periode"
             >
               <i data-lucide="edit" class="size-4"></i>
@@ -3243,8 +3245,8 @@ function renderPeriodeData() {
 
   if (infoEl) {
     infoEl.textContent = totalItems === 0
-      ? 'Page 0 of 0 (0 total items)'
-      : `Page ${periodeCurrentPage} of ${totalPages} (${totalItems} total items)`;
+      ? 'Menampilkan 0 - 0 dari 0 data'
+      : `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} data`;
   }
 
   if (paginationEl) {
@@ -3254,9 +3256,12 @@ function renderPeriodeData() {
         type="button"
         onclick="goToPeriodePage(${periodeCurrentPage - 1})"
         ${periodeCurrentPage === 1 ? 'disabled' : ''}
-        class="h-8 w-8 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer ${
+          periodeCurrentPage === 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'
+        }"
+        title="Halaman Sebelumnya"
       >
-        <i data-lucide="chevron-left" class="size-4"></i>
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
       </button>
     `;
 
@@ -3268,8 +3273,8 @@ function renderPeriodeData() {
           <button
             type="button"
             onclick="goToPeriodePage(${p})"
-            class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
-              isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer ${
+              isActive ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'
             }"
           >
             ${p}
@@ -3282,8 +3287,8 @@ function renderPeriodeData() {
         <button
           type="button"
           onclick="goToPeriodePage(1)"
-          class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
-            periodeCurrentPage === 1 ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+          class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer ${
+            periodeCurrentPage === 1 ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'
           }"
         >
           1
@@ -3297,8 +3302,8 @@ function renderPeriodeData() {
             <button
               type="button"
               onclick="goToPeriodePage(${p})"
-              class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
-                isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+              class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer ${
+                isActive ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'
               }"
             >
               ${p}
@@ -3314,8 +3319,8 @@ function renderPeriodeData() {
             <button
               type="button"
               onclick="goToPeriodePage(${p})"
-              class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
-                isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+              class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer ${
+                isActive ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'
               }"
             >
               ${p}
@@ -3328,7 +3333,7 @@ function renderPeriodeData() {
           <button
             type="button"
             onclick="goToPeriodePage(${periodeCurrentPage})"
-            class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md bg-[#0655a7] text-white transition-colors"
+            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer bg-[#0655a7] text-white font-semibold shadow-none"
           >
             ${periodeCurrentPage}
           </button>
@@ -3341,8 +3346,8 @@ function renderPeriodeData() {
         <button
           type="button"
           onclick="goToPeriodePage(${totalPages})"
-          class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
-            periodeCurrentPage === totalPages ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+          class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer ${
+            periodeCurrentPage === totalPages ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'
           }"
         >
           ${totalPages}
@@ -3355,9 +3360,12 @@ function renderPeriodeData() {
         type="button"
         onclick="goToPeriodePage(${periodeCurrentPage + 1})"
         ${periodeCurrentPage === totalPages ? 'disabled' : ''}
-        class="h-8 w-8 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer ${
+          periodeCurrentPage === totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'
+        }"
+        title="Halaman Selanjutnya"
       >
-        <i data-lucide="chevron-right" class="size-4"></i>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
       </button>
     `;
     paginationEl.innerHTML = html;
@@ -5378,7 +5386,7 @@ function renderPelamarTable() {
 
           return `
             <tr class="h-14 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="px-3 text-center text-[#71717a] text-xs">${rowNum}</td>
+              <td class="w-12 px-2 text-center text-[#71717a] text-xs font-medium">${rowNum}</td>
               <td class="px-4">
                 <div class="flex items-center gap-2.5">
                   <img src="${item.foto}" alt="${item.nama}" class="h-8 w-8 rounded-full object-cover border border-[#e4e4e7] shrink-0" />
@@ -5413,8 +5421,8 @@ function renderPelamarTable() {
   if (infoEl) {
     infoEl.textContent =
       totalItems === 0
-        ? 'Menampilkan 0 pendaftar'
-        : `Menampilkan ${startIndex + 1}-${endIndex} dari ${totalItems} pendaftar (Halaman ${pelamarCurrentPage} dari ${totalPages})`;
+        ? 'Menampilkan 0 - 0 dari 0 data'
+        : `Menampilkan ${startIndex + 1} - ${endIndex} dari ${totalItems} data`;
   }
 
   if (paginationEl) {
@@ -5424,9 +5432,12 @@ function renderPelamarTable() {
         type="button"
         onclick="goToPelamarPage(${pelamarCurrentPage - 1})"
         ${pelamarCurrentPage === 1 ? 'disabled' : ''}
-        class="inline-flex items-center justify-center h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer ${
+          pelamarCurrentPage === 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'
+        }"
+        title="Halaman Sebelumnya"
       >
-        Prev
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
       </button>
     `;
     for (let p = 1; p <= totalPages; p++) {
@@ -5435,8 +5446,8 @@ function renderPelamarTable() {
         <button
           type="button"
           onclick="goToPelamarPage(${p})"
-          class="h-8 w-8 inline-flex items-center justify-center text-xs font-medium rounded-md transition-colors ${
-            isActive ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'
+          class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer ${
+            isActive ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'
           }"
         >
           ${p}
@@ -5448,15 +5459,24 @@ function renderPelamarTable() {
         type="button"
         onclick="goToPelamarPage(${pelamarCurrentPage + 1})"
         ${pelamarCurrentPage === totalPages ? 'disabled' : ''}
-        class="inline-flex items-center justify-center h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+        class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer ${
+          pelamarCurrentPage === totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'
+        }"
+        title="Halaman Selanjutnya"
       >
-        Next
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
       </button>
     `;
     paginationEl.innerHTML = html;
   }
 
   if (window.lucide) window.lucide.createIcons();
+}
+
+function handlePelamarPerPageChange(val) {
+  pelamarItemsPerPage = parseInt(val) || 10;
+  pelamarCurrentPage = 1;
+  renderPelamarTable();
 }
 
 function goToPelamarPage(p) {

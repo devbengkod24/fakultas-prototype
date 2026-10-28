@@ -11,6 +11,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
       viewMode: 'master', // 'master' or 'detail'
       searchQuery: '',
       selectedDosen: null,
+      currentPage: 1,
+      pageSize: 10,
       dosenList: [
         { id: 1,  nama: 'EDY MULYANTO',            npp: '0686.11.1993.040', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
         { id: 2,  nama: 'ERLIN DOLPHINA',          npp: '0686.11.1994.047', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 4 },
@@ -23,6 +25,17 @@ import AdminShell from '../../layouts/AdminShell.astro';
         { id: 9,  nama: 'HERU LESTIAWAN',          npp: '0686.11.1996.097', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
         { id: 10, nama: 'USMAN SUDIBYO',           npp: '0686.11.1996.100', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 3 },
       ],
+      get filteredDosen() {
+        const q = (this.searchQuery || '').toLowerCase();
+        return this.dosenList.filter(d => d.nama.toLowerCase().includes(q) || d.npp.includes(q));
+      },
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredDosen.length / this.pageSize));
+      },
+      get paginatedDosen() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredDosen.slice(start, start + this.pageSize);
+      },
       studentDetails: [
         { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', babTerakhir: 'Bab 4', totalBimbingan: 12, progress: 80, status: 'Aktif' },
         { no: 2, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', babTerakhir: 'Bab 5', totalBimbingan: 16, progress: 100, status: 'Siap Sidang' },
@@ -59,96 +72,107 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">No.</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama Dosen</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Logbook Mhs.</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 1</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 2</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 3</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 4</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 5</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Pending</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Total Mhs.</th>
+              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Nama Dosen Pembimbing</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Logbook Mhs.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 1</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 2</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 3</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 4</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 5</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Pending</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Total Mhs.</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
-            <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
-              <tr class="hover:bg-[#fafafa] transition-colors">
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="idx + 1"></td>
+            <template x-for="(dosen, idx) in paginatedDosen" :key="dosen.id">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
                 <td class="h-[68px] px-4 text-sm">
-                  <div class="flex flex-col leading-tight gap-1">
-                    <span class="font-semibold text-[#09090b] text-sm tracking-tight" x-text="dosen.nama"></span>
-                    <span class="text-[13px] text-[#71717a]" x-text="dosen.npp"></span>
+                  <div class="flex flex-col leading-tight gap-0.5">
+                    <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
+                    <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
                   </div>
                 </td>
                 <td class="h-[68px] px-4 text-center text-sm">
                   <button
                     type="button"
                     @click="openDetail(dosen)"
-                    class="inline-flex items-center gap-2 h-9 px-4 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/40 text-[#0655a7] text-sm font-medium transition-colors"
+                    class="inline-flex items-center gap-2 h-8 px-3 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/40 text-[#0655a7] text-xs font-medium transition-colors"
                   >
                     <span>Detail Logbook</span>
-                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                   </button>
                 </td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab1"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab2"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab3"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab4"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.bab5"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab1"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab2"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab3"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab4"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab5"></td>
                 <td class="h-[68px] px-4 text-center text-sm">
                   <template x-if="dosen.pending > 0">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[13px] font-medium bg-[#FEF3C7] text-[#92400E]" x-text="dosen.pending"></span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-800" x-text="dosen.pending"></span>
                   </template>
                   <template x-if="dosen.pending === 0">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[13px] font-medium bg-[#F4F4F5] text-[#71717A]">Belum Ada</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">Belum Ada</span>
                   </template>
                 </td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="dosen.totalMhs"></td>
+                <td class="h-[68px] px-4 text-center text-sm font-semibold text-[#09090b]" x-text="dosen.totalMhs"></td>
+              </tr>
+            </template>
+            <template x-if="paginatedDosen.length === 0">
+              <tr>
+                <td colspan="10" class="h-28 text-center text-xs text-[#71717a]">
+                  Tidak ada data dosen pembimbing yang cocok dengan kriteria pencarian.
+                </td>
               </tr>
             </template>
           </tbody>
         </table>
       </div>
 
-      <!-- Standardized Pagination Sesuai Screenshot 1 -->
+      <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-        <div class="text-xs text-[#71717a]">Menampilkan 1 - 5 dari 48 data</div>
-        <div class="flex items-center gap-2">
+        <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredDosen.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredDosen.length) + ' dari ' + filteredDosen.length + ' data'"></div>
+        <div class="flex items-center gap-1.5">
           <button
             type="button"
-            disabled
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+            @click="if (currentPage > 1) currentPage--"
+            :disabled="currentPage <= 1"
+            :class="currentPage <= 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+            title="Halaman Sebelumnya"
           >
             <i data-lucide="chevron-left" class="w-4 h-4"></i>
           </button>
+
+          <template x-for="p in totalPages" :key="p">
+            <button
+              type="button"
+              @click="currentPage = p"
+              :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
+              class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+              x-text="p"
+            ></button>
+          </template>
+
           <button
             type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-          >
-            1
-          </button>
-          <button
-            type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-          >
-            2
-          </button>
-          <button
-            type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-          >
-            3
-          </button>
-          <button
-            type="button"
-            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
+            @click="if (currentPage < totalPages) currentPage++"
+            :disabled="currentPage >= totalPages"
+            :class="currentPage >= totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+            class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+            title="Halaman Selanjutnya"
           >
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </button>
+
           <select
+            x-model.number="pageSize"
+            @change="currentPage = 1"
             class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
           >
+            <option value="5">Show 5 items</option>
             <option value="10">Show 10 items</option>
             <option value="25">Show 25 items</option>
             <option value="50">Show 50 items</option>
@@ -189,31 +213,31 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No.</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">NIM</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab Terakhir</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Total Bimbingan</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Progress</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
-              <th class="h-11 px-4 font-medium text-sm w-24 text-center text-[#71717a]">Aksi</th>
+              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">NIM</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab Terakhir</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Total Bimbingan</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Progress</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-semibold text-xs w-24 text-center text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(m, idx) in studentDetails" :key="m.nim">
-              <tr class="hover:bg-[#fafafa] transition-colors">
-                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="idx + 1"></td>
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="idx + 1"></td>
                 <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-3">
-                    <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                       <span x-text="m.nama.charAt(0)"></span>
                     </div>
-                    <span class="font-medium text-[#09090b] text-sm" x-text="m.nama"></span>
+                    <span class="font-semibold text-[#09090b] text-sm" x-text="m.nama"></span>
                   </div>
                 </td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="m.nim"></td>
+                <td class="h-[68px] px-4 text-center text-xs text-[#71717a]" x-text="m.nim"></td>
                 <td class="h-[68px] px-4 text-center text-sm">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-[#0655a7]" x-text="m.babTerakhir"></span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7]" x-text="m.babTerakhir"></span>
                 </td>
                 <td class="h-[68px] px-4 text-center font-medium text-sm text-[#09090b]" x-text="`${m.totalBimbingan} kali`"></td>
                 <td class="h-[68px] px-4 text-sm">
@@ -225,13 +249,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
                   </div>
                 </td>
                 <td class="h-[68px] px-4 text-center text-sm">
-                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700" x-text="m.status"></span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800" x-text="m.status"></span>
                 </td>
                 <td class="h-[68px] px-4 text-center text-sm">
                   <button
                     type="button"
                     @click="alert(`Menampilkan rincian entri logbook mahasiswa ${m.nama}`)"
-                    class="h-8 px-2.5 rounded-md border border-[#e4e4e7] hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7]"
+                    class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7] transition-colors"
                   >
                     Rincian
                   </button>

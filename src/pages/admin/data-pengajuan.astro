@@ -234,83 +234,83 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </template>
 
     <!-- Table View: DataTable Sesuai DataPengajuanKoordinator di fakultas-fe -->
-    <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white" x-show="filteredList.length > 0">
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white" x-show="filteredList.length > 0">
       <div class="relative w-full overflow-auto">
-        <table class="w-full caption-bottom text-sm border-collapse min-w-full">
+        <table class="w-full text-sm">
           <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
             <tr>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[50px] w-16">No</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[200px] max-w-[280px]">Mahasiswa</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[180px]">Pembimbing</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[300px]">Judul</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[100px]">Dokumen</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[100px]">Nilai Penyelia</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[100px]">Gelombang</th>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[140px]">Tanggal Pengajuan</th>
+              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[200px] max-w-[280px]">Mahasiswa</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[180px]">Dosen Pembimbing</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[300px]">Judul</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Dokumen</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Nilai Penyelia</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Gelombang</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[140px]">Tanggal Pengajuan</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(row, index) in paginatedList" :key="row.sidang_id">
-              <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
                 <!-- No -->
-                <td class="p-4 align-middle text-sm text-[#09090b] font-medium min-w-[50px]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
+                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (index + 1)"></td>
 
                 <!-- Mahasiswa -->
-                <td class="p-4 align-middle min-w-[200px] max-w-[280px]">
-                  <div class="font-medium truncate text-sm text-[#09090b]" x-text="row.mahasiswa?.nama"></div>
-                  <div class="text-sm text-[#71717a]" x-text="row.mahasiswa?.nim"></div>
+                <td class="h-[68px] px-4 text-sm min-w-[200px] max-w-[280px]">
+                  <div class="font-semibold truncate text-sm text-[#09090b]" x-text="row.mahasiswa?.nama"></div>
+                  <div class="text-xs text-[#71717a]" x-text="row.mahasiswa?.nim"></div>
                 </td>
 
                 <!-- Pembimbing -->
-                <td class="p-4 align-middle min-w-[180px]">
+                <td class="h-[68px] px-4 text-sm min-w-[180px]">
                   <template x-if="row.pembimbing && row.pembimbing.nama">
-                    <div class="truncate text-sm text-[#09090b]" x-text="row.pembimbing.nama"></div>
+                    <div class="truncate text-sm font-medium text-[#09090b]" x-text="row.pembimbing.nama"></div>
                   </template>
                   <template x-if="!row.pembimbing || !row.pembimbing.nama">
-                    <span class="inline-block text-sm text-[#71717a]">-</span>
+                    <span class="inline-block text-xs text-[#71717a]">-</span>
                   </template>
                 </td>
 
                 <!-- Judul -->
-                <td class="p-4 align-middle min-w-[300px]">
-                  <div class="whitespace-normal break-words text-sm text-[#09090b]" x-text="row.mahasiswa?.judul || '-'"></div>
+                <td class="h-[68px] px-4 text-sm min-w-[300px]">
+                  <div class="whitespace-normal break-words text-sm text-[#09090b] line-clamp-2" x-text="row.mahasiswa?.judul || '-'"></div>
                 </td>
 
                 <!-- Dokumen Button -->
-                <td class="p-4 align-middle min-w-[100px]">
+                <td class="h-[68px] px-4 text-center text-sm min-w-[100px]">
                   <template x-if="row.dokumen?.laporan_akhir || row.dokumen?.dokumen_penyelia">
                     <button
                       type="button"
                       @click="openDokumen(row)"
                       class="h-8 px-3 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors shadow-none cursor-pointer"
                     >
-                      <i data-lucide="file-text" class="h-4 w-4 mr-1"></i>
+                      <i data-lucide="file-text" class="h-3.5 w-3.5 mr-1 text-[#0655a7]"></i>
                       <span>Lihat</span>
                     </button>
                   </template>
                   <template x-if="!row.dokumen?.laporan_akhir && !row.dokumen?.dokumen_penyelia">
-                    <span class="text-sm text-[#71717a]">-</span>
+                    <span class="text-xs text-[#71717a]">-</span>
                   </template>
                 </td>
 
                 <!-- Nilai Penyelia -->
-                <td class="p-4 align-middle min-w-[100px] text-sm text-[#09090b]">
+                <td class="h-[68px] px-4 text-center text-sm min-w-[100px] font-semibold text-[#09090b]">
                   <span x-text="row.nilai_penyelia !== null && row.nilai_penyelia !== undefined ? row.nilai_penyelia : '-'"></span>
                 </td>
 
                 <!-- Gelombang -->
-                <td class="p-4 align-middle min-w-[100px] text-sm text-[#09090b]">
+                <td class="h-[68px] px-4 text-center text-sm min-w-[100px] text-[#09090b]">
                   <span x-text="row.gelombang?.nama || '-'"></span>
                 </td>
 
                 <!-- Tanggal Pengajuan -->
-                <td class="p-4 align-middle min-w-[140px] text-sm">
+                <td class="h-[68px] px-4 text-center text-sm min-w-[140px]">
                   <template x-if="row.tanggal_pengajuan">
                     <div class="whitespace-nowrap text-sm text-[#09090b]" x-text="formatDate(row.tanggal_pengajuan)"></div>
                   </template>
                   <template x-if="!row.tanggal_pengajuan">
-                    <div class="flex items-center gap-1.5 text-sm text-[#71717a]">
-                      <i data-lucide="calendar-check" class="h-4 w-4 shrink-0"></i>
+                    <div class="flex items-center justify-center gap-1.5 text-xs text-[#71717a]">
+                      <i data-lucide="calendar-check" class="h-3.5 w-3.5 shrink-0"></i>
                       <span>Belum ada jadwal</span>
                     </div>
                   </template>
@@ -322,56 +322,52 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
     </div>
 
-    <!-- Pagination Controls (Sesuai PaginationControls di fakultas-fe) -->
-    <div class="pt-4 bg-white" x-show="filteredList.length > 0">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredList.length} total items)`">
-        </span>
+    <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1" x-show="filteredList.length > 0">
+      <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredList.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredList.length) + ' dari ' + filteredList.length + ' data'"></div>
+      <div class="flex items-center gap-1.5">
+        <button
+          type="button"
+          @click="if (currentPage > 1) { currentPage--; reinitLucide(); }"
+          :disabled="currentPage <= 1"
+          :class="currentPage <= 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer"
+          title="Halaman Sebelumnya"
+        >
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
 
-        <div class="flex gap-4 items-center">
-          <div class="flex items-center gap-1">
-            <button
-              type="button"
-              @click="currentPage--; reinitLucide()"
-              :disabled="currentPage <= 1"
-              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            >
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
-            </button>
-            <template x-for="p in totalPages" :key="p">
-              <button
-                type="button"
-                @click="currentPage = p; reinitLucide()"
-                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
-                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
-                x-text="p"
-              >
-              </button>
-            </template>
-            <button
-              type="button"
-              @click="currentPage++; reinitLucide()"
-              :disabled="currentPage >= totalPages"
-              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            >
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </button>
-          </div>
+        <template x-for="p in totalPages" :key="p">
+          <button
+            type="button"
+            @click="currentPage = p; reinitLucide()"
+            :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
+            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer"
+            x-text="p"
+          ></button>
+        </template>
 
-          <div class="relative">
-            <select
-              x-model.number="pageSize"
-              @change="currentPage = 1; reinitLucide()"
-              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
-            >
-              <option value="5">Show 5 items</option>
-              <option value="10">Show 10 items</option>
-              <option value="20">Show 20 items</option>
-              <option value="50">Show 50 items</option>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-        </div>
+        <button
+          type="button"
+          @click="if (currentPage < totalPages) { currentPage++; reinitLucide(); }"
+          :disabled="currentPage >= totalPages"
+          :class="currentPage >= totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer"
+          title="Halaman Selanjutnya"
+        >
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+
+        <select
+          x-model.number="pageSize"
+          @change="currentPage = 1; reinitLucide()"
+          class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="5">Show 5 items</option>
+          <option value="10">Show 10 items</option>
+          <option value="25">Show 25 items</option>
+          <option value="50">Show 50 items</option>
+        </select>
       </div>
     </div>
 

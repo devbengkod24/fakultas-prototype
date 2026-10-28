@@ -13,7 +13,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     <button
       type="button"
       onclick="handleSyncPeriodeData()"
-      class="inline-flex items-center justify-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors"
+      class="inline-flex items-center justify-center gap-2 h-9 px-4 text-xs font-semibold rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white shadow-none transition-colors cursor-pointer"
       id="btn-sync-periode"
     >
       <i data-lucide="refresh-cw" class="w-4 h-4" id="icon-sync-periode"></i>
@@ -22,11 +22,11 @@ import AdminShell from '../../layouts/AdminShell.astro';
   </div>
 
   <div class="flex items-center gap-2">
-    <span class="text-sm font-medium text-[#09090b]">Status:</span>
+    <span class="text-xs font-semibold text-[#09090b]">Status:</span>
     <select
       id="filter-periode-status"
       onchange="handleFilterPeriodeStatus(this.value)"
-      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-[180px]"
+      class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] w-[180px] cursor-pointer"
     >
       <option value="all" selected>Semua Status</option>
       <option value="1">Aktif</option>
@@ -40,12 +40,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
   <table class="w-full text-sm">
     <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
       <tr>
-        <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Kode Periode</th>
-        <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Tahun Ajaran</th>
-        <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Tanggal Mulai MBKM</th>
-        <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Tanggal Akhir MBKM</th>
-        <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
-        <th class="h-11 px-4 font-medium text-sm w-20 text-center text-[#71717a]">Aksi</th>
+        <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+        <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Kode Periode</th>
+        <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Tahun Ajaran</th>
+        <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Tanggal Mulai MBKM</th>
+        <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Tanggal Akhir MBKM</th>
+        <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
+        <th class="h-11 px-4 font-semibold text-xs w-20 text-center text-[#71717a]">Aksi</th>
       </tr>
     </thead>
     <tbody id="periode-table-tbody" class="divide-y divide-[#e4e4e7]">
@@ -54,18 +55,19 @@ import AdminShell from '../../layouts/AdminShell.astro';
   </table>
 </div>
 
-<!-- Pagination Footer (Page 1 of 9 (82 total items) - Persis Screenshot) -->
-<div class="pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
-  <div id="periode-table-info">Page 1 of 9 (82 total items)</div>
-  <div class="flex items-center gap-3">
-    <div id="periode-pagination-controls" class="flex items-center gap-1"></div>
+<!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+  <div id="periode-table-info" class="text-xs text-[#71717a]">Menampilkan 1 - 10 dari 82 data</div>
+  <div class="flex items-center gap-1.5">
+    <div id="periode-pagination-controls" class="flex items-center gap-1.5"></div>
     <select
       id="periode-per-page"
       onchange="handlePeriodePerPageChange(this.value)"
-      class="h-8 px-2 text-xs rounded-md border border-[#e4e4e7] bg-white text-[#09090b] focus:outline-none"
+      class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
     >
+      <option value="5">Show 5 items</option>
       <option value="10" selected>Show 10 items</option>
-      <option value="20">Show 20 items</option>
+      <option value="25">Show 25 items</option>
       <option value="50">Show 50 items</option>
     </select>
   </div>
