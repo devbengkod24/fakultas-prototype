@@ -1160,9 +1160,9 @@ let kontributorListData = [
       { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
     ],
     mhs: [
-      { nama: 'Calvin Revianto', nim: 'A11.2021.13782', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dpl: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
-      { nama: 'Salwa Salsabila', nim: 'A11.2020.12864', prodi: 'S1 Teknik Informatika', posisi: 'Cyber Security & Network', dpl: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
-      { nama: 'Fakhrurrozi', nim: 'A11.2020.12592', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dpl: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' }
+      { nama: 'Calvin Revianto', nim: 'A11.2021.13782', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dospem: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
+      { nama: 'Salwa Salsabila', nim: 'A11.2020.12864', prodi: 'S1 Teknik Informatika', posisi: 'Cyber Security & Network', dospem: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
+      { nama: 'Fakhrurrozi', nim: 'A11.2020.12592', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dospem: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' }
     ]
   },
   {
@@ -1183,8 +1183,8 @@ let kontributorListData = [
       { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
     ],
     mhs: [
-      { nama: "SYIFA AIN'NUR MANZILA", nim: 'A11.2019.12233', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dpl: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' },
-      { nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dpl: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' }
+      { nama: "SYIFA AIN'NUR MANZILA", nim: 'A11.2019.12233', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dospem: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' },
+      { nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dospem: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' }
     ]
   },
   {
@@ -1205,7 +1205,7 @@ let kontributorListData = [
       { nama: 'Ahmad Zainul, M.Kom', nidn: '0686.11.2012.003', prodi: 'S1 Desain Komunikasi Visual', mhsCount: 4 }
     ],
     mhs: [
-      { nama: 'Dewi Lestari', nim: 'A14.2020.03456', prodi: 'S1 DKV', posisi: 'UI/UX & Product Design', dpl: 'Ahmad Zainul, M.Kom', status: 'Aktif' }
+      { nama: 'Dewi Lestari', nim: 'A14.2020.03456', prodi: 'S1 DKV', posisi: 'UI/UX & Product Design', dospem: 'Ahmad Zainul, M.Kom', status: 'Aktif' }
     ]
   },
   {
@@ -1226,8 +1226,8 @@ let kontributorListData = [
       { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
     ],
     mhs: [
-      { nama: 'Ahmad Fauzi', nim: 'A11.2021.13890', prodi: 'S1 Teknik Informatika', posisi: 'AI & Data Science Researcher', dpl: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' },
-      { nama: 'Khalivio Rahmiyanto Putra', nim: 'A11.2020.12969', prodi: 'S1 Teknik Informatika', posisi: 'AI Researcher', dpl: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' }
+      { nama: 'Ahmad Fauzi', nim: 'A11.2021.13890', prodi: 'S1 Teknik Informatika', posisi: 'AI & Data Science Researcher', dospem: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' },
+      { nama: 'Khalivio Rahmiyanto Putra', nim: 'A11.2020.12969', prodi: 'S1 Teknik Informatika', posisi: 'AI Researcher', dospem: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' }
     ]
   },
 
@@ -1256,7 +1256,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'Machine Learning Cohort',
         noLoa: 'LoA-DCD/ASAH-7/2026/088',
-        dpl: 'Nurul Anisa S.W., M.Cs',
+        dospem: 'Nurul Anisa S.W., M.Cs',
         status: 'Disahkan (Aktif)'
       }
     ]
@@ -1286,7 +1286,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'Data Analyst Intern',
         noLoa: 'LoA-TS/MSIB-7/2026/0142',
-        dpl: 'Nurul Anisa S.W., M.Cs',
+        dospem: 'Nurul Anisa S.W., M.Cs',
         status: 'Disahkan (Aktif)'
       },
       {
@@ -1295,7 +1295,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'Cyber Security Defense',
         noLoa: 'LoA-TS/MSIB-7/2026/0199',
-        dpl: 'Dr. Ricardus Anggi, M.Kom',
+        dospem: 'Dr. Ricardus Anggi, M.Kom',
         status: 'Disahkan (Aktif)'
       }
     ]
@@ -1324,7 +1324,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'Backend Banking Engineer',
         noLoa: 'SK-BCA-MAGANG/2026/045',
-        dpl: 'Dr. Muljono, S.Si, M.Kom',
+        dospem: 'Dr. Muljono, S.Si, M.Kom',
         status: 'Disahkan (Aktif)'
       },
       {
@@ -1333,7 +1333,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'IT Quality Assurance',
         noLoa: 'SK-BCA-MAGANG/2026/078',
-        dpl: 'Dr. Muljono, S.Si, M.Kom',
+        dospem: 'Dr. Muljono, S.Si, M.Kom',
         status: 'Disahkan (Aktif)'
       }
     ]
@@ -1362,7 +1362,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'Frontend Engineer',
         noLoa: 'GOTO/INTERN/2026/092',
-        dpl: 'Nurul Anisa S.W., M.Cs',
+        dospem: 'Nurul Anisa S.W., M.Cs',
         status: 'Disahkan (Aktif)'
       }
     ]
@@ -1391,7 +1391,7 @@ let kontributorListData = [
         prodi: 'S1 Teknik Informatika',
         posisi: 'SOC Analyst Intern',
         noLoa: 'BSSN/DIKTI/2026/011',
-        dpl: 'Dr. Ricardus Anggi, M.Kom',
+        dospem: 'Dr. Ricardus Anggi, M.Kom',
         status: 'Disahkan (Aktif)'
       }
     ]

@@ -4426,6 +4426,15 @@ function showKontributorDetail(id) {
         <i data-lucide="user-check" class="mr-2 h-4 w-4"></i>
         <span>Daftar Dosen</span>
       </button>
+      <button
+        type="button"
+        id="btn-detail-tab-3"
+        onclick="switchKontributorDetailTab(3)"
+        class="detail-tab-btn flex items-center px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
+      >
+        <i data-lucide="git-branch" class="mr-2 h-4 w-4"></i>
+        <span>Relasi Dospem</span>
+      </button>
     `;
   }
 
@@ -4456,7 +4465,7 @@ function showKontributorDetail(id) {
                 <div class="text-[#71717a] text-xs">${m.nim}</div>
               </td>
               <td class="px-4 text-sm text-[#71717a]">${m.prodi}</td>
-              <td class="px-4 text-sm text-[#09090b]">${m.dpl || '-'}</td>
+              <td class="px-4 text-sm text-[#09090b]">${m.dospem || '-'}</td>
               <td class="px-4 text-center">
                 <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
               </td>
@@ -4495,10 +4504,62 @@ function showKontributorDetail(id) {
 
   if (pane1) pane1.innerHTML = renderTableMahasiswa(item.mhs || []);
   if (pane2) pane2.innerHTML = renderTableDosen(item.dosen || []);
-  if (pane3) pane3.innerHTML = '';
+  if (pane3) pane3.innerHTML = renderRelasiDospemMahasiswa(item.dosen || [], item.mhs || []);
 
   switchKontributorDetailTab(1);
   if (window.lucide) window.lucide.createIcons();
+}
+
+// Relasi: mahasiswa magang di kontributor dikelompokkan per Dosen Pembimbing
+function renderRelasiDospemMahasiswa(dosenList, mhsList) {
+  const groups = dosenList.map((d) => ({
+    nama: d.nama,
+    nidn: d.nidn,
+    prodi: d.prodi,
+    mhs: mhsList.filter((m) => m.dospem === d.nama),
+  }));
+  const belumAda = mhsList.filter((m) => !m.dospem || !dosenList.some((d) => d.nama === m.dospem));
+  if (belumAda.length > 0) {
+    groups.push({ nama: 'Belum Ada Dospem', nidn: '-', prodi: '-', mhs: belumAda });
+  }
+  if (groups.length === 0) {
+    return '<div class="rounded-lg border border-[#e4e4e7] bg-white py-6 text-center text-sm text-[#71717a]">Belum ada relasi Dosen Pembimbing dan mahasiswa.</div>';
+  }
+
+  return groups.map((g) => `
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
+      <div class="flex items-center justify-between gap-3 px-4 py-3 bg-[#fafafa] border-b border-[#e4e4e7]">
+        <div>
+          <p class="text-sm font-semibold text-[#09090b]">${g.nama}</p>
+          <p class="text-xs text-[#71717a]">${g.nidn !== '-' ? 'NIDN ' + g.nidn + ' · ' : ''}${g.prodi}</p>
+        </div>
+        <span class="inline-flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-semibold text-[#09090b]">${g.mhs.length} Mahasiswa</span>
+      </div>
+      <table class="w-full text-sm">
+        <thead class="border-b border-[#e4e4e7]">
+          <tr>
+            <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
+            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
+            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Posisi Magang</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e4e4e7]">
+          ${g.mhs.length === 0 ? '<tr><td colspan="4" class="py-5 text-center text-sm text-[#71717a]">Belum ada mahasiswa bimbingan di kontributor ini.</td></tr>' : g.mhs.map((m, idx) => `
+            <tr class="h-12 hover:bg-[#f4f4f5]/60 transition-colors">
+              <td class="px-3 text-center text-[#71717a] text-xs">${idx + 1}</td>
+              <td class="px-4">
+                <div class="font-medium text-[#09090b] text-sm">${m.nama}</div>
+                <div class="text-[#71717a] text-xs">${m.nim}</div>
+              </td>
+              <td class="px-4 text-sm text-[#71717a]">${m.prodi}</td>
+              <td class="px-4 text-sm text-[#09090b]">${m.posisi || '-'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `).join('');
 }
 
 function switchKontributorDetailTab(paneIndex) {
