@@ -7,6 +7,7 @@ import DetailTimeline from '../components/mbkm/detail/DetailTimeline.astro';
 import DetailShowcase from '../components/mbkm/detail/DetailShowcase.astro';
 import DetailFaq from '../components/mbkm/detail/DetailFaq.astro';
 import DetailFooter from '../components/mbkm/detail/DetailFooter.astro';
+import DetailFloatingDaftar from '../components/mbkm/detail/DetailFloatingDaftar.astro';
 ---
 
 <!doctype html>
@@ -51,6 +52,7 @@ import DetailFooter from '../components/mbkm/detail/DetailFooter.astro';
       <DetailFaq />
     </main>
     <DetailFooter />
+    <DetailFloatingDaftar />
 
     <script is:inline>
       const renderIcons = () => { if (typeof lucide !== "undefined") lucide.createIcons(); };

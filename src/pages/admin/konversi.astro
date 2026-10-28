@@ -230,7 +230,7 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
       <table class="w-full caption-bottom text-sm border-collapse">
         <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
           <tr>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm w-14">No</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-14">No</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[200px]">Mahasiswa</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[180px]">MBKM</th>
             <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-24">SKS</th>
@@ -241,7 +241,7 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
         <tbody class="divide-y divide-[#e4e4e7]">
           <template x-for="(item, idx) in paginatedList" :key="item.id">
             <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
-              <td class="p-4 align-middle text-sm text-[#09090b] font-medium" x-text="(currentPage - 1) * pageSize + idx + 1"></td>
+              <td class="p-4 align-middle text-center text-sm text-[#09090b] font-medium" x-text="(currentPage - 1) * pageSize + idx + 1"></td>
 
               <td class="p-4 align-middle">
                 <div class="font-medium text-sm text-[#09090b]" x-text="item.nama"></div>
