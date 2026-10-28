@@ -59,39 +59,39 @@ const studentsJson = JSON.stringify(students);
     <!-- 1. Search Bar (Persis seperti di screenshot) -->
     <div class="relative w-full mb-4">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <i data-lucide="search" class="w-4 h-4 text-[#94a3b8]"></i>
+        <i data-lucide="search" class="w-4 h-4 text-[#71717a]"></i>
       </div>
       <input
         type="text"
         x-model="search"
         placeholder="Cari berdasarkan nama, NIM, atau judul..."
-        class="w-full pl-9 pr-4 py-2 border border-[#e2e8f0] rounded-md text-sm bg-white placeholder-[#94a3b8] text-[#0f172a] focus:outline-none focus:border-blue-500"
+        class="w-full pl-9 pr-4 py-2 border border-[#e4e4e7] rounded-md text-sm bg-white placeholder-[#71717a] text-[#09090b] focus:outline-none focus:border-[#0655a7]"
       />
     </div>
 
     <!-- 2. Tabel Mahasiswa Bimbingan (Langsung tanpa tabbar redundan) -->
-    <div class="rounded-md border border-[#e2e8f0] bg-white overflow-hidden shadow-none">
+    <div class="rounded-lg border border-[#e4e4e7] bg-white overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-sm text-left border-collapse">
           <thead>
-            <tr class="border-b border-[#e2e8f0] bg-white">
-              <th class="w-12 px-4 py-3 text-xs font-medium text-[#64748b] text-center">No</th>
-              <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Nama</th>
-              <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Kontak</th>
-              <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Terakhir Bimbingan</th>
-              <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Status MBKM</th>
+            <tr class="border-b border-[#e4e4e7] bg-[#fafafa]">
+              <th class="h-11 w-12 px-4 text-center text-xs font-semibold text-[#71717a]">No</th>
+              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Nama</th>
+              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Kontak</th>
+              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Terakhir Bimbingan</th>
+              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Status MBKM</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-[#e2e8f0]">
+          <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(row, idx) in filteredStudents" :key="row.nim">
-              <tr class="hover:bg-slate-50/50 transition-colors">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
                 <!-- No -->
-                <td class="px-4 py-3 text-xs text-[#64748b] text-center" x-text="idx + 1"></td>
+                <td class="w-12 px-4 py-3 text-center text-xs text-[#71717a]" x-text="idx + 1"></td>
 
                 <!-- Nama (Stacked: Avatar + Nama di atas, NIM di bawah) -->
                 <td class="px-4 py-3">
                   <div class="flex items-center gap-3">
-                    <div class="h-9 w-9 rounded-full bg-[#1063B9] text-white flex items-center justify-center font-semibold text-xs shrink-0 overflow-hidden">
+                    <div class="h-9 w-9 rounded-full bg-[#0655a7] text-white flex items-center justify-center font-semibold text-xs shrink-0 overflow-hidden">
                       <img
                         src="/assets/landingpage/img/dosen/default.png"
                         alt="Avatar"
@@ -101,8 +101,8 @@ const studentsJson = JSON.stringify(students);
                       <i data-lucide="user" class="w-4 h-4"></i>
                     </div>
                     <div class="min-w-0">
-                      <div class="font-medium text-sm text-[#0f172a] truncate" x-text="row.nama"></div>
-                      <div class="text-xs text-[#64748b]" x-text="row.nim"></div>
+                      <div class="font-medium text-sm text-[#09090b] truncate" x-text="row.nama"></div>
+                      <div class="text-xs text-[#71717a]" x-text="row.nim"></div>
                     </div>
                   </div>
                 </td>
@@ -111,28 +111,28 @@ const studentsJson = JSON.stringify(students);
                 <td class="px-4 py-3">
                   <div class="flex flex-col gap-1 text-sm">
                     <div class="flex items-center gap-1.5">
-                      <i data-lucide="mail" class="h-3.5 w-3.5 text-[#64748b] shrink-0"></i>
-                      <span class="text-xs text-[#0f172a] truncate" x-text="row.email"></span>
+                      <i data-lucide="mail" class="h-3.5 w-3.5 text-[#71717a] shrink-0"></i>
+                      <span class="text-xs text-[#09090b] truncate" x-text="row.email"></span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                      <i data-lucide="phone" class="h-3.5 w-3.5 text-[#64748b] shrink-0"></i>
-                      <span class="text-xs text-[#64748b]" x-text="row.telepon"></span>
+                      <i data-lucide="phone" class="h-3.5 w-3.5 text-[#71717a] shrink-0"></i>
+                      <span class="text-xs text-[#71717a]" x-text="row.telepon"></span>
                     </div>
                   </div>
                 </td>
 
                 <!-- Terakhir Bimbingan -->
                 <td class="px-4 py-3">
-                  <span class="text-xs text-[#64748b]" x-text="row.terakhirBimbingan"></span>
+                  <span class="text-xs text-[#71717a]" x-text="row.terakhirBimbingan"></span>
                 </td>
 
                 <!-- Status MBKM -->
                 <td class="px-4 py-3">
                   <template x-if="row.statusVariant === 'konversi'">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-green-100 text-green-700 border border-green-300" x-text="row.statusMbkm"></span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200" x-text="row.statusMbkm"></span>
                   </template>
                   <template x-if="row.statusVariant === 'reguler'">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-300" x-text="row.statusMbkm"></span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200" x-text="row.statusMbkm"></span>
                   </template>
                 </td>
               </tr>
@@ -141,14 +141,14 @@ const studentsJson = JSON.stringify(students);
         </table>
 
         <!-- Empty state saat pencarian tidak ditemukan -->
-        <div x-show="filteredStudents.length === 0" class="py-10 text-center text-[#64748b] text-sm">
+        <div x-show="filteredStudents.length === 0" class="py-10 text-center text-[#71717a] text-sm">
           Tidak ada mahasiswa bimbingan yang sesuai pencarian.
         </div>
       </div>
     </div>
 
     <!-- 4. Footer Pagination (Persis seperti di screenshot) -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 text-xs text-[#64748b]">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 text-xs text-[#71717a]">
       <div>
         Page 1 of 1 (<span x-text="filteredStudents.length"></span> total items)
       </div>
@@ -159,14 +159,14 @@ const studentsJson = JSON.stringify(students);
           <button
             type="button"
             disabled
-            class="h-8 w-8 flex items-center justify-center border border-[#e2e8f0] rounded-md bg-white text-[#94a3b8] cursor-not-allowed"
+            class="h-8 w-8 flex items-center justify-center border border-[#e4e4e7] rounded-md bg-white text-[#71717a] cursor-not-allowed"
           >
             <i data-lucide="chevron-left" class="w-4 h-4"></i>
           </button>
 
           <button
             type="button"
-            class="h-8 px-3 flex items-center justify-center rounded-md bg-[#1063B9] text-white font-medium text-xs"
+            class="h-8 px-3 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-medium text-xs"
           >
             1
           </button>
@@ -174,7 +174,7 @@ const studentsJson = JSON.stringify(students);
           <button
             type="button"
             disabled
-            class="h-8 w-8 flex items-center justify-center border border-[#e2e8f0] rounded-md bg-white text-[#94a3b8] cursor-not-allowed"
+            class="h-8 w-8 flex items-center justify-center border border-[#e4e4e7] rounded-md bg-white text-[#71717a] cursor-not-allowed"
           >
             <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </button>
@@ -184,10 +184,10 @@ const studentsJson = JSON.stringify(students);
         <div class="relative">
           <button
             type="button"
-            class="h-8 px-3 border border-[#e2e8f0] rounded-md bg-white text-xs text-[#0f172a] flex items-center gap-2 hover:bg-gray-50"
+            class="h-8 px-3 border border-[#e4e4e7] rounded-md bg-white text-xs text-[#09090b] flex items-center gap-2 hover:bg-[#f4f4f5] transition-colors"
           >
             <span>Show 5 items</span>
-            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#64748b]"></i>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-[#71717a]"></i>
           </button>
         </div>
       </div>

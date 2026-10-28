@@ -4440,7 +4440,7 @@ function showKontributorDetail(id) {
       <table class="w-full text-sm">
         <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
           <tr>
-            <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+            <th class="h-11 w-12 px-3 text-center text-xs font-semibold text-[#71717a]">No</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Dosen Pembimbing</th>
@@ -4450,7 +4450,7 @@ function showKontributorDetail(id) {
         <tbody class="divide-y divide-[#e4e4e7]">
           ${mhsList.length === 0 ? '<tr><td colspan="5" class="py-6 text-center text-sm text-[#71717a]">Belum ada data mahasiswa terdaftar.</td></tr>' : mhsList.map((m, idx) => `
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="px-3 text-center text-[#71717a] text-xs">${idx + 1}</td>
+              <td class="w-12 px-3 text-center text-xs text-[#71717a]">${idx + 1}</td>
               <td class="px-4">
                 <div class="font-medium text-[#09090b] text-sm">${m.nama}</div>
                 <div class="text-[#71717a] text-xs">${m.nim}</div>
@@ -4503,7 +4503,7 @@ function renderRelasiDospemMahasiswa(dosenList, mhsList) {
       <table class="w-full text-sm">
         <thead class="border-b border-[#e4e4e7]">
           <tr>
-            <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
+            <th class="h-11 w-12 px-3 text-center text-xs font-semibold text-[#71717a]">No</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Posisi Magang</th>
@@ -4512,7 +4512,7 @@ function renderRelasiDospemMahasiswa(dosenList, mhsList) {
         <tbody class="divide-y divide-[#e4e4e7]">
           ${g.mhs.length === 0 ? '<tr><td colspan="4" class="py-5 text-center text-sm text-[#71717a]">Belum ada mahasiswa bimbingan di kontributor ini.</td></tr>' : g.mhs.map((m, idx) => `
             <tr class="h-12 hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="px-3 text-center text-[#71717a] text-xs">${idx + 1}</td>
+              <td class="w-12 px-3 text-center text-xs text-[#71717a]">${idx + 1}</td>
               <td class="px-4">
                 <div class="font-medium text-[#09090b] text-sm">${m.nama}</div>
                 <div class="text-[#71717a] text-xs">${m.nim}</div>
