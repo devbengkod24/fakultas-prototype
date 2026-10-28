@@ -4426,15 +4426,6 @@ function showKontributorDetail(id) {
         <i data-lucide="user-check" class="mr-2 h-4 w-4"></i>
         <span>Daftar Dosen</span>
       </button>
-      <button
-        type="button"
-        id="btn-detail-tab-3"
-        onclick="switchKontributorDetailTab(3)"
-        class="detail-tab-btn flex items-center px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors"
-      >
-        <i data-lucide="git-branch" class="mr-2 h-4 w-4"></i>
-        <span>Relasi Dospem</span>
-      </button>
     `;
   }
 
@@ -4476,41 +4467,15 @@ function showKontributorDetail(id) {
     </div>
   `;
 
-  // Helper render tabel dosen bersih (No, Nama Dosen, NIDN, Prodi) - Kolom Mahasiswa Binaan Dihapus Sesuai Request
-  const renderTableDosen = (dosenList) => `
-    <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
-      <table class="w-full text-sm">
-        <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-          <tr>
-            <th class="h-10 w-12 px-3 text-center font-medium text-[#71717a] text-xs">No</th>
-            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Nama Dosen</th>
-            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">NIDN</th>
-            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-[#e4e4e7]">
-          ${dosenList.length === 0 ? '<tr><td colspan="4" class="py-6 text-center text-sm text-[#71717a]">Belum ada data dosen teralokasi.</td></tr>' : dosenList.map((d, idx) => `
-            <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="px-3 text-center text-[#71717a] text-xs">${idx + 1}</td>
-              <td class="px-4 font-medium text-[#09090b] text-sm">${d.nama}</td>
-              <td class="px-4 text-xs text-[#71717a]">${d.nidn}</td>
-              <td class="px-4 text-sm text-[#71717a]">${d.prodi}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
-
   if (pane1) pane1.innerHTML = renderTableMahasiswa(item.mhs || []);
-  if (pane2) pane2.innerHTML = renderTableDosen(item.dosen || []);
-  if (pane3) pane3.innerHTML = renderRelasiDospemMahasiswa(item.dosen || [], item.mhs || []);
+  if (pane2) pane2.innerHTML = renderRelasiDospemMahasiswa(item.dosen || [], item.mhs || []);
+  if (pane3) pane3.innerHTML = '';
 
   switchKontributorDetailTab(1);
   if (window.lucide) window.lucide.createIcons();
 }
 
-// Relasi: mahasiswa magang di kontributor dikelompokkan per Dosen Pembimbing
+// Daftar Dosen Pembimbing beserta mahasiswa bimbingannya di kontributor ini (satu tampilan)
 function renderRelasiDospemMahasiswa(dosenList, mhsList) {
   const groups = dosenList.map((d) => ({
     nama: d.nama,
