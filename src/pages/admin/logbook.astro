@@ -59,7 +59,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">No.</th>
+              <th class="h-11 w-16 px-4 font-medium text-sm text-center text-[#71717a]">No</th>
               <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama Dosen</th>
               <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Logbook Mhs.</th>
               <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab 1</th>
@@ -74,7 +74,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
               <tr class="hover:bg-[#fafafa] transition-colors">
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="idx + 1"></td>
                 <td class="h-[68px] px-4 text-sm">
                   <div class="flex flex-col leading-tight gap-1">
                     <span class="font-semibold text-[#09090b] text-sm tracking-tight" x-text="dosen.nama"></span>
@@ -189,7 +189,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
               <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
               <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">NIM</th>
               <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Bab Terakhir</th>

@@ -75,7 +75,7 @@ const studentsJson = JSON.stringify(students);
         <table class="w-full text-sm text-left border-collapse">
           <thead>
             <tr class="border-b border-[#e2e8f0] bg-white">
-              <th class="w-12 px-4 py-3 text-xs font-medium text-[#64748b]">No</th>
+              <th class="w-12 px-4 py-3 text-xs font-medium text-[#64748b] text-center">No</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Nama</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Kontak</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Terakhir Bimbingan</th>
@@ -86,7 +86,7 @@ const studentsJson = JSON.stringify(students);
             <template x-for="(row, idx) in filteredStudents" :key="row.nim">
               <tr class="hover:bg-slate-50/50 transition-colors">
                 <!-- No -->
-                <td class="px-4 py-3 text-xs text-[#64748b]" x-text="idx + 1"></td>
+                <td class="px-4 py-3 text-xs text-[#64748b] text-center" x-text="idx + 1"></td>
 
                 <!-- Nama (Stacked: Avatar + Nama di atas, NIM di bawah) -->
                 <td class="px-4 py-3">

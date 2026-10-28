@@ -213,7 +213,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <table class="w-full caption-bottom text-sm border-collapse">
           <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
             <tr>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm w-16">No.</th>
+              <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-16">No</th>
               <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Gelombang Sidang</th>
               <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Tanggal Awal</th>
               <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Tanggal Akhir</th>
@@ -252,7 +252,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             <!-- Baris Data Gelombang -->
             <template x-for="(row, index) in paginatedList" :key="row.id">
               <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
-                <td class="p-4 align-middle font-medium text-sm text-[#09090b]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
+                <td class="p-4 align-middle text-center font-medium text-sm text-[#09090b]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
                 <td class="p-4 align-middle text-sm font-medium text-[#09090b]" x-text="row.nama_gelombang"></td>
                 <td class="p-4 align-middle text-sm text-[#09090b]" x-text="row.tgl_awal"></td>
                 <td class="p-4 align-middle text-sm text-[#09090b]" x-text="row.tgl_akhir"></td>

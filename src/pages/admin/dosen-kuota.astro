@@ -157,7 +157,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm w-16 text-left text-[#71717a]">No</th>
+              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
               <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">
                 <button
                   type="button"
@@ -179,7 +179,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(dosen, idx) in filteredDosen" :key="dosen.id">
               <tr class="hover:bg-[#fafafa] transition-colors">
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="idx + 1"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#3f3f46]" x-text="idx + 1"></td>
                 <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-3">
                     <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#52525b] font-medium text-sm flex items-center justify-center shrink-0">
