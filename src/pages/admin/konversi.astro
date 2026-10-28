@@ -226,114 +226,120 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
     </template>
 
     <!-- Tabel Konversi SKS -->
-    <div class="rounded-md border border-[#e4e4e7] overflow-x-auto bg-white" x-show="filteredList.length > 0">
-      <table class="w-full caption-bottom text-sm border-collapse">
-        <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
-          <tr>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm w-14">No</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[200px]">Mahasiswa</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[180px]">MBKM</th>
-            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-24">SKS</th>
-            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[140px]">Status</th>
-            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm w-32">Aksi</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-[#e4e4e7]">
-          <template x-for="(item, idx) in paginatedList" :key="item.id">
-            <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
-              <td class="p-4 align-middle text-sm text-[#09090b] font-medium" x-text="(currentPage - 1) * pageSize + idx + 1"></td>
-
-              <td class="p-4 align-middle">
-                <div class="font-medium text-sm text-[#09090b]" x-text="item.nama"></div>
-                <div class="text-xs text-[#71717a] mt-0.5" x-text="item.nim"></div>
-              </td>
-
-              <td class="p-4 align-middle text-sm text-[#09090b]" x-text="item.mitra"></td>
-
-              <td class="p-4 align-middle text-center text-sm font-semibold text-[#0655a7]" x-text="`${item.sks} SKS`"></td>
-
-              <td class="p-4 align-middle text-center">
-                <template x-if="item.status === 'Disetujui'">
-                  <span class="inline-flex items-center whitespace-nowrap rounded-md border border-green-400/60 bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-600">
-                    Disetujui
-                  </span>
-                </template>
-                <template x-if="item.status === 'Revisi'">
-                  <span class="inline-flex items-center whitespace-nowrap rounded-md border border-amber-200 bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700">
-                    Revisi
-                  </span>
-                </template>
-                <template x-if="item.status === 'Belum Ditinjau'">
-                  <span class="inline-flex items-center whitespace-nowrap rounded-md border border-[#e4e4e7] bg-[#f4f4f5] px-2.5 py-0.5 text-xs font-medium text-[#71717a]">
-                    Belum Ditinjau
-                  </span>
-                </template>
-              </td>
-
-              <td class="p-4 align-middle text-center">
-                <button
-                  type="button"
-                  @click="openVerifikasi(item)"
-                  class="h-8 px-3.5 inline-flex items-center justify-center rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium transition-colors cursor-pointer"
-                >
-                  <span>Verifikasi</span>
-                </button>
-              </td>
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white" x-show="filteredList.length > 0">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+            <tr>
+              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[200px]">Mahasiswa</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[180px]">MBKM</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-24">SKS</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[140px]">Status</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-32">Aksi</th>
             </tr>
-          </template>
-        </tbody>
-      </table>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7]">
+            <template x-for="(item, idx) in paginatedList" :key="item.id">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
+
+                <td class="h-[68px] px-4 text-sm">
+                  <div class="flex items-center gap-3">
+                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                      <span x-text="item.nama.charAt(0)"></span>
+                    </div>
+                    <div class="flex flex-col leading-tight gap-0.5">
+                      <span class="font-semibold text-[#09090b] text-sm" x-text="item.nama"></span>
+                      <span class="text-xs text-[#71717a]" x-text="item.nim"></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="h-[68px] px-4 text-sm text-[#09090b]" x-text="item.mitra"></td>
+
+                <td class="h-[68px] px-4 text-center text-sm font-semibold text-[#0655a7]" x-text="`${item.sks} SKS`"></td>
+
+                <td class="h-[68px] px-4 text-center text-sm">
+                  <template x-if="item.status === 'Disetujui'">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800">
+                      Disetujui
+                    </span>
+                  </template>
+                  <template x-if="item.status === 'Revisi'">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-800">
+                      Revisi
+                    </span>
+                  </template>
+                  <template x-if="item.status === 'Belum Ditinjau'">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">
+                      Belum Ditinjau
+                    </span>
+                  </template>
+                </td>
+
+                <td class="h-[68px] px-4 text-center text-sm">
+                  <button
+                    type="button"
+                    @click="openVerifikasi(item)"
+                    class="h-8 px-3.5 inline-flex items-center justify-center rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+                  >
+                    <span>Verifikasi</span>
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Pagination Controls -->
-    <div class="pt-2 bg-white" x-show="filteredList.length > 0">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredList.length} total items)`"></span>
+    <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1" x-show="filteredList.length > 0">
+      <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredList.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredList.length) + ' dari ' + filteredList.length + ' data'"></div>
+      <div class="flex items-center gap-1.5">
+        <button
+          type="button"
+          @click="if (currentPage > 1) { currentPage--; reinitLucide(); }"
+          :disabled="currentPage <= 1"
+          :class="currentPage <= 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer"
+          title="Halaman Sebelumnya"
+        >
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
 
-        <div class="flex gap-4 items-center">
-          <div class="flex items-center gap-1">
-            <button
-              type="button"
-              @click="currentPage--; reinitLucide()"
-              :disabled="currentPage <= 1"
-              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            >
-              <i data-lucide="chevron-left" class="w-4 h-4"></i>
-            </button>
-            <template x-for="p in totalPages" :key="p">
-              <button
-                type="button"
-                @click="currentPage = p; reinitLucide()"
-                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
-                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
-                x-text="p"
-              >
-              </button>
-            </template>
-            <button
-              type="button"
-              @click="currentPage++; reinitLucide()"
-              :disabled="currentPage >= totalPages"
-              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            >
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </button>
-          </div>
+        <template x-for="p in totalPages" :key="p">
+          <button
+            type="button"
+            @click="currentPage = p; reinitLucide()"
+            :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
+            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer"
+            x-text="p"
+          ></button>
+        </template>
 
-          <div class="relative">
-            <select
-              x-model.number="pageSize"
-              @change="currentPage = 1; reinitLucide()"
-              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
-            >
-              <option value="5">Show 5 items</option>
-              <option value="10">Show 10 items</option>
-              <option value="20">Show 20 items</option>
-              <option value="50">Show 50 items</option>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-        </div>
+        <button
+          type="button"
+          @click="if (currentPage < totalPages) { currentPage++; reinitLucide(); }"
+          :disabled="currentPage >= totalPages"
+          :class="currentPage >= totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors cursor-pointer"
+          title="Halaman Selanjutnya"
+        >
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+
+        <select
+          x-model.number="pageSize"
+          @change="currentPage = 1; reinitLucide()"
+          class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="5">Show 5 items</option>
+          <option value="10">Show 10 items</option>
+          <option value="25">Show 25 items</option>
+          <option value="50">Show 50 items</option>
+        </select>
       </div>
     </div>
 

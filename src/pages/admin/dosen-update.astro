@@ -13,7 +13,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
       selectedDosenId: '',
       isKonversi: false,
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       dosenList: [
         { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom', sisaKuota: 3, nidn: '0625057001' },
         { id: 2, nama: 'Eko Hari Rachmawanto, M.Kom', sisaKuota: 4, nidn: '0612088401' },
@@ -42,6 +42,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
           m.nim.toLowerCase().includes(q) ||
           (m.dospem && m.dospem.toLowerCase().includes(q))
         );
+      },
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredMhs.length / this.itemsPerPage));
+      },
+      get paginatedMhs() {
+        const start = (this.currentPage - 1) * this.itemsPerPage;
+        return this.filteredMhs.slice(start, start + this.itemsPerPage);
       },
       get currentLogs() {
         if (!this.selectedMhs) {
@@ -117,6 +124,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             <input
               type="text"
               x-model="searchQuery"
+              @input="currentPage = 1"
               placeholder="Cari nama atau NIM..."
               class="w-full pl-8 pr-3 h-8 text-sm rounded-md border border-[#e4e4e7] bg-white text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
             />
@@ -128,17 +136,19 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <table class="w-full text-left border-collapse">
             <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
               <tr>
-                <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Mahasiswa</th>
-                <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Dospem Saat Ini</th>
+                <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+                <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
+                <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Dospem Saat Ini</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#e4e4e7] bg-white">
-              <template x-for="m in filteredMhs" :key="m.id">
+              <template x-for="(m, idx) in paginatedMhs" :key="m.id">
                 <tr
                   @click="selectMahasiswa(m)"
                   class="cursor-pointer transition-colors hover:bg-[#f4f4f5]/60"
                   :class="selectedMhs && selectedMhs.id === m.id ? 'bg-[#0655a7]/5 border-l-4 border-l-[#0655a7]' : ''"
                 >
+                  <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * itemsPerPage) + (idx + 1)"></td>
                   <td class="h-[68px] px-4 text-sm">
                     <div class="flex items-center gap-3">
                       <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
@@ -160,9 +170,9 @@ import AdminShell from '../../layouts/AdminShell.astro';
                   </td>
                 </tr>
               </template>
-              <template x-if="filteredMhs.length === 0">
+              <template x-if="paginatedMhs.length === 0">
                 <tr>
-                  <td colspan="2" class="h-24 text-center text-xs text-[#71717a]">
+                  <td colspan="3" class="h-24 text-center text-xs text-[#71717a]">
                     Tidak ada mahasiswa ditemukan.
                   </td>
                 </tr>
@@ -173,47 +183,46 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
         <!-- Standardized Pagination Sesuai Screenshot 1 -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 p-3 border-t border-[#e4e4e7] bg-[#fafafa] shrink-0 mt-auto">
-          <div class="text-xs text-[#71717a]">
-            Menampilkan 1 - <span x-text="filteredMhs.length"></span> dari <span x-text="filteredMhs.length"></span> data
-          </div>
-          <div class="flex items-center gap-2">
+          <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredMhs.length === 0 ? 0 : ((currentPage - 1) * itemsPerPage + 1)) + ' - ' + Math.min(currentPage * itemsPerPage, filteredMhs.length) + ' dari ' + filteredMhs.length + ' data'"></div>
+          <div class="flex items-center gap-1.5">
             <button
               type="button"
-              disabled
-              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+              @click="if (currentPage > 1) currentPage--"
+              :disabled="currentPage <= 1"
+              :class="currentPage <= 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+              title="Halaman Sebelumnya"
             >
               <i data-lucide="chevron-left" class="w-4 h-4"></i>
             </button>
+
+            <template x-for="p in totalPages" :key="p">
+              <button
+                type="button"
+                @click="currentPage = p"
+                :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
+                class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+                x-text="p"
+              ></button>
+            </template>
+
             <button
               type="button"
-              class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-            >
-              1
-            </button>
-            <button
-              type="button"
-              disabled
-              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
-            >
-              2
-            </button>
-            <button
-              type="button"
-              disabled
-              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs opacity-50"
-            >
-              3
-            </button>
-            <button
-              type="button"
-              disabled
-              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] opacity-50 cursor-not-allowed"
+              @click="if (currentPage < totalPages) currentPage++"
+              :disabled="currentPage >= totalPages"
+              :class="currentPage >= totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+              class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+              title="Halaman Selanjutnya"
             >
               <i data-lucide="chevron-right" class="w-4 h-4"></i>
             </button>
+
             <select
+              x-model.number="itemsPerPage"
+              @change="currentPage = 1"
               class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
             >
+              <option value="5">Show 5 items</option>
               <option value="10">Show 10 items</option>
               <option value="25">Show 25 items</option>
               <option value="50">Show 50 items</option>
