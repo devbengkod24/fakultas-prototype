@@ -1,67 +1,85 @@
 ---
 // src/pages/mahasiswa/dosen-pembimbing.astro
-import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import { cn } from "../../utils/cn";
 ---
 
 <MahasiswaShell
   title="Dosen Pembimbing | Mahasiswa - FIK Udinus"
-  activeNav="dosen-pembimbing"
-  pageTitle="Dosen Pembimbing Lapangan (DPL)"
+  activeNav="dashboard"
+  pageTitle="Dosen Pembimbing"
   breadcrumb="Dosen Pembimbing"
 >
-  <section id="view-dosen-pembimbing" class="space-y-6">
-    <!-- Header -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Dosen Pembimbing</h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">Informasi dosen pembimbing lapangan (DPL) dan jadwal bimbingan program MBKM.</p>
-      </div>
+  <section id="view-dosen-pembimbing" class={cn("space-y-6")}>
+    <div>
+      <h1 class="text-lg font-semibold text-[#09090b]">Dosen Pembimbing</h1>
+      <p class="text-xs text-[#71717a] leading-relaxed mt-0.5">
+        Informasi pembimbing akademik dan bimbingan kegiatan MBKM mahasiswa.
+      </p>
     </div>
 
-    <!-- DPL Section -->
-    <div class="max-w-2xl">
-      <!-- Card DPL -->
-      <div class="p-5 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs space-y-4">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-full bg-[#1063B9] text-white font-semibold text-lg flex items-center justify-center shrink-0">
-            RA
-          </div>
-          <div>
-            <h3 class="text-[15px] font-semibold text-[#09090b]">Dr. Ricardus Anggi Pramunendar, M.Kom</h3>
-            <p class="text-[12px] text-[#71717a]">Dosen Pembimbing Lapangan (DPL)</p>
-          </div>
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-6 space-y-4 shadow-none">
+      <div class="flex items-start gap-3.5">
+        <div class="w-10 h-10 rounded-lg bg-[#fafafa] border border-[#e4e4e7] flex items-center justify-center text-[#0655a7] shrink-0">
+          <i data-lucide="info" class="w-4 h-4"></i>
         </div>
-        <div class="space-y-2 text-[13px] text-[#71717a]">
-          <p>Email: <a href="mailto:ricardus.anggi@dsn.dinus.ac.id" class="text-[#1063B9] hover:underline">ricardus.anggi@dsn.dinus.ac.id</a></p>
-          <p>Bidang: Software Architecture, AI Systems</p>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="text-base font-semibold text-[#09090b]">Menu Dipindahkan ke Dashboard</h2>
+            <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
+              Terintegrasi
+            </span>
+          </div>
+          <p class="text-sm font-medium text-[#71717a] leading-relaxed">
+            Untuk merampingkan navigasi dan mempermudah pemantauan akademik, seluruh informasi Dosen Pembimbing, kontak, dan jadwal bimbingan kini telah dipusatkan langsung pada halaman utama Dashboard mahasiswa.
+          </p>
         </div>
-        <a href="https://wa.me/6281234567891" target="_blank" class="flex items-center justify-center gap-2 w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition-colors">
-          <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp DPL
+      </div>
+
+      <div class="pt-3 border-t border-[#e4e4e7] flex items-center justify-between flex-wrap gap-3">
+        <p class="text-xs text-[#71717a]">
+          Silakan akses Dashboard untuk melihat kartu Dosen Pembimbing Anda.
+        </p>
+        <a
+          href="/mahasiswa/dashboard"
+          class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors"
+        >
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          <span>Buka Dashboard</span>
         </a>
       </div>
     </div>
 
-    <!-- Jadwal Bimbingan Section -->
-    <div class="bg-white border border-[#e4e4e7] rounded-[12px] p-5 shadow-2xs space-y-4">
-      <h3 class="text-[14px] font-semibold text-[#09090b]">Jadwal Bimbingan</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
-          <div class="text-xs font-semibold text-[#1063B9] uppercase mb-1">Senin</div>
-          <div class="text-[14px] font-bold text-[#09090b]">10:00 — 11:30 WIB</div>
-          <div class="text-[12px] text-[#71717a] mt-1">Konsultasi Progres Proyek (Daring)</div>
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-6 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
+        <div class="flex items-center gap-2">
+          <i data-lucide="user-check" class="w-4 h-4 text-[#0655a7]"></i>
+          <h2 class="text-base font-semibold text-[#09090b]">Ringkasan Dosen Pembimbing</h2>
         </div>
-        <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
-          <div class="text-xs font-semibold text-[#1063B9] uppercase mb-1">Rabu</div>
-          <div class="text-[14px] font-bold text-[#09090b]">13:00 — 14:00 WIB</div>
-          <div class="text-[12px] text-[#71717a] mt-1">Review Logbook & DPL (Luring)</div>
+        <span class="bg-[#f4f4f5] border border-[#e4e4e7] text-[#09090b] text-xs px-2.5 py-0.5 rounded-md font-semibold">
+          Dospem Aktif
+        </span>
+      </div>
+
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] font-semibold text-base flex items-center justify-center shrink-0">
+          AN
         </div>
-        <div class="p-4 bg-gray-50 rounded-lg border border-gray-100">
-          <div class="text-xs font-semibold text-[#1063B9] uppercase mb-1">Jumat</div>
-          <div class="text-[14px] font-bold text-[#09090b]">16:00 — 17:30 WIB</div>
-          <div class="text-[12px] text-[#71717a] mt-1">Sprint Review (Luring)</div>
+        <div class="space-y-1 flex-1">
+          <h3 class="text-base font-semibold text-[#09090b]">Adhitya Nugraha, S.Kom, M.CS</h3>
+          <p class="text-xs text-[#71717a]">Dosen Pembimbing Program MBKM</p>
+          <div class="pt-2 flex flex-wrap gap-4 text-xs text-[#71717a]">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="mail" class="w-4 h-4 text-[#71717a]"></i>
+              <span class="text-[#09090b] font-medium">dosen.a11@udinus.ac.id</span>
+            </span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="building" class="w-4 h-4 text-[#71717a]"></i>
+              <span class="text-[#09090b] font-medium">Fakultas Ilmu Komputer</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </MahasiswaShell>
-

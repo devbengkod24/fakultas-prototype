@@ -7,7 +7,7 @@ export interface NavItem {
 }
 
 export interface RoleNavConfig {
-  role: "admin" | "mahasiswa" | "kontributor";
+  role: "admin" | "mahasiswa" | "kontributor" | "contributor" | "dosen";
   roleTitle: string;
   items: NavItem[];
 }
@@ -47,7 +47,6 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "katalog", label: "Katalog Program", href: "/mahasiswa/katalog", icon: "compass" },
       { id: "pendaftaran", label: "Form Pendaftaran", href: "/mahasiswa/pendaftaran", icon: "clipboard-list" },
       { id: "status", label: "Status Pengajuan", href: "/mahasiswa/status", icon: "file-check" },
-      { id: "dosen-pembimbing", label: "Dosen Pembimbing", href: "/mahasiswa/dosen-pembimbing", icon: "graduation-cap" },
       { id: "logbook", label: "Logbook Kegiatan", href: "/mahasiswa/logbook", icon: "book-open" },
       { id: "konversi-sks", label: "Konversi SKS", href: "/mahasiswa/konversi-sks", icon: "layers" },
       { id: "sidang", label: "Sidang Evaluasi", href: "/mahasiswa/sidang", icon: "calendar-check" },
@@ -79,7 +78,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
   },
   dosen: {
     role: "dosen",
-    roleTitle: "Dosen Pembimbing Lapangan (DPL)",
+    roleTitle: "Dosen Pembimbing",
     items: [
       { id: "dashboard", label: "Dashboard", href: "/dosen/dashboard", icon: "layout-dashboard" },
       { id: "pengumuman", label: "Pengumuman", href: "/dosen/pengumuman", icon: "megaphone" },

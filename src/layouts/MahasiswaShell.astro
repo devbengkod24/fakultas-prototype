@@ -38,7 +38,7 @@ const {
               : activeNav === "konversi-sks"
                 ? "Pengajuan Konversi"
                 : activeNav === "sidang"
-                  ? "Sidang Evaluasi Akhir"
+                  ? "Sidang Evaluasi"
                   : activeNav === "sertifikat"
                     ? "Sertifikat & Luaran"
                     : activeNav === "log-aktivitas"
@@ -201,9 +201,9 @@ const {
           -apple-system,
           sans-serif;
       }
-      /* [DIHAPUS] Dosen Pembimbing */
-      .nav-dospem-hide {
-        display: none !important;
+      .fixed.inset-0,
+      [class*="space-y"] > .fixed {
+        margin: 0 !important;
       }
     </style>
   </head>
@@ -325,36 +325,7 @@ const {
               <span class="truncate">Pendaftaran KB</span>
             </a>
 
-            <!-- 4. Dosen Pembimbing (DIHAPUS) -->
-            <div class="nav-dospem-hide">
-              <a
-                href="/mahasiswa/dosen-pembimbing"
-                id="nav-dosen-pembimbing"
-                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
-                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                  activeNav === "dosen-pembimbing"
-                    ? "nav-active text-[#0655a7]"
-                    : "text-[#3f3f46]"
-                }`}
-              >
-                <span
-                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "dosen-pembimbing" ? "" : "hidden"}`}
-                ></span>
-                <i
-                  data-lucide="graduation-cap"
-                  class={`w-4 h-4 shrink-0 ${activeNav === "dosen-pembimbing" ? "text-[#0655a7]" : "text-[#71717a]"}`}
-                ></i>
-                <span class="truncate flex-1">Dosen Pembimbing</span>
-                <span
-                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
-                  class="text-[#71717a] ml-auto"
-                >
-                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-                </span>
-              </a>
-            </div>
-
-            <!-- 5. Logbook Kegiatan (Terkunci jika belum aktif) -->
+            <!-- 4. Logbook Kegiatan (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "logbook"
@@ -388,7 +359,7 @@ const {
               </a>
             </div>
 
-            <!-- 6. Pengajuan Konversi (Terkunci jika belum aktif) -->
+            <!-- 5. Pengajuan Konversi (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "konversi-sks"
@@ -422,7 +393,7 @@ const {
               </a>
             </div>
 
-            <!-- 7. Sidang Evaluasi Akhir (Terkunci jika belum aktif) -->
+            <!-- 6. Sidang Evaluasi (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "sidang"
@@ -446,7 +417,7 @@ const {
                   data-lucide="calendar-check"
                   class={`w-4 h-4 shrink-0 ${activeNav === "sidang" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Pengajuan Sidang</span>
+                <span class="truncate flex-1">Sidang Evaluasi</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
@@ -458,31 +429,37 @@ const {
           </nav>
         </div>
 
-        <!-- Footer Profil Mahasiswa (Persis Gambar KB) -->
+        <!-- Footer Profil Mahasiswa (Selaras Admin & Kontributor) -->
         <div class="pt-2 mt-auto">
           <div
             class="w-full h-14 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none"
           >
             <div class="flex items-center gap-2.5 overflow-hidden">
               <div
-                class="w-8 h-8 rounded-lg bg-red-600 text-white font-bold text-xs flex items-center justify-center shrink-0"
+                class="w-8 h-8 rounded-full bg-[#114d91] text-white font-semibold text-xs flex items-center justify-center shrink-0"
               >
-                N
+                AR
               </div>
               <div class="flex flex-col overflow-hidden leading-tight">
-                <span class="text-[13px] font-semibold text-[#09090b] truncate"
-                  >Mhs TA KB A11</span
+                <span
+                  class="text-[12px] font-semibold text-[#09090b] truncate"
+                  title="Ahmad Rizky Pratama"
+                  >Ahmad Rizky Pratama</span
                 >
                 <span
                   class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5"
                 >
-                  Teknik Informatika (A11)
+                  Mahasiswa
                 </span>
               </div>
             </div>
-            <i
-              data-lucide="chevrons-up-down"
-              class="w-4 h-4 text-[#71717a] shrink-0"></i>
+            <a
+              href="/login"
+              title="Keluar / Logout"
+              class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded hover:bg-gray-100 transition-colors"
+            >
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </a>
           </div>
         </div>
       </aside>
