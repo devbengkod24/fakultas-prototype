@@ -199,8 +199,8 @@ function setupRouting() {
       "#katalog": { id: "view-katalog", file: "katalog.html", title: "Katalog Program Kontributor Resmi", subtitle: "Eksplorasi formasi riset & industri resmi FIK Udinus.", bc: "Katalog Program" },
       "#form-pendaftaran": { id: "view-form-pendaftaran", file: "pendaftaran.html", title: "Form Pendaftaran MBKM (3 Tahap)", subtitle: "Validasi EWS, input tautan berkas GDrive, & draf konversi 20 SKS.", bc: "Form Pendaftaran" },
       "#status-pengajuan": { id: "view-status-pengajuan", file: "status.html", title: "Pelacakan Status & SuReKom Digital", subtitle: "Pantau seleksi kontributor & unduh dokumen SuReKom dekanat (PDF).", bc: "Status Pengajuan" },
-      "#dosen-pembimbing": { id: "view-dosen-pembimbing", file: null, title: "Dosen Pembimbing Lapangan", subtitle: "Informasi profil DPL resmi UDI yang dialokasikan Koordinator & PIC kontributor.", bc: "Dosen Pembimbing" },
-      "#logbook": { id: "view-logbook", file: null, title: "Logbook Kegiatan Mingguan", subtitle: "Jurnal mingguan, unggah tautan bukti kerja GDrive, & catatan review DPL.", bc: "Logbook Kegiatan" },
+      "#dosen-pembimbing": { id: "view-dosen-pembimbing", file: null, title: "Dosen Pembimbing", subtitle: "Informasi profil Dospem resmi UDI yang dialokasikan Koordinator & PIC kontributor.", bc: "Dosen Pembimbing" },
+      "#logbook": { id: "view-logbook", file: null, title: "Logbook Kegiatan Mingguan", subtitle: "Jurnal mingguan, unggah tautan bukti kerja GDrive, & catatan review Dospem.", bc: "Logbook Kegiatan" },
       "#konversi-sks": { id: "view-konversi-sks", file: null, title: "Matriks Konversi SKS (20 SKS)", subtitle: "Pemantauan matriks mata kuliah ekuivalensi yang telah diverifikasi & dikunci.", bc: "Konversi SKS" },
       "#sidang": { id: "view-sidang", file: null, title: "Sidang Evaluasi Akhir MBKM", subtitle: "Pendaftaran sidang akhir, draf laporan, jadwal penguji, & rekap nilai.", bc: "Sidang" },
       "#sertifikat": { id: "view-sertifikat", file: null, title: "Sertifikat & Target Luaran Wajib", subtitle: "Unggah sertifikat resmi kontributor atau bukti publikasi ilmiah (DOI/LoA).", bc: "Sertifikat" },
@@ -292,7 +292,7 @@ function openAnnouncementModal(id) {
     if (badgesEl) badgesEl.innerHTML = '<span class="badge badge-success">Kontributor Resmi</span>';
     if (titleEl) titleEl.innerText = "Detail Informasi Pengumuman Resmi MBKM";
     if (metaEl) metaEl.innerText = "Dipublikasikan: Oktober 2025";
-    if (contentEl) contentEl.innerHTML = "<p>Informasi teknis kegiatan dapat dikoordinasikan langsung melalui kanal komunikasi resmi kontributor atau Dosen Pembimbing Lapangan.</p>";
+    if (contentEl) contentEl.innerHTML = "<p>Informasi teknis kegiatan dapat dikoordinasikan langsung melalui kanal komunikasi resmi kontributor atau Dosen Pembimbing.</p>";
   }
   modal.style.display = "flex";
   if (typeof lucide !== "undefined") lucide.createIcons();
@@ -446,7 +446,7 @@ function setApplicationStatus(stage) {
     5: {
       pill: "TAHAP 5: FINAL APPROVAL — DITERIMA!",
       title: "Selamat! Anda Resmi Diterima sebagai Peserta Aktif MBKM",
-      desc: "Koordinator MBKM telah menerbitkan SK Peserta Aktif. DPL telah ditetapkan. Silakan akses menu Logbook dan mulai kegiatan MBKM.",
+      desc: "Koordinator MBKM telah menerbitkan SK Peserta Aktif. Dospem telah ditetapkan. Silakan akses menu Logbook dan mulai kegiatan MBKM.",
       bg: "#f0fdf4", border: "#bbf7d0", textColor: "#166534", leftBorder: "#16a34a"
     },
     revisi: {
@@ -529,12 +529,12 @@ function submitLogbookMBKM(e) {
   e.preventDefault();
   const m = document.getElementById("modal-logbook-mbkm");
   if (m) m.style.display = "none";
-  alert("Logbook kegiatan mingguan berhasil dikirim ke Dosen Pembimbing Lapangan (DPL) untuk diverifikasi!");
+  alert("Logbook kegiatan mingguan berhasil dikirim ke Dosen Pembimbing untuk diverifikasi!");
 }
 
 function showLogbookDetail(week) {
   const labels = {
-    1: "Minggu 1: Onboarding & Setup Workspace\nBukti: GDrive/bukti_minggu1.pdf\nStatus: Terverifikasi DPL (Nurul Anisa, M.Cs)",
+    1: "Minggu 1: Onboarding & Setup Workspace\nBukti: GDrive/bukti_minggu1.pdf\nStatus: Terverifikasi Dospem (Nurul Anisa, M.Cs)",
     2: "Minggu 2: Pengembangan Modul Autentikasi & Database\nBukti: GDrive/bukti_minggu2.pdf\nStatus: Sedang Berjalan"
   };
   alert(labels[week] || "Detail logbook minggu ke-" + week + " belum tersedia.");
@@ -554,7 +554,7 @@ function closeLogbookModal() {
 
 function handleLogbookSubmit(e) {
   e.preventDefault();
-  alert("Jurnal Logbook Minggu Ini Berhasil Disimpan & Diteruskan ke DPL!");
+  alert("Jurnal Logbook Minggu Ini Berhasil Disimpan & Diteruskan ke Dosen Pembimbing!");
   closeLogbookModal();
 }
 
@@ -748,7 +748,7 @@ function updateTrackingUI() {
       feedbackBox.style.background = "#dcfce7";
       feedbackBox.style.border = "1px solid #bbf7d0";
       feedbackBox.style.color = "#14532d";
-      feedbackBox.innerHTML = "<strong>Catatan Approval:</strong> Selamat bergabung! Silakan unduh SuReKom Digital di bawah ini dan segera bergabung ke grup koordinasi kontributor. DPL Anda: Dr. Ricardus Anggi, M.Kom.";
+      feedbackBox.innerHTML = "<strong>Catatan Approval:</strong> Selamat bergabung! Silakan unduh SuReKom Digital di bawah ini dan segera bergabung ke grup koordinasi kontributor. Dosen Pembimbing Anda: Dr. Ricardus Anggi, M.Kom.";
     }
     
     if (btnDownload) btnDownload.style.display = "inline-flex";

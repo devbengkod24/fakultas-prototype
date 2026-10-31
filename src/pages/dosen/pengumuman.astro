@@ -4,15 +4,15 @@ import DosenShell from '../../layouts/DosenShell.astro';
 import { MOCK_PENGUMUMAN_DOSEN } from '../../data/dosen/mock-data';
 import type { PengumumanDosenItem } from '../../data/dosen/types';
 
-// Perkaya data pengumuman dengan target audiens DPL dan rincian berkas
+// Perkaya data pengumuman dengan target audiens Dospem dan rincian berkas
 const enrichedPengumuman = MOCK_PENGUMUMAN_DOSEN.map((item) => ({
   ...item,
   target:
     item.id === 'pg-1'
       ? 'Dosen Pembimbing & Penguji Sidang'
       : item.id === 'pg-2'
-      ? 'Seluruh DPL MBKM'
-      : 'DPL & Tim Kurikulum Prodi',
+      ? 'Seluruh Dosen Pembimbing MBKM'
+      : 'Dosen Pembimbing & Tim Kurikulum Prodi',
   fileType: item.lampiranNama?.endsWith('.pdf')
     ? 'PDF'
     : item.lampiranNama?.endsWith('.docx')
@@ -27,16 +27,16 @@ const totalPinned = enrichedPengumuman.filter((p) => p.isPinned).length;
 ---
 
 <DosenShell
-  title="Pengumuman DPL | Dosen Pembimbing - Kampus Berdampak FIK Udinus"
+  title="Pengumuman Dosen Pembimbing | Dosen Pembimbing - Kampus Berdampak FIK Udinus"
   activeNav="pengumuman"
   breadcrumb="Dashboard > Pengumuman"
   pageTitle="Pengumuman"
-  subtitle="Papan edaran informasi resmi, regulasi bimbingan MBKM, dan jadwal evaluasi bagi Dosen Pembimbing Lapangan."
+  subtitle="Papan edaran informasi resmi, regulasi bimbingan MBKM, dan jadwal evaluasi bagi Dosen Pembimbing."
 >
   <div slot="header-actions" class="hidden sm:flex items-center gap-2">
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-[#114d91]/10 text-[#0655a7] border border-[#0655a7]/20">
       <i data-lucide="megaphone" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-      <span>Kanal Siaran DPL</span>
+      <span>Kanal Siaran Dospem</span>
     </span>
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
       <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
@@ -95,7 +95,7 @@ const totalPinned = enrichedPengumuman.filter((p) => p.isPinned).length;
           </div>
         </div>
         <span class="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-          Fakultas & DPL
+          Fakultas & Dosen Pembimbing
         </span>
       </div>
     </section>
@@ -133,7 +133,7 @@ const totalPinned = enrichedPengumuman.filter((p) => p.isPinned).length;
               class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
             >
               <option value="">Semua Kategori</option>
-              <option value="Bimbingan DPL">Bimbingan DPL</option>
+              <option value="Bimbingan Dospem">Bimbingan Dospem</option>
               <option value="Sidang Evaluasi">Sidang Evaluasi</option>
               <option value="Kebijakan Fakultas">Kebijakan Fakultas</option>
             </select>
@@ -185,7 +185,7 @@ const totalPinned = enrichedPengumuman.filter((p) => p.isPinned).length;
                   <span>Prioritas / Disematkan</span>
                 </span>
               )}
-              {item.kategori === 'Bimbingan DPL' && (
+              {item.kategori === 'Bimbingan Dospem' && (
                 <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
                   <i data-lucide="book-open" class="w-3 h-3 text-blue-600"></i>
                   <span>{item.kategori}</span>
@@ -374,7 +374,7 @@ const totalPinned = enrichedPengumuman.filter((p) => p.isPinned).length;
               <span
                 class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium"
                 :class="{
-                  'bg-blue-50 text-blue-700 border border-blue-200': selectedPengumuman?.kategori === 'Bimbingan DPL',
+                  'bg-blue-50 text-blue-700 border border-blue-200': selectedPengumuman?.kategori === 'Bimbingan Dospem',
                   'bg-purple-50 text-purple-700 border border-purple-200': selectedPengumuman?.kategori === 'Sidang Evaluasi',
                   'bg-emerald-50 text-emerald-700 border border-emerald-200': selectedPengumuman?.kategori === 'Kebijakan Fakultas',
                   'bg-zinc-100 text-zinc-700 border border-zinc-200': selectedPengumuman?.kategori === 'Umum'

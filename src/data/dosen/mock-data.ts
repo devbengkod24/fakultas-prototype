@@ -340,8 +340,8 @@ export const MOCK_PENGUMUMAN_DOSEN: PengumumanDosenItem[] = [
     waktu: "08:30 WIB",
     pengirim: "Nurul Anisa, M.Cs (Koordinator MBKM)",
     kategori: "Sidang Evaluasi",
-    ringkasan: "Batas akhir penginputan nilai sidang evaluasi DPL dan penutupan berita acara resmi prodi.",
-    kontenLengkap: "Diberitahukan kepada seluruh Dosen Pembimbing Lapangan (DPL) MBKM bahwa masa input nilai evaluasi akhir melalui portal dosen akan ditutup pada tanggal 30 Oktober 2026 pukul 23:59 WIB. Pastikan lembar penilaian kinerja industri dari mentor (bobot 60%) telah diverifikasi sebelum melakukan input nilai penguji DPL (bobot 40%).",
+    ringkasan: "Batas akhir penginputan nilai sidang evaluasi Dosen Pembimbing dan penutupan berita acara resmi prodi.",
+    kontenLengkap: "Diberitahukan kepada seluruh Dosen Pembimbing MBKM bahwa masa input nilai evaluasi akhir melalui portal dosen akan ditutup pada tanggal 30 Oktober 2026 pukul 23:59 WIB. Pastikan lembar penilaian kinerja industri dari mentor (bobot 60%) telah diverifikasi sebelum melakukan input nilai penguji Dosen Pembimbing (bobot 40%).",
     lampiranNama: "Panduan_Input_Nilai_Sidang_MBKM.pdf",
     lampiranUrl: "https://example.com/panduan-nilai.pdf",
     isPinned: true
@@ -352,10 +352,10 @@ export const MOCK_PENGUMUMAN_DOSEN: PengumumanDosenItem[] = [
     tanggal: "10 Okt 2026",
     waktu: "13:15 WIB",
     pengirim: "Dekanat FIK Udinus",
-    kategori: "Bimbingan DPL",
+    kategori: "Bimbingan Dospem",
     ringkasan: "SOP pemeriksaan kepatuhan logbook mingguan dan tata cara pemberian catatan revisi berkala.",
-    kontenLengkap: "Dosen Pembimbing Lapangan diwajibkan melakukan peninjauan logbook mahasiswa binaan minimal satu minggu sekali. Jika mahasiswa tidak mengisi logbook selama 2 minggu berturut-turut, DPL dimohon melakukan supervisi atau mengontak mahasiswa dan mentor kontributor terkait.",
-    lampiranNama: "SOP_Supervisi_Logbook_DPL_2026.pdf",
+    kontenLengkap: "Dosen Pembimbing diwajibkan melakukan peninjauan logbook mahasiswa binaan minimal satu minggu sekali. Jika mahasiswa tidak mengisi logbook selama 2 minggu berturut-turut, Dospem dimohon melakukan supervisi atau mengontak mahasiswa dan mentor kontributor terkait.",
+    lampiranNama: "SOP_Supervisi_Logbook_Dospem_2026.pdf",
     lampiranUrl: "https://example.com/sop-logbook.pdf",
     isPinned: false
   },
@@ -367,7 +367,7 @@ export const MOCK_PENGUMUMAN_DOSEN: PengumumanDosenItem[] = [
     pengirim: "Tim Kurikulum FIK",
     kategori: "Kebijakan Fakultas",
     ringkasan: "Template resmi naskah laporan akhir dan dokumen kelayakan konversi mata kuliah hingga 20 SKS.",
-    kontenLengkap: "Format penulisan laporan akhir MBKM disesuaikan dengan Capaian Pembelajaran Lulusan (CPL) program studi. Berkas draf wajib disetujui DPL sebelum pendaftaran jadwal sidang dapat disahkan oleh koordinator.",
+    kontenLengkap: "Format penulisan laporan akhir MBKM disesuaikan dengan Capaian Pembelajaran Lulusan (CPL) program studi. Berkas draf wajib disetujui Dosen Pembimbing sebelum pendaftaran jadwal sidang dapat disahkan oleh koordinator.",
     lampiranNama: "Template_Laporan_Akhir_MBKM_FIK.docx",
     lampiranUrl: "https://example.com/template-laporan.docx",
     isPinned: false
@@ -391,7 +391,7 @@ export const MOCK_LOG_AKTIVITAS_DOSEN: LogAktivitasDosenItem[] = [
     aksi: "Input Nilai Sidang Akhir",
     mahasiswaNama: "Kevin Sanjaya Putra",
     mahasiswaNim: "A11.2021.14002",
-    rincian: "Menginput nilai evaluasi DPL 91.00 (Nilai Komposit: 92.80, Grade A). Berita acara diterbitkan."
+    rincian: "Menginput nilai evaluasi Dosen Pembimbing 91.00 (Nilai Komposit: 92.80, Grade A). Berita acara diterbitkan."
   },
   {
     id: "log-3",

@@ -24,7 +24,7 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "data-mahasiswa", label: "Data Mahasiswa", href: "/admin/data-mahasiswa", icon: "user-check" },
       { id: "pelamar", label: "Pendaftar", href: "/admin/pelamar", icon: "users" },
       { id: "surekom", label: "Validasi Surekom", href: "/admin/surekom", icon: "file-check" },
-      { id: "dosen-update", label: "Update Dosen", href: "/admin/dosen-update", icon: "user-plus" },
+      { id: "dosen-update", label: "Plotting Dosen", href: "/admin/dosen-update", icon: "user-plus" },
       { id: "dosen-data", label: "Data Dosen", href: "/admin/dosen-data", icon: "graduation-cap" },
       { id: "dosen-kuota", label: "Kuota Dosen", href: "/admin/dosen-kuota", icon: "pie-chart" },
       { id: "logbook", label: "Logbook Mahasiswa", href: "/admin/logbook", icon: "book-open" },

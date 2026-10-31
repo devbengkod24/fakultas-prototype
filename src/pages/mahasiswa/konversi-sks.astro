@@ -845,7 +845,8 @@ import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
   <script is:inline>
     function initKonversiFlow() {
       if (!window.Alpine) return;
-      if (window.Alpine.data("konversiFlow")) return;
+      if (window._konversiFlowRegistered) return;
+      window._konversiFlowRegistered = true;
 
       window.Alpine.data("konversiFlow", () => ({
         currentStep: 4,

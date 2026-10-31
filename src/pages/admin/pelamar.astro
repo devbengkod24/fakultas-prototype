@@ -14,7 +14,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
 <div class="space-y-4">
   <!-- Status Tabs Row (Sesuai Gambar Tugas Akhir Pengajuan Mahasiswa) -->
-  <div class="border-b border-[#e4e4e7] mb-2">
+  <div class="border-b border-[#e4e4e7] mb-2 flex items-center justify-between gap-4">
     <div class="flex items-center gap-6 overflow-x-auto pb-0">
       <button
         type="button"
@@ -58,6 +58,20 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <i data-lucide="ban" class="w-4 h-4"></i>
         <span>Dibatalkan</span>
         <span id="badge-count-pendaftar-dibatalkan" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-700">0</span>
+      </button>
+    </div>
+
+    <!-- Tombol Export Excel -->
+    <div class="pb-2.5 shrink-0">
+      <button
+        type="button"
+        onclick="exportDataPelamar()"
+        id="btn-export-pelamar"
+        class="inline-flex items-center gap-2 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors shadow-none cursor-pointer"
+        title="Export Data Pendaftar ke Excel"
+      >
+        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+        <span>Export Excel</span>
       </button>
     </div>
   </div>
