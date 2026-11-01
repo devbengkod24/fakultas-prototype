@@ -167,7 +167,41 @@ function initRegistrationStepper() {
 
     submitButton.classList.toggle("hidden", currentStep !== 3);
     submitButton.classList.toggle("inline-flex", currentStep === 3);
+
+    if (currentStep === 3) {
+      updateSubmitButtonState();
+    }
   }
+
+  // ------------------------------------------------
+  // Validasi Persetujuan Umum Tahap 3
+  // ------------------------------------------------
+  const agreeCheckboxes = [
+    document.getElementById("agree-rights") as HTMLInputElement | null,
+    document.getElementById("agree-obligations") as HTMLInputElement | null,
+    document.getElementById("agree-data") as HTMLInputElement | null,
+  ];
+
+  function checkStep3Valid(): boolean {
+    return agreeCheckboxes.every((cb) => cb && cb.checked);
+  }
+
+  function updateSubmitButtonState() {
+    if (!submitButton) return;
+    const isValid = checkStep3Valid();
+    (submitButton as HTMLButtonElement).disabled = !isValid;
+    if (isValid) {
+      submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+    } else {
+      submitButton.classList.add("opacity-50", "cursor-not-allowed");
+    }
+  }
+
+  agreeCheckboxes.forEach((cb) => {
+    if (cb) {
+      cb.addEventListener("change", updateSubmitButtonState);
+    }
+  });
 
   function goToStep(step) {
     if (step < 1 || step > 3) return;
@@ -185,10 +219,13 @@ function initRegistrationStepper() {
   if (prevButton) prevButton.addEventListener("click", () => goToStep(currentStep - 1));
 
   // ------------------------------------------------
-  // Submit (tanpa validasi) → kembali ke detail program
+  // Submit → verifikasi persetujuan tahap 3 sebelum submit
   // ------------------------------------------------
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    if (currentStep === 3 && !checkStep3Valid()) {
+      return;
+    }
     window.location.href = "/detail-mbkm";
   });
 

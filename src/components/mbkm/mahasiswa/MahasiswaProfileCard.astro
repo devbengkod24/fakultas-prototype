@@ -1,0 +1,47 @@
+---
+// src/components/mbkm/mahasiswa/MahasiswaProfileCard.astro
+---
+
+<!-- CARD PROFIL MAHASISWA & PEMBIMBING (SELARAS FONT & SKALA ADMIN) -->
+<div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-5">
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+    <!-- Kolom Kiri: Identitas Mahasiswa -->
+    <div class="space-y-1">
+      <h2 class="text-xl font-semibold text-[#09090b] tracking-tight">
+        Muhammad Ilham Maulana
+      </h2>
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#71717a]">
+        <span>NIM: <strong class="font-medium text-[#09090b]">A11.2020.00001</strong></span>
+        <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+        <span>Semester: <strong class="font-medium text-[#09090b]">7</strong></span>
+        <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+        <span>Program Studi: <strong class="font-medium text-[#09090b]">Teknik Informatika</strong></span>
+      </div>
+    </div>
+
+    <!-- Garis Pemisah Vertikal Halus (Hanya Tampil di Layar Desktop) -->
+    <div class="hidden lg:block h-10 w-px bg-[#e4e4e7]"></div>
+
+    <!-- Kolom Kanan: Dosen Pembimbing (Terbuka, Natural & Bernapas) -->
+    <div class="flex items-center gap-3 shrink-0">
+      <div class="w-10 h-10 rounded-full bg-blue-50 border border-blue-200/60 flex items-center justify-center shrink-0 text-[#0655a7]">
+        <i data-lucide="user-check" class="w-4 h-4 text-[#0655a7]"></i>
+      </div>
+      <div>
+        <p class="text-xs font-medium text-[#71717a]">Dosen Pembimbing</p>
+        <h4 class="text-sm font-semibold text-[#09090b] mt-0.5">
+          Adhitya Nugraha, S.Kom, M.CS
+        </h4>
+        <div class="flex items-center gap-1.5 text-xs text-[#71717a] mt-0.5">
+          <i data-lucide="mail" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+          <a
+            href="mailto:dosen.a11@udinus.ac.id"
+            class="hover:text-[#0655a7] hover:underline"
+          >
+            dosen.a11@udinus.ac.id
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
