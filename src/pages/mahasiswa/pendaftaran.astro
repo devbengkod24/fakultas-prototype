@@ -1,84 +1,86 @@
 ---
 // src/pages/mahasiswa/pendaftaran.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+
+const programs = [
+  { id: 'bk', nama: 'Bengkel Koding', subnama: 'Proyek Web & Mobile', skema: 'Proyek Industri', tglDaftar: '10 Okt 2025', jadwalWawancara: '22 Okt 2025', pengumuman: 'N/A', logo: '/assets/images/logo-bengkod.png' },
+  { id: 'idss', nama: 'IDSS Laboratory', subnama: 'Riset Decision Support & AI', skema: 'Publikasi & Riset', tglDaftar: '15 Okt 2025', jadwalWawancara: '18 Okt 2025', pengumuman: 'N/A', logo: '/assets/images/logo-idss.png' },
+  { id: 'dicoding', nama: 'Dicoding Indonesia', subnama: 'Asah AI & Software Engineering', skema: 'Studi Independen', tglDaftar: '16 Okt 2025', jadwalWawancara: '24 Okt 2025', pengumuman: '25 Okt 2025', logo: '/assets/images/logo-dicoding.png' },
+];
 ---
 
 <MahasiswaShell
-  title="Pendaftaran MBKM | Mahasiswa - FIK Udinus"
+  title="Form Pendaftaran MBKM | Mahasiswa - FIK Udinus"
   activeNav="pendaftaran"
   pageTitle="Pendaftaran MBKM"
-  breadcrumb="Pendaftaran MBKM"
+  breadcrumb="Form Pendaftaran"
 >
-  <div id="view-pendaftaran" class="w-full space-y-6">
-    <!-- Header -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Pendaftaran MBKM</h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">Katalog program MBKM dan formulir pendaftaran.</p>
-      </div>
-    </div>
+  <div id="view-pendaftaran" class="w-full space-y-4">
+    <!-- Header Halaman -->
+    <header class="mb-2">
+      <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Form Pendaftaran MBKM</h2>
+      <p class="text-sm text-[#71717a] mt-0.5">
+        Daftar program mitra yang Anda ajukan. Anda dapat meninjau rincian berkas atau memperbarui data pendaftaran.
+      </p>
+    </header>
 
-    <!-- Grid Kartu Program -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="katalog-grid">
-      <!-- Program 1: Bengkel Koding -->
-      <div class="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
-        <div class="p-5 flex-1 space-y-4">
-          <div class="flex items-start justify-between">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center font-bold border border-blue-100">BK</div>
-              <div>
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 text-[#0655a7] border border-blue-100 mb-1">Skema: Proyek Industri</span>
-                <h3 class="text-[15px] font-bold text-[#09090b]">Bengkel Koding — Proyek Web & Mobile</h3>
-                <p class="text-[12px] text-[#71717a]">Kontributor: Laboratorium Bengkel Koding FIK</p>
+    <!-- Daftar Program Horizontal Stack (Seimbang & Berbobot Sesuai Prinsip YAGNI) -->
+    <div class="space-y-3">
+      {programs.map((program) => (
+        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden hover:border-gray-300 transition-colors">
+          <!-- Baris Utama: Logo, Identitas, Skema, SKS, & Tombol Aksi -->
+          <div class="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="w-11 h-11 rounded-lg border border-[#e4e4e7] bg-white flex items-center justify-center p-1 shrink-0 overflow-hidden shadow-2xs">
+                <img src={program.logo} alt={`Logo ${program.nama}`} class="w-full h-full object-contain rounded" />
+              </div>
+
+              <div class="min-w-0 space-y-0.5">
+                <h3 class="text-base font-semibold text-[#09090b] leading-tight truncate">
+                  {program.nama}
+                </h3>
+                <p class="text-xs text-[#71717a] truncate">
+                  {program.subnama}
+                </p>
+                <p class="text-xs text-[#71717a] flex items-center gap-2 pt-0.5">
+                  <span>{program.skema}</span>
+                  <span class="text-[#d4d4d8]">•</span>
+                  <span>20 SKS</span>
+                </p>
               </div>
             </div>
-            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">20 SKS</span>
-          </div>
 
-          <div class="space-y-2 text-[12px] py-3 border-y border-gray-50">
-            <div class="flex justify-between"><span class="text-[#71717a]">Kuota Pendaftar:</span> <span class="font-semibold text-emerald-600">Sisa 7 dari 20 Kursi</span></div>
-            <div class="flex justify-between"><span class="text-[#71717a]">Durasi Kegiatan:</span> <span class="font-medium text-[#09090b]">1 Semester (6 Bulan)</span></div>
-            <div class="flex justify-between"><span class="text-[#71717a]">Dosen Pembina Kontributor:</span> <span class="font-medium text-[#1063B9]">Dr. Ricardus Anggi, M.Kom</span></div>
-          </div>
-        </div>
-        <div class="px-5 py-3 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-between">
-          <span class="text-[11px] text-[#71717a]">Batas: 18 Okt 2025</span>
-          <a href="/mahasiswa/pendaftaran-detail" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.95]">
-            <i data-lucide="send" class="w-4 h-4"></i>
-            <span>Detail Pendaftaran</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Program 2: IDSS -->
-      <div class="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden shadow-2xs flex flex-col">
-        <div class="p-5 flex-1 space-y-4">
-          <div class="flex items-start justify-between">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold border border-purple-100">ID</div>
-              <div>
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-purple-50 text-purple-700 border border-purple-100 mb-1">Skema: Publikasi / Riset</span>
-                <h3 class="text-[15px] font-bold text-[#09090b]">IDSS — Riset Decision Support & AI</h3>
-                <p class="text-[12px] text-[#71717a]">Kontributor: Lab Intelligent Decision Support System</p>
-              </div>
+            <div class="shrink-0 self-end sm:self-center">
+              <a
+                href={`/mahasiswa/pendaftaran-detail?program=${program.id}`}
+                class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors shadow-none"
+                title="Lihat Detail Pendaftaran"
+              >
+                <span>Lihat Detail</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              </a>
             </div>
-            <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">20 SKS</span>
           </div>
 
-          <div class="space-y-2 text-[12px] py-3 border-y border-gray-50">
-            <div class="flex justify-between"><span class="text-[#71717a]">Kuota Pendaftar:</span> <span class="font-semibold text-emerald-600">Sisa 4 dari 10 Kursi</span></div>
-            <div class="flex justify-between"><span class="text-[#71717a]">Durasi Kegiatan:</span> <span class="font-medium text-[#09090b]">1 Semester (6 Bulan)</span></div>
-            <div class="flex justify-between"><span class="text-[#71717a]">Dosen Pembina Kontributor:</span> <span class="font-medium text-[#1063B9]">Prof. Dr. Supriadi, M.Kom</span></div>
+          <!-- Baris Bawah: Timeline Riil Pendaftaran (Sinkron dengan Dashboard) -->
+          <div class="px-4 sm:px-5 py-2.5 bg-[#fafafa] border-t border-[#e4e4e7] flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#71717a]">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span>Diajukan: <strong class="font-medium text-[#09090b]">{program.tglDaftar}</strong></span>
+            </div>
+            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+              <span>Jadwal Wawancara: <strong class="font-medium text-[#09090b]">{program.jadwalWawancara}</strong></span>
+            </div>
+            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="megaphone" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>Pengumuman: <strong class="font-medium text-[#09090b]">{program.pengumuman}</strong></span>
+            </div>
           </div>
         </div>
-        <div class="px-5 py-3 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-between">
-          <span class="text-[11px] text-[#71717a]">Batas: 18 Okt 2025</span>
-          <a href="/mahasiswa/pendaftaran-detail" class="inline-flex items-center gap-2 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-[0.95]">
-            <i data-lucide="send" class="w-4 h-4"></i>
-            <span>Detail Pendaftaran</span>
-          </a>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 </MahasiswaShell>
