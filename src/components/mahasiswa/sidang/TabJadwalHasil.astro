@@ -1,0 +1,182 @@
+---
+// src/components/mahasiswa/sidang/TabJadwalHasil.astro
+import { cn } from "../../../utils/cn";
+import type { SidangData } from "../../../data/mahasiswa/sidangData";
+
+interface Props {
+  data: SidangData;
+}
+
+const { data } = Astro.props;
+---
+
+<div class={cn("space-y-6")}>
+  <!-- Card 1: Jadwal Sidang & Dewan Penguji -->
+  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5">
+    <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-semibold text-[#09090b]">Jadwal Pelaksanaan Sidang</h2>
+          <p class="text-xs text-[#71717a] leading-relaxed">Waktu dan lokasi evaluasi akhir program MBKM</p>
+        </div>
+      </div>
+      <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
+        Terkonfirmasi
+      </span>
+    </div>
+
+    <!-- Grid Rincian Jadwal -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
+        <span class="text-xs text-[#71717a] block">Hari & Tanggal</span>
+        <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.tanggal}</span>
+      </div>
+      <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
+        <span class="text-xs text-[#71717a] block">Waktu Pelaksanaan</span>
+        <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.waktu}</span>
+      </div>
+      <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
+        <span class="text-xs text-[#71717a] block">Ruang Sidang</span>
+        <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.ruang}</span>
+      </div>
+    </div>
+
+    <!-- Tautan Virtual Meeting -->
+    <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-center gap-2">
+        <i data-lucide="video" class="w-4 h-4 text-[#0655a7]"></i>
+        <span class="text-xs font-semibold text-[#09090b]">Tautan Google Meet:</span>
+        <span class="text-xs font-medium text-[#71717a]">{data.jadwal.linkMeet}</span>
+      </div>
+      <a
+        href={data.jadwal.linkMeet}
+        target="_blank"
+        class={cn("inline-flex items-center gap-1 text-xs font-semibold text-[#0655a7] hover:underline")}
+      >
+        <span>Masuk Room</span>
+        <i data-lucide="external-link" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+    <!-- Tim Penguji -->
+    <div class="pt-2 space-y-3">
+      <h3 class="text-xs font-semibold text-[#71717a] uppercase tracking-wider">Tim Penguji & Penilai Sidang</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {data.penguji.map((item) => (
+          <div class="p-3.5 border border-[#e4e4e7] rounded-lg bg-white space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="w-7 h-7 rounded-md bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center font-bold text-xs shrink-0">
+                {item.inisial}
+              </div>
+              <span class="bg-[#f4f4f5] border border-[#e4e4e7] text-[#09090b] text-xs px-2 py-0.5 rounded-md font-semibold">
+                Bobot {item.bobot}
+              </span>
+            </div>
+            <div>
+              <div class="font-semibold text-[#09090b] text-xs leading-tight">{item.nama}</div>
+              <div class="text-xs text-[#71717a] mt-0.5">{item.peran}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Tombol Aksi Jadwal -->
+    <div class="pt-3 border-t border-[#e4e4e7] flex items-center justify-end gap-2.5 flex-wrap">
+      <button
+        type="button"
+        onclick="openJadwalModal()"
+        class="inline-flex items-center gap-1.5 h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors"
+      >
+        <i data-lucide="info" class="w-4 h-4"></i>
+        <span>Tata Tertib Sidang</span>
+      </button>
+      <button
+        type="button"
+        onclick="openRescheduleModal()"
+        class="inline-flex items-center gap-1.5 h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors"
+      >
+        <i data-lucide="clock" class="w-4 h-4"></i>
+        <span>Ajukan Reschedule</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Card 2: Hasil Evaluasi & Rekap Nilai -->
+  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5">
+    <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
+          <i data-lucide="award" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-semibold text-[#09090b]">Hasil Evaluasi & Rekapitulasi Nilai</h2>
+          <p class="text-xs text-[#71717a] leading-relaxed">Nilai komposit akhir dari Dosen Pembimbing, Mitra, dan Penguji</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
+          {data.hasil.status}
+        </span>
+      </div>
+    </div>
+
+    <!-- Ringkasan Angka Nilai -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="p-4 bg-[#fafafa] border border-[#e4e4e7] rounded-lg">
+        <span class="text-xs text-[#71717a] block">Nilai Akhir Komposit</span>
+        <div class="text-2xl font-bold text-[#0655a7] mt-1">{data.hasil.nilaiAkhir}</div>
+        <span class="text-xs text-[#71717a] mt-0.5 block">Skala 100</span>
+      </div>
+      <div class="p-4 bg-[#fafafa] border border-[#e4e4e7] rounded-lg">
+        <span class="text-xs text-[#71717a] block">Nilai Mutu Huruf</span>
+        <div class="text-2xl font-bold text-emerald-700 mt-1">{data.hasil.nilaiMutu}</div>
+        <span class="text-xs text-[#71717a] mt-0.5 block">Predikat Istimewa</span>
+      </div>
+    </div>
+
+    <!-- Tabel Rincian Nilai Komponen -->
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-[#fafafa] border-b border-[#e4e4e7] text-xs font-semibold text-[#71717a] h-11">
+            <th class="w-12 text-center">No.</th>
+            <th class="px-4">Komponen Penilaian</th>
+            <th class="px-4">Penilai</th>
+            <th class="px-4">Bobot</th>
+            <th class="px-4 text-right">Nilai</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e4e4e7] text-sm">
+          {data.hasil.komponen.map((komp, idx) => (
+            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+              <td class="w-12 text-center text-xs font-medium text-[#71717a]">{idx + 1}</td>
+              <td class="px-4 py-3 text-xs font-medium text-[#09090b]">{komp.nama}</td>
+              <td class="px-4 py-3 text-xs text-[#71717a]">{komp.penilai}</td>
+              <td class="px-4 py-3 text-xs text-[#71717a]">{komp.bobot}</td>
+              <td class="px-4 py-3 text-xs font-semibold text-[#09090b] text-right">{komp.nilai}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Catatan & Tombol Cetak -->
+    <div class="pt-3 border-t border-[#e4e4e7] flex items-center justify-between flex-wrap gap-3">
+      <p class="text-xs text-[#71717a] max-w-md leading-relaxed">
+        {data.hasil.catatan}
+      </p>
+      <button
+        type="button"
+        onclick="cetakBukti()"
+        class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors"
+      >
+        <i data-lucide="printer" class="w-4 h-4"></i>
+        <span>Cetak Bukti Hasil Sidang</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -37,7 +37,7 @@ const tabs: DataTableTab[] = [
 
     <!-- Table Header Slot -->
     <tr slot="head">
-      <th class="h-11 w-16 px-4 font-medium text-sm text-[#71717a]">No</th>
+      <th class="h-11 w-16 px-4 font-medium text-sm text-center text-[#71717a]">No</th>
       <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Nama Kontributor & Deskripsi</th>
       <th class="h-11 px-4 font-medium text-sm text-[#71717a]">Akun & PIC</th>
       <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Dosen</th>
@@ -52,7 +52,7 @@ const tabs: DataTableTab[] = [
         class="hover:bg-slate-50/70 transition-colors"
         x-show={`(activeTab === 'all' || activeTab === '${partner.tipe}') && ('${partner.nama.toLowerCase()}'.includes(searchQuery.toLowerCase()) || '${partner.sektor.toLowerCase()}'.includes(searchQuery.toLowerCase()))`}
       >
-        <td class="h-[68px] px-4 text-[#71717a] text-sm">
+        <td class="h-[68px] px-4 text-center text-[#71717a] text-sm">
           {idx + 1}
         </td>
         <td class="h-[68px] px-4">

@@ -10,6 +10,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
     x-data="{
       searchQuery: '',
       sortOption: 'nama_asc',
+      currentPage: 1,
+      pageSize: 5,
       isSyncing: false,
       isBulkModalOpen: false,
       dosenList: [
@@ -18,7 +20,30 @@ import AdminShell from "../../layouts/AdminShell.astro";
         { id: 3, nama: 'Christy Atika Sari, M.Kom', npp: '0629038401', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
         { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom', npp: '0615028201', aktifPeriode: true, sisaKuota: 0, totalKuota: 8 },
         { id: 5, nama: 'Ajib Susanto, M.Kom', npp: '0621057901', aktifPeriode: false, sisaKuota: 0, totalKuota: 8 },
+        { id: 6, nama: 'Dr. Muljono, S.Si, M.Kom', npp: '0619087201', aktifPeriode: true, sisaKuota: 3, totalKuota: 8 },
+        { id: 7, nama: 'Dr. Ricardus Anggi, M.Kom', npp: '0624018602', aktifPeriode: true, sisaKuota: 2, totalKuota: 8 },
       ],
+      get filteredDosen() {
+        const q = (this.searchQuery || '').toLowerCase();
+        let list = this.dosenList.filter(d =>
+          (d.nama || '').toLowerCase().includes(q) || (d.npp || '').includes(q)
+        );
+        if (this.sortOption === 'nama_asc') {
+          list = [...list].sort((a, b) => a.nama.localeCompare(b.nama));
+        } else if (this.sortOption === 'nama_desc') {
+          list = [...list].sort((a, b) => b.nama.localeCompare(a.nama));
+        } else if (this.sortOption === 'kuota_asc') {
+          list = [...list].sort((a, b) => b.sisaKuota - a.sisaKuota);
+        }
+        return list;
+      },
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredDosen.length / this.pageSize));
+      },
+      get paginatedDosen() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredDosen.slice(start, start + this.pageSize);
+      },
       toggleStatus(dosen) {
         dosen.aktifPeriode = !dosen.aktifPeriode;
       },
@@ -39,6 +64,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
         <input
           type="text"
           x-model="searchQuery"
+          @input="currentPage = 1"
           placeholder="Cari Dosen..."
           class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         />
@@ -48,6 +74,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
       <div class="flex items-center gap-2 ml-auto flex-wrap">
         <select
           x-model="sortOption"
+          @change="currentPage = 1"
           class="h-9 rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="nama_asc">Nama (A - Z)</option>
@@ -58,7 +85,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
         <button
           type="button"
           @click="isBulkModalOpen = true"
-          class="inline-flex items-center gap-2 h-9 px-4 text-xs font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white shadow-none transition-colors"
+          class="inline-flex items-center gap-2 h-9 px-4 text-xs font-semibold rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white shadow-none transition-colors"
         >
           <i data-lucide="list-checks" class="w-4 h-4"></i>
           <span>Pilih Banyak</span>
@@ -82,17 +109,17 @@ import AdminShell from "../../layouts/AdminShell.astro";
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Plotting Mahasiswa</th>
-              <th class="h-11 px-4 font-medium text-sm w-24 text-center text-[#71717a]">Aksi</th>
+              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Nama Dosen Pembimbing</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Plotting Mahasiswa</th>
+              <th class="h-11 px-4 font-semibold text-xs w-24 text-center text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
-          <template x-for="(dosen, idx) in dosenList.filter(d => d.nama.toLowerCase().includes(searchQuery.toLowerCase()) || d.npp.includes(searchQuery))" :key="dosen.id">
-            <tr class="hover:bg-[#fafafa] transition-colors">
-              <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="idx + 1"></td>
+          <template x-for="(dosen, idx) in paginatedDosen" :key="dosen.id">
+            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+              <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
               <td class="h-[68px] px-4 text-sm">
                 <div class="flex items-center gap-3">
                   <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
@@ -112,8 +139,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
                     :aria-checked="dosen.aktifPeriode"
                     :aria-label="`Ubah status periode ${dosen.nama}`"
                     @click="toggleStatus(dosen)"
-                    class="relative inline-flex h-[22px] w-[40px] shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2454A1]/40 focus-visible:ring-offset-2"
-                    :class="dosen.aktifPeriode ? 'bg-[#2454A1]' : 'bg-[#d4d4d8]'"
+                    class="relative inline-flex h-[22px] w-[40px] shrink-0 items-center rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0655a7]/40 focus-visible:ring-offset-2"
+                    :class="dosen.aktifPeriode ? 'bg-[#0655a7]' : 'bg-[#d4d4d8]'"
                   >
                     <span
                       class="inline-block h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform duration-200"
@@ -122,21 +149,21 @@ import AdminShell from "../../layouts/AdminShell.astro";
                   </button>
                   <span
                     class="text-xs font-medium"
-                    :class="dosen.aktifPeriode ? 'text-[#4CA154]' : 'text-[#71717a]'"
+                    :class="dosen.aktifPeriode ? 'text-emerald-700' : 'text-[#71717a]'"
                     x-text="dosen.aktifPeriode ? 'Aktif' : 'Nonaktif'"
                   ></span>
                 </div>
               </td>
               <td class="h-[68px] px-4 text-center text-sm">
                 <template x-if="dosen.sisaKuota > 0">
-                  <span class="inline-flex items-center gap-2.5 text-sm font-normal text-[#818182]">
-                    <i data-lucide="users" class="w-[18px] h-[18px] shrink-0"></i>
+                  <span class="inline-flex items-center gap-2 text-xs font-medium text-[#71717a]">
+                    <i data-lucide="users" class="w-4 h-4 text-[#71717a] shrink-0"></i>
                     <span x-text="`Sisa kuota (${dosen.sisaKuota})`"></span>
                   </span>
                 </template>
                 <template x-if="dosen.sisaKuota === 0">
-                  <span class="inline-flex items-center gap-2.5 text-sm font-normal text-[#818182]">
-                    <i data-lucide="users" class="w-[18px] h-[18px] shrink-0"></i>
+                  <span class="inline-flex items-center gap-2 text-xs font-medium text-amber-700">
+                    <i data-lucide="users" class="w-4 h-4 text-amber-700 shrink-0"></i>
                     <span>Kuota Penuh</span>
                   </span>
                 </template>
@@ -148,6 +175,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
                     @click="openAction = !openAction"
                     @click.outside="openAction = false"
                     class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-[#f4f4f5] text-[#71717a]"
+                    title="Menu Aksi"
                   >
                     <i data-lucide="more-horizontal" class="w-4 h-4"></i>
                   </button>
@@ -175,49 +203,60 @@ import AdminShell from "../../layouts/AdminShell.astro";
               </td>
             </tr>
           </template>
+          <template x-if="paginatedDosen.length === 0">
+            <tr>
+              <td colspan="5" class="h-28 text-center text-xs text-[#71717a]">
+                Tidak ada data dosen pembimbing yang cocok dengan kriteria pencarian.
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
       </div>
     </div>
 
-    <!-- Standardized Pagination Sesuai Screenshot 1 -->
+    <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-      <div class="text-xs text-[#71717a]">Menampilkan 1 - 5 dari 48 data</div>
-      <div class="flex items-center gap-2">
+      <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredDosen.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredDosen.length) + ' dari ' + filteredDosen.length + ' data'"></div>
+      <div class="flex items-center gap-1.5">
         <button
           type="button"
-          disabled
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 cursor-not-allowed hover:bg-gray-50"
+          @click="if (currentPage > 1) currentPage--"
+          :disabled="currentPage <= 1"
+          :class="currentPage <= 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+          title="Halaman Sebelumnya"
         >
           <i data-lucide="chevron-left" class="w-4 h-4"></i>
         </button>
+
+        <template x-for="p in totalPages" :key="p">
+          <button
+            type="button"
+            @click="currentPage = p"
+            :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
+            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+            x-text="p"
+          ></button>
+        </template>
+
         <button
           type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md bg-[#0655a7] text-white font-semibold text-xs shadow-none"
-        >
-          1
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-        >
-          2
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] font-medium text-xs hover:bg-[#f4f4f5]"
-        >
-          3
-        </button>
-        <button
-          type="button"
-          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]"
+          @click="if (currentPage < totalPages) currentPage++"
+          :disabled="currentPage >= totalPages"
+          :class="currentPage >= totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+          title="Halaman Selanjutnya"
         >
           <i data-lucide="chevron-right" class="w-4 h-4"></i>
         </button>
+
         <select
+          x-model.number="pageSize"
+          @change="currentPage = 1"
           class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
+          <option value="5">Show 5 items</option>
           <option value="10">Show 10 items</option>
           <option value="25">Show 25 items</option>
           <option value="50">Show 50 items</option>
