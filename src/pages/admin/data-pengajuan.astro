@@ -239,7 +239,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <table class="w-full caption-bottom text-sm border-collapse min-w-full">
           <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
             <tr>
-              <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[50px] w-16">No</th>
+              <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm min-w-[50px] w-16">No</th>
               <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[200px] max-w-[280px]">Mahasiswa</th>
               <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[180px]">Pembimbing</th>
               <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm min-w-[300px]">Judul</th>
@@ -253,7 +253,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             <template x-for="(row, index) in paginatedList" :key="row.sidang_id">
               <tr class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]">
                 <!-- No -->
-                <td class="p-4 align-middle text-sm text-[#09090b] font-medium min-w-[50px]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
+                <td class="p-4 align-middle text-center text-sm text-[#09090b] font-medium min-w-[50px]" x-text="(currentPage - 1) * pageSize + index + 1"></td>
 
                 <!-- Mahasiswa -->
                 <td class="p-4 align-middle min-w-[200px] max-w-[280px]">
