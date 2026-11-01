@@ -4514,11 +4514,10 @@ function renderRelasiDospemMahasiswa(dosenList, mhsList) {
             <th class="h-11 w-12 px-3 text-center text-xs font-semibold text-[#71717a]">No</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mahasiswa</th>
             <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
-            <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Posisi Magang</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#e4e4e7]">
-          ${g.mhs.length === 0 ? '<tr><td colspan="4" class="py-5 text-center text-sm text-[#71717a]">Belum ada mahasiswa bimbingan di kontributor ini.</td></tr>' : g.mhs.map((m, idx) => `
+          ${g.mhs.length === 0 ? '<tr><td colspan="3" class="py-5 text-center text-sm text-[#71717a]">Belum ada mahasiswa bimbingan di kontributor ini.</td></tr>' : g.mhs.map((m, idx) => `
             <tr class="h-12 hover:bg-[#f4f4f5]/60 transition-colors">
               <td class="w-12 px-3 text-center text-xs text-[#71717a]">${idx + 1}</td>
               <td class="px-4">
@@ -4526,7 +4525,6 @@ function renderRelasiDospemMahasiswa(dosenList, mhsList) {
                 <div class="text-[#71717a] text-xs">${m.nim}</div>
               </td>
               <td class="px-4 text-sm text-[#71717a]">${m.prodi}</td>
-              <td class="px-4 text-sm text-[#09090b]">${m.posisi || '-'}</td>
             </tr>
           `).join('')}
         </tbody>

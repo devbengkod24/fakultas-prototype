@@ -1,0 +1,88 @@
+---
+// src/components/mbkm/konversi/KonversiStepper.astro
+---
+
+<!-- Stepper Trail 3 Tahap: Pakta -> Pengajuan SKS -> Dosen Pembimbing -->
+<div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none py-4 px-4 sm:px-6">
+  <div class="relative py-1 max-w-2xl mx-auto">
+    <!-- Connecting Progress Track (3 Nodes: Sumbu tengah di 16.66% dan 83.33%) -->
+    <div class="absolute left-[16.66%] right-[16.66%] top-5 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0" aria-hidden="true">
+      <div
+        class="h-full bg-[#0655a7] rounded-full transition-all duration-500 ease-out"
+        :style="currentStep === 1 ? 'width: 0%' : (currentStep === 2 ? 'width: 50%' : 'width: 100%')"
+      ></div>
+    </div>
+
+    <!-- 3 Step Nodes Grid -->
+    <div class="relative z-10 grid grid-cols-3 text-center">
+      <!-- Node 1: Pakta -->
+      <div class="flex flex-col items-center">
+        <button
+          type="button"
+          @click="currentStep = 1; $nextTick(() => window.lucide && window.lucide.createIcons())"
+          class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all border-2 border-white cursor-pointer"
+          :class="currentStep > 1
+            ? 'bg-[#0655a7] text-white shadow-2xs ring-4 ring-blue-50'
+            : (currentStep === 1 ? 'bg-[#0655a7] text-white ring-4 ring-blue-100' : 'bg-[#f4f4f5] text-[#71717a]')"
+        >
+          <span x-show="currentStep > 1" class="inline-flex items-center justify-center">
+            <i data-lucide="check" class="w-4 h-4 text-white"></i>
+          </span>
+          <span x-show="currentStep <= 1">1</span>
+        </button>
+        <span
+          class="mt-2 text-xs font-semibold leading-tight transition-colors"
+          :class="currentStep === 1 ? 'text-[#0655a7]' : 'text-[#09090b]'"
+        >
+          Pakta Integritas
+        </span>
+      </div>
+
+      <!-- Node 2: Pengajuan SKS -->
+      <div class="flex flex-col items-center">
+        <button
+          type="button"
+          @click="currentStep = 2; $nextTick(() => window.lucide && window.lucide.createIcons())"
+          class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all border-2 border-white cursor-pointer"
+          :class="currentStep > 2
+            ? 'bg-[#0655a7] text-white shadow-2xs ring-4 ring-blue-50'
+            : (currentStep === 2 ? 'bg-[#0655a7] text-white ring-4 ring-blue-100' : 'bg-[#f4f4f5] text-[#71717a]')"
+        >
+          <span x-show="currentStep > 2" class="inline-flex items-center justify-center">
+            <i data-lucide="check" class="w-4 h-4 text-white"></i>
+          </span>
+          <span x-show="currentStep <= 2">2</span>
+        </button>
+        <span
+          class="mt-2 text-xs font-semibold leading-tight transition-colors"
+          :class="currentStep === 2 ? 'text-[#0655a7]' : 'text-[#09090b]'"
+        >
+          Pengajuan SKS
+        </span>
+      </div>
+
+      <!-- Node 3: Dosen Pembimbing -->
+      <div class="flex flex-col items-center">
+        <button
+          type="button"
+          @click="currentStep = 3; $nextTick(() => window.lucide && window.lucide.createIcons())"
+          class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all border-2 border-white cursor-pointer"
+          :class="currentStep === 3
+            ? 'bg-[#0655a7] text-white shadow-2xs ring-4 ring-blue-100'
+            : 'bg-[#f4f4f5] text-[#71717a]'"
+        >
+          <span x-show="currentStep === 3" class="inline-flex items-center justify-center">
+            <i data-lucide="check" class="w-4 h-4 text-white"></i>
+          </span>
+          <span x-show="currentStep < 3">3</span>
+        </button>
+        <span
+          class="mt-2 text-xs font-semibold leading-tight transition-colors"
+          :class="currentStep === 3 ? 'text-[#0655a7]' : 'text-[#71717a]'"
+        >
+          Dosen Pembimbing
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
