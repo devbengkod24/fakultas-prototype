@@ -1,0 +1,92 @@
+---
+// src/components/mbkm/mahasiswa/PaktaIntegritasModal.astro
+---
+
+<!-- MODAL PENGISIAN PAKTA INTEGRITAS (STANDAR RESMI MODAL ATOMIK) -->
+<div
+  x-show="showPaktaModal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+  x-cloak
+>
+  <div
+    class="w-full max-w-lg rounded-xl border border-[#e4e4e7] bg-white p-6 shadow-xl space-y-4"
+    @click.outside="showPaktaModal = false"
+  >
+    <!-- Modal Header -->
+    <div class="flex items-start justify-between border-b border-[#e4e4e7] pb-3">
+      <div>
+        <h3 class="text-base font-semibold text-[#09090b]">
+          Konfirmasi Penerimaan & Pakta Integritas
+        </h3>
+        <p class="text-xs text-[#71717a] mt-0.5">
+          Program Terpilih: <strong class="font-semibold text-[#09090b]">Bengkel Koding</strong>
+        </p>
+      </div>
+      <button
+        type="button"
+        @click="showPaktaModal = false"
+        class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded-md hover:bg-[#f4f4f5] transition-colors cursor-pointer"
+        title="Tutup"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="space-y-3.5 text-xs text-[#3f3f46]">
+      <p class="leading-relaxed text-[#71717a]">
+        Dengan mengonfirmasi penawaran ini, Anda berkomitmen penuh mengikuti kegiatan MBKM di Bengkel Koding. Seluruh lamaran lain yang Anda ajukan di mitra lain akan otomatis ditarik oleh sistem.
+      </p>
+
+      <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-3 space-y-2">
+        <span class="font-semibold text-[#09090b] block text-xs">
+          Surat Pakta Integritas Kontributor (Generated):
+        </span>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-[#71717a]">Draf Berkas:</span>
+          <a
+            href="#"
+            class="text-[#0655a7] font-semibold hover:underline flex items-center gap-1.5"
+          >
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Unduh Draf PDF</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="space-y-1.5">
+        <label for="pakta-url-input" class="font-semibold text-[#09090b] block text-xs">
+          Unggah Tautan Berkas Bertanda Tangan & E-Materai:
+        </label>
+        <input
+          id="pakta-url-input"
+          type="url"
+          value="https://drive.google.com/file/d/pakta-integritas-mahasiswa.pdf"
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          placeholder="https://drive.google.com/..."
+        />
+        <p class="text-[11px] text-[#71717a]">
+          Pastikan akses tautan Google Drive terbuka untuk Koordinator MBKM Prodi.
+        </p>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="border-t border-[#e4e4e7] pt-3 flex items-center justify-end gap-2.5">
+      <button
+        type="button"
+        @click="showPaktaModal = false"
+        class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer"
+      >
+        Batal
+      </button>
+      <button
+        type="button"
+        @click="submitPakta()"
+        class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+      >
+        Kirim ke Koordinator
+      </button>
+    </div>
+  </div>
+</div>

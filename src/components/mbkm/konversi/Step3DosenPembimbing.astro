@@ -1,0 +1,64 @@
+---
+// src/components/mbkm/konversi/Step3DosenPembimbing.astro
+---
+
+<!-- Tahap 3: Dosen Pembimbing Resmi (Murni Flat, Tanpa Card di Dalam Card) -->
+<div x-show="currentStep === 3" class="space-y-4" x-transition>
+  <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-5 sm:p-6 space-y-4">
+    <!-- Header Card -->
+    <div class="pb-3.5 border-b border-[#e4e4e7]">
+      <h3 class="text-base font-semibold text-[#09090b]">
+        Dosen Pembimbing
+      </h3>
+      <p class="text-xs text-[#71717a] mt-0.5">
+        Dosen pembimbing akademik yang ditugaskan mendampingi kegiatan MBKM Anda.
+      </p>
+    </div>
+
+    <!-- Informasi Profil Dosen Pembimbing (Murni Flat, Terbuka, Tanpa Inner Card) -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-blue-50 border border-blue-200/60 flex items-center justify-center text-[#0655a7] font-semibold text-base shrink-0">
+          AN
+        </div>
+        <div class="space-y-0.5">
+          <h4 class="text-base font-semibold text-[#09090b]">
+            Adhitya Nugraha, S.Kom, M.CS
+          </h4>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#71717a]">
+            <span>NIDN: <strong class="font-medium text-[#09090b]">0686.11.2005.002</strong></span>
+            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+            <span>Prodi: <strong class="font-medium text-[#09090b]">Teknik Informatika</strong></span>
+            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+            <span>Email: <a href="mailto:dosen.a11@udinus.ac.id" class="text-[#0655a7] hover:underline font-medium">dosen.a11@udinus.ac.id</a></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shrink-0 self-start sm:self-auto">
+        <a
+          href="https://chat.whatsapp.com/demo-kp-a11"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors"
+          title="Gabung ke Grup WhatsApp"
+        >
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span>Grup WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer Aksi -->
+    <div class="pt-4 border-t border-[#e4e4e7] flex items-center justify-start">
+      <button
+        type="button"
+        @click="currentStep = 2; $nextTick(() => window.lucide && window.lucide.createIcons())"
+        class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer"
+      >
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <span>Kembali</span>
+      </button>
+    </div>
+  </div>
+</div>

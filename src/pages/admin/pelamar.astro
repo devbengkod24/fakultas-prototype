@@ -154,12 +154,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
     <table class="w-full text-sm">
       <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
         <tr>
-          <th class="h-11 px-4 font-medium text-sm w-16 text-center text-[#71717a]">No</th>
-          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program & Kontributor MBKM</th>
-          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Akademik</th>
-          <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Matakuliah Diambil</th>
-          <th class="h-11 px-4 font-medium text-sm w-36 text-center text-[#71717a]">Aksi</th>
+          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program & Kontributor MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Akademik</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Matakuliah Diambil</th>
+          <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
         </tr>
       </thead>
       <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
@@ -168,10 +168,22 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </table>
   </div>
 
-  <!-- Pagination Footer -->
-  <div class="pt-2 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#71717a]">
+  <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 text-xs text-[#71717a]">
     <div id="pelamar-table-info">Menampilkan pendaftar</div>
-    <div id="pelamar-pagination-controls" class="flex items-center gap-1"></div>
+    <div class="flex items-center gap-1.5">
+      <div id="pelamar-pagination-controls" class="flex items-center gap-1.5"></div>
+      <select
+        id="pelamar-per-page"
+        onchange="handlePelamarPerPageChange(this.value)"
+        class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+      >
+        <option value="5">Show 5 items</option>
+        <option value="10" selected>Show 10 items</option>
+        <option value="25">Show 25 items</option>
+        <option value="50">Show 50 items</option>
+      </select>
+    </div>
   </div>
 </div>
 

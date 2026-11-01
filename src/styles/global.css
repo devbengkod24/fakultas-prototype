@@ -17,6 +17,11 @@
   [x-cloak] {
     display: none !important;
   }
+
+  .fixed.inset-0,
+  [class*="space-y"] > .fixed {
+    margin: 0 !important;
+  }
 }
 
 /* Custom scrollbar */

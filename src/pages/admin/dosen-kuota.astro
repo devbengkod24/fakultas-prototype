@@ -11,6 +11,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
       searchQuery: '',
       sortOption: 'default',
       statusFilter: 'semua',
+      currentPage: 1,
+      pageSize: 10,
       isEditModalOpen: false,
       currentDosen: { nama: '', nidn: '', kuota: 0, diterima: 0 },
       editKuotaInput: 0,
@@ -56,6 +58,13 @@ import AdminShell from "../../layouts/AdminShell.astro";
         if (this.sortOption === 'nama_asc') list = [...list].sort((a, b) => a.nama.localeCompare(b.nama));
         if (this.sortOption === 'nama_desc') list = [...list].sort((a, b) => b.nama.localeCompare(a.nama));
         return list;
+      },
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredDosen.length / this.pageSize));
+      },
+      get paginatedDosen() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredDosen.slice(start, start + this.pageSize);
       },
       get totalDosen() {
         return this.dosenList.length;
@@ -125,15 +134,17 @@ import AdminShell from "../../layouts/AdminShell.astro";
         <input
           type="text"
           x-model="searchQuery"
+          @input="currentPage = 1"
           placeholder="Cari nama dosen..."
-          class="h-10 w-full rounded-lg border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         />
       </div>
 
       <div class="flex items-center gap-2">
         <select
           x-model="sortOption"
-          class="h-10 px-3 pr-8 rounded-lg border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          @change="currentPage = 1"
+          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="default">Default</option>
           <option value="nama_asc">Nama (A - Z)</option>
@@ -142,7 +153,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
 
         <select
           x-model="statusFilter"
-          class="h-10 px-3 pr-8 rounded-lg border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          @change="currentPage = 1"
+          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="semua">Semua Status</option>
           <option value="tersedia">Tersedia</option>
@@ -157,69 +169,125 @@ import AdminShell from "../../layouts/AdminShell.astro";
         <table class="w-full text-sm">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
-              <th class="h-11 px-4 font-medium text-sm w-16 text-left text-[#71717a]">No</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">
+              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">
                 <button
                   type="button"
-                  @click="sortOption = sortOption === 'nama_asc' ? 'nama_desc' : 'nama_asc'"
+                  @click="sortOption = sortOption === 'nama_asc' ? 'nama_desc' : 'nama_asc'; currentPage = 1"
                   class="inline-flex items-center gap-1.5 hover:text-[#09090b] transition-colors cursor-pointer"
                 >
-                  <span>Nama Dosen</span>
+                  <span>Nama Dosen Pembimbing</span>
                   <i data-lucide="arrow-up-down" class="w-3.5 h-3.5"></i>
                 </button>
               </th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Kuota</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Jumlah Ajuan</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Ajuan Diterima</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Ajuan Ditolak</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Sisa Kuota</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Kuota</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Jumlah Ajuan</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Ajuan Diterima</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Ajuan Ditolak</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Sisa Kuota</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
-            <template x-for="(dosen, idx) in filteredDosen" :key="dosen.id">
-              <tr class="hover:bg-[#fafafa] transition-colors">
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="idx + 1"></td>
+            <template x-for="(dosen, idx) in paginatedDosen" :key="dosen.id">
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
                 <td class="h-[68px] px-4 text-sm">
                   <div class="flex items-center gap-3">
-                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#52525b] font-medium text-sm flex items-center justify-center shrink-0">
+                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                       <span x-text="dosen.nama.charAt(0)"></span>
                     </div>
-                    <div class="flex flex-col leading-tight gap-1">
-                      <span class="font-semibold text-[#09090b] text-sm tracking-tight" x-text="dosen.nama"></span>
-                      <span class="text-[13px] text-[#71717a]" x-text="dosen.nidn"></span>
+                    <div class="flex flex-col leading-tight gap-0.5">
+                      <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
+                      <span class="text-xs text-[#71717a]" x-text="dosen.nidn"></span>
                     </div>
                   </div>
                 </td>
-                <td class="h-[68px] px-4 text-sm">
+                <td class="h-[68px] px-4 text-center text-sm">
                   <button
                     type="button"
                     @click="openModalEdit(dosen)"
-                    class="inline-flex items-center justify-center h-8 min-w-[56px] px-3 rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/40 text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
+                    class="inline-flex items-center justify-center h-8 min-w-[56px] px-3 rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/40 text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
                     title="Klik untuk menyesuaikan kuota"
                     x-text="dosen.kuota"
                   ></button>
                 </td>
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="dosen.jumlahAjuan"></td>
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="dosen.diterima"></td>
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="dosen.ditolak"></td>
-                <td class="h-[68px] px-4 text-left text-sm text-[#3f3f46]" x-text="getSisa(dosen)"></td>
-                <td class="h-[68px] px-4 text-sm">
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.jumlahAjuan"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.diterima"></td>
+                <td class="h-[68px] px-4 text-center text-sm text-[#71717a]" x-text="dosen.ditolak"></td>
+                <td class="h-[68px] px-4 text-center text-sm font-semibold text-[#09090b]" x-text="getSisa(dosen)"></td>
+                <td class="h-[68px] px-4 text-center text-sm">
                   <template x-if="getStatus(dosen) === 'tersedia'">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#BBF7D0] bg-[#DCFCE7] text-[13px] font-medium text-[#15803D]">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800">
                       Tersedia
                     </span>
                   </template>
                   <template x-if="getStatus(dosen) === 'penuh'">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border border-[#FECDD3] bg-[#FFE4E6] text-[13px] font-medium text-[#BE123C]">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-rose-50 border border-rose-200 text-rose-700">
                       Penuh
                     </span>
                   </template>
                 </td>
               </tr>
             </template>
+            <template x-if="paginatedDosen.length === 0">
+              <tr>
+                <td colspan="8" class="h-28 text-center text-xs text-[#71717a]">
+                  Tidak ada data kuota dosen pembimbing yang cocok dengan kriteria pencarian.
+                </td>
+              </tr>
+            </template>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Standardized Pagination Sesuai Screenshot & Design System -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+      <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredDosen.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredDosen.length) + ' dari ' + filteredDosen.length + ' data'"></div>
+      <div class="flex items-center gap-1.5">
+        <button
+          type="button"
+          @click="if (currentPage > 1) currentPage--"
+          :disabled="currentPage <= 1"
+          :class="currentPage <= 1 ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+          title="Halaman Sebelumnya"
+        >
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+
+        <template x-for="p in totalPages" :key="p">
+          <button
+            type="button"
+            @click="currentPage = p"
+            :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
+            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+            x-text="p"
+          ></button>
+        </template>
+
+        <button
+          type="button"
+          @click="if (currentPage < totalPages) currentPage++"
+          :disabled="currentPage >= totalPages"
+          :class="currentPage >= totalPages ? 'opacity-50 cursor-not-allowed hover:bg-white text-[#71717a]' : 'hover:bg-[#f4f4f5] text-[#09090b]'"
+          class="h-8 w-8 flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-xs transition-colors"
+          title="Halaman Selanjutnya"
+        >
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+
+        <select
+          x-model.number="pageSize"
+          @change="currentPage = 1"
+          class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="5">Show 5 items</option>
+          <option value="10">Show 10 items</option>
+          <option value="25">Show 25 items</option>
+          <option value="50">Show 50 items</option>
+        </select>
       </div>
     </div>
 
