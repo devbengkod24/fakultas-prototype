@@ -1,0 +1,32 @@
+---
+// src/components/mbkm/detail/DetailFloatingDaftar.astro
+// Tombol mengambang: muncul saat tombol "Daftar" (#btn-daftar-program) keluar layar,
+// klik untuk auto-scroll kembali ke tombol tersebut.
+---
+
+<button
+  type="button"
+  id="btn-scroll-ke-daftar"
+  aria-label="Kembali ke tombol pendaftaran program"
+  class="fixed bottom-6 right-6 z-40 inline-flex translate-y-4 items-center gap-2 rounded-full bg-primary-700 px-4 py-3 text-sm font-bold text-white opacity-0 shadow-lg transition-all duration-300 pointer-events-none hover:bg-primary-900 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-200 data-[show=true]:pointer-events-auto data-[show=true]:translate-y-0 data-[show=true]:opacity-100"
+>
+  <i data-lucide="arrow-up" class="h-4 w-4"></i>
+  <span>Ke Pendaftaran</span>
+</button>
+
+<script>
+  const fab = document.getElementById('btn-scroll-ke-daftar');
+  const target = document.getElementById('btn-daftar-program');
+
+  if (fab && target) {
+    // Tampil hanya saat tombol Daftar tidak terlihat di layar
+    new IntersectionObserver(([entry]) => {
+      fab.dataset.show = String(!entry.isIntersecting);
+    }).observe(target);
+
+    fab.addEventListener('click', () => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.focus({ preventScroll: true });
+    });
+  }
+</script>

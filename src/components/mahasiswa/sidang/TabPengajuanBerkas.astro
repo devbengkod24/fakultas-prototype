@@ -1,0 +1,184 @@
+---
+// src/components/mahasiswa/sidang/TabPengajuanBerkas.astro
+import { cn } from "../../../utils/cn";
+import type { SidangData } from "../../../data/mahasiswa/sidangData";
+
+interface Props {
+  data: SidangData;
+}
+
+const { data } = Astro.props;
+---
+
+<div class={cn("space-y-6")}>
+  <!-- Card 1: Informasi Pelaksanaan Kegiatan -->
+  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5">
+    <div class="flex items-center gap-3 pb-3 border-b border-[#e4e4e7]">
+      <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
+        <i data-lucide="file-text" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold text-[#09090b]">Informasi Program & Bimbingan</h2>
+        <p class="text-xs text-[#71717a] leading-relaxed">Rincian penugasan magang dan penetapan Dosen Pembimbing</p>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Judul Kegiatan / Proyek</label>
+        <input
+          type="text"
+          readonly
+          value={data.judulKB}
+          class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Mitra Industri / Perusahaan</label>
+          <input
+            type="text"
+            readonly
+            value={data.perusahaan}
+            class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Posisi Magang</label>
+          <input
+            type="text"
+            readonly
+            value={data.posisi}
+            class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Dosen Pembimbing</label>
+          <input
+            type="text"
+            readonly
+            value={data.dosenPembimbing}
+            class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Periode Pelaksanaan</label>
+          <input
+            type="text"
+            readonly
+            value={`${data.periodeMulai} — ${data.periodeSelesai}`}
+            class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Informasi Penyelia Mitra -->
+  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5">
+    <div class="flex items-center gap-3 pb-3 border-b border-[#e4e4e7]">
+      <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
+        <i data-lucide="user-check" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold text-[#09090b]">Informasi Penyelia Lapangan</h2>
+        <p class="text-xs text-[#71717a] leading-relaxed">Mentor pembimbing dari pihak institusi mitra kerja</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Nama Penyelia</label>
+        <input
+          type="text"
+          readonly
+          value={data.penyelia.nama}
+          class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+        />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Jabatan / Posisi</label>
+        <input
+          type="text"
+          readonly
+          value={data.penyelia.posisi}
+          class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
+        />
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Nilai Evaluasi Mitra</label>
+        <div class="flex items-center gap-2">
+          <input
+            type="text"
+            readonly
+            value={`${data.penyelia.nilaiEvaluasi} / 100`}
+            class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-bold text-emerald-700 focus:outline-none"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Dokumen Pendukung Sidang (Data Table) -->
+  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
+          <i data-lucide="folder-check" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <h2 class="text-base font-semibold text-[#09090b]">Dokumen Persyaratan Sidang</h2>
+          <p class="text-xs text-[#71717a] leading-relaxed">Berkas wajib yang telah diverifikasi untuk kelayakan sidang</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        onclick="openModalUploadBerkas()"
+        class="inline-flex items-center gap-1.5 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+      >
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>Tambah Berkas</span>
+      </button>
+    </div>
+
+    <!-- Tabel Data Sesuai DO Standar Tabel -->
+    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-[#fafafa] border-b border-[#e4e4e7] text-xs font-semibold text-[#71717a] h-11">
+            <th class="w-12 text-center">No.</th>
+            <th class="px-4">Nama Dokumen</th>
+            <th class="px-4 text-right">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="table-berkas-sidang-body" class="divide-y divide-[#e4e4e7] text-sm">
+          {data.berkas.map((item, index) => (
+            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+              <td class="w-12 text-center text-xs font-medium text-[#71717a]">{index + 1}</td>
+              <td class="px-4 py-3 font-medium text-xs text-[#09090b]">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="file" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+                  <span class="truncate">{item.nama}</span>
+                </div>
+              </td>
+              <td class="px-4 py-3 text-right">
+                <a
+                  href={item.link}
+                  target="_blank"
+                  class="inline-flex items-center gap-1 text-xs font-semibold text-[#0655a7] hover:underline"
+                >
+                  <i data-lucide="eye" class="w-4 h-4"></i>
+                  <span>Lihat</span>
+                </a>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
