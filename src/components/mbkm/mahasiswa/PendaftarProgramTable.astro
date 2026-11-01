@@ -1,0 +1,165 @@
+---
+// src/components/mbkm/mahasiswa/PendaftarProgramTable.astro
+const programs = [
+  {
+    id: 'bk',
+    nama: 'Bengkel Koding',
+    logo: '/assets/images/logo-bengkod.png',
+    tglDaftar: '10 Okt 2025',
+    tahapLanjutan: 'Jadwal Wawancara',
+    tglLanjutan: '22 Okt 2025',
+    tglPengumuman: 'N/A',
+    hasOffer: true,
+  },
+  {
+    id: 'idss',
+    nama: 'IDSS',
+    logo: '/assets/images/logo-idss.png',
+    tglDaftar: '15 Okt 2025',
+    tahapLanjutan: 'Jadwal Wawancara',
+    tglLanjutan: '18 Okt 2025',
+    tglPengumuman: 'N/A',
+    hasOffer: false,
+  },
+  {
+    id: 'dicoding',
+    nama: 'Dicoding Indonesia',
+    logo: '/assets/images/logo-dicoding.png',
+    tglDaftar: '16 Okt 2025',
+    tahapLanjutan: 'Jadwal Wawancara',
+    tglLanjutan: '24 Okt 2025',
+    tglPengumuman: '25 Okt 2025',
+    hasOffer: false,
+  },
+];
+---
+
+<!-- Kolom Kiri: Daftar Program yang Diajukan (Flat Inline Metadata - Maksimal 3 Program) -->
+<div class="lg:col-span-2 flex flex-col h-full">
+  <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden h-full flex flex-col">
+    <!-- Header Card (Selaras Admin Dashboard Card Title) -->
+    <div class="px-5 py-3.5 border-b border-[#e4e4e7] shrink-0">
+      <h3 class="text-base font-semibold text-[#09090b]">
+        Program yang diajukan
+      </h3>
+    </div>
+
+    <!-- List Items (Murni Flat, Terbuka, Tanpa Nested Cards - Distribusi Tinggi Rata) -->
+    <div class="divide-y divide-[#e4e4e7] flex-1 flex flex-col justify-between">
+      {programs.map((program) => (
+        <div
+          class="relative p-4 sm:p-5 transition-all space-y-2 cursor-pointer overflow-hidden flex-1 flex flex-col justify-center"
+          :class={`activeMitraTab === '${program.id}'
+            ? 'bg-blue-50/60'
+            : (paktaSubmitted
+              ? 'opacity-40 bg-white'
+              : 'bg-white hover:bg-[#fafafa]')`}
+          @click={`activeMitraTab = '${program.id}'`}
+        >
+          <!-- Indikator Bar Aksen Biru Sisi Kiri (Konsisten 100% untuk Semua Item) -->
+          <div
+            x-show={`activeMitraTab === '${program.id}'`}
+            class="absolute left-0 top-0 bottom-0 w-1 bg-[#0655a7]"
+            aria-hidden="true"
+          ></div>
+
+          <!-- Baris Atas: Identitas, Status, & Aksi -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg border bg-white flex items-center justify-center p-1 shrink-0 overflow-hidden shadow-2xs transition-all"
+                :class={`activeMitraTab === '${program.id}' ? 'border-blue-300 ring-2 ring-blue-100' : 'border-[#e4e4e7]'`}
+              >
+                <img
+                  src={program.logo}
+                  alt={`Logo ${program.nama}`}
+                  class="w-full h-full object-contain rounded"
+                />
+              </div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h4
+                  class="text-sm font-semibold transition-colors"
+                  :class={`activeMitraTab === '${program.id}' ? 'text-[#0655a7]' : 'text-[#09090b]'`}
+                >
+                  {program.nama}
+                </h4>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 shrink-0">
+              {program.hasOffer && (
+                <>
+                  <template x-if="showOfferBanner && !paktaSubmitted">
+                    <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      Diterima Mitra
+                    </span>
+                  </template>
+                  <template x-if="paktaSubmitted">
+                    <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold bg-blue-50 text-[#0655a7] border border-blue-200">
+                      Menunggu ACC Pakta
+                    </span>
+                  </template>
+                </>
+              )}
+
+              {!program.hasOffer && (
+                <template x-if="paktaSubmitted">
+                  <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-500 border border-gray-200">
+                    Gugur (Withdrawn)
+                  </span>
+                </template>
+              )}
+
+              <!-- Tombol Aksi: Lihat Selengkapnya -->
+              <template x-if={!program.hasOffer ? "!paktaSubmitted" : "true"}>
+                <a
+                  href={`/mahasiswa/pendaftaran-detail?program=${program.id}`}
+                  class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+                >
+                  <span>Lihat selengkapnya</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                </a>
+              </template>
+              {!program.hasOffer && (
+                <template x-if="paktaSubmitted">
+                  <span class="text-xs text-[#71717a] italic">Tertutup</span>
+                </template>
+              )}
+
+              {program.hasOffer && (
+                <template x-if="showOfferBanner && !paktaSubmitted">
+                  <button
+                    type="button"
+                    @click="acceptOffer()"
+                    class="inline-flex items-center gap-1.5 h-8 px-3.5 text-xs font-semibold rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white transition-colors cursor-pointer shadow-none"
+                  >
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    <span>Ambil Tawaran</span>
+                  </button>
+                </template>
+              )}
+            </div>
+          </div>
+
+          <!-- Baris Bawah: Jadwal & Timeline Murni Inline Tanpa Box Bertingkat -->
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#71717a] pt-0.5">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span>Diajukan: <strong class="font-medium text-[#09090b]">{program.tglDaftar}</strong></span>
+            </div>
+            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+              <span>{program.tahapLanjutan}: <strong class="font-medium text-[#09090b]">{program.tglLanjutan}</strong></span>
+            </div>
+            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="megaphone" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>Pengumuman: <strong class="font-medium text-[#09090b]">{program.tglPengumuman}</strong></span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+---
+// src/components/mbkm/mahasiswa/AktifStatCards.astro
+---
+
+<!-- 4 Stat Cards KB (State Aktif) -->
+<section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+  <!-- Card 1: Status Pengajuan -->
+  <div
+    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
+  >
+    <div
+      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
+    >
+      <h3 class="text-sm font-medium text-[#09090b]">Status Pengajuan</h3>
+      <i data-lucide="graduation-cap" class="h-4 w-4 text-[#71717a]"></i>
+    </div>
+    <div class="p-4 pt-0">
+      <div class="text-xl font-semibold mb-2 text-green-700">
+        Diterima
+      </div>
+      <p class="text-xs text-[#71717a]">Dospem: Dosen A11</p>
+    </div>
+  </div>
+
+  <!-- Card 2: Log Mahasiswa -->
+  <div
+    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
+  >
+    <div
+      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
+    >
+      <h3 class="text-sm font-medium text-[#09090b]">Log Mahasiswa</h3>
+      <i data-lucide="book-open" class="h-4 w-4 text-[#71717a]"></i>
+    </div>
+    <div class="p-4 pt-0">
+      <div class="text-2xl font-semibold mb-2 text-[#09090b]">5/5</div>
+      <p class="text-xs text-[#71717a]">Progress 100%</p>
+    </div>
+  </div>
+
+  <!-- Card 3: Jadwal Sidang -->
+  <div
+    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
+  >
+    <div
+      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
+    >
+      <h3 class="text-sm font-medium text-[#09090b]">Jadwal Sidang</h3>
+      <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
+    </div>
+    <div class="p-4 pt-0">
+      <div class="text-base font-semibold mb-2 text-[#09090b]">
+        Selasa, 27 Oktober 2026
+      </div>
+      <p class="text-xs text-[#71717a]">Jam 09:00 - 09:45</p>
+    </div>
+  </div>
+
+  <!-- Card 4: Periode Aktif -->
+  <div
+    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden"
+  >
+    <div
+      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
+    >
+      <h3 class="text-sm font-medium text-[#09090b]">Periode Aktif</h3>
+      <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
+    </div>
+    <div class="p-4 pt-0">
+      <div class="text-lg font-semibold mb-2 text-[#09090b]">
+        2026/2027
+      </div>
+      <div class="mt-2">
+        <div
+          class="flex items-center gap-2 text-sm font-medium text-[#09090b]"
+        >
+          <p>Gelombang Aktif</p>
+        </div>
+        <p class="text-xs text-[#71717a]">Gelombang 1 KB 2026/2027</p>
+      </div>
+    </div>
+  </div>
+</section>
