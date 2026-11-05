@@ -19,7 +19,7 @@ export const DEMO_ACCOUNTS: UserAccount[] = [
     roleName: "Koordinator MBKM / Admin",
     identifier: "0686.11.2012.441",
     avatar: "NA",
-    redirectUrl: "/admin/dashboard",
+    redirectUrl: "/koordinator/dashboard",
     description: "Akses penuh kelola kontributor, validasi SuReKom, seleksi, konversi SKS, dan monitoring mahasiswa."
   },
   {

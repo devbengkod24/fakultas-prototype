@@ -369,7 +369,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
           >
             <!-- 1. Dashboard -->
             <a
-              href="/admin/dashboard"
+              href="/koordinator/dashboard"
               id="nav-dashboard"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -383,7 +383,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 2. Pengumuman -->
             <a
-              href="/admin/pengumuman"
+              href="/koordinator/pengumuman"
               id="nav-pengumuman"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -397,7 +397,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 3. Kontributor (Mandiri) -->
             <a
-              href="/admin/kontributor"
+              href="/koordinator/kontributor"
               id="nav-kontributor"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -433,7 +433,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-mahasiswa" x-show="isOpen('mahasiswa')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/semua-mahasiswa"
+                  href="/koordinator/semua-mahasiswa"
                   id="nav-sub-mhs-semua"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -444,7 +444,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Semua Mahasiswa</span>
                 </a>
                 <a
-                  href="/admin/data-mahasiswa"
+                  href="/koordinator/data-mahasiswa"
                   id="nav-sub-mhs-data"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -455,7 +455,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Mahasiswa</span>
                 </a>
                 <a
-                  href="/admin/pelamar"
+                  href="/koordinator/pelamar"
                   id="nav-sub-mhs-pelamar"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -466,7 +466,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Pendaftar</span>
                 </a>
                 <a
-                  href="/admin/surekom"
+                  href="/koordinator/surekom"
                   id="nav-sub-mhs-rekomendasi"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -503,7 +503,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-dosen" x-show="isOpen('dosen')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/dosen-data"
+                  href="/koordinator/dosen-data"
                   id="nav-sub-dosen-data"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -514,7 +514,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Dosen</span>
                 </a>
                 <a
-                  href="/admin/dosen-kuota"
+                  href="/koordinator/dosen-kuota"
                   id="nav-sub-dosen-kuota"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -525,7 +525,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Kuota Dosen</span>
                 </a>
                 <a
-                  href="/admin/dosen-update"
+                  href="/koordinator/dosen-update"
                   id="nav-sub-dosen-update"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -540,7 +540,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 7. Logbook Mahasiswa -->
             <a
-              href="/admin/logbook"
+              href="/koordinator/logbook"
               id="nav-logbook"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -554,7 +554,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 8. Validasi Konversi SKS -->
             <a
-              href="/admin/konversi"
+              href="/koordinator/konversi"
               id="nav-konversi"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -590,7 +590,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-sidang" x-show="isOpen('sidang')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/gelombang"
+                  href="/koordinator/gelombang"
                   id="nav-sub-sidang-gelombang"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -601,7 +601,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Gelombang Sidang</span>
                 </a>
                 <a
-                  href="/admin/data-pengajuan"
+                  href="/koordinator/data-pengajuan"
                   id="nav-sub-sidang-data-pengajuan"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -612,7 +612,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Pengajuan</span>
                 </a>
                 <a
-                  href="/admin/plotting-jadwal"
+                  href="/koordinator/plotting-jadwal"
                   id="nav-sub-sidang-plotting-jadwal"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -623,7 +623,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Plotting Jadwal</span>
                 </a>
                 <a
-                  href="/admin/hasil-sidang"
+                  href="/koordinator/hasil-sidang"
                   id="nav-sub-sidang-hasil-sidang"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -660,7 +660,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-mbkm" x-show="isOpen('mbkm')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/form-pendaftaran"
+                  href="/koordinator/form-pendaftaran"
                   id="nav-sub-mbkm-form"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -671,7 +671,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Form Pendaftaran</span>
                 </a>
                 <a
-                  href="/admin/periode"
+                  href="/koordinator/periode"
                   id="nav-sub-mbkm-periode"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -686,7 +686,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 10. Log Aktivitas (Halaman Mandiri) -->
             <a
-              href="/admin/log-aktivitas"
+              href="/koordinator/log-aktivitas"
               id="nav-log-aktivitas"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",

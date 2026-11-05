@@ -4580,7 +4580,7 @@ function switchKontributorTab(tabKey) {
 function openKontributorProgram(kontributorId) {
   const kontributor = kontributorListData.find((m) => m.id === kontributorId);
   const id = kontributor ? kontributor.id : (kontributorId || 1);
-  window.location.href = `/admin/kontributor/program?id=${id}`;
+  window.location.href = `/koordinator/kontributor/program?id=${id}`;
 }
 
 // Alias backward compatibility
@@ -4600,12 +4600,12 @@ function openKontributorCms(kontributorId) {
   if (!kontributor) return;
 
   // Navigasi ke halaman Kelola Program tersendiri
-  window.location.href = `/admin/kontributor/kelola-program?id=${kontributorId}`;
+  window.location.href = `/koordinator/kontributor/kelola-program?id=${kontributorId}`;
 }
 
 /**
  * Mengisi seluruh field CMS berdasarkan kontributorId.
- * Dipanggil oleh halaman /admin/kontributor/kelola-program.
+ * Dipanggil oleh halaman /koordinator/kontributor/kelola-program.
  */
 function populateKontributorCmsPage(kontributorId) {
   const kontributor = kontributorListData.find((m) => m.id === kontributorId);
@@ -4717,7 +4717,7 @@ function openProgramCms(progName, kontributorId) {
 function closeProgramCms() {
   // Jika berada di halaman standalone, kembali ke direktori kontributor
   if (window.location.pathname.includes('/kontributor/kelola-program')) {
-    window.location.href = '/admin/kontributor';
+    window.location.href = '/koordinator/kontributor';
     return;
   }
 
@@ -5792,7 +5792,7 @@ function initApp() {
     if (cmsId) {
       populateKontributorCmsPage(cmsId);
     } else {
-      window.location.href = '/admin/kontributor';
+      window.location.href = '/koordinator/kontributor';
     }
   }
 }
