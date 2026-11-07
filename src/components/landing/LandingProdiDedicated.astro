@@ -1,0 +1,1261 @@
+---
+---
+       VIEW BARU: LANDING PAGE PRODI MULTI-TENANT (#page-prodi) - Req 8
+       11 Section Terstruktur:
+       1. Sub-navigasi Prodi
+       2. Hero Split-Slider Prodi
+       3. Sambutan Kaprodi
+       4. Profil & Visi Misi Prodi
+       5. Peminatan & Prospek Karir (PENTING: Tepat di bawah Visi & Misi)
+       6. Akreditasi Prodi
+       7. Daftar Mata Kuliah / Kurikulum
+       8. Program Unggulan Prodi
+       9. Direktori Dosen
+       10. Pengumuman Terbaru Prodi
+       11. Akses Portal Layanan
+  ==================================================================== -->
+    <main id="page-prodi" class="page-view hidden transition-colors duration-300"
+        style="--theme-primary: #02569b; --theme-deep: #033863; --theme-soft: #e1f0fc;">
+        <div id="prodi-topbar" class="border-b border-white/10 text-xs text-white/90"
+            style="background-color: var(--theme-deep, #072f57);">
+            <div class="container flex h-10 items-center justify-between gap-4">
+                <div class="flex min-w-0 items-center gap-2">
+                    <span id="tenant-topbar-title" class="truncate font-semibold text-gold">Program Studi Sarjana Teknik
+                        Informatika · Fakultas Teknologi Cerdas UDINUS</span>
+                </div>
+                <div class="flex shrink-0 items-center gap-3 sm:gap-5">
+                    <a href="#page-beranda" onclick="switchPage('beranda'); return false;"
+                        class="inline-flex items-center gap-1.5 font-semibold text-white/90 hover:text-gold transition-colors cursor-pointer">
+                        <i data-lucide="arrow-left" class="h-3.5 w-3.5 text-gold"></i> Web Fakultas
+                    </a>
+                    <span class="h-3.5 w-px bg-white/20"></span>
+                    <div class="flex items-center gap-2.5">
+                        <a href="https://instagram.com/ftc_udinus" target="_blank" rel="noopener"
+                            class="text-white/80 hover:text-gold transition-colors" aria-label="Instagram">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </a>
+                        <a href="https://tiktok.com/@ftc_udinus" target="_blank" rel="noopener"
+                            class="text-white/80 hover:text-gold transition-colors" aria-label="TikTok">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298 0 .59.043.87.126V9.36a6.37 6.37 0 0 0-.87-.06 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.75a8.28 8.28 0 0 0 4.84 1.57V6.87a4.84 4.84 0 0 1-1.07-.18z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 2. Sticky Header Navbar Prodi ================= -->
+        <header id="prodi-site-header" class="sticky top-0 z-50 border-b border-border bg-white shadow-xs">
+            <div class="container flex h-[74px] items-center justify-between gap-2 sm:gap-4">
+                <a href="#prodi-beranda" class="flex min-w-0 items-center gap-2.5 text-left focus:outline-none">
+                    <div id="tenant-nav-logo"
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-extrabold tracking-tighter text-white shadow-sm"
+                        style="background-color: var(--theme-deep, #072f57);">
+                        <span class="text-gold">S</span>TI
+                    </div>
+                    <div class="min-w-0 leading-tight">
+                        <div class="flex items-center gap-1.5">
+                            <span id="tenant-nav-prodi-name"
+                                class="truncate text-[15px] font-extrabold tracking-tight text-deep"
+                                style="color: var(--theme-deep, #072f57);">Sarjana Teknik Informatika</span>
+                        </div>
+                        <span class="block truncate text-[11px] font-medium text-slate-500">FTC UDINUS</span>
+                    </div>
+                </a>
+
+                <!-- Nav links prodi desktop (9 items, compact precision) -->
+                <nav class="hidden items-center gap-0.5 xl:flex" aria-label="Navigasi Program Studi">
+                    <a href="#prodi-beranda" class="nav-link" data-active="true">Beranda</a>
+                    <a href="#prodi-sambutan" class="nav-link">Sambutan</a>
+                    <a href="#prodi-profil" class="nav-link">Profil</a>
+                    <a href="#prodi-peminatan" class="nav-link">Peminatan</a>
+                    <a href="#prodi-kurikulum" class="nav-link">Kurikulum</a>
+                    <a href="#prodi-unggulan" class="nav-link">Unggulan</a>
+                    <a href="#prodi-direktori" class="nav-link">Direktori</a>
+                    <a href="#prodi-pengumuman" class="nav-link">Pengumuman</a>
+                    <a href="#prodi-layanan" class="nav-link">Layanan</a>
+                </nav>
+
+                <!-- Action buttons: Pendaftaran & Login -->
+                <div class="flex shrink-0 items-center gap-2">
+                    <a href="https://pmb.dinus.ac.id" target="_blank" rel="noopener"
+                        class="btn btn-outline text-xs !h-9 !px-3">
+                        Pendaftaran <i data-lucide="arrow-up-right" class="h-3.5 w-3.5 text-info"></i>
+                    </a>
+                    <a href="#" class="btn btn-gold text-xs !h-9 !px-3.5" aria-label="Login">
+                        <i data-lucide="log-in" class="h-3.5 w-3.5"></i> <span
+                            class="hidden min-[450px]:inline">Login</span>
+                    </a>
+                    <button id="prodi-menu-toggle" type="button" class="btn btn-outline !w-9 !h-9 !px-0 xl:hidden"
+                        aria-label="Buka Menu Prodi">
+                        <i data-lucide="menu" class="icon-open h-5 w-5"></i>
+                        <i data-lucide="x" class="icon-close hidden h-5 w-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile drawer untuk Prodi -->
+            <div id="prodi-mobile-nav" class="mnav grid xl:hidden" aria-hidden="true">
+                <div>
+                    <nav class="border-t border-border bg-background" aria-label="Navigasi Seluler Prodi">
+                        <div class="container flex flex-col gap-1 py-3 text-sm">
+                            <a href="#prodi-beranda" onclick="closeProdiMobileNav()" class="nav-link text-left"
+                                data-active="true">Beranda</a>
+                            <a href="#prodi-sambutan" onclick="closeProdiMobileNav()"
+                                class="nav-link text-left">Sambutan Kaprodi</a>
+                            <a href="#prodi-profil" onclick="closeProdiMobileNav()" class="nav-link text-left">Profil
+                                &amp; Visi Misi</a>
+                            <a href="#prodi-peminatan" onclick="closeProdiMobileNav()"
+                                class="nav-link text-left">Peminatan &amp; Karir</a>
+                            <a href="#prodi-kurikulum" onclick="closeProdiMobileNav()"
+                                class="nav-link text-left">Kurikulum &amp; Matkul</a>
+                            <a href="#prodi-unggulan" onclick="closeProdiMobileNav()" class="nav-link text-left">Program
+                                Unggulan</a>
+                            <a href="#prodi-direktori" onclick="closeProdiMobileNav()"
+                                class="nav-link text-left">Direktori Dosen</a>
+                            <a href="#prodi-pengumuman" onclick="closeProdiMobileNav()"
+                                class="nav-link text-left">Pengumuman</a>
+                            <a href="#prodi-layanan" onclick="closeProdiMobileNav()" class="nav-link text-left">Portal
+                                Layanan</a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================= 3. Hero Section Prodi ================= -->
+        <section id="prodi-beranda"
+            class="relative overflow-hidden py-14 sm:py-20 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-b border-border">
+            <!-- Subtle Tech Dot Matrix -->
+            <div class="absolute inset-0 bg-dot-matrix-subtle opacity-40 pointer-events-none"></div>
+
+            <div class="container relative z-10 grid items-center gap-12 lg:grid-cols-12">
+                <!-- Kolom Kiri: Informasi Prodi -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <!-- Soft Chip Opsi C (Hero Prodi) -->
+                        <div
+                            class="inline-flex items-center gap-2 rounded-full border border-sky-200/80 bg-sky-50/90 px-3.5 py-1 text-xs font-bold text-deep shadow-2xs">
+                            <span class="h-2 w-2 rounded-full bg-gold"></span>
+                            <span class="tenant-badge-code">STI</span>
+                            <span class="text-slate-300">·</span>
+                            <span class="tracking-wide text-slate-700">PROGRAM STUDI UNGGULAN</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span id="tenant-badge-akred" class="badge-gold text-xs font-bold">Unggul</span>
+                            <span id="tenant-badge-lokasi"
+                                class="rounded-md border border-slate-300 bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-700">Semarang</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h1 id="tenant-hero-title"
+                            class="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-[42px] leading-tight text-deep"
+                            style="color: var(--theme-deep);">
+                            Sarjana Teknik Informatika
+                        </h1>
+                        <p id="tenant-hero-degree" class="text-base font-bold text-slate-500 mt-1">(S.Kom)</p>
+
+                        <!-- Garis Aksen 2 Warna (Opsi C) -->
+                        <div class="mt-4 flex items-center gap-2">
+                            <span class="h-1.5 w-12 rounded-full"
+                                style="background-color: var(--theme-deep, #072f57);"></span>
+                            <span class="h-1.5 w-4 rounded-full bg-gold"></span>
+                        </div>
+                    </div>
+
+                    <p id="tenant-hero-desc" class="text-sm leading-relaxed text-slate-600 sm:text-base">
+                        Program studi terdepan di Indonesia yang berfokus pada kecerdasan buatan (AI), rekayasa
+                        perangkat lunak enterprise, dan keamanan siber dengan kurikulum berstandar internasional
+                        ACM/IEEE.
+                    </p>
+
+                    <!-- Fokus Peminatan Chips -->
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Fokus Peminatan:
+                        </div>
+                        <div id="tenant-hero-peminatan-chips" class="flex flex-wrap gap-2">
+                            <!-- Diisi via JS -->
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <a href="https://pmb.dinus.ac.id" target="_blank" rel="noopener"
+                            class="btn btn-gold !h-12 !px-6 text-[15px]">
+                            Daftar PMB Sekarang <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                        </a>
+                        <a href="#prodi-kurikulum" class="btn btn-outline !h-12 !px-6 text-[15px]">Lihat Kurikulum</a>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Bingkai Showcase Slider Interaktif -->
+                <div class="lg:col-span-6">
+                    <div
+                        class="relative overflow-hidden rounded-2xl border-2 border-slate-200 bg-slate-900 shadow-xl group">
+                        <div class="aspect-[16/10] w-full overflow-hidden relative">
+                            <img id="prodi-slider-img"
+                                src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80"
+                                alt="Highlight Program Studi"
+                                class="h-full w-full object-cover transition-opacity duration-500" />
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 pointer-events-none">
+                            </div>
+
+                            <!-- Badge Label Fasilitas -->
+                            <span id="prodi-slider-tag"
+                                class="absolute top-3 right-3 rounded-md bg-slate-950/70 border border-white/20 px-2.5 py-1 text-[11px] font-semibold text-white/90 backdrop-blur-md">
+                                Laboratorium Riset
+                            </span>
+
+                            <!-- Tombol Panah Kiri / Kanan Slider -->
+                            <button type="button" onclick="prodiPrevSlide()" aria-label="Slide Sebelumnya"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-slate-950/60 text-white backdrop-blur-md border border-white/20 hover:bg-gold hover:text-deep transition-all opacity-0 group-hover:opacity-100">
+                                <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                            </button>
+                            <button type="button" onclick="prodiNextSlide()" aria-label="Slide Selanjutnya"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-slate-950/60 text-white backdrop-blur-md border border-white/20 hover:bg-gold hover:text-deep transition-all opacity-0 group-hover:opacity-100">
+                                <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                            </button>
+                        </div>
+
+                        <!-- Bar Bawah Bingkai: Caption & Dots Indicator -->
+                        <div
+                            class="flex items-center justify-between border-t border-white/10 bg-slate-950/95 px-4 py-3 text-white">
+                            <div class="truncate text-xs font-semibold text-white/90" id="prodi-slider-caption">
+                                Laboratorium Kecerdasan Buatan &amp; Sains Data
+                            </div>
+                            <div class="flex shrink-0 items-center gap-1.5" id="prodi-slider-dots"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 4. Quick-Stats Bar Prodi ================= -->
+        <section class="container relative z-20 -mt-7 sm:-mt-9 mb-6">
+            <div class="card grid gap-px overflow-hidden bg-slate-200 shadow-md sm:grid-cols-2 lg:grid-cols-4">
+                <div class="flex items-center gap-4 bg-white p-5">
+                    <div
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <i data-lucide="users" class="h-5 w-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold tabular-nums tracking-tight text-primary">1.800+</div>
+                        <div class="text-xs font-medium text-slate-500">Mahasiswa Aktif</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-white p-5">
+                    <div
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <i data-lucide="book-open" class="h-5 w-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold tabular-nums tracking-tight text-primary">100%</div>
+                        <div class="text-xs font-medium text-slate-500">Kurikulum ACM/IEEE</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-white p-5">
+                    <div
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <i data-lucide="award" class="h-5 w-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-extrabold tabular-nums tracking-tight text-primary">85%</div>
+                        <div class="text-xs font-medium text-slate-500">Dosen S3 &amp; Praktisi</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-white p-5">
+                    <div
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600">
+                        <i data-lucide="shield-check" class="h-5 w-5"></i>
+                    </div>
+                    <div>
+                        <div class="text-base font-extrabold leading-tight text-primary">Unggul &amp; IABEE</div>
+                        <div class="mt-0.5 text-xs font-medium text-slate-500">Akreditasi Internasional</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 5. Sambutan Ketua Program Studi ================= -->
+        <section id="prodi-sambutan" class="py-16 sm:py-24 bg-white border-b border-border">
+            <div class="container">
+                <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+                    <!-- Left: Foto Kaprodi dengan Dot-Matrix Background + Frame Persis landing-v2.html -->
+                    <div class="lg:col-span-5">
+                        <div class="relative isolate mx-auto max-w-sm">
+                            <!-- Dot-Matrix Pattern Layer di belakang -->
+                            <div class="bg-dot-matrix absolute -inset-3 -z-20 rounded-3xl sm:-inset-5"></div>
+                            <!-- Solid Deep Blue Offset Block (Dibalik dari Kuning ke Biru) -->
+                            <div class="absolute -bottom-3.5 -left-3.5 -z-10 h-full w-full rounded-xl"
+                                style="background-color: var(--theme-deep, #072f57);"></div>
+
+                            <!-- Front Photo Card (Tanpa border putih) -->
+                            <div class="relative overflow-hidden rounded-xl shadow-md">
+                                <img id="tenant-kaprodi-foto"
+                                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
+                                    alt="Dr. Abdul Syukur, M.Kom." loading="lazy" decoding="async"
+                                    class="h-[360px] w-full object-cover object-top sm:h-[410px]" />
+                                <!-- Nameplate (Kuning dengan teks putih dan border biru) -->
+                                <div class="border-t-4 bg-gold px-5 py-4 text-white"
+                                    style="border-color: var(--theme-deep, #072f57);">
+                                    <div id="tenant-kaprodi-name" class="text-base font-extrabold text-white">Dr. Abdul
+                                        Syukur, M.Kom.</div>
+                                    <div id="tenant-kaprodi-role" class="text-xs font-medium text-white/90">Ketua
+                                        Program Studi Sarjana Teknik Informatika</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Narasi Sambutan Kaprodi -->
+                    <div class="lg:col-span-7 space-y-5">
+                        <div>
+                            <div class="split-badge mb-3">
+                                <span class="split-badge-left tenant-badge-code">STI</span>
+                                <span class="split-badge-right">SAMBUTAN KETUA PROGRAM STUDI</span>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-deep sm:text-3xl lg:text-[32px] leading-tight"
+                                style="color: var(--theme-deep);">
+                                Membangun Kompetensi Unggul Menuju Karir Global
+                            </h2>
+                        </div>
+
+                        <div
+                            class="rounded-r-2xl border-l-4 border-gold bg-slate-50/90 py-5 pl-5 pr-6 text-sm sm:text-[14.5px] leading-relaxed text-slate-700 shadow-2xs space-y-3.5">
+                            <p id="tenant-kaprodi-text">
+                                Saya sangat senang menyambut Anda di Program Studi Teknik Informatika Universitas Dian
+                                Nuswantoro. Kami adalah salah satu lembaga pendidikan dan penelitian ilmu komputer
+                                terbaik di Indonesia. Visi kami adalah menjadi program studi yang unggul di bidang
+                                teknik informatika, khususnya di bidang rekayasa perangkat lunak dan sistem cerdas. Kami
+                                juga menerapkan prinsip technopreunership dalam program akademik kami yang berfungsi
+                                untuk melayani semua kebutuhan karir Anda. Seperti yang telah terjadi selama
+                                bertahun-tahun, permintaan dalam industri ilmu komputer sangat kuat.
+                            </p>
+                            <p>
+                                Berkaitan dengan tuntutan tersebut, Program Studi Teknik Informatika menawarkan
+                                fasilitas terbaik untuk membangun karir lulusan sebagai: <span
+                                    class="font-semibold text-deep">data scientist junior, AI developer, game developer,
+                                    software engineer, system administrator, network engineer, programmer</span> dan
+                                <span class="font-semibold text-deep">technopreneur</span>. Kurikulum kami memberikan
+                                pengetahuan dalam teori dan praktek. Semua siswa kami juga diberikan kesempatan besar
+                                untuk belajar dari dosen, ilmuwan, dan praktisi luar biasa dari seluruh dunia. Saya
+                                mengundang Anda untuk lebih jauh menemukan situs web kami untuk mempelajari lebih lanjut
+                                tentang Program Studi kami. Jangan ragu untuk menghubungi saya untuk informasi lebih
+                                lanjut.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 6. Profil & Visi Misi ================= -->
+        <section id="prodi-profil" class="py-16 sm:py-20 bg-slate-50/60 border-b border-border">
+            <div class="container space-y-8">
+                <!-- Section Header Konsisten Sesuai Format Standar -->
+                <div>
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">PROFIL AKADEMIK</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">
+                        Profil, Visi &amp; Misi Program Studi
+                    </h2>
+                    <p class="section-desc">
+                        Landasan legalitas, arah keilmuan, dan komitmen mutu Tridharma Program Studi Sarjana Teknik
+                        Informatika UDINUS.
+                    </p>
+                </div>
+
+                <!-- UNIFIED 3-BLOK CARD: Saling menyatu dalam satu panel terpadu -->
+                <div
+                    class="rounded-2xl border border-slate-200 bg-white shadow-xs overflow-hidden divide-y divide-slate-200">
+                    <!-- BLOK 1 (ATAS): Landasan Hukum & Rekam Jejak Akreditasi (Data Deskripsi API) -->
+                    <div class="p-6 sm:p-8 space-y-4 bg-white">
+                        <div
+                            class="inline-flex items-center gap-2 rounded-md bg-slate-100 border border-slate-200/80 px-3 py-1 text-xs font-bold text-deep shadow-2xs">
+                            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                            Profil &amp; Legalitas
+                        </div>
+
+                        <h3 class="text-lg sm:text-xl font-bold text-deep leading-snug"
+                            style="color: var(--theme-deep);">
+                            Landasan Hukum &amp; Rekam Jejak Akreditasi
+                        </h3>
+
+                        <!-- Teks Dinamis Tunggal dari API -->
+                        <p id="tenant-legalitas-text" class="text-sm sm:text-base leading-relaxed text-slate-700 pt-1">
+                            PS-STI UDINUS memiliki dasar hukum dan legitimasi dari SK Dirjen Dikti Nomor 010/D/O/1994.
+                            Keputusan ini menjadi landasan resmi untuk penyelenggaraan program pendidikan tinggi di
+                            bidang Teknik Informatika. Melalui SK BAN-PT Nomor 042/BAN-PT/Ak-XIII/S1/I/2011, PS-STI
+                            mendapatkan status akreditasi B dan menunjukkan komitmen dalam menjaga dan meningkatkan
+                            kualitas pendidikan. Pada tahun 2015, PS-STI memperoleh pengakuan resmi dari BAN-PT melalui
+                            SK BAN-PT Nomor 972/SK/BAN-PT/Akred/S/IX/2015 yang menyatakan status akreditasi A.
+                            Selanjutnya, Pada tahun 2022, PS-STI berhasil memperoleh akreditasi UNGGUL melalui SK BAN-PT
+                            Nomor 5507/SK/BAN-PT/Ak.KP/S/VIII/2022 dan berlaku hingga sekarang.
+                        </p>
+                    </div>
+
+                    <!-- BLOK 2 & 3 (BAWAH): Visi & Misi Saling Bersebelahan Menyatu -->
+                    <div class="grid lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+                        <!-- KOLOM KIRI: VISI PROGRAM STUDI -->
+                        <div class="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-slate-50/40">
+                            <div class="space-y-4">
+                                <div
+                                    class="inline-flex items-center gap-2 rounded-md bg-white border border-slate-200 px-3 py-1 text-xs font-bold text-deep shadow-2xs">
+                                    <span class="h-2 w-2 rounded-full bg-gold"></span>
+                                    Visi
+                                </div>
+
+                                <h3 class="text-lg sm:text-xl font-bold text-deep leading-snug"
+                                    style="color: var(--theme-deep);">
+                                    Visi Keilmuan Program Studi
+                                </h3>
+
+                                <p id="tenant-visi-text"
+                                    class="text-sm sm:text-base leading-relaxed text-slate-700 pt-1">
+                                    “Menjadi program studi rujukan nasional dan berdaya saing global di bidang rekayasa
+                                    komputasi cerdas, kecerdasan buatan, dan keamanan siber pada tahun 2030.”
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- KOLOM KANAN: MISI PROGRAM STUDI -->
+                        <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between bg-white">
+                            <div class="space-y-4">
+                                <div
+                                    class="inline-flex items-center gap-2 rounded-md bg-slate-100 border border-slate-200/80 px-3 py-1 text-xs font-bold text-deep shadow-2xs">
+                                    <span class="h-2 w-2 rounded-full bg-primary"
+                                        style="background-color: var(--theme-primary, #02569b);"></span>
+                                    Misi
+                                </div>
+
+                                <h3 class="text-lg sm:text-xl font-bold text-deep leading-snug"
+                                    style="color: var(--theme-deep);">
+                                    Misi Program Studi
+                                </h3>
+
+                                <ol id="tenant-misi-list" class="space-y-3.5 pt-1 text-sm text-slate-700">
+                                    <li class="flex items-start gap-3">
+                                        <span
+                                            class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 font-mono text-[11px] font-bold text-deep mt-0.5">1</span>
+                                        <p class="leading-relaxed">Menyelenggarakan pendidikan komputasi berstandar
+                                            internasional dengan kurikulum berbasis OBE dan adaptasi AI terkini.</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span
+                                            class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 font-mono text-[11px] font-bold text-deep mt-0.5">2</span>
+                                        <p class="leading-relaxed">Menghasilkan riset terapan bermutu, publikasi
+                                            bereputasi, serta produk inovasi teknologi teruji bernilai HKI/Paten.</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span
+                                            class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 font-mono text-[11px] font-bold text-deep mt-0.5">3</span>
+                                        <p class="leading-relaxed">Menerapkan keahlian ilmu komputer untuk kemaslahatan
+                                            industri dan pemberdayaan masyarakat secara berkelanjutan.</p>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <span
+                                            class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-100 font-mono text-[11px] font-bold text-deep mt-0.5">4</span>
+                                        <p class="leading-relaxed">Memperluas jejaring kemitraan magang industri dan
+                                            penyerapan karir bersama perusahaan teknologi terkemuka.</p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 7. Peminatan & Prospek Karir ================= -->
+        <section id="prodi-peminatan" class="py-16 sm:py-20 bg-white border-b border-border">
+            <div class="container space-y-10">
+                <div>
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">PEMINATAN &amp; PROSPEK KARIR</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">
+                        Pilihan Konsentrasi &amp; Peluang Karir Lulusan
+                    </h2>
+                    <p class="section-desc">
+                        Kurikulum dirancang spesifik dengan konsentrasi keahlian masa depan agar lulusan langsung
+                        terserap di industri global.
+                    </p>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-3" id="tenant-peminatan-cards">
+                    <!-- Peminatan 1 -->
+                    <div
+                        class="card p-6 border-slate-200 bg-white flex flex-col justify-between hover:border-gold hover:shadow-lg transition-all">
+                        <div>
+                            <span
+                                class="inline-block rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary mb-2">Konsentrasi
+                                Pilihan</span>
+                            <h3 class="text-xl font-extrabold text-deep">Cyber Security &amp; Digital Forensics</h3>
+                            <p class="mt-1 text-xs font-bold text-amber-600 italic">"Garda Terdepan Ketahanan Siber
+                                &amp; Investigasi Digital"</p>
+                            <p class="mt-3 text-xs leading-relaxed text-slate-600">
+                                Fokus pada mitigasi serangan siber, audit kerentanan keamanan infrastruktur, kriptografi
+                                modern, dan pemulihan data digital investigasi.
+                            </p>
+                            <div class="mt-5 border-t border-slate-100 pt-4">
+                                <h4 class="text-xs font-bold text-deep uppercase tracking-wider mb-2">Mata Kuliah
+                                    Unggulan:</h4>
+                                <ul class="space-y-1 text-xs text-slate-600 list-disc list-inside">
+                                    <li>Kriptografi Terapan &amp; Manajemen Kunci</li>
+                                    <li>Ethical Hacking &amp; Penetration Testing</li>
+                                    <li>Malware Analysis &amp; Reverse Engineering</li>
+                                    <li>Digital Forensics &amp; Incident Response</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-6 border-t border-slate-100 pt-4 bg-slate-50/80 -mx-6 -mb-6 p-6 rounded-b-xl">
+                            <h4 class="text-xs font-bold text-deep uppercase tracking-wider mb-1">Prospek Karir:</h4>
+                            <p class="text-xs font-semibold text-primary">Cybersecurity Analyst, Penetration Tester,
+                                Incident Responder, CISO</p>
+                        </div>
+                    </div>
+
+                    <!-- Peminatan 2 -->
+                    <div
+                        class="card p-6 border-slate-200 bg-white flex flex-col justify-between hover:border-gold hover:shadow-lg transition-all">
+                        <div>
+                            <span
+                                class="inline-block rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary mb-2">Konsentrasi
+                                Pilihan</span>
+                            <h3 class="text-xl font-extrabold text-deep">Intelligent Systems &amp; Data Science (AI)
+                            </h3>
+                            <p class="mt-1 text-xs font-bold text-amber-600 italic">"Inovasi Komputasi Cerdas &amp;
+                                Analisis Big Data"</p>
+                            <p class="mt-3 text-xs leading-relaxed text-slate-600">
+                                Mendalami perancangan arsitektur Deep Learning, Natural Language Processing, Machine
+                                Learning, dan Computer Vision untuk otomasi industri.
+                            </p>
+                            <div class="mt-5 border-t border-slate-100 pt-4">
+                                <h4 class="text-xs font-bold text-deep uppercase tracking-wider mb-2">Mata Kuliah
+                                    Unggulan:</h4>
+                                <ul class="space-y-1 text-xs text-slate-600 list-disc list-inside">
+                                    <li>Machine Learning Foundations</li>
+                                    <li>Deep Learning &amp; Neural Networks</li>
+                                    <li>Natural Language Processing (NLP)</li>
+                                    <li>Computer Vision &amp; Pattern Recognition</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-6 border-t border-slate-100 pt-4 bg-slate-50/80 -mx-6 -mb-6 p-6 rounded-b-xl">
+                            <h4 class="text-xs font-bold text-deep uppercase tracking-wider mb-1">Prospek Karir:</h4>
+                            <p class="text-xs font-semibold text-primary">AI Engineer, Data Scientist, ML Specialist,
+                                Data Architect</p>
+                        </div>
+                    </div>
+
+                    <!-- Peminatan 3 -->
+                    <div
+                        class="card p-6 border-slate-200 bg-white flex flex-col justify-between hover:border-gold hover:shadow-lg transition-all">
+                        <div>
+                            <span
+                                class="inline-block rounded bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary mb-2">Konsentrasi
+                                Pilihan</span>
+                            <h3 class="text-xl font-extrabold text-deep">Enterprise Software &amp; Cloud Engineering
+                            </h3>
+                            <p class="mt-1 text-xs font-bold text-amber-600 italic">"Arsitek Solusi Software Global
+                                &amp; Cloud Native"</p>
+                            <p class="mt-3 text-xs leading-relaxed text-slate-600">
+                                Penguasaan rekayasa software enterprise dengan paradigma microservices, otomatisasi
+                                CI/CD, komputasi awan skala besar, dan scalable mobile app.
+                            </p>
+                            <div class="mt-5 border-t border-slate-100 pt-4">
+                                <h4 class="text-xs font-bold text-deep uppercase tracking-wider mb-2">Mata Kuliah
+                                    Unggulan:</h4>
+                                <ul class="space-y-1 text-xs text-slate-600 list-disc list-inside">
+                                    <li>Cloud Native Architecture &amp; Microservices</li>
+                                    <li>Advanced Mobile Development (Flutter/Swift)</li>
+                                    <li>DevOps Automation &amp; CI/CD Pipeline</li>
+                                    <li>Fullstack Web Engineering (Next.js &amp; GraphQL)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-6 border-t border-slate-100 pt-4 bg-slate-50/80 -mx-6 -mb-6 p-6 rounded-b-xl">
+                            <h4 class="text-xs font-bold text-deep uppercase tracking-wider mb-1">Prospek Karir:</h4>
+                            <p class="text-xs font-semibold text-primary">Fullstack Engineer, Cloud Solutions Architect,
+                                DevOps Specialist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 8. Akreditasi Resmi ================= -->
+        <section id="prodi-akreditasi" class="py-14 sm:py-20 bg-slate-50/60 border-b border-border">
+            <div class="container space-y-8">
+                <div class="text-center max-w-3xl mx-auto">
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">MUTU &amp; REPUTASI GLOBAL</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">Sertifikat Akreditasi Resmi
+                        Program Studi</h2>
+                    <p class="section-desc mx-auto">
+                        Sertifikat akreditasi resmi dari program studi <span id="tenant-akreditasi-prodi-name"
+                            class="font-bold text-deep">Teknik Informatika - S1</span> berdasarkan penilaian LAM-INFOKOM
+                        dan pengakuan internasional IABEE (Washington Accord Signatory).
+                    </p>
+                </div>
+
+                <!-- 2 Kartu Sertifikat Foto Interaktif -->
+                <div class="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto" id="tenant-akreditasi-cards">
+                    <!-- Sertifikat IABEE -->
+                    <article onclick="openCertModal('iabee')"
+                        class="card p-4 sm:p-5 bg-white border border-slate-200/90 hover:border-gold hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col justify-between rounded-2xl select-none">
+                        <div
+                            class="relative overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-[#fafcff] via-white to-[#fbfbfa] p-4 sm:p-6 shadow-inner transition-transform duration-300 group-hover:scale-[1.01] aspect-[16/10.5] flex flex-col justify-between">
+                            <div
+                                class="absolute inset-2 rounded-lg border-2 border-slate-200/70 border-dashed pointer-events-none">
+                            </div>
+                            <div class="absolute inset-0 bg-dot-matrix-subtle opacity-35 pointer-events-none"></div>
+
+                            <!-- Header Sertifikat PII / IABEE -->
+                            <div
+                                class="relative z-10 flex items-center justify-between border-b border-slate-200/50 pb-2">
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="h-8 w-8 rounded-md bg-[#e65100]/10 border border-[#e65100]/30 flex flex-col items-center justify-center p-0.5">
+                                        <span class="text-[9px] font-black text-[#e65100]">PII</span>
+                                    </div>
+                                    <div class="text-left leading-tight hidden xs:block">
+                                        <p class="text-[9px] font-bold text-slate-700">PERSATUAN</p>
+                                        <p class="text-[8px] text-slate-500 font-medium">INSINYUR INDONESIA</p>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <h4 class="text-xs sm:text-sm font-extrabold text-slate-800">Sertifikat Akreditasi
+                                    </h4>
+                                    <p class="text-[10px] font-mono font-semibold text-slate-500">No. 00029.P</p>
+                                </div>
+                                <div
+                                    class="h-8 w-8 rounded-md bg-sky-900/10 border border-sky-900/20 flex flex-col items-center justify-center">
+                                    <span class="text-[8px] font-black text-sky-800">IABEE</span>
+                                </div>
+                            </div>
+
+                            <div class="relative z-10 py-1.5 text-center my-auto space-y-1">
+                                <p class="text-[10px] text-slate-500">menyatakan bahwa Program Studi Sarjana</p>
+                                <p class="text-xs sm:text-[15px] font-extrabold text-deep">Teknik Informatika</p>
+                                <p class="text-[10px] font-bold text-slate-700">Universitas Dian Nuswantoro</p>
+                                <div class="inline-block px-3 py-1 bg-sky-900/10 border border-sky-900/20 rounded-md">
+                                    <span class="font-extrabold text-sky-900 text-xs sm:text-sm">Provisionally
+                                        Accredited</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="relative z-10 flex items-end justify-between border-t border-slate-200/50 pt-2 text-[9px] text-slate-500">
+                                <div>
+                                    <p class="font-semibold text-slate-700">Jakarta, 13 Februari 2020</p>
+                                    <p class="text-[8px] text-slate-400">Komite Eksekutif IABEE</p>
+                                </div>
+                                <div
+                                    class="h-6 w-16 rounded border border-sky-800/20 bg-sky-50 flex items-center justify-center text-[8px] font-bold text-sky-800">
+                                    IABEE SEAL
+                                </div>
+                            </div>
+
+                            <!-- Hover Overlay -->
+                            <div
+                                class="absolute inset-0 z-20 flex items-center justify-center bg-deep/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <span
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-deep shadow-xl transform translate-y-1.5 group-hover:translate-y-0 transition-transform">
+                                    <i data-lucide="zoom-in" class="h-3.5 w-3.5 text-gold"></i> Lihat Sertifikat Penuh
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 flex items-center justify-between px-1">
+                            <h3 class="text-base font-bold text-deep group-hover:text-primary transition-colors">
+                                Akreditasi Internasional</h3>
+                            <span
+                                class="rounded-full bg-sky-50 border border-sky-200 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase">Internasional</span>
+                        </div>
+                    </article>
+
+                    <!-- Sertifikat LAM-INFOKOM -->
+                    <article onclick="openCertModal('lam')"
+                        class="card p-4 sm:p-5 bg-white border border-slate-200/90 hover:border-gold hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col justify-between rounded-2xl select-none">
+                        <div
+                            class="relative overflow-hidden rounded-xl border border-slate-200/80 bg-gradient-to-br from-[#fafcff] via-white to-[#fbfbfa] p-4 sm:p-6 shadow-inner transition-transform duration-300 group-hover:scale-[1.01] aspect-[16/10.5] flex flex-col justify-between">
+                            <div
+                                class="absolute inset-2 rounded-lg border-2 border-slate-200/70 border-dashed pointer-events-none">
+                            </div>
+                            <div class="absolute inset-0 bg-dot-matrix-subtle opacity-35 pointer-events-none"></div>
+
+                            <!-- Header Sertifikat LAM-INFOKOM -->
+                            <div
+                                class="relative z-10 flex items-center justify-center gap-2 border-b border-slate-200/50 pb-2">
+                                <div
+                                    class="h-8 w-8 rounded-md bg-blue-900/10 border border-blue-900/20 flex flex-col items-center justify-center">
+                                    <span class="text-[8px] font-black text-blue-900">LAM</span>
+                                    <span class="text-[6px] font-extrabold text-red-600">INFOKOM</span>
+                                </div>
+                                <div class="text-center">
+                                    <h4
+                                        class="text-xs sm:text-sm font-extrabold text-slate-800 uppercase tracking-wider">
+                                        SERTIFIKAT AKREDITASI</h4>
+                                    <p class="text-[9px] font-medium text-slate-600">Lembaga Akreditasi Mandiri
+                                        Informatika dan Komputer</p>
+                                </div>
+                            </div>
+
+                            <div class="relative z-10 py-1.5 text-center my-auto space-y-1">
+                                <p class="text-[9px] text-slate-500">berdasarkan Keputusan No.
+                                    095/SK/LAM-INFOKOM/Ak/S/VIII/2025 menyatakan</p>
+                                <p class="text-xs sm:text-[15px] font-extrabold text-deep">Teknik Informatika - S1</p>
+                                <div class="my-1">
+                                    <span
+                                        class="text-primary font-black text-sm sm:text-lg tracking-widest uppercase">AKREDITASI
+                                        UNGGUL</span>
+                                </div>
+                                <p class="text-[8.5px] font-medium text-slate-600">Berlaku s.d. 8 Agustus 2030</p>
+                            </div>
+
+                            <div
+                                class="relative z-10 flex items-end justify-between border-t border-slate-200/50 pt-2 text-[9px] text-slate-500">
+                                <div class="text-[8px] text-slate-400">Digital Signature Verified</div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-slate-700">8 Agustus 2025</p>
+                                    <p class="text-[8px] text-slate-400">Dewan Eksekutif LAM INFOKOM</p>
+                                </div>
+                            </div>
+
+                            <!-- Hover Overlay -->
+                            <div
+                                class="absolute inset-0 z-20 flex items-center justify-center bg-deep/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                <span
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-deep shadow-xl transform translate-y-1.5 group-hover:translate-y-0 transition-transform">
+                                    <i data-lucide="zoom-in" class="h-3.5 w-3.5 text-gold"></i> Lihat Sertifikat Penuh
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 flex items-center justify-between px-1">
+                            <h3 class="text-base font-bold text-deep group-hover:text-primary transition-colors">
+                                Akreditasi Unggul</h3>
+                            <span
+                                class="rounded-full bg-sky-50 border border-sky-200 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase">UNGGUL</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 9. Struktur Kurikulum ================= -->
+        <section id="prodi-kurikulum" class="py-16 sm:py-20 bg-white border-b border-border">
+            <div class="container space-y-8">
+                <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                    <div>
+                        <div class="split-badge mb-3">
+                            <span class="split-badge-left tenant-badge-code">STI</span>
+                            <span class="split-badge-right">STRUKTUR KURIKULUM</span>
+                        </div>
+                        <h2 class="section-title text-deep" style="color: var(--theme-deep);">Struktur Kurikulum &amp;
+                            Mata Kuliah</h2>
+                        <p class="section-desc">Pilihan kurikulum reguler berjenjang serta konsentrasi mata kuliah
+                            peminatan keahlian khusus.</p>
+                    </div>
+
+                    <!-- Toggle Umum vs Peminatan -->
+                    <div
+                        class="inline-flex rounded-xl border border-slate-200 bg-slate-100 p-1.5 shadow-xs self-start md:self-end">
+                        <button type="button" id="btn-kur-umum" onclick="setKurikulumMode('umum')"
+                            class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition-all bg-white text-deep shadow-xs">
+                            <i data-lucide="bar-chart-2" class="h-4 w-4"></i> Umum
+                        </button>
+                        <button type="button" id="btn-kur-peminatan" onclick="setKurikulumMode('peminatan')"
+                            class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold text-slate-600 hover:text-deep transition-all">
+                            <i data-lucide="bookmark" class="h-4 w-4"></i> Peminatan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VIEW 1: KURIKULUM UMUM -->
+                <div id="kurikulum-view-umum" class="space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pilih Semester:</span>
+                        <div class="flex flex-wrap gap-1 rounded-lg border border-border bg-slate-100 p-1"
+                            id="curriculum-sem-tabs">
+                            <button type="button" onclick="selectSemester(1)"
+                                class="sem-btn rounded px-3 py-1 text-xs font-bold bg-white text-deep shadow-xs"
+                                data-sem="1">Sem 1</button>
+                            <button type="button" onclick="selectSemester(2)"
+                                class="sem-btn rounded px-3 py-1 text-xs font-semibold text-slate-600 hover:text-deep"
+                                data-sem="2">Sem 2</button>
+                            <button type="button" onclick="selectSemester(3)"
+                                class="sem-btn rounded px-3 py-1 text-xs font-semibold text-slate-600 hover:text-deep"
+                                data-sem="3">Sem 3</button>
+                            <button type="button" onclick="selectSemester(4)"
+                                class="sem-btn rounded px-3 py-1 text-xs font-semibold text-slate-600 hover:text-deep"
+                                data-sem="4">Sem 4</button>
+                            <button type="button" onclick="selectSemester(5)"
+                                class="sem-btn rounded px-3 py-1 text-xs font-semibold text-slate-600 hover:text-deep"
+                                data-sem="5">Sem 5</button>
+                            <button type="button" onclick="selectSemester(6)"
+                                class="sem-btn rounded px-3 py-1 text-xs font-semibold text-slate-600 hover:text-deep"
+                                data-sem="6">Sem 6</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 shadow-xs">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-slate-600">
+                                <thead class="bg-slate-100 text-xs font-extrabold uppercase text-slate-700">
+                                    <tr>
+                                        <th class="px-5 py-3.5 text-center w-14">No</th>
+                                        <th class="px-5 py-3.5 w-32">Kode</th>
+                                        <th class="px-5 py-3.5">Mata Kuliah</th>
+                                        <th class="px-5 py-3.5 text-center w-24">SKS</th>
+                                        <th class="px-5 py-3.5 w-32">Kategori</th>
+                                        <th class="px-5 py-3.5">Deskripsi Singkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tenant-curriculum-tbody" class="divide-y divide-border bg-white"></tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="flex items-center justify-between border-t border-slate-200 bg-slate-50/80 px-6 py-3.5 text-xs font-bold text-slate-700">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="bookmark" class="h-4 w-4 text-primary"></i> Total SKS Semester Ini
+                            </div>
+                            <span id="tenant-curriculum-total-sks"
+                                class="rounded-full bg-primary px-3 py-1 font-extrabold text-white">0 SKS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: KURIKULUM PEMINATAN -->
+                <div id="kurikulum-view-peminatan" class="hidden space-y-6">
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-slate-100">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pilih Konsentrasi
+                            Peminatan:</span>
+                        <div class="flex flex-wrap gap-1 rounded-lg border border-border bg-slate-100 p-1"
+                            id="kur-peminatan-pills"></div>
+                    </div>
+
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 shadow-xs">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-slate-600">
+                                <thead class="bg-slate-100 text-xs font-extrabold uppercase text-slate-700">
+                                    <tr>
+                                        <th class="px-5 py-3.5 text-center w-14">No</th>
+                                        <th class="px-5 py-3.5 w-32">Kode</th>
+                                        <th class="px-5 py-3.5">Mata Kuliah</th>
+                                        <th class="px-5 py-3.5 text-center w-24">SKS</th>
+                                        <th class="px-5 py-3.5 w-32">Kategori</th>
+                                        <th class="px-5 py-3.5">Deskripsi Singkat</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tenant-peminatan-tbody" class="divide-y divide-border bg-white"></tbody>
+                            </table>
+                        </div>
+                        <div
+                            class="flex items-center justify-between border-t border-slate-200 bg-slate-50/80 px-6 py-3.5 text-xs font-bold text-slate-700">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="bookmark" class="h-4 w-4 text-primary"></i> Total SKS Peminatan
+                            </div>
+                            <span id="tenant-peminatan-total-sks"
+                                class="rounded-full bg-primary px-3 py-1 font-extrabold text-white">0 SKS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 10. Program Unggulan ================= -->
+        <section id="prodi-unggulan" class="py-16 bg-slate-50 border-b border-border">
+            <div class="container space-y-8">
+                <div>
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">AKSELERASI KOMPETENSI</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">Program Unggulan Mahasiswa
+                        Prodi</h2>
+                    <p class="section-desc">Kesempatan emas bagi mahasiswa untuk berkiprah di kancah nasional dan
+                        internasional.</p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-3">
+                    <div class="card p-6 bg-white border-slate-200 hover:border-gold hover:shadow-lg transition-all">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-deep text-white mb-4"
+                            style="background-color: var(--theme-deep, #072f57);">
+                            <i data-lucide="plane-takeoff" class="h-5 w-5 text-gold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-deep">Pertukaran Mahasiswa Luar Negeri</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                            Kesempatan belajar 1-2 semester di Universiti Teknikal Malaysia Melaka (UTeM) dan Kangwon
+                            National University Korea Selatan dengan konversi penuh 20 SKS.
+                        </p>
+                    </div>
+
+                    <div class="card p-6 bg-white border-slate-200 hover:border-gold hover:shadow-lg transition-all">
+                        <div
+                            class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary mb-4">
+                            <i data-lucide="smartphone" class="h-5 w-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-deep">Apple Developer Academy</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                            Program pelatihan intensif 10 bulan ekosistem iOS berskala global bekerja sama dengan Apple,
+                            melatih keterampilan coding Swift dan UI/UX profesional.
+                        </p>
+                    </div>
+
+                    <div class="card p-6 bg-white border-slate-200 hover:border-gold hover:shadow-lg transition-all">
+                        <div
+                            class="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary mb-4">
+                            <i data-lucide="code" class="h-5 w-5"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-deep">Bengkel Koding Incubator</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                            Laboratorium percepatan perangkat lunak internal fakultas tempat mahasiswa mengerjakan
+                            proyek nyata sistem enterprise bersama para praktisi industri.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 11. Direktori Dosen ================= -->
+        <section id="prodi-direktori" class="py-16 sm:py-20 bg-white border-b border-border">
+            <div class="container space-y-8">
+                <div>
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">DIREKTORI PENGAJAR</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">Dosen &amp; Tenaga Akademik
+                    </h2>
+                    <p class="section-desc">Didukung oleh pengajar bergelar Doktor dan Magister lulusan perguruan tinggi
+                        terkemuka dalam dan luar negeri.</p>
+                </div>
+
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4" id="tenant-dosen-grid"></div>
+            </div>
+        </section>
+
+        <!-- ================= 12. Pengumuman Program Studi (KP, BK, TA) ================= -->
+        <section id="prodi-pengumuman" class="py-16 sm:py-20 bg-slate-50/70 border-b border-border">
+            <div class="container space-y-8">
+                <div>
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">INFORMASI KP · BK · TA</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">Pengumuman Program Studi</h2>
+                    <p class="section-desc">Pemberitahuan resmi terpusat mengenai pelaksanaan Kerja Praktek (KP),
+                        Bimbingan Karir (BK), dan Tugas Akhir (TA) mahasiswa.</p>
+                </div>
+
+                <!-- Layout Grid: 8 Kolom Feed Pengumuman + 4 Kolom Agenda & Helpdesk -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <!-- Kolom Utama: Toolbar Pencarian, List Card & Pagination (lg:col-span-8) -->
+                    <div class="lg:col-span-8 space-y-5">
+                        <!-- Toolbar Pengumuman: Searchbar & Filter Dropdown Terintegrasi -->
+                        <div
+                            class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
+                            <!-- Search Input -->
+                            <div class="relative flex-1">
+                                <i data-lucide="search"
+                                    class="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"></i>
+                                <input type="text" id="ann-search-input" oninput="handleAnnSearch(this.value)"
+                                    placeholder="Cari judul, kata kunci pengumuman KP, BK, TA..."
+                                    class="w-full h-10 pl-10 pr-9 rounded-lg border border-slate-200 bg-slate-50/60 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all">
+                                <button type="button" id="ann-clear-search" onclick="clearAnnSearch()"
+                                    aria-label="Hapus Pencarian"
+                                    class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors">
+                                    <i data-lucide="x" class="h-3.5 w-3.5"></i>
+                                </button>
+                            </div>
+
+                            <!-- Dropdown Kategori -->
+                            <div class="flex items-center gap-2">
+                                <div class="relative shrink-0 w-full sm:w-auto">
+                                    <select id="ann-category-select" onchange="handleAnnCategoryChange(this.value)"
+                                        class="w-full sm:w-auto h-10 pl-3.5 pr-8 rounded-lg border border-slate-200 bg-slate-50/60 text-xs font-semibold text-deep focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all appearance-none cursor-pointer">
+                                        <option value="all">Semua Kategori (KP · BK · TA)</option>
+                                        <option value="kp">Kerja Praktek (KP)</option>
+                                        <option value="bk">Bimbingan Karir (BK)</option>
+                                        <option value="ta">Tugas Akhir (TA)</option>
+                                    </select>
+                                    <i data-lucide="chevron-down"
+                                        class="absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 pointer-events-none"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- List Pengumuman dengan In-Place Expand/Collapse -->
+                        <div class="space-y-4" id="tenant-announcement-list"></div>
+
+                        <!-- Pagination Bar Interaktif -->
+                        <div
+                            class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200/80 text-xs text-slate-500">
+                            <div id="ann-pagination-info">
+                                Menampilkan <span id="ann-showing-range" class="font-bold text-deep">0-0</span> dari
+                                <span id="ann-total-count" class="font-bold text-deep">0</span> pengumuman
+                            </div>
+                            <div class="flex items-center gap-1.5" id="ann-pagination-controls"></div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Samping: Agenda & Batas Waktu Periode Aktif (lg:col-span-4) -->
+                    <div class="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
+                        <!-- Card 1: Agenda & Batas Waktu Periode Aktif -->
+                        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
+                            <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+                                <div
+                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <i data-lucide="calendar-clock" class="h-4 w-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-extrabold text-deep">Agenda &amp; Periode Aktif</h3>
+                                    <p class="text-[11px] text-slate-500">Semester Gasal 2026/2027</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-wider text-sky-700 bg-sky-100/80 px-2 py-0.5 rounded">Tugas
+                                            Akhir</span>
+                                        <span
+                                            class="text-[10px] font-semibold text-emerald-600 flex items-center gap-1"><span
+                                                class="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block"></span>
+                                            Aktif</span>
+                                    </div>
+                                    <h4 class="text-xs font-bold text-slate-800">Pendaftaran Ujian Sidang Skripsi</h4>
+                                    <p class="text-[11px] text-slate-500 flex items-center gap-1"><i data-lucide="clock"
+                                            class="h-3 w-3"></i> 01 - 15 Oktober 2026</p>
+                                </div>
+
+                                <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded">Kerja
+                                            Praktek</span>
+                                        <span
+                                            class="text-[10px] font-semibold text-amber-600 flex items-center gap-1"><span
+                                                class="h-1.5 w-1.5 rounded-full bg-amber-500 inline-block"></span>
+                                            Segera Tutup</span>
+                                    </div>
+                                    <h4 class="text-xs font-bold text-slate-800">Verifikasi Berkas Magang Industri</h4>
+                                    <p class="text-[11px] text-slate-500 flex items-center gap-1"><i data-lucide="clock"
+                                            class="h-3 w-3"></i> Batas: 30 Oktober 2026</p>
+                                </div>
+
+                                <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-100/80 px-2 py-0.5 rounded">Bimbingan
+                                            Karir</span>
+                                        <span
+                                            class="text-[10px] font-semibold text-slate-500 flex items-center gap-1"><span
+                                                class="h-1.5 w-1.5 rounded-full bg-slate-400 inline-block"></span>
+                                            Terjadwal</span>
+                                    </div>
+                                    <h4 class="text-xs font-bold text-slate-800">Career Workshop &amp; Mock Interview
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 flex items-center gap-1"><i data-lucide="clock"
+                                            class="h-3 w-3"></i> 05 November 2026</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 13. Portal Layanan (KP, BK, TA) ================= -->
+        <section id="prodi-layanan" class="py-16 sm:py-20 bg-white">
+            <div class="container space-y-10">
+                <div>
+                    <div class="split-badge mb-3">
+                        <span class="split-badge-left tenant-badge-code">STI</span>
+                        <span class="split-badge-right">LAYANAN AKADEMIK CEPAT</span>
+                    </div>
+                    <h2 class="section-title text-deep" style="color: var(--theme-deep);">Portal Layanan Mahasiswa</h2>
+                    <p class="section-desc">Akses cepat menuju sistem pengelolaan kerja praktek, bimbingan karir, dan
+                        tugas akhir mahasiswa terintegrasi.</p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-3">
+                    <!-- 1. Kerja Praktek (KP) -->
+                    <a href="https://kp.dinus.ac.id" target="_blank" rel="noopener"
+                        class="group relative overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-7 sm:p-8 flex flex-col justify-between shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-300 hover:shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div
+                                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 shadow-xs">
+                                    <i data-lucide="briefcase" class="h-6 w-6"></i>
+                                </div>
+                                <span
+                                    class="rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-bold text-emerald-700 tracking-wider">
+                                    PORTAL KP
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-extrabold text-deep group-hover:text-emerald-700 transition-colors">
+                                Kerja Praktek
+                            </h3>
+                            <p class="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Sistem pengelolaan, pendaftaran tempat magang, dan bimbingan kerja praktek mahasiswa
+                                terintegrasi dengan dunia usaha dan industri.
+                            </p>
+                        </div>
+                        <div
+                            class="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-700 group-hover:text-emerald-800">
+                            <span>Akses Portal KP</span>
+                            <span
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 2. Bimbingan Karir (BK) -->
+                    <a href="https://bk.dinus.ac.id" target="_blank" rel="noopener"
+                        class="group relative overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-7 sm:p-8 flex flex-col justify-between shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-amber-300 hover:shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div
+                                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-600 border border-amber-500/20 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 shadow-xs">
+                                    <i data-lucide="compass" class="h-6 w-6"></i>
+                                </div>
+                                <span
+                                    class="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-bold text-amber-700 tracking-wider">
+                                    PORTAL BK
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-extrabold text-deep group-hover:text-amber-700 transition-colors">
+                                Bimbingan Karir
+                            </h3>
+                            <p class="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Sistem layanan pembekalan karir, konsultasi konseling karir mahasiswa, informasi bursa
+                                kerja kampus, dan sertifikasi kesiapan kerja.
+                            </p>
+                        </div>
+                        <div
+                            class="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700 group-hover:text-amber-800">
+                            <span>Akses Portal BK</span>
+                            <span
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 group-hover:bg-amber-600 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 3. Tugas Akhir (TA) -->
+                    <a href="https://ta.dinus.ac.id" target="_blank" rel="noopener"
+                        class="group relative overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-7 sm:p-8 flex flex-col justify-between shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-300 hover:shadow-xl">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div
+                                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-600 border border-sky-500/20 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300 shadow-xs">
+                                    <i data-lucide="book-open" class="h-6 w-6"></i>
+                                </div>
+                                <span
+                                    class="rounded-full bg-sky-50 border border-sky-200 px-3 py-1 text-xs font-bold text-sky-700 tracking-wider">
+                                    PORTAL TA
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-extrabold text-deep group-hover:text-sky-700 transition-colors">
+                                Tugas Akhir
+                            </h3>
+                            <p class="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Sistem manajemen bimbingan skripsi berkala bersama dosen pembimbing, pengajuan proposal
+                                penelitian, dan pendaftaran ujian sidang.
+                            </p>
+                        </div>
+                        <div
+                            class="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-sky-700 group-hover:text-sky-800">
+                            <span>Akses Portal TA</span>
+                            <span
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-sky-50 group-hover:bg-sky-600 group-hover:text-white transition-all">
+                                <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 14. Dedicated Footer Khusus Landing Prodi ================= -->
+        <footer id="prodi-site-footer" class="border-t-2 border-gold bg-[#07192f] text-white">
+            <div class="container py-12 sm:py-16">
+                <div class="grid gap-10 md:grid-cols-12 items-start">
+                    <!-- Kolom Kiri: Logo UDINUS, Nama Prodi, Tagline Visi Lulusan -->
+                    <div class="md:col-span-7 space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#033863] border border-white/20 text-white font-extrabold shadow-sm">
+                                <span class="text-gold">U</span>D
+                            </div>
+                            <div class="leading-tight">
+                                <span
+                                    class="block text-[11px] font-bold uppercase tracking-wider text-slate-300">UNIVERSITAS</span>
+                                <span class="block text-sm sm:text-base font-extrabold tracking-tight text-white">DIAN
+                                    NUSWANTORO</span>
+                            </div>
+                        </div>
+
+                        <h3 id="tenant-footer-prodi-name"
+                            class="text-xl sm:text-2xl font-bold text-white tracking-tight pt-1">
+                            Program Studi Teknik Informatika - S1
+                        </h3>
+
+                        <p class="text-xs sm:text-sm text-slate-300/80 leading-relaxed max-w-lg">
+                            Mempersiapkan generasi digital yang kompeten, inovatif, dan siap menghadapi tantangan
+                            teknologi masa depan.
+                        </p>
+                    </div>
+
+                    <!-- Kolom Kanan: Informasi Kontak Terpusat Sesuai dev-sti.dinus.id -->
+                    <div class="md:col-span-5 space-y-4 md:pl-8">
+                        <h4 class="text-base sm:text-lg font-bold text-white tracking-tight">Kontak</h4>
+                        <ul class="space-y-3 text-xs sm:text-sm text-slate-300/85">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="map-pin" class="h-4 w-4 text-gold shrink-0 mt-0.5"></i>
+                                <span>Jl. Imam Bonjol No.207, Semarang</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="phone" class="h-4 w-4 text-gold shrink-0"></i>
+                                <span>(024) 3517261</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="mail" class="h-4 w-4 text-gold shrink-0"></i>
+                                <span>info@dinus.ac.id</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bottom Copyright Bar Sesuai Screenshot -->
+                <div
+                    class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+                    <div>
+                        © 2026 Universitas Dian Nuswantoro. All rights reserved.
+                    </div>
+                    <div>
+                        <a href="#" onclick="return false" class="hover:text-gold transition-colors">About Developer</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
