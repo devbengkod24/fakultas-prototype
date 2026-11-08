@@ -53,6 +53,6 @@ export const DEMO_ACCOUNTS: UserAccount[] = [
     identifier: "A11.2021.13782",
     avatar: "AR",
     redirectUrl: "/mahasiswa/dashboard",
-    description: "Eksplorasi katalog kontributor, form pendaftaran 3 tahap, cek status pengajuan, dan logbook kegiatan."
+    description: "Pendaftaran program MBKM, cek status pengajuan, dan logbook kegiatan."
   }
 ];

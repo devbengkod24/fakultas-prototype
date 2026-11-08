@@ -1,0 +1,54 @@
+---
+// src/components/mahasiswa/pendaftaran/review/ReviewIdentitasMahasiswa.astro
+import { cn } from "../../../../utils/cn";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class={cn("space-y-3", className)}>
+  <div class="flex items-center justify-between">
+    <h4 class="text-sm font-semibold text-[#0F172A] flex items-center gap-1.5">
+      <i data-lucide="user" class="w-4 h-4 text-[#1E40AF]"></i>
+      <span>Data Identitas Mahasiswa (Terkunci)</span>
+    </h4>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">Nama Lengkap</span>
+      <p class="font-semibold text-[#0F172A]">Ahmad Rizky Pratama</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">NIM</span>
+      <p class="font-semibold text-[#0F172A] font-mono">A11.2020.00001</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">Program Studi</span>
+      <p class="font-semibold text-[#0F172A]">Teknik Informatika - S1</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">Semester / TA</span>
+      <p class="font-semibold text-[#0F172A]">Semester 7 (2024/2025)</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">Email Mahasiswa</span>
+      <p class="font-semibold text-[#0F172A] truncate">1112020001@mhs.dinus.ac.id</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">Nomor Telepon / WA</span>
+      <p class="font-semibold text-[#0F172A]">081234567890</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">IPK Kumulatif</span>
+      <p class="font-semibold text-[#0F172A]">3.68</p>
+    </div>
+    <div class="p-3 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] space-y-0.5">
+      <span class="text-[#64748B]">SKS Lulus Tempuh</span>
+      <p class="font-semibold text-[#0F172A]">110 SKS</p>
+    </div>
+  </div>
+</div>

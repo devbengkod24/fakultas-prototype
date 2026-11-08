@@ -1,0 +1,155 @@
+---
+// src/components/mahasiswa/pendaftaran/TahapHasilSeleksi.astro
+import { cn } from "../../../utils/cn";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div x-show="currentStage === 'hasil'" class={cn("rounded-xl border border-[#E2E8F0] bg-white p-5 sm:p-6 shadow-2xs space-y-6", className)}>
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#E2E8F0] gap-3">
+    <div>
+      <h3 class="text-base font-semibold text-[#0F172A]">Tahap 5: Pengumuman & Respons Hasil Seleksi MBKM</h3>
+      <p class="text-sm text-[#64748B] mt-0.5">Hasil penetapan penempatan mitra berdasarkan evaluasi seleksi dan preferensi prioritas.</p>
+    </div>
+
+    <!-- Toggle Switch Simulasi (Formal & Minimalis) -->
+    <div class="flex items-center gap-2 self-start sm:self-auto">
+      <span class="text-xs text-[#64748B]">Simulasi Status:</span>
+      <button
+        type="button"
+        role="switch"
+        :aria-checked="hasilSubState === 'lolos'"
+        @click="hasilSubState = (hasilSubState === 'lolos' ? 'belum_lolos' : 'lolos')"
+        class="h-8 px-2.5 flex items-center gap-2 bg-[#F8FAFC] border border-[#E2E8F0] hover:border-slate-300 rounded-lg cursor-pointer transition-all shadow-2xs"
+        title="Klik untuk beralih simulasi status hasil seleksi"
+      >
+        <span
+          class="relative inline-flex h-[18px] w-[34px] shrink-0 items-center rounded-full transition-colors duration-200"
+          :class="hasilSubState === 'lolos' ? 'bg-[#1E40AF]' : 'bg-[#94A3B8]'"
+        >
+          <span
+            class="inline-block h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200"
+            :class="hasilSubState === 'lolos' ? 'translate-x-[18px]' : 'translate-x-[3px]'"
+          ></span>
+        </span>
+        <span
+          class="text-[11px] font-semibold transition-colors"
+          :class="hasilSubState === 'lolos' ? 'text-[#1E40AF]' : 'text-[#475569]'"
+          x-text="hasilSubState === 'lolos' ? 'Penawaran Diterima' : 'Belum Terpilih'"
+        ></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- KONDISI A: LOLOS SELEKSI / DAPAT PENAWARAN MITRA                          -->
+  <!-- ========================================================================= -->
+  <div x-show="hasilSubState === 'lolos'" class="space-y-5">
+    <!-- Banner Penawaran Lolos (Formal & Tidak Mencolok) -->
+    <div class="p-4 sm:p-5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+      <div class="flex items-start justify-between gap-3">
+        <div class="space-y-1">
+          <h4 class="text-base font-semibold text-[#0F172A] pt-0.5">Penetapan Hasil Seleksi Penempatan MBKM</h4>
+          <p class="text-xs text-[#475569] leading-relaxed max-w-2xl">
+            Berdasarkan rapat evaluasi hasil seleksi dan urutan prioritas yang diajukan, Anda dinyatakan mendapatkan penawaran penempatan pada program pilihan prioritas 1 Anda: <strong class="text-[#0F172A]" x-text="priorityPrograms[0].nama + ' (' + priorityPrograms[0].subnama + ')'"></strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rincian Program yang Diterima -->
+    <div class="p-4 sm:p-5 rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] space-y-4">
+      <h4 class="text-sm font-semibold text-[#0F172A] pb-2 border-b border-[#F1F5F9]">Rincian Penempatan MBKM Mahasiswa</h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <div class="space-y-1">
+          <span class="text-[#64748B]">Nama Program:</span>
+          <p class="text-sm font-semibold text-[#0F172A]" x-text="priorityPrograms[0].nama + ' — ' + priorityPrograms[0].subnama"></p>
+        </div>
+        <div class="space-y-1">
+          <span class="text-[#64748B]">Instansi Penyelenggara:</span>
+          <p class="text-sm font-semibold text-[#0F172A]" x-text="priorityPrograms[0].nama"></p>
+        </div>
+        <div class="space-y-1">
+          <span class="text-[#64748B]">Skema & Beban SKS:</span>
+          <p class="text-sm font-semibold text-[#0F172A]" x-text="priorityPrograms[0].skema + ' • Setara 20 SKS Konversi'"></p>
+        </div>
+        <div class="space-y-1">
+          <span class="text-[#64748B]">Dosen Pembimbing Ditetapkan:</span>
+          <p class="text-sm font-semibold text-[#0F172A]">Dr. Muljono, S.Kom., M.Kom.</p>
+        </div>
+      </div>
+
+      <!-- Batas Waktu Konfirmasi -->
+      <div class="p-3 bg-[#F8FAFC] rounded-md border border-[#E2E8F0] text-xs text-[#475569] flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <i data-lucide="clock" class="w-4 h-4 text-[#64748B] shrink-0"></i>
+          <span>Batas waktu respon konfirmasi penawaran: <strong class="text-[#0F172A]">3×24 jam (28 Okt 2025, 23:59 WIB)</strong>.</span>
+        </div>
+        <span class="text-[11px] text-[#64748B] shrink-0 hidden sm:inline">Konfirmasi sistem otomatis</span>
+      </div>
+    </div>
+
+    <!-- Tombol Aksi Respons Lolos -->
+    <div class="flex flex-wrap items-center justify-end gap-3 pt-1">
+      <button
+        type="button"
+        @click="alert('Anda memilih menolak penawaran. Kursi penempatan Anda akan dilepaskan.'); hasilSubState = 'belum_lolos'"
+        class="h-9 px-4 rounded-[6px] bg-white border border-[#E2E8F0] text-[#0F172A] hover:bg-[#F8FAFC] text-xs font-medium transition-colors cursor-pointer"
+      >
+        Tolak Penawaran
+      </button>
+
+      <button
+        type="button"
+        @click="alert('Penawaran diterima! Silakan mengunduh dokumen Pakta Integritas.')"
+        class="h-9 px-4 rounded-[6px] bg-[#1E40AF] hover:bg-[#1E3A8A] text-white text-xs font-medium shadow-2xs transition-all cursor-pointer inline-flex items-center gap-2"
+      >
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        <span>Terima Penawaran & Unduh Dokumen</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- KONDISI B: BELUM LOLOS / TIDAK TERPLOT                                    -->
+  <!-- ========================================================================= -->
+  <div x-show="hasilSubState === 'belum_lolos'" class="space-y-5">
+    <!-- Banner Informasi Status Belum Lolos (Formal & Tidak Mencolok) -->
+    <div class="p-4 sm:p-5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] space-y-2">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-[#F1F5F9] text-[#64748B] border border-[#E2E8F0]">
+            Belum Terpilih
+          </span>
+          <span class="text-xs text-[#64748B]">Periode Semester Gasal 2025/2026</span>
+        </div>
+        <h4 class="text-base font-semibold text-[#0F172A] pt-0.5">Penetapan Hasil Seleksi Penempatan MBKM</h4>
+        <p class="text-xs text-[#475569] leading-relaxed max-w-2xl">
+          Terima kasih atas partisipasi Anda dalam rangkaian seleksi MBKM. Berdasarkan hasil evaluasi seleksi dan keterbatasan kuota pada periode ini, Anda belum memperoleh penempatan pada program pilihan yang diajukan.
+        </p>
+      </div>
+    </div>
+
+    <!-- Rincian Evaluasi Status Program -->
+    <div class="p-4 rounded-lg border border-[#E2E8F0] bg-white space-y-3">
+      <h4 class="text-sm font-semibold text-[#0F172A]">Rincian Status Program Pilihan</h4>
+      <div class="divide-y divide-[#E2E8F0] border border-[#E2E8F0] rounded-lg overflow-hidden text-xs">
+        <template x-for="(prog, idx) in priorityPrograms" :key="prog.id">
+          <div class="p-3 bg-white flex items-center justify-between hover:bg-[#F8FAFC] transition-colors">
+            <div>
+              <strong class="font-medium text-[#0F172A]" x-text="(idx + 1) + '. ' + prog.nama"></strong>
+              <p class="text-[#64748B] text-[11px] mt-0.5" x-text="prog.subnama + ' • ' + prog.skema"></p>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-[#F1F5F9] text-[#64748B] border border-[#E2E8F0]">
+              Kuota Terpenuhi
+            </span>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</div>

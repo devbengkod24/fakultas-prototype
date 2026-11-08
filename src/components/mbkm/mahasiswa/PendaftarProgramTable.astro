@@ -113,7 +113,7 @@ const programs = [
               <!-- Tombol Aksi: Lihat Selengkapnya -->
               <template x-if={!program.hasOffer ? "!paktaSubmitted" : "true"}>
                 <a
-                  href={`/mahasiswa/pendaftaran-detail?program=${program.id}`}
+                  href={`/mahasiswa/pendaftaran?program=${program.id}`}
                   class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
                 >
                   <span>Lihat selengkapnya</span>
