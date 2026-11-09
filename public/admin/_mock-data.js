@@ -1566,7 +1566,7 @@ let pelamarListData = [
     kontributor: 'Dicoding Indonesia',
     kategoriKontributor: 'eksternal',
     program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing',
-    status: 'baru',
+    status: 'berkas',
     ipk: '3.82',
     sksLulus: 114,
     semester: 'Semester 5',
@@ -1582,6 +1582,11 @@ let pelamarListData = [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing' },
+      { prioritas: 2, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' },
+      { prioritas: 3, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense' }
+    ],
     tanggalPengajuan: 'Kamis, 24 September 2026, 17:33'
   },
   {
@@ -1595,7 +1600,7 @@ let pelamarListData = [
     kontributor: 'Bangkit Academy',
     kategoriKontributor: 'eksternal',
     program: 'Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort',
-    status: 'baru',
+    status: 'berkas',
     ipk: '3.75',
     sksLulus: 108,
     semester: 'Semester 5',
@@ -1611,6 +1616,10 @@ let pelamarListData = [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Bangkit Academy', program: 'Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort' },
+      { prioritas: 2, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing' }
+    ],
     tanggalPengajuan: 'Jumat, 25 September 2026, 09:15'
   },
   {
@@ -1624,7 +1633,11 @@ let pelamarListData = [
     kontributor: 'PT Telkom Indonesia',
     kategoriKontributor: 'eksternal',
     program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst',
-    status: 'baru',
+    status: 'wawancara',
+    jadwalWawancara: '22 Okt, 09:00 WIB',
+    lokasiWawancara: 'Google Meet (meet.google.com/bengkod-ai-eval)',
+    nilaiWawancara: 85,
+    catatanWawancara: 'Kandidat memiliki pemahaman proses bisnis yang tajam dan kesiapan magang industri tinggi.',
     ipk: '3.88',
     sksLulus: 118,
     semester: 'Semester 6',
@@ -1640,6 +1653,11 @@ let pelamarListData = [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst' },
+      { prioritas: 2, mitra: 'PT Matic Edukasi Mandiri', program: 'Matic Edukasi — EduTech System & LMS Platform Engineering' },
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' }
+    ],
     tanggalPengajuan: 'Senin, 28 September 2026, 14:20'
   },
   {
@@ -1653,7 +1671,11 @@ let pelamarListData = [
     kontributor: 'Dicoding Indonesia',
     kategoriKontributor: 'eksternal',
     program: 'Dicoding ASAH 2026 — Multi-Platform Web & Mobile App Engineering',
-    status: 'baru',
+    status: 'wawancara',
+    jadwalWawancara: '22 Okt, 10:30 WIB',
+    lokasiWawancara: 'Lab H.3.1 Gedung FIK UDINUS',
+    nilaiWawancara: 80,
+    catatanWawancara: 'Portofolio Flutter komprehensif, perlu pendalaman pada aspek state management bloc.',
     ipk: '3.65',
     sksLulus: 98,
     semester: 'Semester 5',
@@ -1669,6 +1691,12 @@ let pelamarListData = [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
+    // Simulasi: Sedang dievaluasi untuk program Prioritas 2 (Dicoding ASAH)
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Bangkit Academy', program: 'Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort' },
+      { prioritas: 2, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Multi-Platform Web & Mobile App Engineering' },
+      { prioritas: 3, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense' }
+    ],
     tanggalPengajuan: 'Selasa, 29 September 2026, 11:05'
   },
   {
@@ -1682,7 +1710,7 @@ let pelamarListData = [
     kontributor: 'Bengkel Koding',
     kategoriKontributor: 'internal',
     program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak',
-    status: 'baru',
+    status: 'berkas',
     ipk: '3.70',
     sksLulus: 104,
     semester: 'Semester 5',
@@ -1698,6 +1726,12 @@ let pelamarListData = [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
+    // Simulasi: Sedang dievaluasi untuk program Prioritas 3 (Bengkel Koding)
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing' },
+      { prioritas: 2, mitra: 'Bangkit Academy', program: 'Bangkit Academy 2026 — Cloud Computing Track' },
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' }
+    ],
     tanggalPengajuan: 'Rabu, 30 September 2026, 16:45'
   },
   {
@@ -1711,7 +1745,7 @@ let pelamarListData = [
     kontributor: 'PT Matic Edukasi Mandiri',
     kategoriKontributor: 'internal',
     program: 'Matic Edukasi — EduTech System & LMS Platform Engineering',
-    status: 'baru',
+    status: 'berkas',
     ipk: '3.62',
     sksLulus: 92,
     semester: 'Semester 5',
@@ -1727,6 +1761,12 @@ let pelamarListData = [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
+    // Simulasi: Sedang dievaluasi untuk program Prioritas 2 (Matic Edukasi)
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst' },
+      { prioritas: 2, mitra: 'PT Matic Edukasi Mandiri', program: 'Matic Edukasi — EduTech System & LMS Platform Engineering' },
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' }
+    ],
     tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10'
   },
   {
@@ -1740,8 +1780,8 @@ let pelamarListData = [
     kontributor: 'Ryuje Tech Studio',
     kategoriKontributor: 'internal',
     program: 'Ryuje Studio — 3D Asset Design & Interactive Animation',
-    status: 'baru',
-    ipk: '3.78',
+    status: 'ditolak',
+    catatanWawancara: 'Formasi 3D Modeling telah terpenuhi, portfolio diarahkan ke re-apply batch berikutnya.',
     sksLulus: 106,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
@@ -1755,6 +1795,12 @@ let pelamarListData = [
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    // Simulasi: Sedang dievaluasi untuk program Prioritas 3 (Ryuje Studio)
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst' },
+      { prioritas: 2, mitra: 'PT Matic Edukasi Mandiri', program: 'Matic Edukasi — EduTech System & LMS Platform Engineering' },
+      { prioritas: 3, mitra: 'Ryuje Tech Studio', program: 'Ryuje Studio — 3D Asset Design & Interactive Animation' }
     ],
     tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30'
   },
@@ -1827,8 +1873,8 @@ let pelamarListData = [
     kontributor: 'PT Telkom Indonesia',
     kategoriKontributor: 'eksternal',
     program: 'Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense',
-    status: 'ditolak',
-    ipk: '2.85',
+    status: 'dibatalkan',
+    alasanBatal: 'Kandidat mengundurkan diri karena diterima pada program lain.',
     sksLulus: 76,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',

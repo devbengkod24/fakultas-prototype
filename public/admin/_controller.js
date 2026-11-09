@@ -4974,32 +4974,64 @@ function handleCmsPhotoUpload(e) {
 }
 
 // 5. MODUL MAHASISWA - PENDAFTAR (Sesuai Layout Tugas Akhir Pengajuan Mahasiswa)
-let pendaftarActiveStatusTab = 'baru'; // 'baru' | 'diterima' | 'ditolak' | 'dibatalkan'
+let pendaftarActiveStatusTab = 'berkas'; // 'baru' | 'wawancara' | 'hasil'
 let pendaftarViewMode = 'kartu'; // 'kartu' | 'tabel'
 let pendaftarSort = 'terbaru';
 let pelamarSearchQuery = '';
 let pelamarFilterKontributor = 'eksternal'; // default: 'eksternal' sesuai arahan pengguna
 let pelamarFilterProdi = 'semua';
 let pelamarCurrentPage = 1;
-const pelamarItemsPerPage = 5;
+let pelamarItemsPerPage = 5;
 let activeModalPelamarId = null;
-
+let activeDrawerMode = 'review-berkas'; // 'review-berkas' | 'evaluasi-wawancara'
+let isJadwalUnlocked = false;
 
 function switchPendaftarStatusTab(tabKey) {
   pendaftarActiveStatusTab = tabKey;
-  const tabs = ['baru', 'diterima', 'ditolak', 'dibatalkan'];
+  const tabs = ['berkas', 'wawancara', 'diterima', 'ditolak', 'dibatalkan'];
 
   tabs.forEach((t) => {
     const btn = document.getElementById('tab-pendaftar-' + t);
     if (!btn) return;
     if (t === tabKey) {
       btn.className =
-        'flex items-center gap-2 pb-3 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors';
+        'flex items-center gap-2 pb-3 text-sm font-semibold border-b-2 border-[#1E40AF] text-[#1E40AF] transition-colors cursor-pointer shrink-0';
     } else {
       btn.className =
-        'flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors';
+        'flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer shrink-0';
     }
   });
+
+  const selectView = document.getElementById('select-pendaftar-view');
+  const cardsCont = document.getElementById('pendaftar-cards-container');
+  const tableCont = document.getElementById('pendaftar-table-container');
+
+  // Tampilkan toggle view (kartu/tabel) hanya pada tab Berkas
+  if (selectView) {
+    if (tabKey === 'berkas') {
+      selectView.classList.remove('hidden');
+    } else {
+      selectView.classList.add('hidden');
+    }
+  }
+
+  // Jika bukan tab berkas, paksa view mode ke 'tabel' dan sinkronkan visibilitas container
+  if (tabKey !== 'berkas') {
+    pendaftarViewMode = 'tabel';
+    if (selectView) selectView.value = 'tabel';
+    if (cardsCont) cardsCont.classList.add('hidden');
+    if (tableCont) tableCont.classList.remove('hidden');
+  } else {
+    // Pada tab Berkas, pastikan container mengikuti pendaftarViewMode aktif
+    if (pendaftarViewMode === 'kartu') {
+      if (cardsCont) cardsCont.classList.remove('hidden');
+      if (tableCont) tableCont.classList.add('hidden');
+    } else {
+      if (cardsCont) cardsCont.classList.add('hidden');
+      if (tableCont) tableCont.classList.remove('hidden');
+    }
+    if (selectView) selectView.value = pendaftarViewMode;
+  }
 
   pelamarCurrentPage = 1;
   renderPelamarTable();
@@ -5044,17 +5076,20 @@ function handleFilterPelamarProdi(val) {
 }
 
 function updatePendaftarTabBadges() {
-  const countBaru = pelamarListData.filter((p) => p.status === 'baru').length;
+  const countBerkas = pelamarListData.filter((p) => p.status === 'baru' || p.status === 'berkas').length;
+  const countWawancara = pelamarListData.filter((p) => p.status === 'wawancara').length;
   const countDiterima = pelamarListData.filter((p) => p.status === 'diterima').length;
   const countDitolak = pelamarListData.filter((p) => p.status === 'ditolak').length;
   const countDibatalkan = pelamarListData.filter((p) => p.status === 'dibatalkan').length;
 
-  const bBaru = document.getElementById('badge-count-pendaftar-baru');
+  const bBerkas = document.getElementById('badge-count-pendaftar-berkas');
+  const bWawancara = document.getElementById('badge-count-pendaftar-wawancara');
   const bDiterima = document.getElementById('badge-count-pendaftar-diterima');
   const bDitolak = document.getElementById('badge-count-pendaftar-ditolak');
   const bDibatalkan = document.getElementById('badge-count-pendaftar-dibatalkan');
 
-  if (bBaru) bBaru.textContent = countBaru;
+  if (bBerkas) bBerkas.textContent = countBerkas;
+  if (bWawancara) bWawancara.textContent = countWawancara;
   if (bDiterima) bDiterima.textContent = countDiterima;
   if (bDitolak) bDitolak.textContent = countDitolak;
   if (bDibatalkan) bDibatalkan.textContent = countDibatalkan;
@@ -5062,9 +5097,21 @@ function updatePendaftarTabBadges() {
 
 function getFilteredPelamarData() {
   let list = pelamarListData.filter((p) => {
-    // Status Tab Filter
-    const matchStatus =
-      pendaftarActiveStatusTab === 'semua' || p.status === pendaftarActiveStatusTab;
+    // 5 Tab Status: berkas, wawancara, diterima, ditolak, dibatalkan
+    let matchStatus = false;
+    if (pendaftarActiveStatusTab === 'berkas') {
+      matchStatus = p.status === 'baru' || p.status === 'berkas';
+    } else if (pendaftarActiveStatusTab === 'wawancara') {
+      matchStatus = p.status === 'wawancara';
+    } else if (pendaftarActiveStatusTab === 'diterima') {
+      matchStatus = p.status === 'diterima';
+    } else if (pendaftarActiveStatusTab === 'ditolak') {
+      matchStatus = p.status === 'ditolak';
+    } else if (pendaftarActiveStatusTab === 'dibatalkan') {
+      matchStatus = p.status === 'dibatalkan';
+    } else {
+      matchStatus = true;
+    }
 
     // Search Query
     const matchQuery =
@@ -5124,6 +5171,13 @@ function renderPelamarTable() {
 
   // 1. Render Tampilan Kartu (Sesuai Gambar Tugas Akhir)
   if (cardsContainer) {
+    // Sembunyikan container kartu jika bukan tab Berkas atau bukan view mode kartu
+    if (pendaftarActiveStatusTab !== 'berkas' || pendaftarViewMode !== 'kartu') {
+      cardsContainer.classList.add('hidden');
+    } else {
+      cardsContainer.classList.remove('hidden');
+    }
+
     if (currentSlice.length === 0) {
       cardsContainer.innerHTML = `
         <div class="p-12 text-center rounded-xl border border-dashed border-[#e4e4e7] bg-white">
@@ -5143,9 +5197,10 @@ function renderPelamarTable() {
             : `<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-orange-50 text-orange-700 border border-orange-200">Eksternal</span>`;
 
           const statusBadges = {
-            baru: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-amber-50 text-amber-700 border border-amber-200">Menunggu</span>',
-            diterima: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-emerald-50 text-emerald-700 border border-emerald-200">Diterima</span>',
-            ditolak: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-rose-50 text-rose-700 border border-rose-200">Ditolak</span>',
+            baru: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-blue-50 text-[#1E40AF] border border-blue-200">Baru</span>',
+            wawancara: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-amber-50 text-[#F59E0B] border border-amber-200">Wawancara</span>',
+            diterima: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-emerald-50 text-[#10B981] border border-emerald-200">Diterima</span>',
+            ditolak: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-rose-50 text-[#EF4444] border border-rose-200">Ditolak</span>',
             dibatalkan: '<span class="px-2.5 py-0.5 text-xs font-semibold rounded bg-slate-100 text-slate-700 border border-slate-200">Dibatalkan</span>'
           };
           const statusBadge = statusBadges[item.status] || statusBadges.baru;
@@ -5162,56 +5217,31 @@ function renderPelamarTable() {
                 <p class="text-[10px] text-amber-700 mt-0.5">Seleksi kontributor internal dikelola penuh oleh Kontributor terkait.</p>
               </div>
             `;
+          } else if (item.status === 'baru' || item.status === 'berkas') {
+            actionHtml = `
+              <button
+                type="button"
+                onclick="bukaReviewBerkasDrawer(${item.id})"
+                class="w-full h-9 inline-flex items-center justify-center gap-1.5 rounded-md bg-[#1E40AF] hover:bg-[#1E3A8A] text-xs font-semibold text-white shadow-none transition-colors cursor-pointer"
+              >
+                <i data-lucide="file-check" class="w-4 h-4"></i>
+                <span>Review Berkas</span>
+              </button>
+            `;
+          } else if (item.status === 'wawancara') {
+            actionHtml = `
+              <button
+                type="button"
+                onclick="bukaEvaluasiWawancaraDrawer(${item.id})"
+                class="w-full h-9 inline-flex items-center justify-center gap-1.5 rounded-md bg-[#1E40AF] hover:bg-[#1E3A8A] text-xs font-semibold text-white shadow-none transition-colors cursor-pointer"
+              >
+                <i data-lucide="message-square" class="w-4 h-4"></i>
+                <span>Wawancara</span>
+              </button>
+            `;
           } else {
-            if (item.status === 'baru') {
-              actionHtml = `
-                <div class="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onclick="terimaPelamar(${item.id})"
-                    class="h-9 inline-flex items-center justify-center gap-1.5 rounded-md border border-emerald-300 bg-white hover:bg-emerald-50 text-xs font-semibold text-emerald-700 transition-colors"
-                  >
-                    <i data-lucide="check" class="w-4 h-4"></i>
-                    <span>Terima</span>
-                  </button>
-                  <button
-                    type="button"
-                    onclick="tolakPelamar(${item.id})"
-                    class="h-9 inline-flex items-center justify-center gap-1.5 rounded-md border border-red-300 bg-white hover:bg-red-50 text-xs font-semibold text-red-600 transition-colors"
-                  >
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                    <span>Tolak</span>
-                  </button>
-                </div>
-              `;
-            } else if (item.status === 'diterima') {
-              actionHtml = `
-                <div class="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-center">
-                  <span class="text-xs font-semibold text-emerald-700 flex items-center justify-center gap-1">
-                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                    <span>Diterima</span>
-                  </span>
-                </div>
-              `;
-            } else if (item.status === 'ditolak') {
-              actionHtml = `
-                <div class="p-2 rounded-lg bg-rose-50 border border-rose-200 text-center">
-                  <span class="text-xs font-semibold text-rose-700 flex items-center justify-center gap-1">
-                    <i data-lucide="x-circle" class="w-4 h-4"></i>
-                    <span>Ditolak</span>
-                  </span>
-                </div>
-              `;
-            } else {
-              actionHtml = `
-                <div class="p-2 rounded-lg bg-slate-100 border border-slate-200 text-center">
-                  <span class="text-xs font-semibold text-slate-700 flex items-center justify-center gap-1">
-                    <i data-lucide="ban" class="w-4 h-4"></i>
-                    <span>Dibatalkan</span>
-                  </span>
-                </div>
-              `;
-            }
+            // Status final: diterima, ditolak, dibatalkan -> tombol evaluasi dihilangkan
+            actionHtml = '';
           }
 
           return `
@@ -5372,10 +5402,46 @@ function renderPelamarTable() {
 
   // 2. Render Tampilan Tabel (Sesuai Tabel Standar DataTable)
   if (tbody) {
+    const isTabBerkas = pendaftarActiveStatusTab === 'berkas';
+    const isTabWawancara = pendaftarActiveStatusTab === 'wawancara';
+    const isTabAksi = isTabBerkas || isTabWawancara;
+
+    // Header tabel dinamis: tab wawancara vs tab berkas vs tab hasil
+    const trThead = document.getElementById('tr-thead-pelamar');
+    if (trThead) {
+      if (isTabWawancara) {
+        trThead.innerHTML = `
+          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#475569]">No.</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Mahasiswa</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Program Mitra</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Jadwal Wawancara</th>
+          <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#475569]">Aksi</th>
+        `;
+      } else if (isTabBerkas) {
+        trThead.innerHTML = `
+          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#475569]">No.</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Mahasiswa</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Program & Kontributor MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Akademik</th>
+          <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#475569]">Aksi</th>
+        `;
+      } else {
+        // Tab Diterima / Ditolak / Dibatalkan (Header Aksi disembunyikan)
+        trThead.innerHTML = `
+          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#475569]">No.</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Mahasiswa</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Program & Kontributor MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Akademik</th>
+        `;
+      }
+    }
+
+    const colSpan = isTabWawancara ? 5 : (isTabBerkas ? 5 : 4);
+
     if (currentSlice.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="6" class="py-8 text-center text-sm text-[#71717a]">
+          <td colspan="${colSpan}" class="py-8 text-center text-sm text-[#71717a]">
             Tidak ada data pendaftar yang cocok dengan kriteria filter.
           </td>
         </tr>
@@ -5386,26 +5452,57 @@ function renderPelamarTable() {
           const rowNum = startIndex + idx + 1;
           const isInternal = item.kategoriKontributor === 'internal';
 
-          const matkulTags = item.matkulDiambil
-            .map((m) => `<span class="px-1.5 py-0.5 text-[10px] rounded bg-blue-50 text-[#0655a7] border border-blue-200 font-medium whitespace-nowrap">${m.nama} (${m.sks} SKS)</span>`)
-            .join(' ');
+          // Rendering baris khusus tab wawancara (No | Mahasiswa | Program Mitra | Jadwal Wawancara | Aksi)
+          if (isTabWawancara) {
+            const jadwalText = item.jadwalWawancara
+              ? `<div class="font-semibold text-xs text-[#0F172A] flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-[#1E40AF]"></i><span>${item.jadwalWawancara}</span></div><div class="text-[11px] text-[#64748B] mt-0.5">${item.lokasiWawancara || 'Meet / Lab'}</div>`
+              : `<span class="text-xs text-[#64748B] italic">Belum terjadwal</span>`;
 
-          let actionBtn = '';
-          if (isInternal) {
-            actionBtn = `<span class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-medium">Read-Only</span>`;
-          } else {
-            if (item.status === 'baru') {
-              actionBtn = `
-                <div class="flex items-center justify-center gap-1.5">
-                  <button type="button" onclick="terimaPelamar(${item.id})" class="h-7 px-2 rounded border border-emerald-300 bg-white hover:bg-emerald-50 text-xs font-semibold text-emerald-700">Terima</button>
-                  <button type="button" onclick="tolakPelamar(${item.id})" class="h-7 px-2 rounded border border-red-300 bg-white hover:bg-red-50 text-xs font-semibold text-red-600">Tolak</button>
-                </div>
+            let actionBtn = isInternal
+              ? `<span class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-medium">Read-Only</span>`
+              : `
+                <button
+                  type="button"
+                  onclick="bukaEvaluasiWawancaraDrawer(${item.id})"
+                  class="h-7 px-3 rounded bg-[#1E40AF] hover:bg-[#1E3A8A] text-xs font-semibold text-white shadow-none transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <i data-lucide="message-square" class="w-3 h-3"></i>
+                  <span>Wawancara</span>
+                </button>
               `;
-            } else {
-              actionBtn = `
-                <button type="button" onclick="lihatTranskripPelamar(${item.id})" class="h-7 px-2.5 rounded border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b]">Transkrip</button>
+
+            return `
+              <tr class="h-14 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="w-12 px-2 text-center text-[#71717a] text-xs font-medium">${rowNum}</td>
+                <td class="px-4">
+                  <div class="font-medium text-[#09090b] text-sm">${item.nama}</div>
+                  <div class="text-[#71717a] text-xs">${item.nim}</div>
+                </td>
+                <td class="px-4">
+                  <div class="font-medium text-[#09090b] text-sm">${item.program}</div>
+                  <div class="text-xs text-[#0655a7] font-medium">${item.kontributor}</div>
+                </td>
+                <td class="px-4">${jadwalText}</td>
+                <td class="px-4 text-center">${actionBtn}</td>
+              </tr>
+            `;
+          }
+
+          // Rendering baris tab berkas, diterima, ditolak, dibatalkan
+          let actionTd = '';
+          if (isTabBerkas) {
+            let actionBtn = isInternal
+              ? `<span class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-medium">Read-Only</span>`
+              : `
+                <button
+                  type="button"
+                  onclick="bukaReviewBerkasDrawer(${item.id})"
+                  class="h-7 px-2.5 rounded bg-[#1E40AF] hover:bg-[#1E3A8A] text-xs font-semibold text-white shadow-none transition-colors cursor-pointer"
+                >
+                  Review Berkas
+                </button>
               `;
-            }
+            actionTd = `<td class="px-4 text-center">${actionBtn}</td>`;
           }
 
           return `
@@ -5416,7 +5513,7 @@ function renderPelamarTable() {
                   <img src="${item.foto}" alt="${item.nama}" class="h-8 w-8 rounded-full object-cover border border-[#e4e4e7] shrink-0" />
                   <div>
                     <div class="font-medium text-[#09090b] text-sm">${item.nama}</div>
-                    <div class="text-[#71717a] text-xs">${item.nim} • ${item.prodi}</div>
+                    <div class="text-[#71717a] text-xs">${item.nim}</div>
                   </div>
                 </div>
               </td>
@@ -5426,14 +5523,9 @@ function renderPelamarTable() {
               </td>
               <td class="px-4">
                 <div class="font-semibold text-xs text-[#09090b]">IPK ${item.ipk}</div>
-                <div class="text-[11px] text-[#71717a]">${item.semester} • ${item.sksLulus} SKS</div>
+                <div class="text-[11px] text-[#71717a]">${item.semester}</div>
               </td>
-              <td class="px-4">
-                <div class="flex flex-wrap gap-1 max-w-xs">
-                  ${matkulTags}
-                </div>
-              </td>
-              <td class="px-4 text-center">${actionBtn}</td>
+              ${actionTd}
             </tr>
           `;
         })
@@ -5510,16 +5602,413 @@ function goToPelamarPage(p) {
   renderPelamarTable();
 }
 
-function terimaPelamar(id) {
-  const item = pelamarListData.find((p) => p.id === id);
-  if (!item) return;
-  if (item.kategoriKontributor === 'internal') {
-    alert('Seleksi kontributor internal hanya dapat dilakukan oleh akun Kontributor.');
+let activeDrawerDetailTab = 'dokumen';
+let isDrawerJadwalUnlocked = false;
+
+function switchDrawerDetailTab(tabKey) {
+  if (tabKey === 'jadwal' && activeDrawerMode === 'review-berkas' && !isDrawerJadwalUnlocked) {
+    alert('Tab Atur Jadwal masih terkunci.\n\nSilakan tinjau berkas di tab Dokumen terlebih dahulu, kemudian klik tombol "Setuju Berkas >" di footer untuk membuka pengaturan jadwal wawancara.');
     return;
   }
-  item.status = 'diterima';
-  alert(`Pendaftar ${item.nama} BERHASIL DITERIMA sebagai peserta resmi MBKM di ${item.kontributor}!`);
+
+  activeDrawerDetailTab = tabKey;
+  const btnDokumen = document.getElementById('drawer-tab-btn-dokumen');
+  const btnJadwal = document.getElementById('drawer-tab-btn-jadwal');
+  const panelDokumen = document.getElementById('drawer-panel-dokumen');
+  const panelJadwal = document.getElementById('drawer-panel-jadwal');
+
+  const footerDokumen = document.getElementById('drawer-footer-actions-dokumen');
+  const footerJadwal = document.getElementById('drawer-footer-actions-jadwal');
+  const footerEvaluasi = document.getElementById('drawer-footer-actions-evaluasi');
+
+  if (tabKey === 'dokumen') {
+    if (btnDokumen) {
+      btnDokumen.className = 'flex items-center gap-2 py-3 text-xs font-semibold border-b-2 border-[#1E40AF] text-[#1E40AF] transition-colors cursor-pointer';
+    }
+    if (btnJadwal) {
+      btnJadwal.className = 'flex items-center gap-2 py-3 text-xs font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer';
+    }
+    if (panelDokumen) panelDokumen.classList.remove('hidden');
+    if (panelJadwal) panelJadwal.classList.add('hidden');
+
+    if (activeDrawerMode === 'review-berkas') {
+      if (footerDokumen) footerDokumen.classList.remove('hidden');
+      if (footerJadwal) footerJadwal.classList.add('hidden');
+      if (footerEvaluasi) footerEvaluasi.classList.add('hidden');
+    } else {
+      if (footerDokumen) footerDokumen.classList.add('hidden');
+      if (footerJadwal) footerJadwal.classList.add('hidden');
+      if (footerEvaluasi) footerEvaluasi.classList.remove('hidden');
+    }
+  } else {
+    if (btnDokumen) {
+      btnDokumen.className = 'flex items-center gap-2 py-3 text-xs font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer';
+    }
+    if (btnJadwal) {
+      btnJadwal.className = 'flex items-center gap-2 py-3 text-xs font-semibold border-b-2 border-[#1E40AF] text-[#1E40AF] transition-colors cursor-pointer';
+    }
+    if (panelDokumen) panelDokumen.classList.add('hidden');
+    if (panelJadwal) panelJadwal.classList.remove('hidden');
+
+    if (activeDrawerMode === 'review-berkas') {
+      if (footerDokumen) footerDokumen.classList.add('hidden');
+      if (footerJadwal) footerJadwal.classList.remove('hidden');
+      if (footerEvaluasi) footerEvaluasi.classList.add('hidden');
+    } else {
+      if (footerDokumen) footerDokumen.classList.add('hidden');
+      if (footerJadwal) footerJadwal.classList.add('hidden');
+      if (footerEvaluasi) footerEvaluasi.classList.remove('hidden');
+    }
+  }
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function updateDrawerJadwalLockState(unlocked) {
+  isDrawerJadwalUnlocked = unlocked;
+  const lockedState = document.getElementById('drawer-jadwal-locked-state');
+  const formContent = document.getElementById('drawer-jadwal-form-content');
+
+  if (lockedState && formContent) {
+    if (unlocked) {
+      lockedState.classList.add('hidden');
+      formContent.classList.remove('hidden');
+    } else {
+      lockedState.classList.remove('hidden');
+      formContent.classList.add('hidden');
+    }
+  }
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function bukaReviewBerkasDrawer(id) {
+  const item = pelamarListData.find((p) => p.id === id);
+  if (!item) return;
+  activeModalPelamarId = id;
+  activeDrawerMode = 'review-berkas';
+
+  const modal = document.getElementById('modal-detail-pelamar');
+  if (!modal) return;
+
+  // Header Title & Subtitle untuk Review Berkas
+  const titleEl = document.getElementById('slide-over-title');
+  if (titleEl) {
+    titleEl.textContent = 'Review Berkas Pelamar';
+    if (titleEl.nextElementSibling) {
+      titleEl.nextElementSibling.textContent = 'Verifikasi berkas persyaratan dan penjadwalan sesi wawancara';
+    }
+  }
+
+  // Label Tab 2 disesuaikan untuk Review Berkas
+  const tabBtnJadwal = document.getElementById('drawer-tab-btn-jadwal');
+  if (tabBtnJadwal) {
+    const spanText = tabBtnJadwal.querySelector('span');
+    if (spanText) spanText.textContent = 'Atur Jadwal';
+  }
+
+  // Tampilkan subpanel form jadwal & sembunyikan subpanel wawancara eval
+  const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
+  const subpanelWawancaraEval = document.getElementById('drawer-subpanel-wawancara-eval');
+  if (subpanelJadwalFlow) subpanelJadwalFlow.classList.remove('hidden');
+  if (subpanelWawancaraEval) subpanelWawancaraEval.classList.add('hidden');
+
+  // Identitas & Info Akademik
+  populateDrawerHeaderProfile(item);
+
+  // Kunci form Atur Jadwal di awal
+  updateDrawerJadwalLockState(false);
+
+  // Reset form Atur Jadwal ke default (Online)
+  const radioOnline = document.querySelector('input[name="radio-metode-wawancara"][value="online"]');
+  if (radioOnline) {
+    radioOnline.checked = true;
+    handleMetodeWawancaraChange('online');
+  }
+
+  // Populate dynamic list dokumen ke Tab Dokumen
+  populateDrawerDokumenList(item);
+
+  // Buka drawer & aktifkan Tab Dokumen
+  switchDrawerDetailTab('dokumen');
+  modal.classList.remove('hidden');
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function bukaEvaluasiWawancaraDrawer(id) {
+  const item = pelamarListData.find((p) => p.id === id);
+  if (!item) return;
+  activeModalPelamarId = id;
+  activeDrawerMode = 'evaluasi-wawancara';
+
+  const modal = document.getElementById('modal-detail-pelamar');
+  if (!modal) return;
+
+  // Header Title & Subtitle untuk Evaluasi Wawancara
+  const titleEl = document.getElementById('slide-over-title');
+  if (titleEl) {
+    titleEl.textContent = 'Evaluasi & Wawancara Pelamar';
+    if (titleEl.nextElementSibling) {
+      titleEl.nextElementSibling.textContent = 'Tinjau berkas portofolio, input skor penilaian dan catatan wawancara';
+    }
+  }
+
+  // Label Tab 2 disesuaikan untuk Evaluasi Wawancara (tidak terkunci)
+  const tabBtnJadwal = document.getElementById('drawer-tab-btn-jadwal');
+  if (tabBtnJadwal) {
+    const spanText = tabBtnJadwal.querySelector('span');
+    if (spanText) spanText.textContent = 'Nilai & Catatan';
+  }
+
+  // Tampilkan subpanel wawancara eval & sembunyikan subpanel form jadwal
+  const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
+  const subpanelWawancaraEval = document.getElementById('drawer-subpanel-wawancara-eval');
+  if (subpanelJadwalFlow) subpanelJadwalFlow.classList.add('hidden');
+  if (subpanelWawancaraEval) subpanelWawancaraEval.classList.remove('hidden');
+
+  // Identitas & Info Akademik
+  populateDrawerHeaderProfile(item);
+
+  // Populate dynamic list dokumen ke Tab Dokumen
+  populateDrawerDokumenList(item);
+
+  // Populate Form Penilaian & Catatan Wawancara
+  const inputSkor = document.getElementById('modal-pelamar-input-skor');
+  const inputCatatan = document.getElementById('modal-pelamar-catatan-koor');
+  if (inputSkor) {
+    inputSkor.value = item.nilaiWawancara !== undefined && item.nilaiWawancara !== null ? item.nilaiWawancara : '';
+  }
+  if (inputCatatan) {
+    inputCatatan.value = item.catatanWawancara || '';
+  }
+
+  // Buka drawer & aktifkan Tab Dokumen sebagai review awal
+  switchDrawerDetailTab('dokumen');
+  modal.classList.remove('hidden');
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function populateDrawerHeaderProfile(item) {
+  const avatarEl = document.getElementById('modal-pelamar-avatar');
+  const namaEl = document.getElementById('modal-pelamar-nama');
+  const metaEl = document.getElementById('modal-pelamar-meta');
+  const ipkEl = document.getElementById('modal-pelamar-ipk');
+  const sksEl = document.getElementById('modal-pelamar-sks');
+  const semesterEl = document.getElementById('modal-pelamar-semester');
+  const kontributorEl = document.getElementById('modal-pelamar-kontributor');
+  const singlePrioritasBadge = document.getElementById('modal-pelamar-single-prioritas-badge');
+
+  if (avatarEl) {
+    if (item.foto) {
+      avatarEl.innerHTML = `<img src="${item.foto}" alt="${item.nama}" class="w-full h-full rounded-full object-cover" />`;
+    } else {
+      const initials = (item.nama || 'M')
+        .split(' ')
+        .map((n) => n[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
+      avatarEl.textContent = initials;
+    }
+  }
+
+  if (namaEl) namaEl.textContent = item.nama;
+  if (metaEl) metaEl.textContent = `${item.nim} • ${item.prodi}`;
+  if (ipkEl) ipkEl.textContent = item.ipk;
+  if (sksEl) sksEl.textContent = `${item.sksLulus} SKS`;
+
+  // Format semester: hanya angka (contoh: "5")
+  const semRaw = String(item.semester || '5');
+  const semNumOnly = semRaw.replace(/[^0-9]/g, '') || semRaw;
+  if (semesterEl) semesterEl.textContent = semNumOnly;
+
+  if (kontributorEl) {
+    kontributorEl.textContent = item.kontributor || '-';
+    kontributorEl.title = item.kontributor || '';
+  }
+
+  // Hitung nomor prioritas dari pilihanProgram atau default
+  let prioritasNum = 1;
+  if (Array.isArray(item.pilihanProgram) && item.pilihanProgram.length > 0) {
+    const found = item.pilihanProgram.find(
+      (p) =>
+        (p.mitra && p.mitra.toLowerCase() === (item.kontributor || '').toLowerCase()) ||
+        (p.program && p.program.toLowerCase() === (item.program || '').toLowerCase())
+    );
+    if (found && found.prioritas) {
+      prioritasNum = found.prioritas;
+    }
+  }
+
+  if (singlePrioritasBadge) {
+    singlePrioritasBadge.textContent = `Pilihan ${prioritasNum}`;
+  }
+}
+
+function closePelamarDetailModal() {
+  const modal = document.getElementById('modal-detail-pelamar');
+  if (modal) modal.classList.add('hidden');
+  activeModalPelamarId = null;
+}
+
+function populateDrawerDokumenList(item) {
+  const container = document.getElementById('drawer-dokumen-list');
+  if (!container) return;
+
+  const docs = Array.isArray(item.links) && item.links.length > 0 ? item.links : [
+    { label: 'CV (Curriculum Vitae)', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+    { label: 'Portfolio & Project Showcase', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
+    { label: 'Surat Rekomendasi (SuReKom)', url: 'https://drive.google.com/file/d/surekom/view', wajib: true }
+  ];
+
+  container.innerHTML = docs
+    .map((doc) => {
+      return `
+        <div class="flex items-center justify-between p-3 rounded-lg border border-[#E2E8F0] bg-white hover:bg-slate-50/80 transition-colors">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-md bg-blue-50 text-[#1E40AF] border border-blue-200 flex items-center justify-center shrink-0">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div class="min-w-0">
+              <span class="text-xs font-semibold text-[#0F172A] block truncate">${doc.label}</span>
+            </div>
+          </div>
+          <a
+            href="${doc.url || '#'}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="h-7 px-2.5 rounded border border-[#E2E8F0] bg-white hover:bg-slate-100 text-[#0F172A] text-xs font-medium inline-flex items-center gap-1 shrink-0 transition-colors shadow-2xs"
+          >
+            <span>Buka</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-[#64748B]"></i>
+          </a>
+        </div>
+      `;
+    })
+    .join('');
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function tolakBerkasPelamar() {
+  if (!activeModalPelamarId) return;
+  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  if (!item) return;
+
+  if (confirm(`Tolak berkas pengajuan pendaftar ${item.nama}?\n\nPendaftar akan otomatis dipindahkan ke tab "Dibatalkan".`)) {
+    item.status = 'dibatalkan';
+    item.alasanBatal = 'Berkas persyaratan administrasi ditolak oleh Koordinator MBKM.';
+    alert(`Berkas mahasiswa ${item.nama} DITOLAK.\nStatus kandidat kini berpindah ke tab "Dibatalkan".`);
+    closePelamarDetailModal();
+    renderPelamarTable();
+  }
+}
+
+function setujuiBerkasPelamar() {
+  if (!activeModalPelamarId) return;
+  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  if (!item) return;
+
+  // Buka kunci form Atur Jadwal
+  updateDrawerJadwalLockState(true);
+
+  // Otomatis alihkan ke tab Atur Jadwal
+  switchDrawerDetailTab('jadwal');
+}
+
+function handleMetodeWawancaraChange(metode) {
+  const labelEl = document.getElementById('label-jadwal-lokasi');
+  const catatanInput = document.getElementById('input-jadwal-catatan');
+  if (!labelEl || !catatanInput) return;
+
+  if (metode === 'offline') {
+    labelEl.textContent = 'Informasi Ruangan / Lokasi Tatap Muka:';
+    catatanInput.placeholder = 'Contoh: Gedung H Lantai 3 Ruang H.3.1';
+    if (catatanInput.value.includes('meet.google.com') || catatanInput.value.includes('http')) {
+      catatanInput.value = 'Ruang Lab Software Gedung H Lantai 3 (H.3.1)';
+    }
+  } else {
+    labelEl.textContent = 'Informasi Link Pertemuan (Google Meet / Zoom):';
+    catatanInput.placeholder = 'Contoh: meet.google.com/bengkod-ai-eval';
+    if (catatanInput.value.includes('Gedung H') || catatanInput.value.includes('Ruang')) {
+      catatanInput.value = 'https://meet.google.com/bengkod-ai-eval';
+    }
+  }
+}
+
+function simpanJadwalWawancara() {
+  if (!activeModalPelamarId) return;
+  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  if (!item) return;
+
+  const tglInput = document.getElementById('input-jadwal-tanggal');
+  const jamInput = document.getElementById('input-jadwal-jam');
+  const catatanInput = document.getElementById('input-jadwal-catatan');
+  const radioOffline = document.querySelector('input[name="radio-metode-wawancara"][value="offline"]');
+  const isOffline = radioOffline && radioOffline.checked;
+
+  const tglVal = tglInput ? tglInput.value : '';
+  const jamVal = jamInput ? jamInput.value : '';
+  const infoVal = catatanInput ? catatanInput.value.trim() : '';
+
+  // Format tanggal ringkas ke format tampilan: "22 Okt, 09:00 WIB"
+  let formattedJadwal = '22 Okt, 09:00 WIB';
+  if (tglVal) {
+    try {
+      const d = new Date(`${tglVal}T${jamVal || '09:00'}:00`);
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+      formattedJadwal = `${d.getDate()} ${monthNames[d.getMonth()]}, ${jamVal || '09:00'} WIB`;
+    } catch (_) {
+      formattedJadwal = `${tglVal}, ${jamVal} WIB`;
+    }
+  }
+
+  const prefixMetode = isOffline ? 'Offline' : 'Online';
+  const defaultLokasi = isOffline ? 'Ruang Lab H.3.1' : 'https://meet.google.com/bengkod-ai-eval';
+  const lokasiFinal = infoVal ? `${prefixMetode} (${infoVal})` : `${prefixMetode} (${defaultLokasi})`;
+
+  item.jadwalWawancara = formattedJadwal;
+  item.lokasiWawancara = lokasiFinal;
+  if (infoVal) {
+    item.catatanWawancara = infoVal;
+  }
+  item.status = 'wawancara';
+
+  alert(`Jadwal wawancara berhasil disimpan!\n\nMahasiswa: ${item.nama}\nJadwal: ${item.jadwalWawancara}\nLokasi / Tautan: ${item.lokasiWawancara}\n\nKandidat kini berpindah ke tab "Wawancara".`);
+
+  closePelamarDetailModal();
   renderPelamarTable();
+}
+
+function submitKeputusanWawancara(statusKeputusan) {
+  if (!activeModalPelamarId) return;
+  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  if (!item) return;
+
+  const inputSkor = document.getElementById('modal-pelamar-input-skor');
+  const inputCatatan = document.getElementById('modal-pelamar-catatan-koor');
+
+  const skorVal = inputSkor ? parseInt(inputSkor.value, 10) : null;
+  const catatanVal = inputCatatan ? inputCatatan.value.trim() : '';
+
+  if (!isNaN(skorVal) && skorVal !== null) {
+    item.nilaiWawancara = skorVal;
+  }
+  if (catatanVal) {
+    item.catatanWawancara = catatanVal;
+  }
+  item.status = statusKeputusan;
+
+  const labelStatus = statusKeputusan === 'diterima' ? 'LOLOS SELEKSI (Diterima)' : 'DITOLAK';
+  alert(`Keputusan wawancara berhasil disimpan!\n\nMahasiswa: ${item.nama}\nKeputusan: ${labelStatus}\nSkor: ${item.nilaiWawancara || '-'}/100\nCatatan: ${item.catatanWawancara || '-'}\n\nKandidat berpindah ke tab "${statusKeputusan === 'diterima' ? 'Diterima' : 'Ditolak'}".`);
+
+  closePelamarDetailModal();
+  renderPelamarTable();
+}
+
+function triggerTranskripFromDetailModal() {
+  if (!activeModalPelamarId) return;
+  lihatTranskripPelamar(activeModalPelamarId);
 }
 
 function tolakPelamar(id) {
