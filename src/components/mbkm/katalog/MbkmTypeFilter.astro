@@ -1,0 +1,64 @@
+---
+// src/components/mbkm/katalog/MbkmTypeFilter.astro
+---
+
+<!-- Switcher Tab Internal vs Eksternal (Mengikuti Desain Typebar Menu Publikasi FTC v2) -->
+<div class="w-full max-w-md mx-auto mb-8">
+  <div
+    class="grid grid-cols-2 gap-2 rounded-xl border border-slate-200/90 bg-slate-100/90 p-1.5 shadow-2xs"
+    role="tablist"
+    aria-label="Filter Jenis Program MBKM"
+  >
+    <button
+      type="button"
+      role="tab"
+      class="type-tab active inline-flex items-center justify-center gap-2 rounded-lg py-2.5 text-xs sm:text-sm font-bold transition-all cursor-pointer bg-[#072f57] text-white shadow-sm hover:text-white"
+      data-type="internal"
+      aria-pressed="true"
+    >
+      <i data-lucide="building-2" class="w-4 h-4"></i>
+      <span>Internal</span>
+    </button>
+    <button
+      type="button"
+      role="tab"
+      class="type-tab inline-flex items-center justify-center gap-2 rounded-lg py-2.5 text-xs sm:text-sm font-semibold text-slate-500 hover:text-[#072f57] hover:bg-white/60 transition-all cursor-pointer"
+      data-type="eksternal"
+      aria-pressed="false"
+    >
+      <i data-lucide="globe-2" class="w-4 h-4"></i>
+      <span>Eksternal</span>
+    </button>
+  </div>
+</div>
+
+<!-- Judul Section Aktif -->
+<div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-200/80">
+  <div class="flex items-center gap-3">
+    <div class="h-6 w-1.5 rounded-full bg-[#f59e0b]"></div>
+    <h2 id="typeTitle" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#072f57]">MBKM Internal</h2>
+  </div>
+</div>
+
+<style>
+  /* Styling Typebar persis menu Publikasi FTC Landing v2 */
+  .type-tab {
+    transition: all 0.2s ease-in-out;
+  }
+  .type-tab.active,
+  .type-tab[aria-pressed="true"] {
+    background-color: #072f57 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  }
+  .type-tab:not(.active):not([aria-pressed="true"]) {
+    color: #64748b !important;
+    background-color: transparent !important;
+    font-weight: 600 !important;
+  }
+  .type-tab:not(.active):not([aria-pressed="true"]):hover {
+    color: #072f57 !important;
+    background-color: rgba(255, 255, 255, 0.65) !important;
+  }
+</style>

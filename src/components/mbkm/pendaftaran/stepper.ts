@@ -26,13 +26,13 @@ function initRegistrationStepper() {
         <div class="flex items-center justify-between gap-3 mb-2">
           <label
             for="attachment-url-${att.id}"
-            class="block text-sm font-semibold text-gray-700"
+            class="block text-sm font-semibold text-slate-700"
           >
             Lampiran ${idx + 1}
           </label>
           <button
             type="button"
-            class="remove-attachment-btn text-gray-400 hover:text-rose-600 transition p-1 rounded-md hover:bg-rose-50 cursor-pointer"
+            class="remove-attachment-btn text-slate-400 hover:text-rose-600 transition p-1.5 rounded-lg hover:bg-rose-50 cursor-pointer"
             title="Hapus Lampiran ${idx + 1}"
             aria-label="Hapus Lampiran ${idx + 1}"
             data-id="${att.id}"
@@ -47,7 +47,7 @@ function initRegistrationStepper() {
           inputmode="url"
           value="${att.value || ""}"
           placeholder="https://drive.google.com/file/d/..."
-          class="attachment-input w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
+          class="attachment-input w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
           data-id="${att.id}"
         />
       </div>

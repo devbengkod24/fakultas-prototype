@@ -1,10 +1,12 @@
 ---
 // src/pages/pendaftaran-mahasiswa.astro
+import FtcNavbar from '../components/common/FtcNavbar.astro';
 import RegistrationStepper from '../components/mbkm/pendaftaran/RegistrationStepper.astro';
 import StepIdentitas from '../components/mbkm/pendaftaran/StepIdentitas.astro';
 import StepDokumen from '../components/mbkm/pendaftaran/StepDokumen.astro';
 import StepKonfirmasi from '../components/mbkm/pendaftaran/StepKonfirmasi.astro';
-import DetailFooter from '../components/mbkm/detail/DetailFooter.astro';
+import FtcFooter from '../components/common/FtcFooter.astro';
+import '../styles/global.css';
 ---
 
 <!doctype html>
@@ -12,53 +14,142 @@ import DetailFooter from '../components/mbkm/detail/DetailFooter.astro';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pendaftaran MBKM — FIK UDINUS</title>
+    <title>Pendaftaran MBKM — FTC UDINUS</title>
     <meta name="description" content="Formulir pendaftaran MBKM FIK UDINUS dengan tiga tahap mandatori." />
+    <link rel="icon" type="image/png" href="/assets/images/logo-dinus.png" />
+
+    <!-- Google Fonts FTC v2: Poppins & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
-    <script is:inline src="https://cdn.tailwindcss.com"></script>
-    <script is:inline>
-      tailwind.config = { theme: { extend: {
-        fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"] },
-        colors: {
-          primary: { 50: "#F1F7FE", 100: "#E2EEFC", 200: "#BFDBF8", 300: "#86BEF3", 400: "#1E7FD9", 500: "#1E7FD9", 600: "#1063B9", 700: "#114D91", 800: "#10447C", 900: "#133A67", 950: "#0D2544" },
-          secondary: { 50: "#FEFAEC", 100: "#FCEEC9", 200: "#F8DB8F", 300: "#F4BD45", 400: "#F2AB2D", 500: "#F3BC45" }
-        }
-      } } };
-    </script>
-    <script is:inline src="https://unpkg.com/lucide@latest"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CDN Browser Token Extension & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" is:inline></script>
+    <script src="https://unpkg.com/lucide@latest" is:inline></script>
+
     <style is:global>
-      body { font-family: Inter, system-ui, sans-serif; }
-      .focus-ring:focus-visible { outline: 2px solid #1e7fd9; outline-offset: 2px; }
-      .step-indicator { transition: all 0.2s ease; color: #6b7280; cursor: pointer; }
-      .step-indicator .step-number { border: 4px solid #fff; background-color: #f3f4f6; color: #6b7280; transition: all 0.25s ease; }
-      .step-indicator.active, .step-indicator.completed { color: #114d91; }
-      .step-indicator.active .step-number, .step-indicator.completed .step-number { background-color: #1063b9; color: #fff; box-shadow: 0 0 0 3px #bfdbfe; }
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* Split-badge utility FTC v2 */
+      .split-badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        max-width: 100%;
+      }
+      .split-badge-left {
+        background-color: #f5a623;
+        color: #072f57;
+        font-weight: 800;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        padding: 0.375rem 0.625rem;
+        flex-shrink: 0;
+        letter-spacing: 0.05em;
+      }
+      .split-badge-right {
+        background-color: #0b4d8c;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        padding: 0.375rem 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        flex-shrink: 0;
+      }
+
+      /* Stepper indicator tokens FTC v2 */
+      .step-indicator {
+        transition: all 0.2s ease;
+        color: #64748b;
+        cursor: pointer;
+      }
+      .step-indicator .step-number {
+        border: 3px solid #ffffff;
+        background-color: #f1f5f9;
+        color: #64748b;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.25s ease;
+      }
+      .step-indicator.active,
+      .step-indicator.completed {
+        color: #072f57;
+        font-weight: 700;
+      }
+      .step-indicator.active .step-number {
+        background-color: #072f57;
+        color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.45);
+      }
+      .step-indicator.completed .step-number {
+        background-color: #0b4d8c;
+        color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(11, 77, 140, 0.25);
+      }
     </style>
   </head>
-  <body class="min-h-screen flex flex-col bg-gray-50 text-gray-900 antialiased">
-    <section class="bg-gradient-to-br from-[#0D2544] via-[#114D91] to-[#1063B9] text-white">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-12 text-center">
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Formulir Pendaftaran</h1>
-        <p class="mt-4 max-w-2xl mx-auto text-sm sm:text-base leading-7 text-blue-100">
+  <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-900">
+    <FtcNavbar activeNav="mbkm" />
+
+    <!-- Hero Header Pendaftaran -->
+    <section class="relative isolate overflow-hidden bg-gradient-to-br from-[#072f57] via-[#083460] to-[#0b4d8c] text-white py-12 sm:py-16">
+      <div
+        class="absolute inset-0 pointer-events-none opacity-10"
+        style="background-image: linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.2) 1px, transparent 1px); background-size: 40px 40px;"
+      ></div>
+      <div class="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-[#f59e0b]/15 blur-3xl"></div>
+      <div class="pointer-events-none absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[#0b4d8c]/35 blur-3xl"></div>
+
+      <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+        <div class="split-badge mb-4">
+          <span class="split-badge-left">PENDAFTARAN</span>
+          <span class="split-badge-right">MBKM FIK UDINUS</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
+          Formulir Pendaftaran
+        </h1>
+        <p class="mt-4 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed text-blue-50/90 font-normal">
           Lengkapi tiga tahap pendaftaran secara berurutan, mulai dari data akademik, pengumpulan portofolio, hingga persetujuan program.
         </p>
       </div>
     </section>
+
     <main class="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="mb-4">
-        <a href="/detail-mbkm" class="focus-ring inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-primary-700 transition-colors group">
-          <i data-lucide="arrow-left" class="w-4 h-4 text-gray-400 group-hover:text-primary-700 group-hover:-translate-x-0.5 transition-all"></i>
+      <div class="mb-6">
+        <a href="/detail-mbkm" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-[#072f57] transition-colors group">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-400 group-hover:text-[#072f57] group-hover:-translate-x-0.5 transition-all"></i>
           <span>Kembali ke Detail Program</span>
         </a>
       </div>
+
       <RegistrationStepper>
         <StepIdentitas />
         <StepDokumen />
         <StepKonfirmasi />
       </RegistrationStepper>
     </main>
-    <DetailFooter />
+
+    <FtcFooter />
+
+    <script is:inline>
+      const renderIcons = () => {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      };
+      renderIcons();
+      document.addEventListener("DOMContentLoaded", renderIcons);
+    </script>
   </body>
 </html>

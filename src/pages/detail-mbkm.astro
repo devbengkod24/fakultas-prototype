@@ -1,5 +1,6 @@
 ---
 // src/pages/detail-mbkm.astro
+import FtcNavbar from '../components/common/FtcNavbar.astro';
 import DetailHero from '../components/mbkm/detail/DetailHero.astro';
 import DetailAbout from '../components/mbkm/detail/DetailAbout.astro';
 import DetailTabs from '../components/mbkm/detail/DetailTabs.astro';
@@ -8,6 +9,7 @@ import DetailShowcase from '../components/mbkm/detail/DetailShowcase.astro';
 import DetailFaq from '../components/mbkm/detail/DetailFaq.astro';
 import DetailFooter from '../components/mbkm/detail/DetailFooter.astro';
 import DetailFloatingDaftar from '../components/mbkm/detail/DetailFloatingDaftar.astro';
+import '../styles/global.css';
 ---
 
 <!doctype html>
@@ -15,47 +17,86 @@ import DetailFloatingDaftar from '../components/mbkm/detail/DetailFloatingDaftar
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detail Program MBKM — FIK UDINUS</title>
+    <title>Detail Program MBKM — FTC UDINUS</title>
     <meta
       name="description"
-      content="Informasi program MBKM, persyaratan, showcase karya, dan pendaftaran mahasiswa FIK UDINUS."
+      content="Informasi program MBKM, persyaratan, showcase karya, dan pendaftaran mahasiswa FTC UDINUS."
     />
+    <link rel="icon" type="image/png" href="/assets/images/logo-dinus.png" />
+
+    <!-- Google Fonts FTC v2: Poppins & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <script is:inline src="https://cdn.tailwindcss.com"></script>
-    <script is:inline>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: { sans: ["Inter", "system-ui", "-apple-system", "sans-serif"] },
-            colors: {
-              primary: { 50: "#F1F7FE", 100: "#E2EEFC", 200: "#BFDBF8", 300: "#86BEF3", 400: "#1E7FD9", 500: "#1E7FD9", 600: "#1063B9", 700: "#114D91", 800: "#10447C", 900: "#133A67", 950: "#0D2544" },
-              secondary: { 50: "#FEFAEC", 100: "#FCEEC9", 200: "#F8DB8F", 300: "#F4BD45", 400: "#F2AB2D", 500: "#F3BC45", 600: "#D0670F" }
-            }
-          }
-        }
-      };
-    </script>
-    <script is:inline src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CDN Browser Token Extension & Lucide Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" is:inline></script>
+    <script src="https://unpkg.com/lucide@latest" is:inline></script>
+
+    <style is:global>
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* Split-badge utility FTC v2 */
+      .split-badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        max-width: 100%;
+      }
+      .split-badge-left {
+        background-color: #f5a623;
+        color: #072f57;
+        font-weight: 800;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        padding: 0.375rem 0.625rem;
+        flex-shrink: 0;
+        letter-spacing: 0.05em;
+      }
+      .split-badge-right {
+        background-color: #0b4d8c;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        padding: 0.375rem 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        flex-shrink: 0;
+      }
+    </style>
   </head>
-  <body class="min-h-screen flex flex-col bg-[#FAFAFA] text-gray-900 antialiased">
-    <DetailHero />
-    <main class="flex-1">
+  <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-900">
+    <FtcNavbar activeNav="mbkm" />
+
+    <main class="flex-1 w-full">
+      <DetailHero />
       <DetailAbout />
       <DetailTabs />
       <DetailTimeline />
       <DetailShowcase />
       <DetailFaq />
     </main>
+
     <DetailFooter />
     <DetailFloatingDaftar />
 
     <script is:inline>
-      const renderIcons = () => { if (typeof lucide !== "undefined") lucide.createIcons(); };
+      const renderIcons = () => {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      };
       renderIcons();
       document.addEventListener("DOMContentLoaded", renderIcons);
     </script>

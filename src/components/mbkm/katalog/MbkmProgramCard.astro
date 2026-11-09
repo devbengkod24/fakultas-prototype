@@ -1,0 +1,79 @@
+---
+// src/components/mbkm/katalog/MbkmProgramCard.astro
+interface Props {
+  title: string;
+  type: 'internal' | 'eksternal';
+  by: string;
+  badge?: string;
+  image: string;
+  desc: string;
+  href?: string;
+  hidden?: boolean;
+}
+
+const {
+  title,
+  type,
+  by,
+  badge,
+  image,
+  desc,
+  href = '/detail-mbkm',
+  hidden = false,
+} = Astro.props;
+---
+
+<article
+  class={`program-card group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-[#0b4d8c]/40 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0b4d8c] cursor-pointer ${
+    hidden ? 'hidden' : ''
+  }`}
+  data-type={type}
+  data-title={title}
+  tabindex="0"
+  role="button"
+  aria-pressed="false"
+>
+  <!-- Bagian Atas: Media & Konten -->
+  <div>
+    <!-- Media Image & Badge -->
+    <div class="relative h-48 sm:h-52 w-full overflow-hidden rounded-xl bg-slate-100">
+      <img
+        src={image}
+        alt={`Cover ${title}`}
+        loading="lazy"
+        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+      />
+      {badge && (
+        <span class="absolute bottom-2.5 right-2.5 inline-flex items-center rounded-lg border border-slate-200/80 bg-white/95 px-2.5 py-1 text-xs font-bold text-[#072f57] shadow-xs backdrop-blur-xs">
+          {badge}
+        </span>
+      )}
+    </div>
+
+    <!-- Info Judul & Author -->
+    <div class="pt-4 pb-2">
+      <h3 class="text-lg sm:text-xl font-bold tracking-tight text-[#072f57] transition-colors group-hover:text-[#0b4d8c]">
+        {title}
+      </h3>
+      <p class="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+        <span>By</span>
+        <span class="text-[#072f57] font-bold">{by}</span>
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-slate-600 line-clamp-3">
+        {desc}
+      </p>
+    </div>
+  </div>
+
+  <!-- Bagian Bawah: Tombol Aksi Detail -->
+  <div class="pt-4 mt-2 border-t border-slate-100">
+    <a
+      href={href}
+      class="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#072f57] px-4 text-center text-sm font-bold text-white shadow-xs transition-all hover:bg-[#0b4d8c]"
+      aria-label={`Lihat detail program ${title}`}
+    >
+      <span>DETAIL</span>
+      <i data-lucide="arrow-right" class="h-4 w-4"></i>
+    </a>
+  </div>
+</article>
