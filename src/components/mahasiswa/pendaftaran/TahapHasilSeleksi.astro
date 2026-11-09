@@ -10,7 +10,9 @@ const { class: className } = Astro.props;
 ---
 
 <div x-show="currentStage === 'hasil'" class={cn("rounded-xl border border-[#E2E8F0] bg-white p-5 sm:p-6 shadow-2xs space-y-6", className)}>
-  <div class="pb-3 border-b border-[#E2E8F0]">
+  <!-- Header Tahap 5: Icon sejajar dengan judul teks -->
+  <div class="pb-3 border-b border-[#E2E8F0] flex items-center gap-2">
+    <i data-lucide="award" class="w-5 h-5 text-[#1E40AF] shrink-0"></i>
     <h3 class="text-base font-semibold text-[#0F172A]">Pengumuman Hasil Seleksi MBKM</h3>
   </div>
 

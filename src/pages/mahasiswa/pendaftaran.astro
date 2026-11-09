@@ -45,22 +45,13 @@ import { mockDaftarFormMBKM } from "../../data/mahasiswa/pendaftaranData";
       dragStart(e, i) { this.draggedIndex = i; e.dataTransfer.effectAllowed = 'move'; },
       dragOver(e, i) { this.isDragOver = i; },
       dragLeave(e, i) { if (this.isDragOver === i) this.isDragOver = null; },
-      dragDrop(e, t) {
-        if (this.draggedIndex === null || this.draggedIndex === t) return;
-        const it = this.priorityPrograms.splice(this.draggedIndex, 1)[0];
-        this.priorityPrograms.splice(t, 0, it);
-        this.draggedIndex = null;
-        this.isDragOver = null;
-      },
+      dragDrop(e, t) { if (this.draggedIndex === null || this.draggedIndex === t) return; const it = this.priorityPrograms.splice(this.draggedIndex, 1)[0]; this.priorityPrograms.splice(t, 0, it); this.draggedIndex = null; this.isDragOver = null; },
       dragEnd(e) { this.draggedIndex = null; this.isDragOver = null; },
-      savePriority() {
-        this.prioritasSaved = true;
-        alert('Urutan prioritas program berhasil disimpan dan disinkronkan ke sistem penempatan!');
-      },
-      saveDokumenProgram(id) {
-        this.editingFormId = null;
-        alert('Dokumen berkas formulir berhasil diperbarui dan disimpan!');
-      }
+      savePriority() { this.prioritasSaved = true; alert('Urutan prioritas program berhasil disimpan!'); },
+      saveDokumenProgram(id) { this.editingFormId = null; alert('Dokumen berkas formulir berhasil diperbarui dan disimpan!'); },
+      canAddLampiran(item) { return !item.isClosed && (!item.dokumen.lampiran || item.dokumen.lampiran.length < 3); },
+      tambahLampiran(item) { if (!item.dokumen.lampiran) item.dokumen.lampiran = []; if (item.dokumen.lampiran.length < 3) { if (this.editingFormId !== item.id) this.editingFormId = item.id; item.dokumen.lampiran.push(''); } },
+      hapusLampiran(item, idx) { if (item.dokumen.lampiran) item.dokumen.lampiran.splice(idx, 1); }
     }`}
   >
     <!-- Header Halaman -->

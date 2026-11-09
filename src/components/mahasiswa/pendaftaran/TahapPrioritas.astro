@@ -10,11 +10,13 @@ const { class: className } = Astro.props;
 ---
 
 <div x-show="currentStage === 'prioritas'" class={cn("rounded-xl border border-[#E2E8F0] bg-white p-5 sm:p-6 shadow-2xs space-y-5", className)}>
+  <!-- Header Tahap 4: Icon sejajar dengan judul teks -->
   <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#E2E8F0] gap-2">
-    <div>
+    <div class="flex items-center gap-2">
+      <i data-lucide="list-ordered" class="w-5 h-5 text-[#1E40AF] shrink-0"></i>
       <h3 class="text-base font-semibold text-[#0F172A]">Urutan Prioritas Program MBKM</h3>
-      <span class="text-xs text-[#64748B]" x-text="prioritasSaved ? 'Status: Terkunci' : 'Tarik item ke atas atau bawah'"></span>
     </div>
+    <span class="text-xs text-[#64748B]" x-text="prioritasSaved ? 'Status: Terkunci' : 'Tarik item ke atas atau bawah'"></span>
   </div>
 
   <!-- Form Pengurutan Prioritas Interaktif (Drag and Drop via HTML5 & Alpine) -->

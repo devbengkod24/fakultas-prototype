@@ -16,8 +16,9 @@ const programVerifications = [
 ---
 
 <div x-show="currentStage === 'berkas'" class={cn("rounded-xl border border-[#E2E8F0] bg-white p-5 sm:p-6 shadow-2xs space-y-5", className)}>
-  <!-- Header Tahap 2 -->
-  <div class="pb-3 border-b border-[#E2E8F0]">
+  <!-- Header Tahap 2: Icon sejajar dengan judul teks -->
+  <div class="pb-3 border-b border-[#E2E8F0] flex items-center gap-2">
+    <i data-lucide="file-check" class="w-5 h-5 text-[#1E40AF] shrink-0"></i>
     <h3 class="text-base font-semibold text-[#0F172A]">Seleksi Berkas & Persyaratan Akademik</h3>
   </div>
 
