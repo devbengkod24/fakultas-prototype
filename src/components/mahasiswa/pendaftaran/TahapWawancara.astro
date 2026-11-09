@@ -18,7 +18,6 @@ const interviewSessions = [
     jam: "09:00 - 09:45 WIB",
     lokasi: "Online (Google Meet)",
     tautan: "https://meet.google.com/bengkod-fik-2025",
-    catatan: "Sesi evaluasi teknis pemrograman dan komitmen magang.",
   },
   {
     id: "idss",
@@ -29,7 +28,6 @@ const interviewSessions = [
     jam: "13:30 - 14:15 WIB",
     lokasi: "Ruang Riset Lab IDSS, Gedung H Lt. 5",
     tautan: "#",
-    catatan: "Review pemahaman dasar machine learning & metodologi riset.",
   },
   {
     id: "dicoding",
@@ -40,7 +38,6 @@ const interviewSessions = [
     jam: "10:00 - 10:45 WIB",
     lokasi: "Online (Zoom Meeting)",
     tautan: "https://zoom.us/j/dicoding-mbkm-interview",
-    catatan: "Evaluasi kesiapan kurikulum belajar mandiri & soft skills.",
   },
 ];
 ---
@@ -48,28 +45,12 @@ const interviewSessions = [
 <div x-show="currentStage === 'wawancara'" class={cn("rounded-xl border border-[#E2E8F0] bg-white p-5 sm:p-6 shadow-2xs space-y-5", className)}>
   <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#E2E8F0] gap-2">
     <div>
-      <h3 class="text-base font-semibold text-[#0F172A]">Tahap 3: Jadwal & Informasi Pelaksanaan Wawancara</h3>
-      <p class="text-sm text-[#64748B] mt-0.5">Mahasiswa yang mendaftar lebih dari 1 program wajib mengikuti seluruh agenda wawancara terdaftar.</p>
-    </div>
-  </div>
-
-  <!-- Alert Konsekuensi / Ketentuan Tidak Ada Reschedule -->
-  <div class="p-4 rounded-lg bg-[#FFFBEB] border border-[#FDE68A] text-[#92400E] flex items-start gap-3">
-    <i data-lucide="alert-triangle" class="w-4 h-4 text-[#F59E0B] shrink-0 mt-0.5"></i>
-    <div class="text-xs space-y-1">
-      <p class="font-semibold text-[#92400E]">Aturan Jadwal Wawancara Koordinator MBKM</p>
-      <p class="text-[#92400E] leading-relaxed">
-        Jadwal wawancara telah diatur dan disinkronkan oleh Koordinator MBKM dengan masing-masing program. Jadwal bersifat tetap dan tidak dapat diajukan perubahan (reschedule).
-      </p>
+      <h3 class="text-base font-semibold text-[#0F172A]">Jadwal & Informasi Pelaksanaan Wawancara</h3>
     </div>
   </div>
 
   <!-- Kartu Sesi Wawancara Per Program -->
   <div class="space-y-4">
-    <div class="flex items-center justify-between">
-      <h4 class="text-sm font-semibold text-[#0F172A]">Agenda Wawancara Terdaftar ({interviewSessions.length} Program)</h4>
-    </div>
-
     <div class="space-y-3">
       {interviewSessions.map((session, idx) => (
         <div class="p-4 rounded-lg border border-[#E2E8F0] bg-[#FFFFFF] hover:border-slate-300 transition-colors space-y-3">
@@ -77,33 +58,44 @@ const interviewSessions = [
             <span class="w-6 h-6 rounded-md bg-[#F1F5F9] text-[#0F172A] text-xs font-semibold flex items-center justify-center shrink-0">
               {idx + 1}
             </span>
-            <div>
-              <h5 class="text-sm font-semibold text-[#0F172A]">{session.nama}</h5>
-              <span class="text-xs text-[#64748B]">{session.subnama} • {session.skema}</span>
-            </div>
+            <h5 class="text-sm font-semibold text-[#0F172A]">{session.nama}</h5>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-[#0F172A]">
-            <div class="space-y-0.5">
-              <span class="text-[#64748B] block text-[11px]">Jadwal & Waktu:</span>
-              <strong class="font-semibold text-[#0F172A] block">{session.hari}</strong>
-              <span class="text-[#64748B]">{session.jam}</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-0.5">
+            <!-- Kolom 1: Jadwal & Waktu -->
+            <div class="space-y-1.5">
+              <span class="text-[#64748B] block text-[11px] font-medium">Jadwal & Waktu:</span>
+              <strong class="font-semibold text-[#0F172A] block text-sm">{session.hari}</strong>
+              <div class="text-[#64748B] flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-[#94A3B8]"></i>
+                <span>{session.jam}</span>
+              </div>
             </div>
-            <div class="space-y-0.5">
-              <span class="text-[#64748B] block text-[11px]">Media / Lokasi:</span>
-              <span class="font-semibold text-[#0F172A] block">{session.lokasi}</span>
-              {session.tautan !== "#" ? (
-                <a href={session.tautan} target="_blank" rel="noopener noreferrer" class="text-[#1E40AF] hover:underline inline-flex items-center gap-1">
-                  <span>Akses Ruang Sesi</span>
-                  <i data-lucide="external-link" class="w-3 h-3"></i>
-                </a>
-              ) : (
-                <span class="text-[#64748B]">Hadir langsung tepat waktu</span>
-              )}
-            </div>
-            <div class="space-y-0.5">
-              <span class="text-[#64748B] block text-[11px]">Keterangan Sesi:</span>
-              <p class="text-[#475569] leading-relaxed">{session.catatan}</p>
+
+            <!-- Kolom 2: Media / Lokasi -->
+            <div class="space-y-2 sm:border-l sm:border-[#E2E8F0] sm:pl-5 flex flex-col justify-between">
+              <div class="space-y-1">
+                <span class="text-[#64748B] block text-[11px] font-medium">Media / Lokasi:</span>
+                <span class="font-semibold text-[#0F172A] block text-sm">{session.lokasi}</span>
+              </div>
+              <div class="pt-0.5">
+                {session.tautan !== "#" ? (
+                  <a
+                    href={session.tautan}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="h-7 px-2.5 rounded-[6px] bg-white border border-[#E2E8F0] hover:bg-[#F8FAFC] hover:border-slate-300 text-[#0F172A] text-xs font-medium inline-flex items-center gap-1.5 transition-colors shadow-2xs self-start"
+                  >
+                    <span>Akses Ruang Sesi</span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-[#64748B]"></i>
+                  </a>
+                ) : (
+                  <span class="text-[#64748B] text-xs flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#94A3B8]"></i>
+                    <span>Hadir langsung tepat waktu di lokasi</span>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -111,21 +103,12 @@ const interviewSessions = [
     </div>
   </div>
 
-  <!-- Banner Transisi ke Prioritas -->
-  <div class="p-4 rounded-lg bg-[#EFF6FF] border border-[#BFDBFE] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-    <div class="flex items-start gap-3">
-      <i data-lucide="info" class="w-4 h-4 text-[#1E40AF] shrink-0 mt-0.5"></i>
-      <div class="text-xs text-[#1E3A8A] space-y-0.5">
-        <p class="font-semibold text-[#1E40AF]">Agenda wawancara telah siap.</p>
-        <p class="text-[#1E3A8A] leading-relaxed">
-          Setelah mengikuti seluruh sesi wawancara, Anda dapat mengatur urutan prioritas program yang paling Anda minati.
-        </p>
-      </div>
-    </div>
+  <!-- Footer Aksi Tahap 3 -->
+  <div class="p-4 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-end">
     <button
       type="button"
       @click="setStage('prioritas')"
-      class="h-9 px-3.5 rounded-[6px] bg-[#1E40AF] hover:bg-[#1E3A8A] text-white text-xs font-medium shrink-0 transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-2xs self-end sm:self-auto"
+      class="h-9 px-4 rounded-[6px] bg-[#1E40AF] hover:bg-[#1E3A8A] text-white text-xs font-medium transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5 shadow-2xs"
     >
       <span>Atur Urutan Prioritas</span>
       <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>

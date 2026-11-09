@@ -4,7 +4,7 @@ export interface FormDokumen {
   cv: string;
   portofolio: string;
   sertifikat: string;
-  surekom: string;
+  lampiran: string[];
 }
 
 export interface FormMBKMItem {
@@ -38,10 +38,13 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isClosed: true,
     noPendaftaran: "REG-BK-2025-0089",
     dokumen: {
-      cv: "CV_AhmadRizky_WebDev.pdf",
+      cv: "https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
       portofolio: "https://github.com/ahmadrizky/fullstack-projects",
-      sertifikat: "Sertifikat_React_NodeJS.pdf",
-      surekom: "SuReKom_DrMuljono_TTE.pdf"
+      sertifikat: "https://drive.google.com/file/d/1f2g3h4i5j_Sertifikat_React_Node/view",
+      lampiran: [
+        "https://drive.google.com/file/d/1k2l3m4n5o_KTM_AhmadRizky/view",
+        "https://drive.google.com/file/d/1p2q3r4s5t_Transkrip_Akademik/view"
+      ]
     }
   },
   {
@@ -58,10 +61,12 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isClosed: false,
     noPendaftaran: "REG-IDSS-2025-0042",
     dokumen: {
-      cv: "CV_AhmadRizky_DataAI.pdf",
+      cv: "https://drive.google.com/file/d/1CxiNVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
       portofolio: "https://github.com/ahmadrizky/ai-dss-paper",
-      sertifikat: "Sertifikat_Python_DataScience.pdf",
-      surekom: "SuReKom_DrMuljono_TTE.pdf"
+      sertifikat: "https://drive.google.com/file/d/1g2h3i4j5k_Sertifikat_Python_DataScience/view",
+      lampiran: [
+        "https://drive.google.com/file/d/1l2m3n4o5p_KTM_AhmadRizky/view"
+      ]
     }
   },
   {
@@ -78,10 +83,10 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isClosed: false,
     noPendaftaran: "REG-DCD-2025-0155",
     dokumen: {
-      cv: "CV_AhmadRizky_SoftwareEng.pdf",
+      cv: "https://drive.google.com/file/d/1DxiOVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
       portofolio: "https://github.com/ahmadrizky/dicoding-submissions",
-      sertifikat: "Sertifikat_Dicoding_MenjadiPengembang.pdf",
-      surekom: "SuReKom_DrMuljono_TTE.pdf"
+      sertifikat: "https://drive.google.com/file/d/1h2i3j4k5l_Sertifikat_Dicoding_MenjadiPengembang/view",
+      lampiran: []
     }
   }
 ];

@@ -1,7 +1,6 @@
 ---
 // src/components/mahasiswa/pendaftaran/TahapPendaftaranReview.astro
 import { cn } from "../../../utils/cn";
-import ReviewIdentitasMahasiswa from "./review/ReviewIdentitasMahasiswa.astro";
 import ReviewFormCard from "./review/ReviewFormCard.astro";
 
 interface Props {
@@ -12,38 +11,14 @@ const { class: className } = Astro.props;
 ---
 
 <div x-show="currentStage === 'pendaftaran'" class={cn("rounded-xl border border-[#E2E8F0] bg-white p-5 sm:p-6 shadow-2xs space-y-6", className)}>
-  <!-- Header Tahap 1 -->
-  <div class="pb-3 border-b border-[#E2E8F0]">
-    <h3 class="text-base font-semibold text-[#0F172A]">Tahap 1: Review Formulir Pendaftaran MBKM</h3>
-    <p class="text-sm text-[#64748B] mt-0.5">Peninjauan 3 formulir pendaftaran yang telah diajukan melalui landing page.</p>
+  <!-- Header Tahap 1: Icon sejajar dengan judul teks -->
+  <div class="pb-3 border-b border-[#E2E8F0] flex items-center gap-2">
+    <i data-lucide="clipboard-list" class="w-5 h-5 text-[#1E40AF] shrink-0"></i>
+    <h3 class="text-base font-semibold text-[#0F172A]">Daftar Formulir Pendaftaran MBKM (<span x-text="daftarFormMBKM.length"></span> Program)</h3>
   </div>
 
-  <!-- Banner Ketentuan Pengeditan Berkas Sesuai Batas Waktu Program -->
-  <div class="p-4 rounded-lg border text-xs leading-relaxed flex items-start gap-3 bg-[#EFF6FF] border-[#BFDBFE] text-[#1E3A8A]">
-    <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5 text-[#1E40AF]"></i>
-    <div class="space-y-1">
-      <p class="font-semibold text-[#1E40AF]">Pembaruan Berkas Pendaftaran Program</p>
-      <p class="text-[#1E3A8A]">Data identitas diri dan program MBKM yang dipilih telah terkunci permanen dan tidak dapat diubah. Anda hanya dapat mengedit dokumen berkas persyaratan yang dikirimkan sesuai batas tanggal penutupan pendaftaran masing-masing program MBKM.</p>
-    </div>
-  </div>
-
-  <!-- Identitas Mahasiswa (Read-only) -->
-  <ReviewIdentitasMahasiswa />
-
-  <!-- Daftar Formulir Program (3 MBKM Terdaftar) -->
-  <div class="space-y-3 pt-1">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-      <div>
-        <h4 class="text-sm font-semibold text-[#0F172A] flex items-center gap-1.5">
-          <i data-lucide="clipboard-list" class="w-4 h-4 text-[#1E40AF]"></i>
-          <span>Daftar Formulir Pendaftaran MBKM (<span x-text="daftarFormMBKM.length"></span> Program)</span>
-        </h4>
-      </div>
-    </div>
-
-    <!-- Render Kartu Formulir Pendaftaran MBKM Masing-Masing -->
-    <ReviewFormCard />
-  </div>
+  <!-- Render Kartu Formulir Pendaftaran MBKM Masing-Masing -->
+  <ReviewFormCard />
 
   <!-- Footer Aksi Tahap 1 -->
   <div class="p-4 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-end">

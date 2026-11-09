@@ -19,10 +19,11 @@ import { mockDaftarFormMBKM } from "../../data/mahasiswa/pendaftaranData";
 >
   <div
     class="w-full space-y-6"
+    @mahasiswa-hasil-changed.window="hasilSubState = $event.detail.hasil"
     x-data={`{
       currentStage: new URLSearchParams(window.location.search).get('stage') || 'pendaftaran',
       selectedProgram: new URLSearchParams(window.location.search).get('program') || null,
-      hasilSubState: new URLSearchParams(window.location.search).get('status') === 'belum_lolos' ? 'belum_lolos' : 'lolos',
+      hasilSubState: (new URLSearchParams(window.location.search).get('status') === 'belum_lolos') ? 'belum_lolos' : (localStorage.getItem('fik_mahasiswa_sim_hasil') || 'lolos'),
       prioritasSaved: false,
       stages: ['pendaftaran', 'berkas', 'wawancara', 'prioritas', 'hasil'],
       priorityPrograms: [
