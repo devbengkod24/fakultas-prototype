@@ -56,9 +56,9 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     actionButton: '',
   },
   'mhs-pelamar': {
-    label: 'Mahasiswa / Pendaftar',
-    title: 'Daftar Pengajuan Mahasiswa Pendaftar',
-    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM kontributor eksternal.',
+    label: 'Mahasiswa / Pelamar MBKM',
+    title: 'Daftar Pengajuan Pelamar MBKM',
+    subtitle: 'Berikut ini adalah daftar semua pengajuan pelamar mahasiswa ke program MBKM kontributor eksternal.',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
   },
   'mhs-rekomendasi': {
@@ -463,7 +463,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   ]}
                 >
                   <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-pelamar' ? '' : 'hidden']}></span>
-                  <span>Pendaftar</span>
+                  <span>Pelamar MBKM</span>
                 </a>
                 <a
                   href="/koordinator/surekom"
