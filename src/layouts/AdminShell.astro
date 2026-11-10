@@ -807,8 +807,8 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
     </script>
 
     <!-- Script Standar: Mock Data & Controller (2 File JS) -->
-    <script is:inline src="/admin/_mock-data.js"></script>
-    <script is:inline src="/admin/_controller.js"></script>
+    <script is:inline src={`/admin/_mock-data.js?v=${Date.now()}`}></script>
+    <script is:inline src={`/admin/_controller.js?v=${Date.now()}`}></script>
 
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {

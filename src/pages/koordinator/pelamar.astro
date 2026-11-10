@@ -14,61 +14,61 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
 <div class="space-y-4">
   <!-- Status Tabs Row: 5 Tab Status (Berkas, Wawancara, Diterima, Ditolak, Dibatalkan) -->
-  <div class="border-b border-[#E2E8F0] mb-2 flex items-center justify-between gap-4">
+  <div class="border-b border-[#e4e4e7] mb-2 flex items-center justify-between gap-4">
     <div class="flex items-center gap-6 overflow-x-auto pb-0">
       <button
         type="button"
         id="tab-pendaftar-berkas"
         onclick="switchPendaftarStatusTab('berkas')"
-        class="flex items-center gap-2 pb-3 text-sm font-semibold border-b-2 border-[#1E40AF] text-[#1E40AF] transition-colors cursor-pointer shrink-0"
+        class="flex items-center gap-2 pb-3 text-sm font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors cursor-pointer shrink-0"
       >
         <i data-lucide="file-check" class="w-4 h-4"></i>
         <span>Berkas</span>
-        <span id="badge-count-pendaftar-berkas" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-[#1E40AF]">0</span>
+        <span id="badge-count-pendaftar-berkas" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-[#0655a7]">0</span>
       </button>
 
       <button
         type="button"
         id="tab-pendaftar-wawancara"
         onclick="switchPendaftarStatusTab('wawancara')"
-        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer shrink-0"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
       >
         <i data-lucide="message-square" class="w-4 h-4"></i>
         <span>Wawancara</span>
-        <span id="badge-count-pendaftar-wawancara" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-50 text-[#F59E0B]">0</span>
+        <span id="badge-count-pendaftar-wawancara" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-50 text-amber-700">0</span>
       </button>
 
       <button
         type="button"
         id="tab-pendaftar-diterima"
         onclick="switchPendaftarStatusTab('diterima')"
-        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer shrink-0"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
       >
         <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-        <span>Diterima</span>
-        <span id="badge-count-pendaftar-diterima" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-[#10B981]">0</span>
+        <span>Penerima</span>
+        <span id="badge-count-pendaftar-diterima" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700">0</span>
       </button>
 
       <button
         type="button"
         id="tab-pendaftar-ditolak"
         onclick="switchPendaftarStatusTab('ditolak')"
-        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer shrink-0"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
       >
         <i data-lucide="x-circle" class="w-4 h-4"></i>
         <span>Ditolak</span>
-        <span id="badge-count-pendaftar-ditolak" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-rose-50 text-[#EF4444]">0</span>
+        <span id="badge-count-pendaftar-ditolak" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-rose-50 text-rose-700">0</span>
       </button>
 
       <button
         type="button"
         id="tab-pendaftar-dibatalkan"
         onclick="switchPendaftarStatusTab('dibatalkan')"
-        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#64748B] hover:text-[#0F172A] transition-colors cursor-pointer shrink-0"
+        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
       >
         <i data-lucide="ban" class="w-4 h-4"></i>
         <span>Dibatalkan</span>
-        <span id="badge-count-pendaftar-dibatalkan" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-700">0</span>
+        <span id="badge-count-pendaftar-dibatalkan" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-zinc-100 text-zinc-700">0</span>
       </button>
     </div>
 
@@ -78,10 +78,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
         type="button"
         onclick="exportDataPelamar()"
         id="btn-export-pelamar"
-        class="inline-flex items-center gap-2 h-8 px-3 text-xs font-medium rounded-md border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] text-[#0F172A] transition-colors shadow-none cursor-pointer"
+        class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors shadow-none cursor-pointer"
         title="Export Data Pendaftar ke Excel"
       >
-        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+        <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
         <span>Export Excel</span>
       </button>
     </div>
@@ -90,14 +90,14 @@ import AdminShell from '../../layouts/AdminShell.astro';
   <!-- Filter & Search Toolbar (Sesuai Gambar Pengajuan Mahasiswa) -->
   <div class="mb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
     <!-- Search Box -->
-    <div class="relative w-full lg:w-96">
-      <i data-lucide="search" class="w-4 h-4 text-[#64748B] absolute left-3 top-1/2 -translate-y-1/2"></i>
+    <div class="relative w-full sm:w-72 md:w-80">
+      <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
       <input
         type="text"
         id="search-pelamar"
         oninput="handleSearchPelamar(this.value)"
         placeholder="Cari berdasarkan nama, NIM, atau judul..."
-        class="h-9 w-full rounded-md border border-[#E2E8F0] bg-white pl-9 pr-3 text-sm text-[#0F172A] placeholder:text-[#64748B] focus:outline-none focus:ring-1 focus:ring-[#1E40AF]"
+        class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
       />
     </div>
 
@@ -107,7 +107,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
       <select
         id="select-pendaftar-view"
         onchange="switchPendaftarViewMode(this.value)"
-        class="h-9 px-3 rounded-md border border-[#E2E8F0] bg-white text-xs font-medium text-[#0F172A] focus:outline-none focus:ring-1 focus:ring-[#1E40AF] cursor-pointer"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
       >
         <option value="kartu" selected>⊞ Kartu</option>
         <option value="tabel">☰ Tabel</option>
@@ -117,7 +117,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
       <select
         id="select-pendaftar-sort"
         onchange="handleSortPendaftar(this.value)"
-        class="h-9 px-3 rounded-md border border-[#E2E8F0] bg-white text-xs font-medium text-[#0F172A] focus:outline-none focus:ring-1 focus:ring-[#1E40AF] cursor-pointer"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
       >
         <option value="terbaru" selected>⏱ Terbaru</option>
         <option value="ipk-tinggi">🎖 IPK Tertinggi</option>
@@ -128,24 +128,53 @@ import AdminShell from '../../layouts/AdminShell.astro';
       <select
         id="filter-pelamar-kontributor"
         onchange="handleFilterPelamarKontributor(this.value)"
-        class="h-9 px-3 rounded-md border border-[#E2E8F0] bg-white text-xs font-medium text-[#0F172A] focus:outline-none focus:ring-1 focus:ring-[#1E40AF] cursor-pointer"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
       >
-        <option value="semua">Semua Kontributor</option>
-        <option value="eksternal" selected>Kontributor Eksternal (Koordinator)</option>
-        <option value="internal">Kontributor Internal (Read-Only)</option>
-        <option value="Dicoding Indonesia">Dicoding Indonesia</option>
-        <option value="Bangkit Academy">Bangkit Academy</option>
-        <option value="PT Telkom Indonesia">PT Telkom Indonesia</option>
-        <option value="Bengkel Koding">Bengkel Koding</option>
-        <option value="Ryuje Tech Studio">Ryuje Tech Studio</option>
-        <option value="IDSS Laboratory">IDSS Laboratory</option>
+        <option value="semua" selected>Semua Program & Kontributor</option>
+        <optgroup label="Kategori Kontributor">
+          <option value="internal">Kontributor Internal (Bengkel Koding, Riset Lab, dll)</option>
+          <option value="eksternal">Kontributor Eksternal (Industri & Sekolah)</option>
+        </optgroup>
+        <optgroup label="Program MBKM">
+          <option value="Studi Independen">1. Studi Independen</option>
+          <option value="Riset bersama Bidang Kajian">2. Riset bersama Bidang Kajian</option>
+          <option value="PPKOrmawa">3. PPKOrmawa</option>
+          <option value="Joint Project">4. Joint Project</option>
+          <option value="Industrial Visit ke Luar Negri">5. Industrial Visit ke Luar Negri</option>
+          <option value="Kuliah Kerja Usaha">6. Kuliah Kerja Usaha</option>
+          <option value="Magang Kuliah Kerja Industri">7. Magang Kuliah Kerja Industri</option>
+          <option value="Magang Berdampak di Sekolah">8. Magang Berdampak di Sekolah</option>
+          <option value="Bengkel Koding">9. Bengkel Koding</option>
+          <option value="Student Mobility ke UGM">10. Student Mobility ke UGM</option>
+        </optgroup>
+        <optgroup label="Mitra / Kontributor Spesifik">
+          <option value="Dicoding Asah">Dicoding Asah</option>
+          <option value="Vinix">Vinix</option>
+          <option value="Lab IntSys">Lab IntSys</option>
+          <option value="IDSS">IDSS</option>
+          <option value="Matics">Matics</option>
+          <option value="PPKOrmawa">PPKOrmawa</option>
+          <option value="Joint Project">Joint Project</option>
+          <option value="Industrial Visit ke Luar Negri">Industrial Visit ke Luar Negri</option>
+          <option value="Kuliah Kerja Usaha">Kuliah Kerja Usaha</option>
+          <option value="BTIK">BTIK</option>
+          <option value="PT. Lumintu Sejahtera Mandiri">PT. Lumintu Sejahtera Mandiri</option>
+          <option value="PT. Happy Dining (OTI)">PT. Happy Dining (OTI)</option>
+          <option value="PT. Panorama Indah Permai (Saloka)">PT. Panorama Indah Permai (Saloka)</option>
+          <option value="The Grandia Group">The Grandia Group</option>
+          <option value="Balai Pengembangan Mutu Pembelajaran dan Teknologi Pendidikan (BPMPTP) Dinas Pendidikan Jawa Tengah">BPMPTP Disdik Jateng</option>
+          <option value="SMA N 1 Semarang">SMA N 1 Semarang</option>
+          <option value="SMA Mardisiswa Semarang">SMA Mardisiswa Semarang</option>
+          <option value="Bengkel Koding">Bengkel Koding</option>
+          <option value="Student Mobility ke UGM">Student Mobility ke UGM</option>
+        </optgroup>
       </select>
 
       <!-- Filter Program Studi / Bidang -->
       <select
         id="filter-pelamar-prodi"
         onchange="handleFilterPelamarProdi(this.value)"
-        class="h-9 px-3 rounded-md border border-[#E2E8F0] bg-white text-xs font-medium text-[#0F172A] focus:outline-none focus:ring-1 focus:ring-[#1E40AF] cursor-pointer"
+        class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
       >
         <option value="semua" selected>Semua Bidang / Prodi</option>
         <option value="S1 Teknik Informatika">S1 Teknik Informatika</option>
@@ -161,32 +190,33 @@ import AdminShell from '../../layouts/AdminShell.astro';
   </div>
 
   <!-- Container Tampilan Tabel (Sesuai DataTable Standar) -->
-  <div id="pendaftar-table-container" class="rounded-lg border border-[#E2E8F0] overflow-hidden bg-white hidden">
+  <div id="pendaftar-table-container" class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white hidden">
     <table class="w-full text-sm">
-      <thead id="pelamar-table-thead" class="border-b border-[#E2E8F0] bg-[#F8FAFC]">
+      <thead id="pelamar-table-thead" class="border-b border-[#e4e4e7] bg-[#fafafa]">
         <tr id="tr-thead-pelamar">
-          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#475569]">No.</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Program & Kontributor MBKM</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#475569]">Akademik</th>
-          <th id="th-pelamar-aksi" class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#475569]">Aksi</th>
+          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Akademik</th>
+          <th id="th-pelamar-aksi" class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
         </tr>
       </thead>
-      <tbody id="pelamar-table-tbody" class="divide-y divide-[#E2E8F0]">
+      <tbody id="pelamar-table-tbody" class="divide-y divide-[#e4e4e7]">
         <!-- Populated dynamically via renderPelamarTable() -->
       </tbody>
     </table>
   </div>
 
   <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
-  <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 text-xs text-[#64748B]">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1 text-xs text-[#71717a]">
     <div id="pelamar-table-info">Menampilkan pendaftar</div>
     <div class="flex items-center gap-1.5">
       <div id="pelamar-pagination-controls" class="flex items-center gap-1.5"></div>
       <select
         id="pelamar-per-page"
         onchange="handlePelamarPerPageChange(this.value)"
-        class="h-8 rounded-md border border-[#E2E8F0] bg-white px-2 text-xs text-[#0F172A] focus:outline-none focus:ring-1 focus:ring-[#1E40AF] cursor-pointer"
+        class="h-8 rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
       >
         <option value="5">Show 5 items</option>
         <option value="10" selected>Show 10 items</option>

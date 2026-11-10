@@ -1555,6 +1555,7 @@ const kontributorCmsDataMap = {
 };
 
 let pelamarListData = [
+  // 1. Studi Independen - Dicoding Asah (eksternal, berkas)
   {
     id: 1,
     nama: 'Muhammad Hafizh Izzuddin',
@@ -1563,32 +1564,33 @@ let pelamarListData = [
     noHp: '0882003419451',
     foto: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=256',
     prodi: 'S1 Teknik Informatika',
-    kontributor: 'Dicoding Indonesia',
+    kontributor: 'Dicoding Asah',
     kategoriKontributor: 'eksternal',
-    program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing',
+    program: 'Studi Independen',
     status: 'berkas',
     ipk: '3.82',
     sksLulus: 114,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Projek ini merancang infrastruktur cloud native untuk microservices menggunakan Infrastructure as Code (IaC). Fokusnya pada otomatisasi deployment, auto-scaling, serta peningkatan keandalan dan efisiensi biaya operasional aplikasi.',
+    deskripsi: 'Fokus pada pengembangan kapabilitas Artificial Intelligence Engineer dan arsitektur cloud microservices dengan otomatisasi deployment CI/CD.',
     matkulDiambil: [
       { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
       { kode: 'A11.54802', nama: 'Proyek Perangkat Lunak Terapan', sks: 6 },
       { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
     ],
-    minat: ['Cloud Computing', 'DevOps'],
+    minat: ['Cloud Computing', 'AI Engineering'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
     pilihanProgram: [
-      { prioritas: 1, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing' },
-      { prioritas: 2, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' },
-      { prioritas: 3, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense' }
+      { prioritas: 1, mitra: 'Dicoding Asah', program: 'Studi Independen' },
+      { prioritas: 2, mitra: 'Vinix', program: 'Studi Independen' },
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding' }
     ],
     tanggalPengajuan: 'Kamis, 24 September 2026, 17:33'
   },
+  // 2. Bengkel Koding (internal, berkas)
   {
     id: 2,
     nama: 'Adhitya Nugraha',
@@ -1597,31 +1599,33 @@ let pelamarListData = [
     noHp: '081298765432',
     foto: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&q=80&w=256',
     prodi: 'S1 Teknik Informatika',
-    kontributor: 'Bangkit Academy',
-    kategoriKontributor: 'eksternal',
-    program: 'Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort',
+    kontributor: 'Bengkel Koding',
+    kategoriKontributor: 'internal',
+    program: 'Bengkel Koding',
     status: 'berkas',
     ipk: '3.75',
     sksLulus: 108,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Fokus pada pengembangan model deep learning computer vision untuk deteksi anomali pada citra satelit dan deployment model ke arsitektur mobile edge menggunakan TensorFlow Lite.',
+    deskripsi: 'Pengembangan modul web fullstack modern berbasis Next.js dan REST API untuk otomasi sistem administrasi akademik fakultas.',
     matkulDiambil: [
       { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
-      { kode: 'A11.54804', nama: 'Machine Learning Lanjut', sks: 6 },
-      { kode: 'A11.54805', nama: 'Deep Learning Terapan', sks: 6 }
+      { kode: 'A11.54804', nama: 'Pemrograman Web Berbasis Komponen', sks: 6 },
+      { kode: 'A11.54805', nama: 'Rekayasa Perangkat Lunak Terapan', sks: 6 }
     ],
-    minat: ['Machine Learning', 'Computer Vision'],
+    minat: ['Fullstack Web', 'Next.js'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
     pilihanProgram: [
-      { prioritas: 1, mitra: 'Bangkit Academy', program: 'Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort' },
-      { prioritas: 2, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing' }
+      { prioritas: 1, mitra: 'Bengkel Koding', program: 'Bengkel Koding' },
+      { prioritas: 2, mitra: 'Dicoding Asah', program: 'Studi Independen' },
+      { prioritas: 3, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' }
     ],
     tanggalPengajuan: 'Jumat, 25 September 2026, 09:15'
   },
+  // 3. Riset bersama Bidang Kajian - IDSS (internal, wawancara)
   {
     id: 3,
     nama: 'Anindya Putri Maharani',
@@ -1630,266 +1634,669 @@ let pelamarListData = [
     noHp: '082155443322',
     foto: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=256',
     prodi: 'S1 Sistem Informasi',
-    kontributor: 'PT Telkom Indonesia',
-    kategoriKontributor: 'eksternal',
-    program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst',
+    kontributor: 'IDSS',
+    kategoriKontributor: 'internal',
+    program: 'Riset bersama Bidang Kajian',
     status: 'wawancara',
     jadwalWawancara: '22 Okt, 09:00 WIB',
-    lokasiWawancara: 'Google Meet (meet.google.com/bengkod-ai-eval)',
-    nilaiWawancara: 85,
-    catatanWawancara: 'Kandidat memiliki pemahaman proses bisnis yang tajam dan kesiapan magang industri tinggi.',
+    lokasiWawancara: 'Lab IDSS Gedung H Lantai 3 (H.3.2)',
+    nilaiWawancara: 88,
+    catatanWawancara: 'Kandidat memiliki pemahaman algoritma optimasi dan decision tree sangat baik, siap untuk riset terapan sistem pendukung keputusan.',
     ipk: '3.88',
     sksLulus: 118,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Analisis rekayasa proses bisnis enterprise dan perancangan arsitektur data warehouse untuk mendukung sistem intelijen bisnis pemantauan performa layanan telekomunikasi regional.',
+    deskripsi: 'Analisis rekayasa proses bisnis enterprise dan perancangan model SPK cerdas berbasis data mining untuk evaluasi performa akademik.',
     matkulDiambil: [
       { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
       { kode: 'A12.54802', nama: 'Business Intelligence & Big Data', sks: 6 },
       { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
     ],
-    minat: ['Business Analysis', 'Data Warehouse'],
+    minat: ['Business Analysis', 'Data Mining'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
     pilihanProgram: [
-      { prioritas: 1, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst' },
-      { prioritas: 2, mitra: 'PT Matic Edukasi Mandiri', program: 'Matic Edukasi — EduTech System & LMS Platform Engineering' },
-      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' }
+      { prioritas: 1, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' },
+      { prioritas: 2, mitra: 'Matics', program: 'Riset bersama Bidang Kajian' },
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding' }
     ],
     tanggalPengajuan: 'Senin, 28 September 2026, 14:20'
   },
+  // 4. Studi Independen - Vinix (eksternal, berkas)
   {
     id: 4,
-    nama: 'Fauzan Akbar Rabbani',
-    nim: 'A11.2021.13902',
-    email: '111202113902@mhs.dinus.ac.id',
+    nama: 'Bagas Dwi Wicaksono',
+    nim: 'A11.2021.13204',
+    email: '111202113204@mhs.dinus.ac.id',
     noHp: '085712345678',
     foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=256',
     prodi: 'S1 Teknik Informatika',
-    kontributor: 'Dicoding Indonesia',
+    kontributor: 'Vinix',
     kategoriKontributor: 'eksternal',
-    program: 'Dicoding ASAH 2026 — Multi-Platform Web & Mobile App Engineering',
-    status: 'wawancara',
-    jadwalWawancara: '22 Okt, 10:30 WIB',
-    lokasiWawancara: 'Lab H.3.1 Gedung FIK UDINUS',
-    nilaiWawancara: 80,
-    catatanWawancara: 'Portofolio Flutter komprehensif, perlu pendalaman pada aspek state management bloc.',
-    ipk: '3.65',
-    sksLulus: 98,
-    semester: 'Semester 5',
-    semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Membangun aplikasi mobile cross-platform berbasis Flutter terintegrasi microservice backend Node.js dan PostgreSQL dengan pengujian unit test dan pipeline CI/CD otomatis.',
-    matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
-      { kode: 'A11.54806', nama: 'Pemrograman Mobile Framework', sks: 6 },
-      { kode: 'A11.54807', nama: 'Arsitektur Perangkat Lunak', sks: 6 }
-    ],
-    minat: ['Mobile Development', 'Flutter'],
-    links: [
-      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
-    ],
-    // Simulasi: Sedang dievaluasi untuk program Prioritas 2 (Dicoding ASAH)
-    pilihanProgram: [
-      { prioritas: 1, mitra: 'Bangkit Academy', program: 'Bangkit Academy 2026 by Google, GoTo, Traveloka — Machine Learning Cohort' },
-      { prioritas: 2, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Multi-Platform Web & Mobile App Engineering' },
-      { prioritas: 3, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense' }
-    ],
-    tanggalPengajuan: 'Selasa, 29 September 2026, 11:05'
-  },
-  {
-    id: 5,
-    nama: 'Budi Santoso',
-    nim: 'A11.2021.13201',
-    email: '111202113201@mhs.dinus.ac.id',
-    noHp: '081324567890',
-    foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=256',
-    prodi: 'S1 Teknik Informatika',
-    kontributor: 'Bengkel Koding',
-    kategoriKontributor: 'internal',
-    program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak',
+    program: 'Studi Independen',
     status: 'berkas',
-    ipk: '3.70',
-    sksLulus: 104,
-    semester: 'Semester 5',
-    semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan modul e-commerce terintegrasi payment gateway dan webhook otomatis untuk UMKM binaan kampus FIK.',
-    matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
-      { kode: 'A11.54802', nama: 'Proyek Perangkat Lunak Terapan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
-    ],
-    minat: ['Fullstack Web', 'Laravel & React'],
-    links: [
-      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
-    ],
-    // Simulasi: Sedang dievaluasi untuk program Prioritas 3 (Bengkel Koding)
-    pilihanProgram: [
-      { prioritas: 1, mitra: 'Dicoding Indonesia', program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing' },
-      { prioritas: 2, mitra: 'Bangkit Academy', program: 'Bangkit Academy 2026 — Cloud Computing Track' },
-      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' }
-    ],
-    tanggalPengajuan: 'Rabu, 30 September 2026, 16:45'
-  },
-  {
-    id: 6,
-    nama: 'Siti Aminah',
-    nim: 'A12.2022.06543',
-    email: '112202206543@mhs.dinus.ac.id',
-    noHp: '087811223344',
-    foto: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=256',
-    prodi: 'S1 Sistem Informasi',
-    kontributor: 'PT Matic Edukasi Mandiri',
-    kategoriKontributor: 'internal',
-    program: 'Matic Edukasi — EduTech System & LMS Platform Engineering',
-    status: 'berkas',
-    ipk: '3.62',
-    sksLulus: 92,
-    semester: 'Semester 5',
-    semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan fitur gamifikasi dan interactive quiz real-time berbasis WebSockets pada aplikasi pembelajaran daring.',
-    matkulDiambil: [
-      { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
-      { kode: 'A12.54804', nama: 'Pengembangan Aplikasi Web Lanjut', sks: 6 },
-      { kode: 'A12.54805', nama: 'Interaksi Manusia dan Komputer', sks: 6 }
-    ],
-    minat: ['Frontend', 'Edutech'],
-    links: [
-      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
-    ],
-    // Simulasi: Sedang dievaluasi untuk program Prioritas 2 (Matic Edukasi)
-    pilihanProgram: [
-      { prioritas: 1, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst' },
-      { prioritas: 2, mitra: 'PT Matic Edukasi Mandiri', program: 'Matic Edukasi — EduTech System & LMS Platform Engineering' },
-      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding Batch 6 — Jalur Asistensi Project Perangkat Lunak' }
-    ],
-    tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10'
-  },
-  {
-    id: 7,
-    nama: 'Rizky Pratama',
-    nim: 'A15.2021.01988',
-    email: '115202101988@mhs.dinus.ac.id',
-    noHp: '089677889900',
-    foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=256',
-    prodi: 'S1 DKV',
-    kontributor: 'Ryuje Tech Studio',
-    kategoriKontributor: 'internal',
-    program: 'Ryuje Studio — 3D Asset Design & Interactive Animation',
-    status: 'ditolak',
-    catatanWawancara: 'Formasi 3D Modeling telah terpenuhi, portfolio diarahkan ke re-apply batch berikutnya.',
-    sksLulus: 106,
-    semester: 'Semester 5',
-    semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pembuatan aset karakter 3D low-poly dan animasi mekanik interaktif untuk aplikasi edukasi virtual reality kampus.',
-    matkulDiambil: [
-      { kode: 'A15.54801', nama: 'Proyek Desain Komunikasi MBKM', sks: 8 },
-      { kode: 'A15.54802', nama: 'Animasi 3D Karakter', sks: 6 },
-      { kode: 'A15.54803', nama: 'Desain Interaktif & VR', sks: 6 }
-    ],
-    minat: ['3D Modeling', 'Blender'],
-    links: [
-      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
-    ],
-    // Simulasi: Sedang dievaluasi untuk program Prioritas 3 (Ryuje Studio)
-    pilihanProgram: [
-      { prioritas: 1, mitra: 'PT Telkom Indonesia', program: 'Digital Amoeba Telkom — Business Process Digitalization & IT Analyst' },
-      { prioritas: 2, mitra: 'PT Matic Edukasi Mandiri', program: 'Matic Edukasi — EduTech System & LMS Platform Engineering' },
-      { prioritas: 3, mitra: 'Ryuje Tech Studio', program: 'Ryuje Studio — 3D Asset Design & Interactive Animation' }
-    ],
-    tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30'
-  },
-  {
-    id: 8,
-    nama: 'Nabila Putri Cahyani',
-    nim: 'A12.2022.06712',
-    email: '112202206712@mhs.dinus.ac.id',
-    noHp: '081233445566',
-    foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=256',
-    prodi: 'S1 Sistem Informasi',
-    kontributor: 'Dicoding Indonesia',
-    kategoriKontributor: 'eksternal',
-    program: 'Dicoding ASAH 2026 — Artificial Intelligence & Cloud Computing',
-    status: 'diterima',
-    ipk: '3.91',
-    sksLulus: 116,
-    semester: 'Semester 5',
-    semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan data pipeline ETL dan dashboard visualisasi performa model analitik berbasis cloud BigQuery.',
-    matkulDiambil: [
-      { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
-      { kode: 'A12.54802', nama: 'Business Intelligence & Big Data', sks: 6 },
-      { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
-    ],
-    minat: ['Data Engineering', 'BigQuery'],
-    links: [
-      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
-    ],
-    tanggalPengajuan: 'Senin, 21 September 2026, 08:30'
-  },
-  {
-    id: 9,
-    nama: 'Farhan Maulana',
-    nim: 'A11.2021.13880',
-    email: '111202113880@mhs.dinus.ac.id',
-    noHp: '082244668800',
-    foto: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=256',
-    prodi: 'S1 Teknik Informatika',
-    kontributor: 'Bangkit Academy',
-    kategoriKontributor: 'eksternal',
-    program: 'Bangkit Academy 2026 — Cloud Computing Track',
-    status: 'diterima',
-    ipk: '3.80',
+    ipk: '3.68',
     sksLulus: 110,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Implementasi arsitektur serverless microservices di Google Cloud Platform menggunakan Cloud Run dan Firestore.',
+    deskripsi: 'Mendalami perancangan sistem keamanan jaringan cyber security, penetration testing web, dan implementasi secure authentication protocols.',
     matkulDiambil: [
       { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
-      { kode: 'A11.54802', nama: 'Proyek Perangkat Lunak Terapan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
+      { kode: 'A11.54806', nama: 'Keamanan Jaringan & Sistem', sks: 6 },
+      { kode: 'A11.54807', nama: 'Forensik Digital', sks: 6 }
     ],
-    minat: ['Cloud Architecture', 'GCP'],
+    minat: ['Cyber Security', 'Network Defense'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
-    tanggalPengajuan: 'Selasa, 22 September 2026, 14:00'
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Vinix', program: 'Studi Independen' },
+      { prioritas: 2, mitra: 'Dicoding Asah', program: 'Studi Independen' }
+    ],
+    tanggalPengajuan: 'Selasa, 29 September 2026, 11:05'
   },
+  // 5. Studi Independen - Lab IntSys (internal, berkas)
   {
-    id: 10,
-    nama: 'Dimas Anggara Kusuma',
-    nim: 'A11.2020.12908',
-    email: '111202012908@mhs.dinus.ac.id',
-    noHp: '081399887766',
-    foto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=256',
+    id: 5,
+    nama: 'Clarissa Aurelia',
+    nim: 'A11.2022.14102',
+    email: '111202214102@mhs.dinus.ac.id',
+    noHp: '081324567890',
+    foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256',
     prodi: 'S1 Teknik Informatika',
-    kontributor: 'PT Telkom Indonesia',
-    kategoriKontributor: 'eksternal',
-    program: 'Digital Amoeba Telkom — Cloud Infrastructure & Cyber Defense',
-    status: 'dibatalkan',
-    alasanBatal: 'Kandidat mengundurkan diri karena diterima pada program lain.',
-    sksLulus: 76,
+    kontributor: 'Lab IntSys',
+    kategoriKontributor: 'internal',
+    program: 'Studi Independen',
+    status: 'berkas',
+    ipk: '3.91',
+    sksLulus: 102,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pendaftaran belum memenuhi batas ambang minimal IPK 3.00 dan SKS lulus 80 SKS sesuai regulasi MBKM.',
+    deskripsi: 'Eksplorasi model deep learning generative, reinforcement learning untuk otomasi cerdas, dan computer vision berbasis edge computing.',
     matkulDiambil: [
       { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
-      { kode: 'A11.54802', nama: 'Proyek Perangkat Lunak Terapan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
+      { kode: 'A11.54802', nama: 'Kecerdasan Buatan Terapan', sks: 6 },
+      { kode: 'A11.54803', nama: 'Deep Learning & Neural Network', sks: 6 }
     ],
-    minat: ['Cyber Security', 'Network'],
+    minat: ['Deep Learning', 'Computer Vision'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
       { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
     ],
-    tanggalPengajuan: 'Rabu, 23 September 2026, 11:20'
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Lab IntSys', program: 'Studi Independen' },
+      { prioritas: 2, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' }
+    ],
+    tanggalPengajuan: 'Rabu, 30 September 2026, 16:45'
+  },
+  // 6. Riset bersama Bidang Kajian - Matics (internal, wawancara)
+  {
+    id: 6,
+    nama: 'Dimas Arya Pratama',
+    nim: 'A11.2021.13315',
+    email: '111202113315@mhs.dinus.ac.id',
+    noHp: '087811223344',
+    foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'Matics',
+    kategoriKontributor: 'internal',
+    program: 'Riset bersama Bidang Kajian',
+    status: 'wawancara',
+    jadwalWawancara: '23 Okt, 13:30 WIB',
+    lokasiWawancara: 'Lab Riset Matics H.2.4',
+    nilaiWawancara: 85,
+    catatanWawancara: 'Memiliki dasar kuat pada machine vision dan citra digital, siap berkontribusi pada publikasi riset terindeks SINTA/Scopus.',
+    ipk: '3.72',
+    sksLulus: 112,
+    semester: 'Semester 6',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Penelitian dan implementasi algoritma segmentasi citra medis menggunakan arsitektur U-Net untuk pendeteksian kelainan radiologi secara otomatis.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54804', nama: 'Pengolahan Citra Digital Lanjut', sks: 6 },
+      { kode: 'A11.54805', nama: 'Metodologi Penelitian Informatika', sks: 6 }
+    ],
+    minat: ['Medical Imaging', 'Computer Vision'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Matics', program: 'Riset bersama Bidang Kajian' },
+      { prioritas: 2, mitra: 'Lab IntSys', program: 'Studi Independen' }
+    ],
+    tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10'
+  },
+  // 7. PPKOrmawa (internal, berkas)
+  {
+    id: 7,
+    nama: 'Fikri Ramadhan',
+    nim: 'A12.2021.06510',
+    email: '112202106510@mhs.dinus.ac.id',
+    noHp: '081244556677',
+    foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Sistem Informasi',
+    kontributor: 'PPKOrmawa',
+    kategoriKontributor: 'internal',
+    program: 'PPKOrmawa',
+    status: 'berkas',
+    ipk: '3.65',
+    sksLulus: 106,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Program Penguatan Kapasitas Organisasi Kemahasiswaan melalui digitalisasi desa wisata dan integrasi marketplace produk lokal UMKM binaan.',
+    matkulDiambil: [
+      { kode: 'A12.54801', nama: 'Pemberdayaan Masyarakat MBKM', sks: 8 },
+      { kode: 'A12.54802', nama: 'Manajemen Proyek Sistem Informasi', sks: 6 },
+      { kode: 'A12.54803', nama: 'Sistem Informasi Komunitas', sks: 6 }
+    ],
+    minat: ['Community Empowerment', 'Project Management'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PPKOrmawa', program: 'PPKOrmawa' },
+      { prioritas: 2, mitra: 'Kuliah Kerja Usaha', program: 'Kuliah Kerja Usaha' }
+    ],
+    tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30'
+  },
+  // 8. Joint Project (internal, berkas)
+  {
+    id: 8,
+    nama: 'Gita Larasati',
+    nim: 'A11.2021.13520',
+    email: '111202113520@mhs.dinus.ac.id',
+    noHp: '089677889900',
+    foto: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'Joint Project',
+    kategoriKontributor: 'internal',
+    program: 'Joint Project',
+    status: 'berkas',
+    ipk: '3.84',
+    sksLulus: 116,
+    semester: 'Semester 6',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Kolaborasi lintas prodi dan industri dalam rekayasa aplikasi smart campus IoT terintegrasi platform data analytics real-time.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'Internet of Things Terapan', sks: 6 },
+      { kode: 'A11.54803', nama: 'Sistem Terdistribusi', sks: 6 }
+    ],
+    minat: ['IoT', 'Distributed Systems'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Joint Project', program: 'Joint Project' },
+      { prioritas: 2, mitra: 'Bengkel Koding', program: 'Bengkel Koding' }
+    ],
+    tanggalPengajuan: 'Sabtu, 03 Oktober 2026, 09:00'
+  },
+  // 9. Industrial Visit ke Luar Negri (eksternal, berkas)
+  {
+    id: 9,
+    nama: 'Kevin Jonathan',
+    nim: 'A11.2020.12990',
+    email: '111202012990@mhs.dinus.ac.id',
+    noHp: '081233445566',
+    foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'Industrial Visit ke Luar Negri',
+    kategoriKontributor: 'eksternal',
+    program: 'Industrial Visit ke Luar Negri',
+    status: 'berkas',
+    ipk: '3.89',
+    sksLulus: 124,
+    semester: 'Semester 7',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Studi benchmarking teknologi semikonduktor, AI lab, dan green data center di kawasan industri high-tech Malaysia & Singapore.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'Kapita Selekta Industri Global', sks: 6 },
+      { kode: 'A11.54803', nama: 'Manajemen Teknologi Global', sks: 6 }
+    ],
+    minat: ['Global Tech', 'High Performance Computing'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Industrial Visit ke Luar Negri', program: 'Industrial Visit ke Luar Negri' },
+      { prioritas: 2, mitra: 'Student Mobility ke UGM', program: 'Student Mobility ke UGM' }
+    ],
+    tanggalPengajuan: 'Senin, 05 Oktober 2026, 08:30'
+  },
+  // 10. Kuliah Kerja Usaha (internal, berkas)
+  {
+    id: 10,
+    nama: 'Maya Anggraini',
+    nim: 'A12.2021.06733',
+    email: '112202106733@mhs.dinus.ac.id',
+    noHp: '082233445577',
+    foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Sistem Informasi',
+    kontributor: 'Kuliah Kerja Usaha',
+    kategoriKontributor: 'internal',
+    program: 'Kuliah Kerja Usaha',
+    status: 'berkas',
+    ipk: '3.58',
+    sksLulus: 104,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Inkubasi bisnis teknologi (technopreneurship) untuk produk SaaS POS terintegrasi QRIS dan akuntansi bagi UMKM kuliner.',
+    matkulDiambil: [
+      { kode: 'A12.54801', nama: 'Technopreneurship MBKM', sks: 8 },
+      { kode: 'A12.54802', nama: 'Inkubasi Bisnis Digital', sks: 6 },
+      { kode: 'A12.54803', nama: 'Strategi Pemasaran Digital', sks: 6 }
+    ],
+    minat: ['Technopreneurship', 'SaaS Business'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Kuliah Kerja Usaha', program: 'Kuliah Kerja Usaha' },
+      { prioritas: 2, mitra: 'PPKOrmawa', program: 'PPKOrmawa' }
+    ],
+    tanggalPengajuan: 'Selasa, 06 Oktober 2026, 11:15'
+  },
+  // 11. Magang Kuliah Kerja Industri - BTIK (internal, berkas)
+  {
+    id: 11,
+    nama: 'Rian Hidayat',
+    nim: 'A11.2021.13112',
+    email: '111202113112@mhs.dinus.ac.id',
+    noHp: '085811223344',
+    foto: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'BTIK',
+    kategoriKontributor: 'internal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'berkas',
+    ipk: '3.70',
+    sksLulus: 108,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Pemeliharaan infrastruktur jaringan fiber optik backbone kampus, sistem manajemen server Linux, dan virtualisasi Proxmox.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'Administrasi Jaringan & Server', sks: 6 },
+      { kode: 'A11.54803', nama: 'Virtualisasi & Cloud', sks: 6 }
+    ],
+    minat: ['Sysadmin', 'Networking'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'BTIK', program: 'Magang Kuliah Kerja Industri' },
+      { prioritas: 2, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }
+    ],
+    tanggalPengajuan: 'Rabu, 07 Oktober 2026, 15:20'
+  },
+  // 12. Magang Kuliah Kerja Industri - PT. Lumintu Sejahtera Mandiri (eksternal, berkas)
+  {
+    id: 12,
+    nama: 'Nadia Safitri',
+    nim: 'A11.2021.13880',
+    email: '111202113880@mhs.dinus.ac.id',
+    noHp: '081299887766',
+    foto: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'PT. Lumintu Sejahtera Mandiri',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'berkas',
+    ipk: '3.81',
+    sksLulus: 114,
+    semester: 'Semester 6',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Pengembangan modul backend RESTful API berbasis Go (Golang) dan PostgreSQL untuk platform enterprise resource planning mitra industri.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'Pemrograman Backend Golang', sks: 6 },
+      { kode: 'A11.54803', nama: 'Database Enterprise', sks: 6 }
+    ],
+    minat: ['Backend Engineering', 'Golang'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' },
+      { prioritas: 2, mitra: 'The Grandia Group', program: 'Magang Kuliah Kerja Industri' }
+    ],
+    tanggalPengajuan: 'Kamis, 08 Oktober 2026, 10:00'
+  },
+  // 13. Magang Kuliah Kerja Industri - PT. Happy Dining (OTI) (eksternal, wawancara)
+  {
+    id: 13,
+    nama: 'Rizky Fauzan',
+    nim: 'A12.2021.06821',
+    email: '112202106821@mhs.dinus.ac.id',
+    noHp: '082166778899',
+    foto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Sistem Informasi',
+    kontributor: 'PT. Happy Dining (OTI)',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'wawancara',
+    jadwalWawancara: '24 Okt, 10:00 WIB',
+    lokasiWawancara: 'Online (Google Meet)',
+    nilaiWawancara: 80,
+    catatanWawancara: 'Kandidat memahami alur supply chain inventory F&B dan terbiasa dengan integrasi POS.',
+    ipk: '3.67',
+    sksLulus: 110,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Analisis kebutuhan sistem ERP pergudangan dan supply chain F&B berbasis Odoo serta perancangan integrasi API multi-cabang.',
+    matkulDiambil: [
+      { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
+      { kode: 'A12.54802', nama: 'Sistem Informasi ERP Terapan', sks: 6 },
+      { kode: 'A12.54803', nama: 'Manajemen Rantai Pasok', sks: 6 }
+    ],
+    minat: ['ERP Odoo', 'Supply Chain Analysis'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT. Happy Dining (OTI)', program: 'Magang Kuliah Kerja Industri' },
+      { prioritas: 2, mitra: 'PT. Panorama Indah Permai (Saloka)', program: 'Magang Kuliah Kerja Industri' }
+    ],
+    tanggalPengajuan: 'Jumat, 09 Oktober 2026, 14:10'
+  },
+  // 14. Magang Kuliah Kerja Industri - PT. Panorama Indah Permai (Saloka) (eksternal, diterima)
+  {
+    id: 14,
+    nama: 'Salma Nabila',
+    nim: 'A11.2021.13670',
+    email: '111202113670@mhs.dinus.ac.id',
+    noHp: '087788990011',
+    foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'PT. Panorama Indah Permai (Saloka)',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'diterima',
+    jadwalWawancara: '15 Okt 2026, 10:00 WIB',
+    lokasiWawancara: 'Google Meet (meet.google.com/saloka-interview)',
+    nilaiWawancara: 88,
+    skorPertanyaan: [86, 90],
+    catatanWawancara: 'Kandidat menunjukkan penguasaan IoT dan embedded systems yang sangat solid, serta portofolio mikrokontroler relevan dengan operasional wahana Saloka.',
+    ipk: '3.86',
+    sksLulus: 118,
+    semester: 'Semester 6',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Pengembangan sistem e-ticketing dan integrasi gate akses RFID turnstile wahana rekreasi Saloka Theme Park berbasis IoT dan microservices.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'IoT & Embedded Automation', sks: 6 },
+      { kode: 'A11.54803', nama: 'Arsitektur Perangkat Lunak', sks: 6 }
+    ],
+    minat: ['IoT Integration', 'RFID Systems'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT. Panorama Indah Permai (Saloka)', program: 'Magang Kuliah Kerja Industri' },
+      { prioritas: 2, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }
+    ],
+    tanggalPengajuan: 'Senin, 12 Oktober 2026, 09:30'
+  },
+  // 15. Magang Kuliah Kerja Industri - The Grandia Group (eksternal, berkas)
+  {
+    id: 15,
+    nama: 'Taufik Ismail',
+    nim: 'A12.2021.06450',
+    email: '112202106450@mhs.dinus.ac.id',
+    noHp: '081377889922',
+    foto: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Sistem Informasi',
+    kontributor: 'The Grandia Group',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'berkas',
+    ipk: '3.62',
+    sksLulus: 108,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Optimalisasi sistem reservasi hotel terpadu (Property Management System) dan integrasi channel manager OTA.',
+    matkulDiambil: [
+      { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
+      { kode: 'A12.54802', nama: 'Hospitality Information System', sks: 6 },
+      { kode: 'A12.54803', nama: 'Pengembangan Sistem Berbasis Web', sks: 6 }
+    ],
+    minat: ['Hospitality IT', 'Web Development'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'The Grandia Group', program: 'Magang Kuliah Kerja Industri' },
+      { prioritas: 2, mitra: 'PT. Happy Dining (OTI)', program: 'Magang Kuliah Kerja Industri' }
+    ],
+    tanggalPengajuan: 'Selasa, 13 Oktober 2026, 11:45'
+  },
+  // 16. Magang Kuliah Kerja Industri - BPMPTP Disdik Jateng (eksternal, diterima)
+  {
+    id: 16,
+    nama: 'Zahra Maulida',
+    nim: 'A11.2021.13401',
+    email: '111202113401@mhs.dinus.ac.id',
+    noHp: '085733445566',
+    foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'Balai Pengembangan Mutu Pembelajaran dan Teknologi Pendidikan (BPMPTP) Dinas Pendidikan Jawa Tengah',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'diterima',
+    jadwalWawancara: '16 Okt 2026, 13:30 WIB',
+    lokasiWawancara: 'Ruang Rapat BPMPTP Disdik Jateng',
+    nilaiWawancara: 92,
+    skorPertanyaan: [90, 94],
+    catatanWawancara: 'Kemampuan visualisasi data dan penguasaan Three.js/3D web sangat memadai untuk modul media pendidikan vokasi.',
+    ipk: '3.93',
+    sksLulus: 120,
+    semester: 'Semester 6',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Pengembangan media pembelajaran interaktif berbasis web 3D dan analitik data rapor mutu pendidikan vokasi se-Jawa Tengah.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'Teknologi Media Pendidikan', sks: 6 },
+      { kode: 'A11.54803', nama: 'Data Visualization & BI', sks: 6 }
+    ],
+    minat: ['EdTech', 'Interactive Media'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Balai Pengembangan Mutu Pembelajaran dan Teknologi Pendidikan (BPMPTP) Dinas Pendidikan Jawa Tengah', program: 'Magang Kuliah Kerja Industri' },
+      { prioritas: 2, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' }
+    ],
+    tanggalPengajuan: 'Rabu, 14 Oktober 2026, 13:20'
+  },
+  // 17. Magang Berdampak di Sekolah - SMA N 1 Semarang (eksternal, berkas)
+  {
+    id: 17,
+    nama: 'Ahmad Farhan',
+    nim: 'A11.2021.13765',
+    email: '111202113765@mhs.dinus.ac.id',
+    noHp: '081255667788',
+    foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'SMA N 1 Semarang',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Berdampak di Sekolah',
+    status: 'berkas',
+    ipk: '3.78',
+    sksLulus: 112,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Program asistensi pengajaran literasi koding Python & web dasar serta pendampingan ekstrakurikuler olimpiade informatika siswa SMA.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Asistensi Mengajar di Sekolah', sks: 8 },
+      { kode: 'A11.54802', nama: 'Pedagogi Komputasi', sks: 6 },
+      { kode: 'A11.54803', nama: 'Algoritma Pemrograman Lanjut', sks: 6 }
+    ],
+    minat: ['Computational Thinking', 'Education'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' },
+      { prioritas: 2, mitra: 'SMA Mardisiswa Semarang', program: 'Magang Berdampak di Sekolah' }
+    ],
+    tanggalPengajuan: 'Kamis, 15 Oktober 2026, 08:45'
+  },
+  // 18. Magang Berdampak di Sekolah - SMA Mardisiswa Semarang (eksternal, wawancara)
+  {
+    id: 18,
+    nama: 'Dinda Permata',
+    nim: 'A11.2021.13944',
+    email: '111202113944@mhs.dinus.ac.id',
+    noHp: '085699887766',
+    foto: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'SMA Mardisiswa Semarang',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Berdampak di Sekolah',
+    status: 'wawancara',
+    jadwalWawancara: '25 Okt, 08:30 WIB',
+    lokasiWawancara: 'Online (Google Meet)',
+    nilaiWawancara: 84,
+    catatanWawancara: 'Kemampuan komunikasi dan modul pembelajaran Scratch/Python sangat aplikatif bagi siswa sekolah menengah.',
+    ipk: '3.74',
+    sksLulus: 110,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Pengembangan platform e-learning sekolah dan digitalisasi bahan ajar interaktif untuk guru dan siswa SMA Mardisiswa.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Asistensi Mengajar di Sekolah', sks: 8 },
+      { kode: 'A11.54802', nama: 'Pengembangan Media Belajar Digital', sks: 6 },
+      { kode: 'A11.54803', nama: 'Manajemen Sistem Sekolah', sks: 6 }
+    ],
+    minat: ['EdTech', 'Teaching Assistant'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'SMA Mardisiswa Semarang', program: 'Magang Berdampak di Sekolah' },
+      { prioritas: 2, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' }
+    ],
+    tanggalPengajuan: 'Jumat, 16 Oktober 2026, 10:15'
+  },
+  // 19. Student Mobility ke UGM (eksternal, berkas)
+  {
+    id: 19,
+    nama: 'Wildan Alif',
+    nim: 'A11.2020.13015',
+    email: '111202013015@mhs.dinus.ac.id',
+    noHp: '081277665544',
+    foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'Student Mobility ke UGM',
+    kategoriKontributor: 'eksternal',
+    program: 'Program Mandiri Eksternal',
+    status: 'berkas',
+    ipk: '3.95',
+    sksLulus: 122,
+    semester: 'Semester 7',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Pertukaran mahasiswa nasional (Student Mobility) di Departemen Ilmu Komputer dan Elektronika FMIPA Universitas Gadjah Mada.',
+    matkulDiambil: [
+      { kode: 'UGM-MII.4101', nama: 'Advanced Artificial Intelligence', sks: 8 },
+      { kode: 'UGM-MII.4102', nama: 'Cryptography & Data Privacy', sks: 6 },
+      { kode: 'UGM-MII.4103', nama: 'Quantum Computing Fundamentals', sks: 6 }
+    ],
+    minat: ['Theoretical Computer Science', 'Quantum & AI'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Student Mobility ke UGM', program: 'Student Mobility ke UGM' },
+      { prioritas: 2, mitra: 'Industrial Visit ke Luar Negri', program: 'Industrial Visit ke Luar Negri' }
+    ],
+    tanggalPengajuan: 'Sabtu, 17 Oktober 2026, 14:00'
+  },
+  // 20. Dicoding Asah (eksternal, ditolak)
+  {
+    id: 20,
+    nama: 'Wahyu Pratama',
+    nim: 'A11.2021.13199',
+    email: '111202113199@mhs.dinus.ac.id',
+    noHp: '089855443322',
+    foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Teknik Informatika',
+    kontributor: 'Dicoding Asah',
+    kategoriKontributor: 'eksternal',
+    program: 'Studi Independen',
+    status: 'ditolak',
+    catatanWawancara: 'Kandidat belum memenuhi prasyarat lulus minimal SKS untuk jalur spesialisasi Machine Learning.',
+    ipk: '3.52',
+    sksLulus: 88,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Studi independen machine learning dan data science untuk otomatisasi klasifikasi data.',
+    matkulDiambil: [
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54802', nama: 'Dasar Data Science', sks: 6 },
+      { kode: 'A11.54803', nama: 'Machine Learning Pemula', sks: 6 }
+    ],
+    minat: ['Machine Learning', 'Data Science'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'Dicoding Asah', program: 'Studi Independen' }
+    ],
+    tanggalPengajuan: 'Senin, 19 Oktober 2026, 16:30'
+  },
+  // 21. PT. Lumintu Sejahtera Mandiri (eksternal, dibatalkan)
+  {
+    id: 21,
+    nama: 'Indah Kusuma',
+    nim: 'A12.2021.06611',
+    email: '112202106611@mhs.dinus.ac.id',
+    noHp: '081344556677',
+    foto: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=256',
+    prodi: 'S1 Sistem Informasi',
+    kontributor: 'PT. Lumintu Sejahtera Mandiri',
+    kategoriKontributor: 'eksternal',
+    program: 'Magang Kuliah Kerja Industri',
+    status: 'dibatalkan',
+    alasanBatal: 'Mengundurkan diri secara mandiri karena jadwal berbenturan dengan proyek skripsi.',
+    ipk: '3.49',
+    sksLulus: 98,
+    semester: 'Semester 5',
+    semesterAjaran: 'Gasal 2026/2027',
+    deskripsi: 'Implementasi antarmuka front-end sistem informasi operasional pergudangan.',
+    matkulDiambil: [
+      { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
+      { kode: 'A12.54802', nama: 'Pemrograman Web Lanjut', sks: 6 },
+      { kode: 'A12.54803', nama: 'Desain Antarmuka Pengguna', sks: 6 }
+    ],
+    minat: ['Front-End', 'UI Design'],
+    links: [
+      { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+    ],
+    pilihanProgram: [
+      { prioritas: 1, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }
+    ],
+    tanggalPengajuan: 'Selasa, 20 Oktober 2026, 11:00'
   }
 ];
 
