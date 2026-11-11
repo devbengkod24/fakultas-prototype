@@ -1,0 +1,12 @@
+---
+// src/components/mahasiswa/pendaftaran/TahapPendaftaranReview.astro
+import ReviewFormCard from "./review/ReviewFormCard.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<ReviewFormCard class={className} />

@@ -1,86 +1,100 @@
 ---
 // src/pages/mahasiswa/pendaftaran.astro
-import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
-
-const programs = [
-  { id: 'bk', nama: 'Bengkel Koding', subnama: 'Proyek Web & Mobile', skema: 'Proyek Industri', tglDaftar: '10 Okt 2025', jadwalWawancara: '22 Okt 2025', pengumuman: 'N/A', logo: '/assets/images/logo-bengkod.png' },
-  { id: 'idss', nama: 'IDSS Laboratory', subnama: 'Riset Decision Support & AI', skema: 'Publikasi & Riset', tglDaftar: '15 Okt 2025', jadwalWawancara: '18 Okt 2025', pengumuman: 'N/A', logo: '/assets/images/logo-idss.png' },
-  { id: 'dicoding', nama: 'Dicoding Indonesia', subnama: 'Asah AI & Software Engineering', skema: 'Studi Independen', tglDaftar: '16 Okt 2025', jadwalWawancara: '24 Okt 2025', pengumuman: '25 Okt 2025', logo: '/assets/images/logo-dicoding.png' },
-];
+import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import DetailStepper from "../../components/mahasiswa/pendaftaran/DetailStepper.astro";
+import TahapPendaftaranReview from "../../components/mahasiswa/pendaftaran/TahapPendaftaranReview.astro";
+import DetailSidebar from "../../components/mahasiswa/pendaftaran/DetailSidebar.astro";
+import { mockDaftarFormMBKM } from "../../data/mahasiswa/pendaftaranData";
 ---
 
 <MahasiswaShell
-  title="Form Pendaftaran MBKM | Mahasiswa - FIK Udinus"
+  title="Pendaftaran MBKM | Mahasiswa - FIK Udinus"
   activeNav="pendaftaran"
   pageTitle="Pendaftaran MBKM"
-  breadcrumb="Form Pendaftaran"
+  breadcrumb="Status & Alur Pendaftaran"
 >
-  <div id="view-pendaftaran" class="w-full space-y-4">
-    <!-- Header Halaman -->
-    <header class="mb-2">
-      <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Form Pendaftaran MBKM</h2>
-      <p class="text-sm text-[#71717a] mt-0.5">
-        Daftar program mitra yang Anda ajukan. Anda dapat meninjau rincian berkas atau memperbarui data pendaftaran.
-      </p>
+  <div
+    class="space-y-4"
+    @mouseup.window="dragEnabledId = null"
+    x-data={`{
+      currentStage: new URLSearchParams(window.location.search).get('stage') || 'pendaftaran',
+      selectedProgram: new URLSearchParams(window.location.search).get('program') || 'bk',
+      expandedFormId: new URLSearchParams(window.location.search).get('program') || 'bk',
+      hasilSubState: (new URLSearchParams(window.location.search).get('status') === 'belum_lolos') ? 'belum_lolos' : 'lolos',
+      stages: ['pendaftaran', 'berkas', 'wawancara', 'hasil'],
+      daftarFormMBKM: ${JSON.stringify(mockDaftarFormMBKM)},
+      editingFormId: null,
+      draggedIndex: null,
+      isDragOver: null,
+      dragEnabledId: null,
+      setStage(s) { this.currentStage = s; },
+      stageIndex(k) { return this.stages.indexOf(k); },
+      isStepDone(k) { return this.stageIndex(this.currentStage) > this.stageIndex(k); },
+      isStepActive(k) { return this.currentStage === k; },
+      isStepPending(k) { return this.stageIndex(this.currentStage) < this.stageIndex(k); },
+      toggleExpand(id) {
+        this.expandedFormId = this.expandedFormId === id ? null : id;
+        this.selectedProgram = id;
+      },
+      dragStart(e, idx) {
+        this.draggedIndex = idx;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', String(idx));
+      },
+      dragOver(e, idx) {
+        if (this.draggedIndex === null) return;
+        this.isDragOver = idx;
+      },
+      dragLeave(e, idx) {
+        if (this.isDragOver === idx) this.isDragOver = null;
+      },
+      dragDrop(e, targetIdx) {
+        if (this.draggedIndex === null || this.draggedIndex === targetIdx) {
+          this.dragEnd();
+          return;
+        }
+        const moved = this.daftarFormMBKM.splice(this.draggedIndex, 1)[0];
+        this.daftarFormMBKM.splice(targetIdx, 0, moved);
+        this.selectedProgram = moved.id;
+        this.dragEnd();
+      },
+      dragEnd() {
+        this.draggedIndex = null;
+        this.isDragOver = null;
+        this.dragEnabledId = null;
+      },
+      saveDokumenProgram(id) { this.editingFormId = null; alert('Dokumen berkas formulir berhasil diperbarui dan disimpan!'); },
+      canAddLampiran(item) { return !item.isClosed && (!item.dokumen.lampiran || item.dokumen.lampiran.length < 3); },
+      tambahLampiran(item) { if (!item.dokumen.lampiran) item.dokumen.lampiran = []; if (item.dokumen.lampiran.length < 3) { if (this.editingFormId !== item.id) this.editingFormId = item.id; item.dokumen.lampiran.push(''); } },
+      hapusLampiran(item, idx) { if (item.dokumen.lampiran) item.dokumen.lampiran.splice(idx, 1); }
+    }`}
+  >
+    <!-- Header Halaman (Selaras Dashboard) -->
+    <header class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+      <div>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Detail Status & Alur Pendaftaran MBKM</h2>
+        <p class="text-sm text-[#71717a] mt-0.5">Pantau progres formulir pendaftaran, verifikasi berkas, wawancara, dan hasil akhir penempatan.</p>
+      </div>
+      <a
+        href="/mahasiswa/dashboard"
+        class="inline-flex items-center gap-1.5 h-8 px-3 border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium rounded-md transition-colors self-start sm:self-auto shrink-0 shadow-none"
+      >
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-[#71717a]"></i>
+        <span>Kembali ke Dashboard</span>
+      </a>
     </header>
 
-    <!-- Daftar Program Horizontal Stack (Seimbang & Berbobot Sesuai Prinsip YAGNI) -->
-    <div class="space-y-3">
-      {programs.map((program) => (
-        <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden hover:border-gray-300 transition-colors">
-          <!-- Baris Utama: Logo, Identitas, Skema, SKS, & Tombol Aksi -->
-          <div class="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center gap-3.5 min-w-0">
-              <div class="w-11 h-11 rounded-lg border border-[#e4e4e7] bg-white flex items-center justify-center p-1 shrink-0 overflow-hidden shadow-2xs">
-                <img src={program.logo} alt={`Logo ${program.nama}`} class="w-full h-full object-contain rounded" />
-              </div>
+    <!-- Stepper Tracker 5 Tahap -->
+    <DetailStepper />
 
-              <div class="min-w-0 space-y-0.5">
-                <h3 class="text-base font-semibold text-[#09090b] leading-tight truncate">
-                  {program.nama}
-                </h3>
-                <p class="text-xs text-[#71717a] truncate">
-                  {program.subnama}
-                </p>
-                <p class="text-xs text-[#71717a] flex items-center gap-2 pt-0.5">
-                  <span>{program.skema}</span>
-                  <span class="text-[#d4d4d8]">•</span>
-                  <span>20 SKS</span>
-                </p>
-              </div>
-            </div>
-
-            <div class="shrink-0 self-end sm:self-center">
-              <a
-                href={`/mahasiswa/pendaftaran-detail?program=${program.id}`}
-                class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors shadow-none"
-                title="Lihat Detail Pendaftaran"
-              >
-                <span>Lihat Detail</span>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Baris Bawah: Timeline Riil Pendaftaran (Sinkron dengan Dashboard) -->
-          <div class="px-4 sm:px-5 py-2.5 bg-[#fafafa] border-t border-[#e4e4e7] flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#71717a]">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
-              <span>Diajukan: <strong class="font-medium text-[#09090b]">{program.tglDaftar}</strong></span>
-            </div>
-            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-              <span>Jadwal Wawancara: <strong class="font-medium text-[#09090b]">{program.jadwalWawancara}</strong></span>
-            </div>
-            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="megaphone" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>Pengumuman: <strong class="font-medium text-[#09090b]">{program.pengumuman}</strong></span>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
+    <!-- Layout 2 Kolom (Selaras Grid Dashboard) -->
+    <section class="grid gap-4 lg:grid-cols-3 items-start">
+      <div class="lg:col-span-2">
+        <TahapPendaftaranReview />
+      </div>
+      <aside>
+        <DetailSidebar />
+      </aside>
+    </section>
   </div>
 </MahasiswaShell>

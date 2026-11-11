@@ -44,7 +44,6 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
     items: [
       { id: "dashboard", label: "Dashboard", href: "/mahasiswa/dashboard", icon: "layout-dashboard" },
       { id: "pengumuman", label: "Pengumuman", href: "/mahasiswa/pengumuman", icon: "megaphone" },
-      { id: "katalog", label: "Katalog Program", href: "/mahasiswa/katalog", icon: "compass" },
       { id: "pendaftaran", label: "Form Pendaftaran", href: "/mahasiswa/pendaftaran", icon: "clipboard-list" },
       { id: "status", label: "Status Pengajuan", href: "/mahasiswa/status", icon: "file-check" },
       { id: "logbook", label: "Logbook Kegiatan", href: "/mahasiswa/logbook", icon: "book-open" },

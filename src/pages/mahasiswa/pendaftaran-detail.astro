@@ -1,6 +1,59 @@
 ---
 // src/pages/mahasiswa/pendaftaran-detail.astro
 import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+
+const syaratAkademikFields = [
+  { label: "Nama Lengkap", value: "Faisal Rahman" },
+  { label: "NIM", value: "A11.2022.13901" },
+  { label: "Email Mahasiswa", value: "111202213901@mhs.dinus.ac.id" },
+  { label: "Nomor Telepon / WhatsApp", value: "081234567890" },
+];
+
+const dataStudiFields = [
+  { label: "Program Studi", value: "Teknik Informatika - S1" },
+  { label: "Semester Aktif", value: "Semester 5" },
+  { label: "IPK Kumulatif", value: "3.68" },
+  { label: "SKS Tempuh", value: "92 SKS" },
+];
+
+const dokumenFields = [
+  {
+    label: "CV",
+    required: true,
+    value: "https://drive.google.com/file/d/1A2B3C4D5E6F",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Portofolio",
+    required: true,
+    value: "https://github.com/faisalrahman",
+    placeholder: "https://github.com/username atau https://behance.net/username",
+  },
+  {
+    label: "Sertifikat",
+    required: true,
+    value: "https://drive.google.com/file/d/7G8H9I0J",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Lampiran 1",
+    required: false,
+    value: "https://drive.google.com/file/d/lampiran1-sample",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Lampiran 2",
+    required: false,
+    value: "",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Lampiran 3",
+    required: false,
+    value: "",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+];
 ---
 
 <MahasiswaShell
@@ -9,382 +62,117 @@ import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
   pageTitle="Detail Pendaftaran MBKM"
   breadcrumb="Detail Pendaftaran"
 >
-  <div class="w-full space-y-6">
-    <!-- Header -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
+  <div class="w-full space-y-4">
+    <!-- Header Halaman (Selaras Dashboard & Pendaftaran) -->
+    <header class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
       <div>
-        <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">
           Formulir Pendaftaran MBKM
         </h2>
-        <p class="text-[14px] leading-[20px] text-[#71717a]">
+        <p class="text-sm text-[#71717a] mt-0.5">
           Program: Bengkel Koding — Proyek Web & Mobile
         </p>
       </div>
       <a
         href="/mahasiswa/pendaftaran"
-        class="inline-flex items-center gap-2 px-4 py-2 border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold rounded-lg shadow-2xs transition-colors"
+        class="inline-flex items-center gap-1.5 h-8 px-3 border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium rounded-md transition-colors self-start sm:self-auto shrink-0 shadow-none"
       >
-        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-[#71717a]"></i>
         <span>Kembali</span>
       </a>
-    </div>
+    </header>
 
-    <!-- Stepper Progress Trail (Tahapan Pendaftaran MBKM) -->
-    <div
-      class="bg-white border border-[#e4e4e7] rounded-xl p-5 sm:p-6 shadow-2xs"
-    >
-      <div
-        class="flex items-center justify-between pb-4 mb-4 border-b border-[#f4f4f5]"
-      >
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-semibold text-[#09090b]"
-            >Tahapan Pendaftaran & Seleksi MBKM</span
-          >
-        </div>
-      </div>
-
-      <div class="relative py-2">
-        <!-- Connector Background Line Between Circles -->
-        <div
-          class="absolute top-5 left-[12.5%] right-[12.5%] h-1 bg-gray-100 rounded-full -translate-y-1/2 z-0"
-        >
-          <!-- Active Progress Fill Line (spans across completed steps) -->
-          <div
-            class="h-full bg-[#1063B9] rounded-full transition-all duration-500"
-            style="width: 66.6%;"
-          >
-          </div>
-        </div>
-
-        <!-- 4 Step Circular Nodes Grid -->
-        <div class="grid grid-cols-4 relative z-10 text-[11px]">
-          <!-- Step 1: Submit (Completed) -->
-          <div class="flex flex-col items-center text-center">
-            <div
-              class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all border-2 bg-white border-[#1063B9] text-[#1063B9]"
-            >
-              <i data-lucide="check" class="w-5 h-5"></i>
-            </div>
-            <div class="mt-2 space-y-0.5">
-              <span class="font-medium text-[11px] text-[#3f3f46] block"
-                >Submit</span
-              >
-              <div class="text-[11px] font-medium text-[#71717a]">
-                10 Okt 2025
-              </div>
-              <span
-                class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
-              >
-                Selesai
-              </span>
-            </div>
-          </div>
-
-          <!-- Step 2: Close (Completed / Closed) -->
-          <div class="flex flex-col items-center text-center">
-            <div
-              class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all border-2 bg-white border-[#1063B9] text-[#1063B9]"
-            >
-              <i data-lucide="check" class="w-5 h-5"></i>
-            </div>
-            <div class="mt-2 space-y-0.5">
-              <span class="font-medium text-[11px] text-[#3f3f46] block"
-                >Close</span
-              >
-              <div class="text-[11px] font-medium text-[#71717a]">
-                18 Okt 2025
-              </div>
-              <span
-                class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"
-              >
-                Ditutup
-              </span>
-            </div>
-          </div>
-
-          <!-- Step 3: Review (Active / On Progress) -->
-          <div class="flex flex-col items-center text-center">
-            <div
-              class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all border-2 bg-[#1063B9] border-[#1063B9] text-white ring-4 ring-blue-100"
-            >
-              <i data-lucide="clock" class="w-4 h-4"></i>
-            </div>
-            <div class="mt-2 space-y-0.5">
-              <span class="font-semibold text-[11px] text-[#1063B9] block"
-                >Review</span
-              >
-              <div class="text-[11px] font-medium text-[#1063B9]">
-                On Progress
-              </div>
-              <span
-                class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#1063B9] border border-blue-200"
-              >
-                Sedang Ditinjau
-              </span>
-            </div>
-          </div>
-
-          <!-- Step 4: Pengumuman (Upcoming) -->
-          <div class="flex flex-col items-center text-center">
-            <div
-              class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all border-2 bg-white border-[#e4e4e7] text-[#a1a1aa]"
-            >
-              <span>4</span>
-            </div>
-            <div class="mt-2 space-y-0.5">
-              <span class="font-medium text-[11px] text-[#a1a1aa] block"
-                >Pengumuman</span
-              >
-              <div class="text-[11px] text-[#71717a]">Belum Ada</div>
-              <span
-                class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 text-gray-600 border border-gray-200"
-              >
-                Menunggu
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Form Pendaftaran (Semua Jadi Satu Section) -->
-    <div
-      class="bg-white border border-[#e4e4e7] rounded-xl shadow-2xs overflow-hidden"
-    >
-      <div class="p-6 space-y-8">
+    <!-- Card Formulir Pendaftaran (Selaras Zinc & Brand Blue Tokens) -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">
+      <div class="p-4 sm:p-6 space-y-6">
         <!-- Bagian 1: Syarat Akademik -->
         <section class="space-y-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-100">
-            <i data-lucide="graduation-cap" class="w-5 h-5 text-[#1063B9]"></i>
-            <h3 class="text-[15px] font-bold text-[#09090b]">
+          <div class="flex items-center gap-2 pb-2.5 border-b border-[#e4e4e7]">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">
               Syarat Akademik
             </h3>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            <!-- Nama Lengkap -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Nama Lengkap</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                Faisal Rahman
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+            {syaratAkademikFields.map((field) => (
+              <div class="space-y-1.5">
+                <label class="block text-xs font-medium text-[#09090b]">{field.label}</label>
+                <div class="w-full h-9 px-3 flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] text-xs text-[#3f3f46]">
+                  {field.value}
+                </div>
               </div>
-            </div>
-            <!-- NIM -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]">NIM</label>
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                A11.2022.13901
-              </div>
-            </div>
-            <!-- Email Mahasiswa -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Email Mahasiswa</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                111202213901@mhs.dinus.ac.id
-              </div>
-            </div>
-            <!-- Nomor Telepon / WhatsApp -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Nomor Telepon / WhatsApp</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                081234567890
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
         <!-- Bagian Data Studi -->
-        <section class="space-y-4 pt-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-100">
-            <i data-lucide="book-open" class="w-5 h-5 text-[#1063B9]"></i>
-            <h3 class="text-[15px] font-bold text-[#09090b]">Data Studi</h3>
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 pb-2.5 border-b border-[#e4e4e7]">
+            <i data-lucide="book-open" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">Data Studi</h3>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            <!-- Program Studi -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Program Studi</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                Teknik Informatika - S1
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+            {dataStudiFields.map((field) => (
+              <div class="space-y-1.5">
+                <label class="block text-xs font-medium text-[#09090b]">{field.label}</label>
+                <div class="w-full h-9 px-3 flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] text-xs text-[#3f3f46]">
+                  {field.value}
+                </div>
               </div>
-            </div>
-            <!-- Semester Aktif -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Semester Aktif</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                Semester 5
-              </div>
-            </div>
-            <!-- IPK Kumulatif -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >IPK Kumulatif</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                3.68
-              </div>
-            </div>
-            <!-- SKS Tempuh -->
-            <div class="space-y-2">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >SKS Tempuh</label
-              >
-              <div
-                class="w-full h-[52px] px-4 flex items-center rounded-xl border border-[#e5e7eb] bg-[#f9fafb] text-[15px] text-[#111827]"
-              >
-                92 SKS
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
         <!-- Bagian 2: Dokumen Pendaftaran (Editable) -->
-        <section class="space-y-4 pt-4">
-          <div class="flex items-center gap-2 pb-2 border-b border-gray-100">
-            <i data-lucide="folder-open" class="w-5 h-5 text-[#1063B9]"></i>
-            <h3 class="text-[15px] font-bold text-[#09090b]">
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 pb-2.5 border-b border-[#e4e4e7]">
+            <i data-lucide="folder-open" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">
               Dokumen Pendaftaran
             </h3>
           </div>
-          <div
-            class="p-4 bg-blue-50/50 border border-blue-100 rounded-lg text-[12px] text-[#0369a1] flex gap-3"
-          >
+          <div class="px-3.5 py-2.5 bg-blue-50/50 border border-blue-100 rounded-md text-xs text-[#0655a7] flex items-start gap-2">
             <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5"></i>
             <p>
               Anda diperbolehkan mengedit atau memperbarui tautan dokumen selama
               periode pendaftaran masih dibuka.
             </p>
           </div>
-          <div class="space-y-5">
-            <!-- CV -->
-            <div class="space-y-1.5">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >CV <span class="text-red-500">*</span></label
-              >
-              <input
-                type="url"
-                value="https://drive.google.com/file/d/1A2B3C4D5E6F"
-                class="w-full h-[52px] px-4 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#111827] focus:ring-2 focus:ring-[#1063B9] focus:border-[#1063B9] outline-none transition-all placeholder:text-[#9ca3af]"
-                placeholder="https://drive.google.com/file/d/..."
-              />
-            </div>
-
-            <!-- Portofolio -->
-            <div class="space-y-1.5">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Portofolio <span class="text-red-500">*</span></label
-              >
-              <input
-                type="url"
-                value="https://github.com/faisalrahman"
-                class="w-full h-[52px] px-4 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#111827] focus:ring-2 focus:ring-[#1063B9] focus:border-[#1063B9] outline-none transition-all placeholder:text-[#9ca3af]"
-                placeholder="https://github.com/username atau https://behance.net/username"
-              />
-            </div>
-
-            <!-- Sertifikat -->
-            <div class="space-y-1.5">
-              <label class="text-[14px] font-medium text-[#374151]"
-                >Sertifikat <span class="text-red-500">*</span></label
-              >
-              <input
-                type="url"
-                value="https://drive.google.com/file/d/7G8H9I0J"
-                class="w-full h-[52px] px-4 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#111827] focus:ring-2 focus:ring-[#1063B9] focus:border-[#1063B9] outline-none transition-all placeholder:text-[#9ca3af]"
-                placeholder="https://drive.google.com/file/d/..."
-              />
-            </div>
-
-            <!-- Lampiran 1 -->
-            <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <label class="text-[14px] font-medium text-[#374151]"
-                  >Lampiran 1</label
-                >
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+            {dokumenFields.map((field) => (
+              <div class="space-y-1.5">
+                <label class="block text-xs font-medium text-[#09090b]">
+                  {field.label}{field.required && <span class="text-red-500"> *</span>}
+                </label>
+                <input
+                  type="url"
+                  value={field.value}
+                  placeholder={field.placeholder}
+                  class="w-full h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder:text-[#a1a1aa]"
+                />
               </div>
-              <input
-                type="url"
-                value="https://drive.google.com/file/d/lampiran1-sample"
-                class="w-full h-[52px] px-4 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#111827] focus:ring-2 focus:ring-[#1063B9] focus:border-[#1063B9] outline-none transition-all placeholder:text-[#9ca3af]"
-                placeholder="https://drive.google.com/file/d/..."
-              />
-            </div>
-
-            <!-- Lampiran 2 -->
-            <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <label class="text-[14px] font-medium text-[#374151]"
-                  >Lampiran 2</label
-                >
-              </div>
-              <input
-                type="url"
-                value=""
-                class="w-full h-[52px] px-4 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#111827] focus:ring-2 focus:ring-[#1063B9] focus:border-[#1063B9] outline-none transition-all placeholder:text-[#9ca3af]"
-                placeholder="https://drive.google.com/file/d/..."
-              />
-            </div>
-
-            <!-- Lampiran 3 -->
-            <div class="space-y-1.5">
-              <div class="flex items-center justify-between">
-                <label class="text-[14px] font-medium text-[#374151]"
-                  >Lampiran 3</label
-                >
-              </div>
-              <input
-                type="url"
-                value=""
-                class="w-full h-[52px] px-4 rounded-xl border border-[#e5e7eb] bg-white text-[14px] text-[#111827] focus:ring-2 focus:ring-[#1063B9] focus:border-[#1063B9] outline-none transition-all placeholder:text-[#9ca3af]"
-                placeholder="https://drive.google.com/file/d/..."
-              />
-            </div>
+            ))}
           </div>
         </section>
       </div>
 
       <!-- Action Footer -->
-      <div
-        class="p-6 bg-gray-50 border-t border-[#e4e4e7] flex flex-wrap items-center justify-between gap-4"
-      >
-        <p class="text-[12px] text-[#71717a]">
-          Pastikan seluruh data yang Anda masukkan sudah benar sebelum menyimpan
-          perubahan.
+      <div class="px-4 py-3.5 sm:px-6 bg-[#fafafa] border-t border-[#e4e4e7] flex flex-wrap items-center justify-between gap-3">
+        <p class="text-xs text-[#71717a]">
+          Pastikan seluruh data yang Anda masukkan sudah benar sebelum menyimpan perubahan.
         </p>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
           <button
             type="button"
             onclick="window.history.back()"
-            class="px-5 py-2.5 border border-[#e4e4e7] bg-white hover:bg-gray-100 text-[#09090b] text-[13px] font-bold rounded-xl transition-all active:scale-[0.98]"
+            class="h-8 px-3.5 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer shadow-none"
           >
             Batal
           </button>
           <button
             type="button"
             onclick="alert('Perubahan Berhasil Disimpan!')"
-            class="px-6 py-2.5 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-[13px] font-bold rounded-xl shadow-lg shadow-blue-100 transition-all active:scale-[0.98]"
+            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-medium transition-colors cursor-pointer shadow-none"
           >
             Simpan Perubahan
           </button>
