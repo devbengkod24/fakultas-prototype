@@ -124,7 +124,6 @@ const {
       (function () {
         const STORAGE_KEY = "fik_mahasiswa_sim_state";
         const SUBSTATE_KEY = "fik_mahasiswa_pendaftar_substate";
-        const HASIL_KEY = "fik_mahasiswa_sim_hasil";
 
         function initMahasiswaStore() {
           if (!window.Alpine || window.Alpine.store("mahasiswaSim")) return;
@@ -149,46 +148,9 @@ const {
             console.warn("localStorage substate read error:", e);
           }
 
-          let savedHasil = "lolos";
-          try {
-            savedHasil = localStorage.getItem(HASIL_KEY) || "lolos";
-            if (savedHasil !== "lolos" && savedHasil !== "belum_lolos") {
-              savedHasil = "lolos";
-            }
-          } catch (e) {
-            console.warn("localStorage hasil read error:", e);
-          }
-
           window.Alpine.store("mahasiswaSim", {
             state: savedState,
             pendaftarSubState: savedSubState,
-            hasilSubState: savedHasil,
-
-            setHasilSubState(newHasil) {
-              if (newHasil !== "lolos" && newHasil !== "belum_lolos") return;
-              this.hasilSubState = newHasil;
-              try {
-                localStorage.setItem(HASIL_KEY, newHasil);
-              } catch (e) {
-                console.warn("localStorage hasil write error:", e);
-              }
-              window.dispatchEvent(
-                new CustomEvent("mahasiswa-hasil-changed", {
-                  detail: { hasil: newHasil },
-                }),
-              );
-              setTimeout(() => {
-                if (window.lucide) {
-                  window.lucide.createIcons();
-                }
-              }, 50);
-            },
-
-            toggleHasil() {
-              this.setHasilSubState(
-                this.hasilSubState === "lolos" ? "belum_lolos" : "lolos"
-              );
-            },
 
             setState(newState) {
               if (newState !== "belum_daftar" && newState !== "aktif") return;
@@ -515,45 +477,6 @@ const {
 
         <!-- Footer Profil Mahasiswa (Selaras Admin & Kontributor) -->
         <div class="sticky bottom-0 z-10 mt-auto bg-[#fafafa] pt-2 pb-1 -mx-1 px-1 flex flex-col gap-2">
-          <!-- Toggle Status Hasil Seleksi: Belum Terpilih / Penawaran Diterima -->
-          <div
-            class="w-full h-10 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none"
-            x-cloak
-          >
-            <button
-              type="button"
-              role="switch"
-              aria-label="Ubah status hasil seleksi"
-              :aria-checked="$store.mahasiswaSim.hasilSubState === 'lolos'"
-              @click="$store.mahasiswaSim.toggleHasil()"
-              class="flex items-center gap-2 cursor-pointer shrink-0"
-              title="Ubah status hasil: Penawaran Diterima / Belum Terpilih"
-            >
-              <span
-                class="relative inline-flex h-[18px] w-[34px] shrink-0 items-center rounded-full transition-colors duration-200"
-                :class="$store.mahasiswaSim.hasilSubState === 'lolos'
-                  ? 'bg-[#3f5f9e]'
-                  : 'bg-[#d4d4d8]'"
-              >
-                <span
-                  class="inline-block h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200"
-                  :class="$store.mahasiswaSim.hasilSubState === 'lolos'
-                    ? 'translate-x-[18px]'
-                    : 'translate-x-[3px]'"
-                ></span>
-              </span>
-              <span
-                class="text-[11px] font-semibold transition-colors"
-                :class="$store.mahasiswaSim.hasilSubState === 'lolos'
-                  ? 'text-[#0655a7]'
-                  : 'text-[#a1a1aa]'"
-                x-text="$store.mahasiswaSim.hasilSubState === 'lolos'
-                  ? 'Penawaran Diterima'
-                  : 'Belum Terpilih'"
-              ></span>
-            </button>
-          </div>
-
           <!-- Toggle Status Pengajuan: Belum Diterima / Sudah Diterima -->
           <div
             class="w-full h-10 p-2 flex items-center justify-between bg-white border border-[#e4e4e7] rounded-lg shadow-none"

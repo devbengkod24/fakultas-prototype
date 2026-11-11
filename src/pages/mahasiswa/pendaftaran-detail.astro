@@ -1,5 +1,183 @@
 ---
 // src/pages/mahasiswa/pendaftaran-detail.astro
-// Redirect ke halaman utama pendaftaran yang kini langsung menampilkan alur detail
-return Astro.redirect("/mahasiswa/pendaftaran");
+import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+
+const syaratAkademikFields = [
+  { label: "Nama Lengkap", value: "Faisal Rahman" },
+  { label: "NIM", value: "A11.2022.13901" },
+  { label: "Email Mahasiswa", value: "111202213901@mhs.dinus.ac.id" },
+  { label: "Nomor Telepon / WhatsApp", value: "081234567890" },
+];
+
+const dataStudiFields = [
+  { label: "Program Studi", value: "Teknik Informatika - S1" },
+  { label: "Semester Aktif", value: "Semester 5" },
+  { label: "IPK Kumulatif", value: "3.68" },
+  { label: "SKS Tempuh", value: "92 SKS" },
+];
+
+const dokumenFields = [
+  {
+    label: "CV",
+    required: true,
+    value: "https://drive.google.com/file/d/1A2B3C4D5E6F",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Portofolio",
+    required: true,
+    value: "https://github.com/faisalrahman",
+    placeholder: "https://github.com/username atau https://behance.net/username",
+  },
+  {
+    label: "Sertifikat",
+    required: true,
+    value: "https://drive.google.com/file/d/7G8H9I0J",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Lampiran 1",
+    required: false,
+    value: "https://drive.google.com/file/d/lampiran1-sample",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Lampiran 2",
+    required: false,
+    value: "",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+  {
+    label: "Lampiran 3",
+    required: false,
+    value: "",
+    placeholder: "https://drive.google.com/file/d/...",
+  },
+];
 ---
+
+<MahasiswaShell
+  title="Detail Pendaftaran MBKM | Mahasiswa - FIK Udinus"
+  activeNav="pendaftaran"
+  pageTitle="Detail Pendaftaran MBKM"
+  breadcrumb="Detail Pendaftaran"
+>
+  <div class="w-full space-y-4">
+    <!-- Header Halaman (Selaras Dashboard & Pendaftaran) -->
+    <header class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
+      <div>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">
+          Formulir Pendaftaran MBKM
+        </h2>
+        <p class="text-sm text-[#71717a] mt-0.5">
+          Program: Bengkel Koding — Proyek Web & Mobile
+        </p>
+      </div>
+      <a
+        href="/mahasiswa/pendaftaran"
+        class="inline-flex items-center gap-1.5 h-8 px-3 border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium rounded-md transition-colors self-start sm:self-auto shrink-0 shadow-none"
+      >
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-[#71717a]"></i>
+        <span>Kembali</span>
+      </a>
+    </header>
+
+    <!-- Card Formulir Pendaftaran (Selaras Zinc & Brand Blue Tokens) -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">
+      <div class="p-4 sm:p-6 space-y-6">
+        <!-- Bagian 1: Syarat Akademik -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 pb-2.5 border-b border-[#e4e4e7]">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">
+              Syarat Akademik
+            </h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+            {syaratAkademikFields.map((field) => (
+              <div class="space-y-1.5">
+                <label class="block text-xs font-medium text-[#09090b]">{field.label}</label>
+                <div class="w-full h-9 px-3 flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] text-xs text-[#3f3f46]">
+                  {field.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Bagian Data Studi -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 pb-2.5 border-b border-[#e4e4e7]">
+            <i data-lucide="book-open" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">Data Studi</h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+            {dataStudiFields.map((field) => (
+              <div class="space-y-1.5">
+                <label class="block text-xs font-medium text-[#09090b]">{field.label}</label>
+                <div class="w-full h-9 px-3 flex items-center rounded-md border border-[#e4e4e7] bg-[#f4f4f5] text-xs text-[#3f3f46]">
+                  {field.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Bagian 2: Dokumen Pendaftaran (Editable) -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 pb-2.5 border-b border-[#e4e4e7]">
+            <i data-lucide="folder-open" class="w-4 h-4 text-[#0655a7]"></i>
+            <h3 class="text-sm font-semibold text-[#09090b]">
+              Dokumen Pendaftaran
+            </h3>
+          </div>
+          <div class="px-3.5 py-2.5 bg-blue-50/50 border border-blue-100 rounded-md text-xs text-[#0655a7] flex items-start gap-2">
+            <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5"></i>
+            <p>
+              Anda diperbolehkan mengedit atau memperbarui tautan dokumen selama
+              periode pendaftaran masih dibuka.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+            {dokumenFields.map((field) => (
+              <div class="space-y-1.5">
+                <label class="block text-xs font-medium text-[#09090b]">
+                  {field.label}{field.required && <span class="text-red-500"> *</span>}
+                </label>
+                <input
+                  type="url"
+                  value={field.value}
+                  placeholder={field.placeholder}
+                  class="w-full h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder:text-[#a1a1aa]"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="px-4 py-3.5 sm:px-6 bg-[#fafafa] border-t border-[#e4e4e7] flex flex-wrap items-center justify-between gap-3">
+        <p class="text-xs text-[#71717a]">
+          Pastikan seluruh data yang Anda masukkan sudah benar sebelum menyimpan perubahan.
+        </p>
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            onclick="window.history.back()"
+            class="h-8 px-3.5 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer shadow-none"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            onclick="alert('Perubahan Berhasil Disimpan!')"
+            class="h-8 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-medium transition-colors cursor-pointer shadow-none"
+          >
+            Simpan Perubahan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</MahasiswaShell>

@@ -15,7 +15,9 @@ export interface FormMBKMItem {
   sks: number;
   logo: string;
   tglDaftar: string;
+  screeningLolos: boolean;
   jadwalWawancara: string;
+  jadwalWawancaraDetail: string;
   pengumuman: string;
   tglTutup: string;
   isClosed: boolean;
@@ -31,8 +33,10 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     skema: "Proyek Industri",
     sks: 20,
     logo: "/assets/images/logo-bengkod.png",
-    tglDaftar: "10 Okt 2025",
-    jadwalWawancara: "22 Okt 2025",
+    tglDaftar: "10/10/2025",
+    screeningLolos: true,
+    jadwalWawancara: "22/10/2025",
+    jadwalWawancaraDetail: "22/10/2025, 09:00 • Google Meet",
     pengumuman: "N/A",
     tglTutup: "14 Okt 2025, 23:59 WIB",
     isClosed: true,
@@ -54,8 +58,10 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     skema: "Publikasi & Riset",
     sks: 20,
     logo: "/assets/images/logo-idss.png",
-    tglDaftar: "15 Okt 2025",
-    jadwalWawancara: "18 Okt 2025",
+    tglDaftar: "15/10/2025",
+    screeningLolos: true,
+    jadwalWawancara: "18/10/2025",
+    jadwalWawancaraDetail: "18/10/2025, 13:30 • Gedung H Lt. 5",
     pengumuman: "N/A",
     tglTutup: "17 Okt 2025, 23:59 WIB",
     isClosed: false,
@@ -76,9 +82,11 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     skema: "Studi Independen",
     sks: 20,
     logo: "/assets/images/logo-dicoding.png",
-    tglDaftar: "16 Okt 2025",
-    jadwalWawancara: "24 Okt 2025",
-    pengumuman: "25 Okt 2025",
+    tglDaftar: "16/10/2025",
+    screeningLolos: false,
+    jadwalWawancara: "24/10/2025",
+    jadwalWawancaraDetail: "N/A",
+    pengumuman: "25/10/2025",
     tglTutup: "20 Okt 2025, 23:59 WIB",
     isClosed: false,
     noPendaftaran: "REG-DCD-2025-0155",

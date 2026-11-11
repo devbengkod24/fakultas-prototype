@@ -9,94 +9,95 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class={cn("space-y-5", className)}>
-  <!-- 1. Ringkasan Data Mahasiswa -->
-  <div class="rounded-xl border border-[#E2E8F0] bg-white p-5 shadow-2xs space-y-3.5">
-    <div class="flex items-center justify-between pb-2.5 border-b border-[#E2E8F0]">
-      <div class="flex items-center gap-2">
-        <i data-lucide="user-check" class="w-4 h-4 text-[#1E40AF]"></i>
-        <h3 class="text-sm font-semibold text-[#0F172A]">Identitas Mahasiswa</h3>
-      </div>
+<div class={cn("flex flex-col gap-4", className)}>
+  <!-- 1. Ringkasan Data Mahasiswa (Selaras PendaftarSidebar Dashboard) -->
+  <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-4">
+    <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#e4e4e7]">
+      <h3 class="text-sm font-semibold text-[#09090b]">Identitas Mahasiswa</h3>
+      <i data-lucide="user-check" class="w-4 h-4 text-[#71717a]"></i>
     </div>
 
-    <div class="space-y-2 text-xs">
-      <div class="flex justify-between items-center py-1 border-b border-[#F8FAFC]">
-        <span class="text-[#64748B]">Nama Lengkap:</span>
-        <strong class="font-semibold text-[#0F172A]">Ahmad Rizky Pratama</strong>
+    <div class="divide-y divide-[#f4f4f5] text-xs">
+      <div class="flex justify-between items-center py-2 first:pt-0">
+        <span class="text-[#71717a]">Nama Lengkap</span>
+        <span class="font-medium text-[#09090b]">Ahmad Rizky Pratama</span>
       </div>
-      <div class="flex justify-between items-center py-1 border-b border-[#F8FAFC]">
-        <span class="text-[#64748B]">NIM:</span>
-        <span class="font-mono font-medium text-[#0F172A]">A11.2020.00001</span>
+      <div class="flex justify-between items-center py-2">
+        <span class="text-[#71717a]">NIM</span>
+        <span class="font-medium text-[#09090b]">A11.2020.00001</span>
       </div>
-      <div class="flex justify-between items-center py-1 border-b border-[#F8FAFC]">
-        <span class="text-[#64748B]">Program Studi:</span>
-        <span class="font-medium text-[#0F172A]">Teknik Informatika - S1</span>
+      <div class="flex justify-between items-center py-2">
+        <span class="text-[#71717a]">Program Studi</span>
+        <span class="font-medium text-[#09090b]">Teknik Informatika - S1</span>
       </div>
-      <div class="flex justify-between items-center py-1 border-b border-[#F8FAFC]">
-        <span class="text-[#64748B]">Semester / TA:</span>
-        <span class="font-medium text-[#0F172A]">Semester 7 (2024/2025)</span>
+      <div class="flex justify-between items-center py-2">
+        <span class="text-[#71717a]">Semester / TA</span>
+        <span class="font-medium text-[#09090b]">Semester 7 (2024/2025)</span>
       </div>
-      <div class="flex justify-between items-center py-1">
-        <span class="text-[#64748B]">IPK / SKS Lulus:</span>
-        <span class="font-semibold text-[#0F172A]">3.68 / 110 SKS</span>
+      <div class="flex justify-between items-center py-2 last:pb-0">
+        <span class="text-[#71717a]">IPK / SKS Lulus</span>
+        <span class="font-medium text-[#09090b]">3.68 / 110 SKS</span>
       </div>
     </div>
   </div>
 
-  <!-- 2. Status Ringkas 3 Program yang Diajukan -->
-  <div class="rounded-xl border border-[#E2E8F0] bg-white p-5 shadow-2xs space-y-3.5">
-    <div class="flex items-center justify-between pb-2.5 border-b border-[#E2E8F0]">
-      <div class="flex items-center gap-2">
-        <i data-lucide="layers" class="w-4 h-4 text-[#1E40AF]"></i>
-        <h3 class="text-sm font-semibold text-[#0F172A]">Program yang Dilamar (3)</h3>
-      </div>
+  <!-- 2. Status Ringkas 3 Program yang Diajukan (Flat List, Tanpa Nested Card) -->
+  <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-[#e4e4e7]">
+      <h3 class="text-sm font-semibold text-[#09090b]">Program yang Dilamar (3)</h3>
+      <i data-lucide="layers" class="w-4 h-4 text-[#71717a]"></i>
     </div>
 
-    <div class="space-y-2.5">
-      <template x-for="(prog, idx) in priorityPrograms" :key="prog.id">
+    <div class="divide-y divide-[#f4f4f5]">
+      <template x-for="(prog, idx) in daftarFormMBKM" :key="prog.id">
         <div
-          class="p-2.5 rounded-lg border bg-[#F8FAFC] space-y-1 transition-all"
-          :class="selectedProgram === prog.id ? 'border-[#1E40AF] ring-2 ring-blue-100' : 'border-[#E2E8F0]'"
+          @click="selectedProgram = prog.id"
+          class="relative px-4 py-3 space-y-0.5 cursor-pointer transition-colors bg-white hover:bg-[#fafafa]"
         >
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-[#0F172A]" x-text="(idx + 1) + '. ' + prog.nama"></span>
+          <div
+            x-show="selectedProgram === prog.id"
+            class="absolute left-0 top-0 bottom-0 w-0.5 bg-[#0655a7]"
+            aria-hidden="true"
+          ></div>
+
+          <div class="flex items-center justify-between gap-2">
             <span
-              x-show="currentStage === 'hasil' && ($store.mahasiswaSim ? $store.mahasiswaSim.hasilSubState : hasilSubState) === 'lolos'"
-              x-text="idx === 0 ? 'Diterima' : 'Gugur'"
-              class="text-[10px] font-semibold px-1.5 py-0.5 rounded border"
-              :class="idx === 0 ? 'bg-[#ECFDF5] text-[#065F46] border-[#A7F3D0]' : 'bg-[#F1F5F9] text-[#475569] border-[#E2E8F0]'"
+              class="text-xs font-semibold truncate transition-colors"
+              :class="selectedProgram === prog.id ? 'text-[#0655a7]' : 'text-[#09090b]'"
+              x-text="(idx + 1) + '. ' + prog.nama"
             ></span>
             <span
-              x-show="currentStage === 'hasil' && ($store.mahasiswaSim ? $store.mahasiswaSim.hasilSubState : hasilSubState) === 'belum_lolos'"
-              class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA]"
+              x-show="currentStage === 'hasil' && hasilSubState === 'lolos'"
+              x-text="idx === 0 ? 'Diterima' : 'Gugur'"
+              class="text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0"
+              :class="idx === 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-[#f4f4f5] text-[#71717a] border-[#e4e4e7]'"
+            ></span>
+            <span
+              x-show="currentStage === 'hasil' && hasilSubState === 'belum_lolos'"
+              class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 shrink-0"
             >
               Tidak Lolos
             </span>
             <span
-              x-show="currentStage === 'prioritas'"
-              class="text-[10px] font-medium px-1.5 py-0.5 rounded border border-[#E2E8F0] bg-[#F1F5F9] text-[#0F172A]"
-              x-text="'Pilihan ' + (idx + 1)"
+              x-show="currentStage === 'wawancara'"
+              class="text-[10px] font-medium px-1.5 py-0.5 rounded border shrink-0"
+              :class="prog.screeningLolos ? 'bg-[#f4f4f5] text-[#3f3f46] border-[#e4e4e7]' : 'bg-red-50 text-red-700 border-red-200'"
+              x-text="prog.screeningLolos ? 'Wawancara Selesai' : 'Tidak Lolos'"
             ></span>
             <span
-              x-show="currentStage === 'wawancara'"
-              class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]"
-            >
-              Wawancara Selesai
-            </span>
-            <span
               x-show="currentStage === 'berkas'"
-              class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]"
-            >
-              Lolos Berkas
-            </span>
+              class="text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0"
+              :class="prog.screeningLolos ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'"
+              x-text="prog.screeningLolos ? 'Lolos Berkas' : 'Tidak Lolos'"
+            ></span>
             <span
               x-show="currentStage === 'pendaftaran'"
-              class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-50 text-[#0655a7] border border-blue-100"
+              class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-50 text-[#0655a7] border border-blue-200 shrink-0"
             >
               Form Terdaftar
             </span>
           </div>
-          <div class="text-[11px] text-[#64748B]" x-text="prog.skema + ' • 20 SKS'"></div>
+          <div class="text-[11px] text-[#71717a]" x-text="prog.skema + ' • 20 SKS'"></div>
         </div>
       </template>
     </div>

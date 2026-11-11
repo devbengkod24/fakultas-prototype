@@ -3,10 +3,6 @@
 import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
 import DetailStepper from "../../components/mahasiswa/pendaftaran/DetailStepper.astro";
 import TahapPendaftaranReview from "../../components/mahasiswa/pendaftaran/TahapPendaftaranReview.astro";
-import TahapBerkas from "../../components/mahasiswa/pendaftaran/TahapBerkas.astro";
-import TahapWawancara from "../../components/mahasiswa/pendaftaran/TahapWawancara.astro";
-import TahapPrioritas from "../../components/mahasiswa/pendaftaran/TahapPrioritas.astro";
-import TahapHasilSeleksi from "../../components/mahasiswa/pendaftaran/TahapHasilSeleksi.astro";
 import DetailSidebar from "../../components/mahasiswa/pendaftaran/DetailSidebar.astro";
 import { mockDaftarFormMBKM } from "../../data/mahasiswa/pendaftaranData";
 ---
@@ -18,53 +14,72 @@ import { mockDaftarFormMBKM } from "../../data/mahasiswa/pendaftaranData";
   breadcrumb="Status & Alur Pendaftaran"
 >
   <div
-    class="w-full space-y-6"
-    @mahasiswa-hasil-changed.window="hasilSubState = $event.detail.hasil"
+    class="space-y-4"
+    @mouseup.window="dragEnabledId = null"
     x-data={`{
       currentStage: new URLSearchParams(window.location.search).get('stage') || 'pendaftaran',
-      selectedProgram: new URLSearchParams(window.location.search).get('program') || null,
-      hasilSubState: (new URLSearchParams(window.location.search).get('status') === 'belum_lolos') ? 'belum_lolos' : (localStorage.getItem('fik_mahasiswa_sim_hasil') || 'lolos'),
-      prioritasSaved: false,
-      stages: ['pendaftaran', 'berkas', 'wawancara', 'prioritas', 'hasil'],
-      priorityPrograms: [
-        { id: 'bk', nama: 'Bengkel Koding', subnama: 'Proyek Web & Mobile', skema: 'Proyek Industri' },
-        { id: 'idss', nama: 'IDSS Laboratory', subnama: 'Riset Decision Support & AI', skema: 'Publikasi & Riset' },
-        { id: 'dicoding', nama: 'Dicoding Indonesia', subnama: 'Asah AI & Software Engineering', skema: 'Studi Independen' }
-      ],
+      selectedProgram: new URLSearchParams(window.location.search).get('program') || 'bk',
+      expandedFormId: new URLSearchParams(window.location.search).get('program') || 'bk',
+      hasilSubState: (new URLSearchParams(window.location.search).get('status') === 'belum_lolos') ? 'belum_lolos' : 'lolos',
+      stages: ['pendaftaran', 'berkas', 'wawancara', 'hasil'],
       daftarFormMBKM: ${JSON.stringify(mockDaftarFormMBKM)},
-      activeFormTab: 'all',
       editingFormId: null,
-      masaPendaftaranDibuka: true,
       draggedIndex: null,
       isDragOver: null,
+      dragEnabledId: null,
       setStage(s) { this.currentStage = s; },
       stageIndex(k) { return this.stages.indexOf(k); },
       isStepDone(k) { return this.stageIndex(this.currentStage) > this.stageIndex(k); },
       isStepActive(k) { return this.currentStage === k; },
       isStepPending(k) { return this.stageIndex(this.currentStage) < this.stageIndex(k); },
-      dragStart(e, i) { this.draggedIndex = i; e.dataTransfer.effectAllowed = 'move'; },
-      dragOver(e, i) { this.isDragOver = i; },
-      dragLeave(e, i) { if (this.isDragOver === i) this.isDragOver = null; },
-      dragDrop(e, t) { if (this.draggedIndex === null || this.draggedIndex === t) return; const it = this.priorityPrograms.splice(this.draggedIndex, 1)[0]; this.priorityPrograms.splice(t, 0, it); this.draggedIndex = null; this.isDragOver = null; },
-      dragEnd(e) { this.draggedIndex = null; this.isDragOver = null; },
-      savePriority() { this.prioritasSaved = true; alert('Urutan prioritas program berhasil disimpan!'); },
+      toggleExpand(id) {
+        this.expandedFormId = this.expandedFormId === id ? null : id;
+        this.selectedProgram = id;
+      },
+      dragStart(e, idx) {
+        this.draggedIndex = idx;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', String(idx));
+      },
+      dragOver(e, idx) {
+        if (this.draggedIndex === null) return;
+        this.isDragOver = idx;
+      },
+      dragLeave(e, idx) {
+        if (this.isDragOver === idx) this.isDragOver = null;
+      },
+      dragDrop(e, targetIdx) {
+        if (this.draggedIndex === null || this.draggedIndex === targetIdx) {
+          this.dragEnd();
+          return;
+        }
+        const moved = this.daftarFormMBKM.splice(this.draggedIndex, 1)[0];
+        this.daftarFormMBKM.splice(targetIdx, 0, moved);
+        this.selectedProgram = moved.id;
+        this.dragEnd();
+      },
+      dragEnd() {
+        this.draggedIndex = null;
+        this.isDragOver = null;
+        this.dragEnabledId = null;
+      },
       saveDokumenProgram(id) { this.editingFormId = null; alert('Dokumen berkas formulir berhasil diperbarui dan disimpan!'); },
       canAddLampiran(item) { return !item.isClosed && (!item.dokumen.lampiran || item.dokumen.lampiran.length < 3); },
       tambahLampiran(item) { if (!item.dokumen.lampiran) item.dokumen.lampiran = []; if (item.dokumen.lampiran.length < 3) { if (this.editingFormId !== item.id) this.editingFormId = item.id; item.dokumen.lampiran.push(''); } },
       hapusLampiran(item, idx) { if (item.dokumen.lampiran) item.dokumen.lampiran.splice(idx, 1); }
     }`}
   >
-    <!-- Header Halaman -->
-    <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <!-- Header Halaman (Selaras Dashboard) -->
+    <header class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
       <div>
-        <h1 class="text-2xl font-bold text-[#0F172A] tracking-tight">Detail Status & Alur Pendaftaran MBKM</h1>
-        <p class="text-sm text-[#0F172A] mt-1">Pantau progres formulir pendaftaran, verifikasi berkas, wawancara, prioritas, dan hasil akhir penempatan.</p>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Detail Status & Alur Pendaftaran MBKM</h2>
+        <p class="text-sm text-[#71717a] mt-0.5">Pantau progres formulir pendaftaran, verifikasi berkas, wawancara, dan hasil akhir penempatan.</p>
       </div>
       <a
         href="/mahasiswa/dashboard"
-        class="h-9 px-3.5 border border-[#E2E8F0] bg-white hover:bg-[#F8FAFC] text-[#0F172A] text-xs font-medium rounded-[6px] transition-colors inline-flex items-center gap-1.5 self-start sm:self-auto shadow-2xs"
+        class="inline-flex items-center gap-1.5 h-8 px-3 border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium rounded-md transition-colors self-start sm:self-auto shrink-0 shadow-none"
       >
-        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-[#71717a]"></i>
         <span>Kembali ke Dashboard</span>
       </a>
     </header>
@@ -72,18 +87,14 @@ import { mockDaftarFormMBKM } from "../../data/mahasiswa/pendaftaranData";
     <!-- Stepper Tracker 5 Tahap -->
     <DetailStepper />
 
-    <!-- Layout 2 Kolom -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      <section class="lg:col-span-8 space-y-6">
+    <!-- Layout 2 Kolom (Selaras Grid Dashboard) -->
+    <section class="grid gap-4 lg:grid-cols-3 items-start">
+      <div class="lg:col-span-2">
         <TahapPendaftaranReview />
-        <TahapBerkas />
-        <TahapWawancara />
-        <TahapPrioritas />
-        <TahapHasilSeleksi />
-      </section>
-      <aside class="lg:col-span-4">
+      </div>
+      <aside>
         <DetailSidebar />
       </aside>
-    </div>
+    </section>
   </div>
 </MahasiswaShell>
