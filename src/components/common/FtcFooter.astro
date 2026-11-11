@@ -1,0 +1,97 @@
+---
+// src/components/common/FtcFooter.astro
+---
+
+<footer id="site-footer" class="border-t-4 border-[#f59e0b] bg-[#072f57] text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-12">
+
+      <!-- Kolom 1: Identitas & Kontak -->
+      <div class="lg:col-span-4 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white font-extrabold text-[#072f57] shadow-sm">
+            <span class="text-[#072f57]">UD</span>
+          </div>
+          <div class="leading-tight">
+            <div class="text-sm font-extrabold tracking-tight">UNIVERSITAS DIAN NUSWANTORO</div>
+            <div class="mt-0.5 text-xs font-semibold text-[#f59e0b]">Fakultas Teknologi Cerdas (FTC)</div>
+          </div>
+        </div>
+        <p class="max-w-sm text-sm leading-relaxed text-white/70">
+          Mempersiapkan generasi digital dan teknologi cerdas yang kompeten, inovatif, dan siap menghadapi tantangan masa depan.
+        </p>
+        <ul class="space-y-2.5 text-sm text-white/75 pt-2">
+          <li class="flex items-start gap-2.5">
+            <i data-lucide="map-pin" class="mt-0.5 h-4 w-4 shrink-0 text-[#f59e0b]"></i>
+            <span class="text-xs sm:text-sm">Jl. Imam Bonjol No. 207, Pendrikan Kidul, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50131</span>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <i data-lucide="phone" class="h-4 w-4 shrink-0 text-[#f59e0b]"></i>
+            <span class="text-xs sm:text-sm">(024) 3517261</span>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <i data-lucide="mail" class="h-4 w-4 shrink-0 text-[#f59e0b]"></i>
+            <span class="text-xs sm:text-sm break-all">sekretariat@ftc.dinus.ac.id</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Kolom 2: Program Studi -->
+      <div class="lg:col-span-3">
+        <h4 class="mb-4 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">Program Studi</h4>
+        <ul class="space-y-2.5 text-sm text-white/75">
+          <li><a href="/#prodi" class="transition-colors hover:text-[#f59e0b]">Program Studi Sarjana (S1)</a></li>
+          <li><a href="/#prodi" class="transition-colors hover:text-[#f59e0b]">Program Diploma &amp; Sarjana Terapan (D3 &amp; SST)</a></li>
+          <li><a href="/#prodi" class="transition-colors hover:text-[#f59e0b]">Program Magister (S2)</a></li>
+          <li><a href="/#prodi" class="transition-colors hover:text-[#f59e0b]">Program Studi Doktor (S3)</a></li>
+          <li><a href="/#prodi" class="transition-colors hover:text-[#f59e0b]">Program Pendidikan Jarak Jauh (PJJ)</a></li>
+        </ul>
+      </div>
+
+      <!-- Kolom 3: Organisasi & Biro -->
+      <div class="space-y-7 lg:col-span-2">
+        <div>
+          <h4 class="mb-3 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">Organisasi Mahasiswa</h4>
+          <ul class="space-y-2 text-sm text-white/75">
+            <li><a href="#" class="transition-colors hover:text-[#f59e0b]">BEM FTC</a></li>
+            <li><a href="#" class="transition-colors hover:text-[#f59e0b]">DPM FTC</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="mb-3 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">Biro</h4>
+          <ul class="space-y-2 text-sm text-white/75">
+            <li><a href="#" class="transition-colors hover:text-[#f59e0b]">Biro Akademik</a></li>
+            <li><a href="#" class="transition-colors hover:text-[#f59e0b]">Biro Keuangan</a></li>
+            <li><a href="#" class="transition-colors hover:text-[#f59e0b]">Biro Mahasiswa</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Kolom 4: Unit & Layanan MBKM -->
+      <div class="lg:col-span-3">
+        <h4 class="mb-4 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">Layanan MBKM &amp; Portal</h4>
+        <ul class="space-y-2 text-sm text-white/75">
+          <li><a href="/mbkm" class="transition-colors hover:text-[#f59e0b] font-medium">Katalog Kampus Berdampak</a></li>
+          <li><a href="/apps" class="transition-colors hover:text-[#f59e0b]">Portal Aplikasi Terpadu (Apps)</a></li>
+          <li><a href="/mahasiswa/dashboard" class="transition-colors hover:text-[#f59e0b]">Portal Mahasiswa Pelamar</a></li>
+          <li><a href="/dosen/dashboard" class="transition-colors hover:text-[#f59e0b]">Portal Dosen Pembimbing</a></li>
+          <li><a href="/contributor/dashboard" class="transition-colors hover:text-[#f59e0b]">Portal Kontributor</a></li>
+          <li><a href="https://siadin.dinus.ac.id" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[#f59e0b]">SIADIN Akademik</a></li>
+        </ul>
+        <h4 class="mt-6 mb-3 text-xs font-bold uppercase tracking-wider text-[#f59e0b]">Unit Penunjang</h4>
+        <ul class="space-y-2 text-sm text-white/75">
+          <li><a href="#" class="transition-colors hover:text-[#f59e0b]">UPT Perpustakaan</a></li>
+          <li><a href="#" class="transition-colors hover:text-[#f59e0b]">UPT Career Center</a></li>
+          <li><a href="#" class="transition-colors hover:text-[#f59e0b]">UPT Dinustek &amp; TVKU</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-8 text-center text-xs text-white/60 sm:flex-row sm:text-left">
+      <p>© 2026 Fakultas Teknologi Cerdas — Universitas Dian Nuswantoro. All rights reserved.</p>
+      <a href="#" class="transition-colors hover:text-[#f59e0b]">About Developer</a>
+    </div>
+  </div>
+</footer>

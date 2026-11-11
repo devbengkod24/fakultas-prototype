@@ -1,0 +1,165 @@
+---
+// src/components/mbkm/katalog/MbkmCardGrid.astro
+import MbkmProgramCard from './MbkmProgramCard.astro';
+
+interface ProgramItem {
+  title: string;
+  type: 'internal' | 'eksternal';
+  by: string;
+  badge?: string;
+  image: string;
+  desc: string;
+  hidden?: boolean;
+}
+
+const programs: ProgramItem[] = [
+  // MBKM Internal
+  {
+    title: 'Lab IntSys',
+    type: 'internal',
+    by: 'Kontributor',
+    badge: 'Studi Independen',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Kh20ASkDniJXRi284KHnimVi19cMMFhJDRIAYXsGxyW--Q5DKlgdNHgD&s=10',
+    desc: 'Program konversi skrup projek independen atau asistensi pengembangan yang menggabungkan konsep rekayasa perangkat lunak web dengan implementasi kecerdasan buatan.',
+  },
+  {
+    title: 'IDSS',
+    type: 'internal',
+    by: 'Kontributor',
+    badge: 'Riset Bidang Kajian',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8hufRtor1it_OHNxVHXM-OC3_zFU8Gx9VYqdJR8YKlA&s=10',
+    desc: 'Program proyek independen berbasis riset dari Universitas Dian Nuswantoro yang berfokus pada teknologi pengawasan cerdas, kecerdasan buatan (AI), dan keamanan siber.',
+  },
+  {
+    title: 'Bengkel Koding',
+    type: 'internal',
+    by: 'Kontributor',
+    image: 'https://bengkelkoding.dinus.id/_next/image?url=%2Fimg%2Fabout-us.jpeg&w=3840&q=75',
+    desc: 'Program pembelajaran dan pelatihan pemrograman internal dari Fakultas Ilmu Komputer yang dirancang untuk membekali mahasiswa dengan keterampilan praktis di bidang teknologi informasi.',
+  },
+  {
+    title: 'PPKOrmawa',
+    type: 'internal',
+    by: 'Kontributor',
+    image: 'https://ppkormawa.dinus.ac.id/wp-content/uploads/sites/55/2022/10/ppkofkes-627x376.jpg',
+    desc: 'Program pengabdian dan pemberdayaan masyarakat oleh mahasiswa untuk membangun desa binaan yang solutif dan berkelanjutan.',
+  },
+
+  // MBKM Eksternal
+  {
+    title: 'Dicoding Asah',
+    type: 'eksternal',
+    by: 'Admin',
+    badge: 'Studi Independen',
+    image: 'https://fmipa.unud.ac.id/protected/storage/file_summernote/b037a0e96236da12fd560a72c255353e.03',
+    desc: 'Program pelatihan intensif berbasis Studi Independen Bersertifikat Mandiri yang dapat diikuti oleh mahasiswa untuk menguasai pembuatan web modern, pengembangan perangkat lunak, hingga kecerdasan buatan.',
+    hidden: true,
+  },
+  {
+    title: 'VINIX',
+    type: 'eksternal',
+    by: 'Admin',
+    badge: 'Studi Independen',
+    image: 'https://dinus.ac.id/_astro/foto-bersama-fik-awards_ZJSELD.jpeg',
+    desc: 'Akselerasi karier digital mahasiswa bersama Program MBKM VINIX melalui magang berbasis proyek nyata dan bimbingan mentor profesional.',
+    hidden: true,
+  },
+  {
+    title: 'BTIK',
+    type: 'eksternal',
+    by: 'Admin',
+    badge: 'Magang KKI',
+    image: 'https://media.licdn.com/dms/image/sync/v2/D5627AQEMGkDk35io9w/articleshare-shrink_800/articleshare-shrink_800/0/1735465453360?e=2147483647&v=beta&t=GouGTO0nO4-6FPr4v0HSWSxZoBAkN-Ub4clV4pWmrR4',
+    desc: 'Program MBKM dengan fokus utama pada perancangan, pengembangan, dan pemeliharaan aplikasi berbasis web untuk menunjang sistem informasi di lingkungan kampus.',
+    hidden: true,
+  },
+  {
+    title: 'Magang di Sekolah',
+    type: 'eksternal',
+    by: 'Admin',
+    image: 'https://dinus.ac.id/_astro/MHS-PROGRAM-MAGANG-INDUSTRI-3-scaled_1oqheD.jpeg',
+    desc: 'Kegiatan pengabdian dan pembelajaran di sekolah untuk membantu transformasi pendidikan berbasis teknologi.',
+    hidden: true,
+  },
+];
+---
+
+<div id="cardGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+  {programs.map((item) => (
+    <MbkmProgramCard
+      title={item.title}
+      type={item.type}
+      by={item.by}
+      badge={item.badge}
+      image={item.image}
+      desc={item.desc}
+      hidden={item.hidden}
+    />
+  ))}
+</div>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tabs = document.querySelectorAll(".type-tab");
+    const typeTitle = document.getElementById("typeTitle");
+    const cards = document.querySelectorAll(".program-card");
+
+    const typeContent = {
+      internal: { title: "MBKM Internal" },
+      eksternal: { title: "MBKM Eksternal" }
+    };
+
+    const selectCard = (card) => {
+      cards.forEach((item) => {
+        const isSelected = item === card;
+        item.classList.toggle("is-selected", isSelected);
+        item.classList.toggle("ring-2", isSelected);
+        item.classList.toggle("ring-[#0b4d8c]", isSelected);
+        item.setAttribute("aria-pressed", isSelected ? "true" : "false");
+      });
+    };
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => selectCard(card));
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectCard(card);
+        }
+      });
+    });
+
+    const firstVisibleCard = [...cards].find((card) => !card.classList.contains("hidden"));
+    if (firstVisibleCard) selectCard(firstVisibleCard);
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => {
+          t.classList.remove("active", "bg-[#072f57]", "text-white", "shadow-sm");
+          t.classList.add("text-slate-500");
+          t.setAttribute("aria-pressed", "false");
+        });
+
+        tab.classList.add("active", "bg-[#072f57]", "text-white", "shadow-sm");
+        tab.classList.remove("text-slate-500");
+        tab.setAttribute("aria-pressed", "true");
+
+        const selectedType = typeContent[tab.dataset.type];
+        if (selectedType && typeTitle) {
+          typeTitle.textContent = selectedType.title;
+          cards.forEach((card) => {
+            const visible = card.dataset.type === tab.dataset.type;
+            card.classList.toggle("hidden", !visible);
+          });
+
+          const nextVisibleCard = [...cards].find((card) => !card.classList.contains("hidden"));
+          if (nextVisibleCard) selectCard(nextVisibleCard);
+        }
+      });
+    });
+
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  });
+</script>

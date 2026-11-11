@@ -3,30 +3,44 @@
 ---
 
 <!-- ========================================== -->
-<!-- KEGIATAN PROGRAM (3 SKEMA)                 -->
+<!-- KEGIATAN PROGRAM (TIMELINE)                -->
 <!-- ========================================== -->
 <section
   id="skema"
-  class="relative isolate scroll-mt-6 overflow-x-clip bg-[#114D91] py-16 sm:py-20 lg:py-24"
+  class="relative isolate scroll-mt-6 overflow-x-clip bg-gradient-to-br from-[#072f57] via-[#083460] to-[#072f57] py-16 sm:py-20 lg:py-24 text-white"
 >
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <!-- Latar organik natural (tanpa pola grid/kotak) -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div class="absolute -right-24 -top-24 h-[28rem] w-[28rem] rounded-full bg-[#f59e0b]/15 blur-3xl"></div>
+    <div class="absolute -left-24 -bottom-24 h-[28rem] w-[28rem] rounded-full bg-[#0b4d8c]/30 blur-3xl"></div>
+    <div class="absolute left-1/2 top-1/2 h-[18rem] w-[42rem] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#114d91]/20 blur-3xl"></div>
+    <svg
+      class="absolute inset-x-0 bottom-0 h-48 w-full text-[#0b4d8c]/25"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1440 320"
+      preserveAspectRatio="none"
+    >
+      <path
+        fill="currentColor"
+        d="M0,192L60,186.7C120,181,240,171,360,181.3C480,192,600,224,720,213.3C840,203,960,149,1080,138.7C1200,128,1320,160,1380,176L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+    </svg>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- JUDUL (rata tengah) -->
-    <div class="mx-auto max-w-3xl text-center">
-      <div class="flex items-center justify-center gap-3">
-        <span class="h-px w-10 bg-[#F3BC45]"></span>
-        <p class="text-sm font-bold uppercase tracking-[0.16em] text-[#F3BC45]">
-          Timeline
-        </p>
-        <span class="h-px w-10 bg-[#F3BC45]"></span>
+    <div class="mx-auto max-w-3xl text-center flex flex-col items-center">
+      <div class="split-badge mb-4">
+        <span class="split-badge-left">TIMELINE</span>
+        <span class="split-badge-right">ALUR KEGIATAN</span>
       </div>
 
       <h2
-        class="mt-4 text-2xl font-extrabold leading-[1.2] tracking-tight text-white sm:text-3xl lg:text-4xl"
+        class="text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl"
       >
-        Alur Kegiatan
+        Alur Kegiatan Program
       </h2>
 
-      <p class="mx-auto mt-4 max-w-2xl text-[15px] leading-7 text-blue-100/80">
+      <p class="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-blue-100/80">
         Tahapan yang kamu jalani setelah resmi diterima sebagai peserta, hingga
         luaran pembelajarannya diakui.
       </p>
@@ -39,11 +53,12 @@
         <li class="relative flex flex-col items-center text-center">
           <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
           <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
             <i data-lucide="user-check" class="h-6 w-6"></i>
           </div>
           <div class="min-w-0 pt-5">
-            <h3 class="text-base font-extrabold leading-snug text-white">Onboarding Peserta</h3>
+            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 01</span>
+            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Onboarding Peserta</h3>
             <p class="mt-2 text-sm leading-6 text-blue-100/80">Aktivasi akun dan orientasi program.</p>
           </div>
         </li>
@@ -52,11 +67,12 @@
         <li class="relative flex flex-col items-center text-center">
           <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
           <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
             <i data-lucide="book-open-check" class="h-6 w-6"></i>
           </div>
           <div class="min-w-0 pt-5">
-            <h3 class="text-base font-extrabold leading-snug text-white">Pembelajaran Mandiri</h3>
+            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 02</span>
+            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Pembelajaran Mandiri</h3>
             <p class="mt-2 text-sm leading-6 text-blue-100/80">Modul industri dan mentoring praktisi.</p>
           </div>
         </li>
@@ -65,11 +81,12 @@
         <li class="relative flex flex-col items-center text-center">
           <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
           <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
             <i data-lucide="folder-kanban" class="h-6 w-6"></i>
           </div>
           <div class="min-w-0 pt-5">
-            <h3 class="text-base font-extrabold leading-snug text-white">Proyek Nyata</h3>
+            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 03</span>
+            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Proyek Nyata</h3>
             <p class="mt-2 text-sm leading-6 text-blue-100/80">Capstone Project berbasis kasus industri.</p>
           </div>
         </li>
@@ -78,22 +95,24 @@
         <li class="relative flex flex-col items-center text-center">
           <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
           <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
             <i data-lucide="briefcase" class="h-6 w-6"></i>
           </div>
           <div class="min-w-0 pt-5">
-            <h3 class="text-base font-extrabold leading-snug text-white">Pembekalan Karir</h3>
+            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 04</span>
+            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Pembekalan Karir</h3>
             <p class="mt-2 text-sm leading-6 text-blue-100/80">Soft skills dan kesiapan kerja.</p>
           </div>
         </li>
 
         <!-- LANGKAH 05 -->
         <li class="relative flex flex-col items-center text-center">
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#114D91] shadow-lg ring-[6px] ring-white/10">
+          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
             <i data-lucide="graduation-cap" class="h-6 w-6"></i>
           </div>
           <div class="min-w-0 pt-5">
-            <h3 class="text-base font-extrabold leading-snug text-white">Konversi SKS</h3>
+            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 05</span>
+            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Konversi SKS</h3>
             <p class="mt-2 text-sm leading-6 text-blue-100/80">Luaran diakui hingga 20 SKS.</p>
           </div>
         </li>

@@ -9,12 +9,12 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<section id="registration-panel" class={cn("rounded-xl border border-gray-200 bg-white p-5 sm:p-7", className)}>
+<section id="registration-panel" class={cn("rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-7 shadow-xs", className)}>
   <div class="relative mx-auto max-w-2xl py-1">
     <!-- Connecting Progress Track running behind the nodes -->
-    <div class="absolute left-[16.66%] right-[16.66%] top-5 -translate-y-1/2 h-1 bg-gray-200 rounded-full" aria-hidden="true">
+    <div class="absolute left-[16.66%] right-[16.66%] top-5 -translate-y-1/2 h-1 bg-slate-200 rounded-full" aria-hidden="true">
       <!-- Progress Fill Bar -->
-      <div id="progress-bar" class="h-full bg-primary-600 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+      <div id="progress-bar" class="h-full bg-[#072f57] rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
     </div>
 
     <!-- Step Buttons Grid (Centered, 3 columns) -->
@@ -22,7 +22,7 @@ const { class: className = '' } = Astro.props;
       <button
         type="button"
         data-step="1"
-        class={cn("step-indicator active focus-ring group flex flex-col items-center text-center")}
+        class={cn("step-indicator active focus-ring group flex flex-col items-center text-center cursor-pointer")}
         aria-current="step"
       >
         <span class="step-number flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold shadow-xs">1</span>
@@ -32,7 +32,7 @@ const { class: className = '' } = Astro.props;
       <button
         type="button"
         data-step="2"
-        class={cn("step-indicator focus-ring group flex flex-col items-center text-center")}
+        class={cn("step-indicator focus-ring group flex flex-col items-center text-center cursor-pointer")}
       >
         <span class="step-number flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold shadow-xs">2</span>
         <span class="mt-2 text-xs sm:text-sm font-semibold leading-5">Dokumen</span>
@@ -41,7 +41,7 @@ const { class: className = '' } = Astro.props;
       <button
         type="button"
         data-step="3"
-        class={cn("step-indicator focus-ring group flex flex-col items-center text-center")}
+        class={cn("step-indicator focus-ring group flex flex-col items-center text-center cursor-pointer")}
       >
         <span class="step-number flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold shadow-xs">3</span>
         <span class="mt-2 text-xs sm:text-sm font-semibold leading-5">Persetujuan</span>
@@ -54,11 +54,11 @@ const { class: className = '' } = Astro.props;
   <slot />
 
   <!-- NAVIGATION BUTTONS -->
-  <div id="form-navigation" class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3">
+  <div id="form-navigation" class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 pt-2">
     <button
       id="prev-button"
       type="button"
-      class="focus-ring hidden items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+      class="focus-ring hidden items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-[#072f57] shadow-xs transition-all cursor-pointer"
     >
       <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
     </button>
@@ -66,7 +66,7 @@ const { class: className = '' } = Astro.props;
     <button
       id="next-button"
       type="button"
-      class="focus-ring inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-700"
+      class="focus-ring inline-flex items-center justify-center gap-2 rounded-xl bg-[#072f57] hover:bg-[#0b4d8c] px-6 py-3 text-sm font-bold text-white shadow-xs transition-all hover:shadow-md cursor-pointer"
     >
       <span id="next-label">Berikutnya</span>
       <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -75,7 +75,7 @@ const { class: className = '' } = Astro.props;
     <button
       id="submit-button"
       type="submit"
-      class="focus-ring hidden items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white hover:bg-primary-700"
+      class="focus-ring hidden items-center justify-center gap-2 rounded-xl bg-[#f59e0b] hover:bg-[#d97706] text-[#072f57] hover:text-white px-6 py-3 text-sm font-bold shadow-xs transition-all hover:shadow-md cursor-pointer"
     >
       <i data-lucide="send" class="w-4 h-4"></i> Kirim Pengajuan
     </button>
