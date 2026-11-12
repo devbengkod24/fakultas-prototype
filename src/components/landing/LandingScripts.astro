@@ -840,8 +840,9 @@
 
         function renderUnggulan(animate = true) {
             const data = unggulanData[activeUnggulan];
-            if (!data) return;
-            document.getElementById('unggulan-partner').textContent = data.partner;
+            const partnerEl = document.getElementById('unggulan-partner');
+            if (!data || !partnerEl) return;
+            partnerEl.textContent = data.partner;
             document.getElementById('unggulan-title').textContent = data.title;
 
             // Barisan Chip Deduplikasi Prodi Terlibat (Req 7)
@@ -3280,8 +3281,12 @@
             img.addEventListener('error', ok, { once: true });
         });
 
-        /* Inisialisasi otomatis jika URL memuat hash anchor Prodi (misal: #prodi-peminatan) */
-        if (window.location.hash && window.location.hash.startsWith('#prodi-')) {
+        /* Inisialisasi otomatis jika URL memuat hash view (#unggulan, #profil, dll.) atau hash anchor Prodi */
+        const viewHashes = ['beranda', 'profil', 'unggulan', 'inovasi', 'publikasi', 'pengumuman', 'berita'];
+        const initialHash = window.location.hash ? window.location.hash.slice(1) : '';
+        if (viewHashes.includes(initialHash)) {
+            switchPage(initialHash, { scroll: false });
+        } else if (window.location.hash && window.location.hash.startsWith('#prodi-')) {
             switchPage('prodi', { scroll: false });
             setTimeout(() => {
                 const targetSec = document.querySelector(window.location.hash);
