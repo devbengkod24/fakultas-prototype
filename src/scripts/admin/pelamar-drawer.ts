@@ -9,19 +9,12 @@ let activeDrawerDetailTab = 'dokumen';
 let isDrawerJadwalUnlocked = false;
 
 function switchDrawerDetailTab(tabKey) {
-  if (tabKey === 'jadwal' && activeDrawerMode === 'review-berkas' && !isDrawerJadwalUnlocked) {
-    alert('Tab Atur Jadwal masih terkunci.\n\nSilakan tinjau berkas di tab Dokumen terlebih dahulu, kemudian klik tombol "Setuju Berkas >" di footer untuk membuka pengaturan jadwal wawancara.');
-    return;
-  }
-
   activeDrawerDetailTab = tabKey;
   const btnDokumen = document.getElementById('drawer-tab-btn-dokumen');
   const btnJadwal = document.getElementById('drawer-tab-btn-jadwal');
   const panelDokumen = document.getElementById('drawer-panel-dokumen');
-  const panelJadwal = document.getElementById('drawer-panel-jadwal');
 
   const footerDokumen = document.getElementById('drawer-footer-actions-dokumen');
-  const footerJadwal = document.getElementById('drawer-footer-actions-jadwal');
   const footerEvaluasi = document.getElementById('drawer-footer-actions-evaluasi');
   const footerReadonly = document.getElementById('drawer-footer-actions-readonly');
 
@@ -33,24 +26,18 @@ function switchDrawerDetailTab(tabKey) {
       btnJadwal.className = 'flex items-center gap-2 py-3 text-xs font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer';
     }
     if (panelDokumen) panelDokumen.classList.remove('hidden');
-    if (panelJadwal) panelJadwal.classList.add('hidden');
 
     if (activeDrawerMode === 'readonly-detail') {
       if (footerDokumen) footerDokumen.classList.add('hidden');
-      if (footerJadwal) footerJadwal.classList.add('hidden');
       if (footerEvaluasi) footerEvaluasi.classList.add('hidden');
       if (footerReadonly) footerReadonly.classList.remove('hidden');
     } else if (activeDrawerMode === 'review-berkas') {
-      const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
-      if (subpanelJadwalFlow) subpanelJadwalFlow.classList.add('hidden');
       if (footerReadonly) footerReadonly.classList.add('hidden');
       if (footerDokumen) footerDokumen.classList.remove('hidden');
-      if (footerJadwal) footerJadwal.classList.add('hidden');
       if (footerEvaluasi) footerEvaluasi.classList.add('hidden');
     } else {
       if (footerReadonly) footerReadonly.classList.add('hidden');
       if (footerDokumen) footerDokumen.classList.add('hidden');
-      if (footerJadwal) footerJadwal.classList.add('hidden');
       if (footerEvaluasi) footerEvaluasi.classList.remove('hidden');
     }
   } else {
@@ -61,22 +48,18 @@ function switchDrawerDetailTab(tabKey) {
       btnJadwal.className = 'flex items-center gap-2 py-3 text-xs font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors cursor-pointer';
     }
     if (panelDokumen) panelDokumen.classList.add('hidden');
-    if (panelJadwal) panelJadwal.classList.remove('hidden');
 
     if (activeDrawerMode === 'readonly-detail') {
       if (footerDokumen) footerDokumen.classList.add('hidden');
-      if (footerJadwal) footerJadwal.classList.add('hidden');
       if (footerEvaluasi) footerEvaluasi.classList.add('hidden');
       if (footerReadonly) footerReadonly.classList.remove('hidden');
     } else if (activeDrawerMode === 'review-berkas') {
       if (footerReadonly) footerReadonly.classList.add('hidden');
-      if (footerDokumen) footerDokumen.classList.add('hidden');
-      if (footerJadwal) footerJadwal.classList.remove('hidden');
+      if (footerDokumen) footerDokumen.classList.remove('hidden');
       if (footerEvaluasi) footerEvaluasi.classList.add('hidden');
     } else {
       if (footerReadonly) footerReadonly.classList.add('hidden');
       if (footerDokumen) footerDokumen.classList.add('hidden');
-      if (footerJadwal) footerJadwal.classList.add('hidden');
       if (footerEvaluasi) footerEvaluasi.classList.remove('hidden');
     }
   }
@@ -85,21 +68,7 @@ function switchDrawerDetailTab(tabKey) {
 }
 
 function updateDrawerJadwalLockState(unlocked) {
-  isDrawerJadwalUnlocked = unlocked;
-  const lockedState = document.getElementById('drawer-jadwal-locked-state');
-  const formContent = document.getElementById('drawer-jadwal-form-content');
-
-  if (lockedState && formContent) {
-    if (unlocked) {
-      lockedState.classList.add('hidden');
-      formContent.classList.remove('hidden');
-    } else {
-      lockedState.classList.remove('hidden');
-      formContent.classList.add('hidden');
-    }
-  }
-
-  if (window.lucide) window.lucide.createIcons();
+  isDrawerJadwalUnlocked = Boolean(unlocked);
 }
 
 function bukaDetailPelamarReadOnly(id) {
@@ -133,10 +102,9 @@ function bukaDetailPelamarReadOnly(id) {
 
   // Label Tab 2 disesuaikan
   const tabBtnJadwal = document.getElementById('drawer-tab-btn-jadwal');
-  const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
+  const readonlyJadwalInfo = document.getElementById('drawer-readonly-jadwal-info');
+  const readonlyJadwalContent = document.getElementById('drawer-readonly-jadwal-content');
   const subpanelWawancaraEval = document.getElementById('drawer-subpanel-wawancara-eval');
-  const lockedState = document.getElementById('drawer-jadwal-locked-state');
-  const formContent = document.getElementById('drawer-jadwal-form-content');
 
   // Identitas & Info Akademik
   populateDrawerHeaderProfile(item);
@@ -144,13 +112,13 @@ function bukaDetailPelamarReadOnly(id) {
   // Populate dynamic list dokumen ke Tab Dokumen
   populateDrawerDokumenList(item);
 
-  // Konfigurasi Tab 2 berdasarkan data yang ada
+  // Konfigurasi tampilan jadwal / evaluasi read-only berdasarkan data yang ada
   if (item.status === 'diterima' || (item.nilaiWawancara !== undefined && item.nilaiWawancara !== null)) {
     if (tabBtnJadwal) {
       const spanText = tabBtnJadwal.querySelector('span');
       if (spanText) spanText.textContent = 'Hasil Wawancara';
     }
-    if (subpanelJadwalFlow) subpanelJadwalFlow.classList.add('hidden');
+    if (readonlyJadwalInfo) readonlyJadwalInfo.classList.add('hidden');
     if (subpanelWawancaraEval) subpanelWawancaraEval.classList.remove('hidden');
 
     initPertanyaanSkorList(item, true);
@@ -166,49 +134,45 @@ function bukaDetailPelamarReadOnly(id) {
       const spanText = tabBtnJadwal.querySelector('span');
       if (spanText) spanText.textContent = 'Jadwal Wawancara';
     }
-    if (subpanelJadwalFlow) subpanelJadwalFlow.classList.remove('hidden');
     if (subpanelWawancaraEval) subpanelWawancaraEval.classList.add('hidden');
-    if (lockedState) lockedState.classList.add('hidden');
-    if (formContent) {
-      formContent.classList.remove('hidden');
-      const inputTanggal = document.getElementById('input-jadwal-tanggal');
-      const inputJam = document.getElementById('input-jadwal-jam');
-      const inputCatatan = document.getElementById('input-jadwal-catatan');
-      if (inputTanggal) {
-        inputTanggal.disabled = true;
-        inputTanggal.classList.add('bg-zinc-100', 'cursor-not-allowed');
-      }
-      if (inputJam) {
-        inputJam.disabled = true;
-        inputJam.classList.add('bg-zinc-100', 'cursor-not-allowed');
-      }
-      if (inputCatatan) {
-        inputCatatan.value = item.lokasiWawancara || item.catatanWawancara || '';
-        inputCatatan.disabled = true;
-        inputCatatan.classList.add('bg-zinc-100', 'cursor-not-allowed');
-      }
+    if (readonlyJadwalInfo) readonlyJadwalInfo.classList.remove('hidden');
+    if (readonlyJadwalContent) {
+      readonlyJadwalContent.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <span class="block text-[11px] font-medium text-[#71717a]">Waktu Wawancara</span>
+            <span class="block font-semibold text-[#09090b] mt-0.5">${item.jadwalWawancara}</span>
+          </div>
+          <div>
+            <span class="block text-[11px] font-medium text-[#71717a]">Lokasi / Tautan</span>
+            <span class="block font-semibold text-[#09090b] mt-0.5 break-all">${item.lokasiWawancara || item.catatanWawancara || '-'}</span>
+          </div>
+        </div>
+      `;
     }
-  } else {
-    // Belum ada jadwal/evaluasi wawancara
+  } else if (item.kategoriKontributor === 'internal') {
     if (tabBtnJadwal) {
       const spanText = tabBtnJadwal.querySelector('span');
       if (spanText) spanText.textContent = 'Jadwal Wawancara';
     }
-    if (subpanelJadwalFlow) subpanelJadwalFlow.classList.remove('hidden');
     if (subpanelWawancaraEval) subpanelWawancaraEval.classList.add('hidden');
-    if (lockedState) {
-      lockedState.classList.remove('hidden');
-      lockedState.innerHTML = `
-        <div class="w-10 h-10 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-2.5">
-          <i data-lucide="lock" class="w-5 h-5"></i>
+    if (readonlyJadwalInfo) readonlyJadwalInfo.classList.remove('hidden');
+    if (readonlyJadwalContent) {
+      readonlyJadwalContent.innerHTML = `
+        <div class="p-3 text-center rounded-lg border border-dashed border-[#e4e4e7]">
+          <div class="w-9 h-9 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-2">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+          </div>
+          <h4 class="text-xs font-semibold text-[#09090b]">Tahap Seleksi Dikelola Kontributor</h4>
+          <p class="text-[11px] text-[#71717a] mt-1">
+            Penjadwalan wawancara dan penetapan kelolosan bagi mitra internal <strong>${item.kontributor}</strong> ditangani sepenuhnya oleh pihak kontributor.
+          </p>
         </div>
-        <h4 class="text-sm font-semibold text-[#09090b]">Tahap Seleksi Dikelola Kontributor</h4>
-        <p class="text-xs text-[#71717a] mt-1 max-w-sm mx-auto">
-          Penjadwalan wawancara dan penetapan kelolosan bagi mitra internal <strong>${item.kontributor}</strong> ditangani sepenuhnya oleh pihak kontributor.
-        </p>
       `;
     }
-    if (formContent) formContent.classList.add('hidden');
+  } else {
+    if (readonlyJadwalInfo) readonlyJadwalInfo.classList.add('hidden');
+    if (subpanelWawancaraEval) subpanelWawancaraEval.classList.add('hidden');
   }
 
   // Buka drawer & aktifkan Tab Dokumen
@@ -284,41 +248,14 @@ function bukaReviewBerkasDrawer(id) {
     if (spanText) spanText.textContent = 'Atur Jadwal';
   }
 
-  // Mode Review Berkas: sembunyikan subpanel penilaian wawancara
-  const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
+  // Mode Review Berkas: sembunyikan info jadwal read-only & subpanel penilaian wawancara
+  const readonlyJadwalInfo = document.getElementById('drawer-readonly-jadwal-info');
   const subpanelWawancaraEval = document.getElementById('drawer-subpanel-wawancara-eval');
-  if (subpanelJadwalFlow) subpanelJadwalFlow.classList.remove('hidden');
+  if (readonlyJadwalInfo) readonlyJadwalInfo.classList.add('hidden');
   if (subpanelWawancaraEval) subpanelWawancaraEval.classList.add('hidden');
-
-  // Pastikan input jadwal aktif (re-enable jika sebelumnya dibuka dari readonly detail)
-  const inputTanggal = document.getElementById('input-jadwal-tanggal');
-  const inputJam = document.getElementById('input-jadwal-jam');
-  const inputCatatanJadwal = document.getElementById('input-jadwal-catatan');
-  if (inputTanggal) {
-    inputTanggal.disabled = false;
-    inputTanggal.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
-  if (inputJam) {
-    inputJam.disabled = false;
-    inputJam.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
-  if (inputCatatanJadwal) {
-    inputCatatanJadwal.disabled = false;
-    inputCatatanJadwal.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
 
   // Identitas & Info Akademik
   populateDrawerHeaderProfile(item);
-
-  // Kunci form Atur Jadwal di awal
-  updateDrawerJadwalLockState(false);
-
-  // Reset form Atur Jadwal ke default (Online)
-  const radioOnline = document.querySelector('input[name="radio-metode-wawancara"][value="online"]');
-  if (radioOnline) {
-    radioOnline.checked = true;
-    handleMetodeWawancaraChange('online');
-  }
 
   // Populate dynamic list dokumen ke Tab Dokumen
   populateDrawerDokumenList(item);
@@ -354,10 +291,10 @@ function bukaEvaluasiWawancaraDrawer(id) {
     if (spanText) spanText.textContent = 'Nilai & Catatan';
   }
 
-  // Tampilkan subpanel wawancara eval & sembunyikan subpanel form jadwal
-  const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
+  // Tampilkan subpanel wawancara eval & sembunyikan info jadwal read-only
+  const readonlyJadwalInfo = document.getElementById('drawer-readonly-jadwal-info');
   const subpanelWawancaraEval = document.getElementById('drawer-subpanel-wawancara-eval');
-  if (subpanelJadwalFlow) subpanelJadwalFlow.classList.add('hidden');
+  if (readonlyJadwalInfo) readonlyJadwalInfo.classList.add('hidden');
   if (subpanelWawancaraEval) subpanelWawancaraEval.classList.remove('hidden');
 
   // Identitas & Info Akademik
@@ -471,9 +408,6 @@ function closePelamarDetailModal() {
   // Reset disabled / readonly input state
   const inputSkor = document.getElementById('modal-pelamar-input-skor');
   const inputCatatan = document.getElementById('modal-pelamar-catatan-koor');
-  const inputTanggal = document.getElementById('input-jadwal-tanggal');
-  const inputJam = document.getElementById('input-jadwal-jam');
-  const inputCatatanJadwal = document.getElementById('input-jadwal-catatan');
 
   if (inputSkor) {
     inputSkor.disabled = false;
@@ -482,32 +416,6 @@ function closePelamarDetailModal() {
   if (inputCatatan) {
     inputCatatan.disabled = false;
     inputCatatan.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
-  if (inputTanggal) {
-    inputTanggal.disabled = false;
-    inputTanggal.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
-  if (inputJam) {
-    inputJam.disabled = false;
-    inputJam.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
-  if (inputCatatanJadwal) {
-    inputCatatanJadwal.disabled = false;
-    inputCatatanJadwal.classList.remove('bg-zinc-100', 'cursor-not-allowed');
-  }
-
-  // Kembalikan locked state template bawaan
-  const lockedState = document.getElementById('drawer-jadwal-locked-state');
-  if (lockedState) {
-    lockedState.innerHTML = `
-      <div class="w-10 h-10 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-2.5">
-        <i data-lucide="lock" class="w-5 h-5"></i>
-      </div>
-      <h4 class="text-sm font-semibold text-[#09090b]">Form Penjadwalan Masih Terkunci</h4>
-      <p class="text-xs text-[#71717a] mt-1 max-w-sm mx-auto">
-        Silakan periksa berkas di tab Dokumen, lalu klik <strong>Setujui Berkas</strong> untuk mengaktifkan pengaturan jadwal wawancara bagi kandidat ini.
-      </p>
-    `;
   }
 }
 

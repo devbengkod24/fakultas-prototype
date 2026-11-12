@@ -159,27 +159,49 @@ function tolakBerkasPelamar() {
   }
 }
 
-function setujuiBerkasPelamar() {
-  if (!activeModalPelamarId || activeDrawerMode === 'readonly-detail') return;
-  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+let activeJadwalPelamarId = null;
+
+function bukaModalJadwalWawancaraPelamar(id) {
+  const item = pelamarListData.find((p) => p.id === id);
   if (!item) return;
 
-  // Buka kunci form Atur Jadwal
-  updateDrawerJadwalLockState(true);
+  activeJadwalPelamarId = id;
+  const modal = document.getElementById('modal-jadwal-wawancara-pelamar');
+  if (!modal) return;
 
-  // Tampilkan seksi jadwal di bawah berkas
-  const subpanelJadwalFlow = document.getElementById('drawer-subpanel-jadwal-flow');
-  if (subpanelJadwalFlow) {
-    subpanelJadwalFlow.classList.remove('hidden');
-    subpanelJadwalFlow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const infoEl = document.getElementById('modal-jadwal-pelamar-info');
+  if (infoEl) {
+    infoEl.textContent = `${item.nama} (${item.nim}) • ${item.kontributor || item.program || '-'}`;
   }
 
-  // Switch footer to Jadwal actions (Kembali & Simpan Jadwal)
-  const footerDokumen = document.getElementById('drawer-footer-actions-dokumen');
-  const footerJadwal = document.getElementById('drawer-footer-actions-jadwal');
-  if (footerDokumen) footerDokumen.classList.add('hidden');
-  if (footerJadwal) footerJadwal.classList.remove('hidden');
+  const tglInput = document.getElementById('input-jadwal-tanggal');
+  const jamInput = document.getElementById('input-jadwal-jam');
+  const catatanInput = document.getElementById('input-jadwal-catatan');
+  const radioOnline = document.querySelector('input[name="radio-metode-wawancara"][value="online"]');
+
+  if (tglInput) tglInput.value = '2026-10-22';
+  if (jamInput) jamInput.value = '09:00';
+  if (catatanInput) catatanInput.value = 'https://meet.google.com/bengkod-ai-eval';
+  if (radioOnline) {
+    radioOnline.checked = true;
+    handleMetodeWawancaraChange('online');
+  }
+
+  modal.classList.remove('hidden');
   if (window.lucide) window.lucide.createIcons();
+}
+
+function closeModalJadwalWawancaraPelamar() {
+  const modal = document.getElementById('modal-jadwal-wawancara-pelamar');
+  if (modal) modal.classList.add('hidden');
+  activeJadwalPelamarId = null;
+}
+
+function setujuiBerkasPelamar() {
+  if (!activeModalPelamarId || activeDrawerMode === 'readonly-detail') return;
+  const targetId = activeModalPelamarId;
+  closePelamarDetailModal();
+  bukaModalJadwalWawancaraPelamar(targetId);
 }
 
 function handleMetodeWawancaraChange(metode) {
@@ -203,8 +225,9 @@ function handleMetodeWawancaraChange(metode) {
 }
 
 function simpanJadwalWawancara() {
-  if (!activeModalPelamarId || activeDrawerMode === 'readonly-detail') return;
-  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  const targetId = activeJadwalPelamarId || (activeDrawerMode !== 'readonly-detail' ? activeModalPelamarId : null);
+  if (!targetId) return;
+  const item = pelamarListData.find((p) => p.id === targetId);
   if (!item) return;
 
   const tglInput = document.getElementById('input-jadwal-tanggal');
@@ -242,6 +265,7 @@ function simpanJadwalWawancara() {
 
   alert(`Jadwal wawancara berhasil disimpan!\n\nMahasiswa: ${item.nama}\nJadwal: ${item.jadwalWawancara}\nLokasi / Tautan: ${item.lokasiWawancara}\n\nKandidat kini berpindah ke tab "Wawancara".`);
 
+  closeModalJadwalWawancaraPelamar();
   closePelamarDetailModal();
   renderPelamarTable();
 }
@@ -321,6 +345,16 @@ function closeTranskripModal() {
 // Window Global Bridge (Backward Compatibility & Inline Event Handlers)
 // ------------------------------------------------------------------------------
 if (typeof window !== "undefined") {
+  if (!(window as any).__jadwalWawancaraModalEscBound) {
+    (window as any).__jadwalWawancaraModalEscBound = true;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModalJadwalWawancaraPelamar();
+      }
+    });
+  }
+  (window as any).bukaModalJadwalWawancaraPelamar = bukaModalJadwalWawancaraPelamar;
+  (window as any).closeModalJadwalWawancaraPelamar = closeModalJadwalWawancaraPelamar;
   (window as any).initPertanyaanSkorList = initPertanyaanSkorList;
   (window as any).renderPertanyaanSkorList = renderPertanyaanSkorList;
   (window as any).tambahPertanyaanSkor = tambahPertanyaanSkor;
@@ -375,6 +409,8 @@ if (typeof window !== "undefined") {
 }
 
 export {
+  bukaModalJadwalWawancaraPelamar,
+  closeModalJadwalWawancaraPelamar,
   initPertanyaanSkorList,
   renderPertanyaanSkorList,
   tambahPertanyaanSkor,

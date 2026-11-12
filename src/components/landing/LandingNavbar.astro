@@ -1,4 +1,23 @@
 ---
+interface Props {
+    isSubpage?: boolean;
+    activeNav?: string;
+}
+
+const { isSubpage = false, activeNav = 'beranda' } = Astro.props;
+
+const navItems = [
+    { id: 'beranda', label: 'Beranda', href: '/' },
+    { id: 'profil', label: 'Profil', href: '/#profil' },
+    { id: 'unggulan', label: 'Unggulan', href: '/#unggulan' },
+    { id: 'inovasi', label: 'Inovasi', href: '/#inovasi' },
+    { id: 'publikasi', label: 'Publikasi', href: '/#publikasi' },
+    { id: 'pengumuman', label: 'Pengumuman', href: '/#pengumuman' },
+    { id: 'berita', label: 'Berita Kegiatan', href: '/#berita' },
+];
+
+const isNavActive = (id: string) =>
+    activeNav === id || (activeNav === 'mbkm' && id === 'unggulan');
 ---
     <!-- Progress scroll (garis emas tipis di paling atas) -->
     <div id="scroll-progress" aria-hidden="true"
@@ -52,28 +71,59 @@
   ==================================================================== -->
     <header id="site-header" class="sticky top-0 z-50 border-b border-border bg-white">
         <div class="container flex h-[74px] items-center justify-between gap-3 sm:gap-4">
-            <button data-go="beranda" class="flex min-w-0 items-center gap-3 text-left focus:outline-none">
-                <div
-                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-deep text-base font-extrabold tracking-tighter text-white shadow-sm">
-                    <span class="text-gold">U</span>D
-                </div>
-                <div class="min-w-0 leading-tight">
-                    <div class="flex items-center gap-2">
-                        <span class="truncate text-[17px] font-extrabold tracking-tight text-deep">FTC UDINUS</span>
+            {isSubpage ? (
+                <a href="/" class="flex min-w-0 items-center gap-3 text-left focus:outline-none">
+                    <div
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-deep text-base font-extrabold tracking-tighter text-white shadow-sm">
+                        <span class="text-gold">U</span>D
                     </div>
-                    <span class="block truncate text-xs font-medium text-muted-foreground">Fakultas Teknologi
-                        Cerdas</span>
-                </div>
-            </button>
+                    <div class="min-w-0 leading-tight">
+                        <div class="flex items-center gap-2">
+                            <span class="truncate text-[17px] font-extrabold tracking-tight text-deep">FTC UDINUS</span>
+                        </div>
+                        <span class="block truncate text-xs font-medium text-muted-foreground">Fakultas Teknologi
+                            Cerdas</span>
+                    </div>
+                </a>
+            ) : (
+                <button data-go="beranda" class="flex min-w-0 items-center gap-3 text-left focus:outline-none">
+                    <div
+                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-deep text-base font-extrabold tracking-tighter text-white shadow-sm">
+                        <span class="text-gold">U</span>D
+                    </div>
+                    <div class="min-w-0 leading-tight">
+                        <div class="flex items-center gap-2">
+                            <span class="truncate text-[17px] font-extrabold tracking-tight text-deep">FTC UDINUS</span>
+                        </div>
+                        <span class="block truncate text-xs font-medium text-muted-foreground">Fakultas Teknologi
+                            Cerdas</span>
+                    </div>
+                </button>
+            )}
 
             <nav class="hidden items-center gap-1 lg:flex" aria-label="Navigasi Utama">
-                <button class="nav-link" data-go="beranda" data-active="true" aria-current="page">Beranda</button>
-                <button class="nav-link" data-go="profil">Profil</button>
-                <button class="nav-link" data-go="unggulan">Unggulan</button>
-                <button class="nav-link" data-go="inovasi">Inovasi</button>
-                <button class="nav-link" data-go="publikasi">Publikasi</button>
-                <button class="nav-link" data-go="pengumuman">Pengumuman</button>
-                <button class="nav-link" data-go="berita">Berita Kegiatan</button>
+                {navItems.map((item) => {
+                    const active = isNavActive(item.id);
+                    return isSubpage ? (
+                        <a
+                            href={item.href}
+                            class="nav-link whitespace-nowrap"
+                            data-active={active ? 'true' : undefined}
+                            aria-current={active ? 'page' : undefined}
+                        >
+                            {item.label}
+                        </a>
+                    ) : (
+                        <button
+                            class="nav-link whitespace-nowrap"
+                            data-go={item.id}
+                            data-active={active ? 'true' : undefined}
+                            aria-current={active ? 'page' : undefined}
+                        >
+                            {item.label}
+                        </button>
+                    );
+                })}
             </nav>
 
             <div class="flex shrink-0 items-center gap-2 sm:gap-2.5">
@@ -81,7 +131,7 @@
                     class="btn btn-outline hidden sm:inline-flex">
                     Pendaftaran <i data-lucide="arrow-up-right" class="h-4 w-4 text-info"></i>
                 </a>
-                <a href="#" class="btn btn-gold !px-3.5 sm:!px-5" aria-label="Login">
+                <a href="/login" class="btn btn-gold !px-3.5 sm:!px-5" aria-label="Login">
                     <i data-lucide="log-in" class="h-4 w-4"></i> <span class="hidden min-[400px]:inline">Login</span>
                 </a>
                 <button id="menu-toggle" class="btn btn-outline !w-10 !px-0 lg:hidden" aria-label="Buka Menu"
@@ -97,13 +147,28 @@
             <div>
                 <nav class="border-t border-border bg-background" aria-label="Navigasi Seluler">
                     <div class="container flex flex-col gap-1 py-3">
-                        <button class="nav-link text-left" data-go="beranda">Beranda</button>
-                        <button class="nav-link text-left" data-go="profil">Profil</button>
-                        <button class="nav-link text-left" data-go="unggulan">Unggulan</button>
-                        <button class="nav-link text-left" data-go="inovasi">Inovasi</button>
-                        <button class="nav-link text-left" data-go="publikasi">Publikasi</button>
-                        <button class="nav-link text-left" data-go="pengumuman">Pengumuman</button>
-                        <button class="nav-link text-left" data-go="berita">Berita Kegiatan</button>
+                        {navItems.map((item) => {
+                            const active = isNavActive(item.id);
+                            return isSubpage ? (
+                                <a
+                                    href={item.href}
+                                    class="nav-link text-left"
+                                    data-active={active ? 'true' : undefined}
+                                    aria-current={active ? 'page' : undefined}
+                                >
+                                    {item.label}
+                                </a>
+                            ) : (
+                                <button
+                                    class="nav-link text-left"
+                                    data-go={item.id}
+                                    data-active={active ? 'true' : undefined}
+                                    aria-current={active ? 'page' : undefined}
+                                >
+                                    {item.label}
+                                </button>
+                            );
+                        })}
                         <a href="https://pmb.dinus.ac.id" target="_blank" rel="noopener"
                             class="btn btn-outline mt-2 sm:hidden">
                             Pendaftaran <i data-lucide="arrow-up-right" class="h-4 w-4 text-info"></i>
@@ -141,4 +206,204 @@
             </div>
         </div>
     </header>
+
+{isSubpage && (
+    <>
+        <style is:global>
+            #site-topbar,
+            #site-header {
+                font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            }
+            #site-topbar .container,
+            #site-header .container {
+                width: 100%;
+                max-width: none;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            @media (min-width: 640px) {
+                #site-topbar .container,
+                #site-header .container {
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                }
+            }
+            @media (min-width: 1024px) {
+                #site-topbar .container,
+                #site-header .container {
+                    padding-left: 2rem;
+                    padding-right: 2rem;
+                }
+            }
+            @media (min-width: 1536px) {
+                #site-topbar .container,
+                #site-header .container {
+                    max-width: 1280px;
+                }
+            }
+            @layer components {
+                #scroll-progress.bg-gold { background-color: hsl(41 90% 57%); }
+                #site-topbar.bg-deep { background-color: hsl(211 85% 20%); }
+                #site-topbar .text-gold,
+                #site-header .text-gold { color: hsl(41 90% 57%); }
+                #site-topbar .hover\:text-gold:hover,
+                #site-header .hover\:text-gold:hover { color: hsl(41 90% 57%); }
+                #site-header.border-border,
+                #site-header .border-border { border-color: hsl(214 20% 89%); }
+                #site-header .bg-deep { background-color: hsl(211 85% 20%); }
+                #site-header .text-deep { color: hsl(211 85% 20%); }
+                #site-header .text-muted-foreground { color: hsl(215 16% 42%); }
+                #site-header .text-info { color: hsl(207 88% 41%); }
+                #site-header .bg-background { background-color: hsl(0 0% 100%); }
+                #site-header .nav-link {
+                    border-radius: 0.5rem;
+                    padding: 0.5rem 0.875rem;
+                    font-size: 0.875rem;
+                    line-height: 1.25rem;
+                    font-weight: 500;
+                    color: #475569;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                #site-header .nav-link:hover {
+                    background-color: hsl(214 32% 94%);
+                    color: hsl(212 79% 32%);
+                }
+                #site-header .nav-link:active {
+                    transform: scale(0.97);
+                }
+                #site-header .nav-link[data-active="true"] {
+                    background-color: hsl(214 32% 94% / 0.8);
+                    font-weight: 700;
+                    color: hsl(212 79% 32%);
+                }
+                #site-header .btn {
+                    display: inline-flex;
+                    height: 2.5rem;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    border-radius: 0.5rem;
+                    padding-left: 1.25rem;
+                    padding-right: 1.25rem;
+                    font-size: 0.875rem;
+                    line-height: 1.25rem;
+                    font-weight: 600;
+                    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                #site-header .btn:active {
+                    transform: scale(0.97);
+                }
+                #site-header .btn-outline {
+                    border: 1px solid hsl(214 20% 89%);
+                    background-color: hsl(0 0% 100%);
+                    color: hsl(215 35% 13%);
+                }
+                #site-header .btn-outline:hover {
+                    background-color: hsl(214 32% 94%);
+                    color: hsl(212 79% 32%);
+                }
+                #site-header .btn-gold {
+                    background-color: hsl(41 90% 57%);
+                    color: hsl(215 45% 12%);
+                    font-weight: 700;
+                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+                }
+                #site-header .btn-gold:hover {
+                    filter: brightness(0.95);
+                    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+                }
+                #site-header .btn:hover > svg[class*="lucide-arrow-up-right"] {
+                    transform: translate(2px, -2px);
+                    transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+                }
+                #site-header {
+                    transition: box-shadow 0.25s ease;
+                }
+                #site-header.is-scrolled {
+                    box-shadow: 0 6px 20px -10px rgba(8, 52, 96, 0.35);
+                }
+                #site-header .mnav {
+                    grid-template-rows: 0fr;
+                    transition: grid-template-rows 0.3s ease;
+                }
+                #site-header .mnav.open {
+                    grid-template-rows: 1fr;
+                }
+                #site-header .mnav > div {
+                    min-height: 0;
+                    overflow: hidden;
+                    visibility: hidden;
+                    transition: visibility 0s linear 0.3s;
+                }
+                #site-header .mnav.open > div {
+                    visibility: visible;
+                    transition-delay: 0s;
+                }
+            }
+        </style>
+        <script is:inline>
+            document.addEventListener('DOMContentLoaded', () => {
+                const toggleBtn = document.getElementById('menu-toggle');
+                const mobileNav = document.getElementById('mobile-nav');
+                const iconOpen = toggleBtn?.querySelector('.icon-open');
+                const iconClose = toggleBtn?.querySelector('.icon-close');
+                const siteHeader = document.getElementById('site-header');
+                const progressBar = document.getElementById('scroll-progress');
+
+                const closeMobileNav = () => {
+                    if (!mobileNav || !toggleBtn) return;
+                    mobileNav.classList.remove('open');
+                    mobileNav.setAttribute('aria-hidden', 'true');
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    iconOpen?.classList.remove('hidden');
+                    iconClose?.classList.add('hidden');
+                };
+
+                if (toggleBtn && mobileNav) {
+                    toggleBtn.addEventListener('click', () => {
+                        const isOpen = mobileNav.classList.toggle('open');
+                        mobileNav.setAttribute('aria-hidden', String(!isOpen));
+                        toggleBtn.setAttribute('aria-expanded', String(isOpen));
+                        iconOpen?.classList.toggle('hidden', isOpen);
+                        iconClose?.classList.toggle('hidden', !isOpen);
+                    });
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape') closeMobileNav();
+                    });
+                }
+
+                let scrollTicking = false;
+                const onScroll = () => {
+                    if (scrollTicking) return;
+                    scrollTicking = true;
+                    requestAnimationFrame(() => {
+                        const y = window.scrollY;
+                        const max = document.documentElement.scrollHeight - window.innerHeight;
+                        if (progressBar) {
+                            progressBar.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
+                        }
+                        if (siteHeader) {
+                            siteHeader.classList.toggle('is-scrolled', y > 8);
+                        }
+                        scrollTicking = false;
+                    });
+                };
+
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', onScroll);
+                onScroll();
+
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            });
+        </script>
+    </>
+)}
 

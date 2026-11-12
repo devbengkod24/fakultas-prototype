@@ -245,89 +245,13 @@
               </div>
             </div>
 
-            <!-- SEKSI 3: FORM ATUR JADWAL (Card Sendiri) -->
-            <div id="drawer-subpanel-jadwal-flow" class="hidden space-y-2">
-              <!-- Header di Luar/Atas Card (Tanpa Leading Icon) -->
+            <!-- SEKSI 3: INFO JADWAL READ-ONLY (Untuk Detail Pelamar Read-Only) -->
+            <div id="drawer-readonly-jadwal-info" class="hidden space-y-2">
               <div class="flex items-center justify-between px-0.5">
-                <h4 class="text-xs font-semibold text-[#09090b]">Atur Jadwal Wawancara</h4>
+                <h4 class="text-xs font-semibold text-[#09090b]">Jadwal Wawancara</h4>
               </div>
-
-              <div id="drawer-jadwal-locked-state" class="p-8 text-center rounded-xl border border-dashed border-[#e4e4e7] bg-white">
-                <div class="w-10 h-10 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-2.5">
-                  <i data-lucide="lock" class="w-5 h-5"></i>
-                </div>
-                <h4 class="text-sm font-semibold text-[#09090b]">Form Penjadwalan Masih Terkunci</h4>
-                <p class="text-xs text-[#71717a] mt-1 max-w-sm mx-auto">
-                  Silakan periksa berkas di atas, lalu klik <strong>Setujui</strong> di footer untuk mengaktifkan pengaturan jadwal wawancara bagi kandidat ini.
-                </p>
-              </div>
-
-              <div id="drawer-jadwal-form-content" class="hidden rounded-xl border border-[#e4e4e7] bg-white p-4 space-y-3.5 shadow-none">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label class="block font-medium text-[#71717a] text-xs mb-1">Tanggal Wawancara:</label>
-                    <input
-                      type="date"
-                      id="input-jadwal-tanggal"
-                      value="2026-10-22"
-                      class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                    />
-                  </div>
-                  <div>
-                    <label class="block font-medium text-[#71717a] text-xs mb-1">Waktu / Jam (WIB):</label>
-                    <input
-                      type="time"
-                      id="input-jadwal-jam"
-                      value="09:00"
-                      class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="block font-medium text-[#71717a] text-xs mb-1.5">Metode Wawancara:</label>
-                  <div class="flex items-center gap-4 text-xs">
-                    <label class="inline-flex items-center gap-2 cursor-pointer text-[#09090b] font-medium">
-                      <input
-                        type="radio"
-                        name="radio-metode-wawancara"
-                        value="online"
-                        checked
-                        onchange="handleMetodeWawancaraChange(this.value)"
-                        class="w-4 h-4 text-[#0655a7] border-[#d4d4d8] focus:ring-[#0655a7] cursor-pointer"
-                      />
-                      <span>Online (Daring)</span>
-                    </label>
-                    <label class="inline-flex items-center gap-2 cursor-pointer text-[#09090b] font-medium">
-                      <input
-                        type="radio"
-                        name="radio-metode-wawancara"
-                        value="offline"
-                        onchange="handleMetodeWawancaraChange(this.value)"
-                        class="w-4 h-4 text-[#0655a7] border-[#d4d4d8] focus:ring-[#0655a7] cursor-pointer"
-                      />
-                      <span>Offline (Tatap Muka)</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <label id="label-jadwal-lokasi" class="block font-medium text-[#71717a] text-xs mb-1">
-                    Informasi Link Pertemuan (Google Meet / Zoom):
-                  </label>
-                  <input
-                    type="text"
-                    id="input-jadwal-catatan"
-                    value="https://meet.google.com/bengkod-ai-eval"
-                    placeholder="Contoh: meet.google.com/bengkod-ai-eval"
-                    class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                  />
-                </div>
-              </div>
+              <div id="drawer-readonly-jadwal-content" class="rounded-xl border border-[#e4e4e7] bg-white p-4 text-xs"></div>
             </div>
-
-            <!-- Fake element to ensure compatibility -->
-            <div id="drawer-panel-jadwal" class="hidden"></div>
           </div>
 
           <!-- DRAWER FOOTER: Aksi Kontekstual Berdasarkan Tab Aktif -->
@@ -368,27 +292,6 @@
               >
                 <i data-lucide="check" class="w-4 h-4"></i>
                 <span>Setujui</span>
-              </button>
-            </div>
-
-            <!-- Aksi Tab Atur Jadwal: Simpan Jadwal & Lanjut Wawancara -->
-            <div id="drawer-footer-actions-jadwal" class="hidden flex items-center gap-2">
-              <button
-                type="button"
-                onclick="switchDrawerDetailTab('dokumen')"
-                class="h-9 px-3.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer inline-flex items-center gap-1.5"
-              >
-                <i data-lucide="arrow-left" class="w-4 h-4 text-[#71717a]"></i>
-                <span>Kembali</span>
-              </button>
-              <button
-                type="button"
-                id="btn-modal-pelamar-simpan-jadwal"
-                onclick="simpanJadwalWawancara()"
-                class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium shadow-2xs transition-colors cursor-pointer"
-              >
-                <i data-lucide="calendar-check" class="w-4 h-4"></i>
-                <span>Simpan Jadwal</span>
               </button>
             </div>
 

@@ -597,14 +597,50 @@ function renderPelamarTable() {
                 </button>
               `
               : `
-                <button
-                  type="button"
-                  onclick="bukaReviewBerkasDrawer(${item.id})"
-                  class="h-8 px-3.5 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-xs font-medium text-white shadow-2xs transition-all cursor-pointer inline-flex items-center gap-1.5"
-                >
-                  <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
-                  <span>Review</span>
-                </button>
+                <div class="inline-flex items-center justify-center gap-1.5">
+                  <button
+                    type="button"
+                    onclick="bukaReviewBerkasDrawer(${item.id})"
+                    class="h-8 px-3.5 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-xs font-medium text-white shadow-2xs transition-all cursor-pointer inline-flex items-center gap-1.5"
+                  >
+                    <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+                    <span>Review</span>
+                  </button>
+                  <div class="relative inline-block text-left" data-pelamar-action-menu>
+                    <button
+                      type="button"
+                      onclick="togglePelamarActionMenu(event, ${item.id})"
+                      class="h-8 w-8 inline-flex items-center justify-center rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] hover:text-[#09090b] shadow-2xs transition-colors cursor-pointer"
+                      title="Opsi lainnya"
+                      aria-label="Opsi lainnya"
+                      aria-expanded="false"
+                    >
+                      <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                    </button>
+                    <div
+                      id="pelamar-action-menu-${item.id}"
+                      class="hidden absolute right-0 top-full mt-1.5 w-48 rounded-lg border border-[#e4e4e7] bg-white py-1 shadow-lg z-30 text-xs text-left"
+                    >
+                      <button
+                        type="button"
+                        onclick="jadwalkanWawancaraDariTabel(${item.id})"
+                        class="flex w-full items-center gap-2 px-3 py-2 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors cursor-pointer"
+                      >
+                        <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-[#0655a7] shrink-0"></i>
+                        <span>Jadwalkan Wawancara</span>
+                      </button>
+                      <div class="my-1 h-px bg-[#e4e4e7]"></div>
+                      <button
+                        type="button"
+                        onclick="closeAllPelamarActionMenus(); tolakPelamar(${item.id})"
+                        class="flex w-full items-center gap-2 px-3 py-2 text-left text-[#BE123C] hover:bg-rose-50 transition-colors cursor-pointer"
+                      >
+                        <i data-lucide="x-circle" class="w-3.5 h-3.5 shrink-0"></i>
+                        <span>Tolak</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               `;
           } else {
             // Tab diterima, ditolak, dibatalkan -> tombol Detail
@@ -748,10 +784,59 @@ function goToPelamarPage(p) {
   renderPelamarTable();
 }
 
+function closeAllPelamarActionMenus() {
+  document.querySelectorAll('[id^="pelamar-action-menu-"]').forEach((menu) => {
+    menu.classList.add('hidden');
+  });
+  document.querySelectorAll('[data-pelamar-action-menu] > button').forEach((btn) => {
+    btn.setAttribute('aria-expanded', 'false');
+  });
+}
+
+function togglePelamarActionMenu(event, id) {
+  if (event) event.stopPropagation();
+  const targetMenu = document.getElementById(`pelamar-action-menu-${id}`);
+  if (!targetMenu) return;
+
+  const isCurrentlyHidden = targetMenu.classList.contains('hidden');
+  closeAllPelamarActionMenus();
+
+  if (isCurrentlyHidden) {
+    const triggerBtn = targetMenu.previousElementSibling;
+    const rect = triggerBtn ? triggerBtn.getBoundingClientRect() : null;
+    const openUpward = rect && rect.bottom + 100 > window.innerHeight;
+    targetMenu.classList.toggle('bottom-full', Boolean(openUpward));
+    targetMenu.classList.toggle('mb-1.5', Boolean(openUpward));
+    targetMenu.classList.toggle('top-full', !openUpward);
+    targetMenu.classList.toggle('mt-1.5', !openUpward);
+    targetMenu.classList.remove('hidden');
+    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+function jadwalkanWawancaraDariTabel(id) {
+  closeAllPelamarActionMenus();
+  if (typeof (window as any).bukaModalJadwalWawancaraPelamar === 'function') {
+    (window as any).bukaModalJadwalWawancaraPelamar(id);
+  }
+}
+
 // ------------------------------------------------------------------------------
 // Window Global Bridge (Backward Compatibility & Inline Event Handlers)
 // ------------------------------------------------------------------------------
 if (typeof window !== "undefined") {
+  if (!(window as any).__pelamarActionMenuListenerBound) {
+    (window as any).__pelamarActionMenuListenerBound = true;
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || !target.closest('[data-pelamar-action-menu]')) {
+        closeAllPelamarActionMenus();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllPelamarActionMenus();
+    });
+  }
   (window as any).switchPendaftarStatusTab = switchPendaftarStatusTab;
   (window as any).switchPendaftarViewMode = switchPendaftarViewMode;
   (window as any).handleSortPendaftar = handleSortPendaftar;
@@ -763,6 +848,9 @@ if (typeof window !== "undefined") {
   (window as any).renderPelamarTable = renderPelamarTable;
   (window as any).handlePelamarPerPageChange = handlePelamarPerPageChange;
   (window as any).goToPelamarPage = goToPelamarPage;
+  (window as any).closeAllPelamarActionMenus = closeAllPelamarActionMenus;
+  (window as any).togglePelamarActionMenu = togglePelamarActionMenu;
+  (window as any).jadwalkanWawancaraDariTabel = jadwalkanWawancaraDariTabel;
   try {
     Object.defineProperty(window, "pendaftarActiveStatusTab", {
       get: () => pendaftarActiveStatusTab,
@@ -876,6 +964,9 @@ export {
   renderPelamarTable,
   handlePelamarPerPageChange,
   goToPelamarPage,
+  closeAllPelamarActionMenus,
+  togglePelamarActionMenu,
+  jadwalkanWawancaraDariTabel,
   pendaftarActiveStatusTab,
   pendaftarViewMode,
   pendaftarSort,
