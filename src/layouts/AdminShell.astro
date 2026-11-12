@@ -246,9 +246,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
     <!-- Lucide Icons CDN -->
     <script is:inline src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Alpine.js Core CDN (defer) -->
-    <script is:inline defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-
     <style is:global>
       [x-cloak] {
         display: none !important;
@@ -808,7 +805,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
     <!-- Script Standar: Mock Data & Controller (2 File JS) -->
     <script is:inline src={`/admin/_mock-data.js?v=${Date.now()}`}></script>
-    <script is:inline src={`/admin/_controller.js?v=${Date.now()}`}></script>
+    <script src="../scripts/admin/index.ts"></script>
 
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
