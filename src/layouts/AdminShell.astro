@@ -67,12 +67,6 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi kontributor mahasiswa.',
     actionButton: '',
   },
-  'mhs-semua': {
-    label: 'Mahasiswa / Semua Mahasiswa',
-    title: 'Semua Mahasiswa MBKM',
-    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di kontributor industri.',
-    actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
-  },
   'mhs-data': {
     label: 'Mahasiswa / Data Mahasiswa',
     title: 'Data Mahasiswa MBKM',
@@ -83,12 +77,6 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     label: 'Dosen Pembimbing / Data Dosen',
     title: 'Data Dosen Pembimbing',
     subtitle: 'Daftar dosen pembimbing yang ditarik dari basis data UDI.',
-    actionButton: '<div class="flex items-center gap-2"><button type="button" onclick="syncDataDosenUdi()" class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Sync Data UDI</span></button><button type="button" onclick="openModalTambahDosen()" class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="user-plus" class="w-3.5 h-3.5"></i><span>Tambah Dosen</span></button></div>',
-  },
-  'dosen-kuota': {
-    label: 'Dosen Pembimbing / Kuota Dosen',
-    title: 'Kuota Dosen Pembimbing',
-    subtitle: 'Monitoring beban bimbingan maksimal per dosen per semester.',
     actionButton: '',
   },
   'dosen-update': {
@@ -104,21 +92,15 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     actionButton: '',
   },
   logbook: {
-    label: 'Logbook Mahasiswa',
-    title: 'Daftar Logbook Mahasiswa',
-    subtitle: 'Berikut adalah daftar logbook mahasiswa bimbingan.',
+    label: 'Logbook Kegiatan',
+    title: 'Daftar Logbook Kegiatan',
+    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program MBKM (maksimal 24 minggu).',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="circle-help" class="w-4 h-4 text-[#71717a]"></i><span>Lihat panduan</span></button>',
   },
   konversi: {
     label: 'Validasi Konversi SKS',
     title: 'Validasi Konversi SKS',
     subtitle: 'Verifikasi usulan konversi SKS mahasiswa peserta program MBKM.',
-    actionButton: '',
-  },
-  gelombang: {
-    label: 'Sidang / Gelombang Sidang',
-    title: 'Gelombang Sidang',
-    subtitle: 'Berikut data gelombang sidang yang telah dibuat.',
     actionButton: '',
   },
   'data-pengajuan': {
@@ -175,9 +157,9 @@ const displaySubtitle = subtitle || meta.subtitle;
 const displayActionButton = actionButton !== undefined ? actionButton : meta.actionButton;
 
 const isMbkmActive = ['mbkm', 'form-pendaftaran', 'periode'].includes(activeTabKey);
-const isMahasiswaActive = ['semua-mahasiswa', 'data-mahasiswa', 'pelamar', 'surekom', 'mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(activeTabKey);
-const isDosenActive = ['koordinator', 'dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(activeTabKey);
-const isSidangActive = ['sidang', 'gelombang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
+const isMahasiswaActive = ['data-mahasiswa', 'pelamar', 'surekom', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(activeTabKey);
+const isDosenActive = ['koordinator', 'dosen-data', 'dosen-update', 'update-dosen'].includes(activeTabKey);
+const isSidangActive = ['sidang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
 
 const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : isSidangActive ? 'sidang' : isMbkmActive ? 'mbkm' : '';
 ---
@@ -406,7 +388,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               <span class="truncate">Kontributor</span>
             </a>
 
-            <!-- 5. Mahasiswa (Sub-menu: Semua Mahasiswa, Data Mahasiswa, Pendaftar, Validasi Surekom) -->
+            <!-- 5. Mahasiswa (Sub-menu: Data Mahasiswa, Pelamar MBKM, Validasi Surekom) -->
             <div class="flex flex-col">
               <button
                 type="button"
@@ -429,17 +411,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                 ></i>
               </button>
               <div id="submenu-mahasiswa" x-show="isOpen('mahasiswa')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
-                <a
-                  href="/koordinator/semua-mahasiswa"
-                  id="nav-sub-mhs-semua"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'mhs-semua' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-semua' ? '' : 'hidden']}></span>
-                  <span>Semua Mahasiswa</span>
-                </a>
                 <a
                   href="/koordinator/data-mahasiswa"
                   id="nav-sub-mhs-data"
@@ -476,7 +447,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </div>
             </div>
 
-            <!-- 6. Dosen Pembimbing (Sub-menu: Data Dosen, Kuota Dosen, Plotting Dosen) -->
+            <!-- 6. Dosen Pembimbing (Sub-menu: Data Dosen, Plotting Dosen) -->
             <div class="flex flex-col">
               <button
                 type="button"
@@ -511,17 +482,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Dosen</span>
                 </a>
                 <a
-                  href="/koordinator/dosen-kuota"
-                  id="nav-sub-dosen-kuota"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'dosen-kuota' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'dosen-kuota' ? '' : 'hidden']}></span>
-                  <span>Kuota Dosen</span>
-                </a>
-                <a
                   href="/koordinator/dosen-update"
                   id="nav-sub-dosen-update"
                   class:list={[
@@ -535,7 +495,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </div>
             </div>
 
-            <!-- 7. Logbook Mahasiswa -->
+            <!-- 7. Logbook Kegiatan -->
             <a
               href="/koordinator/logbook"
               id="nav-logbook"
@@ -546,7 +506,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
             >
               <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'logbook' ? '' : 'hidden']}></span>
               <i data-lucide="book-marked" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Logbook Mahasiswa</span>
+              <span class="truncate">Logbook Kegiatan</span>
             </a>
 
             <!-- 8. Validasi Konversi SKS -->
@@ -563,7 +523,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               <span class="truncate">Validasi Konversi SKS</span>
             </a>
 
-            <!-- 9. Sidang MBKM (Sub-menu: Gelombang Sidang, Data Pengajuan, Plotting Jadwal, Hasil Sidang) -->
+            <!-- 9. Sidang MBKM (Sub-menu: Data Pengajuan, Plotting Jadwal, Hasil Sidang) -->
             <div class="flex flex-col">
               <button
                 type="button"
@@ -586,17 +546,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                 ></i>
               </button>
               <div id="submenu-sidang" x-show="isOpen('sidang')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
-                <a
-                  href="/koordinator/gelombang"
-                  id="nav-sub-sidang-gelombang"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'gelombang' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'gelombang' ? '' : 'hidden']}></span>
-                  <span>Gelombang Sidang</span>
-                </a>
                 <a
                   href="/koordinator/data-pengajuan"
                   id="nav-sub-sidang-data-pengajuan"
@@ -736,7 +685,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
       <!-- ==================================================== -->
       <main class="flex flex-col flex-1 min-w-0 p-4 sm:p-6 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
         <!-- 1. Top Breadcrumb Header (Sesuai DashboardHeader Baris 1 di fakultas-fe) -->
-        <header class="flex w-full items-center justify-between shrink-0">
+        <header class="flex items-center justify-between w-full shrink-0">
           <div class="flex items-center gap-2">
             <button
               type="button"
@@ -773,7 +722,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
         <!-- 2. Dynamic Title Header (Hanya tampil pada tab yang tidak memiliki inner header mandiri) -->
         {!['sidang', 'sertifikat', 'dosen-update', 'koordinator', 'program'].includes(activeTabKey) && (
-          <header id="dashboard-header-bar-2" class="mb-4 flex items-start justify-between gap-4 shrink-0">
+          <header id="dashboard-header-bar-2" class="flex items-start justify-between gap-4 mb-4 shrink-0">
             <div>
               <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">
                 {displayTitle}
@@ -782,14 +731,14 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                 {displaySubtitle}
               </p>
             </div>
-            <div id="header-action-slot" class="shrink-0 flex items-center gap-2">
+            <div id="header-action-slot" class="flex items-center gap-2 shrink-0">
               {displayActionButton && <Fragment set:html={displayActionButton} />}
             </div>
           </header>
         )}
 
         <!-- Container Konten Tab -->
-        <div class="flex-1 w-full min-w-0 flex flex-col">
+        <div class="flex flex-col flex-1 w-full min-w-0">
           <slot />
         </div>
       </main>

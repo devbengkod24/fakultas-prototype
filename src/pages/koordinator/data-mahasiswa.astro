@@ -9,6 +9,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
     class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
     x-data="{
       searchQuery: '',
+      periodeFilter: 'semua',
+      statusFilter: 'semua',
       sortOption: 'nama_asc',
       currentPage: 1,
       pageSize: 5,
@@ -16,9 +18,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
       selectedFile: null,
       get filteredStudents() {
         const q = (this.searchQuery || '').toLowerCase();
-        let list = this.students.filter(s =>
-          (s.nama || '').toLowerCase().includes(q) || (s.nim || '').includes(q)
-        );
+        let list = this.students.filter(s => {
+          const matchSearch = (s.nama || '').toLowerCase().includes(q) || (s.nim || '').includes(q);
+          const matchPeriode = this.periodeFilter === 'semua' || s.kodePeriode === this.periodeFilter;
+          const matchStatus = this.statusFilter === 'semua' || s.status === this.statusFilter;
+          return matchSearch && matchPeriode && matchStatus;
+        });
         switch (this.sortOption) {
           case 'nama_asc':  list = [...list].sort((a, b) => a.nama.localeCompare(b.nama)); break;
           case 'nama_desc': list = [...list].sort((a, b) => b.nama.localeCompare(a.nama)); break;
@@ -69,6 +74,28 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       <!-- Action Buttons Right -->
       <div class="flex items-center gap-2 ml-auto flex-wrap">
+        <!-- Filter Periode & Status -->
+        <select
+          x-model="periodeFilter"
+          @change="currentPage = 1"
+          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="semua">Semua Periode</option>
+          <option value="20261">2026/2027 - Gasal</option>
+          <option value="20252">2025/2026 - Genap</option>
+          <option value="20251">2025/2026 - Gasal</option>
+        </select>
+        <select
+          x-model="statusFilter"
+          @change="currentPage = 1"
+          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        >
+          <option value="semua">Semua Status</option>
+          <option value="konversi">Konversi</option>
+          <option value="reguler">Reguler</option>
+          <option value="belum">Belum Ada</option>
+        </select>
+
         <!-- Sort Selector -->
         <select
           x-model="sortOption"

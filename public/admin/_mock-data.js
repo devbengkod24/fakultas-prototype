@@ -67,22 +67,6 @@ const navMeta = {
     subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM kontributor eksternal.',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
   },
-  'mhs-semua': {
-    label: 'Mahasiswa / Semua Mahasiswa',
-    icon: 'graduation-cap',
-    parent: 'mahasiswa',
-    title: 'Semua Mahasiswa MBKM',
-    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di kontributor industri.',
-    actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
-  },
-  'semua-mahasiswa': {
-    label: 'Mahasiswa / Semua Mahasiswa',
-    icon: 'graduation-cap',
-    parent: 'mahasiswa',
-    title: 'Semua Mahasiswa MBKM',
-    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di kontributor industri.',
-    actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
-  },
   'mhs-data': {
     label: 'Mahasiswa / Data Mahasiswa',
     icon: 'graduation-cap',
@@ -105,14 +89,7 @@ const navMeta = {
     parent: 'dosen',
     title: 'Data Dosen Pembimbing',
     subtitle: 'Daftar dosen pembimbing yang ditarik dari basis data UDI.',
-    actionButton: '<div class="flex items-center gap-2"><button type="button" onclick="syncDataDosenUdi()" class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Sync Data UDI</span></button><button type="button" onclick="openModalTambahDosen()" class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="user-plus" class="w-3.5 h-3.5"></i><span>Tambah Dosen</span></button></div>',
-  },
-  'dosen-kuota': {
-    label: 'Dosen Pembimbing / Kuota Dosen',
-    icon: 'user-check',
-    parent: 'dosen',
-    title: 'Kuota Dosen Pembimbing',
-    subtitle: 'Monitoring beban bimbingan maksimal per dosen per semester.',
+    actionButton: '',
   },
   'dosen-update': {
     label: 'Dosen Pembimbing / Plotting Dosen',
@@ -129,10 +106,10 @@ const navMeta = {
     subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program MBKM.',
   },
   logbook: {
-    label: 'Logbook Mahasiswa',
+    label: 'Logbook Kegiatan',
     icon: 'book-marked',
-    title: 'Logbook Mahasiswa',
-    subtitle: 'Pemantauan kepatuhan pengisian logbook mingguan seluruh mahasiswa & verifikasi Dospem.',
+    title: 'Daftar Logbook Kegiatan',
+    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program MBKM (maksimal 24 minggu).',
   },
   konversi: {
     label: 'Konversi SKS',
@@ -145,13 +122,6 @@ const navMeta = {
     icon: 'award',
     title: 'Sidang MBKM',
     subtitle: 'Penjadwalan sidang akhir, penginputan nilai gabungan, dan rekap kelulusan kegiatan.',
-  },
-  gelombang: {
-    label: 'Sidang / Gelombang Sidang',
-    icon: 'calendar-days',
-    parent: 'sidang',
-    title: 'Gelombang Sidang',
-    subtitle: 'Berikut data gelombang sidang yang telah dibuat.',
   },
   'data-pengajuan': {
     label: 'Sidang KP / Data Pengajuan Sidang',

@@ -45,10 +45,10 @@ document.addEventListener('alpine:init', () => {
       this.currentTab = tabKey;
 
       // Sinkronkan state submenu jika tab berada di bawah parent
-      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
+      if (['mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(tabKey)) {
+      if (['dosen-data', 'dosen-update', 'update-dosen'].includes(tabKey)) {
         this.dosenSubmenuOpen = true;
       }
 
@@ -107,7 +107,6 @@ document.addEventListener('alpine:init', () => {
         const slugMap = {
           'pelamar': 'mhs-pelamar',
           'surekom': 'mhs-rekomendasi',
-          'semua-mahasiswa': 'mhs-semua',
           'koordinator': 'dosen-data',
           'laporan': 'laporan',
           'sidang': 'laporan',
@@ -115,16 +114,16 @@ document.addEventListener('alpine:init', () => {
         tab = slugMap[slug] || slug || 'dashboard';
       }
       this.currentTab = tab;
-      if (['mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
+      if (['mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
         this.mahasiswaSubmenuOpen = true;
       }
-      if (['dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(tab)) {
+      if (['dosen-data', 'dosen-update', 'update-dosen'].includes(tab)) {
         this.dosenSubmenuOpen = true;
       }
       if (['form-pendaftaran', 'periode'].includes(tab)) {
         this.mbkmSubmenuOpen = true;
       }
-      if (['gelombang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(tab)) {
+      if (['data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(tab)) {
         this.sidangSubmenuOpen = true;
       }
       this.refreshIcons();

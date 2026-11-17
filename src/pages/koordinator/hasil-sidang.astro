@@ -13,7 +13,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
     class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
     x-data="{
       searchQuery: '',
-      selectedGelombangId: 'all',
       currentPage: 1,
       pageSize: 10,
       isDownloadOpen: false,
@@ -23,13 +22,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
       ttdSignatureUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=koor-kp-ttd',
       toastMessage: '',
       showToast: false,
-
-      gelombangList: [
-        { id: 'all', nama: 'Semua Gelombang' },
-        { id: '1', nama: 'Gelombang 1' },
-        { id: '2', nama: 'Gelombang 2' },
-        { id: '3', nama: 'Gelombang 3' }
-      ],
 
       hasilSidangList: [
         {
@@ -161,13 +153,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       get filteredList() {
         return this.hasilSidangList.filter(item => {
-          const matchGel = this.selectedGelombangId === 'all' || (item.gelombang && item.gelombang.id.toString() === this.selectedGelombangId);
           const q = this.searchQuery.trim().toLowerCase();
           const matchSearch = q === '' ||
             item.mahasiswa.nama.toLowerCase().includes(q) ||
             item.mahasiswa.nim.includes(q) ||
             (item.pembimbing?.nama && item.pembimbing.nama.toLowerCase().includes(q));
-          return matchGel && matchSearch;
+          return matchSearch;
         });
       },
 
@@ -243,24 +234,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
         </div>
       </div>
 
-      <!-- Action Group Kanan (Gelombang, Download Dropdown, Preview TTD, Tambah TTD) -->
+      <!-- Action Group Kanan (Download Dropdown, Preview TTD, Tambah TTD) -->
       <div class="flex items-center gap-2 ml-auto flex-wrap">
-        <!-- Gelombang Selector -->
-        <div class="w-[200px] flex-shrink-0">
-          <div class="relative">
-            <select
-              x-model="selectedGelombangId"
-              @change="currentPage = 1; reinitLucide()"
-              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
-            >
-              <template x-for="g in gelombangList" :key="g.id">
-                <option :value="g.id" x-text="g.nama"></option>
-              </template>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-        </div>
-
         <!-- Dropdown Download Button (Excel / PDF) -->
         <div class="relative" @click.outside="isDownloadOpen = false">
           <button
@@ -348,7 +323,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[200px] max-w-[260px]">Mahasiswa</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[180px] max-w-[240px]">Dosen Pembimbing</th>
-              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[120px]">Gelombang</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Penyelia</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Pembimbing</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Penguji 1</th>
@@ -373,11 +347,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 <!-- Pembimbing -->
                 <td class="h-[68px] px-4 min-w-[180px] max-w-[240px] text-sm text-[#09090b]">
                   <div class="truncate font-medium text-sm text-[#09090b]" x-text="row.pembimbing?.nama ?? '—'"></div>
-                </td>
-
-                <!-- Gelombang -->
-                <td class="h-[68px] px-4 min-w-[120px] text-sm text-[#09090b]">
-                  <div x-text="row.gelombang?.nama_gelombang ?? '—'"></div>
                 </td>
 
                 <!-- Nilai Penyelia (Editable) -->
