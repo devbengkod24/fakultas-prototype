@@ -429,7 +429,7 @@ function handleSubmitTambahKontributor() {
     const newId = kontributorListData.length > 0 ? Math.max(...kontributorListData.map(m => m.id)) + 1 : 1;
     const avatar = nama.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() || 'ME';
 
-    kontributorListData.unshift({
+    const newKontributor = {
       id: newId,
       nama,
       tipe: 'eksternal',
@@ -446,11 +446,14 @@ function handleSubmitTambahKontributor() {
       programs: [],
       dosen: [],
       mhs: []
-    });
+    };
+    kontributorListData.unshift(newKontributor);
+    persistNewKontributor(newKontributor);
 
     closeTambahKontributorModal();
-    alert(`Kontributor Eksternal "${nama}" berhasil ditambahkan!`);
-    switchKontributorCategoryTab('eksternal');
+    alert(`Kontributor Eksternal "${nama}" berhasil ditambahkan!
+Lanjutkan dengan mengisi Kelola Program dan Kelola CMS.`);
+    startKontributorSetup(newId);
   }
 }
 

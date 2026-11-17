@@ -229,6 +229,11 @@ declare global {
   var showSurekomDetailById: any;
   var showTambahCustomFieldModal: any;
   var showTambahKontributorModal: any;
+  var persistNewKontributor: any;
+  var startKontributorSetup: any;
+  var continueKontributorSetupToCms: any;
+  var finishKontributorSetup: any;
+  var isKontributorSetupMode: any;
   var simpanJadwalWawancara: any;
   var simpanSemuaPlotting: any;
   var stepIpk: any;
