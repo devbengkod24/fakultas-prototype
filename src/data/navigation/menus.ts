@@ -47,8 +47,8 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "pendaftaran", label: "Form Pendaftaran", href: "/mahasiswa/pendaftaran", icon: "clipboard-list" },
       { id: "status", label: "Status Pengajuan", href: "/mahasiswa/status", icon: "file-check" },
       { id: "logbook", label: "Logbook Kegiatan", href: "/mahasiswa/logbook", icon: "book-open" },
-      { id: "konversi-sks", label: "Konversi SKS", href: "/mahasiswa/konversi-sks", icon: "layers" },
-      { id: "sidang", label: "Sidang Evaluasi", href: "/mahasiswa/sidang", icon: "calendar-check" },
+      { id: "konversi-sks", label: "Makul Konversi", href: "/mahasiswa/konversi-sks", icon: "layers" },
+      { id: "sidang", label: "Sidang", href: "/mahasiswa/sidang", icon: "calendar-check" },
       { id: "sertifikat", label: "Sertifikat & Luaran", href: "/mahasiswa/sertifikat", icon: "award" },
       { id: "log-aktivitas", label: "Log Aktivitas", href: "/mahasiswa/log-aktivitas", icon: "history" },
     ]

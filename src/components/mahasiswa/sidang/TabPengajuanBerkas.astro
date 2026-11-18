@@ -180,5 +180,133 @@ const { data } = Astro.props;
         </tbody>
       </table>
     </div>
+
+    <!-- Link Video Sosial Media -->
+    <div class="mt-5 pt-4 border-t border-[#e4e4e7] space-y-3">
+      <label class="block text-xs font-semibold text-[#09090b]">
+        Link Video Sosial Media
+      </label>
+      <div class="flex items-center gap-2">
+        <input
+          type="url"
+          value={data.linkVideoSosialMedia}
+          placeholder="https://..."
+          class="flex-1 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none"
+        />
+        <a
+          href={data.linkVideoSosialMedia}
+          target="_blank"
+          class="h-9 px-3 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors inline-flex items-center gap-1 shrink-0"
+        >
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>Buka</span>
+        </a>
+      </div>
+      <p class="text-[10px] text-[#71717a] mt-0.5">
+        Tautan video kegiatan di media sosial (Instagram Reels, TikTok, YouTube Shorts, dll.)
+      </p>
+    </div>
+
+    <!-- Upload Nilai dari Mitra -->
+    <div class="mt-5 pt-4 border-t border-[#e4e4e7] space-y-3">
+      <label class="block text-xs font-semibold text-[#09090b]">
+        Upload Nilai dari Mitra
+      </label>
+      <input
+        type="file"
+        id="upload-nilai-mitra"
+        accept=".pdf,.doc,.docx"
+        class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
+      />
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[10px] text-[#71717a]">
+          Format: PDF, DOCX (Maks. 25 MB)
+        </span>
+        <a
+          href="https://bit.ly/laporan_akhir_kampus_berdampak_STI_UDINUS_genap_2025_2026"
+          target="_blank"
+          class="text-xs text-[#0655a7] hover:underline"
+        >
+          Unduh template laporan
+        </a>
+      </div>
+      <div id="nilai-mitra-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
+    </div>
+
+    <!-- Upload Sertifikat -->
+    <div class="mt-5 pt-4 border-t border-[#e4e4e7] space-y-3">
+      <label class="block text-xs font-semibold text-[#09090b]">
+        Upload Sertifikat
+      </label>
+      <input
+        type="file"
+        id="upload-sertifikat"
+        accept=".pdf"
+        class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
+      />
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-[10px] text-[#71717a]">
+          Format: PDF (Maks. 25 MB)
+        </span>
+      </div>
+      <div id="sertifikat-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
+    </div>
+
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const nilaiMitraInput = document.getElementById('upload-nilai-mitra');
+        const sertifikatInput = document.getElementById('upload-sertifikat');
+        const nilaiMitraInfo = document.getElementById('nilai-mitra-file-info');
+        const sertifikatInfo = document.getElementById('sertifikat-file-info');
+
+        if (nilaiMitraInput) {
+          nilaiMitraInput.addEventListener('change', () => {
+            const file = nilaiMitraInput.files[0];
+            if (file) {
+              nilaiMitraInfo.innerHTML = `
+                <div class="flex items-center gap-2 text-xs">
+                  <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+                  <span class="truncate">${file.name}</span>
+                  <span class="text-[#71717a] text-[10px]">(${(file.size / 1024 / 1024).toFixed(1)} MB)</span>
+                </div>
+              `;
+              nilaiMitraInfo.classList.remove('hidden');
+              if (window.lucide) window.lucide.createIcons();
+              const modalFileInput = document.getElementById('upload-file-input');
+              if (modalFileInput) {
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                modalFileInput.files = dt.files;
+              }
+              window.openModalUploadBerkas('Nilai Mitra');
+            }
+          });
+        }
+
+        if (sertifikatInput) {
+          sertifikatInput.addEventListener('change', () => {
+            const file = sertifikatInput.files[0];
+            if (file) {
+              sertifikatInfo.innerHTML = `
+                <div class="flex items-center gap-2 text-xs">
+                  <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+                  <span class="truncate">${file.name}</span>
+                  <span class="text-[#71717a] text-[10px]">(${(file.size / 1024 / 1024).toFixed(1)} MB)</span>
+                </div>
+              `;
+              sertifikatInfo.classList.remove('hidden');
+              if (window.lucide) window.lucide.createIcons();
+              const modalFileInput = document.getElementById('upload-file-input');
+              if (modalFileInput) {
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                modalFileInput.files = dt.files;
+              }
+              window.openModalUploadBerkas('Sertifikat');
+            }
+          });
+        }
+      });
+    </script>
   </div>
 </div>
