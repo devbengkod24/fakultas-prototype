@@ -139,7 +139,7 @@ export const sidangData: SidangData = {
     status: "Lulus dengan Pujian",
     nilaiAkhir: "91.50",
     nilaiMutu: "A",
-    catatan: "Presentasi dan luaran proyek dashboard sistem magang dinilai sangat baik oleh dewan penguji.",
+    catatan: "",
     komponen: [
       {
         nama: "Nilai Kinerja Mitra Kontributor",

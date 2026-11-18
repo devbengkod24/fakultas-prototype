@@ -123,8 +123,8 @@ const { data } = Astro.props;
     </div>
   </div>
 
-  <!-- Card 3: Dokumen Pendukung Sidang (Data Table) -->
-  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-4">
+  <!-- Card 3: Dokumen Persyaratan Sidang -->
+  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5">
     <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
@@ -132,178 +132,183 @@ const { data } = Astro.props;
         </div>
         <div>
           <h2 class="text-base font-semibold text-[#09090b]">Dokumen Persyaratan Sidang</h2>
-          <p class="text-xs text-[#71717a] leading-relaxed">Berkas wajib yang telah diverifikasi untuk kelayakan sidang</p>
+          <p class="text-xs text-[#71717a] leading-relaxed">Lengkapi berkas wajib persyaratan untuk kelayakan sidang</p>
         </div>
       </div>
-      <button
-        type="button"
-        onclick="openModalUploadBerkas()"
-        class="inline-flex items-center gap-1.5 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
-      >
-        <i data-lucide="plus" class="w-4 h-4"></i>
-        <span>Tambah Berkas</span>
-      </button>
     </div>
 
-    <!-- Tabel Data Sesuai DO Standar Tabel -->
-    <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="bg-[#fafafa] border-b border-[#e4e4e7] text-xs font-semibold text-[#71717a] h-11">
-            <th class="w-12 text-center">No.</th>
-            <th class="px-4">Nama Dokumen</th>
-            <th class="px-4 text-right">Aksi</th>
-          </tr>
-        </thead>
-        <tbody id="table-berkas-sidang-body" class="divide-y divide-[#e4e4e7] text-sm">
-          {data.berkas.map((item, index) => (
-            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="w-12 text-center text-xs font-medium text-[#71717a]">{index + 1}</td>
-              <td class="px-4 py-3 font-medium text-xs text-[#09090b]">
-                <div class="flex items-center gap-2">
-                  <i data-lucide="file" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-                  <span class="truncate">{item.nama}</span>
-                </div>
-              </td>
-              <td class="px-4 py-3 text-right">
-                <a
-                  href={item.link}
-                  target="_blank"
-                  class="inline-flex items-center gap-1 text-xs font-semibold text-[#0655a7] hover:underline"
-                >
-                  <i data-lucide="eye" class="w-4 h-4"></i>
-                  <span>Lihat</span>
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Link Video Sosial Media -->
-    <div class="mt-5 pt-4 border-t border-[#e4e4e7] space-y-3">
-      <label class="block text-xs font-semibold text-[#09090b]">
-        Link Video Sosial Media
-      </label>
-      <div class="flex items-center gap-2">
+    <form id="form-persyaratan-sidang" class="space-y-5">
+      <!-- Judul Laporan -->
+      <div class="space-y-2">
+        <label for="input-judul-laporan" class="block text-xs font-semibold text-[#09090b]">
+          Judul Laporan
+        </label>
         <input
-          type="url"
-          value={data.linkVideoSosialMedia}
-          placeholder="https://..."
-          class="flex-1 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none"
+          type="text"
+          id="input-judul-laporan"
+          value={data.judulKB}
+          placeholder="Masukkan judul laporan akhir..."
+          class="w-full h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none"
         />
-        <a
-          href={data.linkVideoSosialMedia}
-          target="_blank"
-          class="h-9 px-3 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors inline-flex items-center gap-1 shrink-0"
-        >
-          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-          <span>Buka</span>
-        </a>
       </div>
-      <p class="text-[10px] text-[#71717a] mt-0.5">
-        Tautan video kegiatan di media sosial (Instagram Reels, TikTok, YouTube Shorts, dll.)
-      </p>
-    </div>
 
-    <!-- Upload Nilai dari Mitra -->
-    <div class="mt-5 pt-4 border-t border-[#e4e4e7] space-y-3">
-      <label class="block text-xs font-semibold text-[#09090b]">
-        Upload Nilai dari Mitra
-      </label>
-      <input
-        type="file"
-        id="upload-nilai-mitra"
-        accept=".pdf,.doc,.docx"
-        class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
-      />
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[10px] text-[#71717a]">
-          Format: PDF, DOCX (Maks. 25 MB)
-        </span>
-        <a
-          href="https://bit.ly/laporan_akhir_kampus_berdampak_STI_UDINUS_genap_2025_2026"
-          target="_blank"
-          class="text-xs text-[#0655a7] hover:underline"
-        >
-          Unduh template laporan
-        </a>
+      <!-- File Laporan Akhir (PDF) -->
+      <div class="pt-4 border-t border-[#e4e4e7] space-y-2.5">
+        <label for="upload-laporan-akhir" class="block text-xs font-semibold text-[#09090b]">
+          File Laporan Akhir (PDF)
+        </label>
+        <input
+          type="file"
+          id="upload-laporan-akhir"
+          accept=".pdf"
+          class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
+        />
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[10px] text-[#71717a]">
+            Format: PDF (Maks. 25 MB)
+          </span>
+          <a
+            href="https://bit.ly/laporan_akhir_kampus_berdampak_STI_UDINUS_genap_2025_2026"
+            target="_blank"
+            class="text-xs text-[#0655a7] hover:underline"
+          >
+            Unduh template laporan
+          </a>
+        </div>
+        <div id="laporan-akhir-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
       </div>
-      <div id="nilai-mitra-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
-    </div>
 
-    <!-- Upload Sertifikat -->
-    <div class="mt-5 pt-4 border-t border-[#e4e4e7] space-y-3">
-      <label class="block text-xs font-semibold text-[#09090b]">
-        Upload Sertifikat
-      </label>
-      <input
-        type="file"
-        id="upload-sertifikat"
-        accept=".pdf"
-        class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
-      />
-      <div class="flex items-center justify-between gap-2">
-        <span class="text-[10px] text-[#71717a]">
-          Format: PDF (Maks. 25 MB)
-        </span>
+      <!-- Link Video Sosial Media -->
+      <div class="pt-4 border-t border-[#e4e4e7] space-y-2.5">
+        <label for="input-link-video" class="block text-xs font-semibold text-[#09090b]">
+          Link Video Sosial Media
+        </label>
+        <div class="flex items-center gap-2">
+          <input
+            type="url"
+            id="input-link-video"
+            value={data.linkVideoSosialMedia}
+            placeholder="https://..."
+            class="flex-1 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none"
+          />
+          <a
+            href={data.linkVideoSosialMedia}
+            target="_blank"
+            class="h-9 px-3 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors inline-flex items-center gap-1 shrink-0"
+          >
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Buka</span>
+          </a>
+        </div>
+        <p class="text-[10px] text-[#71717a]">
+          Tautan video kegiatan di media sosial (Instagram Reels, TikTok, YouTube Shorts, dll.)
+        </p>
       </div>
-      <div id="sertifikat-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
-    </div>
+
+      <!-- Foto Lembar Bimbingan MBKM -->
+      <div class="pt-4 border-t border-[#e4e4e7] space-y-2.5">
+        <label for="upload-lembar-bimbingan" class="block text-xs font-semibold text-[#09090b]">
+          Foto Lembar Bimbingan MBKM
+        </label>
+        <input
+          type="file"
+          id="upload-lembar-bimbingan"
+          accept="image/*,.pdf"
+          class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
+        />
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[10px] text-[#71717a]">
+            Format: JPG, PNG, PDF (Maks. 10 MB)
+          </span>
+        </div>
+        <div id="lembar-bimbingan-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
+      </div>
+
+      <!-- Upload Nilai dari Mitra -->
+      <div class="pt-4 border-t border-[#e4e4e7] space-y-2.5">
+        <label for="upload-nilai-mitra" class="block text-xs font-semibold text-[#09090b]">
+          Upload Nilai dari Mitra
+        </label>
+        <input
+          type="file"
+          id="upload-nilai-mitra"
+          accept=".pdf,.doc,.docx"
+          class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
+        />
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[10px] text-[#71717a]">
+            Format: PDF, DOCX (Maks. 25 MB)
+          </span>
+        </div>
+        <div id="nilai-mitra-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
+      </div>
+
+      <!-- Upload Sertifikat -->
+      <div class="pt-4 border-t border-[#e4e4e7] space-y-2.5">
+        <label for="upload-sertifikat" class="block text-xs font-semibold text-[#09090b]">
+          Upload Sertifikat
+        </label>
+        <input
+          type="file"
+          id="upload-sertifikat"
+          accept=".pdf"
+          class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-md bg-[#fafafa]"
+        />
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[10px] text-[#71717a]">
+            Format: PDF (Maks. 25 MB)
+          </span>
+        </div>
+        <div id="sertifikat-file-info" class="hidden text-xs text-[#09090b] bg-[#fafafa] border border-[#e4e4e7] rounded-md px-3 py-2"></div>
+      </div>
+
+      <!-- Tombol Simpan -->
+      <div class="pt-4 border-t border-[#e4e4e7] flex justify-end">
+        <button
+          type="submit"
+          class="inline-flex items-center gap-1.5 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors cursor-pointer"
+        >
+          <i data-lucide="save" class="w-4 h-4"></i>
+          <span>Simpan Persyaratan</span>
+        </button>
+      </div>
+    </form>
 
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
-        const nilaiMitraInput = document.getElementById('upload-nilai-mitra');
-        const sertifikatInput = document.getElementById('upload-sertifikat');
-        const nilaiMitraInfo = document.getElementById('nilai-mitra-file-info');
-        const sertifikatInfo = document.getElementById('sertifikat-file-info');
-
-        if (nilaiMitraInput) {
-          nilaiMitraInput.addEventListener('change', () => {
-            const file = nilaiMitraInput.files[0];
+        const bindFileInfo = (inputId, infoId) => {
+          const input = document.getElementById(inputId);
+          const info = document.getElementById(infoId);
+          if (!input || !info) return;
+          input.addEventListener('change', () => {
+            const file = input.files && input.files[0];
             if (file) {
-              nilaiMitraInfo.innerHTML = `
+              info.innerHTML = `
                 <div class="flex items-center gap-2 text-xs">
-                  <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+                  <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
                   <span class="truncate">${file.name}</span>
-                  <span class="text-[#71717a] text-[10px]">(${(file.size / 1024 / 1024).toFixed(1)} MB)</span>
+                  <span class="text-[#71717a] text-[10px] shrink-0">(${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
                 </div>
               `;
-              nilaiMitraInfo.classList.remove('hidden');
+              info.classList.remove('hidden');
               if (window.lucide) window.lucide.createIcons();
-              const modalFileInput = document.getElementById('upload-file-input');
-              if (modalFileInput) {
-                const dt = new DataTransfer();
-                dt.items.add(file);
-                modalFileInput.files = dt.files;
-              }
-              window.openModalUploadBerkas('Nilai Mitra');
+            } else {
+              info.classList.add('hidden');
+              info.innerHTML = '';
             }
           });
-        }
+        };
 
-        if (sertifikatInput) {
-          sertifikatInput.addEventListener('change', () => {
-            const file = sertifikatInput.files[0];
-            if (file) {
-              sertifikatInfo.innerHTML = `
-                <div class="flex items-center gap-2 text-xs">
-                  <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-                  <span class="truncate">${file.name}</span>
-                  <span class="text-[#71717a] text-[10px]">(${(file.size / 1024 / 1024).toFixed(1)} MB)</span>
-                </div>
-              `;
-              sertifikatInfo.classList.remove('hidden');
-              if (window.lucide) window.lucide.createIcons();
-              const modalFileInput = document.getElementById('upload-file-input');
-              if (modalFileInput) {
-                const dt = new DataTransfer();
-                dt.items.add(file);
-                modalFileInput.files = dt.files;
-              }
-              window.openModalUploadBerkas('Sertifikat');
-            }
+        bindFileInfo('upload-laporan-akhir', 'laporan-akhir-file-info');
+        bindFileInfo('upload-lembar-bimbingan', 'lembar-bimbingan-file-info');
+        bindFileInfo('upload-nilai-mitra', 'nilai-mitra-file-info');
+        bindFileInfo('upload-sertifikat', 'sertifikat-file-info');
+
+        const form = document.getElementById('form-persyaratan-sidang');
+        if (form) {
+          form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Dokumen persyaratan sidang berhasil disimpan.');
           });
         }
       });
