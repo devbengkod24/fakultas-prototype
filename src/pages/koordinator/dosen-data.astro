@@ -19,6 +19,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 1,
           nama: 'Dr. M. Arief Soeleman, M.Kom',
           npp: '0612047801',
+          telepon: '081228110401',
+          email: 'arief.soeleman@dsn.dinus.ac.id',
           aktifPeriode: true,
           mahasiswa: [
             { nama: 'Faisal Rahman', nim: 'A11.2022.13901', program: 'Bengkel Koding' },
@@ -30,6 +32,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 2,
           nama: 'Affandy, Ph.D',
           npp: '0617087502',
+          telepon: '081325220502',
+          email: 'affandy@dsn.dinus.ac.id',
           aktifPeriode: true,
           mahasiswa: [
             { nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', program: 'Bengkel Koding' },
@@ -40,6 +44,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 3,
           nama: 'Christy Atika Sari, M.Kom',
           npp: '0629038401',
+          telepon: '081565330401',
+          email: 'christy.atika@dsn.dinus.ac.id',
           aktifPeriode: true,
           mahasiswa: [
             { nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', program: 'Dicoding Indonesia' },
@@ -49,6 +55,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 4,
           nama: 'Eko Hari Rachmawanto, M.Kom',
           npp: '0615028201',
+          telepon: '085640440201',
+          email: 'eko.hari@dsn.dinus.ac.id',
           aktifPeriode: true,
           mahasiswa: [
             { nama: 'Siti Aminah', nim: 'A12.2022.09911', program: 'Bengkel Koding' },
@@ -59,6 +67,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 5,
           nama: 'Ajib Susanto, M.Kom',
           npp: '0621057901',
+          telepon: '081229550901',
+          email: 'ajib.susanto@dsn.dinus.ac.id',
           aktifPeriode: false,
           mahasiswa: []
         },
@@ -66,6 +76,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 6,
           nama: 'Dr. Muljono, S.Si, M.Kom',
           npp: '0619087201',
+          telepon: '081127660201',
+          email: 'muljono@dsn.dinus.ac.id',
           aktifPeriode: true,
           mahasiswa: [
             { nama: 'Annisa Tri Rahayu', nim: 'A11.2022.14201', program: 'IDDS' },
@@ -77,6 +89,8 @@ import AdminShell from "../../layouts/AdminShell.astro";
           id: 7,
           nama: 'Dr. Ricardus Anggi, M.Kom',
           npp: '0624018602',
+          telepon: '081745770602',
+          email: 'ricardus.anggi@dsn.dinus.ac.id',
           aktifPeriode: true,
           mahasiswa: [
             { nama: 'Putra Mahendra', nim: 'A11.2022.14308', program: 'Bengkel Koding' },
@@ -86,7 +100,9 @@ import AdminShell from "../../layouts/AdminShell.astro";
       get filteredDosen() {
         const q = (this.searchQuery || '').toLowerCase();
         let list = this.dosenList.filter(d =>
-          (d.nama || '').toLowerCase().includes(q) || (d.npp || '').includes(q)
+          (d.nama || '').toLowerCase().includes(q) ||
+          (d.npp || '').includes(q) ||
+          (d.email || '').toLowerCase().includes(q)
         );
         if (this.sortOption === 'nama_asc') {
           list = [...list].sort((a, b) => a.nama.localeCompare(b.nama));
@@ -121,7 +137,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
     @keydown.escape.window="closeDetailDrawer()"
   >
     <!-- Toolbar -->
-    <div class="flex flex-col md:flex-row gap-2 items-start md:items-center justify-between">
+    <div class="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
       <!-- Search Input -->
       <div class="relative w-full sm:w-72 md:w-80">
         <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
@@ -135,7 +151,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
       </div>
 
       <!-- Action Buttons Right -->
-      <div class="flex items-center gap-2 ml-auto flex-wrap">
+      <div class="flex flex-wrap items-center gap-2 ml-auto">
         <select
           x-model="sortOption"
           @change="currentPage = 1"
@@ -165,16 +181,18 @@ import AdminShell from "../../layouts/AdminShell.astro";
       </div>
     </div>
 
-    <!-- Tabel Data Dosen (4 Kolom: No., Nama Dosen Pembimbing, Mahasiswa, Aksi) -->
+    <!-- Tabel Data Dosen (6 Kolom: No., Nama Dosen Pembimbing, Email, Status mahasiswa, Mahasiswa, Aksi) -->
     <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
       <div class="overflow-x-auto">
-        <table class="w-full table-fixed text-sm">
+        <table class="w-full text-sm table-fixed">
           <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
             <tr>
               <th class="h-11 px-4 font-semibold text-xs w-14 text-center text-[#71717a]">No.</th>
-              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] w-[20%]">Nama Dosen Pembimbing</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Mahasiswa</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-36">Aksi</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] w-[28%]">Nama Dosen Pembimbing</th>
+              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] w-[25%]">Email</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap w-40">Status</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-36">Mahasiswa</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-32">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
@@ -182,22 +200,28 @@ import AdminShell from "../../layouts/AdminShell.astro";
               <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
                 <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a]" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
                 <td class="h-[68px] px-4 text-sm">
-                  <div class="flex items-center gap-3 min-w-0">
+                  <div class="flex items-center min-w-0 gap-3">
                     <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                       <span x-text="dosen.nama.charAt(0)"></span>
                     </div>
                     <div class="flex flex-col min-w-0">
-                      <div class="flex items-center gap-2 min-w-0">
-                        <span class="font-semibold text-[#09090b] text-sm truncate" x-text="dosen.nama"></span>
-                        <span
-                          class="h-2 w-2 rounded-full shrink-0"
-                          :class="dosen.aktifPeriode ? 'bg-emerald-500' : 'bg-[#d4d4d8]'"
-                          :title="dosen.aktifPeriode ? 'Aktif' : 'Nonaktif'"
-                        ></span>
-                      </div>
+                      <span class="font-semibold text-[#09090b] text-sm truncate" x-text="dosen.nama"></span>
                       <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
                     </div>
                   </div>
+                </td>
+                <td class="h-[68px] px-4 text-xs text-[#52525b] whitespace-nowrap truncate" x-text="dosen.email"></td>
+                <td class="h-[68px] px-4 text-center text-sm">
+                  <template x-if="dosen.aktifPeriode">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7] whitespace-nowrap">
+                      Aktif
+                    </span>
+                  </template>
+                  <template x-if="!dosen.aktifPeriode">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a] whitespace-nowrap">
+                      Nonaktif
+                    </span>
+                  </template>
                 </td>
                 <td class="h-[68px] px-4 text-center text-sm font-medium text-[#09090b]" x-text="dosen.mahasiswa.length"></td>
                 <td class="h-[68px] px-4 text-center text-sm">
@@ -213,7 +237,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
             </template>
             <template x-if="paginatedDosen.length === 0">
               <tr>
-                <td colspan="4" class="h-28 text-center text-xs text-[#71717a]">
+                <td colspan="6" class="h-28 text-center text-xs text-[#71717a]">
                   Tidak ada data dosen pembimbing yang cocok dengan kriteria pencarian.
                 </td>
               </tr>
@@ -224,7 +248,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
     </div>
 
     <!-- Standardized Pagination -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+    <div class="flex flex-col items-center justify-between gap-2 pt-1 sm:flex-row">
       <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredDosen.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredDosen.length) + ' dari ' + filteredDosen.length + ' data'"></div>
       <div class="flex items-center gap-1.5">
         <button
@@ -243,7 +267,7 @@ import AdminShell from "../../layouts/AdminShell.astro";
             type="button"
             @click="currentPage = p"
             :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
-            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+            class="flex items-center justify-center w-8 h-8 text-xs transition-colors rounded-md"
             x-text="p"
           ></button>
         </template>
@@ -289,20 +313,47 @@ import AdminShell from "../../layouts/AdminShell.astro";
         x-transition:leave-start="translate-x-0"
         x-transition:leave-end="translate-x-full"
       >
-        <!-- Header Drawer: Kiri (Foto + Nama + NPP), Kanan (Toggle Status + Close) -->
-        <div class="px-6 py-5 flex items-center justify-between gap-4">
-          <div class="flex items-center gap-3.5 min-w-0">
-            <div class="h-11 w-11 rounded-full bg-[#f4f4f5] text-[#0655a7] font-bold text-sm flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+        <!-- Header Drawer: Detail Dosen + Close -->
+        <div class="flex items-center justify-between gap-4 px-6 pt-5 pb-2">
+          <h3 class="text-base font-bold text-[#09090b]">Detail Dosen</h3>
+          <button
+            type="button"
+            @click="closeDetailDrawer()"
+            class="h-8 w-8 rounded-md hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center transition-colors cursor-pointer"
+            title="Tutup"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Body Drawer -->
+        <div class="flex-1 px-6 pt-2 pb-6 space-y-5 overflow-y-auto">
+          <!-- Card Identitas Dosen -->
+          <div class="rounded-xl border border-[#e4e4e7] bg-white p-4 flex items-center gap-4">
+            <div class="h-14 w-14 rounded-full bg-[#f4f4f5] text-[#0655a7] font-bold text-base flex items-center justify-center shrink-0 border border-[#e4e4e7]">
               <span x-text="selectedDosen?.nama?.charAt(0) || 'D'"></span>
             </div>
-            <div class="flex flex-col min-w-0">
-              <h3 class="text-sm font-bold text-[#09090b] truncate" x-text="selectedDosen?.nama || ''"></h3>
-              <p class="text-xs text-[#71717a]" x-text="selectedDosen?.npp || ''"></p>
+            <div class="flex flex-col min-w-0 gap-1">
+              <p class="text-sm font-bold text-[#09090b] truncate" x-text="selectedDosen?.nama || ''"></p>
+              <p class="text-xs text-[#71717a] flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/></svg>
+                <span x-text="selectedDosen?.npp || ''"></span>
+              </p>
+              <p class="text-xs text-[#52525b] flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span x-text="selectedDosen?.telepon || '-'"></span>
+              </p>
+              <p class="text-xs text-[#52525b] flex items-center gap-1.5 min-w-0">
+                <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <span class="truncate" x-text="selectedDosen?.email || '-'"></span>
+              </p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3 shrink-0">
-            <div class="flex items-center gap-2">
+          <!-- Baris Status Dosen -->
+          <div class="flex items-center justify-between py-1">
+            <span class="text-sm font-bold text-[#09090b]">Status Dosen</span>
+            <div class="flex items-center gap-2.5">
               <button
                 type="button"
                 role="switch"
@@ -322,58 +373,50 @@ import AdminShell from "../../layouts/AdminShell.astro";
                 x-text="selectedDosen?.aktifPeriode ? 'Aktif' : 'Nonaktif'"
               ></span>
             </div>
-
-            <button
-              type="button"
-              @click="closeDetailDrawer()"
-              class="h-8 w-8 rounded-md hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center transition-colors cursor-pointer"
-              title="Tutup"
-            >
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Garis Lurus Pemisah -->
-        <hr class="border-[#e4e4e7]" />
-
-        <!-- Body Drawer: Mahasiswa yang Dibimbing -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-xs font-semibold uppercase tracking-wider text-[#71717a]">
-              Mahasiswa yang Dibimbing
-            </h4>
-            <span
-              class="text-xs font-medium text-[#71717a]"
-              x-text="`${selectedDosen?.mahasiswa?.length || 0} Mahasiswa`"
-            ></span>
           </div>
 
-          <template x-if="(selectedDosen?.mahasiswa?.length || 0) > 0">
-            <div class="rounded-xl border border-[#e4e4e7] bg-white divide-y divide-[#e4e4e7] overflow-hidden">
-              <template x-for="mhs in (selectedDosen?.mahasiswa || [])" :key="mhs.nim">
-                <div class="p-4 flex items-center gap-3.5 hover:bg-[#fafafa] transition-colors">
-                  <div class="h-9 w-9 rounded-full bg-[#eff6ff] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#bfdbfe]">
-                    <span x-text="mhs.nama.charAt(0)"></span>
-                  </div>
-                  <div class="flex flex-col min-w-0 gap-0.5">
-                    <p class="text-sm font-semibold text-[#09090b] truncate">
-                      <span x-text="mhs.nama"></span>
-                      <span class="font-normal text-[#71717a]"> - </span>
-                      <span class="font-medium text-[#0655a7]" x-text="mhs.program"></span>
-                    </p>
-                    <p class="text-xs text-[#71717a]" x-text="mhs.nim"></p>
-                  </div>
-                </div>
-              </template>
-            </div>
-          </template>
+          <hr class="border-[#e4e4e7]" />
 
-          <template x-if="(selectedDosen?.mahasiswa?.length || 0) === 0">
-            <div class="rounded-xl border border-dashed border-[#e4e4e7] bg-[#fafafa] p-8 text-center text-xs text-[#71717a]">
-              Belum ada mahasiswa yang dibimbing pada periode ini.
+          <!-- Mahasiswa yang Dibimbing -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-[#09090b]">
+                Mahasiswa yang Dibimbing
+              </h4>
+              <span
+                class="text-xs font-medium text-[#71717a]"
+                x-text="`${selectedDosen?.mahasiswa?.length || 0} Mahasiswa`"
+              ></span>
             </div>
-          </template>
+
+            <template x-if="(selectedDosen?.mahasiswa?.length || 0) > 0">
+              <div class="rounded-xl border border-[#e4e4e7] bg-white divide-y divide-[#e4e4e7] overflow-hidden">
+                <template x-for="mhs in (selectedDosen?.mahasiswa || [])" :key="mhs.nim">
+                  <div class="p-4 flex items-center justify-between gap-3 hover:bg-[#fafafa] transition-colors">
+                    <div class="flex items-center gap-3.5 min-w-0">
+                      <div class="h-9 w-9 rounded-full bg-[#eff6ff] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#bfdbfe]">
+                        <span x-text="mhs.nama.charAt(0)"></span>
+                      </div>
+                      <div class="flex flex-col min-w-0 gap-0.5">
+                        <p class="text-xs font-semibold text-[#09090b] truncate" x-text="mhs.nama"></p>
+                        <p class="text-[10px] text-[#71717a]" x-text="mhs.nim"></p>
+                      </div>
+                    </div>
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7] whitespace-nowrap shrink-0"
+                      x-text="mhs.program"
+                    ></span>
+                  </div>
+                </template>
+              </div>
+            </template>
+
+            <template x-if="(selectedDosen?.mahasiswa?.length || 0) === 0">
+              <div class="rounded-xl border border-dashed border-[#e4e4e7] bg-[#fafafa] p-8 text-center text-xs text-[#71717a]">
+                Belum ada mahasiswa yang dibimbing pada periode ini.
+              </div>
+            </template>
+          </div>
         </div>
       </div>
     </div>

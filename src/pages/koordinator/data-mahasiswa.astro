@@ -48,20 +48,24 @@ import AdminShell from '../../layouts/AdminShell.astro';
         return this.filteredStudents.slice(start, start + this.pageSize);
       },
       students: [
-        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Bengkel Koding' },
-        { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'IDSS' },
-        { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Dicoding Asah' },
-        { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Matics' },
+        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'MBKM Bengkel Koding' },
+        { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Studi Independen' },
+        { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Riset bersama Bidang Kajian' },
+        { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'PPKOrmawa' },
         { no: 5, nama: 'Budi Santoso', nim: 'A11.2022.14150', email: 'budi.santoso@mhs.dinus.ac.id', telepon: '081399887766', dosen: '-', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Belum Ada' },
-        { no: 6, nama: 'Annisa Tri Rahayu', nim: 'A11.2022.14201', email: 'annisa.tri@mhs.dinus.ac.id', telepon: '081223344556', dosen: 'Dr. Muljono, S.Si, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Bengkel Koding' },
-        { no: 7, nama: 'Dimas Bagus Setiawan', nim: 'A12.2022.09915', email: 'dimas.bagus@mhs.dinus.ac.id', telepon: '085611223344', dosen: 'Affandy, Ph.D', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'IDSS' },
+        { no: 6, nama: 'Annisa Tri Rahayu', nim: 'A11.2022.14201', email: 'annisa.tri@mhs.dinus.ac.id', telepon: '081223344556', dosen: 'Dr. Muljono, S.Si, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Joint Project' },
+        { no: 7, nama: 'Dimas Bagus Setiawan', nim: 'A12.2022.09915', email: 'dimas.bagus@mhs.dinus.ac.id', telepon: '085611223344', dosen: 'Affandy, Ph.D', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Industrial Visit ke Luar Negri' },
+        { no: 8, nama: 'Siti Aminah', nim: 'A12.2022.09911', email: 'siti.aminah@mhs.dinus.ac.id', telepon: '081299001122', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Kuliah Kerja Usaha' },
+        { no: 9, nama: 'Bagas Prasetyo', nim: 'A11.2022.14105', email: 'bagas.prasetyo@mhs.dinus.ac.id', telepon: '081344556677', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Magang Kuliah Kerja Industri (KKI)' },
+        { no: 10, nama: 'Hendra Wijaya', nim: 'A11.2022.14220', email: 'hendra.wijaya@mhs.dinus.ac.id', telepon: '081566778899', dosen: 'Dr. Ricardus Anggi, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Magang Berdampak di Sekolah' },
+        { no: 11, nama: 'Putra Mahendra', nim: 'A11.2022.14308', email: 'putra.mahendra@mhs.dinus.ac.id', telepon: '081788990011', dosen: 'Affandy, Ph.D', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Student Mobility ke UGM' },
       ]
     }"
   >
     <!-- Toolbar Style KP -->
     <div class="flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
       <!-- Search Input -->
-      <div class="relative w-full sm:w-72 md:w-80">
+      <div class="relative w-full sm:w-56 lg:w-64 shrink-0">
         <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
         <input
           type="text"
@@ -73,12 +77,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
 
       <!-- Action Buttons Right -->
-      <div class="flex items-center gap-2 ml-auto flex-wrap">
-        <!-- Filter Periode & Status -->
+      <div class="flex items-center gap-2 ml-auto flex-wrap xl:flex-nowrap">
+        <!-- Filter Periode & Skema -->
         <select
           x-model="periodeFilter"
           @change="currentPage = 1"
-          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          class="h-9 max-w-[150px] px-2.5 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="semua">Semua Periode</option>
           <option value="20261">2026/2027 - Gasal</option>
@@ -88,13 +92,19 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <select
           x-model="skemaFilter"
           @change="currentPage = 1"
-          class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          class="h-9 max-w-[150px] truncate px-2.5 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
           <option value="semua">Semua Skema</option>
-          <option value="Bengkel Koding">Bengkel Koding</option>
-          <option value="IDSS">IDSS</option>
-          <option value="Dicoding Asah">Dicoding Asah</option>
-          <option value="Matics">Matics</option>
+          <option value="Studi Independen">Studi Independen</option>
+          <option value="Riset bersama Bidang Kajian">Riset bersama Bidang Kajian</option>
+          <option value="PPKOrmawa">PPKOrmawa</option>
+          <option value="Joint Project">Joint Project</option>
+          <option value="Industrial Visit ke Luar Negri">Industrial Visit ke Luar Negri</option>
+          <option value="Kuliah Kerja Usaha">Kuliah Kerja Usaha</option>
+          <option value="Magang Kuliah Kerja Industri (KKI)">Magang Kuliah Kerja Industri (KKI)</option>
+          <option value="Magang Berdampak di Sekolah">Magang Berdampak di Sekolah</option>
+          <option value="MBKM Bengkel Koding">MBKM Bengkel Koding</option>
+          <option value="Student Mobility ke UGM">Student Mobility ke UGM</option>
           <option value="Belum Ada">Belum Ada</option>
         </select>
 

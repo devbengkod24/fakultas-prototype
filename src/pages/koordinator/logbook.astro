@@ -85,7 +85,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
     <!-- View 1: Tabel Daftar Mahasiswa (Logbook Mingguan per Rentang 6 Minggu) -->
     <div x-show="viewMode === 'master'" class="flex flex-col gap-4">
       <!-- Toolbar Pencarian & Filter Status -->
-      <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+      <div class="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div class="relative w-full sm:w-96">
           <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
           <input
@@ -111,15 +111,16 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
         </div>
       </div>
 
-      <!-- Tabel 4 Kolom -->
+      <!-- Tabel 5 Kolom -->
       <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
         <div class="overflow-x-auto">
-          <table class="w-full table-fixed text-sm">
+          <table class="w-full text-sm table-fixed">
             <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
               <tr>
                 <th class="h-11 px-4 font-semibold text-xs w-14 text-center text-[#71717a]">No.</th>
-                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-[30%]">Nama Mahasiswa</th>
-                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Progress Bar</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-[24%]">Nama Mahasiswa</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-[26%]">Kontributor</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Progres</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-36">Detail</th>
               </tr>
             </thead>
@@ -128,15 +129,20 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
                 <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
                   <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a]" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
                   <td class="h-[68px] px-4 text-sm">
-                    <div class="flex items-center gap-3 min-w-0">
+                    <div class="flex items-center min-w-0 gap-3">
                       <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                         <span x-text="mhs.nama.charAt(0)"></span>
                       </div>
                       <div class="flex flex-col leading-tight gap-0.5 min-w-0">
                         <span class="font-semibold text-[#09090b] text-sm truncate" x-text="mhs.nama"></span>
-                        <span class="text-xs text-[#71717a] truncate" x-text="`${mhs.nim} • ${mhs.mitra}`"></span>
+                        <span class="text-xs text-[#71717a] truncate" x-text="mhs.nim"></span>
                       </div>
                     </div>
+                  </td>
+
+                  <!-- Mitra -->
+                  <td class="h-[68px] px-4 text-sm text-center">
+                    <span class="block font-medium text-[#09090b] text-sm truncate" x-text="mhs.mitra"></span>
                   </td>
 
                   <!-- Progress Bar + Keterangan Mingguan (angka/max) -->
@@ -144,7 +150,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
                     <div class="flex items-center gap-3 w-[82%] mx-auto">
                       <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden border border-[#e4e4e7]/60">
                         <div
-                          class="h-full rounded-full transition-all duration-300"
+                          class="h-full transition-all duration-300 rounded-full"
                           :class="progressBarColor(mhs)"
                           :style="`width: ${progressPercent(mhs)}%`"
                         ></div>
@@ -173,7 +179,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
               </template>
               <template x-if="paginatedStudents.length === 0">
                 <tr>
-                  <td colspan="4" class="h-28 text-center text-xs text-[#71717a]">
+                  <td colspan="5" class="h-28 text-center text-xs text-[#71717a]">
                     Tidak ada data logbook mahasiswa yang cocok dengan kriteria pencarian.
                   </td>
                 </tr>
@@ -184,7 +190,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
       </div>
 
       <!-- Standardized Pagination -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
+      <div class="flex flex-col items-center justify-between gap-2 pt-1 sm:flex-row">
         <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredStudents.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredStudents.length) + ' dari ' + filteredStudents.length + ' data'"></div>
         <div class="flex items-center gap-1.5">
           <button
@@ -203,7 +209,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
               type="button"
               @click="currentPage = p"
               :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
-              class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+              class="flex items-center justify-center w-8 h-8 text-xs transition-colors rounded-md"
               x-text="p"
             ></button>
           </template>
@@ -236,35 +242,25 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
     <!-- View 2: Detail Logbook Mingguan (Accordion per Minggu) -->
     <div x-show="viewMode === 'detail'" class="flex flex-col gap-4" x-cloak>
       <!-- Header Navigasi & Profil Ringkas Mahasiswa -->
-      <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-start md:items-center gap-3.5">
-          <button
-            type="button"
-            @click="backToMaster()"
-            class="h-9 w-9 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center shrink-0 transition-colors cursor-pointer"
-            title="Kembali ke Daftar Mahasiswa"
-          >
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          </button>
-          <div class="space-y-1">
-            <div class="flex flex-wrap items-center gap-2">
-              <h2 class="text-base font-bold text-[#09090b]" x-text="selectedMhs?.nama || ''"></h2>
-              <span class="text-xs text-[#71717a]" x-text="`(${selectedMhs?.nim || ''})`"></span>
-              <span
-                class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7]"
-                x-text="`Progres: Minggu ${selectedMhs?.mingguAktif || 0} / ${selectedMhs?.totalMinggu || 24}`"
-              ></span>
-            </div>
-            <p class="text-xs text-[#71717a]" x-text="`${selectedMhs?.mitra || ''} — ${selectedMhs?.program || ''} • Dosen Pembimbing: ${selectedMhs?.dosenPembimbing || '-'}`"></p>
+      <div class="rounded-xl border border-[#e4e4e7] bg-white px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1.5 min-w-0">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <h2 class="text-base font-bold text-[#09090b]" x-text="selectedMhs?.nama || ''"></h2>
+            <span class="text-xs font-medium text-[#71717a]" x-text="selectedMhs?.nim || ''"></span>
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7]"
+              x-text="`Progres: Minggu ${selectedMhs?.mingguAktif || 0} / ${selectedMhs?.totalMinggu || 24}`"
+            ></span>
           </div>
+          <p class="text-xs text-[#71717a]" x-text="`${selectedMhs?.mitra || ''} • Dosen Pembimbing: ${selectedMhs?.dosenPembimbing || '-'}`"></p>
         </div>
 
         <button
           type="button"
           @click="backToMaster()"
-          class="px-3 py-1.5 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-[#f4f4f5] flex items-center gap-1.5 self-start md:self-auto shrink-0 cursor-pointer"
+          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors self-start md:self-auto shrink-0 cursor-pointer"
         >
-          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-[#71717a]"></i>
           <span>Kembali</span>
         </button>
       </div>
@@ -353,7 +349,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
     <div
       x-show="isDocModalOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
     >
       <div
         @click.outside="isDocModalOpen = false"
@@ -379,7 +375,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
         </div>
 
         <div class="flex items-center justify-between rounded-lg border border-[#e4e4e7] px-3.5 py-2.5 bg-white">
-          <div class="flex items-center gap-2 min-w-0">
+          <div class="flex items-center min-w-0 gap-2">
             <svg class="w-4 h-4 text-[#0655a7] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
             <span class="text-xs font-medium text-[#09090b] truncate" x-text="docPreview.dokumenNama"></span>
           </div>
