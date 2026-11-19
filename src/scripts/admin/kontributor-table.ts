@@ -452,7 +452,7 @@ function handleSubmitTambahKontributor() {
 
     closeTambahKontributorModal();
     alert(`Kontributor Eksternal "${nama}" berhasil ditambahkan!
-Lanjutkan dengan mengisi Kelola Program dan Kelola CMS.`);
+Lanjutkan dengan melengkapi form program dan CMS.`);
     startKontributorSetup(newId);
   }
 }

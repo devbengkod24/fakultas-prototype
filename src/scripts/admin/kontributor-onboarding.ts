@@ -5,9 +5,9 @@
 // ==============================================================================
 
 const STORAGE_KEY = 'mbkm:kontributor-baru';
-const PROGRAM_URL = '/koordinator/kontributor/program';
 const CMS_URL = '/koordinator/kontributor/kelola-program';
 const LIST_URL = '/koordinator/kontributor';
+const FORM_URL = '/koordinator/kontributor/form-onboarding';
 
 function readStoredKontributor() {
   try {
@@ -45,9 +45,10 @@ function isKontributorSetupMode() {
   return new URLSearchParams(window.location.search).get('setup') === '1';
 }
 
-// Langkah 1 → 2: setelah mitra dibuat, langsung isi Kelola Program.
+// Setelah mitra dibuat, langsung buka form gabungan (Program + CMS).
+// Halaman Kelola Program & Kelola CMS tetap tersedia untuk pengeditan lanjutan.
 function startKontributorSetup(kontributorId) {
-  window.location.href = `${PROGRAM_URL}?id=${kontributorId}&setup=1`;
+  window.location.href = `${FORM_URL}?id=${kontributorId}`;
 }
 
 // Langkah 2 → 3: setelah Kelola Program disimpan, lanjut isi Kelola CMS.

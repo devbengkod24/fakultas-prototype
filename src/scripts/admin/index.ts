@@ -24,6 +24,7 @@ import * as pengumuman from "./pengumuman";
 import * as periode from "./periode";
 import * as form_settings from "./form-settings";
 import * as kontributor_onboarding from "./kontributor-onboarding";
+import * as kontributor_form from "./kontributor-form";
 import * as kontributor_table from "./kontributor-table";
 import * as kontributor_detail from "./kontributor-detail";
 import * as kontributor_cms from "./kontributor-cms";
@@ -52,6 +53,7 @@ export {
   pengumuman,
   periode,
   form_settings,
+  kontributor_form,
   kontributor_table,
   kontributor_detail,
   kontributor_cms,
