@@ -17,7 +17,6 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
       currentPage: 1,
       pageSize: 10,
       selectedMhs: null,
-      activeRange: 'all',
       openWeeks: {},
       isDocModalOpen: false,
       docPreview: { minggu: '', tanggal: '', deskripsi: '', dokumenNama: '', catatanDospem: '' },
@@ -42,16 +41,19 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
         const start = (this.currentPage - 1) * this.pageSize;
         return this.filteredStudents.slice(start, start + this.pageSize);
       },
-      countInRange(mhs, minW, maxW) {
-        if (!mhs || !mhs.weeks) return 0;
-        return mhs.weeks.filter(w => w.minggu >= minW && w.minggu <= maxW).length;
+      progressPercent(mhs) {
+        if (!mhs || !mhs.totalMinggu) return 0;
+        return Math.min(100, Math.round((mhs.mingguAktif / mhs.totalMinggu) * 100));
       },
-      openRangeDetail(mhs, rangeKey) {
+      progressBarColor(mhs) {
+        if (!mhs || mhs.mingguAktif === 0) return 'bg-[#d4d4d8]';
+        if (mhs.mingguAktif >= mhs.totalMinggu) return 'bg-emerald-600';
+        return 'bg-[#0655a7]';
+      },
+      openDetail(mhs) {
         this.selectedMhs = mhs;
-        this.activeRange = rangeKey;
         this.openWeeks = {};
-        const weeks = this.getFilteredWeeks();
-        weeks.forEach((w, i) => {
+        (mhs?.weeks || []).forEach((w, i) => {
           this.openWeeks[w.minggu] = i < 2;
         });
         this.viewMode = 'detail';
@@ -59,23 +61,6 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
       backToMaster() {
         this.selectedMhs = null;
         this.viewMode = 'master';
-      },
-      setRange(rangeKey) {
-        this.activeRange = rangeKey;
-        this.openWeeks = {};
-        const weeks = this.getFilteredWeeks();
-        weeks.forEach((w, i) => {
-          this.openWeeks[w.minggu] = i < 2;
-        });
-      },
-      getFilteredWeeks() {
-        if (!this.selectedMhs || !this.selectedMhs.weeks) return [];
-        const all = this.selectedMhs.weeks;
-        if (this.activeRange === '1-6') return all.filter(w => w.minggu >= 1 && w.minggu <= 6);
-        if (this.activeRange === '7-12') return all.filter(w => w.minggu >= 7 && w.minggu <= 12);
-        if (this.activeRange === '13-18') return all.filter(w => w.minggu >= 13 && w.minggu <= 18);
-        if (this.activeRange === '19-24') return all.filter(w => w.minggu >= 19 && w.minggu <= 24);
-        return all;
       },
       toggleWeek(minggu) {
         this.openWeeks[minggu] = !this.openWeeks[minggu];
@@ -101,7 +86,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
     <div x-show="viewMode === 'master'" class="flex flex-col gap-4">
       <!-- Toolbar Pencarian & Filter Status -->
       <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-        <div class="relative w-full sm:w-80">
+        <div class="relative w-full sm:w-96">
           <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
           <input
             type="text"
@@ -126,135 +111,69 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
         </div>
       </div>
 
-      <!-- Tabel 8 Kolom -->
+      <!-- Tabel 4 Kolom -->
       <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
         <div class="overflow-x-auto">
-          <table class="w-full text-sm">
+          <table class="w-full table-fixed text-sm">
             <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
               <tr>
-                <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
-                <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[230px]">Nama Mahasiswa</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Minggu 1–6</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Minggu 7–12</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Minggu 13–18</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Minggu 19–24</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Logbook Lengkap</th>
-                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Info Progres</th>
+                <th class="h-11 px-4 font-semibold text-xs w-14 text-center text-[#71717a]">No.</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-[30%]">Nama Mahasiswa</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Progress Bar</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-36">Detail</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-[#e4e4e7]">
               <template x-for="(mhs, idx) in paginatedStudents" :key="mhs.id">
                 <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                  <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
+                  <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a]" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
                   <td class="h-[68px] px-4 text-sm">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
                       <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
                         <span x-text="mhs.nama.charAt(0)"></span>
                       </div>
-                      <div class="flex flex-col leading-tight gap-0.5">
-                        <span class="font-semibold text-[#09090b] text-sm" x-text="mhs.nama"></span>
-                        <span class="text-xs text-[#71717a]" x-text="`${mhs.nim} • ${mhs.mitra}`"></span>
+                      <div class="flex flex-col leading-tight gap-0.5 min-w-0">
+                        <span class="font-semibold text-[#09090b] text-sm truncate" x-text="mhs.nama"></span>
+                        <span class="text-xs text-[#71717a] truncate" x-text="`${mhs.nim} • ${mhs.mitra}`"></span>
                       </div>
                     </div>
                   </td>
 
-                  <!-- Minggu 1-6 -->
-                  <td class="h-[68px] px-3 text-center">
-                    <template x-if="countInRange(mhs, 1, 6) > 0">
-                      <button
-                        type="button"
-                        @click="openRangeDetail(mhs, '1-6')"
-                        class="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/50 text-[#0655a7] text-xs font-medium transition-colors cursor-pointer"
-                        x-text="`${countInRange(mhs, 1, 6)}/6 Minggu`"
-                      ></button>
-                    </template>
-                    <template x-if="countInRange(mhs, 1, 6) === 0">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">Belum Ada</span>
-                    </template>
+                  <!-- Progress Bar + Keterangan Mingguan (angka/max) -->
+                  <td class="h-[68px] px-4">
+                    <div class="flex items-center gap-3 w-[82%] mx-auto">
+                      <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden border border-[#e4e4e7]/60">
+                        <div
+                          class="h-full rounded-full transition-all duration-300"
+                          :class="progressBarColor(mhs)"
+                          :style="`width: ${progressPercent(mhs)}%`"
+                        ></div>
+                      </div>
+                      <span
+                        class="text-xs font-semibold tabular-nums shrink-0 min-w-[44px] text-right"
+                        :class="mhs.mingguAktif === mhs.totalMinggu ? 'text-emerald-700' : mhs.mingguAktif > 0 ? 'text-[#0655a7]' : 'text-[#71717a]'"
+                        x-text="`${mhs.mingguAktif}/${mhs.totalMinggu}`"
+                      ></span>
+                    </div>
                   </td>
 
-                  <!-- Minggu 7-12 -->
-                  <td class="h-[68px] px-3 text-center">
-                    <template x-if="countInRange(mhs, 7, 12) > 0">
-                      <button
-                        type="button"
-                        @click="openRangeDetail(mhs, '7-12')"
-                        class="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/50 text-[#0655a7] text-xs font-medium transition-colors cursor-pointer"
-                        x-text="`${countInRange(mhs, 7, 12)}/6 Minggu`"
-                      ></button>
-                    </template>
-                    <template x-if="countInRange(mhs, 7, 12) === 0">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">Belum Ada</span>
-                    </template>
-                  </td>
-
-                  <!-- Minggu 13-18 -->
-                  <td class="h-[68px] px-3 text-center">
-                    <template x-if="countInRange(mhs, 13, 18) > 0">
-                      <button
-                        type="button"
-                        @click="openRangeDetail(mhs, '13-18')"
-                        class="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/50 text-[#0655a7] text-xs font-medium transition-colors cursor-pointer"
-                        x-text="`${countInRange(mhs, 13, 18)}/6 Minggu`"
-                      ></button>
-                    </template>
-                    <template x-if="countInRange(mhs, 13, 18) === 0">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">Belum Ada</span>
-                    </template>
-                  </td>
-
-                  <!-- Minggu 19-24 -->
-                  <td class="h-[68px] px-3 text-center">
-                    <template x-if="countInRange(mhs, 19, 24) > 0">
-                      <button
-                        type="button"
-                        @click="openRangeDetail(mhs, '19-24')"
-                        class="inline-flex items-center gap-1.5 h-8 px-2.5 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/50 text-[#0655a7] text-xs font-medium transition-colors cursor-pointer"
-                        x-text="`${countInRange(mhs, 19, 24)}/6 Minggu`"
-                      ></button>
-                    </template>
-                    <template x-if="countInRange(mhs, 19, 24) === 0">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">Belum Ada</span>
-                    </template>
-                  </td>
-
-                  <!-- Logbook Lengkap -->
-                  <td class="h-[68px] px-3 text-center">
+                  <!-- Detail -->
+                  <td class="h-[68px] px-4 text-center">
                     <button
                       type="button"
-                      @click="openRangeDetail(mhs, 'all')"
+                      @click="openDetail(mhs)"
                       :disabled="mhs.mingguAktif === 0"
-                      :class="mhs.mingguAktif === 0 ? 'opacity-50 cursor-not-allowed border-[#e4e4e7] text-[#71717a]' : 'border-[#0655a7] bg-[#0655a7] hover:bg-[#114d91] text-white cursor-pointer'"
+                      :class="mhs.mingguAktif === 0 ? 'opacity-50 cursor-not-allowed border-[#e4e4e7] bg-[#f4f4f5] text-[#71717a]' : 'border-[#0655a7] bg-[#0655a7] hover:bg-[#114d91] text-white cursor-pointer'"
                       class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border text-xs font-medium transition-colors whitespace-nowrap"
                     >
                       <span>Lihat Semua</span>
                     </button>
                   </td>
-
-                  <!-- Info Progres -->
-                  <td class="h-[68px] px-4 text-center">
-                    <template x-if="mhs.mingguAktif === 24">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800 whitespace-nowrap">
-                        Minggu 24 / 24 (Lengkap)
-                      </span>
-                    </template>
-                    <template x-if="mhs.mingguAktif > 0 && mhs.mingguAktif < 24">
-                      <span
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7] whitespace-nowrap"
-                        x-text="`Minggu ${mhs.mingguAktif} / ${mhs.totalMinggu}`"
-                      ></span>
-                    </template>
-                    <template x-if="mhs.mingguAktif === 0">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a] whitespace-nowrap">
-                        Belum Mengisi
-                      </span>
-                    </template>
-                  </td>
                 </tr>
               </template>
               <template x-if="paginatedStudents.length === 0">
                 <tr>
-                  <td colspan="8" class="h-28 text-center text-xs text-[#71717a]">
+                  <td colspan="4" class="h-28 text-center text-xs text-[#71717a]">
                     Tidak ada data logbook mahasiswa yang cocok dengan kriteria pencarian.
                   </td>
                 </tr>
@@ -350,53 +269,9 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
         </button>
       </div>
 
-      <!-- Tab Filter Rentang Minggu -->
-      <div class="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          @click="setRange('all')"
-          :class="activeRange === 'all' ? 'bg-[#0655a7] text-white border-[#0655a7]' : 'bg-white text-[#3f3f46] border-[#e4e4e7] hover:bg-[#f4f4f5]'"
-          class="h-8 px-3 rounded-md border text-xs font-medium transition-colors cursor-pointer"
-        >
-          Semua Terisi (<span x-text="selectedMhs?.mingguAktif || 0"></span>)
-        </button>
-        <button
-          type="button"
-          @click="setRange('1-6')"
-          :class="activeRange === '1-6' ? 'bg-[#0655a7] text-white border-[#0655a7]' : 'bg-white text-[#3f3f46] border-[#e4e4e7] hover:bg-[#f4f4f5]'"
-          class="h-8 px-3 rounded-md border text-xs font-medium transition-colors cursor-pointer"
-        >
-          Minggu 1–6 (<span x-text="countInRange(selectedMhs, 1, 6)"></span>)
-        </button>
-        <button
-          type="button"
-          @click="setRange('7-12')"
-          :class="activeRange === '7-12' ? 'bg-[#0655a7] text-white border-[#0655a7]' : 'bg-white text-[#3f3f46] border-[#e4e4e7] hover:bg-[#f4f4f5]'"
-          class="h-8 px-3 rounded-md border text-xs font-medium transition-colors cursor-pointer"
-        >
-          Minggu 7–12 (<span x-text="countInRange(selectedMhs, 7, 12)"></span>)
-        </button>
-        <button
-          type="button"
-          @click="setRange('13-18')"
-          :class="activeRange === '13-18' ? 'bg-[#0655a7] text-white border-[#0655a7]' : 'bg-white text-[#3f3f46] border-[#e4e4e7] hover:bg-[#f4f4f5]'"
-          class="h-8 px-3 rounded-md border text-xs font-medium transition-colors cursor-pointer"
-        >
-          Minggu 13–18 (<span x-text="countInRange(selectedMhs, 13, 18)"></span>)
-        </button>
-        <button
-          type="button"
-          @click="setRange('19-24')"
-          :class="activeRange === '19-24' ? 'bg-[#0655a7] text-white border-[#0655a7]' : 'bg-white text-[#3f3f46] border-[#e4e4e7] hover:bg-[#f4f4f5]'"
-          class="h-8 px-3 rounded-md border text-xs font-medium transition-colors cursor-pointer"
-        >
-          Minggu 19–24 (<span x-text="countInRange(selectedMhs, 19, 24)"></span>)
-        </button>
-      </div>
-
       <!-- Daftar Kartu Accordion Mingguan (Style Referensi Gambar) -->
       <div class="space-y-4">
-        <template x-for="week in getFilteredWeeks()" :key="week.minggu">
+        <template x-for="week in (selectedMhs?.weeks || [])" :key="week.minggu">
           <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs hover:border-[#cbd5e1] transition-colors">
             <!-- Header Kartu Accordion -->
             <div
@@ -445,7 +320,7 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
 
                   <template x-if="entry.catatanDospem">
                     <div class="rounded-lg bg-[#fafafa] border border-[#e4e4e7] px-3 py-2 text-xs text-[#52525b]">
-                      <span class="font-semibold text-[#09090b]">Catatan Dosen Pembimbing:</span>
+                      <span class="font-semibold text-[#09090b]">Catatan Dosen Pembimbing: </span>
                       <span x-text="entry.catatanDospem"></span>
                     </div>
                   </template>
@@ -466,9 +341,9 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
           </div>
         </template>
 
-        <template x-if="getFilteredWeeks().length === 0">
+        <template x-if="(selectedMhs?.weeks || []).length === 0">
           <div class="rounded-xl border border-[#e4e4e7] bg-white p-10 text-center text-xs text-[#71717a]">
-            Belum ada entri logbook kegiatan pada rentang minggu ini.
+            Belum ada entri logbook kegiatan.
           </div>
         </template>
       </div>

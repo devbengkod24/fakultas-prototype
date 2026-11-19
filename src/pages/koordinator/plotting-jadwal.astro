@@ -304,10 +304,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       handleDownloadUndangan() {
         if (!this.undanganKode.trim()) {
-          alert('Nomor SK / Kode Undangan wajib diisi.');
+          this.triggerToast('Nomor SK / Kode Undangan wajib diisi.', 'error');
           return;
         }
-        alert(`Mengunduh lembar undangan dewan penguji sidang (PDF) dengan Nomor SK: ${this.undanganKode}...`);
+        this.triggerToast(`Mengunduh lembar undangan dewan penguji sidang (PDF) dengan Nomor SK: ${this.undanganKode}...`, 'info');
         this.isUndanganModalOpen = false;
       },
 
@@ -321,11 +321,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
         }
       },
 
-      triggerToast(msg) {
-        this.toastMessage = msg;
-        this.showToast = true;
-        this.reinitLucide();
-        setTimeout(() => { this.showToast = false; }, 3000);
+      triggerToast(msg, type = 'success') {
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(msg, type);
+        }
       },
 
       reinitLucide() {
@@ -980,16 +979,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Toast Notification (Sesuai Sonner toast di fakultas-fe) -->
-    <div
-      x-show="showToast"
-      x-cloak
-      class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-emerald-600 text-white text-xs font-semibold shadow-lg animate-in slide-in-from-bottom-5 duration-200"
-    >
-      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-      <span x-text="toastMessage"></span>
     </div>
   </section>
 </AdminShell>

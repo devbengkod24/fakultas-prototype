@@ -156,13 +156,10 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
         this.showToast(`Revisi dikirim ke ${nama}. Mahasiswa harus mengajukan ulang konversi.`);
       },
 
-      showToast(message) {
-        this.toast = { show: true, message };
-        this.reinitLucide();
-        window.clearTimeout(this._toastTimer);
-        this._toastTimer = window.setTimeout(() => {
-          this.toast = { show: false, message: '' };
-        }, 3500);
+      showToast(message, type = 'success') {
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(message, type);
+        }
       },
 
       reinitLucide() {
@@ -345,17 +342,6 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
 
     <!-- Modal Verifikasi Konversi -->
     <ModalVerifikasiKonversi />
-
-    <!-- Toast -->
-    <div
-      x-show="toast.show"
-      x-cloak
-      x-transition.opacity.duration.200ms
-      class="fixed bottom-6 right-6 z-[60] flex items-start gap-2.5 rounded-lg border border-green-400/60 bg-green-50 px-4 py-3 shadow-lg max-w-sm"
-    >
-      <i data-lucide="check-circle-2" class="h-4 w-4 text-green-600 mt-0.5 shrink-0"></i>
-      <p class="text-xs font-medium text-green-700 leading-relaxed" x-text="toast.message"></p>
-    </div>
   </section>
 </AdminShell>
 

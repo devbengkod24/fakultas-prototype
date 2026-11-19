@@ -116,7 +116,12 @@ function handleSaveKuotaIndividual(e) {
 
 // 3. Modul Data Dosen & Update Dospem (Plotting)
 function syncDataDosenUdi() {
-  alert('Sinkronisasi data kepegawaian dosen dengan UDI berhasil dijalankan. 48 dosen terverifikasi aktif.');
+  const msg = 'Sinkronisasi data kepegawaian dosen dengan UDI berhasil dijalankan. 48 dosen terverifikasi aktif.';
+  if (typeof (window as any).showAdminToast === 'function') {
+    (window as any).showAdminToast(msg, 'success');
+  } else {
+    alert(msg);
+  }
 }
 
 function openModalTambahDosen() {

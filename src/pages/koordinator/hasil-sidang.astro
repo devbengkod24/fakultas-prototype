@@ -10,7 +10,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 >
   <section
     id="section-hasil-sidang"
-    class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
+    class="flex flex-col flex-1 min-h-0 pr-1 space-y-4 overflow-y-auto font-sans tab-content"
     x-data="{
       searchQuery: '',
       currentPage: 1,
@@ -172,9 +172,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
       },
 
       handleDownloadExcel() {
-        alert('File Excel monitoring-sidang-kp.xlsx berhasil diunduh');
         this.isDownloadOpen = false;
-        this.triggerToast('File Excel berhasil diunduh');
+        this.triggerToast('File Excel monitoring-sidang-kp.xlsx berhasil diunduh');
       },
 
       handleDownloadAllPDF() {
@@ -182,8 +181,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         setTimeout(() => {
           this.isDownloadingPDF = false;
           this.isDownloadOpen = false;
-          alert('File ZIP berita-acara-sidang-all.zip berhasil didownload');
-          this.triggerToast('File ZIP berhasil didownload');
+          this.triggerToast('File ZIP berita-acara-sidang-all.zip berhasil didownload');
         }, 1000);
       },
 
@@ -196,11 +194,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
         }
       },
 
-      triggerToast(msg) {
-        this.toastMessage = msg;
-        this.showToast = true;
-        this.reinitLucide();
-        setTimeout(() => { this.showToast = false; }, 3000);
+      triggerToast(msg, type = 'success') {
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(msg, type);
+        }
       },
 
       reinitLucide() {
@@ -211,7 +208,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     }"
   >
     <!-- Toolbar: Sesuai MonitoringSidangToolbar di fakultas-fe -->
-    <div class="flex items-center justify-between gap-2 mb-4 flex-wrap">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
       <!-- Search Input (w-full sm:w-1/4) -->
       <div class="w-full sm:w-1/4 min-w-[200px]">
         <div class="relative w-full">
@@ -235,7 +232,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
 
       <!-- Action Group Kanan (Download Dropdown, Preview TTD, Tambah TTD) -->
-      <div class="flex items-center gap-2 ml-auto flex-wrap">
+      <div class="flex flex-wrap items-center gap-2 ml-auto">
         <!-- Dropdown Download Button (Excel / PDF) -->
         <div class="relative" @click.outside="isDownloadOpen = false">
           <button
@@ -243,13 +240,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
             @click="isDownloadOpen = !isDownloadOpen; reinitLucide()"
             class="h-9 px-3.5 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
           >
-            <i data-lucide="download" class="h-4 w-4"></i>
+            <i data-lucide="download" class="w-4 h-4"></i>
             <span x-text="isDownloadingPDF ? 'Downloading...' : 'Download'"></span>
             <template x-if="isDownloadOpen">
-              <i data-lucide="chevron-down" class="h-4 w-4"></i>
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
             </template>
             <template x-if="!isDownloadOpen">
-              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
             </template>
           </button>
 
@@ -285,7 +282,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           @click="isPreviewTtdOpen = true; reinitLucide()"
           class="h-9 px-3.5 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
         >
-          <i data-lucide="eye" class="h-4 w-4"></i>
+          <i data-lucide="eye" class="w-4 h-4"></i>
           <span>Preview TTD Koor</span>
         </button>
 
@@ -295,7 +292,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           @click="isTambahTtdOpen = true; reinitLucide()"
           class="h-9 px-3.5 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
         >
-          <i data-lucide="plus" class="h-4 w-4"></i>
+          <i data-lucide="plus" class="w-4 h-4"></i>
           <span>Tambah TTD Koor</span>
         </button>
       </div>
@@ -457,7 +454,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </div>
 
     <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1" x-show="filteredList.length > 0">
+    <div class="flex flex-col items-center justify-between gap-2 pt-1 sm:flex-row" x-show="filteredList.length > 0">
       <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredList.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredList.length) + ' dari ' + filteredList.length + ' data'"></div>
       <div class="flex items-center gap-1.5">
         <button
@@ -476,7 +473,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             type="button"
             @click="currentPage = p; reinitLucide()"
             :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
-            class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors cursor-pointer"
+            class="flex items-center justify-center w-8 h-8 text-xs transition-colors rounded-md cursor-pointer"
             x-text="p"
           ></button>
         </template>
@@ -511,7 +508,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     <div
       x-show="isPreviewTtdOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 duration-150 bg-black/50 animate-in fade-in"
     >
       <div
         @click.outside="isPreviewTtdOpen = false"
@@ -528,10 +525,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
 
-        <div class="py-4 flex justify-center">
+        <div class="flex justify-center py-4">
           <template x-if="ttdSignatureUrl">
             <div class="border border-[#e4e4e7] rounded-md p-4 w-64 h-64 relative flex items-center justify-center bg-[#fafafa]">
-              <img :src="ttdSignatureUrl" alt="TTD Koordinator" class="max-w-full max-h-full object-contain" />
+              <img :src="ttdSignatureUrl" alt="TTD Koordinator" class="object-contain max-w-full max-h-full" />
             </div>
           </template>
           <template x-if="!ttdSignatureUrl">
@@ -559,7 +556,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     <div
       x-show="isTambahTtdOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 duration-150 bg-black/50 animate-in fade-in"
     >
       <div
         @click.outside="isTambahTtdOpen = false"
@@ -598,16 +595,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Toast Notification (Sesuai Sonner toast di fakultas-fe) -->
-    <div
-      x-show="showToast"
-      x-cloak
-      class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-emerald-600 text-white text-xs font-semibold shadow-lg animate-in slide-in-from-bottom-5 duration-200"
-    >
-      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-      <span x-text="toastMessage"></span>
     </div>
   </section>
 </AdminShell>

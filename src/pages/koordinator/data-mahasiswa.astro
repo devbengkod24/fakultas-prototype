@@ -10,7 +10,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     x-data="{
       searchQuery: '',
       periodeFilter: 'semua',
-      statusFilter: 'semua',
+      skemaFilter: 'semua',
       sortOption: 'nama_asc',
       currentPage: 1,
       pageSize: 5,
@@ -21,8 +21,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
         let list = this.students.filter(s => {
           const matchSearch = (s.nama || '').toLowerCase().includes(q) || (s.nim || '').includes(q);
           const matchPeriode = this.periodeFilter === 'semua' || s.kodePeriode === this.periodeFilter;
-          const matchStatus = this.statusFilter === 'semua' || s.status === this.statusFilter;
-          return matchSearch && matchPeriode && matchStatus;
+          const matchSkema = this.skemaFilter === 'semua' || s.skema === this.skemaFilter;
+          return matchSearch && matchPeriode && matchSkema;
         });
         switch (this.sortOption) {
           case 'nama_asc':  list = [...list].sort((a, b) => a.nama.localeCompare(b.nama)); break;
@@ -48,13 +48,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
         return this.filteredStudents.slice(start, start + this.pageSize);
       },
       students: [
-        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'konversi' },
-        { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'konversi' },
-        { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'reguler' },
-        { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'reguler' },
-        { no: 5, nama: 'Budi Santoso', nim: 'A11.2022.14150', email: 'budi.santoso@mhs.dinus.ac.id', telepon: '081399887766', dosen: '-', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'belum' },
-        { no: 6, nama: 'Annisa Tri Rahayu', nim: 'A11.2022.14201', email: 'annisa.tri@mhs.dinus.ac.id', telepon: '081223344556', dosen: 'Dr. Muljono, S.Si, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'konversi' },
-        { no: 7, nama: 'Dimas Bagus Setiawan', nim: 'A12.2022.09915', email: 'dimas.bagus@mhs.dinus.ac.id', telepon: '085611223344', dosen: 'Affandy, Ph.D', kodePeriode: '20261', tahunAjaran: '2026/2027', status: 'reguler' },
+        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Bengkel Koding' },
+        { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'IDSS' },
+        { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Dicoding Asah' },
+        { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Matics' },
+        { no: 5, nama: 'Budi Santoso', nim: 'A11.2022.14150', email: 'budi.santoso@mhs.dinus.ac.id', telepon: '081399887766', dosen: '-', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Belum Ada' },
+        { no: 6, nama: 'Annisa Tri Rahayu', nim: 'A11.2022.14201', email: 'annisa.tri@mhs.dinus.ac.id', telepon: '081223344556', dosen: 'Dr. Muljono, S.Si, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Bengkel Koding' },
+        { no: 7, nama: 'Dimas Bagus Setiawan', nim: 'A12.2022.09915', email: 'dimas.bagus@mhs.dinus.ac.id', telepon: '085611223344', dosen: 'Affandy, Ph.D', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'IDSS' },
       ]
     }"
   >
@@ -86,14 +86,16 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <option value="20251">2025/2026 - Gasal</option>
         </select>
         <select
-          x-model="statusFilter"
+          x-model="skemaFilter"
           @change="currentPage = 1"
           class="h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
         >
-          <option value="semua">Semua Status</option>
-          <option value="konversi">Konversi</option>
-          <option value="reguler">Reguler</option>
-          <option value="belum">Belum Ada</option>
+          <option value="semua">Semua Skema</option>
+          <option value="Bengkel Koding">Bengkel Koding</option>
+          <option value="IDSS">IDSS</option>
+          <option value="Dicoding Asah">Dicoding Asah</option>
+          <option value="Matics">Matics</option>
+          <option value="Belum Ada">Belum Ada</option>
         </select>
 
         <!-- Sort Selector -->
@@ -113,7 +115,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <!-- Download Excel -->
         <button
           type="button"
-          onclick="alert('Mengunduh data mahasiswa dalam format Excel (XLSX)...')"
+          onclick="window.showAdminToast ? window.showAdminToast('Mengunduh data mahasiswa dalam format Excel (XLSX)...', 'info') : alert('Mengunduh data mahasiswa dalam format Excel (XLSX)...')"
           class="inline-flex items-center gap-2 h-9 px-3.5 rounded-md bg-white border border-[#e4e4e7] hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors"
         >
           <i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i>
@@ -140,7 +142,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           >
             <button
               type="button"
-              @click="openMenu = false; alert('Mengunduh template data mahasiswa...')"
+              @click="openMenu = false; window.showAdminToast ? window.showAdminToast('Mengunduh template data mahasiswa...', 'info') : alert('Mengunduh template data mahasiswa...')"
               class="w-full flex items-center gap-2 px-3 py-2 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors"
             >
               <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
@@ -170,7 +172,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Kontak</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Dosen Pembimbing</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Periode</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Skema</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
@@ -208,18 +210,14 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </div>
               </td>
               <td class="h-[68px] px-4 text-center text-sm">
-                <template x-if="mhs.status === 'konversi'">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7]">
-                    Konversi
-                  </span>
+                <template x-if="mhs.skema !== 'Belum Ada'">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7] whitespace-nowrap"
+                    x-text="mhs.skema"
+                  ></span>
                 </template>
-                <template x-if="mhs.status === 'reguler'">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800">
-                    Reguler
-                  </span>
-                </template>
-                <template x-if="mhs.status === 'belum'">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">
+                <template x-if="mhs.skema === 'Belum Ada'">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a] whitespace-nowrap">
                     Belum Ada
                   </span>
                 </template>
@@ -325,7 +323,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
           <button
             type="button"
-            @click="isImportModalOpen = false; alert('Data mahasiswa berhasil diimport!')"
+            @click="isImportModalOpen = false; window.showAdminToast ? window.showAdminToast('Data mahasiswa berhasil diimport!', 'success') : alert('Data mahasiswa berhasil diimport!')"
             class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-medium"
           >
             Upload & Import
