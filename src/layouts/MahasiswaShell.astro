@@ -13,6 +13,7 @@ interface Props {
     | "status"
     | "dosen-pembimbing"
     | "logbook"
+    | "logbook-kegiatan"
     | "konversi-sks"
     | "sidang"
     | "sertifikat"
@@ -34,6 +35,8 @@ const {
             ? "Dosen Pembimbing"
             : activeNav === "logbook"
               ? "Logbook Bimbingan"
+              : activeNav === "logbook-kegiatan"
+                ? "Logbook Kegiatan"
               : activeNav === "konversi-sks"
                 ? "Matkul Konversi"
                 : activeNav === "sidang"
@@ -371,7 +374,7 @@ const {
               <span class="truncate">Pendaftaran KB</span>
             </a>
 
-            <!-- 4. Logbook Kegiatan (Terkunci jika belum aktif) -->
+            <!-- 4a. Logbook Bimbingan (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "logbook"
@@ -396,6 +399,40 @@ const {
                   class={`w-4 h-4 shrink-0 ${activeNav === "logbook" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
                 <span class="truncate flex-1">Logbook Bimbingan</span>
+                <span
+                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
+                  class="text-[#71717a] ml-auto"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </span>
+              </a>
+            </div>
+
+            <!-- 4b. Logbook Kegiatan (tanpa approval dosen, bisa diunduh PDF) -->
+            <div
+              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
+              title={activeNav !== "logbook-kegiatan"
+                ? "Terkunci: Memerlukan status pendaftaran diterima"
+                : undefined}
+            >
+              <a
+                href="/mahasiswa/logbook-kegiatan"
+                id="nav-logbook-kegiatan"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
+                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                  activeNav === "logbook-kegiatan"
+                    ? "nav-active text-[#0655a7]"
+                    : "text-[#3f3f46]"
+                }`}
+              >
+                <span
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "logbook-kegiatan" ? "" : "hidden"}`}
+                ></span>
+                <i
+                  data-lucide="notebook-pen"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "logbook-kegiatan" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                ></i>
+                <span class="truncate flex-1">Logbook Kegiatan</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
