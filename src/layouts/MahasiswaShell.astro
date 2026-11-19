@@ -33,11 +33,11 @@ const {
           : activeNav === "dosen-pembimbing"
             ? "Dosen Pembimbing"
             : activeNav === "logbook"
-              ? "Logbook Kegiatan"
+              ? "Logbook Bimbingan"
               : activeNav === "konversi-sks"
-                ? "Pengajuan Konversi"
+                ? "Makul Konversi"
                 : activeNav === "sidang"
-                  ? "Sidang Evaluasi"
+                  ? "Sidang"
                   : activeNav === "sertifikat"
                     ? "Sertifikat & Luaran"
                     : activeNav === "log-aktivitas"
@@ -405,7 +405,7 @@ const {
               </a>
             </div>
 
-            <!-- 5. Pengajuan Konversi (Terkunci jika belum aktif) -->
+            <!-- 5. Makul Konversi (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "konversi-sks"
@@ -429,7 +429,7 @@ const {
                   data-lucide="layers"
                   class={`w-4 h-4 shrink-0 ${activeNav === "konversi-sks" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Pengajuan Konversi</span>
+                <span class="truncate flex-1">Makul Konversi</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
@@ -439,7 +439,7 @@ const {
               </a>
             </div>
 
-            <!-- 6. Sidang Evaluasi (Terkunci jika belum aktif) -->
+            <!-- 6. Sidang (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "sidang"
@@ -463,7 +463,41 @@ const {
                   data-lucide="calendar-check"
                   class={`w-4 h-4 shrink-0 ${activeNav === "sidang" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Sidang Evaluasi</span>
+                <span class="truncate flex-1">Sidang</span>
+                <span
+                  x-show="$store.mahasiswaSim.state === 'belum_daftar'"
+                  class="text-[#71717a] ml-auto"
+                >
+                  <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                </span>
+              </a>
+            </div>
+
+            <!-- 7. Log Aktivitas (Terkunci jika belum aktif) -->
+            <div
+              :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
+              title={activeNav !== "log-aktivitas"
+                ? "Terkunci: Memerlukan status pendaftaran diterima"
+                : undefined}
+            >
+              <a
+                href="/mahasiswa/log-aktivitas"
+                id="nav-log-aktivitas"
+                :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
+                class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
+                  activeNav === "log-aktivitas"
+                    ? "nav-active text-[#0655a7]"
+                    : "text-[#3f3f46]"
+                }`}
+              >
+                <span
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "log-aktivitas" ? "" : "hidden"}`}
+                ></span>
+                <i
+                  data-lucide="history"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "log-aktivitas" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                ></i>
+                <span class="truncate flex-1">Log Aktivitas</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
