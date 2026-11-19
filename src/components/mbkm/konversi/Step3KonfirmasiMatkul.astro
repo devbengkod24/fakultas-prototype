@@ -1,0 +1,87 @@
+---
+// src/components/mbkm/konversi/Step3KonfirmasiMatkul.astro
+// Tahap 3: mahasiswa menunggu keputusan Koordinator MBKM. Jika ada yang ditolak, alur kembali ke Pengajuan Matkul.
+---
+
+<div x-show="currentStep === 3" x-cloak class="space-y-4" x-transition>
+  <div class="rounded-xl border border-[#e4e4e7] bg-white shadow-none">
+    <div class="px-5 py-4 border-b border-[#e4e4e7] flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+      <div>
+        <h3 class="text-base font-semibold text-[#09090b]">Konfirmasi Matkul</h3>
+        <p class="text-xs text-[#71717a] mt-0.5 leading-relaxed max-w-xl">
+          Pengajuan Anda sedang ditinjau Koordinator MBKM. Jika ada mata kuliah yang tidak disetujui, Anda akan kembali ke tahap Pengajuan Matkul untuk menggantinya.
+        </p>
+      </div>
+      <span class="inline-flex items-center gap-1.5 self-start shrink-0 text-xs font-semibold px-2.5 py-1 rounded-md border border-amber-200 bg-amber-50 text-amber-800">
+        <span class="relative flex size-2">
+          <span class="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60 animate-ping"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-amber-500"></span>
+        </span>
+        Menunggu persetujuan
+      </span>
+    </div>
+
+    <dl class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-3 px-5 py-3.5 border-b border-[#e4e4e7] text-xs">
+      <div>
+        <dt class="text-[#71717a]">Diajukan</dt>
+        <dd class="mt-0.5 font-medium text-[#09090b]" x-text="tglPengajuan"></dd>
+      </div>
+      <div>
+        <dt class="text-[#71717a]">Jumlah Mata Kuliah</dt>
+        <dd class="mt-0.5 font-medium text-[#09090b]" x-text="konversiList.length + ' mata kuliah'"></dd>
+      </div>
+      <div>
+        <dt class="text-[#71717a]">Ditinjau oleh</dt>
+        <dd class="mt-0.5 font-medium text-[#09090b]">Koordinator MBKM</dd>
+      </div>
+    </dl>
+
+    <table class="w-full text-sm border-collapse">
+      <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
+        <tr>
+          <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs w-12">No</th>
+          <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Mata Kuliah</th>
+          <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs w-40">Jenis</th>
+          <th class="h-10 px-3 text-center font-medium text-[#71717a] text-xs w-44">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-[#e4e4e7]">
+        <template x-for="(row, idx) in konversiList" :key="row.kode">
+          <tr>
+            <td class="p-3 text-center align-middle text-xs font-medium text-[#71717a]" x-text="idx + 1"></td>
+            <td class="p-4 align-middle text-sm font-medium text-[#09090b]">
+              <span x-text="row.kode"></span>
+              <span class="text-[#71717a] font-normal mx-1">·</span>
+              <span x-text="row.nama"></span>
+            </td>
+            <td class="p-3 text-center align-middle">
+              <span
+                class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md border"
+                :class="row.nilaiLama ? 'border-amber-200 bg-amber-50 text-amber-800' : 'border-[#e4e4e7] bg-[#fafafa] text-[#3f3f46]'"
+              >
+                <span x-text="row.nilaiLama ? 'Mengulang' : 'Baru'"></span>
+                <span x-show="row.nilaiLama" class="text-amber-700/80" x-text="'· Nilai ' + row.nilaiLama"></span>
+              </span>
+            </td>
+            <td class="p-3 text-center align-middle">
+              <span
+                x-show="row.status === 'accept'"
+                class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-800"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Disetujui</span>
+              </span>
+              <span
+                x-show="row.status !== 'accept'"
+                class="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-0.5 rounded-md border border-[#e4e4e7] bg-[#fafafa] text-[#52525b]"
+              >
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Menunggu</span>
+              </span>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</div>

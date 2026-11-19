@@ -1,0 +1,87 @@
+---
+// src/components/mbkm/konversi/KonversiRoot.astro
+// Pemegang state Alpine alur Konversi SKS (4 tahap). Seluruh turunan memakai scope ini lewat <slot />.
+import {
+  MAKS_SKS,
+  katalogMatkul,
+  daftarDosen,
+  buatPengajuan,
+  pengajuanAwal,
+  pengajuanLengkap,
+} from "../../../data/mahasiswa/konversiData";
+
+const json = (v: unknown) => JSON.stringify(v);
+const lengkap = buatPengajuan(pengajuanLengkap, "accept");
+const ditolak = lengkap.map((m, i) =>
+  i === 0
+    ? { ...m, status: "decline", catatan: "Capaian pembelajaran tidak relevan dengan fokus proyek mitra." }
+    : m,
+);
+---
+
+<div
+  class="w-full space-y-4"
+  x-data={`{
+    currentStep: 2,
+    kondisiSimulasi: 'pertama',
+    maxSks: ${MAKS_SKS},
+    katalog: ${json(katalogMatkul)},
+    dosenList: ${json(daftarDosen)},
+    konversiList: ${json(buatPengajuan(pengajuanAwal, "draft"))},
+    tglPengajuan: '',
+    kelompokTersimpan: false,
+    modalMode: 'ganti',
+    showEditModal: false,
+    editTargetIndex: null,
+    editTarget: null,
+    selectedMatkul: '',
+
+    init() {
+      this.$watch('currentStep', () => this.refreshIcons());
+      this.$watch('kelompokTersimpan', () => this.refreshIcons());
+    },
+    refreshIcons() { this.$nextTick(() => window.lucide && window.lucide.createIcons()); },
+
+    get hasDeclined() { return this.konversiList.some(m => m.status === 'decline'); },
+    get unselectedMatkul() { return this.katalog.filter(m => !this.konversiList.some(k => k.kode === m.kode)); },
+    get matkulBaru() { return this.unselectedMatkul.filter(m => !m.nilaiLama); },
+    get matkulUlang() { return this.unselectedMatkul.filter(m => m.nilaiLama); },
+    get selectedInfo() { return this.katalog.find(m => m.kode === this.selectedMatkul) || null; },
+    get totalSks() { return this.konversiList.reduce((n, m) => n + (Number(m.sks) || 0), 0); },
+    get kelompokLengkap() { return this.konversiList.every(m => Number(m.sks) > 0 && m.dosen); },
+    get kelompokValid() { return this.kelompokLengkap && this.totalSks <= this.maxSks; },
+
+    setKondisi(val) {
+      this.kondisiSimulasi = val;
+      this.kelompokTersimpan = false;
+      if (val === 'pertama') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 2; }
+      else if (val === 'menunggu') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.tglPengajuan = '12 Okt 2026, 10:42 WIB'; this.currentStep = 3; }
+      else if (val === 'tolak') { this.konversiList = ${json(ditolak)}; this.currentStep = 2; }
+      else { this.konversiList = ${json(lengkap)}; this.currentStep = 4; }
+      this.refreshIcons();
+    },
+    openAddModal() { this.modalMode = 'tambah'; this.selectedMatkul = ''; this.showEditModal = true; this.refreshIcons(); },
+    openEdit(idx) { this.modalMode = 'ganti'; this.editTargetIndex = idx; this.editTarget = { ...this.konversiList[idx] }; this.selectedMatkul = ''; this.showEditModal = true; this.refreshIcons(); },
+    addMatkul() {
+      const m = this.selectedInfo; if (!m) return;
+      this.konversiList.push({ ...m, status: 'draft', catatan: '', sks: null, dosen: '' });
+      this.showEditModal = false; this.selectedMatkul = ''; this.refreshIcons();
+    },
+    confirmEdit() {
+      const m = this.selectedInfo; if (!m) return;
+      this.konversiList[this.editTargetIndex] = { ...m, status: 'draft', catatan: '', sks: null, dosen: '' };
+      this.showEditModal = false; this.refreshIcons();
+    },
+    removeMatkul(idx) { this.konversiList.splice(idx, 1); this.refreshIcons(); },
+    submitPakta() { this.currentStep = 2; },
+    submitKonversi() {
+      if (this.hasDeclined || !this.konversiList.length) return;
+      this.tglPengajuan = new Date().toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).replace('.', ':') + ' WIB';
+      this.kondisiSimulasi = 'menunggu';
+      this.currentStep = 3;
+    },
+    simpanKelompok() { if (this.kelompokValid) this.kelompokTersimpan = true; }
+  }`}
+>
+  <slot />
+</div>
