@@ -28,7 +28,6 @@ const ditolak = lengkap.map((m, i) =>
     katalog: ${json(katalogMatkul)},
     dosenList: ${json(daftarDosen)},
     konversiList: ${json(buatPengajuan(pengajuanAwal, "draft"))},
-    tglPengajuan: '',
     kelompokTersimpan: false,
     modalMode: 'ganti',
     showEditModal: false,
@@ -55,7 +54,7 @@ const ditolak = lengkap.map((m, i) =>
       this.kondisiSimulasi = val;
       this.kelompokTersimpan = false;
       if (val === 'pertama') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 2; }
-      else if (val === 'menunggu') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.tglPengajuan = '12 Okt 2026, 10:42 WIB'; this.currentStep = 3; }
+      else if (val === 'menunggu') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 3; }
       else if (val === 'tolak') { this.konversiList = ${json(ditolak)}; this.currentStep = 2; }
       else { this.konversiList = ${json(lengkap)}; this.currentStep = 4; }
       this.refreshIcons();
@@ -76,7 +75,6 @@ const ditolak = lengkap.map((m, i) =>
     submitPakta() { this.currentStep = 2; },
     submitKonversi() {
       if (this.hasDeclined || !this.konversiList.length) return;
-      this.tglPengajuan = new Date().toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).replace('.', ':') + ' WIB';
       this.kondisiSimulasi = 'menunggu';
       this.currentStep = 3;
     },
