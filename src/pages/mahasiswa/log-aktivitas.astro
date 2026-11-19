@@ -1,0 +1,21 @@
+---
+// src/pages/mahasiswa/log-aktivitas.astro
+import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import LogAktivitasPanel from "../../components/mbkm/mahasiswa/LogAktivitasPanel.astro";
+---
+
+<MahasiswaShell
+  title="Log Aktivitas | Mahasiswa - FIK Udinus"
+  activeNav="log-aktivitas"
+  pageTitle="Log Aktivitas"
+  breadcrumb="Log Aktivitas"
+>
+  <div class="space-y-5">
+    <div>
+      <h1 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Log Aktivitas</h1>
+      <p class="text-[14px] leading-[20px] text-[#71717a]">Riwayat aktivitas Anda selama mengikuti program MBKM.</p>
+    </div>
+
+    <LogAktivitasPanel />
+  </div>
+</MahasiswaShell>
