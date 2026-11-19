@@ -4,7 +4,6 @@
 import {
   MAKS_SKS,
   katalogMatkul,
-  daftarDosen,
   buatPengajuan,
   pengajuanAwal,
   pengajuanLengkap,
@@ -26,7 +25,6 @@ const ditolak = lengkap.map((m, i) =>
     kondisiSimulasi: 'pertama',
     maxSks: ${MAKS_SKS},
     katalog: ${json(katalogMatkul)},
-    dosenList: ${json(daftarDosen)},
     konversiList: ${json(buatPengajuan(pengajuanAwal, "draft"))},
     kelompokTersimpan: false,
     modalMode: 'ganti',

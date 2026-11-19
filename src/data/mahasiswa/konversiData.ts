@@ -33,15 +33,6 @@ export const katalogMatkul: MatkulKatalog[] = [
   { kode: "A11.54601", nama: "Proyek Perangkat Lunak", nilaiLama: null },
 ];
 
-export const daftarDosen: string[] = [
-  "Adhitya Nugraha, S.Kom, M.CS",
-  "Dr. Rina Wijayanti, M.Kom",
-  "Budi Santoso, S.Kom, M.T",
-  "Dewi Lestari, S.Kom, M.Cs",
-  "Dr. Hendra Kurniawan, M.Kom",
-  "Siti Maharani, S.Kom, M.Kom",
-];
-
 const pilih = (kode: string): MatkulKatalog =>
   katalogMatkul.find((m) => m.kode === kode) as MatkulKatalog;
 

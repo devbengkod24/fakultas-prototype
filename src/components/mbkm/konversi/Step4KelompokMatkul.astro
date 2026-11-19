@@ -56,17 +56,15 @@
               />
             </td>
             <td class="p-3 align-middle">
-              <select
+              <input
+                type="text"
+                autocomplete="off"
+                placeholder="Ketik nama dosen pengampu"
                 :name="'dosen-' + row.kode"
-                x-model="row.dosen"
+                x-model.trim="row.dosen"
                 :disabled="kelompokTersimpan"
-                class="w-full h-9 px-3 border border-[#e4e4e7] rounded-md bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] disabled:bg-[#fafafa] disabled:text-[#52525b]"
-              >
-                <option value="">Pilih dosen</option>
-                <template x-for="d in dosenList" :key="d">
-                  <option :value="d" x-text="d"></option>
-                </template>
-              </select>
+                class="w-full h-9 px-3 border border-[#e4e4e7] rounded-md bg-white text-xs font-medium text-[#09090b] placeholder:font-normal placeholder:text-[#a1a1aa] focus:outline-none focus:ring-1 focus:ring-[#0655a7] disabled:bg-[#fafafa] disabled:text-[#52525b]"
+              />
             </td>
           </tr>
         </template>

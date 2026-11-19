@@ -33,7 +33,7 @@ const {
           : activeNav === "dosen-pembimbing"
             ? "Dosen Pembimbing"
             : activeNav === "logbook"
-              ? "Logbook Kegiatan"
+              ? "Logbook Bimbingan"
               : activeNav === "konversi-sks"
                 ? "Matkul Konversi"
                 : activeNav === "sidang"
@@ -395,7 +395,7 @@ const {
                   data-lucide="book-open"
                   class={`w-4 h-4 shrink-0 ${activeNav === "logbook" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Logbook Kegiatan</span>
+                <span class="truncate flex-1">Logbook Bimbingan</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
