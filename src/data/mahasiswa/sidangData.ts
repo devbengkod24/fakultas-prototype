@@ -1,11 +1,14 @@
 // src/data/mahasiswa/sidangData.ts
 
-export interface BerkasSidang {
+export interface PersyaratanSidang {
+  id: string;
   nama: string;
-  kategori: string;
-  ukuran: string;
-  status: string;
-  link: string;
+  keterangan: string;
+  tipe: "file" | "link";
+  /** Nama berkas (tipe file) atau URL (tipe link). Kosong = belum dipenuhi. */
+  nilai: string;
+  /** Tautan untuk melihat berkas yang sudah diunggah. */
+  tautan: string;
 }
 
 export interface PengujiSidang {
@@ -39,7 +42,7 @@ export interface SidangData {
     telepon: string;
     nilaiEvaluasi: string;
   };
-  berkas: BerkasSidang[];
+  persyaratan: PersyaratanSidang[];
   folderDrive: string;
   jadwal: {
     tanggal: string;
@@ -75,34 +78,46 @@ export const sidangData: SidangData = {
     telepon: "081234567891",
     nilaiEvaluasi: "90",
   },
-  berkas: [
+  persyaratan: [
     {
-      nama: "Laporan_Akhir_Kampus_Berdampak_A11.2020.00001.pdf",
-      kategori: "Draf Laporan Akhir Kampus Berdampak",
-      ukuran: "4.8 MB",
-      status: "Terverifikasi Dospem",
-      link: "https://drive.google.com/file/d/laporan-akhir-Kampus-Berdampak-a11.pdf",
+      id: "laporan",
+      nama: "Laporan Akhir",
+      keterangan: "Berkas PDF, maksimal 25 MB",
+      tipe: "file",
+      nilai: "Laporan_Akhir_Kampus_Berdampak_A11.2020.00001.pdf",
+      tautan: "https://drive.google.com/file/d/laporan-akhir-Kampus-Berdampak-a11.pdf",
     },
     {
-      nama: "Lembar_Penilaian_Evaluasi_Penyelia.pdf",
-      kategori: "Formulir Nilai Pembimbing Lapangan",
-      ukuran: "1.5 MB",
-      status: "Nilai: 90 (A)",
-      link: "https://drive.google.com/file/d/lembar-nilai-penyelia.pdf",
+      id: "logbook",
+      nama: "Rekap Logbook Kegiatan",
+      keterangan: "Berkas PDF hasil unduhan Logbook Kegiatan",
+      tipe: "file",
+      nilai: "Rekap_Logbook_Kegiatan_Kampus_Berdampak.pdf",
+      tautan: "https://drive.google.com/file/d/rekap-logbook.pdf",
     },
     {
-      nama: "Sertifikat_Penyelesaian_Magang_Telkom.pdf",
-      kategori: "Sertifikat Resmi Kontributor",
-      ukuran: "1.2 MB",
-      status: "Terverifikasi Kontributor",
-      link: "https://drive.google.com/file/d/sertifikat-telkom.pdf",
+      id: "nilai-mitra",
+      nama: "Nilai dari Mitra",
+      keterangan: "Lembar penilaian dari mentor mitra (PDF)",
+      tipe: "file",
+      nilai: "Lembar_Penilaian_Evaluasi_Penyelia.pdf",
+      tautan: "https://drive.google.com/file/d/lembar-nilai-penyelia.pdf",
     },
     {
-      nama: "Rekap_Logbook_Kegiatan_Kampus_Berdampak.pdf",
-      kategori: "Rekapitulasi Logbook Mingguan",
-      ukuran: "850 KB",
-      status: "Lengkap (100%)",
-      link: "https://drive.google.com/file/d/rekap-logbook.pdf",
+      id: "sertifikat",
+      nama: "Sertifikat",
+      keterangan: "Sertifikat penyelesaian program dari mitra (PDF)",
+      tipe: "file",
+      nilai: "",
+      tautan: "",
+    },
+    {
+      id: "video",
+      nama: "Video Sosial Media",
+      keterangan: "Tautan video dokumentasi kegiatan di Instagram, YouTube, atau TikTok",
+      tipe: "link",
+      nilai: "",
+      tautan: "",
     },
   ],
   folderDrive: "https://drive.google.com/drive/folders/berkas-sidang-Kampus-Berdampak-a11-2020-00001",
@@ -152,7 +167,7 @@ export const sidangData: SidangData = {
         penilai: "Dr. Ricardus Anggi, M.Kom",
       },
       {
-        nama: "Nilai Pengujian Sidang Evaluasi",
+        nama: "Nilai Pengujian Sidang",
         bobot: "30%",
         nilai: "92.00",
         penilai: "Dr. Ir. Edi Mulyanto, M.Kom",

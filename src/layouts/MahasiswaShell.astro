@@ -40,7 +40,7 @@ const {
               : activeNav === "konversi-sks"
                 ? "Matkul Konversi"
                 : activeNav === "sidang"
-                  ? "Sidang Evaluasi"
+                  ? "Sidang"
                   : activeNav === "sertifikat"
                     ? "Sertifikat & Luaran"
                     : activeNav === "log-aktivitas"
@@ -476,7 +476,7 @@ const {
               </a>
             </div>
 
-            <!-- 6. Sidang Evaluasi (Terkunci jika belum aktif) -->
+            <!-- 6. Sidang (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "sidang"
@@ -500,7 +500,7 @@ const {
                   data-lucide="calendar-check"
                   class={`w-4 h-4 shrink-0 ${activeNav === "sidang" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Sidang Evaluasi</span>
+                <span class="truncate flex-1">Sidang</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
