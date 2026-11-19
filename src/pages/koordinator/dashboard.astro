@@ -25,7 +25,7 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
         subtitle="Pengajuan bimbingan mahasiswa"
         icon="user"
         iconColor="text-orange-500"
-        onclick="switchTab('mhs-rekomendasi')"
+        onclick="window.location.href='/koordinator/surekom'"
       />
 
       <!-- Card 2: Logbook Mahasiswa -->
@@ -109,7 +109,7 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
     </div>
 
     <!-- Bottom Section: Data Permohonan SuReKom Terbaru (Sesuai Card Data Pengajuan Bimbingan) -->
-    <div class="rounded-xl border border-[#e4e4e7] bg-white p-6 shadow-none">
+
       <div class="mb-4">
         <h2 class="font-semibold text-base text-[#09090b]">Data Permohonan SuReKom</h2>
         <p class="text-sm text-gray-500 mt-0.5">Berikut adalah data permohonan surat rekomendasi terbaru yang diajukan oleh mahasiswa</p>
@@ -137,7 +137,7 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
                 <span class="inline-flex items-center rounded-md border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-800">Menunggu</span>
               </td>
               <td class="h-[68px] px-4 text-center text-sm">
-                <button type="button" onclick="switchTab('mhs-rekomendasi')" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
+                <button type="button" onclick="window.location.href='/koordinator/surekom'" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
                   <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                   <span>Tinjau</span>
                 </button>
@@ -146,7 +146,6 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- SISI KANAN (4 Kolom) (Diekstrak ke Global Components) -->
@@ -157,16 +156,6 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
       value="2026/2027"
       icon="calendar"
       variant="blue"
-    />
-
-    <!-- Gelombang Aktif / Cut-off Card -->
-    <BorderInfoCard
-      label="Gelombang Aktif"
-      value="14h 08j 23m 37d"
-      valueId="dash-countdown-timer"
-      valueClass="text-sm italic text-gray-500 font-normal"
-      icon="waves"
-      variant="gray"
     />
 
     <!-- Informasi Kuota Bimbingan -->
@@ -194,6 +183,7 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
       activities={[
         { text: 'SuReKom Calvin Revianto masuk antrean', time: '10 menit lalu', color: 'blue' },
         { text: 'Budi Santoso direkomendasikan kontributor', time: '1 jam lalu', color: 'green' },
+        { text: 'Periode 2026/2027 diperbarui oleh Koordinator', time: '3 jam lalu', color: 'amber' },
       ]}
     />
   </div>
