@@ -9,9 +9,10 @@ interface Props {
 const { class: className } = Astro.props;
 
 const coreDocFields = [
-  { key: "cv", label: "CV", hasSpaceBeforeStar: false, placeholder: "https://drive.google.com/file/d/..." },
-  { key: "portofolio", label: "Portofolio", hasSpaceBeforeStar: true, placeholder: "https://github.com/username atau https://behance.net/..." },
-  { key: "sertifikat", label: "Sertifikat", hasSpaceBeforeStar: false, placeholder: "https://drive.google.com/file/d/..." },
+  { key: "transkrip", label: "Transkrip Nilai", required: true, placeholder: "https://drive.google.com/file/d/..." },
+  { key: "surekom", label: "Surat Rekomendasi", required: false, placeholder: "https://drive.google.com/file/d/..." },
+  { key: "cv", label: "CV", required: false, placeholder: "https://drive.google.com/file/d/..." },
+  { key: "sertifikat", label: "Sertifikat", required: false, placeholder: "https://drive.google.com/file/d/..." },
 ] as const;
 ---
 
@@ -215,7 +216,7 @@ const coreDocFields = [
             {coreDocFields.map((field) => (
               <div class="space-y-1.5">
                 <label class="block text-xs font-medium text-[#09090b]">
-                  {field.label}{field.hasSpaceBeforeStar ? " " : ""}<span class="text-red-500">*</span>
+                  {field.label}{field.required && <span class="text-red-500"> *</span>}
                 </label>
                 <input
                   type="text"

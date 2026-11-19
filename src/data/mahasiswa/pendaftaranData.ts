@@ -1,8 +1,9 @@
 // src/data/mahasiswa/pendaftaranData.ts
 
 export interface FormDokumen {
+  transkrip: string;
+  surekom: string;
   cv: string;
-  portofolio: string;
   sertifikat: string;
   lampiran: string[];
 }
@@ -42,8 +43,9 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isClosed: true,
     noPendaftaran: "REG-BK-2025-0089",
     dokumen: {
+      transkrip: "https://drive.google.com/file/d/1T1r2a3n4s5k6r7i8p_Transkrip_AhmadRizky/view",
+      surekom: "https://drive.google.com/file/d/1S1u2r3e4k5o6m7_SuReKom_BengkelKoding/view",
       cv: "https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
-      portofolio: "https://github.com/ahmadrizky/fullstack-projects",
       sertifikat: "https://drive.google.com/file/d/1f2g3h4i5j_Sertifikat_React_Node/view",
       lampiran: [
         "https://drive.google.com/file/d/1k2l3m4n5o_KTM_AhmadRizky/view",
@@ -67,8 +69,9 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isClosed: false,
     noPendaftaran: "REG-IDSS-2025-0042",
     dokumen: {
+      transkrip: "https://drive.google.com/file/d/1T2r3a4n5s6k7r8i9p_Transkrip_AhmadRizky/view",
+      surekom: "",
       cv: "https://drive.google.com/file/d/1CxiNVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
-      portofolio: "https://github.com/ahmadrizky/ai-dss-paper",
       sertifikat: "https://drive.google.com/file/d/1g2h3i4j5k_Sertifikat_Python_DataScience/view",
       lampiran: [
         "https://drive.google.com/file/d/1l2m3n4o5p_KTM_AhmadRizky/view"
@@ -91,8 +94,9 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isClosed: false,
     noPendaftaran: "REG-DCD-2025-0155",
     dokumen: {
+      transkrip: "https://drive.google.com/file/d/1T3r4a5n6s7k8r9i0p_Transkrip_AhmadRizky/view",
+      surekom: "",
       cv: "https://drive.google.com/file/d/1DxiOVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
-      portofolio: "https://github.com/ahmadrizky/dicoding-submissions",
       sertifikat: "https://drive.google.com/file/d/1h2i3j4k5l_Sertifikat_Dicoding_MenjadiPengembang/view",
       lampiran: []
     }

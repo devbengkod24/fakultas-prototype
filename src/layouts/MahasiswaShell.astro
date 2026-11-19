@@ -35,7 +35,7 @@ const {
             : activeNav === "logbook"
               ? "Logbook Kegiatan"
               : activeNav === "konversi-sks"
-                ? "Pengajuan Konversi"
+                ? "Matkul Konversi"
                 : activeNav === "sidang"
                   ? "Sidang Evaluasi"
                   : activeNav === "sertifikat"
@@ -405,7 +405,7 @@ const {
               </a>
             </div>
 
-            <!-- 5. Pengajuan Konversi (Terkunci jika belum aktif) -->
+            <!-- 5. Matkul Konversi (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "konversi-sks"
@@ -429,7 +429,7 @@ const {
                   data-lucide="layers"
                   class={`w-4 h-4 shrink-0 ${activeNav === "konversi-sks" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Pengajuan Konversi</span>
+                <span class="truncate flex-1">Matkul Konversi</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
