@@ -21,6 +21,8 @@ const {
   class: className = '',
 } = Astro.props;
 
+const MAX_ITEMS = 3;
+
 const dotColors = {
   blue: 'bg-blue-500',
   green: 'bg-green-500',
@@ -32,7 +34,7 @@ const dotColors = {
 <div class={`rounded-xl border border-[#e4e4e7] bg-white p-3 shadow-none flex-1 ${className}`}>
   <p class="text-sm font-medium text-[#09090b] mb-2.5">{title}</p>
   <div class="space-y-2.5 text-xs text-[#71717a]">
-    {activities.map((item) => (
+    {activities.slice(0, MAX_ITEMS).map((item) => (
       <div class="flex items-start gap-2">
         <div class={`w-1.5 h-1.5 rounded-full ${dotColors[item.color || 'blue']} mt-1.5 shrink-0`}></div>
         <div class="min-w-0">
