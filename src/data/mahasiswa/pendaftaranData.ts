@@ -48,8 +48,7 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
       cv: "https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
       sertifikat: "https://drive.google.com/file/d/1f2g3h4i5j_Sertifikat_React_Node/view",
       lampiran: [
-        "https://drive.google.com/file/d/1k2l3m4n5o_KTM_AhmadRizky/view",
-        "https://drive.google.com/file/d/1p2q3r4s5t_Transkrip_Akademik/view"
+        "https://drive.google.com/file/d/1k2l3m4n5o_KTM_AhmadRizky/view"
       ]
     }
   },

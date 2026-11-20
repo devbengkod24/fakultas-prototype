@@ -13,18 +13,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
     class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
     x-data="{
       searchQuery: '',
-      selectedGelombangId: 'all',
       selectedDokumen: null,
       isDokumenModalOpen: false,
       currentPage: 1,
       pageSize: 10,
-
-      gelombangList: [
-        { id: 'all', nama: 'Semua Gelombang' },
-        { id: '1', nama: 'Gelombang 1' },
-        { id: '2', nama: 'Gelombang 2' },
-        { id: '3', nama: 'Gelombang 3' }
-      ],
 
       pengajuanData: [
         {
@@ -121,14 +113,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       get filteredList() {
         return this.pengajuanData.filter(item => {
-          const matchGel = this.selectedGelombangId === 'all' || (item.gelombang && item.gelombang.id.toString() === this.selectedGelombangId);
           const q = this.searchQuery.trim().toLowerCase();
           const matchSearch = q === '' ||
             (item.mahasiswa?.nama && item.mahasiswa.nama.toLowerCase().includes(q)) ||
             (item.mahasiswa?.nim && item.mahasiswa.nim.toLowerCase().includes(q)) ||
             (item.mahasiswa?.judul && item.mahasiswa.judul.toLowerCase().includes(q)) ||
             (item.pembimbing?.nama && item.pembimbing.nama.toLowerCase().includes(q));
-          return matchGel && matchSearch;
+          return matchSearch;
         });
       },
 
@@ -143,11 +134,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       handleClearSearch() {
         this.searchQuery = '';
-        this.currentPage = 1;
-        this.reinitLucide();
-      },
-
-      handleGelombangChange() {
         this.currentPage = 1;
         this.reinitLucide();
       },
@@ -202,22 +188,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
       </div>
-
-      <!-- GelombangSelector (w-full sm:w-[200px] flex-shrink-0 sm:ml-auto) -->
-      <div class="w-full sm:w-[200px] flex-shrink-0 sm:ml-auto">
-        <div class="relative">
-          <select
-            x-model="selectedGelombangId"
-            @change="handleGelombangChange()"
-            class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
-          >
-            <template x-for="g in gelombangList" :key="g.id">
-              <option :value="g.id" x-text="g.nama"></option>
-            </template>
-          </select>
-          <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-        </div>
-      </div>
     </div>
 
     <!-- Empty State jika tidak ada data -->
@@ -245,7 +215,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[300px]">Judul</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Dokumen</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Nilai Penyelia</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Gelombang</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[140px]">Tanggal Pengajuan</th>
             </tr>
           </thead>
@@ -296,11 +265,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 <!-- Nilai Penyelia -->
                 <td class="h-[68px] px-4 text-center text-sm min-w-[100px] font-semibold text-[#09090b]">
                   <span x-text="row.nilai_penyelia !== null && row.nilai_penyelia !== undefined ? row.nilai_penyelia : '-'"></span>
-                </td>
-
-                <!-- Gelombang -->
-                <td class="h-[68px] px-4 text-center text-sm min-w-[100px] text-[#09090b]">
-                  <span x-text="row.gelombang?.nama || '-'"></span>
                 </td>
 
                 <!-- Tanggal Pengajuan -->

@@ -44,6 +44,7 @@ export interface SidangData {
   };
   persyaratan: PersyaratanSidang[];
   folderDrive: string;
+  linkVideoSosialMedia: string;
   jadwal: {
     tanggal: string;
     waktu: string;
@@ -121,6 +122,7 @@ export const sidangData: SidangData = {
     },
   ],
   folderDrive: "https://drive.google.com/drive/folders/berkas-sidang-Kampus-Berdampak-a11-2020-00001",
+  linkVideoSosialMedia: "https://instagram.com/reel/example-video-kegiatan-mbkm",
   jadwal: {
     tanggal: "Kamis, 15 Januari 2027",
     waktu: "09:00 - 10:30 WIB",
@@ -152,7 +154,7 @@ export const sidangData: SidangData = {
     status: "Lulus dengan Pujian",
     nilaiAkhir: "91.50",
     nilaiMutu: "A",
-    catatan: "Presentasi dan luaran proyek dashboard sistem magang dinilai sangat baik oleh dewan penguji.",
+    catatan: "",
     komponen: [
       {
         nama: "Nilai Kinerja Mitra Kontributor",

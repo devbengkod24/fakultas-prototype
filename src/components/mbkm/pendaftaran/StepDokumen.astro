@@ -27,6 +27,7 @@
           name="transcriptUrl"
           type="url"
           inputmode="url"
+          required
           placeholder="https://drive.google.com/file/d/..."
           class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
         />
@@ -35,7 +36,7 @@
       <!-- Dokumen 2: Surat Rekomendasi (Opsional) -->
       <div>
         <label for="surekom-url" class="mb-2 block text-sm font-semibold text-slate-700">
-          Surat Rekomendasi
+          Surat Rekomendasi <span class="text-xs font-normal text-slate-500">(Opsional)</span>
         </label>
         <input
           id="surekom-url"
@@ -50,14 +51,14 @@
       <!-- Dokumen 3: CV (Opsional) -->
       <div>
         <label for="cv-url" class="mb-2 block text-sm font-semibold text-slate-700">
-          CV
+          CV <span class="text-xs font-normal text-slate-500">(Opsional / Tidak Wajib)</span>
         </label>
         <input
           id="cv-url"
           name="cvUrl"
           type="url"
           inputmode="url"
-          placeholder="https://drive.google.com/file/d/..."
+          placeholder="https://drive.google.com/file/d/... (Opsional)"
           class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
         />
       </div>
@@ -65,7 +66,7 @@
       <!-- Dokumen 4: Sertifikat / Bukti Pengalaman (Opsional) -->
       <div>
         <label for="certificate-url" class="mb-2 block text-sm font-semibold text-slate-700">
-          Sertifikat
+          Sertifikat <span class="text-xs font-normal text-slate-500">(Opsional)</span>
         </label>
         <input
           id="certificate-url"

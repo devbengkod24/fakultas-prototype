@@ -258,6 +258,10 @@ function openValidasiSurekomModal(id) {
     previewEl.textContent = buildSuratRekomendasiText(item);
   }
 
+  // Reset lampiran file (tampilkan file tersimpan jika sudah pernah diunggah)
+  clearSurekomFile();
+  if (item.lampiranFile) renderSurekomFileState(item.lampiranFile, 'Terunggah sebelumnya');
+
   // Reset radio decision to Setujui
   const inputCatatan = document.getElementById('modal-surekom-catatan-input');
   if (inputCatatan) {
@@ -268,6 +272,49 @@ function openValidasiSurekomModal(id) {
 
   modal.classList.remove('hidden');
   if (window.lucide) window.lucide.createIcons();
+}
+
+const SUREKOM_MAX_FILE_BYTES = 5 * 1024 * 1024;
+
+function renderSurekomFileState(name, meta) {
+  const nameEl = document.getElementById('modal-surekom-file-name');
+  const metaEl = document.getElementById('modal-surekom-file-meta');
+  const removeBtn = document.getElementById('modal-surekom-file-remove');
+  const hasFile = !!name;
+  if (nameEl) nameEl.textContent = name || 'Klik untuk unggah file surat rekomendasi';
+  if (metaEl) metaEl.textContent = meta || 'Belum ada file dipilih';
+  if (removeBtn) removeBtn.classList.toggle('hidden', !hasFile);
+}
+
+function handleSurekomFileChange(input) {
+  const file = input && input.files && input.files[0];
+  if (!file) {
+    renderSurekomFileState('', '');
+    return;
+  }
+  const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+  if (!isPdf) {
+    alert('Format file harus PDF.');
+    clearSurekomFile();
+    return;
+  }
+  if (file.size > SUREKOM_MAX_FILE_BYTES) {
+    alert('Ukuran file maksimal 5 MB.');
+    clearSurekomFile();
+    return;
+  }
+  renderSurekomFileState(file.name, `${(file.size / 1024).toFixed(0)} KB`);
+}
+
+function clearSurekomFile() {
+  const input = document.getElementById('modal-surekom-file-input');
+  if (input) input.value = '';
+  renderSurekomFileState('', '');
+}
+
+function getSurekomUploadedFileName() {
+  const input = document.getElementById('modal-surekom-file-input');
+  return input && input.files && input.files[0] ? input.files[0].name : '';
 }
 
 function closeValidasiSurekomModal() {
@@ -354,8 +401,10 @@ function submitValidasiSurekomWithDecision(decision) {
 
   item.status = decision === 'Setujui' ? 'approved' : 'rejected';
   item.catatan = catatan;
+  const uploadedName = getSurekomUploadedFileName();
+  if (uploadedName) item.lampiranFile = uploadedName;
 
-  alert(`Validasi Surat Rekomendasi Berhasil Disimpan!\nMahasiswa: ${item.nama} (${item.nim})\nKeputusan: ${decision === 'Setujui' ? 'Disetujui (SuReKom Resmi Diterbitkan)' : 'Ditolak (Permintaan Revisi Dikirim)'}\nCatatan: ${catatan || '-'}`);
+  alert(`Validasi Surat Rekomendasi Berhasil Disimpan!\nMahasiswa: ${item.nama} (${item.nim})\nKeputusan: ${decision === 'Setujui' ? 'Disetujui (SuReKom Resmi Diterbitkan)' : 'Ditolak (Permintaan Revisi Dikirim)'}\nLampiran: ${item.lampiranFile || '-'}\nCatatan: ${catatan || '-'}`);
 
   closeValidasiSurekomModal();
   renderSurekomTable();
@@ -404,6 +453,8 @@ if (typeof window !== "undefined") {
   (window as any).goToSurekomPage = goToSurekomPage;
   (window as any).openValidasiSurekomModal = openValidasiSurekomModal;
   (window as any).closeValidasiSurekomModal = closeValidasiSurekomModal;
+  (window as any).handleSurekomFileChange = handleSurekomFileChange;
+  (window as any).clearSurekomFile = clearSurekomFile;
   (window as any).handleModalSurekomDecisionChange = handleModalSurekomDecisionChange;
   (window as any).submitValidasiSurekomWithDecision = submitValidasiSurekomWithDecision;
   (window as any).submitValidasiSurekomFromModal = submitValidasiSurekomFromModal;
