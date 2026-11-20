@@ -1,0 +1,155 @@
+---
+// src/components/mbkm/detail/DetailPriorityModal.astro
+// Popup pemilihan Prioritas Pendaftaran (maksimal 3 slot) sebelum masuk ke form pendaftaran.
+import PrioritySlot from './PrioritySlot.astro';
+
+interface Props {
+  programName?: string;
+  programId?: string;
+}
+
+const {
+  programName = 'Dicoding ASAH 2026',
+  programId = 'dicoding-asah',
+} = Astro.props;
+
+const prioritySlots = [
+  { index: 1, label: 'pertama' },
+  { index: 2, label: 'kedua' },
+  { index: 3, label: 'ketiga' },
+];
+---
+
+<!-- ==================== POPUP PRIORITAS PENDAFTARAN ==================== -->
+<div
+  id="priorityModal"
+  class="fixed inset-0 z-50 items-center justify-center p-4 sm:p-6"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="priorityModalTitle"
+  data-program-name={programName}
+  data-program-id={programId}
+>
+  <div id="priorityModalBackdrop" class="absolute inset-0 bg-[#072f57]/60 backdrop-blur-sm"></div>
+
+  <div
+    class="priority-panel relative flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+  >
+    <button
+      type="button"
+      id="priorityModalClose"
+      aria-label="Tutup popup prioritas pendaftaran"
+      class="absolute right-4 top-4 z-10 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-[#072f57]"
+    >
+      <i data-lucide="x" class="h-4 w-4"></i>
+    </button>
+
+    <!-- Header -->
+    <div class="shrink-0 px-6 pt-7 pb-5 text-center">
+      <h3 id="priorityModalTitle" class="mt-4 text-lg font-extrabold tracking-tight text-[#072f57]">
+        Prioritas Pendaftaran
+      </h3>
+      <p class="mx-auto mt-1.5 max-w-xs text-xs leading-relaxed text-slate-500 sm:text-sm">
+        Anda bisa memilih slot pendaftaran sesuai prioritas
+      </p>
+    </div>
+
+    <!-- Body: 3 Slot Prioritas -->
+    <div class="min-h-0 flex-1 overflow-y-auto px-6 pb-2">
+      <div class="space-y-3">
+        {prioritySlots.map((slot) => <PrioritySlot index={slot.index} label={slot.label} />)}
+      </div>
+
+      <p
+        id="priorityModalNote"
+        class="priority-note mt-3 text-center text-xs font-medium text-[#b45309]"
+        hidden
+      ></p>
+    </div>
+
+    <!-- Footer: Aksi Next -->
+    <div class="priority-footer relative shrink-0 overflow-hidden px-6 pt-4 pb-6">
+      <span class="footer-shape footer-shape--lg" aria-hidden="true"></span>
+      <span class="footer-shape footer-shape--sm" aria-hidden="true"></span>
+
+      <div class="relative flex justify-end">
+        <button
+          type="button"
+          id="priorityModalNext"
+          class="priority-next group inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#072f57] px-6 py-3 text-sm font-bold text-white shadow-xs transition-all hover:bg-[#0b4d8c] hover:shadow-md"
+        >
+          <span>Next</span>
+          <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #priorityModal {
+    display: none;
+  }
+  #priorityModal.is-open {
+    display: flex;
+  }
+
+  @keyframes priority-pop {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  #priorityModal.is-open .priority-panel {
+    animation: priority-pop 0.22s ease-out;
+  }
+
+  /* Badge ikon header */
+  .priority-badge {
+    display: inline-flex;
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.875rem;
+    background-color: rgba(11, 77, 140, 0.08);
+    color: #072f57;
+  }
+
+  /* Ornamen lembut di sudut kiri bawah footer */
+  .footer-shape {
+    position: absolute;
+    border-radius: 9999px;
+    background-color: rgba(11, 77, 140, 0.06);
+    pointer-events: none;
+  }
+  .footer-shape--lg {
+    left: -2.5rem;
+    bottom: -2.75rem;
+    height: 7rem;
+    width: 7rem;
+  }
+  .footer-shape--sm {
+    left: 2.75rem;
+    bottom: -1.75rem;
+    height: 3.5rem;
+    width: 3.5rem;
+    background-color: rgba(11, 77, 140, 0.04);
+  }
+
+  /* Tombol Next saat belum ada slot terpilih */
+  .priority-next:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .priority-next:disabled:hover {
+    background-color: #072f57;
+  }
+</style>
+
+<script src="./priority-modal.ts"></script>
