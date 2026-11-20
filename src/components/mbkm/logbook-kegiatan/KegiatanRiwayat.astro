@@ -1,0 +1,62 @@
+---
+// src/components/mbkm/logbook-kegiatan/KegiatanRiwayat.astro
+// Riwayat kegiatan, terbaru di atas. Tanpa status verifikasi karena tidak ada approval Dosen Pembimbing.
+---
+
+<div>
+  <h2 class="text-[16px] font-semibold text-[#09090b] mb-3">Riwayat Kegiatan</h2>
+
+  <p
+    x-show="!entries.length"
+    class="rounded-xl border border-dashed border-[#e4e4e7] bg-white py-10 text-center text-xs text-[#71717a]"
+  >
+    Belum ada kegiatan. Klik "Tambah Kegiatan" untuk mulai mencatat.
+  </p>
+
+  <!-- Timeline vertikal + card accordion (sama seperti Logbook Bimbingan, tanpa nomor dan tanpa status verifikasi) -->
+  <div class="space-y-3">
+    <template x-for="(item, idx) in terbaru" :key="item.id">
+      <div class="relative flex items-start gap-4" x-data="{ open: true }">
+        <div
+          x-show="idx < terbaru.length - 1"
+          class="absolute left-3.5 top-7 -bottom-3 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2 z-0"
+          aria-hidden="true"
+        ></div>
+
+        <div class="relative z-10 w-7 h-7 rounded-full bg-[#fef3c7] border border-[#fcd34d] shrink-0"></div>
+
+        <article class="flex-1 min-w-0 bg-white border border-[#e4e4e7] rounded-xl p-4 shadow-2xs hover:border-[#cbd5e1] transition-colors">
+          <div class="flex items-start justify-between cursor-pointer select-none group" @click="open = !open">
+            <div class="space-y-1 min-w-0">
+              <h3 class="text-[14px] font-semibold text-[#09090b] group-hover:text-[#1063B9] transition-colors" x-text="item.judul"></h3>
+              <p class="text-[12px] text-[#71717a]" x-text="fmt(item.tanggal)"></p>
+            </div>
+            <button
+              type="button"
+              class="p-1 text-[#71717a] hover:text-[#09090b] rounded transition-transform duration-200"
+              :style="open ? 'transform: rotate(180deg)' : ''"
+              :aria-expanded="open"
+              aria-label="Buka atau tutup rincian"
+            >
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div x-show="open" class="mt-3 pt-3 border-t border-[#f4f4f5] space-y-2.5">
+            <p class="text-[13px] text-[#27272a] leading-relaxed" x-text="item.deskripsi"></p>
+            <div class="pt-1">
+              <button
+                type="button"
+                @click="docItem = item; refreshIcons()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer"
+              >
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Lihat Dokumen</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </template>
+  </div>
+</div>

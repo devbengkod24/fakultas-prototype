@@ -1,0 +1,40 @@
+---
+// src/components/mbkm/logbook-kegiatan/KegiatanRoot.astro
+// Pemegang state Alpine Logbook Kegiatan. Turunan memakai scope ini lewat <slot />.
+import { kegiatanAwal } from "../../../data/mahasiswa/logbookKegiatanData";
+---
+
+<div
+  class="w-full space-y-5"
+  x-data={`{
+    entries: ${JSON.stringify(kegiatanAwal)},
+    showTambah: false,
+    docItem: null,
+    form: { judul: '', tanggal: '', deskripsi: '', dokumenUrl: '' },
+
+    get terbaru() { return [...this.entries].sort((a, b) => b.tanggal.localeCompare(a.tanggal)); },
+    get kegiatanTerakhir() { return this.terbaru.length ? this.fmt(this.terbaru[0].tanggal) : '-'; },
+
+    fmt(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }); },
+    refreshIcons() { this.$nextTick(() => window.lucide && window.lucide.createIcons()); },
+
+    openTambah() {
+      this.form = { judul: '', tanggal: new Date().toISOString().slice(0, 10), deskripsi: '', dokumenUrl: '' };
+      this.showTambah = true;
+      this.refreshIcons();
+    },
+    simpan() {
+      const id = this.entries.reduce((n, e) => Math.max(n, e.id), 0) + 1;
+      this.entries.push({ id, ...this.form, judul: this.form.judul.trim(), deskripsi: this.form.deskripsi.trim() });
+      this.showTambah = false;
+      this.refreshIcons();
+    },
+    unduhPdf() {
+      if (!this.entries.length) return;
+      window.dispatchEvent(new CustomEvent('unduh-logbook-kegiatan', { detail: { entries: JSON.parse(JSON.stringify(this.entries)) } }));
+    }
+  }`}
+  @keydown.escape.window="showTambah = false; docItem = null"
+>
+  <slot />
+</div>

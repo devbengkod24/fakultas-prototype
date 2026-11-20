@@ -1,83 +1,36 @@
 ---
 // src/pages/mahasiswa/konversi-sks.astro
 import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import KonversiRoot from "../../components/mbkm/konversi/KonversiRoot.astro";
 import KonversiStepper from "../../components/mbkm/konversi/KonversiStepper.astro";
 import Step1PaktaUpload from "../../components/mbkm/konversi/Step1PaktaUpload.astro";
 import Step2PengajuanSks from "../../components/mbkm/konversi/Step2PengajuanSks.astro";
-import Step3DosenPembimbing from "../../components/mbkm/konversi/Step3DosenPembimbing.astro";
+import Step3KonfirmasiMatkul from "../../components/mbkm/konversi/Step3KonfirmasiMatkul.astro";
+import Step4KelompokMatkul from "../../components/mbkm/konversi/Step4KelompokMatkul.astro";
 import ModalGantiMatkul from "../../components/mbkm/konversi/ModalGantiMatkul.astro";
 import KonversiLockedNotice from "../../components/mbkm/konversi/KonversiLockedNotice.astro";
 ---
 
 <MahasiswaShell
-  title="Makul Konversi & Dosen Pembimbing | Mahasiswa - FIK Udinus"
+  title="Makul Konversi | Mahasiswa - FIK Udinus"
   activeNav="konversi-sks"
   pageTitle="Makul Konversi MBKM"
   breadcrumb="Makul Konversi"
 >
-  <div
-    class="w-full space-y-4"
-    x-data="{
-      currentStep: 2,
-      kondisiSimulasi: 'pertama',
-      modalMode: 'ganti',
-      maxSks: 20,
-      showEditModal: false,
-      editTargetIndex: null,
-      editTarget: null,
-      selectedMatkul: '',
-      konversiList: [
-        { kode: 'A11.54101', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, status: 'pending' },
-        { kode: 'A11.54602', nama: 'Sistem Basis Data Lanjut', sks: 4, status: 'pending' },
-        { kode: 'A11.54102', nama: 'Pengembangan Aplikasi Mobile', sks: 4, status: 'pending' }
-      ],
-      availableMatkul: [
-        { kode: 'A11.54201', nama: 'Komputasi Awan (Cloud Computing)', sks: 4 }, { kode: 'A11.54202', nama: 'Keamanan Jaringan & Sistem Informasi', sks: 4 },
-        { kode: 'A11.54301', nama: 'Data Mining & Business Intelligence', sks: 4 }, { kode: 'A11.54603', nama: 'Kapita Selekta Komputasi Cerdas', sks: 4 },
-        { kode: 'A11.54604', nama: 'Metodologi Penelitian & Publikasi', sks: 4 }, { kode: 'A11.54605', nama: 'Etika Profesi TI', sks: 4 }, { kode: 'A11.54601', nama: 'Proyek Perangkat Lunak', sks: 4 }
-      ],
-      get totalSks() { return this.konversiList.reduce((acc, curr) => acc + curr.sks, 0); },
-      get hasDeclined() { return this.konversiList.some(m => m.status === 'decline'); },
-      get unselectedMatkul() { return this.availableMatkul.filter(m => !this.konversiList.some(k => k.kode === m.kode)); },
-      setKondisi(val) {
-        this.kondisiSimulasi = val;
-        this.currentStep = 2;
-        const full = [
-          { kode: 'A11.54101', nama: 'Pemrograman Web Berbasis Komponen', sks: 4, status: 'accept', catatan: '' },
-          { kode: 'A11.54602', nama: 'Sistem Basis Data Lanjut', sks: 4, status: 'accept', catatan: '' },
-          { kode: 'A11.54102', nama: 'Pengembangan Aplikasi Mobile', sks: 4, status: 'accept', catatan: '' },
-          { kode: 'A11.54605', nama: 'Etika Profesi TI', sks: 4, status: 'accept', catatan: '' },
-          { kode: 'A11.54601', nama: 'Proyek Perangkat Lunak', sks: 4, status: 'accept', catatan: '' }
-        ];
-        if (val === 'pertama') this.konversiList = full.slice(0, 3).map(m => ({ ...m, status: 'pending' }));
-        else if (val === 'tolak') this.konversiList = full.map((m, idx) => idx === 0 ? { ...m, status: 'decline', catatan: 'Capaian pembelajaran tidak relevan dengan fokus proyek mitra.' } : m);
-        else this.konversiList = full;
-        this.$nextTick(() => window.lucide && window.lucide.createIcons());
-      },
-      openAddModal() { this.modalMode = 'tambah'; this.selectedMatkul = ''; this.showEditModal = true; this.$nextTick(() => window.lucide?.createIcons()); },
-      addMatkul() { if (!this.selectedMatkul) return; const rep = this.availableMatkul.find(m => m.kode === this.selectedMatkul); if (rep) { this.konversiList.push({ ...rep, status: 'pending', catatan: '' }); } this.showEditModal = false; this.selectedMatkul = ''; this.$nextTick(() => window.lucide?.createIcons()); },
-      removeMatkul(idx) { this.konversiList.splice(idx, 1); this.$nextTick(() => window.lucide?.createIcons()); },
-      openEdit(idx) { this.modalMode = 'ganti'; this.editTargetIndex = idx; this.editTarget = { ...this.konversiList[idx] }; this.selectedMatkul = ''; this.showEditModal = true; this.$nextTick(() => window.lucide?.createIcons()); },
-      confirmEdit() { if (!this.selectedMatkul) return; const rep = this.availableMatkul.find(m => m.kode === this.selectedMatkul); if (rep) { this.konversiList[this.editTargetIndex] = { ...this.konversiList[this.editTargetIndex], ...rep, status: 'accept', catatan: '' }; } this.showEditModal = false; this.$nextTick(() => window.lucide?.createIcons()); },
-      submitPakta() { this.currentStep = 2; this.$nextTick(() => window.lucide?.createIcons()); },
-      submitKonversi() { if (this.hasDeclined) { alert('Mohon perbaiki mata kuliah yang ditolak!'); return; } this.currentStep = 3; this.$nextTick(() => window.lucide?.createIcons()); }
-    }"
-  >
-    <!-- Header Halaman Standar Selaras Admin & Dashboard (Dropdown 3 Kondisi di Pojok Kiri) -->
+  <KonversiRoot>
     <header class="mb-2 shrink-0 space-y-1">
       <div class="flex items-center gap-2.5 flex-wrap">
-        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">
-          Konversi SKS & Dosen Pembimbing
-        </h2>
-        <!-- Dropdown 3 Kondisi Simulasi di Pojok Kiri Header -->
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Makul Konversi</h2>
+        <!-- Simulasi prototipe: keputusan Koordinator & posisi alur -->
         <select
           x-model="kondisiSimulasi"
           @change="setKondisi($event.target.value)"
           class="h-7 px-2 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer shadow-none"
         >
-          <option value="pertama">1. Baru Pertama Input</option>
-          <option value="tolak">2. Ada yang Ditolak</option>
-          <option value="setuju">3. Semua Disetujui</option>
+          <option value="pertama">1. Pengajuan Baru</option>
+          <option value="menunggu">2. Menunggu Konfirmasi</option>
+          <option value="tolak">3. Ada yang Ditolak</option>
+          <option value="setuju">4. Semua Disetujui</option>
         </select>
       </div>
       <p class="text-sm text-[#71717a]">
@@ -85,16 +38,16 @@ import KonversiLockedNotice from "../../components/mbkm/konversi/KonversiLockedN
       </p>
     </header>
 
-    <!-- State 1: Akses Terkunci Jika Masih Belum Diterima -->
+    <!-- Terkunci jika belum diterima -->
     <KonversiLockedNotice />
 
-    <!-- State 2: Saat Sudah Diterima & Aktif (Tampil Tahap Konversi SKS) -->
     <div x-show="$store.mahasiswaSim?.state === 'aktif'" class="space-y-4">
       <KonversiStepper />
       <Step1PaktaUpload />
       <Step2PengajuanSks />
-      <Step3DosenPembimbing />
+      <Step3KonfirmasiMatkul />
+      <Step4KelompokMatkul />
       <ModalGantiMatkul />
     </div>
-  </div>
+  </KonversiRoot>
 </MahasiswaShell>

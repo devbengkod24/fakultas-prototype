@@ -1,0 +1,179 @@
+---
+// src/components/mbkm/mahasiswa/LogAktivitasPanel.astro
+// Log aktivitas mahasiswa. Gaya mengikuti Log Aktivitas Kontributor: pencarian, tab solid, grup per tanggal, paginasi.
+import { aktivitasAwal, tabAktivitas } from "../../../data/mahasiswa/logAktivitasData";
+---
+
+<section
+  class="space-y-4 font-sans"
+  x-data={`{
+    searchQuery: '',
+    activeTab: 'all',
+    currentPage: 1,
+    pageSize: 10,
+    tabs: ${JSON.stringify(tabAktivitas)},
+    activities: ${JSON.stringify(aktivitasAwal)},
+
+    get filteredActivities() {
+      const q = this.searchQuery.trim().toLowerCase();
+      return this.activities
+        .filter(a => (this.activeTab === 'all' || a.kategori === this.activeTab) && (q === '' || a.deskripsi.toLowerCase().includes(q)))
+        .sort((a, b) => (b.tanggal + b.waktu).localeCompare(a.tanggal + a.waktu));
+    },
+    get totalPages() { return Math.max(1, Math.ceil(this.filteredActivities.length / this.pageSize)); },
+    get groupedActivities() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const groups = {};
+      this.filteredActivities.slice(start, start + this.pageSize).forEach(a => { (groups[a.tanggal] = groups[a.tanggal] || []).push(a); });
+      return Object.entries(groups).map(([tanggal, logs]) => ({ tanggal, logs }));
+    },
+
+    fmt(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); },
+    handleTabChange(status) { this.activeTab = status; this.currentPage = 1; this.reinitLucide(); },
+    handleClearSearch() { this.searchQuery = ''; this.currentPage = 1; this.reinitLucide(); },
+    reinitLucide() { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); }
+  }`}
+  x-init="reinitLucide()"
+>
+  <!-- Toolbar: pencarian & tab -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+    <div class="w-full sm:w-1/4 min-w-[220px]">
+      <div class="relative w-full">
+        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717a]"></i>
+        <input
+          type="text"
+          x-model="searchQuery"
+          @input="currentPage = 1"
+          placeholder="Cari aktivitas..."
+          class="w-full h-10 pl-9 pr-9 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+        <button
+          type="button"
+          x-show="searchQuery.length > 0"
+          @click="handleClearSearch()"
+          class="absolute right-3 top-1/2 -translate-y-1/2 text-[#71717a] hover:text-[#09090b] cursor-pointer"
+          aria-label="Hapus pencarian"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 sm:ml-auto">
+      <div class="flex items-center gap-2">
+        <template x-for="t in tabs" :key="t.status">
+          <button
+            type="button"
+            @click="handleTabChange(t.status)"
+            class="border rounded-lg py-2 px-3.5 text-xs font-semibold inline-flex items-center gap-2 transition-all cursor-pointer select-none whitespace-nowrap"
+            :class="activeTab === t.status
+              ? 'bg-[#0655a7] text-white border-[#0655a7] hover:bg-[#114D91]'
+              : 'bg-white text-gray-600 border-[#e4e4e7] hover:text-[#0655a7] hover:border-[#0655a7]'"
+          >
+            <i :data-lucide="t.icon" class="w-3.5 h-3.5"></i>
+            <span x-text="t.label"></span>
+          </button>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kosong -->
+  <div
+    x-show="filteredActivities.length === 0"
+    x-cloak
+    class="flex flex-col items-center justify-center py-16 text-center bg-white rounded-md border border-[#e4e4e7]"
+  >
+    <div class="rounded-full bg-[#f4f4f5] p-3 mb-4">
+      <i data-lucide="search" class="h-6 w-6 text-[#71717a]"></i>
+    </div>
+    <h3 class="text-lg font-medium text-[#09090b]" x-text="searchQuery ? 'Tidak ditemukan hasil pencarian' : 'Belum ada aktivitas'"></h3>
+    <p class="text-sm text-[#71717a] mt-1 max-w-md" x-text="searchQuery ? 'Tidak ada aktivitas yang sesuai dengan pencarian ini pada kategori yang dipilih.' : 'Belum ada aktivitas yang tercatat pada kategori ini.'"></p>
+    <button
+      x-show="searchQuery"
+      type="button"
+      @click="handleClearSearch()"
+      class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+    >
+      Hapus Pencarian
+    </button>
+  </div>
+
+  <!-- Daftar aktivitas dikelompokkan per tanggal -->
+  <div class="flex flex-col bg-white rounded-md border border-[#e4e4e7]" x-show="filteredActivities.length > 0">
+    <div class="divide-y divide-slate-200">
+      <template x-for="group in groupedActivities" :key="group.tanggal">
+        <div>
+          <div class="px-4 py-2.5 text-xs sm:text-sm bg-blue-500/5 font-semibold text-[#0655a7] border-b border-gray-200">
+            <span x-text="fmt(group.tanggal)"></span>
+          </div>
+          <div class="divide-y divide-slate-100">
+            <template x-for="log in group.logs" :key="log.id">
+              <div class="relative pl-8 sm:pl-10 py-3.5 group hover:bg-[#fafafa] transition-colors">
+                <!-- Penanda titik + garis -->
+                <div class="flex flex-col sm:flex-row items-start mb-1 group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:w-[1px] before:bg-slate-300 sm:before:ml-[1.25rem] before:self-start before:-translate-x-1/2 before:translate-y-3 after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-[#0655a7] after:border-2 after:box-content after:border-slate-50 after:rounded-full sm:after:ml-[1.25rem] after:-translate-x-1/2 after:translate-y-1.5"></div>
+                <div class="text-[#09090b] text-xs sm:text-sm pr-4">
+                  <span class="font-medium break-words leading-relaxed" x-text="log.deskripsi"></span>
+                </div>
+                <div class="text-[#71717a] text-xs mt-1" x-text="log.waktu"></div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- Paginasi -->
+    <div class="p-4 border-t border-[#e4e4e7] bg-white">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <span class="text-sm text-[#71717a]" x-text="`Page ${currentPage} of ${totalPages} (${filteredActivities.length} total items)`"></span>
+
+        <div class="flex gap-4 items-center">
+          <div class="flex items-center gap-1">
+            <button
+              type="button"
+              @click="currentPage--; reinitLucide()"
+              :disabled="currentPage <= 1"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+              aria-label="Halaman sebelumnya"
+            >
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <template x-for="p in totalPages" :key="p">
+              <button
+                type="button"
+                @click="currentPage = p; reinitLucide()"
+                class="h-9 w-9 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors cursor-pointer"
+                :class="p === currentPage ? 'bg-[#0655a7] text-white' : 'border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-[#f4f4f5]'"
+                x-text="p"
+              ></button>
+            </template>
+            <button
+              type="button"
+              @click="currentPage++; reinitLucide()"
+              :disabled="currentPage >= totalPages"
+              class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-[#e4e4e7] bg-white text-[#09090b] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+              aria-label="Halaman berikutnya"
+            >
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="relative">
+            <select
+              x-model.number="pageSize"
+              @change="currentPage = 1"
+              class="w-[145px] h-10 px-3 pr-8 rounded-md border border-[#e4e4e7] bg-white text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
+            >
+              <option value="5">Show 5 items</option>
+              <option value="10">Show 10 items</option>
+              <option value="20">Show 20 items</option>
+              <option value="50">Show 50 items</option>
+            </select>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

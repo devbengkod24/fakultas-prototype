@@ -2,111 +2,93 @@
 // src/pages/mahasiswa/logbook.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
 
-// Mock data riwayat logbook mingguan
-const logbookList = [
+// Mock data riwayat Kegiatan kerja praktek / skripsi
+const KegiatanList = [
   {
     id: 1,
-    minggu: 1,
-    periodeHari: 'Senin - Jumat, 7 - 11 Sep 2026',
-    kegiatan: 'Onboarding lingkungan kerja di PT Telkom Indonesia, pengenalan struktur tim pengembang, serta analisis kebutuhan awal sistem dashboard monitoring.',
-    hasilTeks: 'Tersusun dokumen spesifikasi kebutuhan fungsional (SRS) versi awal dan setup repository proyek bersama tim.',
-    hasilFoto: 'https://placehold.co/600x360/eff6ff/1063B9?text=Dokumentasi+Minggu+1'
+    bab: 'Kegiatan Bab 1',
+    status: 'Diterima',
+    terakhir: '7 September 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Senin, 7 Sep 2026',
+    deskripsi: 'Penyusunan Bab 1 Pendahuluan, latar belakang masalah, dan analisis kebutuhan sistem dashboard.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab1-sample',
+    dokumenNama: 'Dokumen_Bab_1_Final.pdf'
   },
   {
     id: 2,
-    minggu: 2,
-    periodeHari: 'Senin - Jumat, 14 - 18 Sep 2026',
-    kegiatan: 'Perancangan wireframe antarmuka pengguna (UI/UX) dan pemodelan skema basis data untuk modul pelaporan peserta magang.',
-    hasilTeks: 'Desain mockup halaman utama di Figma selesai disetujui penyelia lapangan dan ERD basis data telah difinalisasi.',
-    hasilFoto: 'https://placehold.co/600x360/eff6ff/1063B9?text=Wireframe+Minggu+2'
+    bab: 'Kegiatan Bab 2',
+    status: 'Diterima',
+    terakhir: '17 September 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Kamis, 17 Sep 2026',
+    deskripsi: 'Penyusunan Bab 2 Profil umum PT Telkom Indonesia, struktur organisasi, dan lingkungan kerja.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab2-sample',
+    dokumenNama: 'Dokumen_Bab_2_Revisi.pdf'
   },
   {
     id: 3,
-    minggu: 3,
-    periodeHari: 'Senin - Jumat, 21 - 25 Sep 2026',
-    kegiatan: 'Implementasi REST API autentikasi pengguna, manajemen peran, serta integrasi endpoint data kegiatan mingguan.',
-    hasilTeks: 'Seluruh endpoint CRUD dasar berjalan sesuai kontrak API dan telah lulus pengujian unit menggunakan Postman.',
-    hasilFoto: ''
+    bab: 'Kegiatan Bab 3',
+    status: 'Diterima',
+    terakhir: '28 September 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Senin, 28 Sep 2026',
+    deskripsi: 'Penyusunan Bab 3 Metodologi pelaksanaan kerja praktek, analisis proses bisnis, dan rancangan arsitektur basis data.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab3-sample',
+    dokumenNama: 'Dokumen_Bab_3_Final.pdf'
   },
   {
     id: 4,
-    minggu: 4,
-    periodeHari: 'Senin - Jumat, 28 Sep - 2 Okt 2026',
-    kegiatan: 'Pengembangan komponen antarmuka front-end dashboard monitoring, integrasi grafik progres, dan koneksi ke API back-end.',
-    hasilTeks: 'Halaman dashboard interaktif dan tabel monitoring dapat menampilkan data secara dinamis dengan responsivitas mobile.',
-    hasilFoto: 'https://placehold.co/600x360/eff6ff/1063B9?text=Implementasi+UI+Minggu+4'
+    bab: 'Kegiatan Bab 4',
+    status: 'Diterima',
+    terakhir: '10 Oktober 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Sabtu, 10 Okt 2026',
+    deskripsi: 'Penyusunan Bab 4 Implementasi antarmuka front-end, pengujian fungsional modul kerja praktek, dan integrasi API.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab4-sample',
+    dokumenNama: 'Dokumen_Bab_4_Implementasi.pdf'
   },
   {
     id: 5,
-    minggu: 5,
-    periodeHari: 'Senin - Jumat, 5 - 9 Okt 2026',
-    kegiatan: 'Pengujian fungsional menyeluruh (UAT), perbaikan bug tampilan pada perangkat layar kecil, serta penyusunan dokumentasi teknis aplikasi.',
-    hasilTeks: 'Aplikasi siap dipresentasikan pada evaluasi internal mitra dengan seluruh temuan bug mayor telah terselesaikan.',
-    hasilFoto: 'https://placehold.co/600x360/eff6ff/1063B9?text=Pengujian+UAT+Minggu+5'
+    bab: 'Kegiatan Bab 5',
+    status: 'Diterima',
+    terakhir: '21 Oktober 2026',
+    frekuensi: '1x Kegiatan',
+    hariTanggal: 'Rabu, 21 Okt 2026',
+    deskripsi: 'Penyusunan Bab 5 Kesimpulan pelaksanaan kerja praktek, evaluasi sistem, rekomendasi, dan kelengkapan berkas lampiran.',
+    dokumenUrl: 'https://drive.google.com/drive/folders/bab5-sample',
+    dokumenNama: 'Dokumen_Bab_5_Laporan_Lengkap.pdf'
   }
 ];
 ---
 
 <MahasiswaShell
-  title="Logbook Kegiatan | Mahasiswa - FIK Udinus"
+  title="Logbook Bimbingan | Mahasiswa - FIK Udinus"
   activeNav="logbook"
-  pageTitle="Daftar Logbook Kegiatan"
-  breadcrumb="Logbook Kegiatan"
+  pageTitle="Daftar Logbook Bimbingan"
+  breadcrumb="Logbook Bimbingan"
 >
   <div class="space-y-6">
     <!-- Header Halaman -->
     <div>
-      <h1 class="text-[22px] font-bold text-[#09090b] tracking-tight">Daftar Logbook Kegiatan</h1>
-      <p class="text-[13px] text-[#71717a] mt-0.5">Berikut adalah daftar logbook kegiatan mingguan mahasiswa.</p>
+      <h1 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Daftar Logbook Bimbingan</h1>
+      <p class="text-[14px] leading-[20px] text-[#71717a]">Berikut adalah daftar logbook mahasiswa Kegiatan.</p>
     </div>
 
-    <!-- State: Terkunci saat belum diterima -->
-    <div
-      x-show="$store.mahasiswaSim?.state === 'belum_daftar'"
-      x-cloak
-      class="rounded-xl border border-[#e4e4e7] bg-white p-8 sm:p-12 text-center space-y-4 shadow-none"
-    >
-      <div class="w-14 h-14 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-2xs">
-        <i data-lucide="lock" class="w-7 h-7 text-amber-600"></i>
-      </div>
-
-      <div class="max-w-md mx-auto space-y-1.5">
-        <h3 class="text-base font-semibold text-[#09090b]">
-          Akses Logbook Kegiatan Belum Terbuka
-        </h3>
-        <p class="text-xs text-[#71717a] leading-relaxed">
-          Menu Logbook Kegiatan hanya dapat diakses setelah pendaftaran Kampus Berdampak Anda dinyatakan diterima.
-        </p>
-      </div>
-
-      <div class="pt-2">
-        <a
-          href="/mahasiswa/dashboard"
-          class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors shadow-none"
-        >
-          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-          <span>Buka Dashboard</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Konten Utama (Hanya tampil jika sudah diterima) -->
-    <div x-show="$store.mahasiswaSim?.state !== 'belum_daftar'" x-cloak class="space-y-6">
     <!-- Kartu Profil Mahasiswa & Progres Kerja Praktek -->
-    <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 shadow-2xs">
+    <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs">
       <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
         <!-- Kolom Kiri: Avatar & Biodata -->
         <div class="flex items-start gap-4">
           <!-- Avatar Lingkaran Inisial -->
-          <div class="w-16 h-16 rounded-full bg-[#f4f4f5] border border-[#e4e4e7] flex items-center justify-center shrink-0">
-            <span class="text-[20px] font-semibold text-[#3f3f46]">MB</span>
+          <div class="w-12 h-12 rounded-full bg-[#f4f4f5] border border-[#e4e4e7] flex items-center justify-center shrink-0">
+            <span class="text-[15px] font-semibold text-[#3f3f46]">MB</span>
           </div>
 
           <!-- Rincian Mahasiswa -->
           <div class="space-y-1">
-            <h2 class="text-[18px] font-bold text-[#09090b] leading-tight">Mahasiswa Kampus Berdampak</h2>
-            <p class="text-[13px] text-[#71717a]">A11.2020.00001</p>
-            <p class="text-[13px] text-[#3f3f46]">Dosen Pembimbing: Dosen A11</p>
+            <h2 class="text-[16px] font-semibold text-[#09090b] leading-tight">Mahasiswa Kampus Berdampak</h2>
+            <p class="text-[12px] text-[#71717a]">A11.2020.00001 <span class="text-[#d4d4d8] mx-1">•</span> Dosen Pembimbing: <span class="text-[#3f3f46]">Dosen A11</span></p>
 
             <!-- Status Badge -->
             <div class="pt-1">
@@ -115,15 +97,15 @@ const logbookList = [
               </span>
             </div>
 
-            <!-- Total Logbook & Minggu Terakhir -->
-            <div class="pt-3 space-y-1.5">
-              <div class="flex items-center gap-2 text-[13px] text-[#3f3f46]">
+            <!-- Total Kegiatan & Bab Terakhir -->
+            <div class="pt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-[#3f3f46]">
+              <div class="flex items-center gap-1.5">
                 <i data-lucide="file-text" class="w-4 h-4 text-[#71717a]"></i>
-                <span>Total Kegiatan: <strong class="font-semibold text-[#09090b]" id="total-kegiatan-count">{logbookList.length}</strong></span>
+                <span>Total Kegiatan: <strong class="font-semibold text-[#09090b]">5</strong></span>
               </div>
-              <div class="flex items-center gap-2 text-[13px] text-[#3f3f46]">
-                <i data-lucide="calendar-range" class="w-4 h-4 text-[#71717a]"></i>
-                <span>Minggu Terakhir: <strong class="font-semibold text-[#09090b]" id="minggu-terakhir-count">{logbookList[logbookList.length - 1]?.minggu ?? 0}</strong></span>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="bookmark" class="w-4 h-4 text-[#71717a]"></i>
+                <span>Bab Terakhir: <strong class="font-semibold text-[#09090b]">5</strong></span>
               </div>
             </div>
           </div>
@@ -136,7 +118,7 @@ const logbookList = [
             <button
               type="button"
               onclick="openTambahModal()"
-              class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-95 cursor-pointer"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-95"
             >
               <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
               <span>Tambah Logbook</span>
@@ -144,7 +126,7 @@ const logbookList = [
             <button
               type="button"
               onclick="openFolderModal()"
-              class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] text-xs font-semibold rounded-lg shadow-2xs transition-colors cursor-pointer"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] text-xs font-semibold rounded-lg shadow-2xs transition-colors"
             >
               <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#71717a]"></i>
               <span>Edit Folder Kampus Berdampak</span>
@@ -167,26 +149,26 @@ const logbookList = [
 
     <!-- Bagian Riwayat Kegiatan -->
     <div class="pt-2">
-      <h2 class="text-[17px] font-bold text-[#09090b] mb-4">Riwayat Kegiatan</h2>
+      <h2 class="text-[16px] font-semibold text-[#09090b] mb-3">Riwayat Kegiatan</h2>
 
       <!-- Timeline List -->
-      <div class="space-y-4 relative" id="timeline-container">
-        {logbookList.map((item, index) => {
-          const isLast = index === logbookList.length - 1;
+      <div class="space-y-3 relative" id="timeline-container">
+        {KegiatanList.map((item, index) => {
+          const isLast = index === KegiatanList.length - 1;
           return (
             <div class="relative flex items-start gap-4">
               <!-- Garis Penghubung Vertikal Antar Step -->
               {!isLast && (
-                <div class="absolute left-3.5 top-7 -bottom-4 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2 z-0"></div>
+                <div class="absolute left-3.5 top-7 -bottom-3 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2 z-0"></div>
               )}
 
               <!-- Lingkaran Penomoran -->
               <div class="relative z-10 w-7 h-7 rounded-full bg-[#eff6ff] text-[#1063B9] text-xs font-semibold flex items-center justify-center shrink-0 border border-[#bfdbfe]">
-                {item.minggu}
+                {item.id}
               </div>
 
               <!-- Kartu Kegiatan Accordion -->
-              <div class="flex-1 bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs hover:border-[#cbd5e1] transition-colors">
+              <div class="flex-1 bg-white border border-[#e4e4e7] rounded-xl p-4 shadow-2xs hover:border-[#cbd5e1] transition-colors">
                 <!-- Header Kartu (Klik untuk buka/tutup accordion) -->
                 <div
                   class="flex items-start justify-between cursor-pointer select-none group"
@@ -194,16 +176,20 @@ const logbookList = [
                 >
                   <div class="space-y-1">
                     <div class="flex items-center gap-2.5">
-                      <h3 class="text-[15px] font-bold text-[#09090b] group-hover:text-[#1063B9] transition-colors">
-                        Minggu ke-{item.minggu}
+                      <h3 class="text-[14px] font-semibold text-[#09090b] group-hover:text-[#1063B9] transition-colors">
+                        {item.bab}
                       </h3>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#ecfdf5] text-[#15803d] border border-[#bbf7d0]">
+                        {item.status}
+                      </span>
                     </div>
-                    <p class="text-[12px] text-[#71717a]">Periode: {item.periodeHari}</p>
+                    <p class="text-[12px] text-[#71717a]">Terakhir: {item.terakhir} <span class="text-[#d4d4d8] mx-1">•</span> {item.frekuensi}</p>
                   </div>
 
                   <button
                     type="button"
                     class="p-1 text-[#71717a] hover:text-[#09090b] rounded transition-transform duration-200"
+                    style="transform: rotate(180deg)"
                     id={`chevron-${item.id}`}
                   >
                     <i data-lucide="chevron-down" class="w-4 h-4"></i>
@@ -211,40 +197,28 @@ const logbookList = [
                 </div>
 
                 <!-- Konten Rincian Kegiatan (Collapsible Body) -->
-                <div id={`content-${item.id}`} class="mt-4 pt-4 border-t border-[#f4f4f5] space-y-3">
-                  <!-- Periode Hari -->
+                <div id={`content-${item.id}`} class="mt-3 pt-3 border-t border-[#f4f4f5] space-y-2.5">
+                  <!-- Tanggal Kegiatan -->
                   <div class="flex items-center gap-1.5 text-xs text-[#71717a]">
                     <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                    <span class="font-medium text-[#52525b]">{item.periodeHari}</span>
+                    <span class="font-medium text-[#52525b]">{item.hariTanggal}</span>
                   </div>
 
-                  <!-- Kegiatan -->
-                  <div class="space-y-1">
-                    <div class="text-[11px] font-semibold uppercase tracking-wide text-[#71717a]">Kegiatan</div>
-                    <p class="text-[13px] text-[#27272a] leading-relaxed">
-                      {item.kegiatan}
-                    </p>
-                  </div>
+                  <!-- Ringkasan Deskripsi Aktivitas -->
+                  <p class="text-[13px] text-[#27272a] leading-relaxed">
+                    {item.deskripsi}
+                  </p>
 
-                  <!-- Hasil (Artikel: Kalimat dan/atau Foto) -->
-                  <div class="space-y-2 pt-1">
-                    <div class="text-[11px] font-semibold uppercase tracking-wide text-[#71717a]">Hasil</div>
-                    <p class="text-[13px] text-[#27272a] leading-relaxed">
-                      {item.hasilTeks}
-                    </p>
-
-                    {item.hasilFoto && (
-                      <div class="pt-1">
-                        <button
-                          type="button"
-                          onclick={`openDocModal('Minggu ke-${item.minggu}', '${item.periodeHari}', '${item.hasilTeks.replace(/'/g, "\\'")}', '${item.hasilFoto}')`}
-                          class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer"
-                        >
-                          <i data-lucide="image" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                          <span>Lihat Foto Hasil</span>
-                        </button>
-                      </div>
-                    )}
+                  <!-- Tombol Lihat Dokumen -->
+                  <div class="pt-1">
+                    <button
+                      type="button"
+                      onclick={`openDocModal('${item.bab}', '${item.hariTanggal}', '${item.deskripsi}', '${item.dokumenNama}')`}
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors"
+                    >
+                      <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                      <span>Lihat Dokumen</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -253,7 +227,6 @@ const logbookList = [
         })}
       </div>
     </div>
-    </div>
   </div>
 
   <!-- Modal: Tambah Logbook -->
@@ -261,89 +234,47 @@ const logbookList = [
     <div class="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#e4e4e7]">
       <div class="sticky top-0 bg-white border-b border-[#e4e4e7] p-5 flex items-center justify-between">
         <div>
-          <h3 class="text-[16px] font-bold text-[#09090b]">Tambah Logbook Kegiatan</h3>
-          <p class="text-xs text-[#71717a] mt-0.5">Catat kegiatan mingguan dan hasil yang dicapai.</p>
+          <h3 class="text-[16px] font-semibold text-[#09090b]">Tambah Logbook Kegiatan</h3>
+          <p class="text-xs text-[#71717a] mt-0.5">Catat aktivitas konsultasi dan progres bab kerja praktek.</p>
         </div>
-        <button type="button" onclick="closeTambahModal()" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
+        <button type="button" onclick="closeTambahModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <form id="form-tambah-logbook" onsubmit="handleTambahSubmit(event)" class="p-5 space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label for="input-minggu" class="text-[12px] font-semibold text-[#09090b] block mb-1">
-              Minggu <span class="text-red-500">*</span>
-            </label>
-            <input
-              id="input-minggu"
-              type="number"
-              min="1"
-              step="1"
-              value="6"
-              placeholder="Contoh: 6"
-              class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]"
-              required
-            />
-          </div>
-
-          <div class="sm:col-span-2">
-            <label for="input-periode-hari" class="text-[12px] font-semibold text-[#09090b] block mb-1">
-              Periode Hari <span class="text-red-500">*</span>
-            </label>
-            <input
-              id="input-periode-hari"
-              type="text"
-              placeholder="Contoh: Senin - Jumat, 12 - 16 Okt 2026"
-              class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]"
-              required
-            />
-          </div>
+      <form onsubmit="handleTambahSubmit(event)" class="p-5 space-y-4">
+        <div>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Bab Kegiatan <span class="text-red-500">*</span></label>
+          <select id="input-bab" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required>
+            <option value="Kegiatan Bab 1">Kegiatan Bab 1 - Pendahuluan</option>
+            <option value="Kegiatan Bab 2">Kegiatan Bab 2 - Gambaran Umum Instansi</option>
+            <option value="Kegiatan Bab 3">Kegiatan Bab 3 - Metodologi & Rancangan</option>
+            <option value="Kegiatan Bab 4">Kegiatan Bab 4 - Implementasi & Pengujian</option>
+            <option value="Kegiatan Bab 5">Kegiatan Bab 5 - Penutup & Kesimpulan</option>
+          </select>
         </div>
 
         <div>
-          <label for="input-kegiatan" class="text-[12px] font-semibold text-[#09090b] block mb-1">
-            Kegiatan <span class="text-red-500">*</span>
-          </label>
-          <textarea
-            id="input-kegiatan"
-            rows="3"
-            class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-none"
-            placeholder="Uraikan kegiatan yang dilaksanakan selama minggu ini"
-            required
-          ></textarea>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Tanggal Kegiatan <span class="text-red-500">*</span></label>
+          <input id="input-tanggal" type="date" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required />
         </div>
 
         <div>
-          <label for="input-hasil-teks" class="text-[12px] font-semibold text-[#09090b] block mb-1">
-            Hasil
-          </label>
-          <textarea
-            id="input-hasil-teks"
-            rows="3"
-            class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-none"
-            placeholder="Tuliskan artikel singkat atau kalimat hasil dari capaian kegiatan"
-          ></textarea>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Rincian Pembahasan / Aktivitas <span class="text-red-500">*</span></label>
+          <textarea id="input-deskripsi" rows="3" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9] resize-none" placeholder="Uraikan materi yang dibahas bersama dosen pembimbing..." required></textarea>
         </div>
 
         <div>
-          <label for="input-hasil-foto" class="text-[12px] font-semibold text-[#09090b] block mb-1">
-            Foto Hasil <span class="text-[#71717a] font-normal">(Opsional jika sudah mengisi teks)</span>
-          </label>
-          <input
-            id="input-hasil-foto"
-            type="file"
-            accept="image/*"
-            class="w-full text-xs text-[#09090b] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border file:border-[#e4e4e7] file:text-xs file:font-semibold file:bg-white file:text-[#09090b] hover:file:bg-[#f4f4f5] file:cursor-pointer p-1.5 border border-[#e4e4e7] rounded-lg bg-[#fafafa]"
-          />
-          <p class="text-[11px] text-[#71717a] mt-1">Unggah foto dokumentasi kegiatan/hasil (JPG, PNG, WebP).</p>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Tautan Dokumen / Google Drive <span class="text-red-500">*</span></label>
+          <input id="input-dokumen" type="url" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" placeholder="https://drive.google.com/file/..." required />
+          <p class="text-[11px] text-[#71717a] mt-1">Pastikan link dapat diakses oleh dosen pembimbing (hak akses Lihat/Komentar).</p>
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
-          <button type="button" onclick="closeTambahModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+          <button type="button" onclick="closeTambahModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
             Batal
           </button>
-          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer">
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
             Simpan Logbook
           </button>
         </div>
@@ -356,10 +287,10 @@ const logbookList = [
     <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
       <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
         <div>
-          <h3 class="text-[16px] font-bold text-[#09090b]">Edit Folder Kampus Berdampak</h3>
+          <h3 class="text-[16px] font-semibold text-[#09090b]">Edit Folder Kampus Berdampak</h3>
           <p class="text-xs text-[#71717a] mt-0.5">Tautan repositori Google Drive berkas kerja praktek.</p>
         </div>
-        <button type="button" onclick="closeFolderModal()" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
+        <button type="button" onclick="closeFolderModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -378,10 +309,10 @@ const logbookList = [
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
-          <button type="button" onclick="closeFolderModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+          <button type="button" onclick="closeFolderModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors">
             Batal
           </button>
-          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer">
+          <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors">
             Simpan Perubahan
           </button>
         </div>
@@ -389,42 +320,59 @@ const logbookList = [
     </div>
   </div>
 
-  <!-- Modal: Lihat Foto Hasil -->
+  <!-- Modal: Lihat Dokumen -->
   <div id="modal-lihat-dokumen" class="hidden fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]">
       <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center">
-            <i data-lucide="image" class="w-4 h-4"></i>
+            <i data-lucide="file-text" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="text-[15px] font-bold text-[#09090b]" id="doc-modal-title">Hasil Kegiatan</h3>
-            <p class="text-xs text-[#71717a]" id="doc-modal-date">Senin - Jumat, 7 - 11 Sep 2026</p>
+            <h3 class="text-[15px] font-semibold text-[#09090b]" id="doc-modal-title">Dokumen Kegiatan</h3>
+            <p class="text-xs text-[#71717a]" id="doc-modal-date">Senin, 7 Sep 2026</p>
           </div>
         </div>
-        <button type="button" onclick="closeDocModal()" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
+        <button type="button" onclick="closeDocModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="p-5 space-y-4">
         <div>
-          <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Foto Dokumentasi</div>
-          <div class="rounded-lg overflow-hidden border border-[#e4e4e7] bg-gray-50">
-            <img id="doc-modal-img" src="" alt="Foto hasil kegiatan" class="w-full h-48 object-cover" />
+          <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Nama Berkas</div>
+          <div class="flex items-center gap-2 p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg">
+            <i data-lucide="file-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <span class="text-xs font-medium text-[#09090b] truncate" id="doc-modal-file">Dokumen_Bab_1_Final.pdf</span>
           </div>
         </div>
 
         <div>
-          <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Ringkasan Hasil</div>
-          <p class="text-xs text-[#52525b] leading-relaxed p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg" id="doc-modal-desc"></p>
+          <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Catatan Pembahasan</div>
+          <p class="text-xs text-[#52525b] leading-relaxed p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg" id="doc-modal-desc">
+            Penyusunan Bab 1 Pendahuluan, latar belakang masalah, dan analisis kebutuhan sistem dashboard.
+          </p>
+        </div>
+
+        <div class="p-3 bg-emerald-50/60 border border-emerald-200/60 rounded-lg flex items-center gap-2 text-xs text-emerald-800">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+          <span>Status verifikasi: <strong>Telah disetujui Dosen Pembimbing</strong></span>
         </div>
       </div>
 
       <div class="p-4 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-end gap-2 rounded-b-xl">
-        <button type="button" onclick="closeDocModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-white transition-colors cursor-pointer">
+        <button type="button" onclick="closeDocModal()" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-white transition-colors">
           Tutup
         </button>
+        <a
+          id="doc-modal-link"
+          href="https://drive.google.com/"
+          target="_blank"
+          class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors"
+        >
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>Buka di Google Drive</span>
+        </a>
       </div>
     </div>
   </div>
@@ -439,10 +387,10 @@ const logbookList = [
       const isHidden = content.classList.contains('hidden');
       if (isHidden) {
         content.classList.remove('hidden');
-        chevron.style.transform = 'rotate(0deg)';
+        chevron.style.transform = 'rotate(180deg)';
       } else {
         content.classList.add('hidden');
-        chevron.style.transform = 'rotate(-180deg)';
+        chevron.style.transform = 'rotate(0deg)';
       }
     }
 
@@ -458,102 +406,10 @@ const logbookList = [
       if (modal) modal.classList.add('hidden');
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
     function handleTambahSubmit(event) {
       event.preventDefault();
-      const minggu = parseInt(document.getElementById('input-minggu').value, 10);
-      const periodeHari = document.getElementById('input-periode-hari').value.trim();
-      const kegiatan = document.getElementById('input-kegiatan').value.trim();
-      const hasilTeks = document.getElementById('input-hasil-teks').value.trim();
-      const fotoInput = document.getElementById('input-hasil-foto');
-      const fotoFile = fotoInput && fotoInput.files && fotoInput.files[0];
-
-      if (!hasilTeks && !fotoFile) {
-        alert('Mohon isi hasil kegiatan berupa teks/kalimat dan/atau unggah foto.');
-        return;
-      }
-
-      const container = document.getElementById('timeline-container');
-      const newId = Date.now();
-      const fotoUrl = fotoFile ? URL.createObjectURL(fotoFile) : '';
-
-      if (container) {
-        // Tambahkan garis penghubung ke item terakhir sebelumnya jika belum ada
-        const lastItem = container.lastElementChild;
-        if (lastItem && !lastItem.querySelector('.timeline-connector')) {
-          const line = document.createElement('div');
-          line.className = 'timeline-connector absolute left-3.5 top-7 -bottom-4 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2 z-0';
-          lastItem.insertBefore(line, lastItem.firstChild);
-        }
-
-        const safePeriode = escapeHtml(periodeHari);
-        const safeKegiatan = escapeHtml(kegiatan);
-        const safeHasil = escapeHtml(hasilTeks);
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'relative flex items-start gap-4';
-        wrapper.innerHTML = `
-          <div class="relative z-10 w-7 h-7 rounded-full bg-[#eff6ff] text-[#1063B9] text-xs font-semibold flex items-center justify-center shrink-0 border border-[#bfdbfe]">
-            ${minggu}
-          </div>
-          <div class="flex-1 bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs hover:border-[#cbd5e1] transition-colors">
-            <div class="flex items-start justify-between cursor-pointer select-none group" onclick="toggleAccordion(${newId})">
-              <div class="space-y-1">
-                <div class="flex items-center gap-2.5">
-                  <h3 class="text-[15px] font-bold text-[#09090b] group-hover:text-[#1063B9] transition-colors">Minggu ke-${minggu}</h3>
-                </div>
-                <p class="text-[12px] text-[#71717a]">Periode: ${safePeriode}</p>
-              </div>
-              <button type="button" class="p-1 text-[#71717a] hover:text-[#09090b] rounded transition-transform duration-200" id="chevron-${newId}">
-                <i data-lucide="chevron-down" class="w-4 h-4"></i>
-              </button>
-            </div>
-            <div id="content-${newId}" class="mt-4 pt-4 border-t border-[#f4f4f5] space-y-3">
-              <div class="flex items-center gap-1.5 text-xs text-[#71717a]">
-                <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                <span class="font-medium text-[#52525b]">${safePeriode}</span>
-              </div>
-              <div class="space-y-1">
-                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#71717a]">Kegiatan</div>
-                <p class="text-[13px] text-[#27272a] leading-relaxed">${safeKegiatan}</p>
-              </div>
-              <div class="space-y-2 pt-1">
-                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#71717a]">Hasil</div>
-                <p class="text-[13px] text-[#27272a] leading-relaxed">${safeHasil}</p>
-                ${fotoUrl ? `
-                  <div class="pt-1">
-                    <button type="button" onclick="openDocModal('Minggu ke-${minggu}', '${safePeriode}', '${safeHasil}', '${fotoUrl}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer">
-                      <i data-lucide="image" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                      <span>Lihat Foto Hasil</span>
-                    </button>
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-        container.appendChild(wrapper);
-
-        const totalEl = document.getElementById('total-kegiatan-count');
-        if (totalEl) totalEl.textContent = String(container.children.length);
-        const mingguEl = document.getElementById('minggu-terakhir-count');
-        if (mingguEl) mingguEl.textContent = String(minggu);
-        if (window.lucide) window.lucide.createIcons();
-      }
-
-      alert(`Logbook Minggu ke-${minggu} berhasil disimpan!`);
-      const form = document.getElementById('form-tambah-logbook');
-      if (form) form.reset();
-      const mingguInput = document.getElementById('input-minggu');
-      if (mingguInput) mingguInput.value = String(minggu + 1);
+      const bab = document.getElementById('input-bab').value;
+      alert(`Logbook "${bab}" berhasil disimpan dan diajukan ke Dosen Pembimbing!`);
       closeTambahModal();
     }
 
@@ -575,17 +431,19 @@ const logbookList = [
       closeFolderModal();
     }
 
-    // Modal Lihat Foto Hasil
-    function openDocModal(title, periode, hasilTeks, fotoUrl) {
+    // Modal Lihat Dokumen
+    function openDocModal(bab, date, desc, file) {
       const titleEl = document.getElementById('doc-modal-title');
       const dateEl = document.getElementById('doc-modal-date');
       const descEl = document.getElementById('doc-modal-desc');
-      const imgEl = document.getElementById('doc-modal-img');
+      const fileEl = document.getElementById('doc-modal-file');
+      const linkEl = document.getElementById('doc-modal-link');
 
-      if (titleEl) titleEl.textContent = title;
-      if (dateEl) dateEl.textContent = periode;
-      if (descEl) descEl.textContent = hasilTeks;
-      if (imgEl) imgEl.src = fotoUrl;
+      if (titleEl) titleEl.textContent = bab;
+      if (dateEl) dateEl.textContent = date;
+      if (descEl) descEl.textContent = desc;
+      if (fileEl) fileEl.textContent = file;
+      if (linkEl) linkEl.href = 'https://drive.google.com/';
 
       const modal = document.getElementById('modal-lihat-dokumen');
       if (modal) modal.classList.remove('hidden');

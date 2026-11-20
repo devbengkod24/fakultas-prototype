@@ -38,7 +38,7 @@
           x-text="editTarget?.status === 'decline' ? 'Mata Kuliah Ditolak:' : 'Mata Kuliah Saat Ini:'"
         ></span>
         <h4 class="text-sm font-semibold text-[#09090b]" x-text="editTarget?.nama"></h4>
-        <p class="text-xs text-[#71717a]" x-text="`${editTarget?.kode} | ${editTarget?.sks} SKS`"></p>
+        <p class="text-xs text-[#71717a]" x-text="editTarget?.kode + (editTarget?.nilaiLama ? ' | Mengulang · Nilai ' + editTarget.nilaiLama : ' | Baru')"></p>
         <template x-if="editTarget?.catatan">
           <p class="text-xs text-rose-600 mt-1" x-text="`Alasan: ${editTarget.catatan}`"></p>
         </template>
@@ -56,10 +56,19 @@
         class="w-full h-9 px-3 border border-[#e4e4e7] rounded-md bg-white text-xs font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
       >
         <option value="">-- Pilih Mata Kuliah --</option>
-        <template x-for="m in unselectedMatkul" :key="m.kode">
-          <option :value="m.kode" x-text="`${m.nama} (${m.sks} SKS) - ${m.kode}`"></option>
-        </template>
+        <optgroup label="Mata kuliah baru" x-show="matkulBaru.length">
+          <template x-for="m in matkulBaru" :key="m.kode">
+            <option :value="m.kode" x-text="m.nama + ' - ' + m.kode"></option>
+          </template>
+        </optgroup>
+        <optgroup label="Mengulang (sudah ada nilai)" x-show="matkulUlang.length">
+          <template x-for="m in matkulUlang" :key="m.kode">
+            <option :value="m.kode" x-text="m.nama + ' - ' + m.kode + ' (Nilai ' + m.nilaiLama + ')'"></option>
+          </template>
+        </optgroup>
       </select>
+      <p x-show="selectedInfo" x-cloak class="text-xs leading-relaxed" :class="selectedInfo?.nilaiLama ? 'text-amber-700' : 'text-[#71717a]'"
+         x-text="selectedInfo?.nilaiLama ? 'Sudah memiliki nilai ' + selectedInfo.nilaiLama + ' di transkrip, diajukan sebagai mata kuliah mengulang.' : 'Belum pernah diambil, diajukan sebagai mata kuliah baru.'"></p>
     </div>
 
     <!-- Footer Modal -->

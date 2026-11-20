@@ -1,83 +1,25 @@
 ---
 // src/components/mbkm/mahasiswa/AktifStatCards.astro
+// Urutan: Status Pengajuan, Log Mahasiswa, Periode Aktif, Jadwal Sidang.
+// Skala kartu diselaraskan dengan KPI dashboard Contributor (label xs, nilai seragam, catatan 12px).
+const stats = [
+  { label: 'Logbook Bimbingan', icon: 'graduation-cap', nilai: 'Diterima', nilaiCls: 'text-green-700', catatan: 'Terisi 5 Minggu' },
+  { label: 'Log Bimbingan', icon: 'book-open', nilai: '5/5', nilaiCls: 'text-[#09090b]', catatan: 'Progress 100%' },
+  { label: 'Periode Aktif', icon: 'calendar-range', nilai: '2026/2027', nilaiCls: 'text-[#09090b]', catatan: 'Gelombang 1 KB 2026/2027' },
+  { label: 'Jadwal Sidang', icon: 'calendar', nilai: 'Selasa, 27 Okt 2026', nilaiCls: 'text-[#09090b]', catatan: 'Jam 09:00 - 09:45' }
+];
 ---
 
 <!-- 4 Stat Cards KB (State Aktif) -->
 <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-  <!-- Card 1: Logbook Kegiatan -->
-  <div
-    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
-  >
-    <div
-      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
-    >
-      <h3 class="text-sm font-medium text-[#09090b]">Logbook Kegiatan</h3>
-      <i data-lucide="book-open" class="h-4 w-4 text-[#71717a]"></i>
-    </div>
-    <div class="p-4 pt-0">
-      <div class="text-xl font-semibold mb-2 text-[#09090b]">
-        Terisi 5 minggu
+  {stats.map((s) => (
+    <div class="p-4 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs flex flex-col justify-between">
+      <div class="flex items-center justify-between text-[#71717a] text-xs mb-2">
+        <span>{s.label}</span>
+        <i data-lucide={s.icon} class="w-4 h-4"></i>
       </div>
-      <p class="text-xs text-[#71717a]">Dospem: Dosen A11</p>
+      <div class={`text-lg font-semibold leading-7 ${s.nilaiCls}`}>{s.nilai}</div>
+      <span class="text-[12px] mt-1 text-[#71717a]">{s.catatan}</span>
     </div>
-  </div>
-
-  <!-- Card 2: Log Bimbingan -->
-  <div
-    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
-  >
-    <div
-      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
-    >
-      <h3 class="text-sm font-medium text-[#09090b]">Log Bimbingan</h3>
-      <i data-lucide="graduation-cap" class="h-4 w-4 text-[#71717a]"></i>
-    </div>
-    <div class="p-4 pt-0">
-      <div class="text-2xl font-semibold mb-2 text-[#09090b]">5/5</div>
-      <p class="text-xs text-[#71717a]">Progress 100%</p>
-    </div>
-  </div>
-
-  <!-- Card 3: Jadwal Sidang -->
-  <div
-    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
-  >
-    <div
-      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
-    >
-      <h3 class="text-sm font-medium text-[#09090b]">Jadwal Sidang</h3>
-      <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
-    </div>
-    <div class="p-4 pt-0">
-      <div class="text-base font-semibold mb-2 text-[#09090b]">
-        Selasa, 27 Oktober 2026
-      </div>
-      <p class="text-xs text-[#71717a]">Jam 09:00 - 09:45</p>
-    </div>
-  </div>
-
-  <!-- Card 4: Periode Aktif -->
-  <div
-    class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden"
-  >
-    <div
-      class="flex flex-row items-center justify-between space-y-0 p-4 pb-2"
-    >
-      <h3 class="text-sm font-medium text-[#09090b]">Periode Aktif</h3>
-      <i data-lucide="calendar" class="h-4 w-4 text-[#71717a]"></i>
-    </div>
-    <div class="p-4 pt-0">
-      <div class="text-lg font-semibold mb-2 text-[#09090b]">
-        2026/2027
-      </div>
-      <div class="mt-2">
-        <div
-          class="flex items-center gap-2 text-sm font-medium text-[#09090b]"
-        >
-          <p>Gelombang Aktif</p>
-        </div>
-        <p class="text-xs text-[#71717a]">Gelombang 1 KB 2026/2027</p>
-      </div>
-    </div>
-  </div>
+  ))}
 </section>

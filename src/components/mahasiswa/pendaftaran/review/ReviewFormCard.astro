@@ -9,7 +9,8 @@ interface Props {
 const { class: className } = Astro.props;
 
 const coreDocFields = [
-  { key: "transkripNilai", label: "Transkrip Nilai", required: true, placeholder: "https://drive.google.com/file/d/..." },
+  { key: "transkrip", label: "Transkrip Nilai", required: true, placeholder: "https://drive.google.com/file/d/..." },
+  { key: "surekom", label: "Surat Rekomendasi", required: false, placeholder: "https://drive.google.com/file/d/..." },
   { key: "cv", label: "CV", required: false, placeholder: "https://drive.google.com/file/d/... (Opsional)" },
   { key: "sertifikat", label: "Sertifikat", required: false, placeholder: "https://drive.google.com/file/d/..." },
 ] as const;
