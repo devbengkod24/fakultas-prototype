@@ -182,6 +182,9 @@ const programActions = `
     const tutup = document.getElementById('jadwal-tutup')?.value || '';
 
     alert(`Pengaturan Program berhasil disimpan!\n• Kuota Pendaftaran: ${kuota} Mahasiswa\n• Total Konversi: ${sks} SKS\n• Jadwal Buka: ${buka.replace('T', ' ')}\n• Jadwal Tutup: ${tutup.replace('T', ' ')}`);
+
+    // Alur onboarding mitra baru: lanjut ke Kelola CMS setelah program disimpan.
+    if (typeof continueKontributorSetupToCms === 'function') continueKontributorSetupToCms(kontributorId);
   }
 
   document.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,21 @@
+---
+// Seksi 1: data Kelola Program (kuota, konversi SKS, jadwal pendaftaran)
+import FormField from './FormField.astro';
+
+const sksOptions = ['10', '12', '15', '20', '24'].map((v) => ({ value: v, label: `${v} SKS` }));
+---
+
+<div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+  <div class="border-b border-gray-100 pb-4">
+    <h3 class="text-base font-semibold text-[#09090b]">1. Kelola Program</h3>
+    <p class="mt-0.5 text-xs text-[#71717a]">
+      Tentukan batas kuota peserta, total konversi SKS, serta jadwal buka dan tutup pendaftaran.
+    </p>
+  </div>
+  <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <FormField id="kf-kuota" label="Kuota Pendaftaran Peserta" type="number" min={1} value={10} placeholder="Contoh: 10" required />
+    <FormField id="kf-sks" label="Total Konversi SKS" options={sksOptions} value="20" required />
+    <FormField id="kf-buka" label="Jadwal Buka Pendaftaran" type="datetime-local" value="2026-02-01T08:00" required />
+    <FormField id="kf-tutup" label="Jadwal Tutup Pendaftaran" type="datetime-local" value="2026-02-28T23:59" required />
+  </div>
+</div>

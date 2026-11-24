@@ -13,7 +13,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
     class="flex flex-col flex-1 min-h-0 space-y-4 pr-1 overflow-y-auto tab-content font-sans"
     x-data="{
       searchQuery: '',
-      selectedGelombangId: 'all',
       statusFilter: 'semua',
       sortDir: 'asc',
       selectedIds: [],
@@ -48,13 +47,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
       undanganKode: '042/SK-PENGUJI/FIK-UDINUS/VI/2026',
       undanganTgl: '2026-06-20',
       undanganDosenId: '',
-
-      gelombangList: [
-        { id: 'all', nama: 'Semua Gelombang', status: 0 },
-        { id: '1', nama: 'Gelombang 1', status: 1 },
-        { id: '2', nama: 'Gelombang 2', status: 0 },
-        { id: '3', nama: 'Gelombang 3', status: 0 }
-      ],
 
       ruanganList: [
         { id: 1, nama: 'Lab AI (H.4.1)' },
@@ -174,7 +166,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       get filteredRows() {
         return this.plottingData.filter(item => {
-          const matchGel = this.selectedGelombangId === 'all' || (item.gelombang && item.gelombang.id.toString() === this.selectedGelombangId);
           const scheduled = this.isScheduled(item);
           const matchStatus = this.statusFilter === 'semua' || (this.statusFilter === 'sudah' ? scheduled : !scheduled);
           const q = this.searchQuery.trim().toLowerCase();
@@ -184,7 +175,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             (item.pembimbing?.nama && item.pembimbing.nama.toLowerCase().includes(q)) ||
             (item.penguji_1?.nama && item.penguji_1.nama.toLowerCase().includes(q)) ||
             (item.ruangan?.nama && item.ruangan.nama.toLowerCase().includes(q));
-          return matchGel && matchStatus && matchSearch;
+          return matchStatus && matchSearch;
         });
       },
 
@@ -313,10 +304,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       handleDownloadUndangan() {
         if (!this.undanganKode.trim()) {
-          alert('Nomor SK / Kode Undangan wajib diisi.');
+          this.triggerToast('Nomor SK / Kode Undangan wajib diisi.', 'error');
           return;
         }
-        alert(`Mengunduh lembar undangan dewan penguji sidang (PDF) dengan Nomor SK: ${this.undanganKode}...`);
+        this.triggerToast(`Mengunduh lembar undangan dewan penguji sidang (PDF) dengan Nomor SK: ${this.undanganKode}...`, 'info');
         this.isUndanganModalOpen = false;
       },
 
@@ -330,11 +321,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
         }
       },
 
-      triggerToast(msg) {
-        this.toastMessage = msg;
-        this.showToast = true;
-        this.reinitLucide();
-        setTimeout(() => { this.showToast = false; }, 3000);
+      triggerToast(msg, type = 'success') {
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(msg, type);
+        }
       },
 
       reinitLucide() {
@@ -368,24 +358,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
         </div>
       </div>
 
-      <!-- Controls Group Kanan (Gelombang, Status Dropdown, Download Undangan, Buat Jadwal) -->
+      <!-- Controls Group Kanan (Status Dropdown, Download Undangan, Buat Jadwal) -->
       <div class="flex gap-2 ml-auto flex-wrap">
-        <!-- Gelombang Selector -->
-        <div class="w-[200px] flex-shrink-0">
-          <div class="relative">
-            <select
-              x-model="selectedGelombangId"
-              @change="currentPage = 1; reinitLucide()"
-              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 pr-8 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer appearance-none"
-            >
-              <template x-for="g in gelombangList" :key="g.id">
-                <option :value="g.id" x-text="g.nama"></option>
-              </template>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-[#71717a] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-        </div>
-
         <!-- Status Filter DropdownMenu Sesuai Radix/Shadcn UI -->
         <div class="relative" @click.outside="isStatusDropdownOpen = false">
           <button
@@ -498,15 +472,14 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </template>
               </span>
             </th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Ruangan</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Mahasiswa</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Pembimbing</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Penguji 1</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Penguji 2</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Penguji 3</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm">Gelombang</th>
-            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm">Status</th>
-            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm">Aksi</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Ruangan</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Mahasiswa</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Pembimbing</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 1</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 2</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 3</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Status</th>
+            <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Aksi</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-[#e4e4e7]">
@@ -579,11 +552,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <!-- Penguji 3 -->
               <td class="p-4 align-middle text-sm text-[#09090b]">
                 <span x-text="item.penguji_3?.nama || '-'"></span>
-              </td>
-
-              <!-- Gelombang -->
-              <td class="p-4 align-middle text-sm text-[#71717a]">
-                <span x-text="item.gelombang?.nama_gelombang || item.gelombang?.nama || '-'"></span>
               </td>
 
               <!-- Status Badge (Selesai: success, Terjadwal: secondary, Belum: secondary) -->
@@ -1011,16 +979,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Toast Notification (Sesuai Sonner toast di fakultas-fe) -->
-    <div
-      x-show="showToast"
-      x-cloak
-      class="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 px-4 py-3 rounded-lg bg-emerald-600 text-white text-xs font-semibold shadow-lg animate-in slide-in-from-bottom-5 duration-200"
-    >
-      <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-      <span x-text="toastMessage"></span>
     </div>
   </section>
 </AdminShell>

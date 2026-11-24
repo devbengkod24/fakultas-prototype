@@ -1,0 +1,42 @@
+---
+// Seksi 2: data Kelola CMS (konten publik halaman detail program)
+import FormField from './FormField.astro';
+
+const periodeOptions = ['Semester Gasal 2026/2027', 'Semester Genap 2026/2027'].map((v) => ({ value: v, label: v }));
+---
+
+<div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
+  <div class="border-b border-gray-100 pb-4">
+    <h3 class="text-base font-semibold text-[#09090b]">2. Kelola CMS — Halaman Publik Program</h3>
+    <p class="mt-0.5 text-xs text-[#71717a]">
+      Konten yang tampil pada halaman detail program: profil hero, poin unggulan, dan koordinator.
+    </p>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <FormField id="kf-badge" label="Badge Program" value="Kontributor Nasional MBKM" required />
+    <FormField id="kf-deadline" label="Batas Akhir Pendaftaran (Tampilan)" value="25 Oktober 2026 • 23:59 WIB" required />
+    <FormField id="kf-sektor" label="Klaster / Sektor" value="Industri & Teknologi" />
+    <FormField id="kf-lokasi" label="Moda / Lokasi" value="Hybrid (Daring & Luring)" />
+    <FormField id="kf-periode" label="Periode Kegiatan" options={periodeOptions} value="Semester Gasal 2026/2027" />
+    <FormField id="kf-mou" label="Nomor MoU" placeholder="Contoh: 042/MoU/FIK-UDINUS/2026" />
+    <FormField id="kf-deskripsi" label="Deskripsi Hero" rows={4} fullWidth required placeholder="Ringkasan program yang tampil di bagian atas halaman detail" />
+  </div>
+
+  <div class="mt-8 border-t border-gray-100 pt-5">
+    <h4 class="text-sm font-semibold text-[#09090b]">Poin Unggulan</h4>
+    <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <FormField id="kf-poin-1" label="Poin 1" value="Mentoring Mentor Industri Profesional" fullWidth />
+      <FormField id="kf-poin-2" label="Poin 2" value="Pengalaman Proyek Nyata Skala Enterprise" fullWidth />
+      <FormField id="kf-poin-3" label="Poin 3" value="Konversi Akademik Terjamin hingga 20 SKS" fullWidth />
+    </div>
+  </div>
+
+  <div class="mt-8 border-t border-gray-100 pt-5">
+    <h4 class="text-sm font-semibold text-[#09090b]">Koordinator Program</h4>
+    <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <FormField id="kf-koor-nama" label="Nama Koordinator" value="Nurul Anisa S.W., M.Cs" />
+      <FormField id="kf-koor-jabatan" label="Jabatan" value="Koordinator Kampus Berdampak FIK UDINUS" />
+    </div>
+  </div>
+</div>

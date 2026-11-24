@@ -46,6 +46,44 @@
             </div>
           </div>
 
+          <!-- Lampiran File SuReKom -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label for="modal-surekom-file-input" class="text-xs font-medium text-[#09090b]">Lampiran File SuReKom</label>
+              <span class="text-[11px] text-[#71717a]">PDF, maks. 5 MB</span>
+            </div>
+            <input
+              type="file"
+              id="modal-surekom-file-input"
+              name="surekom_file"
+              accept=".pdf,application/pdf"
+              class="hidden"
+              onchange="handleSurekomFileChange(this)"
+            />
+            <label
+              id="modal-surekom-file-dropzone"
+              for="modal-surekom-file-input"
+              class="flex items-center gap-3 rounded-md border border-dashed border-[#d4d4d8] bg-[#fafafa] hover:bg-[#f4f4f5] p-3 cursor-pointer transition-colors"
+            >
+              <div class="w-9 h-9 rounded-lg bg-blue-100 text-[#0655a7] flex items-center justify-center shrink-0">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p id="modal-surekom-file-name" class="text-xs font-medium text-[#09090b] truncate">Klik untuk unggah file surat rekomendasi</p>
+                <p id="modal-surekom-file-meta" class="text-[11px] text-[#71717a]">Belum ada file dipilih</p>
+              </div>
+              <button
+                type="button"
+                id="modal-surekom-file-remove"
+                onclick="event.preventDefault(); clearSurekomFile()"
+                class="hidden text-[#71717a] hover:text-[#BE123C] p-1 rounded-md"
+                aria-label="Hapus file"
+              >
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </label>
+          </div>
+
           <!-- Keputusan Validasi -->
           <div class="space-y-3">
 

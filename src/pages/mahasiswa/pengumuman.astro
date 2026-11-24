@@ -1,6 +1,32 @@
 ---
 // src/pages/mahasiswa/pengumuman.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
+import PengumumanDetailModal from '../../components/mbkm/mahasiswa/PengumumanDetailModal.astro';
+
+// Data contoh. `dibaca` = status awal; klik pada kartu menandai sebagai sudah dibaca.
+const pengumuman = [
+  {
+    id: 1, sumber: 'Global', dibaca: false, tanggal: '18 Okt 2025',
+    judul: 'Penting: Revisi Mata Kuliah Konversi SKS',
+    isi: 'Ditemukan ketidaksesuaian pada mata kuliah ekuivalensi program Magang Mandiri. Mohon cek kembali tabel konversi SKS dan segera lakukan edit pada sistem sebelum 20 Oktober 2025.'
+  },
+  {
+    id: 2, sumber: 'Mitra', dibaca: false, tanggal: '15 Okt 2025',
+    judul: 'Status Lamaran Telah Diperbarui',
+    isi: 'Status pendaftaran program "Magang Software Engineer" di PT Telkom Indonesia telah berubah menjadi "Menunggu Verifikasi".'
+  },
+  {
+    id: 3, sumber: 'Global', dibaca: true, tanggal: '10 Okt 2025',
+    judul: 'Jadwal Pembekalan MBKM',
+    isi: 'Koordinator MBKM Fakultas mengundang seluruh mahasiswa untuk mengikuti pembekalan teknis pendaftaran yang akan dilaksanakan pada 22 Oktober 2025.'
+  }
+];
+// Badge asal pengumuman: Global (Koordinator MBKM fakultas) atau Mitra (penyelenggara program).
+const sumberCls: Record<string, string> = {
+  Global: 'bg-violet-50 text-violet-700 border-violet-200',
+  Mitra: 'bg-teal-50 text-teal-700 border-teal-200'
+};
+const awalDibaca = pengumuman.filter((p) => p.dibaca).map((p) => p.id);
 ---
 
 <MahasiswaShell
@@ -9,60 +35,61 @@ import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
   pageTitle="Pengumuman & Informasi Program"
   breadcrumb="Pengumuman"
 >
-  <section id="view-pengumuman" class="space-y-6">
+  <section
+    id="view-pengumuman"
+    class="space-y-6"
+    x-data={`{ read: ${JSON.stringify(awalDibaca)}, total: ${pengumuman.length}, selected: null, items: ${JSON.stringify(pengumuman)},
+      get belum() { return this.total - this.read.length; },
+      isRead(id) { return this.read.includes(id); },
+      markRead(id) { if (!this.isRead(id)) this.read.push(id); },
+      openDetail(id) { this.markRead(id); this.selected = this.items.find((i) => i.id === id); },
+      markAll() { this.read = ${JSON.stringify(pengumuman.map((p) => p.id))}; } }`}
+  >
     <!-- Header -->
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
         <h2 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Pengumuman & Informasi</h2>
         <p class="text-[14px] leading-[20px] text-[#71717a]">Informasi terkait perubahan status pendaftaran, koordinasi MBKM, serta revisi mata kuliah konversi.</p>
       </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[12px] text-[#71717a]" x-text="belum > 0 ? belum + ' belum dibaca' : 'Semua sudah dibaca'"></span>
+        <button
+          type="button"
+          @click="markAll()"
+          x-show="belum > 0"
+          class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors"
+        >
+          Tandai semua dibaca
+        </button>
+      </div>
     </div>
 
     <!-- Announcement List -->
-    <div class="grid grid-cols-1 gap-4">
-      <!-- Announcement: Revisi Konversi -->
-      <div class="p-5 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs border-l-4 border-l-amber-500">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200">Revisi Konversi</span>
-              <span class="text-[12px] text-[#71717a]">18 Okt 2025</span>
+    <div class="grid grid-cols-1 gap-3">
+      {pengumuman.map((p) => (
+        <article
+          @click={`openDetail(${p.id})`}
+          class="p-5 rounded-[12px] border border-l-4 shadow-2xs cursor-pointer transition-colors"
+          :class={`isRead(${p.id}) ? 'bg-[#fafafa] border-[#e4e4e7] border-l-[#d4d4d8]' : 'bg-white border-[#e4e4e7] border-l-[#1063B9]'`}
+        >
+          <div class="flex items-center justify-between gap-3 mb-2">
+            <div class="flex items-center gap-2">
+              <span class={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border ${sumberCls[p.sumber]}`}>{p.sumber}</span>
+              <span class="text-[12px] text-[#71717a]">{p.tanggal}</span>
             </div>
-            <h3 class="text-[15px] font-semibold text-[#09090b] mb-1">Penting: Revisi Mata Kuliah Konversi SKS</h3>
-            <p class="text-[13px] text-[#71717a]">Ditemukan ketidaksesuaian pada mata kuliah ekuivalensi program Magang Mandiri. Mohon cek kembali tabel konversi SKS dan segera lakukan edit pada sistem sebelum 20 Oktober 2025.</p>
+            <span
+              class="inline-flex items-center gap-1.5 text-[11px] font-medium"
+              :class={`isRead(${p.id}) ? 'text-[#71717a]' : 'text-[#1063B9]'`}
+            >
+              <span class="size-1.5 rounded-full" :class={`isRead(${p.id}) ? 'bg-[#d4d4d8]' : 'bg-[#1063B9]'`}></span>
+              <span x-text={`isRead(${p.id}) ? 'Sudah dibaca' : 'Belum dibaca'`}></span>
+            </span>
           </div>
-        </div>
-      </div>
-
-      <!-- Announcement: Perubahan Status -->
-      <div class="p-5 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs border-l-4 border-l-[#1063B9]">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-blue-50 text-[#1063B9] border border-blue-100">Status Pendaftaran</span>
-              <span class="text-[12px] text-[#71717a]">15 Okt 2025</span>
-            </div>
-            <h3 class="text-[15px] font-semibold text-[#09090b] mb-1">Status Lamaran Telah Diperbarui</h3>
-            <p class="text-[13px] text-[#71717a]">Status pendaftaran program "Magang Software Engineer" di PT Telkom Indonesia telah berubah menjadi "Menunggu Verifikasi".</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Announcement: Pengumuman Coordinator -->
-      <div class="p-5 bg-white border border-[#e4e4e7] rounded-[12px] shadow-2xs border-l-4 border-l-emerald-500">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">Informasi Koordinasi</span>
-              <span class="text-[12px] text-[#71717a]">10 Okt 2025</span>
-            </div>
-            <h3 class="text-[15px] font-semibold text-[#09090b] mb-1">Jadwal Pembekalan MBKM</h3>
-            <p class="text-[13px] text-[#71717a]">Koordinator MBKM Fakultas mengundang seluruh mahasiswa untuk mengikuti pembekalan teknis pendaftaran yang akan dilaksanakan pada 22 Oktober 2025.</p>
-          </div>
-        </div>
-      </div>
+          <h3 class="text-[15px] mb-1" :class={`isRead(${p.id}) ? 'font-medium text-[#52525b]' : 'font-semibold text-[#09090b]'`}>{p.judul}</h3>
+          <p class="text-[13px] text-[#71717a]">{p.isi}</p>
+        </article>
+      ))}
     </div>
+    <PengumumanDetailModal />
   </section>
 </MahasiswaShell>
-
-

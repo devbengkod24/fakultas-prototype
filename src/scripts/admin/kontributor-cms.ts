@@ -370,6 +370,7 @@ function handleSaveCmsHero() {
   data.koorJabatan = document.getElementById('cms-input-koor-jabatan').value.trim();
 
   alert('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!');
+  finishKontributorSetup();
 }
 
 function handleCmsPhotoUpload(e) {

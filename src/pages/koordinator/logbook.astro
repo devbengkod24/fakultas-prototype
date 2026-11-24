@@ -1,139 +1,197 @@
 ---
-// src/pages/admin/logbook.astro
+// src/pages/koordinator/logbook.astro
 import AdminShell from '../../layouts/AdminShell.astro';
+import { logbookKegiatanList } from '../../data/admin/logbook-kegiatan';
+
+const logbookJson = JSON.stringify(logbookKegiatanList);
 ---
 
 <AdminShell currentTab="logbook">
   <section
     id="section-logbook"
     class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
-    x-data="{
-      viewMode: 'master', // 'master' or 'detail'
+    x-data={`{
+      viewMode: 'master',
       searchQuery: '',
-      selectedDosen: null,
+      statusFilter: 'semua',
       currentPage: 1,
       pageSize: 10,
-      dosenList: [
-        { id: 1,  nama: 'EDY MULYANTO',            npp: '0686.11.1993.040', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
-        { id: 2,  nama: 'ERLIN DOLPHINA',          npp: '0686.11.1994.047', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 4 },
-        { id: 3,  nama: 'EDI FAISAL',              npp: '0686.11.1994.057', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 1 },
-        { id: 4,  nama: 'ACHMAD WAHID KURNIAWAN',  npp: '0686.11.1995.067', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
-        { id: 5,  nama: 'ARIPIN',                  npp: '0686.11.1995.068', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
-        { id: 6,  nama: 'AYU PERTIWI',             npp: '0686.11.1995.069', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
-        { id: 7,  nama: 'NOVA RIJATI',             npp: '0686.11.1996.093', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 1 },
-        { id: 8,  nama: 'T. SUTOJO',               npp: '0686.11.1996.094', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 3 },
-        { id: 9,  nama: 'HERU LESTIAWAN',          npp: '0686.11.1996.097', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 2 },
-        { id: 10, nama: 'USMAN SUDIBYO',           npp: '0686.11.1996.100', bab1: 0, bab2: 0, bab3: 0, bab4: 0, bab5: 0, pending: 0, totalMhs: 3 },
-      ],
-      get filteredDosen() {
-        const q = (this.searchQuery || '').toLowerCase();
-        return this.dosenList.filter(d => d.nama.toLowerCase().includes(q) || d.npp.includes(q));
+      selectedMhs: null,
+      openWeeks: {},
+      isDocModalOpen: false,
+      docPreview: { minggu: '', tanggal: '', deskripsi: '', dokumenNama: '', catatanDospem: '' },
+      students: ${logbookJson},
+
+      get filteredStudents() {
+        const q = (this.searchQuery || '').toLowerCase().trim();
+        return this.students.filter(s => {
+          const matchSearch = !q ||
+            s.nama.toLowerCase().includes(q) ||
+            s.nim.toLowerCase().includes(q) ||
+            s.mitra.toLowerCase().includes(q) ||
+            s.dosenPembimbing.toLowerCase().includes(q);
+          const matchStatus = this.statusFilter === 'semua' || s.statusProgres === this.statusFilter;
+          return matchSearch && matchStatus;
+        });
       },
       get totalPages() {
-        return Math.max(1, Math.ceil(this.filteredDosen.length / this.pageSize));
+        return Math.max(1, Math.ceil(this.filteredStudents.length / this.pageSize));
       },
-      get paginatedDosen() {
+      get paginatedStudents() {
         const start = (this.currentPage - 1) * this.pageSize;
-        return this.filteredDosen.slice(start, start + this.pageSize);
+        return this.filteredStudents.slice(start, start + this.pageSize);
       },
-      studentDetails: [
-        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', babTerakhir: 'Bab 4', totalBimbingan: 12, progress: 80, status: 'Aktif' },
-        { no: 2, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', babTerakhir: 'Bab 5', totalBimbingan: 16, progress: 100, status: 'Siap Sidang' },
-        { no: 3, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', babTerakhir: 'Bab 3', totalBimbingan: 9, progress: 60, status: 'Aktif' },
-        { no: 4, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', babTerakhir: 'Bab 4', totalBimbingan: 11, progress: 75, status: 'Aktif' },
-      ],
-      openDetail(dosen) {
-        this.selectedDosen = dosen;
+      progressPercent(mhs) {
+        if (!mhs || !mhs.totalMinggu) return 0;
+        return Math.min(100, Math.round((mhs.mingguAktif / mhs.totalMinggu) * 100));
+      },
+      progressBarColor(mhs) {
+        if (!mhs || mhs.mingguAktif === 0) return 'bg-[#d4d4d8]';
+        if (mhs.mingguAktif >= mhs.totalMinggu) return 'bg-emerald-600';
+        return 'bg-[#0655a7]';
+      },
+      openDetail(mhs) {
+        this.selectedMhs = mhs;
+        this.openWeeks = {};
+        (mhs?.weeks || []).forEach((w, i) => {
+          this.openWeeks[w.minggu] = i < 2;
+        });
         this.viewMode = 'detail';
       },
       backToMaster() {
-        this.selectedDosen = null;
+        this.selectedMhs = null;
         this.viewMode = 'master';
+      },
+      toggleWeek(minggu) {
+        this.openWeeks[minggu] = !this.openWeeks[minggu];
+      },
+      statusBadgeClass(status) {
+        if (status === 'Diterima') return 'bg-[#ecfdf5] text-[#15803d] border-[#bbf7d0]';
+        if (status === 'Menunggu') return 'bg-amber-50 text-amber-800 border-amber-200';
+        return 'bg-rose-50 text-rose-700 border-rose-200';
+      },
+      openDoc(week, entry) {
+        this.docPreview = {
+          minggu: 'Minggu ' + week.minggu,
+          tanggal: entry.tanggal,
+          deskripsi: entry.deskripsi,
+          dokumenNama: entry.dokumenNama,
+          catatanDospem: entry.catatanDospem || ''
+        };
+        this.isDocModalOpen = true;
       }
-    }"
+    }`}
   >
-    <!-- View 1: Master Rekap Dospem Style KP -->
+    <!-- View 1: Tabel Daftar Mahasiswa (Logbook Mingguan per Rentang 6 Minggu) -->
     <div x-show="viewMode === 'master'" class="flex flex-col gap-4">
-      <!-- Toolbar Filter & Search -->
-      <div class="flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
-        <div class="relative w-full sm:w-72 md:w-80">
+      <!-- Toolbar Pencarian & Filter Status -->
+      <div class="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+        <div class="relative w-full sm:w-96">
           <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
           <input
             type="text"
             x-model="searchQuery"
-            placeholder="Cari dosen pembimbing..."
+            @input="currentPage = 1"
+            placeholder="Cari mahasiswa, NIM, mitra, atau dospem..."
             class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
           />
         </div>
+
+        <div class="flex items-center gap-2 ml-auto">
+          <select
+            x-model="statusFilter"
+            @change="currentPage = 1"
+            class="h-9 rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          >
+            <option value="semua">Semua Status Progres</option>
+            <option value="aktif">Sedang Berjalan</option>
+            <option value="selesai">Lengkap (24 Minggu)</option>
+            <option value="belum">Belum Mengisi</option>
+          </select>
+        </div>
       </div>
 
-      <!-- Tabel Master 10 Kolom Style KP -->
+      <!-- Tabel 5 Kolom -->
       <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-        <table class="w-full text-sm">
-          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-            <tr>
-              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
-              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Nama Dosen Pembimbing</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Logbook Mhs.</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 1</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 2</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 3</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 4</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab 5</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Pending</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Total Mhs.</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-[#e4e4e7]">
-            <template x-for="(dosen, idx) in paginatedDosen" :key="dosen.id">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
-                <td class="h-[68px] px-4 text-sm">
-                  <div class="flex flex-col leading-tight gap-0.5">
-                    <span class="font-semibold text-[#09090b] text-sm" x-text="dosen.nama"></span>
-                    <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
-                  </div>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <button
-                    type="button"
-                    @click="openDetail(dosen)"
-                    class="inline-flex items-center gap-2 h-8 px-3 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/40 text-[#0655a7] text-xs font-medium transition-colors"
-                  >
-                    <span>Detail Logbook</span>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                  </button>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab1"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab2"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab3"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab4"></td>
-                <td class="h-[68px] px-4 text-center text-sm text-[#09090b]" x-text="dosen.bab5"></td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <template x-if="dosen.pending > 0">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-800" x-text="dosen.pending"></span>
-                  </template>
-                  <template x-if="dosen.pending === 0">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-[#f4f4f5] border border-[#e4e4e7] text-[#71717a]">Belum Ada</span>
-                  </template>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm font-semibold text-[#09090b]" x-text="dosen.totalMhs"></td>
-              </tr>
-            </template>
-            <template x-if="paginatedDosen.length === 0">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm table-fixed">
+            <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
               <tr>
-                <td colspan="10" class="h-28 text-center text-xs text-[#71717a]">
-                  Tidak ada data dosen pembimbing yang cocok dengan kriteria pencarian.
-                </td>
+                <th class="h-11 px-4 font-semibold text-xs w-14 text-center text-[#71717a]">No.</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-[24%]">Nama Mahasiswa</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-[26%]">Kontributor</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Progress</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-36">Detail</th>
               </tr>
-            </template>
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="divide-y divide-[#e4e4e7]">
+              <template x-for="(mhs, idx) in paginatedStudents" :key="mhs.id">
+                <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                  <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a]" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
+                  <td class="h-[68px] px-4 text-sm">
+                    <div class="flex items-center min-w-0 gap-3">
+                      <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                        <span x-text="mhs.nama.charAt(0)"></span>
+                      </div>
+                      <div class="flex flex-col leading-tight gap-0.5 min-w-0">
+                        <span class="font-semibold text-[#09090b] text-sm truncate" x-text="mhs.nama"></span>
+                        <span class="text-xs text-[#71717a] truncate" x-text="mhs.nim"></span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Mitra -->
+                  <td class="h-[68px] px-4 text-sm text-center">
+                    <span class="block font-medium text-[#09090b] text-sm truncate" x-text="mhs.mitra"></span>
+                  </td>
+
+                  <!-- Progress Bar + Keterangan Mingguan (angka/max) -->
+                  <td class="h-[68px] px-4">
+                    <div class="flex items-center gap-3 w-[82%] mx-auto">
+                      <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden border border-[#e4e4e7]/60">
+                        <div
+                          class="h-full transition-all duration-300 rounded-full"
+                          :class="progressBarColor(mhs)"
+                          :style="`width: ${progressPercent(mhs)}%`"
+                        ></div>
+                      </div>
+                      <span
+                        class="text-xs font-semibold tabular-nums shrink-0 min-w-[44px] text-right"
+                        :class="mhs.mingguAktif === mhs.totalMinggu ? 'text-emerald-700' : mhs.mingguAktif > 0 ? 'text-[#0655a7]' : 'text-[#71717a]'"
+                        x-text="`${mhs.mingguAktif}/${mhs.totalMinggu}`"
+                      ></span>
+                    </div>
+                  </td>
+
+                  <!-- Detail -->
+                  <td class="h-[68px] px-4 text-center">
+                    <button
+                      type="button"
+                      @click="openDetail(mhs)"
+                      :disabled="mhs.mingguAktif === 0"
+                      :class="mhs.mingguAktif === 0 ? 'opacity-50 cursor-not-allowed border-[#e4e4e7] bg-[#f4f4f5] text-[#71717a]' : 'border-[#0655a7] bg-[#0655a7] hover:bg-[#114d91] text-white cursor-pointer'"
+                      class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border text-xs font-medium transition-colors whitespace-nowrap"
+                    >
+                      <span>Lihat Semua</span>
+                    </button>
+                  </td>
+                </tr>
+              </template>
+              <template x-if="paginatedStudents.length === 0">
+                <tr>
+                  <td colspan="5" class="h-28 text-center text-xs text-[#71717a]">
+                    Tidak ada data logbook mahasiswa yang cocok dengan kriteria pencarian.
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- Standardized Pagination Sesuai Screenshot 1 & Design System -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-1">
-        <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredDosen.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredDosen.length) + ' dari ' + filteredDosen.length + ' data'"></div>
+      <!-- Standardized Pagination -->
+      <div class="flex flex-col items-center justify-between gap-2 pt-1 sm:flex-row">
+        <div class="text-xs text-[#71717a]" x-text="'Menampilkan ' + (filteredStudents.length === 0 ? 0 : ((currentPage - 1) * pageSize + 1)) + ' - ' + Math.min(currentPage * pageSize, filteredStudents.length) + ' dari ' + filteredStudents.length + ' data'"></div>
         <div class="flex items-center gap-1.5">
           <button
             type="button"
@@ -151,7 +209,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
               type="button"
               @click="currentPage = p"
               :class="currentPage === p ? 'bg-[#0655a7] text-white font-semibold shadow-none' : 'border border-[#e4e4e7] bg-white text-[#09090b] font-medium hover:bg-[#f4f4f5]'"
-              class="h-8 w-8 flex items-center justify-center rounded-md text-xs transition-colors"
+              class="flex items-center justify-center w-8 h-8 text-xs transition-colors rounded-md"
               x-text="p"
             ></button>
           </template>
@@ -181,89 +239,158 @@ import AdminShell from '../../layouts/AdminShell.astro';
       </div>
     </div>
 
-    <!-- View 2: Detail Mahasiswa Bimbingan per Dospem Style KP -->
+    <!-- View 2: Detail Logbook Mingguan (Accordion per Minggu) -->
     <div x-show="viewMode === 'detail'" class="flex flex-col gap-4" x-cloak>
-      <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
-        <div class="flex items-center gap-3">
-          <button
-            type="button"
-            @click="backToMaster()"
-            class="h-8 w-8 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center"
-            title="Kembali ke Rekap Dosen"
-          >
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          </button>
-          <div>
-            <h2 class="text-base font-semibold text-[#09090b]" x-text="`Daftar Logbook Mahasiswa Binaan: ${selectedDosen?.nama || ''}`"></h2>
-            <p class="text-xs text-[#71717a]" x-text="`NPP: ${selectedDosen?.npp || '-'} • Total ${selectedDosen?.totalMhs || 0} Mahasiswa Binaan`"></p>
+      <!-- Header Navigasi & Profil Ringkas Mahasiswa -->
+      <div class="rounded-xl border border-[#e4e4e7] bg-white px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1.5 min-w-0">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <h2 class="text-base font-bold text-[#09090b]" x-text="selectedMhs?.nama || ''"></h2>
+            <span class="text-xs font-medium text-[#71717a]" x-text="selectedMhs?.nim || ''"></span>
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7]"
+              x-text="`Progres: Minggu ${selectedMhs?.mingguAktif || 0} / ${selectedMhs?.totalMinggu || 24}`"
+            ></span>
           </div>
+          <p class="text-xs text-[#71717a]" x-text="`${selectedMhs?.mitra || ''} • Dosen Pembimbing: ${selectedMhs?.dosenPembimbing || '-'}`"></p>
         </div>
+
         <button
           type="button"
           @click="backToMaster()"
-          class="px-3 py-1.5 rounded-md border border-[#e4e4e7] bg-white text-xs font-medium text-[#71717a] hover:bg-[#f4f4f5] flex items-center gap-1.5"
+          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors self-start md:self-auto shrink-0 cursor-pointer"
         >
-          <i data-lucide="x" class="w-3.5 h-3.5"></i>
-          <span>Tutup Detail</span>
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-[#71717a]"></i>
+          <span>Kembali</span>
         </button>
       </div>
 
-      <!-- Tabel Detail 8 Kolom Style KP -->
-      <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-        <table class="w-full text-sm">
-          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-            <tr>
-              <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
-              <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">NIM</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab Terakhir</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Total Bimbingan</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Progress</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
-              <th class="h-11 px-4 font-semibold text-xs w-24 text-center text-[#71717a]">Aksi</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-[#e4e4e7]">
-            <template x-for="(m, idx) in studentDetails" :key="m.nim">
-              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-                <td class="h-[68px] px-2 text-center text-xs font-medium text-[#71717a] w-12" x-text="idx + 1"></td>
-                <td class="h-[68px] px-4 text-sm">
-                  <div class="flex items-center gap-3">
-                    <div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
-                      <span x-text="m.nama.charAt(0)"></span>
+      <!-- Daftar Kartu Accordion Mingguan (Style Referensi Gambar) -->
+      <div class="space-y-4">
+        <template x-for="week in (selectedMhs?.weeks || [])" :key="week.minggu">
+          <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs hover:border-[#cbd5e1] transition-colors">
+            <!-- Header Kartu Accordion -->
+            <div
+              class="flex items-start justify-between cursor-pointer select-none group"
+              @click="toggleWeek(week.minggu)"
+            >
+              <div class="space-y-1">
+                <div class="flex items-center gap-2.5">
+                  <h3 class="text-[15px] font-bold text-[#09090b] group-hover:text-[#0655a7] transition-colors" x-text="`Minggu ${week.minggu}`"></h3>
+                  <span
+                    class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border"
+                    :class="statusBadgeClass(week.status)"
+                    x-text="week.status"
+                  ></span>
+                </div>
+                <p class="text-[12px] text-[#71717a]" x-text="`Terakhir: ${week.terakhir}`"></p>
+                <p class="text-[12px] text-[#71717a]" x-text="`${week.entries.length}x catatan kegiatan`"></p>
+              </div>
+
+              <button
+                type="button"
+                class="p-1 text-[#71717a] hover:text-[#09090b] rounded transition-transform duration-200"
+                :class="openWeeks[week.minggu] ? 'rotate-180' : ''"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+            </div>
+
+            <!-- Isi Entri Mingguan -->
+            <div x-show="openWeeks[week.minggu]" class="mt-4 pt-4 border-t border-[#f4f4f5] space-y-4">
+              <template x-for="(entry, eIdx) in week.entries" :key="entry.id">
+                <div :class="eIdx > 0 ? 'pt-4 border-t border-[#f4f4f5]' : ''" class="space-y-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-1.5 text-xs text-[#71717a]">
+                      <svg class="w-3.5 h-3.5 text-[#71717a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                      <span class="font-medium text-[#52525b]" x-text="entry.tanggal"></span>
                     </div>
-                    <span class="font-semibold text-[#09090b] text-sm" x-text="m.nama"></span>
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border"
+                      :class="statusBadgeClass(entry.status)"
+                      x-text="entry.status"
+                    ></span>
                   </div>
-                </td>
-                <td class="h-[68px] px-4 text-center text-xs text-[#71717a]" x-text="m.nim"></td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-[#0655a7]" x-text="m.babTerakhir"></span>
-                </td>
-                <td class="h-[68px] px-4 text-center font-medium text-sm text-[#09090b]" x-text="`${m.totalBimbingan} kali`"></td>
-                <td class="h-[68px] px-4 text-sm">
-                  <div class="flex items-center gap-2">
-                    <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden">
-                      <div class="h-full bg-[#0655a7] rounded-full" :style="`width: ${m.progress}%`"></div>
+
+                  <p class="text-[13px] text-[#27272a] leading-relaxed" x-text="entry.deskripsi"></p>
+
+                  <template x-if="entry.catatanDospem">
+                    <div class="rounded-lg bg-[#fafafa] border border-[#e4e4e7] px-3 py-2 text-xs text-[#52525b]">
+                      <span class="font-semibold text-[#09090b]">Catatan Dosen Pembimbing: </span>
+                      <span x-text="entry.catatanDospem"></span>
                     </div>
-                    <span class="text-xs font-medium text-[#71717a]" x-text="`${m.progress}%`"></span>
+                  </template>
+
+                  <div class="pt-0.5">
+                    <button
+                      type="button"
+                      @click="openDoc(week, entry)"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer"
+                    >
+                      <svg class="w-3.5 h-3.5 text-[#71717a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                      <span>Lihat Dokumen</span>
+                    </button>
                   </div>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800" x-text="m.status"></span>
-                </td>
-                <td class="h-[68px] px-4 text-center text-sm">
-                  <button
-                    type="button"
-                    @click="alert(`Menampilkan rincian entri logbook mahasiswa ${m.nama}`)"
-                    class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#0655a7] transition-colors"
-                  >
-                    Rincian
-                  </button>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+
+        <template x-if="(selectedMhs?.weeks || []).length === 0">
+          <div class="rounded-xl border border-[#e4e4e7] bg-white p-10 text-center text-xs text-[#71717a]">
+            Belum ada entri logbook kegiatan.
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- Modal Pratinjau Dokumen Logbook -->
+    <div
+      x-show="isDocModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    >
+      <div
+        @click.outside="isDocModalOpen = false"
+        class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 class="text-base font-bold text-[#09090b]" x-text="`Dokumen Logbook — ${docPreview.minggu}`"></h3>
+            <p class="text-xs text-[#71717a] mt-0.5" x-text="docPreview.tanggal"></p>
+          </div>
+          <button
+            type="button"
+            @click="isDocModalOpen = false"
+            class="h-7 w-7 rounded-md hover:bg-[#f4f4f5] text-[#71717a] flex items-center justify-center cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+
+        <div class="rounded-lg bg-[#fafafa] border border-[#e4e4e7] p-3.5 space-y-2">
+          <p class="text-xs font-semibold text-[#09090b]">Ringkasan Kegiatan</p>
+          <p class="text-xs text-[#52525b] leading-relaxed" x-text="docPreview.deskripsi"></p>
+        </div>
+
+        <div class="flex items-center justify-between rounded-lg border border-[#e4e4e7] px-3.5 py-2.5 bg-white">
+          <div class="flex items-center min-w-0 gap-2">
+            <svg class="w-4 h-4 text-[#0655a7] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+            <span class="text-xs font-medium text-[#09090b] truncate" x-text="docPreview.dokumenNama"></span>
+          </div>
+          <span class="text-[11px] font-medium text-[#0655a7] shrink-0 ml-2">Lampiran PDF</span>
+        </div>
+
+        <div class="flex justify-end pt-1">
+          <button
+            type="button"
+            @click="isDocModalOpen = false"
+            class="h-9 px-4 rounded-lg bg-[#0655a7] hover:bg-[#0655a7]/90 text-white text-xs font-semibold transition-colors cursor-pointer"
+          >
+            Tutup
+          </button>
+        </div>
       </div>
     </div>
   </section>

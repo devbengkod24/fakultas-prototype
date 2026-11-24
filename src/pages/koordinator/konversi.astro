@@ -83,6 +83,21 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
         }
       ],
 
+      // Riwayat mengulang per mahasiswa: 'NIM|kode matkul' -> dosen pengampu saat pengambilan sebelumnya.
+      // Matkul yang tidak terdaftar di sini = belum pernah diambil.
+      riwayatMengulang: {
+        'A11.2022.13901|A11.54403': 'Dr. Heru Agus Santoso, M.Kom.',
+        'A11.2022.13901|A11.54608': 'Ahmad Zainul Fanani, M.Kom.',
+        'A11.2022.14012|A11.54609': 'Dr. Ricardus Anggi Pramunendar, M.CS.',
+        'A11.2022.14012|A11.54403': 'Dr. Heru Agus Santoso, M.Kom.',
+        'A11.2020.13158|A11.54608': 'Ahmad Zainul Fanani, M.Kom.',
+        'A11.2020.13158|A11.54502': 'Yani Parti Astuti, M.Kom.',
+        'A12.2022.09842|A11.54403': 'Dr. Heru Agus Santoso, M.Kom.',
+        'A11.2021.13450|A11.54609': 'Dr. Ricardus Anggi Pramunendar, M.CS.',
+        'A11.2021.13450|A11.54901': 'Dr. Pulung Nurtantio Andono, M.Kom.',
+        'A12.2022.09911|A11.54502': 'Yani Parti Astuti, M.Kom.'
+      },
+
       get filteredList() {
         return this.konversiList.filter(item => {
           const matchStatus = this.statusFilter === 'semua' || item.status === this.statusFilter;
@@ -114,7 +129,10 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
 
       openVerifikasi(item) {
         this.verifTarget = item;
-        this.verifRows = (item.matkul || []).map(m => ({ ...m, checked: item.status === 'Disetujui' }));
+        this.verifRows = (item.matkul || []).map(m => {
+          const dosen = this.riwayatMengulang[`${item.nim}|${m.kode}`] || null;
+          return { ...m, mengulang: !!dosen, dosenSebelumnya: dosen, checked: item.status === 'Disetujui' };
+        });
         this.verifCatatan = item.catatan || '';
         this.isVerifOpen = true;
         this.reinitLucide();
@@ -156,13 +174,10 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
         this.showToast(`Revisi dikirim ke ${nama}. Mahasiswa harus mengajukan ulang konversi.`);
       },
 
-      showToast(message) {
-        this.toast = { show: true, message };
-        this.reinitLucide();
-        window.clearTimeout(this._toastTimer);
-        this._toastTimer = window.setTimeout(() => {
-          this.toast = { show: false, message: '' };
-        }, 3500);
+      showToast(message, type = 'success') {
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(message, type);
+        }
       },
 
       reinitLucide() {
@@ -345,17 +360,6 @@ import ModalVerifikasiKonversi from '../../components/admin/modals/ModalVerifika
 
     <!-- Modal Verifikasi Konversi -->
     <ModalVerifikasiKonversi />
-
-    <!-- Toast -->
-    <div
-      x-show="toast.show"
-      x-cloak
-      x-transition.opacity.duration.200ms
-      class="fixed bottom-6 right-6 z-[60] flex items-start gap-2.5 rounded-lg border border-green-400/60 bg-green-50 px-4 py-3 shadow-lg max-w-sm"
-    >
-      <i data-lucide="check-circle-2" class="h-4 w-4 text-green-600 mt-0.5 shrink-0"></i>
-      <p class="text-xs font-medium text-green-700 leading-relaxed" x-text="toast.message"></p>
-    </div>
   </section>
 </AdminShell>
 

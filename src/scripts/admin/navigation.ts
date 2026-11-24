@@ -132,6 +132,7 @@ function switchTab(tabKey) {
     if (document.getElementById('section-kontributor')) targetId = 'section-kontributor';
     else if (document.getElementById('section-kontributor-cms')) targetId = 'section-kontributor-cms';
     else if (document.getElementById('section-kelola-program')) targetId = 'section-kelola-program';
+    else if (document.getElementById('section-kontributor-form')) targetId = 'section-kontributor-form';
   }
 
   const targetSec = document.getElementById(targetId);
@@ -224,7 +225,7 @@ function switchTab(tabKey) {
   if (meta) {
     updateBreadcrumb(meta.label);
 
-    const isCmsStandalone = !!document.getElementById('section-kontributor-cms') || !!document.getElementById('section-kelola-program');
+    const isCmsStandalone = !!document.getElementById('section-kontributor-cms') || !!document.getElementById('section-kelola-program') || !!document.getElementById('section-kontributor-form');
     if (!isCmsStandalone) {
       const hTitle = document.getElementById('header-page-title');
       if (hTitle) hTitle.textContent = meta.title || meta.label;

@@ -1,0 +1,66 @@
+---
+// src/components/mbkm/logbook-kegiatan/ModalDokumenKegiatan.astro
+// Modal "Lihat Dokumen" (selaras Logbook Bimbingan, tanpa status verifikasi dosen). Memakai `docItem` dan `fmt()` dari KegiatanRoot.
+---
+
+<div
+  x-show="docItem"
+  x-cloak
+  x-transition.opacity
+  class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4"
+>
+  <div
+    class="bg-white rounded-xl max-w-md w-full shadow-2xl border border-[#e4e4e7]"
+    @click.outside="docItem = null"
+    role="dialog"
+    aria-modal="true"
+  >
+    <template x-if="docItem">
+      <div>
+        <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#1063B9] flex items-center justify-center shrink-0">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <div class="min-w-0">
+              <h3 class="text-[15px] font-semibold text-[#09090b] truncate" x-text="docItem.judul"></h3>
+              <p class="text-xs text-[#71717a]" x-text="fmt(docItem.tanggal)"></p>
+            </div>
+          </div>
+          <button type="button" @click="docItem = null" class="text-[#71717a] hover:text-[#09090b] p-1" aria-label="Tutup">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="p-5 space-y-4">
+          <div>
+            <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Tautan Dokumen</div>
+            <div class="flex items-center gap-2 p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg">
+              <i data-lucide="link-2" class="w-4 h-4 text-[#71717a] shrink-0"></i>
+              <span class="text-xs font-medium text-[#09090b] truncate" x-text="docItem.dokumenUrl"></span>
+            </div>
+          </div>
+          <div>
+            <div class="text-[11px] font-semibold text-[#71717a] uppercase mb-1">Rincian Aktivitas</div>
+            <p class="text-xs text-[#52525b] leading-relaxed p-3 bg-gray-50 border border-[#e4e4e7] rounded-lg" x-text="docItem.deskripsi"></p>
+          </div>
+        </div>
+
+        <div class="p-4 bg-gray-50 border-t border-[#e4e4e7] flex items-center justify-end gap-2 rounded-b-xl">
+          <button type="button" @click="docItem = null" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-white transition-colors cursor-pointer">
+            Tutup
+          </button>
+          <a
+            :href="docItem.dokumenUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors"
+          >
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Buka di Google Drive</span>
+          </a>
+        </div>
+      </div>
+    </template>
+  </div>
+</div>
