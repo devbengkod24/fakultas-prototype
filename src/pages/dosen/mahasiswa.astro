@@ -1,40 +1,10 @@
 ---
 // src/pages/dosen/mahasiswa.astro
 import DosenShell from '../../layouts/DosenShell.astro';
+import MahasiswaDetailDrawer from '../../components/dosen/MahasiswaDetailDrawer.astro';
+import { students, type Student, type LogbookEntry } from '../../data/dosenMahasiswaData';
 
-// Data mahasiswa bimbingan persis sesuai tampilan screenshot
-const students = [
-  {
-    id: 1,
-    nama: "WANDA PUTRI LESTARI",
-    nim: "A11.2023.15257",
-    email: "111202315257@mhs.dinus.ac.id",
-    telepon: "082328498200",
-    terakhirBimbingan: "Belum ada",
-    statusMbkm: "Konversi",
-    statusVariant: "konversi"
-  },
-  {
-    id: 2,
-    nama: "EVAN WILLIAM SETYAWAN",
-    nim: "A11.2023.15006",
-    email: "111202315006@mhs.dinus.ac.id",
-    telepon: "081231083446",
-    terakhirBimbingan: "Belum ada",
-    statusMbkm: "Reguler",
-    statusVariant: "reguler"
-  },
-  {
-    id: 3,
-    nama: "SELFI CHOIRIYAH",
-    nim: "A11.2023.15154",
-    email: "111202315154@mhs.dinus.ac.id",
-    telepon: "088803904628",
-    terakhirBimbingan: "Belum ada",
-    statusMbkm: "Reguler",
-    statusVariant: "reguler"
-  }
-];
+export type { Student, LogbookEntry };
 
 const studentsJson = JSON.stringify(students);
 ---
@@ -43,8 +13,78 @@ const studentsJson = JSON.stringify(students);
   <div
     class="w-full flex flex-col"
     x-data={`{
-      search: '',
+      search: "",
       allStudents: ${studentsJson},
+      selectedStudent: null,
+      drawerOpen: false,
+      selectedWeek: 1,
+      selectedWeek: 1,
+      init() {
+        this.$nextTick(() => {
+          if (window.lucide) window.lucide.createIcons();
+        });
+      },
+      openDetail(student) {
+        this.selectedStudent = student;
+        this.drawerOpen = true;
+        const pending = (student.logbookEntries || []).find(e => e.status === "Perlu Review");
+        this.selectedWeek = pending ? pending.minggu : 1;
+        this.$nextTick(() => {
+          if (window.lucide) window.lucide.createIcons();
+          setTimeout(() => { if (window.lucide) window.lucide.createIcons(); }, 50);
+        });
+      },
+      closeDetail() {
+        this.drawerOpen = false;
+        this.selectedStudent = null;
+      },
+      selectWeek(w) {
+        this.selectedWeek = w;
+        this.$nextTick(() => {
+          if (window.lucide) window.lucide.createIcons();
+          setTimeout(() => { if (window.lucide) window.lucide.createIcons(); }, 50);
+        });
+      },
+      prevWeek() {
+        if (this.selectedWeek > 1) {
+          this.selectWeek(this.selectedWeek - 1);
+        }
+      },
+      nextWeek() {
+        if (this.selectedWeek < 24) {
+          this.selectWeek(this.selectedWeek + 1);
+        }
+      },
+      nextPendingWeek() {
+        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return;
+        const nextPending = this.selectedStudent.logbookEntries.find(e => e.status === "Perlu Review" && e.minggu > this.selectedWeek)
+          || this.selectedStudent.logbookEntries.find(e => e.status === "Perlu Review");
+        if (nextPending) {
+          this.selectWeek(nextPending.minggu);
+        }
+      },
+      get currentEntry() {
+        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return null;
+        return this.selectedStudent.logbookEntries.find(e => e.minggu === this.selectedWeek) || null;
+      },
+      get pendingCount() {
+        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return 0;
+        return this.selectedStudent.logbookEntries.filter(e => e.status === "Perlu Review").length;
+      },
+      get approvedCount() {
+        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return 0;
+        return this.selectedStudent.logbookEntries.filter(e => e.status === "Disetujui").length;
+      },
+      get unsubmittedCount() {
+        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return 0;
+        return this.selectedStudent.logbookEntries.filter(e => e.status === "Belum Diisi").length;
+      },
+      getInitials(nama) {
+        const parts = (nama || "").trim().split(/\s+/).filter(Boolean);
+        if (parts.length === 0) return "?";
+        if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      },
       get filteredStudents() {
         if (!this.search.trim()) return this.allStudents;
         const q = this.search.toLowerCase();
@@ -56,6 +96,7 @@ const studentsJson = JSON.stringify(students);
       }
     }`}
   >
+
     <!-- 1. Search Bar (Persis seperti di screenshot) -->
     <div class="relative w-full mb-4">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -69,7 +110,7 @@ const studentsJson = JSON.stringify(students);
       />
     </div>
 
-    <!-- 2. Tabel Mahasiswa Bimbingan (Langsung tanpa tabbar redundan) -->
+    <!-- 2. Tabel Mahasiswa Bimbingan (Mengadopsi hierarki koordinator & TA) -->
     <div class="rounded-lg border border-[#e4e4e7] bg-white overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-sm text-left border-collapse">
@@ -79,61 +120,72 @@ const studentsJson = JSON.stringify(students);
               <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Nama</th>
               <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Kontak</th>
               <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Terakhir Bimbingan</th>
-              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Status MBKM</th>
+              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Logbook Kegiatan</th>
+              <th class="h-11 px-4 text-left text-xs font-semibold text-[#71717a]">Skema MBKM</th>
+              <th class="h-11 px-4 text-center text-xs font-semibold text-[#71717a]">Aksi</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
             <template x-for="(row, idx) in filteredStudents" :key="row.nim">
               <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
                 <!-- No -->
-                <td class="w-12 px-4 py-3 text-center text-xs text-[#71717a]" x-text="idx + 1"></td>
+                <td class="h-[68px] w-12 px-4 text-center text-xs font-medium text-[#71717a]" x-text="idx + 1"></td>
 
-                <!-- Nama (Stacked: Avatar + Nama di atas, NIM di bawah) -->
-                <td class="px-4 py-3">
+                <!-- Nama (Stacked: Avatar + Nama font-semibold text-sm, NIM text-xs) -->
+                <td class="h-[68px] px-4">
                   <div class="flex items-center gap-3">
-                    <div class="h-9 w-9 rounded-full bg-[#0655a7] text-white flex items-center justify-center font-semibold text-xs shrink-0 overflow-hidden">
-                      <img
-                        src="/assets/landingpage/img/dosen/default.png"
-                        alt="Avatar"
-                        class="w-full h-full object-cover"
-                        onerror="this.style.display='none'"
-                      />
-                      <i data-lucide="user" class="w-4 h-4"></i>
-                    </div>
-                    <div class="min-w-0">
-                      <div class="font-medium text-sm text-[#09090b] truncate" x-text="row.nama"></div>
-                      <div class="text-xs text-[#71717a]" x-text="row.nim"></div>
+                    <div
+                      class="h-9 w-9 rounded-full bg-[#f4f4f5] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center font-semibold text-xs shrink-0 tracking-wide"
+                      x-text="getInitials(row.nama)"
+                    ></div>
+                    <div class="flex flex-col min-w-0">
+                      <span class="font-semibold text-sm text-[#09090b] truncate" x-text="row.nama"></span>
+                      <span class="text-xs text-[#71717a] mt-0.5" x-text="row.nim"></span>
                     </div>
                   </div>
                 </td>
 
                 <!-- Kontak (Stacked: Email di atas, No HP di bawah) -->
-                <td class="px-4 py-3">
-                  <div class="flex flex-col gap-1 text-sm">
-                    <div class="flex items-center gap-1.5">
-                      <i data-lucide="mail" class="h-3.5 w-3.5 text-[#71717a] shrink-0"></i>
-                      <span class="text-xs text-[#09090b] truncate" x-text="row.email"></span>
+                <td class="h-[68px] px-4">
+                  <div class="flex flex-col gap-1 text-xs">
+                    <div class="flex items-center gap-1.5 text-[#09090b]">
+                      <i data-lucide="mail" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                      <span class="truncate" x-text="row.email"></span>
                     </div>
-                    <div class="flex items-center gap-1.5">
-                      <i data-lucide="phone" class="h-3.5 w-3.5 text-[#71717a] shrink-0"></i>
-                      <span class="text-xs text-[#71717a]" x-text="row.telepon"></span>
+                    <div class="flex items-center gap-1.5 text-[#71717a]">
+                      <i data-lucide="phone" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                      <span x-text="row.telepon"></span>
                     </div>
                   </div>
                 </td>
 
-                <!-- Terakhir Bimbingan -->
-                <td class="px-4 py-3">
-                  <span class="text-xs text-[#71717a]" x-text="row.terakhirBimbingan"></span>
+                <!-- Terakhir Bimbingan (text-sm terbaca jelas) -->
+                <td class="h-[68px] px-4 whitespace-nowrap">
+                  <span class="text-sm text-[#09090b]" x-text="row.terakhirBimbingan"></span>
                 </td>
 
-                <!-- Status MBKM -->
-                <td class="px-4 py-3">
-                  <template x-if="row.statusVariant === 'konversi'">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200" x-text="row.statusMbkm"></span>
-                  </template>
-                  <template x-if="row.statusVariant === 'reguler'">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200" x-text="row.statusMbkm"></span>
-                  </template>
+                <!-- Logbook Kegiatan (Opsi 1: Reguler bersih selaras kolom tanggal) -->
+                <td class="h-[68px] px-4 whitespace-nowrap">
+                  <span class="text-sm text-[#09090b]" x-text="`${row.logbookProgress} Minggu`"></span>
+                </td>
+
+                <!-- Skema MBKM (Opsi 1: Soft Blue seragam khas branding MBKM) -->
+                <td class="h-[68px] px-4 whitespace-nowrap">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-50 text-[#0655a7] border border-blue-200"
+                    x-text="row.skema"
+                  ></span>
+                </td>
+
+                <!-- Aksi: Outline button standar shadcn mengarah ke halaman detail penuh -->
+                <td class="h-[68px] px-4 text-center">
+                  <a
+                    :href="`/dosen/mahasiswa/${row.id}`"
+                    class="inline-flex items-center gap-1.5 h-8 px-3 border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] rounded-md text-xs font-medium transition-colors"
+                  >
+                    <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                    <span>Detail</span>
+                  </a>
                 </td>
               </tr>
             </template>
@@ -192,5 +244,8 @@ const studentsJson = JSON.stringify(students);
         </div>
       </div>
     </div>
+
+    <!-- 5. Slide-Over Drawer Detail Mahasiswa -->
+    <MahasiswaDetailDrawer />
   </div>
 </DosenShell>

@@ -78,21 +78,60 @@ const { data } = Astro.props;
     </div>
   </div>
 
-  <!-- Card 2: Informasi Penyelia Mitra -->
-  <div class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5">
-    <div class="flex items-center gap-3 pb-3 border-b border-[#e4e4e7]">
-      <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
-        <i data-lucide="user-check" class="w-4 h-4"></i>
-      </div>
-      <div>
-        <h2 class="text-base font-semibold text-[#09090b]">Informasi Penyelia Lapangan</h2>
-        <p class="text-xs text-[#71717a] leading-relaxed">Mentor pembimbing dari pihak institusi mitra kerja</p>
+  <!-- Card 2: Informasi & Evaluasi Nilai Penyelia Lapangan (Mitra) -->
+  <div
+    class="bg-white border border-[#e4e4e7] rounded-xl p-6 space-y-5"
+    x-data={`{
+      nilaiMitra: '${data.penyelia.nilaiEvaluasi || ''}',
+      namaDokumenMitra: 'Lembar_Penilaian_Evaluasi_Penyelia.pdf',
+      adaDokumen: true,
+      tersimpan: false,
+      simpanNilaiMitra() {
+        this.tersimpan = true;
+        setTimeout(() => this.tersimpan = false, 3000);
+      },
+      hapusDokumen() {
+        this.namaDokumenMitra = '';
+        this.adaDokumen = false;
+      },
+      handleUploadMitra(e) {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+          this.namaDokumenMitra = file.name;
+          this.adaDokumen = true;
+        }
+      }
+    }`}
+  >
+    <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center shrink-0">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-semibold text-[#09090b]">Informasi &amp; Nilai Penyelia Lapangan</h2>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-[#71717a] border border-[#e4e4e7]">
+              Opsional
+            </span>
+          </div>
+          <p class="text-xs text-[#71717a] leading-relaxed">Mentor pembimbing dari pihak institusi mitra kerja</p>
+        </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <!-- Alert / Banner Informatif: Nilai Mitra Opsional -->
+    <div class="rounded-lg bg-blue-50/60 border border-blue-200 p-3.5 flex items-start gap-3">
+      <i data-lucide="info" class="w-4 h-4 text-[#0655a7] mt-0.5 shrink-0"></i>
+      <div class="text-xs text-[#09090b] leading-relaxed">
+        <span class="font-semibold text-[#0655a7]">Catatan Nilai Mitra:</span> Input nilai mitra dan unggah dokumen evaluasi bersifat <strong class="font-semibold text-[#09090b]">opsional (bukan isian wajib)</strong>. Mahasiswa dapat mengosongkannya apabila nilai mitra baru diterbitkan di akhir program atau diserahkan langsung oleh mitra kepada Koordinator tanpa dokumen fisik/digital.
+      </div>
+    </div>
+
+    <!-- Grid Data Penyelia & Input Nilai Mitra -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Nama Penyelia</label>
+        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Nama Penyelia Lapangan</label>
         <input
           type="text"
           readonly
@@ -101,7 +140,7 @@ const { data } = Astro.props;
         />
       </div>
       <div>
-        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Jabatan / Posisi</label>
+        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Jabatan / Posisi di Mitra</label>
         <input
           type="text"
           readonly
@@ -109,17 +148,79 @@ const { data } = Astro.props;
           class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] focus:outline-none"
         />
       </div>
+    </div>
+
+    <!-- Section Input Nilai & Dokumen Mitra -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+      <!-- Input Nilai Angka Mitra (Opsional) -->
       <div>
-        <label class="block text-xs font-semibold text-[#09090b] mb-1.5">Nilai Evaluasi Mitra</label>
-        <div class="flex items-center gap-2">
-          <input
-            type="text"
-            readonly
-            value={`${data.penyelia.nilaiEvaluasi} / 100`}
-            class="w-full px-3.5 py-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md text-xs font-bold text-emerald-700 focus:outline-none"
-          />
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="block text-xs font-semibold text-[#09090b]">
+            Nilai Evaluasi Mitra (0 – 100)
+          </label>
+          <span class="text-[11px] text-[#71717a]">Opsional / Tidak wajib</span>
         </div>
+        <input
+          type="number"
+          min="0"
+          max="100"
+          x-model="nilaiMitra"
+          placeholder="Contoh: 90 (kosongkan jika belum ada)"
+          class="w-full px-3.5 py-2 bg-white border border-[#e4e4e7] rounded-md text-xs font-medium text-[#09090b] placeholder-[#71717a] focus:outline-none focus:border-[#0655a7]"
+        />
+        <p class="text-[11px] text-[#71717a] mt-1">Dapat dikosongkan jika nilai diberikan di akhir atau langsung ke Koordinator.</p>
       </div>
+
+      <!-- Upload / Dokumen Nilai Mitra (Opsional) -->
+      <div>
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="block text-xs font-semibold text-[#09090b]">
+            Dokumen Lembar Nilai Mitra
+          </label>
+          <span class="text-[11px] text-[#71717a]">Opsional (PDF/DOCX)</span>
+        </div>
+
+        <template x-if="adaDokumen && namaDokumenMitra">
+          <div class="flex items-center justify-between p-2 bg-[#fafafa] border border-[#e4e4e7] rounded-md">
+            <div class="flex items-center gap-2 truncate pr-2">
+              <i data-lucide="file-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+              <span class="text-xs font-medium text-[#09090b] truncate" x-text="namaDokumenMitra"></span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <label class="cursor-pointer text-xs font-semibold text-[#0655a7] hover:underline">
+                Ganti
+                <input type="file" accept=".pdf,.doc,.docx" @change="handleUploadMitra" class="hidden" />
+              </label>
+              <button type="button" @click="hapusDokumen()" class="text-xs font-semibold text-rose-600 hover:underline cursor-pointer">
+                Hapus
+              </button>
+            </div>
+          </div>
+        </template>
+
+        <template x-if="!adaDokumen || !namaDokumenMitra">
+          <label class="flex items-center justify-center gap-2 px-3.5 py-2 bg-[#fafafa] border border-dashed border-[#e4e4e7] hover:border-[#0655a7] rounded-md cursor-pointer transition-colors">
+            <i data-lucide="upload" class="w-4 h-4 text-[#71717a]"></i>
+            <span class="text-xs font-medium text-[#71717a]">Pilih berkas dokumen nilai mitra (opsional)</span>
+            <input type="file" accept=".pdf,.doc,.docx" @change="handleUploadMitra" class="hidden" />
+          </label>
+        </template>
+        <p class="text-[11px] text-[#71717a] mt-1">Kosongkan jika mitra tidak memberikan dokumen nilai tersendiri.</p>
+      </div>
+    </div>
+
+    <!-- Tombol Simpan Nilai Mitra -->
+    <div class="flex items-center justify-end gap-3 pt-1">
+      <span x-show="tersimpan" x-cloak class="text-xs text-emerald-700 font-medium flex items-center gap-1">
+        <i data-lucide="check" class="w-3.5 h-3.5"></i> Perubahan nilai mitra tersimpan
+      </span>
+      <button
+        type="button"
+        @click="simpanNilaiMitra()"
+        class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#05468b] text-white text-xs font-semibold transition-colors cursor-pointer"
+      >
+        Simpan Nilai Mitra
+      </button>
     </div>
   </div>
 
