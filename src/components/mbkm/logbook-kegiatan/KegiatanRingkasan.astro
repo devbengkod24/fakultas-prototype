@@ -1,0 +1,39 @@
+---
+// src/components/mbkm/logbook-kegiatan/KegiatanRingkasan.astro
+import { profilLaporan as p } from "../../../data/mahasiswa/logbookKegiatanData";
+---
+
+<div class="bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs">
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+    <div class="space-y-1 min-w-0">
+      <h2 class="text-[16px] font-semibold text-[#09090b] leading-tight">{p.nama}</h2>
+      <p class="text-[12px] text-[#71717a]">
+        {p.nim} <span class="text-[#d4d4d8] mx-1">•</span> Dosen Pembimbing: <span class="text-[#3f3f46]">{p.dospem}</span>
+      </p>
+      <div class="pt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-[#3f3f46]">
+        <span>Total Kegiatan: <strong class="font-semibold text-[#09090b]" x-text="entries.length"></strong></span>
+        <span>Kegiatan Terakhir: <strong class="font-semibold text-[#09090b]" x-text="kegiatanTerakhir"></strong></span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2.5 shrink-0">
+      <button
+        type="button"
+        @click="openTambah()"
+        class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg shadow-2xs transition-all active:scale-95 cursor-pointer"
+      >
+        <i data-lucide="plus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+        <span>Tambah Kegiatan</span>
+      </button>
+      <button
+        type="button"
+        @click="unduhPdf()"
+        :disabled="!entries.length"
+        class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] text-xs font-semibold rounded-lg shadow-2xs transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <i data-lucide="download" class="w-3.5 h-3.5 text-[#71717a]"></i>
+        <span>Unduh PDF</span>
+      </button>
+    </div>
+  </div>
+</div>

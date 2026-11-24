@@ -1,88 +1,323 @@
-    <!-- 4. Modal Detail Pelamar & Final Approval -->
-    <div id="modal-detail-pelamar" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
-      <div class="bg-white rounded-xl border border-[#e4e4e7] shadow-xl max-w-lg w-full p-6 space-y-4 text-sm">
-        <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
-          <h3 class="text-base font-semibold text-[#09090b]">Final Approval Pelamar Kontributor</h3>
-          <button type="button" onclick="closePelamarDetailModal()" class="text-[#71717a] hover:text-[#09090b] p-1.5 rounded-md transition-colors" title="Tutup Modal">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-        <div class="space-y-4">
-          <!-- Profil Mahasiswa -->
-          <div class="flex items-center justify-between p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa]">
-            <div class="flex items-center gap-3">
-              <div id="modal-pelamar-avatar" class="h-9 w-9 rounded-full bg-[#f4f4f5] border border-[#e4e4e7] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0">
-                MHS
-              </div>
-              <div>
-                <div id="modal-pelamar-nama" class="font-medium text-[#09090b] text-sm">-</div>
-                <div id="modal-pelamar-meta" class="text-xs text-[#71717a]">-</div>
-              </div>
-            </div>
-            <div id="modal-pelamar-status-badge">
-              <span class="inline-flex items-center rounded-md border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Menunggu</span>
-            </div>
-          </div>
+    <!-- ==================================================== -->
+    <!-- 4. RIGHT SIDE DRAWER: DETAIL & EVALUASI WAWANCARA    -->
+    <!-- 2 Navtab Internal: Semua Dokumen & Penilaian Wawancara-->
+    <!-- ==================================================== -->
+    <div id="modal-detail-pelamar" class="fixed inset-0 z-50 hidden overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+      <!-- Backdrop Gelap -->
+      <div
+        id="drawer-backdrop-pelamar"
+        onclick="closePelamarDetailModal()"
+        class="fixed inset-0 transition-opacity cursor-pointer bg-black/50 backdrop-blur-xs"
+      ></div>
 
-          <!-- Rincian Kontributor & Formasi -->
-          <div class="grid grid-cols-2 gap-3 p-3.5 rounded-lg border border-[#e4e4e7]">
+      <!-- Slide-over Drawer Container -->
+      <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="w-screen max-w-lg md:max-w-xl bg-white border-l border-[#e4e4e7] shadow-2xl flex flex-col h-full transform transition ease-in-out duration-300">
+
+          <!-- DRAWER HEADER: Judul & Close Button -->
+          <div class="p-4 sm:p-5 border-b border-[#e4e4e7] bg-white flex items-center justify-between shrink-0">
             <div>
-              <span class="text-xs text-[#71717a]">Kontributor Penempatan</span>
-              <div id="modal-pelamar-kontributor" class="font-medium text-[#09090b] text-sm mt-0.5">-</div>
+              <h3 id="slide-over-title" class="text-base font-semibold text-[#09090b]">Review Berkas Pelamar</h3>
+              <p class="text-xs text-[#71717a]">Verifikasi berkas persyaratan dan penjadwalan sesi wawancara</p>
             </div>
-            <div>
-              <span class="text-xs text-[#71717a]">Posisi / Formasi</span>
-              <div id="modal-pelamar-posisi" class="font-medium text-[#09090b] text-sm mt-0.5">-</div>
+            <button
+              type="button"
+              onclick="closePelamarDetailModal()"
+              class="text-[#71717a] hover:text-[#09090b] hover:bg-zinc-100 p-2 rounded-lg transition-colors cursor-pointer"
+              title="Tutup Panel"
+            >
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <!-- PROFIL RINGKAS PELAMAR -->
+          <div class="p-4 sm:p-5 pb-2 sm:pb-2 bg-[#fafafa]/50 shrink-0">
+            <div class="rounded-xl border border-[#e4e4e7] bg-white p-4 space-y-3.5 shadow-none">
+              <!-- Baris 1: Avatar, Identitas Mahasiswa, & Badge Kategori Kanan Atas -->
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center min-w-0 gap-3">
+                  <!-- Avatar -->
+                  <div id="modal-pelamar-avatar" class="h-11 w-11 rounded-full bg-[#f4f4f5] border border-[#e4e4e7] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                    MHS
+                  </div>
+
+                  <!-- Identitas Utama -->
+                  <div class="min-w-0">
+                    <h4 id="modal-pelamar-nama" class="font-semibold text-base text-[#09090b] leading-tight truncate">-</h4>
+                    <p id="modal-pelamar-meta" class="text-xs text-[#71717a] mt-1 truncate">-</p>
+                  </div>
+                </div>
+
+                <!-- Kanan Atas: Badge Fill Background Internal / Eksternal -->
+                <div class="shrink-0 pt-0.5">
+                  <span id="modal-pelamar-kategori-badge"></span>
+                </div>
+              </div>
+
+              <!-- Baris 2: Mitra • Skema Program -->
+              <div class="flex flex-wrap items-center gap-1.5 text-xs text-[#09090b]">
+                <span id="modal-pelamar-kontributor" class="font-medium truncate" title="">-</span>
+                <span id="modal-pelamar-skema-sep" class="text-[#71717a] hidden">•</span>
+                <span id="modal-pelamar-skema" class="text-[#71717a] truncate hidden" title="">-</span>
+              </div>
+
+              <!-- Baris 3: 4 Kolom Metrik Akademik & Prioritas (Pilihan dengan Label di Atas & Nilai di Bawah) -->
+              <div class="grid grid-cols-4 gap-3 pt-1">
+                <div class="flex flex-col">
+                  <span class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider">IPK</span>
+                  <span id="modal-pelamar-ipk" class="text-base font-bold text-[#09090b] mt-0.5 leading-snug">-</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider">SKS Lulus</span>
+                  <span id="modal-pelamar-sks" class="text-base font-bold text-[#09090b] mt-0.5 leading-snug">-</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider">Semester</span>
+                  <span id="modal-pelamar-semester" class="text-base font-bold text-[#09090b] mt-0.5 leading-snug">-</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-[11px] font-semibold text-[#71717a] uppercase tracking-wider">Pilihan</span>
+                  <span id="modal-pelamar-single-prioritas-badge" class="text-base font-bold text-[#09090b] mt-0.5 leading-snug">-</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Hasil Rekomendasi Kontributor -->
-          <div class="p-3.5 rounded-lg border border-[#e4e4e7] bg-[#fafafa] space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-medium text-[#09090b]">Hasil Seleksi Internal Kontributor:</span>
-              <span id="modal-pelamar-skor" class="font-semibold text-xs text-[#0655a7]">Skor: 92/100</span>
+          <!-- INTERNAL NAVTAB (Disembunyikan: Menggunakan Alur Kontinu Satu Halaman) -->
+          <div id="drawer-navtab-container" class="hidden px-5 border-b border-[#e4e4e7] bg-white shrink-0">
+            <div class="flex items-center gap-6">
+              <button
+                type="button"
+                id="drawer-tab-btn-dokumen"
+                onclick="switchDrawerDetailTab('dokumen')"
+                class="flex items-center gap-2 py-2 text-xs font-semibold border-b-2 border-[#0655a7] text-[#0655a7] transition-colors cursor-pointer"
+              >
+                <i data-lucide="file-text" class="w-4 h-4"></i>
+                <span>Dokumen</span>
+              </button>
+              <button
+                type="button"
+                id="drawer-tab-btn-jadwal"
+                onclick="switchDrawerDetailTab('jadwal')"
+                class="flex items-center gap-2 py-2 text-xs font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer"
+              >
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                <span>Atur Jadwal</span>
+              </button>
             </div>
-            <p id="modal-pelamar-catatan-kontributor" class="text-xs text-[#71717a] leading-relaxed italic">
-              "Mahasiswa menunjukkan portofolio memuaskan dan lolos live coding challenge."
-            </p>
           </div>
 
-          <!-- Catatan / Input Keputusan Koordinator -->
-          <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-xs">Catatan Koordinator MBKM (Opsional):</label>
-            <textarea
-              id="modal-pelamar-catatan-koor"
-              rows="2"
-              placeholder="Tambahkan catatan resmi persetujuan atau penolakan..."
-              class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-xs text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-            ></textarea>
-          </div>
-        </div>
+          <!-- DRAWER BODY CONTENT (Scrollable Area Linier) -->
+          <div class="flex-1 p-4 sm:p-5 pt-2 sm:pt-2 overflow-y-auto text-sm bg-[#fafafa]/50 space-y-4">
 
-        <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
-          <button
-            type="button"
-            onclick="closePelamarDetailModal()"
-            class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors"
-          >
-            Tutup
-          </button>
-          <button
-            type="button"
-            id="btn-modal-pelamar-tolak"
-            class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-md border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-semibold transition-colors"
-          >
-            <i data-lucide="x" class="w-4 h-4"></i>
-            <span>Tolak</span>
-          </button>
-          <button
-            type="button"
-            id="btn-modal-pelamar-setujui"
-            class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold shadow-none transition-colors"
-          >
-            <i data-lucide="check" class="w-4 h-4"></i>
-            <span>Setujui (Approval)</span>
-          </button>
+            <!-- SEKSI 1: BERKAS PERSYARATAN -->
+            <div id="drawer-panel-dokumen" class="space-y-2">
+              <!-- Header di Luar/Atas Card (Section Label Standar) -->
+              <div class="px-1">
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-[#71717a]">Berkas</h4>
+              </div>
+
+              <!-- Card Berkas Persyaratan -->
+              <div class="rounded-xl border border-[#e4e4e7] bg-white p-3 space-y-1 shadow-none">
+                <!-- Kontainer Dinamis Link Dokumen -->
+                <div id="drawer-dokumen-list" class="space-y-1">
+                  <!-- Di-render via populateDrawerDokumenList() -->
+                </div>
+
+                <!-- Pratinjau Transkrip Nilai SIADIN Trigger -->
+                <div class="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-zinc-50 transition-colors">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
+                      <i data-lucide="graduation-cap" class="w-4.5 h-4.5"></i>
+                    </div>
+                    <div class="min-w-0">
+                      <span class="text-sm font-medium text-[#09090b] block truncate">Transkrip Akademik SIADIN</span>
+                      <span class="text-xs text-[#71717a] block mt-0.5">Nilai & IPK kumulatif resmi</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    id="btn-drawer-lihat-transkrip"
+                    onclick="triggerTranskripFromDetailModal()"
+                    class="h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium inline-flex items-center gap-1.5 shrink-0 transition-colors shadow-2xs cursor-pointer"
+                  >
+                    <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                    <span>Buka</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SEKSI 2: FORM PENILAIAN & CATATAN WAWANCARA (Card Sendiri) -->
+            <div id="drawer-subpanel-wawancara-eval" class="hidden space-y-2">
+              <!-- Header di Luar/Atas Card (Space Between: Penilaian & Tombol Tambah Pertanyaan) -->
+              <div class="flex items-center justify-between px-1">
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-[#71717a]">Penilaian</h4>
+                <button
+                  type="button"
+                  id="btn-tambah-pertanyaan-skor"
+                  onclick="tambahPertanyaanSkor()"
+                  class="inline-flex items-center gap-1.5 text-xs font-medium text-[#0655a7] hover:text-[#114D91] hover:bg-blue-50/70 px-2.5 py-0.5 rounded-md transition-colors cursor-pointer"
+                  title="Tambah Pertanyaan"
+                >
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Tambah Pertanyaan</span>
+                </button>
+              </div>
+
+              <!-- Card Form Penilaian & Catatan -->
+              <div class="rounded-xl border border-[#e4e4e7] bg-white p-4 space-y-4 shadow-none">
+                <!-- Skor Pertanyaan Wawancara Dinamis (Default: 2, Min: 1, Max: 7) -->
+                <div class="space-y-3">
+                  <!-- Container List Pertanyaan Dinamis (Flat List Row Tanpa Card) -->
+                  <div id="container-pertanyaan-skor-list" class="space-y-1.5">
+                    <!-- Pertanyaan 1 -->
+                    <div class="flex items-center justify-between py-1.5 px-1 rounded-md hover:bg-zinc-50/60 transition-colors">
+                      <span class="text-xs font-medium text-[#09090b]">Pertanyaan 1</span>
+                      <div class="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value=""
+                          placeholder="0 - 100"
+                          class="h-8 w-20 rounded-md border border-[#e4e4e7] bg-white px-2.5 text-right text-xs font-semibold text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                          oninput="handleInputSkorPertanyaan(0, this.value)"
+                        />
+                        <button
+                          type="button"
+                          onclick="hapusPertanyaanSkor(0)"
+                          class="p-1.5 text-[#71717a] hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors cursor-pointer shrink-0"
+                          title="Hapus Pertanyaan 1"
+                        >
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Pertanyaan 2 -->
+                    <div class="flex items-center justify-between py-1.5 px-1 rounded-md hover:bg-zinc-50/60 transition-colors">
+                      <span class="text-xs font-medium text-[#09090b]">Pertanyaan 2</span>
+                      <div class="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          value=""
+                          placeholder="0 - 100"
+                          class="h-8 w-20 rounded-md border border-[#e4e4e7] bg-white px-2.5 text-right text-xs font-semibold text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                          oninput="handleInputSkorPertanyaan(1, this.value)"
+                        />
+                        <button
+                          type="button"
+                          onclick="hapusPertanyaanSkor(1)"
+                          class="p-1.5 text-[#71717a] hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors cursor-pointer shrink-0"
+                          title="Hapus Pertanyaan 2"
+                        >
+                          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Total Skor Terkalkulasi (Flat & Bold) -->
+                  <div class="flex items-center justify-between pt-1 px-1">
+                    <span class="text-xs font-bold text-[#09090b]">Total Skor</span>
+                    <span id="label-rata-rata-skor" class="text-base font-bold text-[#0655a7] leading-none">-</span>
+                  </div>
+
+                  <!-- Hidden Input Sinkronisasi untuk Handler Penyimpanan -->
+                  <input type="hidden" id="modal-pelamar-input-skor" value="" />
+                </div>
+
+                <!-- Catatan -->
+                <div class="pt-0.5">
+                  <label for="modal-pelamar-catatan-koor" class="block font-medium text-xs text-[#71717a] mb-1.5">
+                    Catatan
+                  </label>
+                  <textarea
+                    id="modal-pelamar-catatan-koor"
+                    rows="3"
+                    placeholder="Tuliskan catatan teknis hasil wawancara, keaktifan, kesiapan komitmen..."
+                    class="w-full rounded-lg border border-[#e4e4e7] bg-white p-3 text-sm text-[#09090b] placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-[#0655a7] leading-relaxed transition-colors"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- SEKSI 3: INFO JADWAL READ-ONLY (Untuk Detail Pelamar Read-Only) -->
+            <div id="drawer-readonly-jadwal-info" class="hidden space-y-2">
+              <div class="flex items-center justify-between px-0.5">
+                <h4 class="text-xs font-semibold text-[#09090b]">Jadwal Wawancara</h4>
+              </div>
+              <div id="drawer-readonly-jadwal-content" class="rounded-xl border border-[#e4e4e7] bg-white p-4 text-xs"></div>
+            </div>
+          </div>
+
+          <!-- DRAWER FOOTER: Aksi Kontekstual Berdasarkan Tab Aktif -->
+          <div class="p-4 sm:p-5 border-t border-[#e4e4e7] bg-white flex items-center justify-end gap-3 shrink-0">
+            <!-- Aksi Drawer Read-Only: Hanya Lihat / Tidak Bisa Menyeleksi -->
+            <div id="drawer-footer-actions-readonly" class="hidden flex items-center justify-between w-full gap-3">
+              <div id="drawer-readonly-status-badge">
+                <span class="inline-flex items-center gap-1.5 text-xs text-amber-800 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg font-medium">
+                  <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600 shrink-0"></i>
+                  <span>Seleksi pelamar ini dikelola langsung oleh pihak Kontributor (Read-Only)</span>
+                </span>
+              </div>
+              <button
+                type="button"
+                onclick="closePelamarDetailModal()"
+                class="h-9 px-4 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-semibold text-[#09090b] shadow-2xs transition-colors cursor-pointer shrink-0"
+              >
+                Tutup
+              </button>
+            </div>
+
+            <!-- Aksi Tab Dokumen: Tolak Berkas & Setujui Berkas -->
+            <div id="drawer-footer-actions-dokumen" class="flex items-center gap-2">
+              <button
+                type="button"
+                id="btn-modal-pelamar-tolak-berkas"
+                onclick="tolakBerkasPelamar()"
+                class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg border border-[#e4e4e7] bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-xs font-medium text-[#71717a] transition-colors cursor-pointer"
+              >
+                <i data-lucide="x" class="w-4 h-4"></i>
+                <span>Tolak</span>
+              </button>
+              <button
+                type="button"
+                id="btn-modal-pelamar-setuju-berkas"
+                onclick="setujuiBerkasPelamar()"
+                class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium shadow-2xs transition-colors cursor-pointer"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Setujui</span>
+              </button>
+            </div>
+
+            <!-- Aksi Drawer Evaluasi Wawancara: Tolak Wawancara & Loloskan Seleksi -->
+            <div id="drawer-footer-actions-evaluasi" class="hidden flex items-center gap-2">
+              <button
+                type="button"
+                id="btn-modal-pelamar-tolak-wawancara"
+                onclick="submitKeputusanWawancara('ditolak')"
+                class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg border border-[#e4e4e7] bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-xs font-medium text-[#71717a] transition-colors cursor-pointer"
+              >
+                <i data-lucide="x" class="w-4 h-4"></i>
+                <span>Tolak</span>
+              </button>
+              <button
+                type="button"
+                id="btn-modal-pelamar-loloskan-wawancara"
+                onclick="submitKeputusanWawancara('diterima')"
+                class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium shadow-2xs transition-colors cursor-pointer"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Terima</span>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

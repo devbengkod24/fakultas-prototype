@@ -63,7 +63,7 @@ The atmosphere balances institutional trust with modern SaaS agility. Rather tha
 ## 3. Typography Rules
 
 ### Hierarchy & Weights
-The typographic system relies on **Inter** (or **Geist Sans**), a neo-grotesque sans-serif chosen for its tall x-height, open apertures, and exceptional legibility at small sizes in dense data tables. Monospace data (IDs, registration codes, timestamps) uses **JetBrains Mono** for tabular alignment.
+The typographic system relies on **Inter**, a clean sans-serif chosen for its tall x-height, open apertures, and exceptional legibility at small sizes in dense data tables across the entire application shell.
 
 - **Page Display Title (H1)**: `24px` (`1.5rem`), Bold (`700`), letter-spacing `-0.025em`, line-height `1.25`. Used once per view at the top of the workspace to establish immediate context.
 - **Section & Modal Heading (H2)**: `20px` (`1.25rem`), Semi-Bold (`600`), letter-spacing `-0.02em`, line-height `1.35`. Anchors major dashboard zones and dialog headers.

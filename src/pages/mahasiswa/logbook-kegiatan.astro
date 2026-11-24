@@ -1,0 +1,34 @@
+---
+// src/pages/mahasiswa/logbook-kegiatan.astro
+import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import KegiatanRoot from "../../components/mbkm/logbook-kegiatan/KegiatanRoot.astro";
+import KegiatanRingkasan from "../../components/mbkm/logbook-kegiatan/KegiatanRingkasan.astro";
+import KegiatanRiwayat from "../../components/mbkm/logbook-kegiatan/KegiatanRiwayat.astro";
+import ModalDokumenKegiatan from "../../components/mbkm/logbook-kegiatan/ModalDokumenKegiatan.astro";
+import ModalTambahKegiatan from "../../components/mbkm/logbook-kegiatan/ModalTambahKegiatan.astro";
+---
+
+<MahasiswaShell
+  title="Logbook Kegiatan | Mahasiswa - FIK Udinus"
+  activeNav="logbook-kegiatan"
+  pageTitle="Logbook Kegiatan"
+  breadcrumb="Logbook Kegiatan"
+>
+  <KegiatanRoot>
+    <div>
+      <h1 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Logbook Kegiatan</h1>
+      <p class="text-[14px] leading-[20px] text-[#71717a]">
+        Catatan kegiatan selama program. Tidak memerlukan persetujuan Dosen Pembimbing dan dapat diunduh sebagai laporan PDF.
+      </p>
+    </div>
+
+    <KegiatanRingkasan />
+    <KegiatanRiwayat />
+    <ModalTambahKegiatan />
+    <ModalDokumenKegiatan />
+  </KegiatanRoot>
+</MahasiswaShell>
+
+<script>
+  import "../../scripts/mahasiswa/logbook-kegiatan-pdf";
+</script>

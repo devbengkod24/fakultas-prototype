@@ -56,9 +56,9 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     actionButton: '',
   },
   'mhs-pelamar': {
-    label: 'Mahasiswa / Pendaftar',
-    title: 'Daftar Pengajuan Mahasiswa Pendaftar',
-    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM kontributor eksternal.',
+    label: 'Mahasiswa / Pelamar MBKM',
+    title: 'Daftar Pengajuan Pelamar MBKM',
+    subtitle: 'Berikut ini adalah daftar semua pengajuan pelamar mahasiswa ke program MBKM kontributor eksternal.',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
   },
   'mhs-rekomendasi': {
@@ -66,12 +66,6 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     title: 'Validasi Surat Rekomendasi',
     subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi kontributor mahasiswa.',
     actionButton: '',
-  },
-  'mhs-semua': {
-    label: 'Mahasiswa / Semua Mahasiswa',
-    title: 'Semua Mahasiswa MBKM',
-    subtitle: 'Direktori seluruh mahasiswa yang sedang aktif menjalani program MBKM di kontributor industri.',
-    actionButton: '<button type="button" onclick="exportDataMahasiswa()" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
   },
   'mhs-data': {
     label: 'Mahasiswa / Data Mahasiswa',
@@ -83,12 +77,6 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     label: 'Dosen Pembimbing / Data Dosen',
     title: 'Data Dosen Pembimbing',
     subtitle: 'Daftar dosen pembimbing yang ditarik dari basis data UDI.',
-    actionButton: '<div class="flex items-center gap-2"><button type="button" onclick="syncDataDosenUdi()" class="px-3 py-1.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-gray-50 text-[#09090b] text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Sync Data UDI</span></button><button type="button" onclick="openModalTambahDosen()" class="px-3.5 py-1.5 rounded-lg bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-colors shrink-0"><i data-lucide="user-plus" class="w-3.5 h-3.5"></i><span>Tambah Dosen</span></button></div>',
-  },
-  'dosen-kuota': {
-    label: 'Dosen Pembimbing / Kuota Dosen',
-    title: 'Kuota Dosen Pembimbing',
-    subtitle: 'Monitoring beban bimbingan maksimal per dosen per semester.',
     actionButton: '',
   },
   'dosen-update': {
@@ -104,21 +92,15 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     actionButton: '',
   },
   logbook: {
-    label: 'Logbook Mahasiswa',
-    title: 'Daftar Logbook Mahasiswa',
-    subtitle: 'Berikut adalah daftar logbook mahasiswa bimbingan.',
+    label: 'Logbook Kegiatan',
+    title: 'Daftar Logbook Kegiatan',
+    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program MBKM (maksimal 24 minggu).',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="circle-help" class="w-4 h-4 text-[#71717a]"></i><span>Lihat panduan</span></button>',
   },
   konversi: {
     label: 'Validasi Konversi SKS',
     title: 'Validasi Konversi SKS',
     subtitle: 'Verifikasi usulan konversi SKS mahasiswa peserta program MBKM.',
-    actionButton: '',
-  },
-  gelombang: {
-    label: 'Sidang / Gelombang Sidang',
-    title: 'Gelombang Sidang',
-    subtitle: 'Berikut data gelombang sidang yang telah dibuat.',
     actionButton: '',
   },
   'data-pengajuan': {
@@ -175,9 +157,9 @@ const displaySubtitle = subtitle || meta.subtitle;
 const displayActionButton = actionButton !== undefined ? actionButton : meta.actionButton;
 
 const isMbkmActive = ['mbkm', 'form-pendaftaran', 'periode'].includes(activeTabKey);
-const isMahasiswaActive = ['semua-mahasiswa', 'data-mahasiswa', 'pelamar', 'surekom', 'mhs-semua', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(activeTabKey);
-const isDosenActive = ['koordinator', 'dosen-data', 'dosen-kuota', 'dosen-update', 'update-dosen'].includes(activeTabKey);
-const isSidangActive = ['sidang', 'gelombang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
+const isMahasiswaActive = ['data-mahasiswa', 'pelamar', 'surekom', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(activeTabKey);
+const isDosenActive = ['koordinator', 'dosen-data', 'dosen-update', 'update-dosen'].includes(activeTabKey);
+const isSidangActive = ['sidang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
 
 const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : isSidangActive ? 'sidang' : isMbkmActive ? 'mbkm' : '';
 ---
@@ -245,9 +227,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
     <!-- Lucide Icons CDN -->
     <script is:inline src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Alpine.js Core CDN (defer) -->
-    <script is:inline defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
     <style is:global>
       [x-cloak] {
@@ -369,7 +348,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
           >
             <!-- 1. Dashboard -->
             <a
-              href="/admin/dashboard"
+              href="/koordinator/dashboard"
               id="nav-dashboard"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -383,7 +362,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 2. Pengumuman -->
             <a
-              href="/admin/pengumuman"
+              href="/koordinator/pengumuman"
               id="nav-pengumuman"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -397,7 +376,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 3. Kontributor (Mandiri) -->
             <a
-              href="/admin/kontributor"
+              href="/koordinator/kontributor"
               id="nav-kontributor"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -409,7 +388,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               <span class="truncate">Kontributor</span>
             </a>
 
-            <!-- 5. Mahasiswa (Sub-menu: Semua Mahasiswa, Data Mahasiswa, Pendaftar, Validasi Surekom) -->
+            <!-- 5. Mahasiswa (Sub-menu: Data Mahasiswa, Pelamar MBKM, Validasi Surekom) -->
             <div class="flex flex-col">
               <button
                 type="button"
@@ -433,18 +412,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-mahasiswa" x-show="isOpen('mahasiswa')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/semua-mahasiswa"
-                  id="nav-sub-mhs-semua"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'mhs-semua' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-semua' ? '' : 'hidden']}></span>
-                  <span>Semua Mahasiswa</span>
-                </a>
-                <a
-                  href="/admin/data-mahasiswa"
+                  href="/koordinator/data-mahasiswa"
                   id="nav-sub-mhs-data"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -455,7 +423,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Mahasiswa</span>
                 </a>
                 <a
-                  href="/admin/pelamar"
+                  href="/koordinator/pelamar"
                   id="nav-sub-mhs-pelamar"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -463,10 +431,10 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   ]}
                 >
                   <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-pelamar' ? '' : 'hidden']}></span>
-                  <span>Pendaftar</span>
+                  <span>Pelamar MBKM</span>
                 </a>
                 <a
-                  href="/admin/surekom"
+                  href="/koordinator/surekom"
                   id="nav-sub-mhs-rekomendasi"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -479,7 +447,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </div>
             </div>
 
-            <!-- 6. Dosen Pembimbing (Sub-menu: Data Dosen, Kuota Dosen, Plotting Dosen) -->
+            <!-- 6. Dosen Pembimbing (Sub-menu: Data Dosen, Plotting Dosen) -->
             <div class="flex flex-col">
               <button
                 type="button"
@@ -503,7 +471,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-dosen" x-show="isOpen('dosen')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/dosen-data"
+                  href="/koordinator/dosen-data"
                   id="nav-sub-dosen-data"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -514,18 +482,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Dosen</span>
                 </a>
                 <a
-                  href="/admin/dosen-kuota"
-                  id="nav-sub-dosen-kuota"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'dosen-kuota' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'dosen-kuota' ? '' : 'hidden']}></span>
-                  <span>Kuota Dosen</span>
-                </a>
-                <a
-                  href="/admin/dosen-update"
+                  href="/koordinator/dosen-update"
                   id="nav-sub-dosen-update"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -538,9 +495,9 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </div>
             </div>
 
-            <!-- 7. Logbook Mahasiswa -->
+            <!-- 7. Logbook Kegiatan -->
             <a
-              href="/admin/logbook"
+              href="/koordinator/logbook"
               id="nav-logbook"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -549,12 +506,12 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
             >
               <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'logbook' ? '' : 'hidden']}></span>
               <i data-lucide="book-marked" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Logbook Mahasiswa</span>
+              <span class="truncate">Logbook Kegiatan</span>
             </a>
 
             <!-- 8. Validasi Konversi SKS -->
             <a
-              href="/admin/konversi"
+              href="/koordinator/konversi"
               id="nav-konversi"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -566,7 +523,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               <span class="truncate">Validasi Konversi SKS</span>
             </a>
 
-            <!-- 9. Sidang MBKM (Sub-menu: Gelombang Sidang, Data Pengajuan, Plotting Jadwal, Hasil Sidang) -->
+            <!-- 9. Sidang MBKM (Sub-menu: Data Pengajuan, Plotting Jadwal, Hasil Sidang) -->
             <div class="flex flex-col">
               <button
                 type="button"
@@ -590,18 +547,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-sidang" x-show="isOpen('sidang')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/gelombang"
-                  id="nav-sub-sidang-gelombang"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'gelombang' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'gelombang' ? '' : 'hidden']}></span>
-                  <span>Gelombang Sidang</span>
-                </a>
-                <a
-                  href="/admin/data-pengajuan"
+                  href="/koordinator/data-pengajuan"
                   id="nav-sub-sidang-data-pengajuan"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -612,7 +558,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Data Pengajuan</span>
                 </a>
                 <a
-                  href="/admin/plotting-jadwal"
+                  href="/koordinator/plotting-jadwal"
                   id="nav-sub-sidang-plotting-jadwal"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -623,7 +569,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Plotting Jadwal</span>
                 </a>
                 <a
-                  href="/admin/hasil-sidang"
+                  href="/koordinator/hasil-sidang"
                   id="nav-sub-sidang-hasil-sidang"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -660,7 +606,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </button>
               <div id="submenu-mbkm" x-show="isOpen('mbkm')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
                 <a
-                  href="/admin/form-pendaftaran"
+                  href="/koordinator/form-pendaftaran"
                   id="nav-sub-mbkm-form"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -671,7 +617,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span>Form Pendaftaran</span>
                 </a>
                 <a
-                  href="/admin/periode"
+                  href="/koordinator/periode"
                   id="nav-sub-mbkm-periode"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
@@ -686,7 +632,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
             <!-- 10. Log Aktivitas (Halaman Mandiri) -->
             <a
-              href="/admin/log-aktivitas"
+              href="/koordinator/log-aktivitas"
               id="nav-log-aktivitas"
               class:list={[
                 "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
@@ -739,7 +685,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
       <!-- ==================================================== -->
       <main class="flex flex-col flex-1 min-w-0 p-4 sm:p-6 my-4 mr-4 ml-4 lg:ml-0 bg-white border border-[#e4e4e7] rounded-xl min-h-[calc(100vh-2rem)]">
         <!-- 1. Top Breadcrumb Header (Sesuai DashboardHeader Baris 1 di fakultas-fe) -->
-        <header class="flex w-full items-center justify-between shrink-0">
+        <header class="flex items-center justify-between w-full shrink-0">
           <div class="flex items-center gap-2">
             <button
               type="button"
@@ -776,7 +722,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
 
         <!-- 2. Dynamic Title Header (Hanya tampil pada tab yang tidak memiliki inner header mandiri) -->
         {!['sidang', 'sertifikat', 'dosen-update', 'koordinator', 'program'].includes(activeTabKey) && (
-          <header id="dashboard-header-bar-2" class="mb-4 flex items-start justify-between gap-4 shrink-0">
+          <header id="dashboard-header-bar-2" class="flex items-start justify-between gap-4 mb-4 shrink-0">
             <div>
               <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">
                 {displayTitle}
@@ -785,14 +731,14 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                 {displaySubtitle}
               </p>
             </div>
-            <div id="header-action-slot" class="shrink-0 flex items-center gap-2">
+            <div id="header-action-slot" class="flex items-center gap-2 shrink-0">
               {displayActionButton && <Fragment set:html={displayActionButton} />}
             </div>
           </header>
         )}
 
         <!-- Container Konten Tab -->
-        <div class="flex-1 w-full min-w-0 flex flex-col">
+        <div class="flex flex-col flex-1 w-full min-w-0">
           <slot />
         </div>
       </main>
@@ -801,16 +747,101 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
     <!-- Modals Dialog (21 Modals Standar MBKM Admin) -->
     <Modals />
 
+    <!-- Global Top-Right Toast Notification (React-Toastify Style + Countdown Bar) -->
+    <div
+      id="admin-global-toast"
+      role="status"
+      aria-live="polite"
+      class="hidden fixed top-5 right-5 z-[100] w-80 max-w-[calc(100vw-2.5rem)] flex-col bg-white rounded-md shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-[#e4e4e7]/80 overflow-hidden"
+    >
+      <div class="px-4 py-3.5 flex items-center gap-3">
+        <span
+          id="admin-global-toast-icon"
+          class="w-5 h-5 rounded-full flex items-center justify-center text-white shrink-0 bg-[#07bc0c]"
+        ></span>
+        <span
+          id="admin-global-toast-msg"
+          class="flex-1 text-[13px] text-[#71717a] leading-snug font-normal"
+        ></span>
+        <button
+          type="button"
+          onclick="window.hideAdminToast && window.hideAdminToast()"
+          class="self-start -mt-1 -mr-1 p-1 text-[#a1a1aa] hover:text-[#52525b] transition-colors shrink-0 cursor-pointer"
+          aria-label="Tutup notifikasi"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div id="admin-global-toast-track" class="h-1 w-full bg-[#07bc0c]/20">
+        <div id="admin-global-toast-bar" class="h-full bg-[#07bc0c]" style="width: 100%;"></div>
+      </div>
+    </div>
+
     <!-- Inisialisasi State Halaman Aktif untuk Controller -->
     <script is:inline define:vars={{ activeTabKey }}>
       window.__CURRENT_TAB__ = activeTabKey;
     </script>
 
     <!-- Script Standar: Mock Data & Controller (2 File JS) -->
-    <script is:inline src="/admin/_mock-data.js"></script>
-    <script is:inline src="/admin/_controller.js"></script>
+    <script is:inline src={`/admin/_mock-data.js?v=${Date.now()}`}></script>
+    <script src="../scripts/admin/index.ts"></script>
 
     <script is:inline>
+      (function () {
+        let toastTimer = null;
+        const TOAST_DURATION = 3000;
+        const icons = {
+          success: '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+          error: '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="6" y2="14"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>',
+          info: '<svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-6"/><path d="M12 7h.01"/></svg>',
+        };
+        const variantStyles = {
+          success: { iconBg: 'bg-[#07bc0c]', trackBg: 'bg-[#07bc0c]/20', barBg: 'bg-[#07bc0c]' },
+          error: { iconBg: 'bg-[#e74c3c]', trackBg: 'bg-[#e74c3c]/20', barBg: 'bg-[#e74c3c]' },
+          info: { iconBg: 'bg-[#0655a7]', trackBg: 'bg-[#0655a7]/20', barBg: 'bg-[#0655a7]' },
+        };
+
+        window.hideAdminToast = function () {
+          const el = document.getElementById('admin-global-toast');
+          if (!el) return;
+          el.classList.add('hidden');
+          el.classList.remove('flex');
+        };
+
+        window.showAdminToast = function (message, type = 'success') {
+          const el = document.getElementById('admin-global-toast');
+          const iconEl = document.getElementById('admin-global-toast-icon');
+          const msgEl = document.getElementById('admin-global-toast-msg');
+          const trackEl = document.getElementById('admin-global-toast-track');
+          const barEl = document.getElementById('admin-global-toast-bar');
+          if (!el || !iconEl || !msgEl || !trackEl || !barEl) return;
+
+          const variant = variantStyles[type] ? type : 'success';
+          const st = variantStyles[variant];
+
+          iconEl.className = `w-5 h-5 rounded-full flex items-center justify-center text-white shrink-0 ${st.iconBg}`;
+          iconEl.innerHTML = icons[variant];
+          msgEl.textContent = message;
+          trackEl.className = `h-1 w-full ${st.trackBg}`;
+          barEl.className = `h-full ${st.barBg}`;
+
+          el.classList.remove('hidden');
+          el.classList.add('flex');
+
+          // Reset and trigger smooth countdown bar shrinking right-to-left
+          barEl.style.transition = 'none';
+          barEl.style.width = '100%';
+          void barEl.offsetWidth;
+          barEl.style.transition = `width ${TOAST_DURATION}ms linear`;
+          barEl.style.width = '0%';
+
+          if (toastTimer) window.clearTimeout(toastTimer);
+          toastTimer = window.setTimeout(() => {
+            window.hideAdminToast();
+          }, TOAST_DURATION);
+        };
+      })();
+
       document.addEventListener('DOMContentLoaded', () => {
         if (window.lucide) {
           window.lucide.createIcons();

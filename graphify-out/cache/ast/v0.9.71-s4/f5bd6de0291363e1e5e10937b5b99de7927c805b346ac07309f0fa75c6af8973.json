@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_src_components_mbkm_mahasiswa_aktiflogbookcard_astro", "label": "AktifLogbookCard.astro", "file_type": "code", "source_file": "src/components/mbkm/mahasiswa/AktifLogbookCard.astro", "source_location": "L1"}], "edges": [], "raw_calls": [], "parse_errors": {"first_error_line": 6, "multiline_error": true}}
