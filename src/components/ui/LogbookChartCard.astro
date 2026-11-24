@@ -13,6 +13,7 @@ interface Props {
   /** Batas atas skala sumbu Y agar tinggi bar konsisten antar minggu. */
   yMax?: number;
   onTimeRate?: string;
+  rekapHref?: string;
   rekapOnclick?: string;
   class?: string;
 }
@@ -24,6 +25,7 @@ const {
   totalWeeks = 24,
   yMax = 50,
   onTimeRate = '92%',
+  rekapHref,
   rekapOnclick = "switchTab('logbook')",
   class: className = '',
 } = Astro.props;
@@ -35,7 +37,7 @@ const axisLabels = [1, 4, 8, 12, 16, 20, 24].filter((w) => w <= totalWeeks);
 const slots = Array.from({ length: totalWeeks }, (_, i) => {
   const week = i + 1;
   const isElapsed = week <= currentWeek;
-  const count = isElapsed ? weeklyCounts[i] : null;
+  const count = isElapsed ? (weeklyCounts[i] ?? 0) : null;
   const heightPct = count ? Math.max(4, Math.min(100, (count / yMax) * 100)) : 0;
   // Tooltip di tepi kiri/kanan dirapatkan agar tidak keluar dari card.
   const tipAlign = week <= 3 ? 'left-0' : week > totalWeeks - 3 ? 'right-0' : 'left-1/2 -translate-x-1/2';
@@ -68,7 +70,7 @@ const slots = Array.from({ length: totalWeeks }, (_, i) => {
             data-week={s.week}
             data-selected="false"
             aria-current={s.isCurrent ? 'date' : undefined}
-            aria-label={`Minggu ke-${s.week}${s.isCurrent ? ' (minggu berjalan)' : ''}: ${s.count} kegiatan`}
+            aria-label={`Minggu ke-${s.week}${s.isCurrent ? ' (minggu berjalan)' : ''}: ${s.count} mahasiswa`}
             class="peer group/bar w-full h-full flex items-end rounded-t-[3px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0655a7]/30"
           >
             {s.count ? (
@@ -77,7 +79,7 @@ const slots = Array.from({ length: totalWeeks }, (_, i) => {
                   'block w-full rounded-t-[3px] transition-colors',
                   s.isCurrent
                     ? 'bg-[#0655a7]'
-                    : 'bg-blue-200 group-hover/bar:bg-blue-300 group-data-[selected=true]/bar:bg-blue-400!'
+                    : 'bg-blue-200 group-hover/bar:bg-blue-300 group-data-[selected=true]/bar:bg-blue-400'
                 )}
                 style={`height: ${s.heightPct}%`}
               ></span>
@@ -101,7 +103,7 @@ const slots = Array.from({ length: totalWeeks }, (_, i) => {
           )}
         >
           <div class="font-semibold">Minggu ke-{s.week}{s.isCurrent && <span class="font-normal text-white/70"> · berjalan</span>}</div>
-          <div class="text-white/70">{s.isElapsed ? `${s.count} mahasiswa` : 'Belum berjalan'}</div>
+          <div class="text-white/70">{s.isElapsed ? `${s.count} mahasiswa submit` : 'Belum berjalan'}</div>
         </div>
       </div>
     ))}
@@ -122,6 +124,15 @@ const slots = Array.from({ length: totalWeeks }, (_, i) => {
 
   <div class="flex items-center justify-between text-xs text-[#71717a] pt-3">
     <span>Rata-rata tepat waktu: <strong class="text-green-700">{onTimeRate}</strong></span>
+    {rekapHref && (
+      <a href={rekapHref} class="text-[#0655a7] hover:underline font-medium flex items-center gap-1">
+        <span>Rekap</span>
+        <span>&rarr;</span>
+      </a>
+    )}
+    {!rekapHref && rekapOnclick && (
+      <button type="button" onclick={rekapOnclick} class="text-[#0655a7] hover:underline font-medium">Rekap &rarr;</button>
+    )}
   </div>
 </div>
 
