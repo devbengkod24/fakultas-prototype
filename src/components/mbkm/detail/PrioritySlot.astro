@@ -1,0 +1,136 @@
+---
+// src/components/mbkm/detail/PrioritySlot.astro
+// Satu baris slot pada popup "Prioritas Pendaftaran" (maksimal 3 slot):
+// badge nomor prioritas, garis pemisah, lalu kartu pilihan program.
+interface Props {
+  index: number;
+  label: string;
+}
+
+const { index, label } = Astro.props;
+
+const numberLabel = String(index).padStart(2, '0');
+
+const cardClass =
+  'slot-card flex-1 cursor-pointer rounded-xl px-4 py-3 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0b4d8c]/40';
+---
+
+<div class="priority-slot flex items-center gap-3" data-slot-index={index} data-filled="false">
+  <!-- Nomor urut prioritas -->
+  <span class="slot-number font-mono">{numberLabel}</span>
+  <span class="slot-rail" aria-hidden="true"></span>
+
+  <button
+    type="button"
+    class={cardClass}
+    data-slot-index={index}
+    data-state="empty"
+    aria-pressed="false"
+    aria-label={`Slot prioritas ${label}`}
+  >
+    <!-- Keadaan kosong -->
+    <span class="slot-view slot-view--empty">
+      <span class="slot-icon">
+        <i data-lucide="plus" class="h-3.5 w-3.5"></i>
+      </span>
+      <span class="slot-hint">Tambahkan pada prioritas {label}</span>
+    </span>
+
+    <!-- Keadaan terisi (diaktifkan oleh priority-modal.ts) -->
+    <span class="slot-view slot-view--filled" hidden>
+      <span class="slot-icon">
+        <i data-lucide="check" class="h-3.5 w-3.5"></i>
+      </span>
+      <span class="slot-name"></span>
+    </span>
+  </button>
+</div>
+
+<style>
+  .slot-number {
+    display: inline-flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    background-color: rgba(245, 166, 35, 0.18);
+    color: #072f57;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: background-color 0.2s ease;
+  }
+  .priority-slot[data-filled='true'] .slot-number {
+    background-color: #f5a623;
+  }
+
+  /* Garis pemisah tipis antara nomor dan kartu */
+  .slot-rail {
+    width: 1px;
+    height: 2.25rem;
+    flex-shrink: 0;
+    background-color: #e2e8f0;
+  }
+
+  /* Kartu slot: keadaan kosong vs terisi */
+  .slot-card[data-state='empty'] {
+    border: 1.5px dashed #cbd5e1;
+    background-color: #ffffff;
+  }
+  .slot-card[data-state='empty']:hover {
+    border-color: rgba(11, 77, 140, 0.55);
+    background-color: rgba(11, 77, 140, 0.04);
+  }
+  .slot-card[data-state='filled'] {
+    border: 1.5px solid rgba(11, 77, 140, 0.55);
+    background-color: rgba(11, 77, 140, 0.07);
+  }
+  .slot-card[data-state='filled']:hover {
+    border-color: #0b4d8c;
+    background-color: rgba(11, 77, 140, 0.11);
+  }
+  .slot-card[data-owned='other'] {
+    cursor: default;
+  }
+  .slot-card[data-owned='other']:hover {
+    border-color: rgba(11, 77, 140, 0.55);
+    background-color: rgba(11, 77, 140, 0.07);
+  }
+
+  .slot-view {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .slot-view[hidden] {
+    display: none;
+  }
+
+  /* Lingkaran ikon navy: plus (kosong) / centang (terisi) */
+  .slot-icon {
+    display: inline-flex;
+    height: 1.75rem;
+    width: 1.75rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background-color: #0b4d8c;
+    color: #ffffff;
+  }
+
+  .slot-hint {
+    min-width: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+  }
+  .slot-name {
+    min-width: 0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #072f57;
+  }
+</style>

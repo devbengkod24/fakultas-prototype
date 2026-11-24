@@ -162,7 +162,13 @@ function initRegistrationStepper() {
       formNavigation.classList.remove("sm:justify-end");
     }
 
-    nextButton.classList.toggle("hidden", currentStep === 3);
+    if (currentStep === 3) {
+      nextButton.classList.add("hidden");
+      nextButton.classList.remove("inline-flex");
+    } else {
+      nextButton.classList.remove("hidden");
+      nextButton.classList.add("inline-flex");
+    }
     nextLabel.textContent = `Berikutnya`;
 
     submitButton.classList.toggle("hidden", currentStep !== 3);
