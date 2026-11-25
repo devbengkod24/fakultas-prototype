@@ -2,7 +2,6 @@
 import AdminShell from '../../layouts/AdminShell.astro';
 import ActionNavCard from '../../components/ui/ActionNavCard.astro';
 import BorderInfoCard from '../../components/ui/BorderInfoCard.astro';
-import QuotaCard from '../../components/ui/QuotaCard.astro';
 import QuickActionsCard from '../../components/ui/QuickActionsCard.astro';
 import ActivityFeedCard from '../../components/ui/ActivityFeedCard.astro';
 import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
@@ -109,44 +108,82 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
       </div>
     </div>
 
-    <!-- Bottom Section: Pelamar MBKM Terbaru -->
+    <!-- Bottom Section: Pelamar Kampus Berdampak Terbaru -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col flex-1 shadow-none">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+        <div>
+          <h2 class="font-semibold text-sm text-[#09090b]">Pelamar Kampus Berdampak Terbaru</h2>
+          <p class="text-xs text-[#71717a] mt-0.5">Daftar pengajuan pelamar terbaru yang menunggu tinjauan berkas</p>
+        </div>
+        <a
+          href="/koordinator/pelamar"
+          class="inline-flex items-center gap-1 text-xs font-medium text-[#0655a7] hover:underline shrink-0 self-start sm:self-auto"
+        >
+          <span>Lihat Semua</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
 
-      <div class="mb-4">
-        <h2 class="font-semibold text-base text-[#09090b]">Pelamar Kampus Berdampak Terbaru</h2>
-        <p class="text-sm text-gray-500 mt-0.5">Berikut adalah daftar pelamar Kampus Berdampak terbaru yang mendaftar melalui program kontributor</p>
-      </div>
       <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-        <table class="w-full text-sm">
-          <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
-            <tr>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Nama Mahasiswa</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Program / Kontributor</th>
-              <th class="h-11 px-4 font-medium text-sm text-left text-[#71717a]">Akademik</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Status</th>
-              <th class="h-11 px-4 font-medium text-sm text-center text-[#71717a]">Aksi</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-[#e4e4e7]">
-            <tr class="h-12 hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="h-[68px] px-4 text-sm">
-                <div class="font-medium text-sm text-[#09090b]">Calvin Revianto</div>
-                <div class="text-xs text-[#71717a]">A11.2021.13782</div>
-              </td>
-              <td class="h-[68px] px-4 text-sm text-[#71717a]">Kegiatan Wirausaha (Inkubator Bisnis FIK)</td>
-              <td class="h-[68px] px-4 text-sm text-[#71717a]">IPK: 3.42 • 112 SKS</td>
-              <td class="h-[68px] px-4 text-center text-sm">
-                <span class="inline-flex items-center rounded-md border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-800">Menunggu</span>
-              </td>
-              <td class="h-[68px] px-4 text-center text-sm">
-                <button type="button" onclick="window.location.href='/koordinator/pelamar'" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
-                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                  <span>Tinjau</span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+              <tr>
+                <th class="h-10 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
+                <th class="h-10 px-4 font-semibold text-xs text-left text-[#71717a]">Program / Kontributor</th>
+                <th class="h-10 px-4 font-semibold text-xs text-left text-[#71717a] whitespace-nowrap">Akademik</th>
+                <th class="h-10 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
+                <th class="h-10 px-4 font-semibold text-xs text-center text-[#71717a]">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#e4e4e7]">
+              {[
+                { init: 'CR', nama: 'Calvin Revianto', nim: 'A11.2021.13782', program: 'Inkubator Bisnis FIK', skema: 'Kegiatan Wirausaha', ipk: '3.42', sks: '112' },
+                { init: 'NZ', nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', program: 'Dicoding Indonesia', skema: 'Studi Independen', ipk: '3.78', sks: '104' },
+                { init: 'RA', nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', program: 'PT Bank Central Asia', skema: 'Magang Industri (KKI)', ipk: '3.65', sks: '108' },
+                { init: 'TA', nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', program: 'Bengkel Koding UDINUS', skema: 'Asistensi Mengajar', ipk: '3.84', sks: '118' },
+              ].map((p) => (
+                <tr class="hover:bg-[#fafafa] transition-colors">
+                  <td class="h-[60px] px-4 text-sm">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                        {p.init}
+                      </div>
+                      <div class="min-w-0">
+                        <div class="font-semibold text-xs text-[#09090b] truncate">{p.nama}</div>
+                        <div class="text-[11px] text-[#71717a]">{p.nim}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="h-[60px] px-4">
+                    <div class="text-xs font-medium text-[#09090b] truncate">{p.program}</div>
+                    <div class="text-[11px] text-[#71717a] truncate">{p.skema}</div>
+                  </td>
+                  <td class="h-[60px] px-4 text-xs text-[#52525b] whitespace-nowrap">
+                    <span>IPK {p.ipk}</span>
+                    <span class="mx-1 text-[#d4d4d8]">•</span>
+                    <span>{p.sks} SKS</span>
+                  </td>
+                  <td class="h-[60px] px-4 text-center">
+                    <span class="inline-flex items-center rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-800 whitespace-nowrap">Menunggu</span>
+                  </td>
+                  <td class="h-[60px] px-4 text-center">
+                    <button
+                      type="button"
+                      onclick="window.location.href='/koordinator/pelamar'"
+                      class="inline-flex items-center gap-1 h-7 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/40 text-[#0655a7] transition-colors cursor-pointer"
+                    >
+                      <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                      <span>Tinjau</span>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+    </div>
   </div>
 
   <!-- SISI KANAN (4 Kolom) (Diekstrak ke Global Components) -->
@@ -159,14 +196,55 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
       variant="blue"
     />
 
-    <!-- Informasi Kuota Bimbingan -->
-    <QuotaCard
-      title="Informasi Kuota Bimbingan"
-      total={60}
-      totalLabel="Total Alokasi"
-      used={48}
-      usedLabel="Kuota Terpakai"
-    />
+    <!-- Ringkasan Antrean Perlu Tindakan Koordinator -->
+    <div class="rounded-xl border border-[#e4e4e7] bg-white p-3 shadow-none space-y-2">
+      <div class="flex items-center justify-between">
+        <p class="text-sm font-medium text-[#09090b]">Perlu Tindakan</p>
+        <span class="text-[11px] font-medium text-[#71717a]">14 menunggu</span>
+      </div>
+      <div class="space-y-1 text-xs">
+        <a
+          href="/koordinator/pelamar"
+          class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-[#3f3f46] hover:text-[#0655a7] transition-colors"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <i data-lucide="file-check" class="w-4 h-4 text-[#0655a7] shrink-0"></i>
+            <span class="truncate">Pelamar Baru</span>
+          </span>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-[#0655a7] shrink-0">4</span>
+        </a>
+        <a
+          href="/koordinator/konversi"
+          class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-[#3f3f46] hover:text-[#0655a7] transition-colors"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <i data-lucide="arrow-left-right" class="w-4 h-4 text-amber-600 shrink-0"></i>
+            <span class="truncate">Konversi SKS Menunggu</span>
+          </span>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 shrink-0">5</span>
+        </a>
+        <a
+          href="/koordinator/dosen-data"
+          class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-[#3f3f46] hover:text-[#0655a7] transition-colors"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <i data-lucide="book-open-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+            <span class="truncate">Bimbingan Perlu Disetujui</span>
+          </span>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 shrink-0">3</span>
+        </a>
+        <a
+          href="/koordinator/plotting-jadwal"
+          class="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 text-[#3f3f46] hover:text-[#0655a7] transition-colors"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <i data-lucide="calendar-clock" class="w-4 h-4 text-orange-500 shrink-0"></i>
+            <span class="truncate">Jadwal Sidang Belum Diplot</span>
+          </span>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-orange-50 text-orange-700 shrink-0">2</span>
+        </a>
+      </div>
+    </div>
 
     <!-- Pintasan Operasional Cepat -->
     <QuickActionsCard

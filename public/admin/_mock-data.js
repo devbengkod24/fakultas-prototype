@@ -1561,6 +1561,7 @@ const kontributorCmsDataMap = {
         judul: 'Smart Energy & Air Quality Monitoring Campus FIK',
         deskripsi:
           'Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.',
+        foto: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
         tech: ['Python', 'TensorFlow', 'React.js', 'Google Cloud'],
       },
       {
@@ -1570,6 +1571,7 @@ const kontributorCmsDataMap = {
         judul: 'Vision-Based Automated Academic Attendance & Fraud Detection',
         deskripsi:
           'Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.',
+        foto: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800',
         tech: ['Python', 'PyTorch', 'YOLOv8', 'FastAPI'],
       },
       {
@@ -1579,6 +1581,7 @@ const kontributorCmsDataMap = {
         judul: 'Autonomous Robotic Trash Segregator for Green Campus',
         deskripsi:
           'Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.',
+        foto: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800',
         tech: ['ROS2', 'OpenCV', 'Edge TPU', 'C++'],
       },
     ],
@@ -1607,6 +1610,7 @@ const kontributorCmsDataMap = {
         judul: 'Sistem Informasi Presensi Kampus Berdampak Realtime',
         deskripsi:
           'Platform presensi berbasis GPS geofencing dan integrasi Telegram Bot untuk pemantauan kehadiran magang mahasiswa.',
+        foto: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
         tech: ['Laravel 11', 'Next.js 14', 'MySQL', 'Tailwind CSS'],
       },
     ],
