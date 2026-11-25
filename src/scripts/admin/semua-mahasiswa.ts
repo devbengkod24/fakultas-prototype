@@ -185,11 +185,11 @@ function goToSemuaMhsPage(p) {
 }
 
 function exportDataMahasiswa() {
-  alert('Mengunduh rekap direktori seluruh mahasiswa aktif MBKM (Format: XLSX Spreadsheet)...');
+  alert('Mengunduh rekap direktori seluruh mahasiswa aktif Kampus Berdampak (Format: XLSX Spreadsheet)...');
 }
 
 function exportDataPelamar() {
-  alert('Mengunduh data pendaftar mahasiswa MBKM (Format: Excel .xlsx)...');
+  alert('Mengunduh data pendaftar mahasiswa Kampus Berdampak (Format: Excel .xlsx)...');
 }
 
 

@@ -1,11 +1,11 @@
-    <!-- 5. Modal Edit Periode MBKM (Sesuai EditPeriodeModal di bimbingan-karir & tugas-akhir) -->
+    <!-- 5. Modal Edit Periode Kampus Berdampak (Sesuai EditPeriodeModal di bimbingan-karir & tugas-akhir) -->
     <div id="modal-edit-periode" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-[425px] w-full p-6 space-y-4 text-sm">
         <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
           <div>
-            <h3 class="text-lg font-semibold text-[#09090b]">Edit Periode MBKM</h3>
+            <h3 class="text-lg font-semibold text-[#09090b]">Edit Periode Kampus Berdampak</h3>
             <p id="modal-edit-periode-subtitle" class="text-xs text-[#71717a] mt-0.5">
-              Update tanggal periode MBKM
+              Update tanggal periode Kampus Berdampak
             </p>
           </div>
           <button type="button" onclick="closeEditPeriodeModal()" class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md">
@@ -15,7 +15,7 @@
         <form onsubmit="handleSaveEditPeriode(event)" class="space-y-4">
           <input type="hidden" id="modal-edit-periode-id" value="" />
           <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-sm">Tanggal Mulai MBKM</label>
+            <label class="font-medium text-[#09090b] text-sm">Tanggal Mulai KB</label>
             <input
               type="date"
               id="modal-edit-periode-mulai"
@@ -23,7 +23,7 @@
             />
           </div>
           <div class="space-y-1.5">
-            <label class="font-medium text-[#09090b] text-sm">Tanggal Akhir MBKM</label>
+            <label class="font-medium text-[#09090b] text-sm">Tanggal Akhir KB</label>
             <input
               type="date"
               id="modal-edit-periode-akhir"

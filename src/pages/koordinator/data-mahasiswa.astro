@@ -48,7 +48,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         return this.filteredStudents.slice(start, start + this.pageSize);
       },
       students: [
-        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'MBKM Bengkel Koding' },
+        { no: 1, nama: 'Faisal Rahman', nim: 'A11.2022.13901', email: 'faisal.rahman@mhs.dinus.ac.id', telepon: '081234567890', dosen: 'Dr. M. Arief Soeleman, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'KB Bengkel Koding' },
         { no: 2, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842', email: 'nabila.zahra@mhs.dinus.ac.id', telepon: '082198765432', dosen: 'Christy Atika Sari, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Studi Independen' },
         { no: 3, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012', email: 'rizky.aditya@mhs.dinus.ac.id', telepon: '085712349876', dosen: 'Eko Hari Rachmawanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'Riset bersama Bidang Kajian' },
         { no: 4, nama: 'Dewi Lestari Kusuma', nim: 'A14.2022.03211', email: 'dewi.lestari@mhs.dinus.ac.id', telepon: '087834561234', dosen: 'Ajib Susanto, M.Kom', kodePeriode: '20261', tahunAjaran: '2026/2027', skema: 'PPKOrmawa' },
@@ -103,7 +103,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <option value="Kuliah Kerja Usaha">Kuliah Kerja Usaha</option>
           <option value="Magang Kuliah Kerja Industri (KKI)">Magang Kuliah Kerja Industri (KKI)</option>
           <option value="Magang Berdampak di Sekolah">Magang Berdampak di Sekolah</option>
-          <option value="MBKM Bengkel Koding">MBKM Bengkel Koding</option>
+          <option value="KB Bengkel Koding">KB Bengkel Koding</option>
           <option value="Student Mobility ke UGM">Student Mobility ke UGM</option>
           <option value="Belum Ada">Belum Ada</option>
         </select>
@@ -183,6 +183,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Dosen Pembimbing</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Periode</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Skema</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-28">Logbook</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-[#e4e4e7]">
@@ -232,11 +233,19 @@ import AdminShell from '../../layouts/AdminShell.astro';
                   </span>
                 </template>
               </td>
+              <td class="h-[68px] px-4 text-center text-sm">
+                <a
+                  :href="`/koordinator/logbook?nim=${encodeURIComponent(mhs.nim)}&nama=${encodeURIComponent(mhs.nama)}&dosen=${encodeURIComponent(mhs.dosen || '-')}&skema=${encodeURIComponent(mhs.skema || '')}`"
+                  class="inline-flex items-center justify-center h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/40 text-xs font-medium text-[#09090b] hover:text-[#0655a7] transition-colors"
+                >
+                  Detail
+                </a>
+              </td>
             </tr>
           </template>
           <template x-if="paginatedStudents.length === 0">
             <tr>
-              <td colspan="6" class="h-28 text-center text-xs text-[#71717a]">
+              <td colspan="7" class="h-28 text-center text-xs text-[#71717a]">
                 Tidak ada data mahasiswa yang cocok dengan kriteria pencarian.
               </td>
             </tr>

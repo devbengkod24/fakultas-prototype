@@ -5,7 +5,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
 <AdminShell
   currentTab="hasil-sidang"
-  pageTitle="Hasil Sidang Kerja Praktek"
+  pageTitle="Hasil Sidang Kampus Berdampak"
   subtitle="Berikut data sidang yang sudah diploting jadwalnya."
 >
   <section
@@ -18,125 +18,84 @@ import AdminShell from '../../layouts/AdminShell.astro';
       isDownloadOpen: false,
       isPreviewTtdOpen: false,
       isTambahTtdOpen: false,
+      isEditNilaiOpen: false,
+      editNilaiTarget: null,
+      editNilaiForm: { nilai_kontributor: '', nilai_penguji_1: '', nilai_penguji_2: '' },
       isDownloadingPDF: false,
-      ttdSignatureUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=koor-kp-ttd',
+      ttdSignatureUrl: '/assets/images/ttd-koordinator.png',
       toastMessage: '',
       showToast: false,
 
       hasilSidangList: [
         {
           sidang_id: 1,
-          mahasiswa: { nama: 'AL-IZZA NAZARUDDIN FIRDAUS', nim: 'A11.2020.12887' },
-          pembimbing: { nama: 'YANI PARTI ASTUTI S.Si, M.Kom' },
-          penguji_1: { nama: 'Affandy, Ph.D' },
-          penguji_2: null,
-          penguji_3: null,
-          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
-          jadwal_sidang: { tanggal: '2026-06-25', jam: '09:00 - 10:00' },
-          nilai_penyelia: 90,
-          nilai_pembimbing: 90,
-          nilai_penguji_1: 85,
-          nilai_penguji_2: null,
-          nilai_penguji_3: null,
-          nilai_akhir: 88.50,
+          mahasiswa: { nama: 'Faisal Rahman', nim: 'A11.2022.13901' },
+          pembimbing: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          penguji_1: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
+          penguji_2: { nama: 'Ajib Susanto, M.Kom' },
+          jadwal_sidang: { tanggal: '2026-07-13', jam: '09:00 - 10:00' },
+          nilai_kontributor: 92,
+          nilai_penguji_1: 88,
+          nilai_penguji_2: 90,
+          nilai_akhir: 90.72,
           sidang_status: 'selesai'
         },
         {
           sidang_id: 2,
-          mahasiswa: { nama: 'DEMO MHS CIHUY', nim: 'A11.2026.99999' },
-          pembimbing: { nama: 'YANI PARTI ASTUTI S.Si, M.Kom' },
-          penguji_1: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
-          penguji_2: null,
-          penguji_3: null,
-          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
-          jadwal_sidang: { tanggal: '2026-06-25', jam: '10:00 - 11:00' },
-          nilai_penyelia: 90,
-          nilai_pembimbing: 90,
+          mahasiswa: { nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158' },
+          pembimbing: { nama: 'Affandy, Ph.D' },
+          penguji_1: { nama: 'Affandy, Ph.D' },
+          penguji_2: { nama: 'Christy Atika Sari, M.Kom' },
+          jadwal_sidang: { tanggal: '2026-07-13', jam: '10:00 - 11:00' },
+          nilai_kontributor: 95,
           nilai_penguji_1: 90,
-          nilai_penguji_2: null,
-          nilai_penguji_3: null,
-          nilai_akhir: 90.00,
+          nilai_penguji_2: 94,
+          nilai_akhir: 93.64,
           sidang_status: 'selesai'
         },
         {
           sidang_id: 3,
-          mahasiswa: { nama: 'FAISAL RAHMAN', nim: 'A11.2022.13901' },
-          pembimbing: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
-          penguji_1: { nama: 'Affandy, Ph.D' },
-          penguji_2: { nama: 'Ajib Susanto, M.Kom' },
-          penguji_3: null,
-          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
-          jadwal_sidang: { tanggal: '2026-06-25', jam: '09:00 - 10:00' },
-          nilai_penyelia: 92,
-          nilai_pembimbing: 88,
+          mahasiswa: { nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842' },
+          pembimbing: { nama: 'Christy Atika Sari, M.Kom' },
+          penguji_1: { nama: 'Christy Atika Sari, M.Kom' },
+          penguji_2: { nama: 'Affandy, Ph.D' },
+          jadwal_sidang: { tanggal: '2026-07-15', jam: '09:00 - 10:00' },
+          nilai_kontributor: 90,
           nilai_penguji_1: 85,
-          nilai_penguji_2: 90,
-          nilai_penguji_3: null,
-          nilai_akhir: 88.80,
+          nilai_penguji_2: 88,
+          nilai_akhir: 88.48,
           sidang_status: 'selesai'
         },
         {
           sidang_id: 4,
-          mahasiswa: { nama: 'TARISSA AURA AZZAHRA', nim: 'A11.2020.13158' },
-          pembimbing: { nama: 'Affandy, Ph.D' },
-          penguji_1: { nama: 'Dr. M. Arief Soeleman, M.Kom' },
-          penguji_2: { nama: 'Christy Atika Sari, M.Kom' },
-          penguji_3: null,
-          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
-          jadwal_sidang: { tanggal: '2026-06-25', jam: '10:00 - 11:00' },
-          nilai_penyelia: 95,
-          nilai_pembimbing: 92,
-          nilai_penguji_1: 90,
-          nilai_penguji_2: 94,
-          nilai_penguji_3: null,
-          nilai_akhir: 92.90,
-          sidang_status: 'selesai'
-        },
-        {
-          sidang_id: 5,
-          mahasiswa: { nama: 'RIZKY ADITYA PRATAMA', nim: 'A11.2022.14012' },
+          mahasiswa: { nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012' },
           pembimbing: { nama: 'Eko Hari Rachmawanto, M.Kom' },
-          penguji_1: { nama: 'Ajib Susanto, M.Kom' },
-          penguji_2: null,
-          penguji_3: null,
-          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
-          jadwal_sidang: { tanggal: '2026-06-26', jam: '11:00 - 12:00' },
-          nilai_penyelia: 88,
-          nilai_pembimbing: 85,
+          penguji_1: { nama: 'Eko Hari Rachmawanto, M.Kom' },
+          penguji_2: { nama: 'Dr. Muljono, S.Si, M.Kom' },
+          jadwal_sidang: { tanggal: '2026-07-21', jam: '13:00 - 14:00' },
+          nilai_kontributor: 88,
           nilai_penguji_1: null,
           nilai_penguji_2: null,
-          nilai_penguji_3: null,
           nilai_akhir: null,
           sidang_status: null
         }
       ],
 
       isComplete(item) {
-        const hasP2 = item.penguji_2 != null;
-        const hasP3 = item.penguji_3 != null;
         return (
-          item.nilai_penyelia != null &&
-          item.nilai_pembimbing != null &&
+          item.nilai_kontributor != null &&
           item.nilai_penguji_1 != null &&
-          (!hasP2 || item.nilai_penguji_2 != null) &&
-          (!hasP3 || item.nilai_penguji_3 != null)
+          item.nilai_penguji_2 != null
         );
       },
 
       recalcNilai(item) {
-        const py = item.nilai_penyelia != null ? Number(item.nilai_penyelia) : null;
-        const pb = item.nilai_pembimbing != null ? Number(item.nilai_pembimbing) : null;
+        const nk = item.nilai_kontributor != null ? Number(item.nilai_kontributor) : null;
         const p1 = item.nilai_penguji_1 != null ? Number(item.nilai_penguji_1) : null;
-        const p2 = item.penguji_2 ? (item.nilai_penguji_2 != null ? Number(item.nilai_penguji_2) : null) : null;
-        const p3 = item.penguji_3 ? (item.nilai_penguji_3 != null ? Number(item.nilai_penguji_3) : null) : null;
+        const p2 = item.nilai_penguji_2 != null ? Number(item.nilai_penguji_2) : null;
 
-        if (py !== null && pb !== null && p1 !== null) {
-          const pengujiScores = [p1];
-          if (item.penguji_2 && p2 !== null) pengujiScores.push(p2);
-          if (item.penguji_3 && p3 !== null) pengujiScores.push(p3);
-          const avgPenguji = pengujiScores.reduce((a, b) => a + b, 0) / pengujiScores.length;
-
-          item.nilai_akhir = Number(((py * 0.4) + (pb * 0.3) + (avgPenguji * 0.3)).toFixed(2));
+        if (nk !== null && p1 !== null && p2 !== null) {
+          item.nilai_akhir = Number(((nk * 0.60) + (p1 * 0.24) + (p2 * 0.16)).toFixed(2));
           item.sidang_status = 'selesai';
         } else {
           item.nilai_akhir = null;
@@ -144,11 +103,37 @@ import AdminShell from '../../layouts/AdminShell.astro';
         }
       },
 
-      updateNilaiField(item, field, rawVal) {
-        const val = rawVal.trim() === '' ? null : Math.min(100, Math.max(0, Number(rawVal)));
-        item[field] = isNaN(val) ? null : val;
-        this.recalcNilai(item);
-        this.triggerToast('Nilai berhasil disimpan');
+      openEditNilaiModal(row, focusField) {
+        this.editNilaiTarget = row;
+        this.editNilaiForm = {
+          nilai_kontributor: row.nilai_kontributor !== null ? String(row.nilai_kontributor) : '',
+          nilai_penguji_1: row.nilai_penguji_1 !== null ? String(row.nilai_penguji_1) : '',
+          nilai_penguji_2: row.nilai_penguji_2 !== null ? String(row.nilai_penguji_2) : ''
+        };
+        this.isEditNilaiOpen = true;
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          const el = document.getElementById('input-edit-' + focusField);
+          if (el) el.focus();
+        });
+      },
+
+      simpanEditNilai() {
+        if (!this.editNilaiTarget) return;
+        const parseScore = (raw) => {
+          const s = String(raw ?? '').trim();
+          if (s === '') return null;
+          const n = Number(s);
+          if (isNaN(n)) return null;
+          return Math.min(100, Math.max(0, n));
+        };
+        this.editNilaiTarget.nilai_kontributor = parseScore(this.editNilaiForm.nilai_kontributor);
+        this.editNilaiTarget.nilai_penguji_1 = parseScore(this.editNilaiForm.nilai_penguji_1);
+        this.editNilaiTarget.nilai_penguji_2 = parseScore(this.editNilaiForm.nilai_penguji_2);
+        this.recalcNilai(this.editNilaiTarget);
+        this.isEditNilaiOpen = false;
+        this.editNilaiTarget = null;
+        this.triggerToast('Nilai sidang berhasil disimpan');
       },
 
       get filteredList() {
@@ -173,7 +158,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       handleDownloadExcel() {
         this.isDownloadOpen = false;
-        this.triggerToast('File Excel monitoring-sidang-kp.xlsx berhasil diunduh');
+        this.triggerToast('File Excel monitoring-sidang-kampus-berdampak.xlsx berhasil diunduh');
       },
 
       handleDownloadAllPDF() {
@@ -320,11 +305,9 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[200px] max-w-[260px]">Mahasiswa</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[180px] max-w-[240px]">Dosen Pembimbing</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Penyelia</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Pembimbing</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Penguji 1</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Penguji 2</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[110px]">Nilai Penguji 3</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[130px]">Nilai Kontributor (60%)</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[140px]">Nilai Penguji 1 (24%)</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[130px]">Nilai Penguji 2 (16%)</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Nilai Akhir</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[120px]">Status</th>
             </tr>
@@ -346,83 +329,42 @@ import AdminShell from '../../layouts/AdminShell.astro';
                   <div class="truncate font-medium text-sm text-[#09090b]" x-text="row.pembimbing?.nama ?? '—'"></div>
                 </td>
 
-                <!-- Nilai Penyelia (Editable) -->
-                <td class="h-[68px] px-4 text-center min-w-[110px]">
+                <!-- Nilai Kontributor 60% -->
+                <td class="h-[68px] px-4 text-center min-w-[130px]">
                   <div class="flex justify-center">
-                    <input
-                      type="text"
-                      inputmode="numeric"
-                      :value="row.nilai_penyelia !== null ? row.nilai_penyelia : ''"
-                      @change="updateNilaiField(row, 'nilai_penyelia', $event.target.value)"
-                      placeholder="-"
-                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                    />
+                    <button
+                      type="button"
+                      @click="openEditNilaiModal(row, 'nilai_kontributor')"
+                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/30 text-sm font-medium transition-colors cursor-pointer"
+                      :class="row.nilai_kontributor !== null ? 'text-[#09090b]' : 'text-[#71717a]'"
+                      x-text="row.nilai_kontributor !== null ? row.nilai_kontributor : '-'"
+                    ></button>
                   </div>
                 </td>
 
-                <!-- Nilai Pembimbing (Editable) -->
-                <td class="h-[68px] px-4 text-center min-w-[110px]">
+                <!-- Nilai Penguji 1 / Pembimbing 24% -->
+                <td class="h-[68px] px-4 text-center min-w-[140px]">
                   <div class="flex justify-center">
-                    <input
-                      type="text"
-                      inputmode="numeric"
-                      :value="row.nilai_pembimbing !== null ? row.nilai_pembimbing : ''"
-                      @change="updateNilaiField(row, 'nilai_pembimbing', $event.target.value)"
-                      placeholder="-"
-                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                    />
+                    <button
+                      type="button"
+                      @click="openEditNilaiModal(row, 'nilai_penguji_1')"
+                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/30 text-sm font-medium transition-colors cursor-pointer"
+                      :class="row.nilai_penguji_1 !== null ? 'text-[#09090b]' : 'text-[#71717a]'"
+                      x-text="row.nilai_penguji_1 !== null ? row.nilai_penguji_1 : '-'"
+                    ></button>
                   </div>
                 </td>
 
-                <!-- Nilai Penguji 1 (Editable) -->
-                <td class="h-[68px] px-4 text-center min-w-[110px]">
+                <!-- Nilai Penguji 2 16% -->
+                <td class="h-[68px] px-4 text-center min-w-[130px]">
                   <div class="flex justify-center">
-                    <input
-                      type="text"
-                      inputmode="numeric"
-                      :value="row.nilai_penguji_1 !== null ? row.nilai_penguji_1 : ''"
-                      @change="updateNilaiField(row, 'nilai_penguji_1', $event.target.value)"
-                      placeholder="-"
-                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                    />
-                  </div>
-                </td>
-
-                <!-- Nilai Penguji 2 (Editable / Slot Empty) -->
-                <td class="h-[68px] px-4 text-center min-w-[110px]">
-                  <div class="flex justify-center">
-                    <template x-if="row.penguji_2 != null">
-                      <input
-                        type="text"
-                        inputmode="numeric"
-                        :value="row.nilai_penguji_2 !== null ? row.nilai_penguji_2 : ''"
-                        @change="updateNilaiField(row, 'nilai_penguji_2', $event.target.value)"
-                        placeholder="-"
-                        class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                      />
-                    </template>
-                    <template x-if="row.penguji_2 == null">
-                      <span class="text-[#71717a] text-xs select-none" title="Penguji belum di-plotting">-</span>
-                    </template>
-                  </div>
-                </td>
-
-                <!-- Nilai Penguji 3 (Editable / Slot Empty) -->
-                <td class="h-[68px] px-4 text-center min-w-[110px]">
-                  <div class="flex justify-center">
-                    <template x-if="row.penguji_3 != null">
-                      <input
-                        type="text"
-                        inputmode="numeric"
-                        :value="row.nilai_penguji_3 !== null ? row.nilai_penguji_3 : ''"
-                        @change="updateNilaiField(row, 'nilai_penguji_3', $event.target.value)"
-                        placeholder="-"
-                        class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white text-sm font-medium text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-                      />
-                    </template>
-                    <template x-if="row.penguji_3 == null">
-                      <span class="text-[#71717a] text-xs select-none" title="Penguji belum di-plotting">-</span>
-                    </template>
+                    <button
+                      type="button"
+                      @click="openEditNilaiModal(row, 'nilai_penguji_2')"
+                      class="h-8 min-w-[4rem] w-20 px-2 text-center tabular-nums rounded-md border border-[#e4e4e7] bg-white hover:border-[#0655a7] hover:bg-blue-50/30 text-sm font-medium transition-colors cursor-pointer"
+                      :class="row.nilai_penguji_2 !== null ? 'text-[#09090b]' : 'text-[#71717a]'"
+                      x-text="row.nilai_penguji_2 !== null ? row.nilai_penguji_2 : '-'"
+                    ></button>
                   </div>
                 </td>
 
@@ -592,6 +534,92 @@ import AdminShell from '../../layouts/AdminShell.astro';
             class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-medium text-[#09090b] transition-colors cursor-pointer"
           >
             Batal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL 3: EDIT NILAI SIDANG                           -->
+    <!-- ==================================================== -->
+    <div
+      x-show="isEditNilaiOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
+    >
+      <div
+        @click.outside="isEditNilaiOpen = false"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-base font-semibold text-[#09090b]">Edit Nilai Sidang</h3>
+            <p class="text-xs text-[#71717a] mt-0.5" x-text="editNilaiTarget ? `${editNilaiTarget.mahasiswa?.nama} (${editNilaiTarget.mahasiswa?.nim})` : ''"></p>
+          </div>
+          <button
+            type="button"
+            @click="isEditNilaiOpen = false"
+            class="rounded-sm opacity-70 transition-opacity hover:opacity-100 text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="space-y-1.5">
+            <label class="font-semibold text-[#09090b]">Nilai Kontributor (60%)</label>
+            <input
+              id="input-edit-nilai_kontributor"
+              type="number"
+              min="0"
+              max="100"
+              x-model="editNilaiForm.nilai_kontributor"
+              placeholder="0 - 100"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-semibold text-[#09090b]">Nilai Penguji 1 / Pembimbing (24%)</label>
+            <input
+              id="input-edit-nilai_penguji_1"
+              type="number"
+              min="0"
+              max="100"
+              x-model="editNilaiForm.nilai_penguji_1"
+              placeholder="0 - 100"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-semibold text-[#09090b]">Nilai Penguji 2 (16%)</label>
+            <input
+              id="input-edit-nilai_penguji_2"
+              type="number"
+              min="0"
+              max="100"
+              x-model="editNilaiForm.nilai_penguji_2"
+              placeholder="0 - 100"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            @click="isEditNilaiOpen = false"
+            class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="simpanEditNilai()"
+            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium transition-colors cursor-pointer"
+          >
+            Simpan Nilai
           </button>
         </div>
       </div>

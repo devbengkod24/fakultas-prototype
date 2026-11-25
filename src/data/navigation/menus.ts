@@ -15,23 +15,21 @@ export interface RoleNavConfig {
 export const navigationMenus: Record<string, RoleNavConfig> = {
   admin: {
     role: "admin",
-    roleTitle: "Koordinator MBKM",
+    roleTitle: "Koordinator KB",
     items: [
       { id: "dashboard", label: "Dashboard", href: "/koordinator/dashboard", icon: "layout-dashboard" },
       { id: "pengumuman", label: "Pengumuman", href: "/koordinator/pengumuman", icon: "megaphone" },
       { id: "kontributor", label: "Kontributor", href: "/koordinator/kontributor", icon: "building-2" },
       { id: "data-mahasiswa", label: "Data Mahasiswa", href: "/koordinator/data-mahasiswa", icon: "user-check" },
       { id: "pelamar", label: "Pendaftar", href: "/koordinator/pelamar", icon: "users" },
-      { id: "surekom", label: "Validasi Surekom", href: "/koordinator/surekom", icon: "file-check" },
+      { id: "logbook-bimbingan", label: "Logbook Bimbingan", href: "/koordinator/logbook-bimbingan", icon: "book-open-check" },
       { id: "dosen-update", label: "Plotting Dosen", href: "/koordinator/dosen-update", icon: "user-plus" },
       { id: "dosen-data", label: "Data Dosen", href: "/koordinator/dosen-data", icon: "graduation-cap" },
-      { id: "logbook", label: "Logbook Kegiatan", href: "/koordinator/logbook", icon: "book-open" },
       { id: "konversi", label: "Validasi Konversi SKS", href: "/koordinator/konversi", icon: "arrow-left-right" },
-      { id: "data-pengajuan", label: "Data Pengajuan", href: "/koordinator/data-pengajuan", icon: "file-check-2" },
       { id: "plotting-jadwal", label: "Plotting Jadwal", href: "/koordinator/plotting-jadwal", icon: "calendar-clock" },
       { id: "hasil-sidang", label: "Hasil Sidang", href: "/koordinator/hasil-sidang", icon: "award" },
       { id: "form-pendaftaran", label: "Form Pendaftaran", href: "/koordinator/form-pendaftaran", icon: "clipboard-list" },
-      { id: "periode", label: "Periode MBKM", href: "/koordinator/periode", icon: "calendar-range" },
+      { id: "periode", label: "Periode KB", href: "/koordinator/periode", icon: "calendar-range" },
       { id: "log-aktivitas", label: "Log Aktivitas", href: "/koordinator/log-aktivitas", icon: "history" },
     ]
   },

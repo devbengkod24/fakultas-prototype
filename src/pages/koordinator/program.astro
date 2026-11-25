@@ -13,7 +13,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 <div>
                   <h2 class="text-base font-semibold text-[#09090b]">Data Program</h2>
                   <p class="text-[11px] text-[#71717a]">
-                    Daftar seluruh program MBKM internal dan skema asistensi mengajar terdaftar.
+                    Daftar seluruh program Kampus Berdampak internal dan skema asistensi mengajar terdaftar.
                   </p>
                 </div>
                 <div class="flex items-center gap-2">
@@ -75,7 +75,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7]">
                 <div>
                   <h2 id="edit-program-title" class="text-lg font-semibold text-[#09090b]">Ubah Program</h2>
-                  <p class="text-xs text-[#71717a]">Perbarui detail skema, kuota pendaftar, dan persyaratan MBKM.</p>
+                  <p class="text-xs text-[#71717a]">Perbarui detail skema, kuota pendaftar, dan persyaratan Kampus Berdampak.</p>
                 </div>
                 <button
                   type="button"
@@ -101,20 +101,20 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </div>
 
                 <div class="flex flex-col gap-1.5">
-                  <label class="font-medium text-[#3f3f46]">Kategori / Klaster MBKM *</label>
+                  <label class="font-medium text-[#3f3f46]">Kategori / Klaster KB *</label>
                   <select
                     id="edit-kategori-program"
                     onchange="handleKategoriChange(this.value)"
                     class="px-3 py-2 rounded-lg border border-[#e4e4e7] bg-white focus:ring-1 focus:ring-[#0655a7] focus:outline-none"
                   >
-                    <optgroup label="MBKM Eksternal (Pendaftaran Mandiri & Seleksi)">
+                    <optgroup label="KB Eksternal (Pendaftaran Mandiri & Seleksi)">
                       <option value="eksternal_studi">Studi Independen (Dicoding, Vinix)</option>
                       <option value="eksternal_kki">Magang Kuliah Kerja Industri (KKI)</option>
                       <option value="eksternal_sekolah">Magang Berdampak di Sekolah</option>
                     </optgroup>
-                    <optgroup label="MBKM Internal (Penugasan Kontributor / Auto-Lolos)">
+                    <optgroup label="KB Internal (Penugasan Kontributor / Auto-Lolos)">
                       <option value="internal_bengkel" selected>
-                        MBKM Internal - Asistensi Mengajar (Bengkel Koding)
+                        KB Internal - Asistensi Mengajar (Bengkel Koding)
                       </option>
                       <option value="internal_lab">Studi Independen (Lab IntSys)</option>
                       <option value="internal_riset">Riset Bersama Bidang Kajian (IDSS, Matics)</option>

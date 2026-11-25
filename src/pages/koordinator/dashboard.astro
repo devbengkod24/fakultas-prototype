@@ -19,31 +19,31 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
   <div class="flex flex-col min-w-0 space-y-4 lg:col-span-8">
     <!-- 3 Menu Cards Grid (Diekstrak ke Global Component ActionNavCard) -->
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <!-- Card 1: Pengajuan Mahasiswa / SuReKom -->
+      <!-- Card 1: Plotting Jadwal -->
       <ActionNavCard
-        title="Pengajuan Mahasiswa"
-        subtitle="Pengajuan bimbingan mahasiswa"
-        icon="user"
+        title="Plotting Jadwal"
+        subtitle="Atur jadwal & undangan sidang"
+        icon="calendar-clock"
         iconColor="text-orange-500"
-        onclick="window.location.href='/koordinator/surekom'"
+        onclick="window.location.href='/koordinator/plotting-jadwal'"
       />
 
-      <!-- Card 2: Logbook Mahasiswa -->
+      <!-- Card 2: Logbook Bimbingan -->
       <ActionNavCard
-        title="Logbook Mahasiswa"
-        subtitle="Progress logbook mahasiswa"
-        icon="book-open"
+        title="Logbook Bimbingan"
+        subtitle="Verifikasi bimbingan mahasiswa"
+        icon="book-open-check"
         iconColor="text-amber-500"
-        onclick="switchTab('logbook')"
+        onclick="window.location.href='/koordinator/logbook-bimbingan'"
       />
 
-      <!-- Card 3: Mahasiswa Sidang / Pelamar Kontributor -->
+      <!-- Card 3: Hasil Sidang -->
       <ActionNavCard
-        title="Mahasiswa Sidang"
-        subtitle="Pengajuan sidang mahasiswa"
-        icon="folder"
+        title="Hasil Sidang"
+        subtitle="Nilai & rekap hasil sidang"
+        icon="award"
         iconColor="text-emerald-500"
-        onclick="switchTab('mhs-pelamar')"
+        onclick="window.location.href='/koordinator/hasil-sidang'"
       />
     </div>
 
@@ -55,12 +55,13 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
         weeklyCounts={[18, 24, 31, 42, 29, 13, 0, 22]}
         currentWeek={8}
         onTimeRate="92%"
+        rekapHref="/koordinator/logbook"
       />
 
       <!-- Distribusi Mahasiswa -->
       <div class="col-span-12 xl:col-span-6 rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col justify-between shadow-none">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="font-semibold text-sm text-[#09090b]">Distribusi Mahasiswa MBKM</h3>
+          <h3 class="font-semibold text-sm text-[#09090b]">Distribusi Mahasiswa Kampus Berdampak</h3>
           <span class="text-xs text-[#71717a]">48 Mahasiswa</span>
         </div>
         <div class="pt-2 space-y-3">
@@ -108,11 +109,11 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
       </div>
     </div>
 
-    <!-- Bottom Section: Data Permohonan SuReKom Terbaru (Sesuai Card Data Pengajuan Bimbingan) -->
+    <!-- Bottom Section: Pelamar MBKM Terbaru -->
 
       <div class="mb-4">
-        <h2 class="font-semibold text-base text-[#09090b]">Data Permohonan SuReKom</h2>
-        <p class="text-sm text-gray-500 mt-0.5">Berikut adalah data permohonan surat rekomendasi terbaru yang diajukan oleh mahasiswa</p>
+        <h2 class="font-semibold text-base text-[#09090b]">Pelamar Kampus Berdampak Terbaru</h2>
+        <p class="text-sm text-gray-500 mt-0.5">Berikut adalah daftar pelamar Kampus Berdampak terbaru yang mendaftar melalui program kontributor</p>
       </div>
       <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
         <table class="w-full text-sm">
@@ -137,7 +138,7 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
                 <span class="inline-flex items-center rounded-md border border-yellow-200 bg-yellow-50 px-2 py-0.5 text-xs font-semibold text-yellow-800">Menunggu</span>
               </td>
               <td class="h-[68px] px-4 text-center text-sm">
-                <button type="button" onclick="window.location.href='/koordinator/surekom'" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
+                <button type="button" onclick="window.location.href='/koordinator/pelamar'" class="inline-flex items-center gap-1 h-8 px-2.5 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#0655a7]">
                   <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                   <span>Tinjau</span>
                 </button>
@@ -171,9 +172,9 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
     <QuickActionsCard
       title="Aksi Cepat"
       items={[
-        { label: 'Buat Pengumuman', icon: 'megaphone', onclick: "switchTab('pengumuman'); showBuatPengumumanModal();" },
-        { label: 'Tambah Kontributor', icon: 'building-2', onclick: "switchTab('kontributor'); showTambahKontributorModal();" },
-        { label: 'Atur Periode Ajaran', icon: 'calendar-range', onclick: "switchTab('periode');" },
+        { label: 'Buat Pengumuman', icon: 'megaphone', onclick: "window.location.href='/koordinator/pengumuman'" },
+        { label: 'Tambah Kontributor', icon: 'building-2', onclick: "window.location.href='/koordinator/kontributor'" },
+        { label: 'Atur Periode Ajaran', icon: 'calendar-range', onclick: "window.location.href='/koordinator/periode'" },
       ]}
     />
 
@@ -181,7 +182,7 @@ import LogbookChartCard from '../../components/ui/LogbookChartCard.astro';
     <ActivityFeedCard
       title="Aktivitas Terkini"
       activities={[
-        { text: 'SuReKom Calvin Revianto masuk antrean', time: '10 menit lalu', color: 'blue' },
+        { text: 'Calvin Revianto mengajukan lamaran Kampus Berdampak', time: '10 menit lalu', color: 'blue' },
         { text: 'Budi Santoso direkomendasikan kontributor', time: '1 jam lalu', color: 'green' },
         { text: 'Periode 2026/2027 diperbarui oleh Koordinator', time: '3 jam lalu', color: 'amber' },
       ]}

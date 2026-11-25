@@ -23,7 +23,6 @@ document.addEventListener('alpine:init', () => {
 
     // Resolusi nama section aktif
     get currentSection() {
-      if (this.currentTab === 'mhs-rekomendasi') return 'surekom';
       if (this.currentTab === 'dosen-data') return 'dosen-data';
       if (this.currentTab === 'mhs-pendaftar') return 'mhs-pelamar';
       return this.currentTab;
@@ -34,7 +33,7 @@ document.addEventListener('alpine:init', () => {
       const meta = typeof navMeta !== 'undefined' ? navMeta[this.currentTab] : null;
       return meta || {
         label: 'Dashboard',
-        title: 'Selamat Datang, Koordinator MBKM di Fakultas Ilmu Komputer',
+        title: 'Selamat Datang, Koordinator Kampus Berdampak di Fakultas Ilmu Komputer',
         subtitle: 'Berikut adalah data-data dan ringkasan operasional yang dapat Anda akses.'
       };
     },
@@ -45,7 +44,7 @@ document.addEventListener('alpine:init', () => {
       this.currentTab = tabKey;
 
       // Sinkronkan state submenu jika tab berada di bawah parent
-      if (['mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tabKey)) {
+      if (['mhs-data', 'mhs-pelamar', 'logbook', 'logbook-bimbingan'].includes(tabKey)) {
         this.mahasiswaSubmenuOpen = true;
       }
       if (['dosen-data', 'dosen-update', 'update-dosen'].includes(tabKey)) {
@@ -106,7 +105,6 @@ document.addEventListener('alpine:init', () => {
         const slug = window.location.pathname.replace(/\/$/, '').split('/').pop();
         const slugMap = {
           'pelamar': 'mhs-pelamar',
-          'surekom': 'mhs-rekomendasi',
           'koordinator': 'dosen-data',
           'laporan': 'laporan',
           'sidang': 'laporan',
@@ -114,7 +112,7 @@ document.addEventListener('alpine:init', () => {
         tab = slugMap[slug] || slug || 'dashboard';
       }
       this.currentTab = tab;
-      if (['mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(tab)) {
+      if (['mhs-data', 'mhs-pelamar', 'logbook', 'logbook-bimbingan'].includes(tab)) {
         this.mahasiswaSubmenuOpen = true;
       }
       if (['dosen-data', 'dosen-update', 'update-dosen'].includes(tab)) {
@@ -123,7 +121,7 @@ document.addEventListener('alpine:init', () => {
       if (['form-pendaftaran', 'periode'].includes(tab)) {
         this.mbkmSubmenuOpen = true;
       }
-      if (['data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(tab)) {
+      if (['plotting-jadwal', 'hasil-sidang'].includes(tab)) {
         this.sidangSubmenuOpen = true;
       }
       this.refreshIcons();

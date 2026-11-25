@@ -189,7 +189,7 @@ function closeModalJadwalSidang() {
 function handleSaveJadwalSidang(e) {
   e.preventDefault();
   closeModalJadwalSidang();
-  alert('Jadwal sidang evaluasi akhir MBKM berhasil disimpan.');
+  alert('Jadwal sidang evaluasi akhir Kampus Berdampak berhasil disimpan.');
 }
 
 function openModalInputNilaiSidang(nama, nim, kontributor, dpl, nilaiKontributor, nilaiDpl) {
@@ -232,7 +232,7 @@ function handleSaveNilaiSidang(e) {
   const grade = document.getElementById('display-nilai-huruf').textContent;
   closeModalInputNilaiSidang();
   alert(
-    `Nilai akhir sidang berhasil disahkan!\nNilai Gabungan: ${nAngka} (${grade})\nStatus: Lulus Evaluasi MBKM.`
+    `Nilai akhir sidang berhasil disahkan!\nNilai Gabungan: ${nAngka} (${grade})\nStatus: Lulus Evaluasi Kampus Berdampak.`
   );
 }
 

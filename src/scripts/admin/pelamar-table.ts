@@ -369,7 +369,7 @@ function renderPelamarTable() {
                     <div class="space-y-2">
                       <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
                         <i data-lucide="building-2" class="w-4 h-4 text-[#0655a7]"></i>
-                        <span>Program MBKM</span>
+                        <span>Program KB</span>
                       </div>
                       <div class="flex items-center gap-2 flex-wrap">
                         <span class="text-lg font-bold text-[#09090b] leading-snug">${mitraText}</span>
@@ -471,7 +471,7 @@ function renderPelamarTable() {
         trThead.innerHTML = `
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program KB</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Jadwal Wawancara</th>
           <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
@@ -480,7 +480,7 @@ function renderPelamarTable() {
         trThead.innerHTML = `
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program KB</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Hasil Seleksi</th>
           <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
@@ -489,7 +489,7 @@ function renderPelamarTable() {
         trThead.innerHTML = `
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program KB</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Akademik</th>
           <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>

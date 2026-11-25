@@ -133,7 +133,7 @@ function addStageCard() {
     id: 'stage_' + Date.now(),
     name: `Tahap ${newStageNum}: Tahapan Seleksi Baru`,
     type: 'custom',
-    rule: 'Tahapan kustom yang diatur oleh Koordinator MBKM',
+    rule: 'Tahapan kustom yang diatur oleh Koordinator Kampus Berdampak',
     files: [
       { id: 'f_' + Date.now(), label: 'Dokumen Persyaratan Khusus', format: 'PDF (Maks 2MB)', required: true },
     ],
@@ -185,7 +185,7 @@ function toggleFileRequired(sIdx, fIdx, checked) {
 }
 
 function saveAsTemplate() {
-  alert('Konfigurasi tahapan & berkas berhasil disimpan sebagai Template MBKM Baru!');
+  alert('Konfigurasi tahapan & berkas berhasil disimpan sebagai Template Kampus Berdampak Baru!');
 }
 
 

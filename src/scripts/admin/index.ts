@@ -16,8 +16,6 @@ import * as kategori from "./kategori";
 import * as koordinator_table from "./koordinator-table";
 import * as koordinator_modal from "./koordinator-modal";
 import * as koordinator_assign from "./koordinator-assign";
-import * as surekom_table from "./surekom-table";
-import * as surekom_preview from "./surekom-preview";
 import * as logbook from "./logbook";
 import * as laporan from "./laporan";
 import * as pengumuman from "./pengumuman";
@@ -46,8 +44,6 @@ export {
   koordinator_table,
   koordinator_modal,
   koordinator_assign,
-  surekom_table,
-  surekom_preview,
   logbook,
   laporan,
   pengumuman,

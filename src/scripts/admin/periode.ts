@@ -248,7 +248,7 @@ function showEditPeriodeModal(id) {
   activeEditPeriodeId = id;
   const modal = document.getElementById('modal-edit-periode');
   const sub = document.getElementById('modal-edit-periode-subtitle');
-  if (sub) sub.textContent = `Update tanggal periode MBKM untuk ${item.tahun} (${item.kode})`;
+  if (sub) sub.textContent = `Update tanggal periode Kampus Berdampak untuk ${item.tahun} (${item.kode})`;
 
   document.getElementById('modal-edit-periode-id').value = item.id;
   document.getElementById('modal-edit-periode-status').value = item.status;

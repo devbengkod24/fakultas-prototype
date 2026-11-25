@@ -58,7 +58,35 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
         });
         this.viewMode = 'detail';
       },
+      init() {
+        const params = new URLSearchParams(window.location.search);
+        const nim = params.get('nim');
+        if (!nim) return;
+        const found = this.students.find((s) => s.nim === nim);
+        if (found) {
+          this.openDetail(found);
+          return;
+        }
+        const skema = params.get('skema') || '';
+        this.openDetail({
+          id: 0,
+          nama: params.get('nama') || nim,
+          nim,
+          prodi: '',
+          mitra: skema && skema !== 'Belum Ada' ? skema : '-',
+          program: skema,
+          dosenPembimbing: params.get('dosen') || '-',
+          mingguAktif: 0,
+          totalMinggu: 24,
+          statusProgres: 'belum',
+          weeks: [],
+        });
+      },
       backToMaster() {
+        if (new URLSearchParams(window.location.search).get('nim')) {
+          window.location.href = '/koordinator/data-mahasiswa';
+          return;
+        }
         this.selectedMhs = null;
         this.viewMode = 'master';
       },

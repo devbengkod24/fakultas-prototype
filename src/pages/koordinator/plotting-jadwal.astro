@@ -1,4 +1,4 @@
----
+﻿---
 // src/pages/admin/plotting-jadwal.astro
 import AdminShell from '../../layouts/AdminShell.astro';
 ---
@@ -15,7 +15,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
       searchQuery: '',
       statusFilter: 'semua',
       sortDir: 'asc',
-      selectedIds: [],
       currentPage: 1,
       pageSize: 10,
 
@@ -28,134 +27,286 @@ import AdminShell from '../../layouts/AdminShell.astro';
       toastMessage: '',
       showToast: false,
 
-      // Buat Jadwal Form States
-      buatTglSidang: '',
-      buatRuanganId: '',
-      buatJamMulai: '',
-      buatPreview: [],
+      // Buat Jadwal Form States (Sesi Online + 2 Dosen Pasangan)
+      buatTglSidang: '2026-07-23',
+      buatJamMulai: '09:00',
+      buatGmeet: 'https://meet.google.com/fik-kb-01',
+      buatDosen1Id: '',
+      buatDosen2Id: '',
+      buatSelectedMhs1: [],
+      buatSelectedMhs2: [],
 
       // Edit Jadwal Form States
       editTglSidang: '',
       editJamMulai: '',
-      editRuanganId: '',
+      editGmeet: '',
       editPengujiId: '',
       editPenguji2Id: '',
-      editPenguji3Id: '',
 
       // Undangan Modal States
       undanganMode: 'personal',
       undanganKode: '042/SK-PENGUJI/FIK-UDINUS/VI/2026',
       undanganTgl: '2026-06-20',
       undanganDosenId: '',
-
-      ruanganList: [
-        { id: 1, nama: 'Lab AI (H.4.1)' },
-        { id: 2, nama: 'Lab RPL (H.4.3)' },
-        { id: 3, nama: 'Lab Jaringan (H.4.5)' },
-        { id: 4, nama: 'Ruang Sidang Dekanat (H.1.2)' },
-        { id: 5, nama: 'Ruang Sidang Online (Zoom Room 1)' }
-      ],
+      isDownloadingUndangan: false,
 
       dosenList: [
-        { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
-        { id: 2, nama: 'Affandy, Ph.D' },
-        { id: 3, nama: 'Christy Atika Sari, M.Kom' },
-        { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom' },
-        { id: 5, nama: 'Ajib Susanto, M.Kom' },
-        { id: 6, nama: 'Nurul Anisa S.W., M.Cs' }
+        { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+        { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
+        { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+        { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+        { id: 5, nama: 'Yani Parti Astuti, S.Si, M.Kom' },
+        { id: 6, nama: 'Defri Kurniawan, M.Kom' },
+        { id: 7, nama: 'Egia Rosi Subhiyakto, M.Kom' }
       ],
 
-      jamOptions: ['09:00', '10:00', '11:00', '12:00'],
+      unplottedMahasiswa: [
+        { nim: 'A11.2025.16148', nama: 'Aprilya Sarigontina Lumbanbatu', skema: 'Pengelola Medsos STI', dosenId: 1 },
+        { nim: 'A11.2025.16421', nama: 'Rhenaldinata Leonoreza', skema: 'Pengelola Medsos STI', dosenId: 1 },
+        { nim: 'A11.2023.15332', nama: 'Harry LBI', skema: 'Magang Kuliah Kerja Industri (KKI)', dosenId: 2 },
+        { nim: 'A11.2023.15448', nama: 'Dhion Nur Damanhuri', skema: 'Magang Kuliah Kerja Industri (KKI)', dosenId: 2 },
+        { nim: 'A11.2023.15345', nama: 'Annisa Angelica Nugraha', skema: 'Bengkel Koding', dosenId: 3 },
+        { nim: 'A11.2023.15412', nama: 'Mohamad Apriliian Tanjung', skema: 'Bengkel Koding', dosenId: 3 },
+        { nim: 'A11.2023.15139', nama: 'Naufal Irfan Najib', skema: 'Riset bersama Bidang Kajian', dosenId: 4 },
+        { nim: 'A11.2023.15360', nama: 'Nadila Meivika Rahmawati', skema: 'Riset bersama Bidang Kajian', dosenId: 4 },
+        { nim: 'A11.2023.15155', nama: 'Fatih Pratama Ramadhan', skema: 'Bengkel Koding', dosenId: 5 },
+        { nim: 'A11.2023.15176', nama: 'Shazia Mirza', skema: 'Bengkel Koding', dosenId: 5 },
+        { nim: 'A11.2025.16463', nama: 'Helga Mayka Putra Pene', skema: 'Industrial Visit', dosenId: 5 },
+        { nim: 'A11.2023.15250', nama: 'Rindi Fadilah', skema: 'Bengkel Koding', dosenId: 6 },
+        { nim: 'A11.2023.15192', nama: 'Suci Ayu Veronica', skema: 'Bengkel Koding', dosenId: 6 },
+        { nim: 'A11.2023.15347', nama: 'Tiara Sofa', skema: 'Bengkel Koding', dosenId: 7 },
+        { nim: 'A11.2023.15226', nama: 'Irgi Alfarizal Ardiansyah', skema: 'Bengkel Koding', dosenId: 7 }
+      ],
+
+      jamOptions: ['08:30', '09:00', '10:00', '11:00', '13:00', '14:00'],
 
       plottingData: [
+        // Blok 1: 4 Mahasiswa (2 + 2) — Senin, 13 Juli 2026 | 09.00
         {
           sidang_id: 1,
           pengajuan_sidang_id: 101,
-          pembimbing: { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
-          mahasiswa: { id: 101, nama: 'Faisal Rahman', nim: 'A11.2022.13901' },
-          jadwal: { tanggal: '2026-06-25', jam: '09:00 - 10:00', status: 'terjadwal' },
-          ruangan: { id: 1, nama: 'Lab AI (H.4.1)' },
-          penguji_1: { id: 2, nama: 'Affandy, Ph.D' },
-          penguji_2: { id: 5, nama: 'Ajib Susanto, M.Kom' },
-          penguji_3: null,
+          skema: 'Riset bersama Bidang Kajian',
+          pembimbing: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          mahasiswa: { id: 101, nama: 'Ferdian Nur Fariza', nim: 'A11.2023.15074' },
+          jadwal: { tanggal: '2026-07-13', jam: '09:00 - 10:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          penguji_2: { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
           gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
           nilai_penyelia: 92,
           nilai_pembimbing: 90,
           nilai_penguji_1: 88,
           nilai_penguji_2: 91,
-          nilai_penguji_3: null,
           sidang_status: 'selesai'
         },
         {
           sidang_id: 2,
           pengajuan_sidang_id: 102,
-          pembimbing: { id: 2, nama: 'Affandy, Ph.D' },
-          mahasiswa: { id: 102, nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158' },
-          jadwal: { tanggal: '2026-06-25', jam: '10:00 - 11:00', status: 'terjadwal' },
-          ruangan: { id: 1, nama: 'Lab AI (H.4.1)' },
-          penguji_1: { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
-          penguji_2: { id: 3, nama: 'Christy Atika Sari, M.Kom' },
-          penguji_3: null,
+          skema: 'Riset bersama Bidang Kajian',
+          pembimbing: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          mahasiswa: { id: 102, nama: 'Rico Andre Pratama', nim: 'A11.2023.15393' },
+          jadwal: { tanggal: '2026-07-13', jam: '09:00 - 10:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          penguji_2: { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
           gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
-          nilai_penyelia: 95,
+          nilai_penyelia: 90,
           nilai_pembimbing: null,
           nilai_penguji_1: null,
           nilai_penguji_2: null,
-          nilai_penguji_3: null,
           sidang_status: null
         },
         {
           sidang_id: 3,
           pengajuan_sidang_id: 103,
-          pembimbing: { id: 3, nama: 'Christy Atika Sari, M.Kom' },
-          mahasiswa: { id: 103, nama: 'Nabila Zahra Putri', nim: 'A12.2022.09842' },
-          jadwal: { tanggal: '2026-06-26', jam: '11:00 - 12:00', status: 'terjadwal' },
-          ruangan: { id: 2, nama: 'Lab RPL (H.4.3)' },
-          penguji_1: { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom' },
-          penguji_2: { id: 5, nama: 'Ajib Susanto, M.Kom' },
-          penguji_3: null,
+          skema: 'Magang Kuliah Kerja Industri (KKI)',
+          pembimbing: { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
+          mahasiswa: { id: 103, nama: 'Kohelet Aprillo Toka', nim: 'A11.2023.14999' },
+          jadwal: { tanggal: '2026-07-13', jam: '09:00 - 10:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          penguji_2: { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
           gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
           nilai_penyelia: 88,
           nilai_pembimbing: null,
           nilai_penguji_1: null,
           nilai_penguji_2: null,
-          nilai_penguji_3: null,
           sidang_status: null
         },
         {
           sidang_id: 4,
           pengajuan_sidang_id: 104,
-          pembimbing: { id: 4, nama: 'Eko Hari Rachmawanto, M.Kom' },
-          mahasiswa: { id: 104, nama: 'Rizky Aditya Pratama', nim: 'A11.2022.14012' },
-          jadwal: { tanggal: null, jam: null, status: 'belum' },
-          ruangan: null,
-          penguji_1: null,
-          penguji_2: null,
-          penguji_3: null,
-          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
-          nilai_penyelia: null,
+          skema: 'Riset bersama Bidang Kajian',
+          pembimbing: { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
+          mahasiswa: { id: 104, nama: 'Tabitha Amelia Wibowo', nim: 'A11.2023.15102' },
+          jadwal: { tanggal: '2026-07-13', jam: '09:00 - 10:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          penguji_2: { id: 2, nama: 'Sindhu Rakasiwi, M.Kom' },
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 89,
           nilai_pembimbing: null,
           nilai_penguji_1: null,
           nilai_penguji_2: null,
-          nilai_penguji_3: null,
           sidang_status: null
         },
+
+        // Blok 2: 4 Mahasiswa (2 + 2) — Senin, 13 Juli 2026 | 13.00
         {
           sidang_id: 5,
           pengajuan_sidang_id: 105,
-          pembimbing: { id: 1, nama: 'Dr. M. Arief Soeleman, M.Kom' },
-          mahasiswa: { id: 105, nama: 'Dimas Wahyu Nugroho', nim: 'A11.2021.13450' },
-          jadwal: { tanggal: null, jam: null, status: 'belum' },
-          ruangan: null,
-          penguji_1: null,
-          penguji_2: null,
-          penguji_3: null,
-          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
-          nilai_penyelia: null,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+          mahasiswa: { id: 105, nama: 'Kamilah Falah Syifa', nim: 'A11.2023.15166' },
+          jadwal: { tanggal: '2026-07-13', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+          penguji_2: { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 94,
+          nilai_pembimbing: 92,
+          nilai_penguji_1: 90,
+          nilai_penguji_2: 89,
+          sidang_status: 'selesai'
+        },
+        {
+          sidang_id: 6,
+          pengajuan_sidang_id: 106,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+          mahasiswa: { id: 106, nama: 'Sufyaan Adil Rusydi', nim: 'A11.2023.15004' },
+          jadwal: { tanggal: '2026-07-13', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+          penguji_2: { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 91,
           nilai_pembimbing: null,
           nilai_penguji_1: null,
           nilai_penguji_2: null,
-          nilai_penguji_3: null,
+          sidang_status: null
+        },
+        {
+          sidang_id: 7,
+          pengajuan_sidang_id: 107,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+          mahasiswa: { id: 107, nama: 'Aulia Anjali Rizaldi', nim: 'A11.2023.15012' },
+          jadwal: { tanggal: '2026-07-13', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+          penguji_2: { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 87,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          sidang_status: null
+        },
+        {
+          sidang_id: 8,
+          pengajuan_sidang_id: 108,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+          mahasiswa: { id: 108, nama: 'Tri Yuliana', nim: 'A11.2023.15145' },
+          jadwal: { tanggal: '2026-07-13', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 3, nama: 'Adhitya Nugraha, S.Kom, M.CS' },
+          penguji_2: { id: 4, nama: 'Danang Wahyu Utomo, M.Kom' },
+          gelombang: { id: 1, nama_gelombang: 'Gelombang 1' },
+          nilai_penyelia: 90,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          sidang_status: null
+        },
+
+        // Blok 3: 3 Mahasiswa (2 + 1) — Selasa, 21 Juli 2026 | 13.00
+        {
+          sidang_id: 9,
+          pengajuan_sidang_id: 109,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 5, nama: 'Yani Parti Astuti, S.Si, M.Kom' },
+          mahasiswa: { id: 109, nama: 'Yusuf Farhan Abdurrahman', nim: 'A11.2023.15036' },
+          jadwal: { tanggal: '2026-07-21', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 5, nama: 'Yani Parti Astuti, S.Si, M.Kom' },
+          penguji_2: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: 89,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          sidang_status: null
+        },
+        {
+          sidang_id: 10,
+          pengajuan_sidang_id: 110,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 5, nama: 'Yani Parti Astuti, S.Si, M.Kom' },
+          mahasiswa: { id: 110, nama: 'Auliya Shadrina Nabilah', nim: 'A11.2023.15205' },
+          jadwal: { tanggal: '2026-07-21', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 5, nama: 'Yani Parti Astuti, S.Si, M.Kom' },
+          penguji_2: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: 91,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          sidang_status: null
+        },
+        {
+          sidang_id: 11,
+          pengajuan_sidang_id: 111,
+          skema: 'Apple Developer Academy',
+          pembimbing: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          mahasiswa: { id: 111, nama: 'Radian Dhuha Farsainsa', nim: 'A11.2023.15388' },
+          jadwal: { tanggal: '2026-07-21', jam: '13:00 - 14:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 5, nama: 'Yani Parti Astuti, S.Si, M.Kom' },
+          penguji_2: { id: 1, nama: 'Nurul Anisa Sri Winarsih, S.Kom, M.Cs' },
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: 93,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          sidang_status: null
+        },
+
+        // Blok 4: 2 Mahasiswa (1 Pembimbing + 1 Pendamping) — Rabu, 22 Juli 2026 | 09.00
+        {
+          sidang_id: 12,
+          pengajuan_sidang_id: 112,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 6, nama: 'Defri Kurniawan, M.Kom' },
+          mahasiswa: { id: 112, nama: 'Rafiq Susetya Nugraha', nim: 'A11.2023.15013' },
+          jadwal: { tanggal: '2026-07-22', jam: '09:00 - 10:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 6, nama: 'Defri Kurniawan, M.Kom' },
+          penguji_2: { id: 7, nama: 'Egia Rosi Subhiyakto, M.Kom' },
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: 88,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
+          sidang_status: null
+        },
+        {
+          sidang_id: 13,
+          pengajuan_sidang_id: 113,
+          skema: 'Bengkel Koding',
+          pembimbing: { id: 6, nama: 'Defri Kurniawan, M.Kom' },
+          mahasiswa: { id: 113, nama: 'Muhammad Rakha Keanura', nim: 'A11.2023.15165' },
+          jadwal: { tanggal: '2026-07-22', jam: '09:00 - 10:00', status: 'terjadwal' },
+          gmeet: 'https://meet.google.com/fik-kb-01',
+          penguji_1: { id: 6, nama: 'Defri Kurniawan, M.Kom' },
+          penguji_2: { id: 7, nama: 'Egia Rosi Subhiyakto, M.Kom' },
+          gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+          nilai_penyelia: 90,
+          nilai_pembimbing: null,
+          nilai_penguji_1: null,
+          nilai_penguji_2: null,
           sidang_status: null
         }
       ],
@@ -166,15 +317,18 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       get filteredRows() {
         return this.plottingData.filter(item => {
-          const scheduled = this.isScheduled(item);
-          const matchStatus = this.statusFilter === 'semua' || (this.statusFilter === 'sudah' ? scheduled : !scheduled);
+          if (!this.isScheduled(item)) return false;
+          const isDone = item.sidang_status === 'selesai' || item.nilai_akhir != null;
+          const matchStatus = this.statusFilter === 'semua' ||
+            (this.statusFilter === 'selesai' ? isDone : !isDone);
           const q = this.searchQuery.trim().toLowerCase();
           const matchSearch = q === '' ||
             item.mahasiswa.nama.toLowerCase().includes(q) ||
-            item.mahasiswa.nim.includes(q) ||
+            item.mahasiswa.nim.toLowerCase().includes(q) ||
             (item.pembimbing?.nama && item.pembimbing.nama.toLowerCase().includes(q)) ||
             (item.penguji_1?.nama && item.penguji_1.nama.toLowerCase().includes(q)) ||
-            (item.ruangan?.nama && item.ruangan.nama.toLowerCase().includes(q));
+            (item.penguji_2?.nama && item.penguji_2.nama.toLowerCase().includes(q)) ||
+            (item.gmeet && item.gmeet.toLowerCase().includes(q));
           return matchStatus && matchSearch;
         });
       },
@@ -197,74 +351,95 @@ import AdminShell from '../../layouts/AdminShell.astro';
         return Math.max(1, Math.ceil(this.sortedRows.length / this.pageSize));
       },
 
-      get belumIds() {
-        return this.filteredRows.filter(s => !this.isScheduled(s)).map(s => s.sidang_id);
+      getAvailableStudents(dosenId) {
+        if (!dosenId) return [];
+        const plottedNims = new Set(this.plottingData.map(p => p.mahasiswa.nim));
+        return this.unplottedMahasiswa.filter(
+          m => m.dosenId.toString() === dosenId.toString() && !plottedNims.has(m.nim)
+        );
       },
 
-      get allBelumSelected() {
-        return this.belumIds.length > 0 && this.belumIds.every(id => this.selectedIds.includes(id));
-      },
-
-      toggleSelectAll() {
-        if (this.allBelumSelected) {
-          this.selectedIds = [];
-        } else {
-          this.selectedIds = [...this.belumIds];
+      toggleBuatMhs(slot, nim) {
+        const key = slot === 1 ? 'buatSelectedMhs1' : 'buatSelectedMhs2';
+        if (this[key].includes(nim)) {
+          this[key] = this[key].filter(x => x !== nim);
+        } else if (this[key].length < 2) {
+          this[key] = [...this[key], nim];
         }
       },
 
-      toggleSelect(id) {
-        if (this.selectedIds.includes(id)) {
-          this.selectedIds = this.selectedIds.filter(x => x !== id);
-        } else {
-          this.selectedIds.push(id);
-        }
-      },
-
-      handleBuatJadwalModal() {
-        if (this.selectedIds.length === 0) return;
-        const selectedMhs = this.plottingData.filter(s => this.selectedIds.includes(s.sidang_id));
-        this.buatTglSidang = '2026-06-27';
-        this.buatRuanganId = '1';
+      openBuatJadwalModal() {
+        this.buatTglSidang = '2026-07-23';
         this.buatJamMulai = '09:00';
-
-        // Auto-assign dosen penguji (exclude pembimbing)
-        this.buatPreview = selectedMhs.map((m, idx) => {
-          const eligibleDosen = this.dosenList.filter(d => d.id !== m.pembimbing?.id);
-          const p1 = eligibleDosen[idx % eligibleDosen.length] || null;
-          const p2 = eligibleDosen[(idx + 1) % eligibleDosen.length] || null;
-          return {
-            sidang_id: m.sidang_id,
-            mahasiswa: m.mahasiswa,
-            pembimbing: m.pembimbing,
-            urutan: idx + 1,
-            penguji_id: p1 ? p1.id : null,
-            penguji_2_id: p2 ? p2.id : null,
-            penguji_3_id: null
-          };
-        });
-
+        this.buatGmeet = 'https://meet.google.com/fik-kb-baru';
+        this.buatDosen1Id = '';
+        this.buatDosen2Id = '';
+        this.buatSelectedMhs1 = [];
+        this.buatSelectedMhs2 = [];
         this.isBuatModalOpen = true;
         this.reinitLucide();
       },
 
-      simpanBuatJadwalBulk() {
-        const ruanganObj = this.ruanganList.find(r => r.id.toString() === this.buatRuanganId.toString()) || null;
-        this.buatPreview.forEach((p, idx) => {
-          const item = this.plottingData.find(s => s.sidang_id === p.sidang_id);
-          if (item) {
-            const startH = 9 + idx;
-            const jamStr = `${String(startH).padStart(2, '0')}:00 - ${String(startH + 1).padStart(2, '0')}:00`;
-            item.jadwal = { tanggal: this.buatTglSidang, jam: jamStr, status: 'terjadwal' };
-            item.ruangan = ruanganObj;
-            item.penguji_1 = this.dosenList.find(d => d.id === p.penguji_id) || null;
-            item.penguji_2 = this.dosenList.find(d => d.id === p.penguji_2_id) || null;
-            item.penguji_3 = null;
-          }
+      simpanBuatJadwal() {
+        if (!this.buatTglSidang || !this.buatJamMulai || !this.buatGmeet.trim()) {
+          this.triggerToast('Tanggal, waktu, dan link Google Meet wajib diisi.', 'error');
+          return;
+        }
+        if (!this.buatDosen1Id || !this.buatDosen2Id) {
+          this.triggerToast('Pilih 2 dosen pembimbing/penguji terlebih dahulu.', 'error');
+          return;
+        }
+        if (this.buatDosen1Id === this.buatDosen2Id) {
+          this.triggerToast('Dosen 1 dan Dosen 2 tidak boleh sama.', 'error');
+          return;
+        }
+        if (this.buatSelectedMhs1.length < 1 || this.buatSelectedMhs1.length > 2) {
+          this.triggerToast('Pilih minimal 1 dan maksimal 2 mahasiswa untuk Dosen 1.', 'error');
+          return;
+        }
+        if (this.buatSelectedMhs2.length > 2) {
+          this.triggerToast('Maksimal 2 mahasiswa untuk Dosen 2.', 'error');
+          return;
+        }
+
+        const [h] = (this.buatJamMulai || '09:00').split(':').map(Number);
+        const jamSelesai = `${String(h + 1).padStart(2, '0')}:00`;
+        const dosen1 = this.dosenList.find(d => d.id.toString() === this.buatDosen1Id.toString()) || null;
+        const dosen2 = this.dosenList.find(d => d.id.toString() === this.buatDosen2Id.toString()) || null;
+        const picked = [
+          ...this.buatSelectedMhs1.map(nim => ({ nim, pembimbing: dosen1 })),
+          ...this.buatSelectedMhs2.map(nim => ({ nim, pembimbing: dosen2 })),
+        ];
+
+        let nextId = this.plottingData.reduce((m, s) => Math.max(m, s.sidang_id), 0) + 1;
+        const createdRows = [];
+        picked.forEach(({ nim, pembimbing }) => {
+          const mhs = this.unplottedMahasiswa.find(m => m.nim === nim);
+          if (!mhs) return;
+          createdRows.push({
+            sidang_id: nextId,
+            pengajuan_sidang_id: 100 + nextId,
+            skema: mhs.skema,
+            pembimbing,
+            mahasiswa: { id: 100 + nextId, nama: mhs.nama, nim: mhs.nim },
+            jadwal: { tanggal: this.buatTglSidang, jam: `${this.buatJamMulai} - ${jamSelesai}`, status: 'terjadwal' },
+            gmeet: this.buatGmeet.trim(),
+            penguji_1: dosen1,
+            penguji_2: dosen2,
+            gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
+            nilai_penyelia: null,
+            nilai_pembimbing: null,
+            nilai_penguji_1: null,
+            nilai_penguji_2: null,
+            sidang_status: null,
+          });
+          nextId += 1;
         });
-        this.triggerToast(`Berhasil membuat jadwal untuk ${this.buatPreview.length} mahasiswa`);
-        this.selectedIds = [];
+
+        this.plottingData = [...createdRows, ...this.plottingData];
+        this.currentPage = 1;
         this.isBuatModalOpen = false;
+        this.triggerToast(`Berhasil membuat jadwal sidang untuk ${createdRows.length} mahasiswa`);
         this.reinitLucide();
       },
 
@@ -272,10 +447,9 @@ import AdminShell from '../../layouts/AdminShell.astro';
         this.editTarget = item;
         this.editTglSidang = item.jadwal.tanggal || '';
         this.editJamMulai = item.jadwal.jam ? item.jadwal.jam.split(' - ')[0] : '09:00';
-        this.editRuanganId = item.ruangan?.id?.toString() || '';
+        this.editGmeet = item.gmeet || '';
         this.editPengujiId = item.penguji_1?.id?.toString() || '';
         this.editPenguji2Id = item.penguji_2?.id?.toString() || '';
-        this.editPenguji3Id = item.penguji_3?.id?.toString() || '';
         this.isEditModalOpen = true;
         this.reinitLucide();
       },
@@ -291,10 +465,9 @@ import AdminShell from '../../layouts/AdminShell.astro';
             jam: `${this.editJamMulai} - ${jamSelesai}`,
             status: 'terjadwal'
           };
-          target.ruangan = this.ruanganList.find(r => r.id.toString() === this.editRuanganId) || null;
+          target.gmeet = this.editGmeet.trim();
           target.penguji_1 = this.dosenList.find(d => d.id.toString() === this.editPengujiId) || null;
           target.penguji_2 = this.dosenList.find(d => d.id.toString() === this.editPenguji2Id) || null;
-          target.penguji_3 = this.dosenList.find(d => d.id.toString() === this.editPenguji3Id) || null;
         }
         this.triggerToast('Berhasil memperbarui jadwal sidang');
         this.isEditModalOpen = false;
@@ -302,13 +475,437 @@ import AdminShell from '../../layouts/AdminShell.astro';
         this.reinitLucide();
       },
 
-      handleDownloadUndangan() {
+      formatTanggalIndo(dateStr) {
+        if (!dateStr) return '-';
+        const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const dt = new Date(y, m - 1, d);
+        return `${hari[dt.getDay()]}, ${d} ${bulan[m - 1]} ${y}`;
+      },
+
+      loadExternalScript(src) {
+        return new Promise((resolve, reject) => {
+          const existing = Array.from(document.scripts).find((s) => s.src === src);
+          if (existing) {
+            if (existing.getAttribute('data-loaded') === 'true') return resolve();
+            existing.addEventListener('load', () => resolve(), { once: true });
+            existing.addEventListener('error', () => reject(new Error(`Gagal memuat ${src}`)), { once: true });
+            return;
+          }
+          const script = document.createElement('script');
+          script.src = src;
+          script.async = true;
+          script.onload = () => {
+            script.setAttribute('data-loaded', 'true');
+            resolve();
+          };
+          script.onerror = () => reject(new Error(`Gagal memuat ${src}`));
+          document.head.appendChild(script);
+        });
+      },
+
+      async ensurePdfZipLibs(needZip = false) {
+        const resolveGlobals = () => {
+          const h2p = window.__html2pdf || window.html2pdf;
+          const jsz = window.__JSZip || window.JSZip;
+          const html2pdfFn = h2p?.default || h2p;
+          const jsZipCtor = jsz?.default || jsz;
+          return {
+            html2pdf: typeof html2pdfFn === 'function' ? html2pdfFn : null,
+            JSZip: typeof jsZipCtor === 'function' ? jsZipCtor : null,
+          };
+        };
+
+        let libs = resolveGlobals();
+        // Tunggu sebentar jika script module masih dalam proses inisialisasi
+        for (let i = 0; i < 15 && (!libs.html2pdf || (needZip && !libs.JSZip)); i++) {
+          await new Promise((r) => setTimeout(r, 100));
+          libs = resolveGlobals();
+        }
+
+        // Fallback otomatis ke CDN jika module lokal belum tersedia
+        try {
+          if (!libs.html2pdf) {
+            await this.loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js');
+          }
+          if (needZip && !libs.JSZip) {
+            await this.loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+          }
+        } catch (err) {
+          console.error('Fallback CDN PDF/ZIP gagal:', err);
+        }
+
+        libs = resolveGlobals();
+        if (libs.html2pdf) window.__html2pdf = libs.html2pdf;
+        if (libs.JSZip) window.__JSZip = libs.JSZip;
+        return libs;
+      },
+
+      async downloadUndanganMahasiswa() {
+        const { html2pdf } = await this.ensurePdfZipLibs(false);
+        if (!html2pdf) {
+          this.triggerToast('Komponen generator PDF belum siap, coba muat ulang halaman.', 'error');
+          return;
+        }
+
+        const blocks = [];
+        const groups = {};
+        this.plottingData.forEach((item) => {
+          if (!this.isScheduled(item)) return;
+          const key = `${item.jadwal.tanggal}|${item.jadwal.jam}|${item.penguji_1?.nama || ''}|${item.penguji_2?.nama || ''}`;
+          if (!groups[key]) groups[key] = [];
+          groups[key].push(item);
+        });
+        Object.values(groups).forEach((list) => {
+          for (let i = 0; i < list.length; i += 4) {
+            blocks.push(list.slice(i, i + 4));
+          }
+        });
+
+        const tablesHtml = blocks.map((block) => {
+          const first = block[0];
+          const tglText = this.formatTanggalIndo(first.jadwal.tanggal);
+          const waktuText = (first.jadwal.jam || '').split(' - ')[0].replace(':', '.');
+          const pengujiLines = [first.penguji_1?.nama, first.penguji_2?.nama].filter(Boolean).join('<br>');
+          const rowsHtml = block.map((row, rIdx) => `
+            <tr>
+              <td class='mono'>${row.mahasiswa.nim}</td>
+              <td>${row.mahasiswa.nama}</td>
+              <td>${row.skema || '-'}</td>
+              <td>${row.pembimbing?.nama || '-'}</td>
+              ${rIdx === 0 ? `<td rowspan='${block.length}' class='center merged'>${tglText}</td>` : ''}
+              ${rIdx === 0 ? `<td rowspan='${block.length}' class='center merged'>${waktuText}</td>` : ''}
+              ${rIdx === 0 ? `<td rowspan='${block.length}' class='merged'>${pengujiLines}</td>` : ''}
+            </tr>
+          `).join('');
+          return `
+            <table>
+              <thead>
+                <tr>
+                  <th style='width:11%'>NIM</th>
+                  <th style='width:18%'>Nama</th>
+                  <th style='width:19%'>Skema Kampus Berdampak</th>
+                  <th style='width:20%'>Dosen Pembimbing</th>
+                  <th style='width:11%'>Tanggal</th>
+                  <th style='width:6%'>Waktu</th>
+                  <th style='width:15%'>Dosen Penguji</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          `;
+        }).join('');
+
+        const markup = `
+          <style>
+            .undangan-doc { font-family: 'Times New Roman', Times, serif; color: #000; background: #fff; font-size: 11px; width: 1000px; padding: 12px 16px; box-sizing: border-box; }
+            .undangan-doc .header { text-align: center; margin-bottom: 14px; font-weight: bold; font-size: 13px; line-height: 1.4; }
+            .undangan-doc table { width: 100%; border-collapse: collapse; margin-bottom: 14px; page-break-inside: avoid; }
+            .undangan-doc th, .undangan-doc td { border: 1px solid #000; padding: 4px 6px; vertical-align: middle; text-align: left; }
+            .undangan-doc th { background: #d9d9d9; text-align: center; font-weight: bold; }
+            .undangan-doc td.center { text-align: center; }
+            .undangan-doc td.mono { white-space: nowrap; }
+            .undangan-doc td.merged { line-height: 1.45; }
+          </style>
+          <div class='undangan-doc'>
+            <div class='header'>
+              JADWAL SIDANG ONLINE KAMPUS BERDAMPAK<br/>
+              SARJANA TEKNIK INFORMATIKA GENAP 2025-2026
+            </div>
+            ${tablesHtml}
+          </div>
+        `;
+
+        try {
+          this.triggerToast('Mengunduh JADWAL SIDANG ONLINE KAMPUS BERDAMPAK.pdf...', 'info');
+          const pdfBlob = await this.renderUndanganPdfBlob(markup);
+          this.triggerBlobDownload(pdfBlob, 'JADWAL SIDANG ONLINE KAMPUS BERDAMPAK.pdf');
+          this.triggerToast('Berhasil mengunduh JADWAL SIDANG ONLINE KAMPUS BERDAMPAK.pdf', 'success');
+        } catch (err) {
+          console.error(err);
+          this.triggerToast('Gagal membuat file PDF Undangan Mahasiswa.', 'error');
+        }
+      },
+
+      buildUndanganDosenMarkup(dosen, tglSuratText) {
+        const dosenRows = this.plottingData.filter(
+          p => this.isScheduled(p) && (p.penguji_1?.id === dosen.id || p.penguji_2?.id === dosen.id)
+        );
+        const groups = {};
+        dosenRows.forEach((item) => {
+          const key = `${item.jadwal.tanggal}|${item.jadwal.jam}|${item.penguji_1?.nama || ''}|${item.penguji_2?.nama || ''}`;
+          if (!groups[key]) groups[key] = [];
+          groups[key].push(item);
+        });
+        const blocks = [];
+        Object.values(groups).forEach((list) => {
+          for (let i = 0; i < list.length; i += 4) {
+            blocks.push(list.slice(i, i + 4));
+          }
+        });
+
+        const lampiranTables = blocks.map((block) => {
+          const first = block[0];
+          const tglText = this.formatTanggalIndo(first.jadwal.tanggal);
+          const waktuText = (first.jadwal.jam || '').split(' - ')[0].replace(':', '.');
+          const pengujiLines = [first.penguji_1?.nama, first.penguji_2?.nama].filter(Boolean).join('<br>');
+          const ruangText = first.gmeet
+            ? `Google Meet<br><span style='font-size:9px;word-break:break-all;'>${first.gmeet.replace('https://', '')}</span>`
+            : 'Google Meet / Zoom';
+
+          const rowsHtml = block.map((row, rIdx) => {
+            const noTelp = row.mahasiswa.telepon || ('08' + String(row.mahasiswa.nim).replace(/\D/g, '').padStart(10, '1').slice(-10));
+            return `
+              <tr>
+                <td class='mono'>${row.mahasiswa.nim}</td>
+                <td>${row.mahasiswa.nama}</td>
+                <td class='mono'>${noTelp}</td>
+                <td>${row.skema || '-'}</td>
+                ${rIdx === 0 ? `<td rowspan='${block.length}' class='center merged'>${tglText}</td>` : ''}
+                ${rIdx === 0 ? `<td rowspan='${block.length}' class='center merged'>${waktuText}</td>` : ''}
+                <td>${row.pembimbing?.nama || '-'}</td>
+                ${rIdx === 0 ? `<td rowspan='${block.length}' class='merged'>${pengujiLines}</td>` : ''}
+                ${rIdx === 0 ? `<td rowspan='${block.length}' class='center merged'>${ruangText}</td>` : ''}
+              </tr>
+            `;
+          }).join('');
+
+          return `
+            <table class='jadwal-tbl'>
+              <thead>
+                <tr>
+                  <th style='width:10%'>NIM</th>
+                  <th style='width:14%'>Nama</th>
+                  <th style='width:10%'>No Telp</th>
+                  <th style='width:15%'>Skema Kampus Berdampak</th>
+                  <th style='width:10%'>Tanggal</th>
+                  <th style='width:5%'>Waktu</th>
+                  <th style='width:13%'>Dosen Pembimbing</th>
+                  <th style='width:13%'>Dosen Penguji</th>
+                  <th style='width:10%'>Ruang</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          `;
+        }).join('');
+
+        return `
+          <style>
+            .undangan-doc { font-family: 'Times New Roman', Times, serif; color: #000; background: #fff; font-size: 11px; width: 1000px; padding: 12px 16px; box-sizing: border-box; }
+            .undangan-doc .page { margin-bottom: 12px; }
+            .undangan-doc .page-break { page-break-before: always; break-before: page; }
+            .undangan-doc .kop-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding-bottom: 10px; margin-bottom: 16px; font-family: Arial, Helvetica, sans-serif; font-size: 9px; border-bottom: 1px solid #999; }
+            .undangan-doc .kop-box { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+            .undangan-doc .kop-brand { display: flex; align-items: center; gap: 6px; line-height: 1.2; }
+            .undangan-doc .kop-logo { width: 32px; height: 32px; object-fit: contain; }
+            .undangan-doc .kop-code { white-space: nowrap; }
+            .undangan-doc .surat-title { font-weight: bold; font-size: 12px; margin-bottom: 10px; margin-left: 24px; }
+            .undangan-doc .meta-row { display: flex; justify-content: space-between; margin-bottom: 12px; }
+            .undangan-doc .meta-row table td { padding: 1px 4px 1px 0; }
+            .undangan-doc .surat-body { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+            .undangan-doc .col-left p { margin: 0 0 10px; line-height: 1.45; }
+            .undangan-doc .detail-tbl { margin: 4px 0 10px 18px; }
+            .undangan-doc .detail-tbl td { padding: 1px 4px; }
+            .undangan-doc .ttd { margin-top: 16px; margin-left: 70px; text-align: center; width: 220px; }
+            .undangan-doc .ttd-space { height: 54px; display: flex; align-items: center; justify-content: center; margin: 2px 0 -6px; }
+            .undangan-doc .ttd-img { max-height: 58px; width: auto; object-fit: contain; }
+            .undangan-doc .pokok-title { font-weight: bold; margin-bottom: 8px; }
+            .undangan-doc .pokok-check { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 12px; }
+            .undangan-doc .chk { display: inline-flex; width: 16px; height: 22px; border: 1px solid #000; align-items: center; justify-content: center; font-weight: bold; }
+            .undangan-doc .pokok-tbl, .undangan-doc .jadwal-tbl { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+            .undangan-doc .pokok-tbl th, .undangan-doc .pokok-tbl td, .undangan-doc .jadwal-tbl th, .undangan-doc .jadwal-tbl td { border: 1px solid #000; padding: 4px 6px; vertical-align: middle; }
+            .undangan-doc .pokok-tbl th, .undangan-doc .jadwal-tbl th { background: #d9d9d9; text-align: center; font-weight: bold; }
+            .undangan-doc .lampiran-sub { font-size: 11px; margin-bottom: 6px; }
+            .undangan-doc .lampiran-title { text-align: center; font-weight: bold; font-size: 12px; margin-bottom: 10px; }
+            .undangan-doc td.center { text-align: center; }
+            .undangan-doc td.mono { white-space: nowrap; }
+            .undangan-doc td.merged { line-height: 1.4; }
+          </style>
+          <div class='undangan-doc'>
+            <div class='page'>
+              <div class='kop-row'>
+                <div class='kop-box'><div class='kop-brand'><img src='/assets/images/logo-dinus.png' class='kop-logo' alt='UDINUS' /><span>Universitas Dian<br/>Nuswantoro</span></div><span class='kop-code'>FM-UDINUS-SM-04-01/R0</span></div>
+                <div class='kop-box'><div class='kop-brand'><img src='/assets/images/logo-dinus.png' class='kop-logo' alt='UDINUS' /><span>Universitas Dian<br/>Nuswantoro</span></div><span class='kop-code'>FM-UDINUS-SM-04-05/R0</span></div>
+                <div class='kop-box'><div class='kop-brand'><img src='/assets/images/logo-dinus.png' class='kop-logo' alt='UDINUS' /><span>Universitas Dian<br/>Nuswantoro</span></div><span class='kop-code'>FM-UDINUS-SM-04-02/R0</span></div>
+              </div>
+              <div class='surat-title'>UNDANGAN UJIAN KAMPUS BERDAMPAK</div>
+              <div class='meta-row'>
+                <div>
+                  <table>
+                    <tr><td style='width:65px'>Nomor</td><td>: ${this.undanganKode}</td></tr>
+                    <tr><td>Hal</td><td>: UNDANGAN</td></tr>
+                  </table>
+                </div>
+                <div>Semarang, ${tglSuratText}</div>
+              </div>
+              <div class='surat-body'>
+                <div class='col-left'>
+                  <p>Disampaikan dengan hormat<br/>Kepada :<br/><strong>Yth. ${dosen.nama}</strong><br/>Penguji Kampus Berdampak Sarjana Teknik Informatika (STI)</p>
+                  <p>Mengharap kehadiran Bapak/ Ibu untuk Menguji Kampus Berdampak Semester Genap 2025/2026 yang akan diselenggarakan pada :</p>
+                  <table class='detail-tbl'>
+                    <tr><td style='width:90px'>Hari/Tanggal</td><td>: Terlampir</td></tr>
+                    <tr><td>Pukul</td><td>: Terlampir</td></tr>
+                    <tr><td>Tempat</td><td>: Terlampir</td></tr>
+                    <tr><td>Acara</td><td>: Menguji Kampus Berdampak STI</td></tr>
+                  </table>
+                  <p>Acara akan dimulai tepat pada waktunya, dan bagi yang berhalangan hadir harap memberitahu sebelumnya. Terima kasih atas perhatian dan kerjasamanya.</p>
+                  <div class='ttd'>
+                    <div>Koordinator Kampus Berdampak STI</div>
+                    <div class='ttd-space'>
+                      <img src='/assets/images/ttd-koordinator.png' class='ttd-img' alt='TTD Koordinator' />
+                    </div>
+                    <div>Nurul Anisa Sri Winarsih, S.Kom, M.Cs</div>
+                  </div>
+                </div>
+                <div class='col-right'>
+                  <div class='pokok-title'>POKOK PEMBAHASAN :</div>
+                  <div class='pokok-check'>
+                    <span class='chk'>&#8730;</span>
+                    <span>Menguji Kampus Berdampak Program Studi Sarjana Teknik Informatika</span>
+                  </div>
+                  <table class='pokok-tbl'>
+                    <thead>
+                      <tr><th style='width:32px'>No.</th><th>Rincian Pokok Pembahasan</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class='center'>1.</td><td>Sidang Kampus Berdampak secara online</td></tr>
+                      <tr><td class='center'>2.</td><td>Memberi nilai pembimbing dan penguji pada berita acara yang dikirim melalui email</td></tr>
+                      <tr><td class='center'>3.</td><td>&nbsp;</td></tr>
+                      <tr><td class='center'>4.</td><td>&nbsp;</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class='page page-break'>
+              <div class='kop-row'>
+                <div class='kop-box'><div class='kop-brand'><img src='/assets/images/logo-dinus.png' class='kop-logo' alt='UDINUS' /><span>Universitas Dian<br/>Nuswantoro</span></div><span class='kop-code'>FM-UDINUS-SM-04-01/R0</span></div>
+                <div class='kop-box'><div class='kop-brand'><img src='/assets/images/logo-dinus.png' class='kop-logo' alt='UDINUS' /><span>Universitas Dian<br/>Nuswantoro</span></div><span class='kop-code'>FM-UDINUS-SM-04-05/R0</span></div>
+                <div class='kop-box'><div class='kop-brand'><img src='/assets/images/logo-dinus.png' class='kop-logo' alt='UDINUS' /><span>Universitas Dian<br/>Nuswantoro</span></div><span class='kop-code'>FM-UDINUS-SM-04-02/R0</span></div>
+              </div>
+              <div class='lampiran-sub'>Lampiran Undangan Menguji Kampus Berdampak (${this.undanganKode})</div>
+              <div class='lampiran-title'>JADWAL UJIAN KAMPUS BERDAMPAK</div>
+              ${lampiranTables || '<p>Belum ada jadwal sidang untuk penguji ini.</p>'}
+            </div>
+          </div>
+        `;
+      },
+
+      async renderUndanganPdfBlob(htmlString) {
+        const html2pdf = window.__html2pdf;
+        const container = document.createElement('div');
+        container.style.position = 'fixed';
+        container.style.left = '-99999px';
+        container.style.top = '0';
+        container.style.background = '#fff';
+        container.innerHTML = htmlString;
+        document.body.appendChild(container);
+
+        const imgs = Array.from(container.querySelectorAll('img'));
+        await Promise.all(imgs.map((img) => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((res) => {
+            img.onload = res;
+            img.onerror = res;
+          });
+        }));
+
+        try {
+          const targetEl = container.querySelector('.undangan-doc') || container;
+          const blob = await html2pdf()
+            .set({
+              margin: 8,
+              image: { type: 'jpeg', quality: 0.96 },
+              html2canvas: { scale: 2, useCORS: true, logging: false },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+              pagebreak: { mode: ['css', 'legacy'], before: '.page-break' }
+            })
+            .from(targetEl)
+            .outputPdf('blob');
+          return blob;
+        } finally {
+          container.remove();
+        }
+      },
+
+      triggerBlobDownload(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      },
+
+      async handleDownloadUndangan() {
         if (!this.undanganKode.trim()) {
           this.triggerToast('Nomor SK / Kode Undangan wajib diisi.', 'error');
           return;
         }
-        this.triggerToast(`Mengunduh lembar undangan dewan penguji sidang (PDF) dengan Nomor SK: ${this.undanganKode}...`, 'info');
-        this.isUndanganModalOpen = false;
+        if (this.undanganMode === 'pilih' && !this.undanganDosenId) {
+          this.triggerToast('Pilih dosen penguji terlebih dahulu.', 'error');
+          return;
+        }
+
+        const targetDosenList = this.undanganMode === 'pilih'
+          ? this.dosenList.filter(d => d.id.toString() === this.undanganDosenId.toString())
+          : this.dosenList.filter(d =>
+              this.plottingData.some(p => this.isScheduled(p) && (p.penguji_1?.id === d.id || p.penguji_2?.id === d.id))
+            );
+
+        if (targetDosenList.length === 0) {
+          this.triggerToast('Tidak ada dosen penguji dengan jadwal sidang aktif.', 'error');
+          return;
+        }
+
+        const { html2pdf, JSZip } = await this.ensurePdfZipLibs(this.undanganMode === 'personal');
+        if (!html2pdf || (this.undanganMode === 'personal' && !JSZip)) {
+          this.triggerToast('Komponen generator PDF/ZIP belum siap, coba muat ulang halaman.', 'error');
+          return;
+        }
+
+        const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        let tglSuratText = '6 Juli 2026';
+        if (this.undanganTgl) {
+          const [y, m, d] = this.undanganTgl.split('-').map(Number);
+          tglSuratText = `${d} ${bulan[m - 1]} ${y}`;
+        }
+
+        this.isDownloadingUndangan = true;
+        try {
+          if (this.undanganMode === 'pilih') {
+            const dosen = targetDosenList[0];
+            const safeName = dosen.nama.replace(/[\\/:*?<>|]/g, '_');
+            const filename = `UNDANGAN PENGUJI KAMPUS BERDAMPAK - ${safeName}.pdf`;
+            const markup = this.buildUndanganDosenMarkup(dosen, tglSuratText);
+            const pdfBlob = await this.renderUndanganPdfBlob(markup);
+            this.triggerBlobDownload(pdfBlob, filename);
+            this.triggerToast(`Berhasil mengunduh ${filename}`, 'success');
+          } else {
+            const zip = new JSZip();
+            for (const dosen of targetDosenList) {
+              const safeName = dosen.nama.replace(/[\\/:*?<>|]/g, '_');
+              const pdfName = `UNDANGAN PENGUJI KAMPUS BERDAMPAK - ${safeName}.pdf`;
+              const markup = this.buildUndanganDosenMarkup(dosen, tglSuratText);
+              const pdfBlob = await this.renderUndanganPdfBlob(markup);
+              zip.file(pdfName, pdfBlob);
+            }
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            this.triggerBlobDownload(zipBlob, 'UNDANGAN PENGUJI KAMPUS BERDAMPAK.zip');
+            this.triggerToast(`Berhasil mengunduh UNDANGAN PENGUJI KAMPUS BERDAMPAK.zip (${targetDosenList.length} file PDF)`, 'success');
+          }
+          this.isUndanganModalOpen = false;
+        } catch (err) {
+          console.error(err);
+          this.triggerToast('Gagal membuat file undangan PDF/ZIP.', 'error');
+        } finally {
+          this.isDownloadingUndangan = false;
+        }
       },
 
       formatDate(dateStr) {
@@ -358,7 +955,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         </div>
       </div>
 
-      <!-- Controls Group Kanan (Status Dropdown, Download Undangan, Buat Jadwal) -->
+      <!-- Controls Group Kanan (Status Dropdown, Download Undangan, Undangan Mahasiswa) -->
       <div class="flex gap-2 ml-auto flex-wrap">
         <!-- Status Filter DropdownMenu Sesuai Radix/Shadcn UI -->
         <div class="relative" @click.outside="isStatusDropdownOpen = false">
@@ -367,7 +964,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             @click="isStatusDropdownOpen = !isStatusDropdownOpen; reinitLucide()"
             class="h-10 px-3.5 inline-flex items-center gap-2 min-w-[160px] justify-between rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-sm font-normal text-[#09090b] transition-colors cursor-pointer"
           >
-            <span x-text="statusFilter === 'semua' ? 'Semua Status' : statusFilter === 'belum' ? 'Belum Dijadwalkan' : 'Sudah Dijadwalkan'"></span>
+            <span x-text="statusFilter === 'semua' ? 'Semua Status' : statusFilter === 'selesai' ? 'Selesai' : 'Terjadwal'"></span>
             <i data-lucide="chevrons-up-down" class="h-4 w-4 opacity-50 shrink-0"></i>
           </button>
 
@@ -386,43 +983,51 @@ import AdminShell from '../../layouts/AdminShell.astro';
             </button>
             <button
               type="button"
-              @click="statusFilter = 'belum'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
+              @click="statusFilter = 'terjadwal'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
               class="w-full text-left px-3 py-1.5 text-xs text-[#09090b] hover:bg-[#f4f4f5] transition-colors flex items-center justify-between"
-              :class="statusFilter === 'belum' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
+              :class="statusFilter === 'terjadwal' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
             >
-              <span>Belum Dijadwalkan</span>
+              <span>Terjadwal</span>
             </button>
             <button
               type="button"
-              @click="statusFilter = 'sudah'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
+              @click="statusFilter = 'selesai'; isStatusDropdownOpen = false; currentPage = 1; reinitLucide()"
               class="w-full text-left px-3 py-1.5 text-xs text-[#09090b] hover:bg-[#f4f4f5] transition-colors flex items-center justify-between"
-              :class="statusFilter === 'sudah' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
+              :class="statusFilter === 'selesai' ? 'bg-[#f4f4f5] font-semibold text-[#0655a7]' : ''"
             >
-              <span>Sudah Dijadwalkan</span>
+              <span>Selesai</span>
             </button>
           </div>
         </div>
 
-        <!-- Download Undangan Button -->
+        <!-- Undangan Dosen Button -->
         <button
           type="button"
           @click="isUndanganModalOpen = true; reinitLucide()"
           class="h-10 px-4 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors shrink-0 cursor-pointer"
         >
           <i data-lucide="mail" class="h-4 w-4"></i>
-          <span>Download Undangan</span>
+          <span>Undangan Dosen</span>
+        </button>
+
+        <!-- Undangan Mahasiswa Button -->
+        <button
+          type="button"
+          @click="downloadUndanganMahasiswa()"
+          class="h-10 px-4 inline-flex items-center gap-2 rounded-md border border-[#0655a7] bg-white hover:bg-blue-50/50 text-[#0655a7] text-sm font-medium shadow-none transition-colors shrink-0 cursor-pointer"
+        >
+          <i data-lucide="file-text" class="h-4 w-4"></i>
+          <span>Undangan Mahasiswa</span>
         </button>
 
         <!-- Buat Jadwal Button -->
         <button
           type="button"
-          @click="handleBuatJadwalModal()"
-          :disabled="selectedIds.length === 0"
-          class="h-10 px-4 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          @click="openBuatJadwalModal()"
+          class="h-10 px-4 inline-flex items-center gap-2 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors shrink-0 cursor-pointer"
         >
           <i data-lucide="calendar-plus" class="h-4 w-4"></i>
           <span>Buat Jadwal</span>
-          <span x-show="selectedIds.length > 0" x-text="`(${selectedIds.length})`" class="font-bold"></span>
         </button>
       </div>
     </div>
@@ -445,16 +1050,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
       <table class="w-full caption-bottom text-sm border-collapse min-w-[1000px]">
         <thead class="bg-white border-b border-[#e4e4e7]">
           <tr>
-            <th class="w-10 px-4 py-3 text-center align-middle">
-              <input
-                type="checkbox"
-                @change="toggleSelectAll()"
-                :checked="allBelumSelected"
-                :disabled="belumIds.length === 0"
-                class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7] h-4 w-4 cursor-pointer"
-                aria-label="Pilih semua"
-              />
-            </th>
             <th
               class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm cursor-pointer select-none whitespace-nowrap"
               @click="sortDir = (sortDir === null ? 'asc' : sortDir === 'asc' ? 'desc' : null); reinitLucide()"
@@ -472,12 +1067,11 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </template>
               </span>
             </th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Ruangan</th>
+            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Link Google Meet</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Mahasiswa</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Pembimbing</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 1</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 2</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 3</th>
             <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Status</th>
             <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Aksi</th>
           </tr>
@@ -486,23 +1080,8 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <template x-for="(item, idx) in paginatedRows" :key="item.sidang_id">
             <tr
               class="border-b border-[#e4e4e7] transition-colors hover:bg-[#fafafa]"
-              :class="[
-                idx % 2 === 0 ? 'bg-[#fafafa]/50' : 'bg-white',
-                selectedIds.includes(item.sidang_id) ? 'bg-blue-50/40' : ''
-              ]"
+              :class="idx % 2 === 0 ? 'bg-[#fafafa]/50' : 'bg-white'"
             >
-              <!-- Checkbox -->
-              <td class="p-4 align-middle text-center">
-                <template x-if="!isScheduled(item)">
-                  <input
-                    type="checkbox"
-                    :checked="selectedIds.includes(item.sidang_id)"
-                    @change="toggleSelect(item.sidang_id)"
-                    class="rounded border-[#e4e4e7] text-[#0655a7] focus:ring-[#0655a7] h-4 w-4 cursor-pointer"
-                  />
-                </template>
-              </td>
-
               <!-- Tanggal & Jam -->
               <td class="p-4 align-middle">
                 <template x-if="item.jadwal.tanggal">
@@ -516,9 +1095,20 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 </template>
               </td>
 
-              <!-- Ruangan -->
-              <td class="p-4 align-middle text-sm text-[#09090b]">
-                <span x-text="item.ruangan?.nama || '-'"></span>
+              <!-- Link Google Meet -->
+              <td class="p-4 align-middle text-sm">
+                <template x-if="item.gmeet">
+                  <a
+                    :href="item.gmeet"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs font-medium text-[#0655a7] hover:underline whitespace-nowrap"
+                    x-text="item.gmeet.replace('https://', '')"
+                  ></a>
+                </template>
+                <template x-if="!item.gmeet">
+                  <span class="text-[#71717a] text-xs">-</span>
+                </template>
               </td>
 
               <!-- Mahasiswa -->
@@ -547,11 +1137,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <!-- Penguji 2 -->
               <td class="p-4 align-middle text-sm text-[#09090b]">
                 <span x-text="item.penguji_2?.nama || '-'"></span>
-              </td>
-
-              <!-- Penguji 3 -->
-              <td class="p-4 align-middle text-sm text-[#09090b]">
-                <span x-text="item.penguji_3?.nama || '-'"></span>
               </td>
 
               <!-- Status Badge (Selesai: success, Terjadwal: secondary, Belum: secondary) -->
@@ -646,7 +1231,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     </div>
 
     <!-- ==================================================== -->
-    <!-- MODAL 1: BUAT JADWAL SIDANG (BULK DIALOG Sesuai FE)   -->
+    <!-- MODAL 1: BUAT JADWAL SIDANG (ONLINE + 2 DOSEN)       -->
     <!-- ==================================================== -->
     <div
       x-show="isBuatModalOpen"
@@ -655,12 +1240,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
     >
       <div
         @click.outside="isBuatModalOpen = false"
-        class="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-5"
+        class="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-5"
       >
         <div class="flex items-start justify-between pb-3 border-b border-[#e4e4e7]">
           <div>
-            <h3 class="text-lg font-semibold text-[#09090b]">Buat Jadwal Sidang</h3>
-            <p class="text-sm text-[#71717a] mt-0.5" x-text="`${buatPreview.length} mahasiswa dipilih`"></p>
+            <h3 class="text-lg font-semibold text-[#09090b]">Buat Jadwal Sidang Online</h3>
+            <p class="text-xs text-[#71717a] mt-0.5">Pilih tanggal, waktu, link Google Meet, serta 2 dosen pembimbing yang sekaligus bertugas sebagai penguji.</p>
           </div>
           <button
             type="button"
@@ -671,94 +1256,152 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
 
-        <!-- Global Parameter Bar: Tanggal, Ruangan, Jam Basis -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Baris 1: Tanggal & Waktu, Baris 2: Link Google Meet -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div class="space-y-1.5">
             <label class="text-xs font-semibold text-[#09090b]">Tanggal Sidang *</label>
             <input
               type="date"
               x-model="buatTglSidang"
-              required
               class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             />
           </div>
 
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-[#09090b]">Ruangan *</label>
-            <select
-              x-model="buatRuanganId"
-              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
-            >
-              <template x-for="r in ruanganList" :key="r.id">
-                <option :value="r.id" x-text="r.nama"></option>
-              </template>
-            </select>
-          </div>
-
-          <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-[#09090b]">Jam Mulai Basis</label>
+            <label class="text-xs font-semibold text-[#09090b]">Waktu *</label>
             <select
               x-model="buatJamMulai"
               class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             >
               <template x-for="j in jamOptions" :key="j">
-                <option :value="j" x-text="j"></option>
+                <option :value="j" x-text="`${j} – ${String(Number(j.split(':')[0]) + 1).padStart(2, '0')}:00`"></option>
               </template>
             </select>
           </div>
+
+          <div class="space-y-1.5 md:col-span-2">
+            <label class="text-xs font-semibold text-[#09090b]">Link Google Meet *</label>
+            <input
+              type="url"
+              x-model="buatGmeet"
+              placeholder="https://meet.google.com/xxx-yyyy-zzz"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
+          </div>
         </div>
 
-        <!-- Tabel Pratinjau Alokasi Penguji -->
-        <div class="rounded-md border border-[#e4e4e7] overflow-x-auto">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead class="bg-[#fafafa] border-b border-[#e4e4e7]">
-              <tr>
-                <th class="h-9 px-3 font-medium text-[#71717a] w-12 text-center">Urutan</th>
-                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[180px]">Mahasiswa</th>
-                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[150px]">Pembimbing</th>
-                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[180px]">Ketua Penguji *</th>
-                <th class="h-9 px-3 font-medium text-[#71717a] min-w-[180px]">Anggota 1</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-[#e4e4e7]">
-              <template x-for="(p, idx) in buatPreview" :key="p.sidang_id">
-                <tr class="hover:bg-[#fafafa]">
-                  <td class="p-3 text-center font-medium" x-text="p.urutan"></td>
-                  <td class="p-3">
-                    <div class="font-medium text-[#09090b]" x-text="p.mahasiswa.nama"></div>
-                    <div class="text-[11px] text-[#71717a]" x-text="p.mahasiswa.nim"></div>
-                  </td>
-                  <td class="p-3 text-[#71717a]" x-text="p.pembimbing?.nama || '-'"></td>
-                  <td class="p-3">
-                    <select
-                      x-model.number="p.penguji_id"
-                      class="h-8 w-full rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        <!-- Baris 2: Pemilihan 2 Dosen & Mahasiswa Bimbingan -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+          <!-- Slot Dosen 1 -->
+          <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-4 space-y-3">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-semibold text-[#09090b]">Dosen Pembimbing / Penguji 1 *</label>
+                <span class="text-[11px] font-medium text-[#0655a7]" x-text="`${buatSelectedMhs1.length}/2 mhs`"></span>
+              </div>
+              <select
+                x-model="buatDosen1Id"
+                @change="buatSelectedMhs1 = []"
+                class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+              >
+                <option value="">Pilih Dosen 1</option>
+                <template x-for="d in dosenList" :key="d.id">
+                  <option :value="d.id" x-text="d.nama" :disabled="d.id.toString() === buatDosen2Id.toString()"></option>
+                </template>
+              </select>
+            </div>
+
+            <template x-if="buatDosen1Id">
+              <div class="space-y-2">
+                <p class="text-[11px] text-[#71717a]">Pilih minimal 1, maksimal 2 mahasiswa bimbingan:</p>
+                <template x-if="getAvailableStudents(buatDosen1Id).length === 0">
+                  <div class="rounded-md border border-dashed border-[#e4e4e7] bg-white p-4 text-center text-xs text-[#71717a]">
+                    Semua mahasiswa bimbingan dosen ini sudah diplot.
+                  </div>
+                </template>
+                <div class="space-y-2 max-h-52 overflow-y-auto pr-1">
+                  <template x-for="m in getAvailableStudents(buatDosen1Id)" :key="m.nim">
+                    <label
+                      class="flex items-start gap-2.5 p-2.5 rounded-lg border bg-white transition-colors"
+                      :class="[
+                        buatSelectedMhs1.includes(m.nim) ? 'border-[#0655a7] bg-blue-50/40 cursor-pointer' :
+                        buatSelectedMhs1.length >= 2 ? 'border-[#e4e4e7] opacity-50 cursor-not-allowed' : 'border-[#e4e4e7] hover:border-[#0655a7]/50 cursor-pointer'
+                      ]"
                     >
-                      <option value="">Pilih Ketua</option>
-                      <template x-for="d in dosenList" :key="d.id">
-                        <option :value="d.id" x-text="d.nama" :disabled="d.id === p.pembimbing?.id"></option>
-                      </template>
-                    </select>
-                  </td>
-                  <td class="p-3">
-                    <select
-                      x-model.number="p.penguji_2_id"
-                      class="h-8 w-full rounded-md border border-[#e4e4e7] bg-white px-2 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+                      <input
+                        type="checkbox"
+                        :checked="buatSelectedMhs1.includes(m.nim)"
+                        :disabled="!buatSelectedMhs1.includes(m.nim) && buatSelectedMhs1.length >= 2"
+                        @change="toggleBuatMhs(1, m.nim)"
+                        class="mt-0.5 h-4 w-4 rounded border-[#e4e4e7] accent-[#0655a7] cursor-pointer"
+                      />
+                      <div class="min-w-0 flex-1">
+                        <div class="text-xs font-semibold text-[#09090b] truncate" x-text="m.nama"></div>
+                        <div class="text-[11px] text-[#71717a]" x-text="`${m.nim} — ${m.skema}`"></div>
+                      </div>
+                    </label>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <!-- Slot Dosen 2 -->
+          <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-4 space-y-3">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="text-xs font-semibold text-[#09090b]">Dosen Pembimbing / Penguji 2 *</label>
+                <span class="text-[11px] font-medium text-[#0655a7]" x-text="`${buatSelectedMhs2.length}/2 mhs`"></span>
+              </div>
+              <select
+                x-model="buatDosen2Id"
+                @change="buatSelectedMhs2 = []"
+                class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
+              >
+                <option value="">Pilih Dosen 2</option>
+                <template x-for="d in dosenList" :key="d.id">
+                  <option :value="d.id" x-text="d.nama" :disabled="d.id.toString() === buatDosen1Id.toString()"></option>
+                </template>
+              </select>
+            </div>
+
+            <template x-if="buatDosen2Id">
+              <div class="space-y-2">
+                <p class="text-[11px] text-[#71717a]">Pilih 0–2 mahasiswa bimbingan (jika 0, berperan sebagai penguji pendamping):</p>
+                <template x-if="getAvailableStudents(buatDosen2Id).length === 0">
+                  <div class="rounded-md border border-dashed border-[#e4e4e7] bg-white p-4 text-center text-xs text-[#71717a]">
+                    Tidak ada mahasiswa belum diplot; dosen ini berperan sebagai penguji pendamping.
+                  </div>
+                </template>
+                <div class="space-y-2 max-h-52 overflow-y-auto pr-1">
+                  <template x-for="m in getAvailableStudents(buatDosen2Id)" :key="m.nim">
+                    <label
+                      class="flex items-start gap-2.5 p-2.5 rounded-lg border bg-white transition-colors"
+                      :class="[
+                        buatSelectedMhs2.includes(m.nim) ? 'border-[#0655a7] bg-blue-50/40 cursor-pointer' :
+                        buatSelectedMhs2.length >= 2 ? 'border-[#e4e4e7] opacity-50 cursor-not-allowed' : 'border-[#e4e4e7] hover:border-[#0655a7]/50 cursor-pointer'
+                      ]"
                     >
-                      <option value="">Pilih Anggota</option>
-                      <template x-for="d in dosenList" :key="d.id">
-                        <option :value="d.id" x-text="d.nama" :disabled="d.id === p.pembimbing?.id || d.id === p.penguji_id"></option>
-                      </template>
-                    </select>
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
+                      <input
+                        type="checkbox"
+                        :checked="buatSelectedMhs2.includes(m.nim)"
+                        :disabled="!buatSelectedMhs2.includes(m.nim) && buatSelectedMhs2.length >= 2"
+                        @change="toggleBuatMhs(2, m.nim)"
+                        class="mt-0.5 h-4 w-4 rounded border-[#e4e4e7] accent-[#0655a7] cursor-pointer"
+                      />
+                      <div class="min-w-0 flex-1">
+                        <div class="text-xs font-semibold text-[#09090b] truncate" x-text="m.nama"></div>
+                        <div class="text-[11px] text-[#71717a]" x-text="`${m.nim} — ${m.skema}`"></div>
+                      </div>
+                    </label>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
         </div>
 
-        <!-- Footer Actions -->
-        <div class="flex items-center justify-end gap-2 pt-3 border-t border-[#e4e4e7]">
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
           <button
             type="button"
             @click="isBuatModalOpen = false"
@@ -768,10 +1411,10 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
           <button
             type="button"
-            @click="simpanBuatJadwalBulk()"
+            @click="simpanBuatJadwal()"
             class="h-10 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-sm font-medium shadow-none transition-colors cursor-pointer"
           >
-            Simpan Semua Jadwal
+            Simpan Jadwal
           </button>
         </div>
       </div>
@@ -821,21 +1464,19 @@ import AdminShell from '../../layouts/AdminShell.astro';
               class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             >
               <template x-for="j in jamOptions" :key="j">
-                <option :value="j" x-text="`${j} – ${String(Number(j.split(':')[0]) + 1).padStart(2, '0')}:00`"></option>
+                <option :value="j" x-text="`${j} - ${String(Number(j.split(':')[0]) + 1).padStart(2, '0')}:00`"></option>
               </template>
             </select>
           </div>
 
           <div class="space-y-1.5 md:col-span-2">
-            <label class="text-xs font-semibold text-[#09090b]">Ruangan *</label>
-            <select
-              x-model="editRuanganId"
-              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
-            >
-              <template x-for="r in ruanganList" :key="r.id">
-                <option :value="r.id" x-text="r.nama"></option>
-              </template>
-            </select>
+            <label class="text-xs font-semibold text-[#09090b]">Link Google Meet *</label>
+            <input
+              type="url"
+              x-model="editGmeet"
+              placeholder="https://meet.google.com/xxx-yyyy-zzz"
+              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
           </div>
 
           <div class="space-y-1.5">
@@ -898,7 +1539,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
       >
         <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
           <div>
-            <h3 class="text-base font-semibold text-[#09090b]">Download Undangan Penguji</h3>
+            <h3 class="text-base font-semibold text-[#09090b]">Undangan Dosen</h3>
             <p class="text-xs text-[#71717a] mt-0.5">Cetak lembar undangan resmi dewan penguji sidang.</p>
           </div>
           <button
@@ -917,11 +1558,11 @@ import AdminShell from '../../layouts/AdminShell.astro';
             <div class="space-y-1.5">
               <label class="flex items-center gap-2 cursor-pointer text-[#09090b]">
                 <input type="radio" value="personal" x-model="undanganMode" class="text-[#0655a7] focus:ring-[#0655a7]" />
-                <span>Undangan Personal (Semua Penguji Masing-Masing)</span>
+                <span>Semua Penguji</span>
               </label>
               <label class="flex items-center gap-2 cursor-pointer text-[#09090b]">
                 <input type="radio" value="pilih" x-model="undanganMode" class="text-[#0655a7] focus:ring-[#0655a7]" />
-                <span>Pilih Penguji Tertentu Saja</span>
+                <span>Undangan Penguji Tertentu</span>
               </label>
             </div>
           </div>
@@ -972,16 +1613,28 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <button
             type="button"
             @click="handleDownloadUndangan()"
-            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer shadow-none"
+            :disabled="isDownloadingUndangan"
+            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer shadow-none disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Download PDF</span>
+            <span x-text="isDownloadingUndangan ? 'Memproses...' : (undanganMode === 'personal' ? 'Download ZIP' : 'Download PDF')"></span>
           </button>
         </div>
       </div>
     </div>
   </section>
 </AdminShell>
+
+<script>
+  import JSZip from 'jszip';
+  import html2pdf from 'html2pdf.js';
+
+  const resolvedJSZip = (JSZip as any)?.default || JSZip;
+  const resolvedHtml2Pdf = (html2pdf as any)?.default || html2pdf || (window as any).html2pdf;
+
+  if (resolvedJSZip) (window as any).__JSZip = resolvedJSZip;
+  if (resolvedHtml2Pdf) (window as any).__html2pdf = resolvedHtml2Pdf;
+</script>
 
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {

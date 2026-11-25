@@ -11,7 +11,7 @@ interface Props {
 
 const {
   currentTab = 'dashboard',
-  title = 'MBKM FIK UDINUS - Master Koordinator & Admin',
+  title = 'Kampus Berdampak FIK UDINUS - Master Koordinator & Admin',
   pageTitle,
   subtitle,
   actionButton,
@@ -20,57 +20,50 @@ const {
 // Normalisasi key tab untuk navigasi & metadata
 let activeTabKey = currentTab;
 if (activeTabKey === 'pelamar') activeTabKey = 'mhs-pelamar';
-if (activeTabKey === 'surekom') activeTabKey = 'mhs-rekomendasi';
 if (activeTabKey === 'semua-mahasiswa') activeTabKey = 'mhs-semua';
 if (activeTabKey === 'data-mahasiswa') activeTabKey = 'mhs-data';
 
 const tabMetaMap: Record<string, { label: string; title: string; subtitle: string; actionButton: string }> = {
   dashboard: {
     label: 'Dashboard',
-    title: 'Selamat Datang, Koordinator MBKM di Fakultas Ilmu Komputer',
+    title: 'Selamat Datang, Koordinator Kampus Berdampak di Fakultas Ilmu Komputer',
     subtitle: 'Berikut adalah data-data dan ringkasan operasional yang dapat Anda akses.',
     actionButton: '',
   },
   pengumuman: {
     label: 'Pengumuman',
-    title: 'Pengumuman MBKM',
-    subtitle: 'Broadcast siaran informasi resmi MBKM tingkat program studi dan fakultas.',
+    title: 'Pengumuman Kampus Berdampak',
+    subtitle: 'Broadcast siaran informasi resmi Kampus Berdampak tingkat program studi dan fakultas.',
     actionButton: '<button type="button" onclick="showBuatPengumumanModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors shadow-none"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Pengumuman</span></button>',
   },
   periode: {
-    label: 'MBKM / Periode MBKM',
-    title: 'Periode MBKM',
+    label: 'KB / Periode KB',
+    title: 'Periode Kampus Berdampak',
     subtitle: 'Berikut data periode yang sinkron dengan database tahun ajaran pada SIADIN',
     actionButton: '',
   },
   'form-pendaftaran': {
-    label: 'MBKM / Form Pendaftaran',
+    label: 'KB / Form Pendaftaran',
     title: 'Form Pendaftaran Mahasiswa',
     subtitle: 'Konfigurasi tahapan identitas, dokumen pendaftaran, dan persetujuan komitmen pendaftar.',
     actionButton: '<div class="flex items-center gap-2.5 shrink-0"><a href="/pendaftaran-mahasiswa" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-semibold rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 transition-all shadow-2xs"><i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i><span>Pratinjau Formulir Mahasiswa</span></a><button type="button" onclick="handleSaveFormPendaftaran()" class="inline-flex items-center justify-center gap-2 h-9 px-4 text-xs font-bold rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white shadow-2xs transition-all active:scale-95 cursor-pointer"><i data-lucide="save" class="w-3.5 h-3.5"></i><span>Simpan Perubahan</span></button></div>',
   },
   kontributor: {
     label: 'Kontributor',
-    title: 'Kontributor MBKM',
+    title: 'Kontributor Kampus Berdampak',
     subtitle: 'Kelola akun kontributor industri, lembaga kontributor, dan instansi magang/studi.',
     actionButton: '',
   },
   'mhs-pelamar': {
-    label: 'Mahasiswa / Pelamar MBKM',
-    title: 'Daftar Pengajuan Pelamar MBKM',
-    subtitle: 'Berikut ini adalah daftar semua pengajuan pelamar mahasiswa ke program MBKM kontributor eksternal.',
+    label: 'Mahasiswa / Pelamar KB',
+    title: 'Daftar Pengajuan Pelamar Kampus Berdampak',
+    subtitle: 'Berikut ini adalah daftar semua pengajuan pelamar mahasiswa ke program Kampus Berdampak kontributor eksternal.',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
-  },
-  'mhs-rekomendasi': {
-    label: 'Mahasiswa / Validasi Surekom',
-    title: 'Validasi Surat Rekomendasi',
-    subtitle: 'Verifikasi dan setujui permohonan surat rekomendasi kontributor mahasiswa.',
-    actionButton: '',
   },
   'mhs-data': {
     label: 'Mahasiswa / Data Mahasiswa',
-    title: 'Data Mahasiswa MBKM',
-    subtitle: 'Kelola data seluruh mahasiswa MBKM, sinkronisasi akademik, dan penugasan pembimbing.',
+    title: 'Data Mahasiswa Kampus Berdampak',
+    subtitle: 'Kelola data seluruh mahasiswa Kampus Berdampak, sinkronisasi akademik, dan penugasan pembimbing.',
     actionButton: '',
   },
   'dosen-data': {
@@ -82,31 +75,31 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
   'dosen-update': {
     label: 'Dosen Pembimbing / Plotting Dosen',
     title: 'Plotting Dosen',
-    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program MBKM.',
+    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program Kampus Berdampak.',
     actionButton: '',
   },
   'update-dosen': {
     label: 'Dosen Pembimbing / Plotting Dosen',
     title: 'Plotting Dosen',
-    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program MBKM.',
+    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program Kampus Berdampak.',
     actionButton: '',
   },
   logbook: {
-    label: 'Logbook Kegiatan',
+    label: 'Mahasiswa / Data Mahasiswa / Logbook',
     title: 'Daftar Logbook Kegiatan',
-    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program MBKM (maksimal 24 minggu).',
+    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program Kampus Berdampak (maksimal 24 minggu).',
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="circle-help" class="w-4 h-4 text-[#71717a]"></i><span>Lihat panduan</span></button>',
+  },
+  'logbook-bimbingan': {
+    label: 'Mahasiswa / Logbook Bimbingan',
+    title: 'Logbook Bimbingan Mahasiswa',
+    subtitle: 'Pantau progres bimbingan mahasiswa per dosen pembimbing dan bantu verifikasi status bimbingan (minimal 5x bimbingan).',
+    actionButton: '',
   },
   konversi: {
     label: 'Validasi Konversi SKS',
     title: 'Validasi Konversi SKS',
-    subtitle: 'Verifikasi usulan konversi SKS mahasiswa peserta program MBKM.',
-    actionButton: '',
-  },
-  'data-pengajuan': {
-    label: 'Sidang KP / Data Pengajuan Sidang',
-    title: 'Data Pengajuan Sidang',
-    subtitle: 'Lihat data mahasiswa yang mengajukan sidang KP.',
+    subtitle: 'Verifikasi usulan konversi SKS mahasiswa peserta program Kampus Berdampak.',
     actionButton: '',
   },
   'plotting-jadwal': {
@@ -117,13 +110,13 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
   },
   'hasil-sidang': {
     label: 'Sidang KP / Hasil Sidang',
-    title: 'Hasil Sidang Kerja Praktek',
+    title: 'Hasil Sidang Kampus Berdampak',
     subtitle: 'Berikut data sidang yang sudah diploting jadwalnya.',
     actionButton: '',
   },
   sidang: {
     label: 'Sidang',
-    title: 'Sidang MBKM',
+    title: 'Sidang Kampus Berdampak',
     subtitle: 'Penjadwalan sidang akhir, penginputan nilai gabungan, dan rekap kelulusan kegiatan.',
     actionButton: '',
   },
@@ -141,8 +134,8 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
   },
   program: {
     label: 'Program',
-    title: 'Data Program MBKM',
-    subtitle: 'Daftar seluruh program MBKM internal dan skema asistensi mengajar terdaftar.',
+    title: 'Data Program Kampus Berdampak',
+    subtitle: 'Daftar seluruh program Kampus Berdampak internal dan skema asistensi mengajar terdaftar.',
     actionButton: '',
   },
 };
@@ -157,9 +150,9 @@ const displaySubtitle = subtitle || meta.subtitle;
 const displayActionButton = actionButton !== undefined ? actionButton : meta.actionButton;
 
 const isMbkmActive = ['mbkm', 'form-pendaftaran', 'periode'].includes(activeTabKey);
-const isMahasiswaActive = ['data-mahasiswa', 'pelamar', 'surekom', 'mhs-data', 'mhs-pelamar', 'mhs-rekomendasi'].includes(activeTabKey);
+const isMahasiswaActive = ['data-mahasiswa', 'pelamar', 'mhs-data', 'mhs-pelamar', 'logbook', 'logbook-bimbingan'].includes(activeTabKey);
 const isDosenActive = ['koordinator', 'dosen-data', 'dosen-update', 'update-dosen'].includes(activeTabKey);
-const isSidangActive = ['sidang', 'data-pengajuan', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
+const isSidangActive = ['sidang', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
 
 const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : isSidangActive ? 'sidang' : isMbkmActive ? 'mbkm' : '';
 ---
@@ -307,7 +300,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </div>
               <div class="flex flex-col overflow-hidden leading-tight">
                 <span class="text-[13px] font-semibold text-[#3f3f46] truncate">Kampus Berdampak</span>
-                <span class="text-[11px] text-[#71717a] truncate">Modul MBKM Terpadu</span>
+                <span class="text-[11px] text-[#71717a] truncate">Modul KB Terpadu</span>
               </div>
             </div>
             <i data-lucide="chevrons-up-down" class="w-4 h-4 text-[#71717a] shrink-0"></i>
@@ -416,10 +409,10 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   id="nav-sub-mhs-data"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'mhs-data' || activeTabKey === 'data-mahasiswa' ? 'nav-sub-active' : 'text-[#71717a]'
+                    activeTabKey === 'mhs-data' || activeTabKey === 'data-mahasiswa' || activeTabKey === 'logbook' ? 'nav-sub-active' : 'text-[#71717a]'
                   ]}
                 >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-data' || activeTabKey === 'data-mahasiswa' ? '' : 'hidden']}></span>
+                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-data' || activeTabKey === 'data-mahasiswa' || activeTabKey === 'logbook' ? '' : 'hidden']}></span>
                   <span>Data Mahasiswa</span>
                 </a>
                 <a
@@ -431,18 +424,18 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   ]}
                 >
                   <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-pelamar' ? '' : 'hidden']}></span>
-                  <span>Pelamar MBKM</span>
+                  <span>Pelamar KB</span>
                 </a>
                 <a
-                  href="/koordinator/surekom"
-                  id="nav-sub-mhs-rekomendasi"
+                  href="/koordinator/logbook-bimbingan"
+                  id="nav-sub-mhs-logbook-bimbingan"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'mhs-rekomendasi' ? 'nav-sub-active' : 'text-[#71717a]'
+                    activeTabKey === 'logbook-bimbingan' ? 'nav-sub-active' : 'text-[#71717a]'
                   ]}
                 >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-rekomendasi' ? '' : 'hidden']}></span>
-                  <span>Validasi Surekom</span>
+                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'logbook-bimbingan' ? '' : 'hidden']}></span>
+                  <span>Logbook Bimbingan</span>
                 </a>
               </div>
             </div>
@@ -495,21 +488,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               </div>
             </div>
 
-            <!-- 7. Logbook Kegiatan -->
-            <a
-              href="/koordinator/logbook"
-              id="nav-logbook"
-              class:list={[
-                "nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full",
-                activeTabKey === 'logbook' ? 'nav-active text-[#0655a7]' : 'text-[#3f3f46]'
-              ]}
-            >
-              <span class:list={["active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'logbook' ? '' : 'hidden']}></span>
-              <i data-lucide="book-marked" class="w-4 h-4 text-[#71717a] shrink-0"></i>
-              <span class="truncate">Logbook Kegiatan</span>
-            </a>
-
-            <!-- 8. Validasi Konversi SKS -->
+            <!-- 7. Validasi Konversi SKS -->
             <a
               href="/koordinator/konversi"
               id="nav-konversi"
@@ -536,7 +515,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               >
                 <div class="flex items-center gap-3">
                   <i data-lucide="award" class:list={["w-4 h-4 shrink-0", isSidangActive ? 'text-[#0655a7]' : 'text-[#71717a]']}></i>
-                  <span class="truncate">Sidang MBKM</span>
+                  <span class="truncate">Sidang KB</span>
                 </div>
                 <i
                   id="sidang-chevron"
@@ -546,17 +525,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                 ></i>
               </button>
               <div id="submenu-sidang" x-show="isOpen('sidang')" x-cloak class="flex flex-col gap-1 py-0.5 pr-2.5 ml-[1.6rem] border-l border-[#e4e4e7]">
-                <a
-                  href="/koordinator/data-pengajuan"
-                  id="nav-sub-sidang-data-pengajuan"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'data-pengajuan' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'data-pengajuan' ? '' : 'hidden']}></span>
-                  <span>Data Pengajuan</span>
-                </a>
                 <a
                   href="/koordinator/plotting-jadwal"
                   id="nav-sub-sidang-plotting-jadwal"
@@ -595,7 +563,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
               >
                 <div class="flex items-center gap-3">
                   <i data-lucide="briefcase" class:list={["w-4 h-4 shrink-0", isMbkmActive ? 'text-[#0655a7]' : 'text-[#71717a]']}></i>
-                  <span class="truncate">MBKM</span>
+                  <span class="truncate">Kampus Berdampak</span>
                 </div>
                 <i
                   id="mbkm-chevron"
@@ -625,7 +593,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   ]}
                 >
                   <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'periode' ? '' : 'hidden']}></span>
-                  <span>Periode MBKM</span>
+                  <span>Periode KB</span>
                 </a>
               </div>
             </div>
@@ -666,7 +634,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                 <span
                   class="text-[10px] text-[#71717a] font-medium px-1.5 py-0.5 border border-[#e4e4e7] rounded bg-[#fafafa] w-fit truncate mt-0.5"
                 >
-                  Koordinator MBKM
+                  Koordinator KB
                 </span>
               </div>
             </div>

@@ -370,7 +370,7 @@ function handleSavePengumuman(e) {
   const file = document.getElementById('modal-pengumuman-file').value.trim();
 
   const sasaranLabels = {
-    semua_mhs: 'Semua Mahasiswa MBKM',
+    semua_mhs: 'Semua Mahasiswa Kampus Berdampak',
     kontributor_dospem: 'Kontributor & Dosen Pembimbing',
     magang: 'Peserta Magang Industri',
     studi_independen: 'Peserta Studi Independen'
@@ -400,12 +400,12 @@ function handleSavePengumuman(e) {
       status,
       tgl: '12 Okt 2026',
       jam: '09:00 WIB',
-      author: 'Nurul Anisa, M.Cs (Koordinator MBKM)',
+      author: 'Nurul Anisa, M.Cs (Koordinator Kampus Berdampak)',
       isi,
       file,
       pinned: false
     });
-    alert('Pengumuman resmi berhasil diterbitkan ke civitas MBKM!');
+    alert('Pengumuman resmi berhasil diterbitkan ke civitas Kampus Berdampak!');
   }
 
   closeBuatPengumumanModal();

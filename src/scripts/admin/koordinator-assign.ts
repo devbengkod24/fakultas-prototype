@@ -105,7 +105,7 @@ function renderAssignProgramList() {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="py-8 text-center text-xs text-[#71717a]">
-        Tidak ada program MBKM yang cocok dengan pencarian.
+        Tidak ada program Kampus Berdampak yang cocok dengan pencarian.
       </div>
     `;
     return;
@@ -209,7 +209,7 @@ function populateProgramKategoriDropdown() {
 
   let html = '';
   if (eksternalList.length > 0) {
-    html += `<optgroup label="MBKM Eksternal (Pendaftaran Mandiri & Seleksi)">`;
+    html += `<optgroup label="KB Eksternal (Pendaftaran Mandiri & Seleksi)">`;
     eksternalList.forEach((k) => {
       html += `<option value="${k.id}">${k.nama}</option>`;
     });
@@ -217,7 +217,7 @@ function populateProgramKategoriDropdown() {
   }
 
   if (internalList.length > 0) {
-    html += `<optgroup label="MBKM Internal (Penugasan Kontributor / Auto-Lolos)">`;
+    html += `<optgroup label="KB Internal (Penugasan Kontributor / Auto-Lolos)">`;
     internalList.forEach((k) => {
       html += `<option value="${k.id}">${k.nama}</option>`;
     });

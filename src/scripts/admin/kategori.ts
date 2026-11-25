@@ -67,7 +67,7 @@ function renderKategoriTable() {
             </td>
             <td class="py-2.5 px-3 text-center">
               <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border uppercase tracking-wide ${badgeClass}">
-                ${item.type === 'eksternal' ? 'MBKM Eksternal' : 'MBKM Internal'}
+                ${item.type === 'eksternal' ? 'KB Eksternal' : 'KB Internal'}
               </span>
             </td>
             <td class="py-2.5 px-3 text-center font-semibold text-[#09090b] text-[11px]">
