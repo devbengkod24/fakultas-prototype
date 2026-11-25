@@ -1,0 +1,50 @@
+---
+// src/pages/mahasiswa/log-aktivitas.astro
+import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import LogAktivitasPanel from "../../components/mbkm/mahasiswa/LogAktivitasPanel.astro";
+---
+
+<MahasiswaShell
+  title="Log Aktivitas | Mahasiswa - FIK Udinus"
+  activeNav="log-aktivitas"
+  pageTitle="Log Aktivitas"
+  breadcrumb="Log Aktivitas"
+>
+  <div class="space-y-5">
+    <div>
+      <h1 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Log Aktivitas</h1>
+      <p class="text-[14px] leading-[20px] text-[#71717a]">Riwayat aktivitas Anda selama mengikuti program MBKM.</p>
+    </div>
+
+    <!-- State: Terkunci saat belum diterima -->
+    <div
+      x-show="$store.mahasiswaSim?.state === 'belum_daftar'"
+      x-cloak
+      class="rounded-xl border border-[#e4e4e7] bg-white p-8 sm:p-12 text-center space-y-4 shadow-none"
+    >
+      <div class="w-14 h-14 rounded-full bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-2xs">
+        <i data-lucide="lock" class="w-7 h-7 text-amber-600"></i>
+      </div>
+      <div class="max-w-md mx-auto space-y-1.5">
+        <h3 class="text-base font-semibold text-[#09090b]">Akses Log Aktivitas Belum Terbuka</h3>
+        <p class="text-xs text-[#71717a] leading-relaxed">
+          Menu Log Aktivitas hanya dapat diakses setelah pendaftaran Kampus Berdampak Anda dinyatakan diterima.
+        </p>
+      </div>
+      <div class="pt-2">
+        <a
+          href="/mahasiswa/dashboard"
+          class="inline-flex items-center gap-2 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors shadow-none"
+        >
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          <span>Buka Dashboard</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Konten Utama (Hanya tampil jika sudah diterima) -->
+    <div x-show="$store.mahasiswaSim?.state !== 'belum_daftar'" x-cloak>
+      <LogAktivitasPanel />
+    </div>
+  </div>
+</MahasiswaShell>

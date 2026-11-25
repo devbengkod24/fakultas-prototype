@@ -1,0 +1,86 @@
+
+> mbkm-v3@0.0.1 build
+> astro build
+
+[2m12:59:31[22m [34m[types][39m Generated [2m520ms[22m
+[2m12:59:31[22m [34m[build][39m output: [34m"static"[39m
+[2m12:59:31[22m [34m[build][39m mode: [34m"static"[39m
+[2m12:59:31[22m [34m[build][39m directory: [34mD:\FIK-Apps\fakultas-prototype\dist\[39m
+[2m12:59:31[22m [34m[build][39m Collecting build info...
+[2m12:59:31[22m [34m[build][39m [32m✓ Completed in 880ms.[39m
+[2m12:59:31[22m [34m[build][39m Building static entrypoints...
+[2m12:59:43[22m [34m[vite][39m [32m✓ built in 12.27s[39m
+[2m12:59:44[22m [34m[vite][39m [32m✓ built in 640ms[39m
+[2m12:59:44[22m [34m[build][39m Rearranging server assets...
+
+[42m[30m generating static routes [39m[49m
+[2m12:59:44[22m   [34m├─[39m [2m/apps/index.html[22m[2m12:59:44[22m   [34m├─[39m [2m/contributor/anggota/index.html[22m [2m(+201ms)[22m 
+[2m12:59:44[22m   [34m├─[39m [2m/contributor/dashboard/index.html[22m [2m(+225ms)[22m 
+[2m12:59:44[22m   [34m├─[39m [2m/contributor/kelola-cms/index.html[22m [2m(+90ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/contributor/log-aktivitas/index.html[22m [2m(+70ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/contributor/pengumuman/index.html[22m [2m(+26ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/contributor/program/index.html[22m [2m(+27ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/contributor/seleksi/index.html[22m [2m(+40ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/detail-mbkm/index.html[22m [2m(+79ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/dashboard/index.html[22m [2m(+110ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/laporan-akhir/2330/index.html[22m [2m(+99ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/laporan-akhir/2331/index.html[22m [2m(+44ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/laporan-akhir/2332/index.html[22m [2m(+43ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/laporan-akhir/index.html[22m [2m(+50ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/log-aktivitas/index.html[22m [2m(+26ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/mahasiswa/1/index.html[22m [2m(+62ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/mahasiswa/2/index.html[22m [2m(+64ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/mahasiswa/3/index.html[22m [2m(+50ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/mahasiswa/4/index.html[22m [2m(+25ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/mahasiswa/5/index.html[22m [2m(+21ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/mahasiswa/index.html[22m [2m(+14ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/pengumuman/index.html[22m [2m(+35ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/dosen/sidang/index.html[22m [2m(+28ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/dashboard/index.html[22m [2m(+45ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/data-mahasiswa/index.html[22m [2m(+47ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/data-pengajuan/index.html[22m [2m(+28ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/dosen-data/index.html[22m [2m(+32ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/dosen-update/index.html[22m [2m(+40ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/form-pendaftaran/index.html[22m [2m(+52ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/hasil-sidang/index.html[22m [2m(+51ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/kontributor/form-onboarding/index.html[22m [2m(+71ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/kontributor/kelola-program/index.html[22m [2m(+145ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/kontributor/program/index.html[22m [2m(+154ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/kontributor/index.html[22m [2m(+178ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/konversi/index.html[22m [2m(+141ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/koordinator/index.html[22m [2m(+55ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/laporan/index.html[22m [2m(+53ms)[22m 
+[2m12:59:45[22m   [34m├─[39m [2m/koordinator/log-aktivitas/index.html[22m [2m(+41ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/logbook/index.html[22m [2m(+134ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/pelamar/index.html[22m [2m(+133ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/pengumuman/index.html[22m [2m(+217ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/periode/index.html[22m [2m(+307ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/plotting-jadwal/index.html[22m [2m(+158ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/program/index.html[22m [2m(+97ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/sertifikat/index.html[22m [2m(+67ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/sidang/index.html[22m [2m(+39ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/surekom/index.html[22m [2m(+34ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/koordinator/update-dosen/index.html[22m [2m(+38ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/login/index.html[22m [2m(+180ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/dashboard/index.html[22m [2m(+226ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/dosen-pembimbing/index.html[22m [2m(+106ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/konversi-sks/index.html[22m [2m(+54ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/lamaran/index.html[22m [2m(+26ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/laporan/index.html[22m [2m(+25ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/log-aktivitas/index.html[22m [2m(+28ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/logbook/index.html[22m [2m(+26ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/logbook-kegiatan/index.html[22m [2m(+25ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/pendaftaran/index.html[22m [2m(+27ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/pendaftaran-detail/index.html[22m [2m(+14ms)[22m 
+[2m12:59:46[22m   [34m├─[39m [2m/mahasiswa/pengumuman/index.html[22m [2m(+40ms)[22m 
+[2m12:59:47[22m   [34m├─[39m [2m/mahasiswa/sidang/index.html[22m [2m(+25ms)[22m 
+[2m12:59:47[22m   [34m├─[39m [2m/mahasiswa/status/index.html[22m [2m(+25ms)[22m 
+[2m12:59:47[22m   [34m├─[39m [2m/mahasiswa/index.html[22m [2m(+7ms)[22m 
+[2m12:59:47[22m   [34m├─[39m [2m/pendaftaran-mahasiswa/index.html[22m [2m(+29ms)[22m 
+[2m12:59:47[22m   [34m├─[39m [2m/index.html[22m [2m(+45ms)[22m 
+ [2m(+34ms)[22m 
+[2m12:59:47[22m [32m✓ Completed in 2.52s.
+[39m
+[2m12:59:47[22m [34m[build][39m [32m✓ Completed in 16.02s.[39m
+[2m12:59:47[22m [34m[build][39m 65 page(s) built in [1m16.95s[22m
+[2m12:59:47[22m [34m[build][39m [1mComplete![22m

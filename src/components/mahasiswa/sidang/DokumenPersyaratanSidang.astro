@@ -1,0 +1,96 @@
+---
+// src/components/mahasiswa/sidang/DokumenPersyaratanSidang.astro
+// Daftar persyaratan sidang: tiap baris berupa unggah berkas (file) atau input tautan (link).
+import type { PersyaratanSidang } from "../../../data/mahasiswa/sidangData";
+
+interface Props {
+  items: PersyaratanSidang[];
+}
+
+const { items } = Astro.props;
+const status = Object.fromEntries(items.map((i) => [i.id, Boolean(i.nilai)]));
+const btn =
+  "inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer";
+---
+
+<div
+  class="bg-white border border-[#e4e4e7] rounded-xl"
+  x-data={`{
+    status: ${JSON.stringify(status)},
+    get terpenuhi() { return Object.values(this.status).filter(Boolean).length; },
+    total: ${items.length}
+  }`}
+  @berkas-status="status[$event.detail.id] = $event.detail.ok"
+>
+  <div class="px-5 py-4 border-b border-[#e4e4e7] flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <h2 class="text-base font-semibold text-[#09090b]">Dokumen Persyaratan Sidang</h2>
+      <p class="text-xs text-[#71717a] mt-0.5">Lengkapi seluruh dokumen berikut sebelum sidang dilaksanakan.</p>
+    </div>
+    <div class="flex items-center gap-2.5 text-xs">
+      <span class="text-[#71717a]"><span class="font-semibold text-[#09090b]" x-text="terpenuhi"></span> dari <span x-text="total"></span> terpenuhi</span>
+      <div class="w-24 h-1.5 rounded-full bg-[#f4f4f5] overflow-hidden">
+        <div class="h-full rounded-full bg-[#0655a7] transition-all duration-300" :style="`width: ${terpenuhi / total * 100}%`"></div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="divide-y divide-[#e4e4e7]">
+    {items.map((it) => (
+      <li
+        class="px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+        x-data={`{ id: '${it.id}', nilai: ${JSON.stringify(it.nilai)}, tautan: ${JSON.stringify(it.tautan)}, draft: '', editing: false,
+          init() { this.$watch('nilai', (v) => this.$dispatch('berkas-status', { id: this.id, ok: Boolean(v) })); },
+          pilihFile(e) { const f = e.target.files[0]; if (f) { this.nilai = f.name; this.tautan = ''; } e.target.value = ''; },
+          simpanLink() { const v = this.draft.trim(); if (!v) return; this.nilai = v; this.tautan = v; this.editing = false; },
+          ubahLink() { this.draft = this.nilai; this.editing = true; } }`}
+      >
+        <div class="flex items-start gap-3 min-w-0">
+          <span class="mt-0.5 shrink-0" x-show="nilai"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i></span>
+          <span class="mt-0.5 shrink-0" x-show="!nilai"><i data-lucide="circle" class="w-4 h-4 text-[#d4d4d8]"></i></span>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-[#09090b]">{it.nama}</p>
+            {it.tipe === "file" ? (
+              <p class="text-xs text-[#71717a] truncate" x-text={`nilai || ${JSON.stringify(it.keterangan)}`}></p>
+            ) : (
+              <>
+                <p class="text-xs text-[#71717a]" x-show="!editing && !nilai">{it.keterangan}</p>
+                <a x-show="!editing && nilai" :href="tautan" target="_blank" rel="noopener noreferrer" class="block text-xs text-[#0655a7] hover:underline truncate" x-text="nilai"></a>
+              </>
+            )}
+          </div>
+        </div>
+
+        {it.tipe === "file" ? (
+          <div class="flex items-center gap-2 shrink-0 pl-7 sm:pl-0">
+            <a x-show="nilai && tautan" :href="tautan" target="_blank" rel="noopener noreferrer" class={btn}>
+              <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Lihat</span>
+            </a>
+            <label class={btn}>
+              <i data-lucide="upload" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span x-text="nilai ? 'Ganti' : 'Unggah'"></span>
+              <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="sr-only" name={`berkas-${it.id}`} @change="pilihFile($event)" />
+            </label>
+          </div>
+        ) : (
+          <div class="shrink-0 pl-7 sm:pl-0 sm:w-80">
+            <form x-show="editing || !nilai" @submit.prevent="simpanLink()" class="flex items-center gap-2">
+              <input
+                type="url"
+                required
+                x-model="draft"
+                name={`tautan-${it.id}`}
+                placeholder="https://www.instagram.com/reel/..."
+                class="min-w-0 flex-1 h-8 px-3 border border-[#e4e4e7] rounded-md bg-white text-xs text-[#09090b] placeholder:text-[#a1a1aa] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+              />
+              <button type="submit" class="h-8 px-3 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors cursor-pointer">Simpan</button>
+            </form>
+            <button x-show="!editing && nilai" type="button" @click="ubahLink()" class={`${btn} sm:ml-auto`}>
+              <i data-lucide="pencil" class="w-3.5 h-3.5 text-[#71717a]"></i><span>Ubah</span>
+            </button>
+          </div>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>

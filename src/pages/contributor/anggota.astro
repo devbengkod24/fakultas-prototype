@@ -11,14 +11,14 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
   subtitle="Dosen pembimbing dan mahasiswa binaan yang terlibat dalam program ini."
   hidePageHeader={false}
 >
-  <section id="view-anggota" class="view-panel space-y-4">
+  <section id="view-anggota" class="space-y-4 view-panel">
     <!-- Tab: Daftar Mahasiswa | Daftar Dosen -->
     <div id="kag-tabs" role="tablist" class="flex items-center gap-1 border-b border-[#e4e4e7]">
       <button type="button" role="tab" data-tab="mahasiswa" onclick="kagShowTab('mahasiswa')" class="kag-tab"></button>
       <button type="button" role="tab" data-tab="dosen" onclick="kagShowTab('dosen')" class="kag-tab"></button>
     </div>
 
-    <div id="kag-panel-dosen" role="tabpanel" class="kag-panel space-y-4 hidden">
+    <div id="kag-panel-dosen" role="tabpanel" class="hidden space-y-4 kag-panel">
       <!-- Tabel Daftar Dosen -->
       <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
         <table class="w-full text-sm">
@@ -60,7 +60,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
       </div>
     </div>
 
-    <div id="kag-panel-mahasiswa" role="tabpanel" class="kag-panel space-y-4 hidden">
+    <div id="kag-panel-mahasiswa" role="tabpanel" class="hidden space-y-4 kag-panel">
       <!-- Tabel Daftar Mahasiswa -->
       <div class="rounded-md border border-[#e4e4e7] overflow-hidden bg-white">
         <table class="w-full text-sm">
@@ -141,7 +141,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
   </section>
 
   <!-- Drawer: Profil Anggota -->
-  <div id="kag-drawer" class="hidden fixed inset-0 z-50" aria-hidden="true">
+  <div id="kag-drawer" class="fixed inset-0 z-50 hidden" aria-hidden="true">
     <div class="absolute inset-0 bg-black/40" onclick="kagCloseProfile()"></div>
     <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl border-l border-[#e4e4e7] flex flex-col" role="dialog" aria-modal="true" aria-labelledby="kag-p-title">
       <div class="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-[#e4e4e7]">
@@ -150,7 +150,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
-      <div id="kag-p-body" class="flex-1 overflow-y-auto px-5 py-4 space-y-5 text-xs"></div>
+      <div id="kag-p-body" class="flex-1 px-5 py-4 space-y-5 overflow-y-auto text-xs"></div>
     </aside>
   </div>
 
@@ -169,7 +169,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
         var key = b.getAttribute('data-tab');
         var active = key === name;
         b.setAttribute('aria-selected', active ? 'true' : 'false');
-        b.innerHTML = '<i data-lucide="' + KAG_TABS[key].icon + '" class="mr-2 h-4 w-4"></i><span>' + KAG_TABS[key].label + '</span>';
+        b.innerHTML = '<i data-lucide="' + KAG_TABS[key].icon + '" class="w-4 h-4 mr-2"></i><span>' + KAG_TABS[key].label + '</span>';
         b.className = 'kag-tab flex items-center px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ' +
           (active ? 'border-[#0655a7] text-[#0655a7]' : 'border-transparent text-[#71717a] hover:text-[#09090b]');
       });
@@ -248,7 +248,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
         var terisi = d.binaan.length;
         var binaan = d.binaan.length ? d.binaan.map(function (nim) {
           var m = KAG_MHS[nim];
-          return '<li><button type="button" onclick="kagOpenProfile(\'mhs\',\'' + kagKey(nim) + '\')" class="w-full text-left flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"><span class="min-w-0"><span class="block font-medium text-[#09090b] truncate">' + kagEsc(m ? m.nama : nim) + '</span><span class="block text-[11px] text-[#71717a]">' + kagEsc(nim) + '</span></span><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 shrink-0"></i></button></li>';
+          return '<li><button type="button" onclick="kagOpenProfile(\'mhs\',\'' + kagKey(nim) + '\')" class="flex items-center justify-between w-full gap-2 px-3 py-2 text-left border border-gray-200 rounded-lg hover:bg-gray-50"><span class="min-w-0"><span class="block font-medium text-[#09090b] truncate">' + kagEsc(m ? m.nama : nim) + '</span><span class="block text-[11px] text-[#71717a]">' + kagEsc(nim) + '</span></span><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400 shrink-0"></i></button></li>';
         }).join('') : '<li class="text-[#71717a] py-1">Belum ada mahasiswa bimbingan.</li>';
         var badgeD = '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">' + kagEsc(d.peran) + '</span>';
         html = kagCard(d.nama, 'NIDN ' + kagEsc(d.nidn), badgeD, kontak) +
@@ -266,7 +266,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
         var dpl = KAG_DOSEN[m.dpl];
         var dplHtml = dpl ? '<button type="button" onclick="kagOpenProfile(\'dsn\',\'' + kagKey(m.dpl) + '\')" class="text-[#1063B9] hover:underline">' + kagEsc(dpl.nama) + '</button>' : '—';
         var berkas = m.berkas.length ? m.berkas.map(function (b) {
-          return '<li><button type="button" onclick="previewDoc(\'' + kagKey(m.nim) + '\', \'' + (b === 'cv' ? 'cv' : 'transkrip') + '\')" class="w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50"><i data-lucide="file-text" class="w-3.5 h-3.5 text-[#1063B9]"></i><span class="text-[#09090b]">' + (KAG_BERKAS[b] || b) + '</span></button></li>';
+          return '<li><button type="button" onclick="previewDoc(\'' + kagKey(m.nim) + '\', \'' + (b === 'cv' ? 'cv' : 'transkrip') + '\')" class="flex items-center w-full gap-2 px-3 py-2 text-left border border-gray-200 rounded-lg hover:bg-gray-50"><i data-lucide="file-text" class="w-3.5 h-3.5 text-[#1063B9]"></i><span class="text-[#09090b]">' + (KAG_BERKAS[b] || b) + '</span></button></li>';
         }).join('') : '<li class="text-[#71717a] py-1">Belum ada berkas.</li>';
         var kontakM = (m.email || m.wa) ? '<div class="flex flex-wrap gap-2 pt-1">' +
           (m.email ? '<a href="mailto:' + kagEsc(m.email) + '" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 no-underline"><i data-lucide="mail" class="w-3.5 h-3.5"></i>Email</a>' : '') +

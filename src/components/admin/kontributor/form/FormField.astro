@@ -1,0 +1,46 @@
+---
+// Field form generik (input / textarea / select) bergaya sama dengan Kelola Program & Kelola CMS.
+interface Props {
+  id: string;
+  label: string;
+  type?: string;
+  value?: string | number;
+  placeholder?: string;
+  required?: boolean;
+  rows?: number;
+  options?: { value: string; label: string }[];
+  min?: number;
+  fullWidth?: boolean;
+}
+
+const {
+  id,
+  label,
+  type = 'text',
+  value = '',
+  placeholder = '',
+  required = false,
+  rows = 0,
+  options,
+  min,
+  fullWidth = false,
+} = Astro.props;
+
+const fieldCls =
+  'w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100';
+---
+
+<div class={fullWidth ? 'sm:col-span-2' : ''}>
+  <label for={id} class="mb-2 block text-sm font-semibold text-gray-700">
+    {label}{required && <span class="text-rose-500"> *</span>}
+  </label>
+  {options ? (
+    <select id={id} class={`${fieldCls} cursor-pointer`}>
+      {options.map((o) => <option value={o.value} selected={o.value === String(value)}>{o.label}</option>)}
+    </select>
+  ) : rows > 0 ? (
+    <textarea id={id} rows={rows} placeholder={placeholder} class={`${fieldCls} resize-y`}>{value}</textarea>
+  ) : (
+    <input id={id} type={type} min={min} value={value} placeholder={placeholder} class={fieldCls} />
+  )}
+</div>

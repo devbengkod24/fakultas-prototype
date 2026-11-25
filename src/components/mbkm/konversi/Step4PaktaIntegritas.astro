@@ -1,0 +1,101 @@
+---
+// src/components/mbkm/konversi/Step4PaktaIntegritas.astro
+// Tahap 4 (terakhir): unggah Pakta Integritas sebagai pelengkap pengajuan konversi matkul.
+---
+
+<!-- Tahap 4: Pakta Integritas (Murni Unggah Berkas & Unduh Template di Kanan Header Space-Between) -->
+<div x-show="currentStep === 4" x-cloak class="space-y-4" x-transition>
+  <!-- Konfirmasi setelah pakta dikirim -->
+  <div
+    x-show="paktaTerkirim"
+    x-cloak
+    class="flex items-start gap-2.5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800"
+  >
+    <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 mt-px text-emerald-600"></i>
+    <p class="leading-relaxed">
+      Pakta integritas berhasil dikirim. Seluruh tahapan konversi matkul telah selesai.
+    </p>
+  </div>
+
+  <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-5 sm:p-6 space-y-5">
+    <!-- Header Card Space-Between (Tanpa Divider Sesuai Prinsip YAGNI) -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <h3 class="text-base font-semibold text-[#09090b]">
+          Pakta Integritas
+        </h3>
+        <p class="text-xs text-[#71717a] mt-0.5 leading-relaxed">
+          Unggah dokumen pakta integritas untuk diverifikasi.
+        </p>
+      </div>
+
+      <!-- Tombol Unduh Pakta di Kanan Judul Card (Ukuran Proporsional) -->
+      <a
+        href="#"
+        class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors shrink-0 self-start sm:self-auto"
+        title="Unduh Berkas Draf Pakta Integritas Resmi (PDF)"
+      >
+        <i data-lucide="download" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+        <span>Unduh Pakta</span>
+      </a>
+    </div>
+
+    <!-- Body: Murni Area Unggah Berkas -->
+    <div class="space-y-4">
+      <div
+        class="border-2 border-dashed border-[#e4e4e7] hover:border-[#0655a7] rounded-xl p-8 sm:p-10 text-center transition-colors bg-[#fafafa] cursor-pointer group space-y-3"
+      >
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-[#0655a7] flex items-center justify-center mx-auto transition-transform group-hover:scale-105 border border-blue-200/60">
+          <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-[#09090b]">
+            Klik untuk memilih berkas atau seret ke area ini
+          </p>
+          <p class="text-[11px] text-[#71717a] mt-0.5">
+            Format yang didukung: <strong>PDF</strong> atau <strong>JPG/PNG</strong> (Maksimal 5 MB)
+          </p>
+        </div>
+
+        <!-- Berkas Dummy Terpilih -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white border border-[#e4e4e7] text-xs text-[#09090b] shadow-2xs mt-2">
+          <i data-lucide="file-check-2" class="w-4 h-4 text-emerald-600"></i>
+          <span class="font-medium">Pakta_Integritas_Bengkel_Koding_Signed.pdf</span>
+          <span class="text-[11px] text-[#71717a]">(2.4 MB)</span>
+        </div>
+      </div>
+
+      <!-- Footer Aksi (Tanpa Divider Sesuai Prinsip YAGNI) -->
+      <div class="flex items-center justify-between gap-2">
+        <button
+          x-show="!paktaTerkirim"
+          type="button"
+          @click="currentStep = 3"
+          class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Kembali</span>
+        </button>
+
+        <button
+          x-show="!paktaTerkirim"
+          type="button"
+          @click="selesaiPakta()"
+          class="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors shadow-none cursor-pointer"
+        >
+          <span>Kirim Pakta Integritas</span>
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+        </button>
+
+        <span
+          x-show="paktaTerkirim"
+          x-cloak
+          class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-800"
+        >
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+          Pakta terkirim
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

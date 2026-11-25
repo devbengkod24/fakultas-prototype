@@ -1,0 +1,75 @@
+---
+// src/components/mahasiswa/pendaftaran/DetailStepper.astro
+import { cn } from "../../../utils/cn";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const steps = [
+  { id: 1, key: "pendaftaran", label: "Pendaftaran" },
+  { id: 2, key: "berkas", label: "Screening" },
+  { id: 3, key: "wawancara", label: "Wawancara" },
+  { id: 4, key: "hasil", label: "Pengumuman" },
+];
+---
+
+<!-- Stepper 4 Tahap MBKM Selaras Style Roadmap Dashboard -->
+<div class={cn("rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none py-4 px-4 sm:px-6", className)}>
+  <div class="relative py-1 max-w-3xl sm:max-w-4xl mx-auto">
+    <!-- Connecting Progress Track (12.5% s/d 12.5% untuk 4 Kolom Grid) -->
+    <div class="absolute left-[12.5%] right-[12.5%] top-5 -translate-y-1/2 h-1 bg-gray-200 rounded-full z-0" aria-hidden="true">
+      <div
+        class="h-full bg-[#0655a7] rounded-full transition-all duration-500 ease-out"
+        :style="currentStage === 'pendaftaran' ? 'width: 0%' : currentStage === 'berkas' ? 'width: 33.333%' : currentStage === 'wawancara' ? 'width: 66.667%' : 'width: 100%'"
+      ></div>
+    </div>
+
+    <!-- 4 Step Nodes Grid -->
+    <div class="relative z-10 grid grid-cols-4 text-center">
+      {steps.map((step) => (
+        <div
+          class="flex flex-col items-center cursor-pointer group"
+          @click={`setStage('${step.key}')`}
+        >
+          <!-- Node Selesai (Centang) -->
+          <div
+            x-show={`isStepDone('${step.key}')`}
+            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs bg-[#0655a7] text-white shadow-2xs border-2 border-white ring-4 ring-blue-50 transition-all"
+            title="Tahap Selesai"
+          >
+            <i data-lucide="check" class="w-4 h-4 text-white"></i>
+          </div>
+
+          <!-- Node Aktif (Nomor + Ring Pendaran) -->
+          <div
+            x-show={`isStepActive('${step.key}')`}
+            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs bg-[#0655a7] text-white ring-4 ring-blue-100 border-2 border-white shadow-2xs transition-all"
+            title="Tahap Aktif"
+          >
+            <span>{step.id}</span>
+          </div>
+
+          <!-- Node Pending (Netral Abu-abu) -->
+          <div
+            x-show={`isStepPending('${step.key}')`}
+            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs bg-[#f4f4f5] text-[#71717a] border-2 border-white ring-4 ring-transparent transition-all group-hover:border-slate-300"
+            title="Menunggu Tahap Sebelumnya"
+          >
+            <span>{step.id}</span>
+          </div>
+
+          <!-- Label Tahap Sesuai Dashboard -->
+          <span
+            class="mt-2 text-xs font-semibold leading-tight transition-colors"
+            :class={`isStepActive('${step.key}') ? 'text-[#0655a7]' : isStepDone('${step.key}') ? 'text-[#09090b]' : 'text-[#71717a]'`}
+          >
+            {step.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

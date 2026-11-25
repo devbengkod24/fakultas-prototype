@@ -1,0 +1,115 @@
+<!-- Modal: Atur Jadwal Wawancara Pelamar -->
+<div
+  id="modal-jadwal-wawancara-pelamar"
+  onclick="if (event.target === this) closeModalJadwalWawancaraPelamar()"
+  class="fixed inset-0 z-[60] flex items-center justify-center hidden p-4 bg-black/40"
+>
+  <div
+    class="bg-white rounded-2xl max-w-lg w-full p-5 shadow-2xl border border-[#e4e4e7] flex flex-col gap-4 text-xs animate-in fade-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto"
+  >
+    <div class="flex items-start justify-between gap-3 pb-3 border-b border-[#e4e4e7]">
+      <div>
+        <h3 class="text-sm font-bold text-[#09090b]">Atur Jadwal Wawancara</h3>
+        <p id="modal-jadwal-pelamar-info" class="text-[11px] text-[#71717a] mt-0.5">-</p>
+      </div>
+      <button
+        type="button"
+        onclick="closeModalJadwalWawancaraPelamar()"
+        aria-label="Tutup Modal"
+        class="text-[#71717a] hover:text-[#09090b] p-1 rounded-md hover:bg-[#f4f4f5] transition-colors cursor-pointer"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <form
+      onsubmit="event.preventDefault(); simpanJadwalWawancara();"
+      class="space-y-3.5"
+    >
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label for="input-jadwal-tanggal" class="block font-medium text-[#71717a] text-xs mb-1">
+            Tanggal Wawancara:
+          </label>
+          <input
+            type="date"
+            id="input-jadwal-tanggal"
+            value="2026-10-22"
+            required
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+        </div>
+        <div>
+          <label for="input-jadwal-jam" class="block font-medium text-[#71717a] text-xs mb-1">
+            Waktu / Jam (WIB):
+          </label>
+          <input
+            type="time"
+            id="input-jadwal-jam"
+            value="09:00"
+            required
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-[#71717a] text-xs mb-1.5">Metode Wawancara:</label>
+        <div class="flex items-center gap-4 text-xs">
+          <label class="inline-flex items-center gap-2 cursor-pointer text-[#09090b] font-medium">
+            <input
+              type="radio"
+              name="radio-metode-wawancara"
+              value="online"
+              checked
+              onchange="handleMetodeWawancaraChange(this.value)"
+              class="w-4 h-4 text-[#0655a7] border-[#d4d4d8] focus:ring-[#0655a7] cursor-pointer"
+            />
+            <span>Online (Daring)</span>
+          </label>
+          <label class="inline-flex items-center gap-2 cursor-pointer text-[#09090b] font-medium">
+            <input
+              type="radio"
+              name="radio-metode-wawancara"
+              value="offline"
+              onchange="handleMetodeWawancaraChange(this.value)"
+              class="w-4 h-4 text-[#0655a7] border-[#d4d4d8] focus:ring-[#0655a7] cursor-pointer"
+            />
+            <span>Offline (Tatap Muka)</span>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <label id="label-jadwal-lokasi" for="input-jadwal-catatan" class="block font-medium text-[#71717a] text-xs mb-1">
+          Informasi Link Pertemuan (Google Meet / Zoom):
+        </label>
+        <input
+          type="text"
+          id="input-jadwal-catatan"
+          value="https://meet.google.com/bengkod-ai-eval"
+          placeholder="Contoh: meet.google.com/bengkod-ai-eval"
+          class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-xs text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+        />
+      </div>
+
+      <div class="pt-3 border-t border-[#e4e4e7] flex items-center justify-end gap-2">
+        <button
+          type="button"
+          onclick="closeModalJadwalWawancaraPelamar()"
+          class="h-9 px-3.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer"
+        >
+          Batal
+        </button>
+        <button
+          type="submit"
+          id="btn-modal-pelamar-simpan-jadwal"
+          class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium shadow-2xs transition-colors cursor-pointer"
+        >
+          <i data-lucide="calendar-check" class="w-4 h-4"></i>
+          <span>Simpan Jadwal</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

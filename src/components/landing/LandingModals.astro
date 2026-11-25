@@ -1,0 +1,65 @@
+---
+---
+    <button id="to-top" class="to-top" type="button" aria-label="Kembali ke atas">
+        <i data-lucide="arrow-up" class="h-5 w-5 text-gold"></i>
+    </button>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- Lightbox Modal Sertifikat Akreditasi Interaktif -->
+    <div id="cert-lightbox-modal"
+        class="fixed inset-0 z-[100] hidden overflow-y-auto bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 transition-opacity duration-300"
+        aria-hidden="true" role="dialog" aria-modal="true" onclick="closeCertModal()">
+        <div class="min-h-full w-full flex items-center justify-center py-3 sm:py-6">
+            <div class="relative w-full max-w-2xl max-h-[88vh] flex flex-col rounded-2xl bg-white shadow-2xl border border-slate-200 overflow-hidden my-auto"
+                onclick="event.stopPropagation()">
+                <!-- Header Modal: shrink-0 selalu terlihat di atas -->
+                <div
+                    class="flex shrink-0 items-center justify-between border-b border-slate-100 px-5 py-3.5 bg-slate-50/95">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <span
+                            class="flex h-8 w-8 items-center justify-center rounded-lg bg-deep text-gold shadow-xs shrink-0">
+                            <i data-lucide="award" class="h-4 w-4"></i>
+                        </span>
+                        <div class="min-w-0">
+                            <h3 id="cert-modal-title" class="font-bold text-sm sm:text-base text-deep truncate">Detail
+                                Sertifikat Akreditasi</h3>
+                            <p id="cert-modal-prodi" class="text-xs text-muted-foreground truncate">Fakultas Teknologi
+                                Cerdas UDINUS</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeCertModal()"
+                        class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 transition shrink-0 ml-2"
+                        aria-label="Tutup Modal">
+                        <i data-lucide="x" class="h-5 w-5"></i>
+                    </button>
+                </div>
+
+                <!-- Body Modal: flex-1 overflow-y-auto dengan padding proporsional -->
+                <div class="flex-1 overflow-y-auto p-4 sm:p-5 bg-slate-100/60 flex flex-col items-center">
+                    <div id="cert-modal-preview"
+                        class="w-full bg-white rounded-xl shadow-md border border-slate-200 p-5 sm:p-6 relative text-center">
+                        <!-- Konten sertifikat resolusi penuh di-inject via JS -->
+                    </div>
+                </div>
+
+                <!-- Footer Modal: shrink-0 selalu terlihat di bawah -->
+                <div
+                    class="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-slate-100 bg-white px-5 py-3.5">
+                    <div class="flex items-center gap-2 text-xs text-slate-600 min-w-0">
+                        <i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-600 shrink-0"></i>
+                        <span class="truncate">Sertifikat Resmi Terakreditasi Nasional &amp; Internasional</span>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button type="button" onclick="closeCertModal()"
+                            class="btn btn-outline text-xs !py-1.5 !px-3.5 sm:!py-2 sm:!px-4">
+                            Tutup
+                        </button>
+                        <a href="https://pmb.dinus.ac.id" target="_blank" rel="noopener"
+                            class="btn btn-gold text-xs !py-1.5 !px-3.5 sm:!py-2 sm:!px-4">
+                            Daftar PMB Online <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

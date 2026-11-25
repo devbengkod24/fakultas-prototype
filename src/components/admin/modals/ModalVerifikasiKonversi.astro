@@ -87,6 +87,16 @@
                         <span class="text-[#71717a] font-normal mx-1">·</span>
                         <span x-text="row.nama"></span>
                       </div>
+                      <template x-if="row.mengulang">
+                        <div class="mt-1 text-xs text-amber-700">
+                          <span class="font-semibold">Mengulang</span>
+                          <span class="mx-1">·</span>
+                          <span>Dosen: </span><span class="font-medium" x-text="row.dosenSebelumnya"></span>
+                        </div>
+                      </template>
+                      <template x-if="!row.mengulang">
+                        <div class="mt-1 text-xs text-[#71717a]">Belum pernah mengambil mata kuliah ini</div>
+                      </template>
                     </td>
 
                     <!-- 3. Bobot SKS -->

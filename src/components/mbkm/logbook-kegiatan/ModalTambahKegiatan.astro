@@ -1,0 +1,65 @@
+---
+// src/components/mbkm/logbook-kegiatan/ModalTambahKegiatan.astro
+const input =
+  "w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]";
+const label = "text-[12px] font-semibold text-[#09090b] block mb-1";
+---
+
+<div
+  x-show="showTambah"
+  x-cloak
+  x-transition.opacity
+  class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4"
+>
+  <div
+    class="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-[#e4e4e7]"
+    @click.outside="showTambah = false"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
+      <div>
+        <h3 class="text-[16px] font-semibold text-[#09090b]">Tambah Kegiatan</h3>
+        <p class="text-xs text-[#71717a] mt-0.5">Catat aktivitas yang Anda lakukan selama program.</p>
+      </div>
+      <button type="button" @click="showTambah = false" class="text-[#71717a] hover:text-[#09090b] p-1" aria-label="Tutup">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <form @submit.prevent="simpan()" class="p-5 space-y-4">
+      <div>
+        <label for="kegiatan-judul" class={label}>Judul Kegiatan <span class="text-red-500">*</span></label>
+        <input id="kegiatan-judul" x-model="form.judul" type="text" required class={input} placeholder="Contoh: Implementasi halaman dashboard" />
+      </div>
+      <div>
+        <label for="kegiatan-tanggal" class={label}>Tanggal Kegiatan <span class="text-red-500">*</span></label>
+        <input id="kegiatan-tanggal" x-model="form.tanggal" type="date" required class={input} />
+        <!-- Minggu mengikuti tanggal yang diisi; tidak ada penguncian tanggal -->
+        <p x-show="form.tanggal" x-cloak class="text-[11px] text-[#71717a] mt-1">
+          Masuk ke <span class="font-semibold text-[#09090b]" x-text="'Minggu ke-' + mingguDari(form.tanggal)"></span>
+          <span class="text-[#d4d4d8] mx-1">•</span>
+          <span x-text="fmt(form.tanggal)"></span>
+        </p>
+      </div>
+      <div>
+        <label for="kegiatan-deskripsi" class={label}>Rincian Aktivitas <span class="text-red-500">*</span></label>
+        <textarea id="kegiatan-deskripsi" x-model="form.deskripsi" rows="3" required class={`${input} resize-none`} placeholder="Uraikan apa yang dikerjakan..."></textarea>
+      </div>
+      <div>
+        <label for="kegiatan-dokumen" class={label}>Tautan Dokumen / Google Drive <span class="text-red-500">*</span></label>
+        <input id="kegiatan-dokumen" x-model="form.dokumenUrl" type="url" required class={input} placeholder="https://drive.google.com/file/..." />
+        <p class="text-[11px] text-[#71717a] mt-1">Pastikan tautan dapat diakses (hak akses Lihat/Komentar).</p>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
+        <button type="button" @click="showTambah = false" class="px-4 py-2 border border-[#e4e4e7] text-[#09090b] text-xs font-semibold rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+          Batal
+        </button>
+        <button type="submit" class="px-4 py-2 bg-[#1063B9] hover:bg-[#0E4F96] text-white text-xs font-semibold rounded-lg transition-colors cursor-pointer">
+          Simpan Kegiatan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

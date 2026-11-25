@@ -1,5 +1,6 @@
 ---
 // src/layouts/DosenShell.astro
+import '../styles/global.css';
 
 interface Props {
   title?: string;
@@ -9,7 +10,6 @@ interface Props {
   activeNav?:
     | 'dashboard'
     | 'mahasiswa'
-    | 'logbook'
     | 'laporan-akhir'
     | 'sidang'
     | 'log-aktivitas'
@@ -20,15 +20,13 @@ const {
   activeNav = "dashboard",
   breadcrumb = activeNav === 'dashboard' ? 'Dashboard' :
                activeNav === 'mahasiswa' ? 'Mahasiswa Bimbingan' :
-               activeNav === 'logbook' ? 'Logbook Mahasiswa' :
-               activeNav === 'laporan-akhir' ? 'Laporan Akhir' :
+               activeNav === 'laporan-akhir' ? 'Logbook Bimbingan' :
                activeNav === 'sidang' ? 'Sidang' :
                activeNav === 'log-aktivitas' ? 'Log Aktivitas' :
                'Dashboard',
   pageTitle = activeNav === 'dashboard' ? 'Selamat Datang, ADHITYA NUGRAHA di prodi Teknik Informatika - S1' : breadcrumb,
   subtitle = activeNav === 'dashboard' ? 'Berikut adalah data-data yang dapat Anda akses.' :
              activeNav === 'mahasiswa' ? 'Berikut adalah daftar mahasiswa bimbingan yang menjadi tanggung jawab Anda sebagai dosen pembimbing.' :
-             activeNav === 'logbook' ? 'Berikut adalah daftar logbook mahasiswa bimbingan.' :
              activeNav === 'laporan-akhir' ? 'Berikut adalah daftar laporan akhir mahasiswa bimbingan.' :
              activeNav === 'sidang' ? 'Kelola data pengajuan dan hasil sidang evaluasi MBKM.' :
              activeNav === 'log-aktivitas' ? 'Log aktivitas mahasiswa bimbingan.' :
@@ -90,9 +88,12 @@ const {
       min-height: 100vh;
       margin: 0;
       background-color: #f8fafc;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     .nav-active {
       color: #0655a7 !important;
@@ -174,20 +175,7 @@ const {
             <span class="truncate">Mahasiswa Bimbingan</span>
           </a>
 
-          <!-- 3. Logbook Mahasiswa -->
-          <a
-            href="/dosen/logbook"
-            id="nav-logbook"
-            class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-              activeNav === 'logbook' ? 'nav-active text-[#0655a7]' : 'text-[#475569]'
-            }`}
-          >
-            <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'logbook' ? '' : 'hidden'}`}></span>
-            <i data-lucide="book-text" class={`w-4 h-4 shrink-0 ${activeNav === 'logbook' ? 'text-[#0655a7]' : 'text-[#64748b]'}`}></i>
-            <span class="truncate">Logbook Mahasiswa</span>
-          </a>
-
-          <!-- 4. Laporan Akhir -->
+          <!-- 3. Logbook Bimbingan -->
           <a
             href="/dosen/laporan-akhir"
             id="nav-laporan-akhir"
@@ -197,7 +185,7 @@ const {
           >
             <span class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === 'laporan-akhir' ? '' : 'hidden'}`}></span>
             <i data-lucide="file-text" class={`w-4 h-4 shrink-0 ${activeNav === 'laporan-akhir' ? 'text-[#0655a7]' : 'text-[#64748b]'}`}></i>
-            <span class="truncate">Laporan Akhir</span>
+            <span class="truncate">Logbook Bimbingan</span>
           </a>
 
           <!-- 4. Sidang -->

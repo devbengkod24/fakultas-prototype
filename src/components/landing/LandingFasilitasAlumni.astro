@@ -1,0 +1,399 @@
+---
+---
+        <!-- [Komponen: FasilitasFakultas] -->
+        <section class="border-t border-border bg-muted/60 py-20">
+            <div class="container">
+                <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+                    <div>
+                        <div class="split-badge mb-4">
+                            <span class="split-badge-left">FTC</span>
+                            <span class="split-badge-right">FASILITAS &amp; LABORATORIUM CERDAS</span>
+                        </div>
+                        <h2 class="section-title text-deep">Lebih dari Sekadar Ruang Kelas</h2>
+                        <p class="section-desc">
+                            Dilengkapi laboratorium kecerdasan buatan (AI), perangkat High-Performance Computing, studio
+                            animasi &amp; broadcasting, serta ruang kolaborasi riset berstandar industri.
+                        </p>
+                    </div>
+                    <button data-go="inovasi"
+                        class="inline-flex items-center gap-1.5 self-start text-sm font-bold text-deep hover:text-info lg:self-end">
+                        Lihat Ekosistem Inovasi FTC <i data-lucide="arrow-right" class="h-4 w-4 text-gold"></i>
+                    </button>
+                </div>
+
+                <div class="mt-10 grid gap-5 lg:grid-cols-12">
+                    <div
+                        class="group relative min-h-[360px] overflow-hidden rounded-2xl bg-deep lg:col-span-7 lg:min-h-[430px]">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80"
+                            alt="Intelligent System & AI Research Lab" loading="lazy" decoding="async"
+                            class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-deep/30 to-transparent"></div>
+                        <div class="absolute inset-x-5 bottom-5 text-white sm:inset-x-6 sm:bottom-6">
+                            <span class="badge badge-gold mb-2.5"><i data-lucide="cpu" class="h-3.5 w-3.5"></i>
+                                Laboratorium Unggulan</span>
+                            <h3 class="text-xl font-extrabold sm:text-2xl">Intelligent System &amp; AI Research Lab</h3>
+                            <p class="mt-1.5 max-w-xl text-sm leading-relaxed text-white/80">
+                                Pusat eksperimen Machine Learning, Computer Vision, dan IoT terintegrasi dengan dukungan
+                                infrastruktur server GPU berkecepatan tinggi.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Di tablet (sm-md) dua kartu kecil berdampingan, di HP menumpuk, di desktop kembali menumpuk -->
+                    <div class="flex flex-col gap-5 sm:flex-row lg:col-span-5 lg:flex-col">
+                        <div class="group relative min-h-[220px] flex-1 overflow-hidden rounded-2xl bg-deep">
+                            <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80"
+                                alt="Studio Animasi & Motion Capture" loading="lazy" decoding="async"
+                                class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-deep/25 to-transparent">
+                            </div>
+                            <div class="absolute inset-x-5 bottom-5 text-white">
+                                <p class="font-mono text-xs font-bold uppercase tracking-wider text-gold">Creative &amp;
+                                    Motion Studio</p>
+                                <h3 class="mt-1 text-lg font-bold">Studio Animasi, Game &amp; Motion Capture</h3>
+                            </div>
+                        </div>
+
+                        <div class="group relative min-h-[220px] flex-1 overflow-hidden rounded-2xl bg-deep">
+                            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80"
+                                alt="Bengkel Koding & Inkubator" loading="lazy" decoding="async"
+                                class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-deep/25 to-transparent">
+                            </div>
+                            <div class="absolute inset-x-5 bottom-5 text-white">
+                                <p class="font-mono text-xs font-bold uppercase tracking-wider text-gold">Collaborative
+                                    Hub</p>
+                                <h3 class="mt-1 text-lg font-bold">Bengkel Koding &amp; Inkubator Technopreneur</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Komponen: KisahSuksesAlumni] -->
+        <section class="bg-primary py-20 text-primary-foreground overflow-hidden">
+            <div class="container">
+                <div class="mx-auto max-w-2xl text-center">
+                    <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                        Kisah Sukses <span class="text-gold">Alumni</span>
+                    </h2>
+                    <p class="mt-3 text-[15px] leading-relaxed text-white/80 sm:text-base">
+                        Dengarkan cerita inspiratif mereka yang telah bertransformasi dan sukses berkarir di industri
+                        teknologi global.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Marquee Ticker Alumni (Infinite Loop, Pause on Hover) -->
+            <div class="alumni-marquee-container mt-12">
+                <div class="alumni-marquee-track">
+                    <!-- Set 1 -->
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2025</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Perjalanan karir saya dimulai dari sini. Berbagai proyek dan tugas akhir benar-benar
+                                melatih mental dan skill saya. Pesan untuk mahasiswa: Jangan takut mencoba teknologi
+                                baru dan perbanyak portofolio!"
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                ST</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">SYAUKI TAUFIQUR RAHMAN</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · Software Engineer</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2024</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Ekosistem riset dan bimbingan intensif di laboratorium membuat transisi saya menuju
+                                dunia kerja di perusahaan multinasional menjadi sangat mulus dan kompetitif."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                NP</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">NADIA PRAMESTI, S.KOM.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · AI Product Specialist</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2025</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Kurikulum kewirausahaan teknologi di FTC mendorong saya membangun startup kreatif sejak
+                                bangku kuliah hingga kini dipercaya puluhan klien industri."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                RP</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">RAKHA PRATAMA, S.DS.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · 3D Technical Artist</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2023</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Program magang industri dan penguasaan infrastruktur cloud di kampus memberikan fondasi
+                                kuat untuk sertifikasi arsitektur enterprise skala internasional."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                MR</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">M. RIZKY ADITYA, S.KOM.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · Cloud Solutions Architect</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2024</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Riset pemodelan data dan bimbingan dosen di FTC sangat aplikatif. Saya langsung
+                                direkrut sebagai ML Engineer di Jakarta bahkan sebelum seremoni wisuda."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                DA</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">DHEA AMALIA PUTRI, S.KOM.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · Machine Learning Engineer</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <!-- Set 2 (Duplikasi untuk Seamless Infinite Loop) -->
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2025</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Perjalanan karir saya dimulai dari sini. Berbagai proyek dan tugas akhir benar-benar
+                                melatih mental dan skill saya. Pesan untuk mahasiswa: Jangan takut mencoba teknologi
+                                baru dan perbanyak portofolio!"
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                ST</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">SYAUKI TAUFIQUR RAHMAN</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · Software Engineer</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2024</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Ekosistem riset dan bimbingan intensif di laboratorium membuat transisi saya menuju
+                                dunia kerja di perusahaan multinasional menjadi sangat mulus dan kompetitif."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                NP</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">NADIA PRAMESTI, S.KOM.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · AI Product Specialist</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2025</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Kurikulum kewirausahaan teknologi di FTC mendorong saya membangun startup kreatif sejak
+                                bangku kuliah hingga kini dipercaya puluhan klien industri."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                RP</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">RAKHA PRATAMA, S.DS.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · 3D Technical Artist</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2023</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Program magang industri dan penguasaan infrastruktur cloud di kampus memberikan fondasi
+                                kuat untuk sertifikasi arsitektur enterprise skala internasional."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                MR</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">M. RIZKY ADITYA, S.KOM.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · Cloud Solutions Architect</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+
+                    <figure
+                        class="hover-lift flex w-[340px] sm:w-[400px] shrink-0 flex-col justify-between rounded-2xl border-b-4 border-b-gold bg-white p-6 text-foreground shadow-lg sm:p-7">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <i data-lucide="quote" class="h-6 w-6 text-gold"></i>
+                                <span
+                                    class="rounded bg-slate-100 px-2.5 py-0.5 font-mono text-xs font-bold text-slate-600">Lulusan
+                                    2024</span>
+                            </div>
+                            <blockquote class="mt-4 text-sm italic leading-relaxed text-foreground/85">
+                                "Riset pemodelan data dan bimbingan dosen di FTC sangat aplikatif. Saya langsung
+                                direkrut sebagai ML Engineer di Jakarta bahkan sebelum seremoni wisuda."
+                            </blockquote>
+                        </div>
+                        <figcaption class="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                            <div
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-extrabold text-primary">
+                                DA</div>
+                            <div>
+                                <div class="text-sm font-extrabold uppercase text-deep">DHEA AMALIA PUTRI, S.KOM.</div>
+                                <div class="text-xs font-bold text-amber-600">Alumni · Machine Learning Engineer</div>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- [Komponen: CTAPenerimaanMahasiswaBaru] -->
+        <section class="py-20">
+            <div class="container max-w-5xl">
+                <div class="relative overflow-hidden rounded-3xl bg-deep shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1400&q=80"
+                        alt="Gedung Kampus UDINUS" loading="lazy" decoding="async"
+                        class="absolute inset-0 h-full w-full object-cover opacity-25" />
+                    <div class="absolute inset-0 bg-gradient-to-r from-deep via-deep/90 to-primary/80"></div>
+
+                    <div class="relative z-10 px-6 py-14 text-center sm:p-16">
+                        <div class="mx-auto max-w-2xl space-y-6">
+                            <div
+                                class="inline-flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-widest text-gold">
+                                <span class="h-0.5 w-6 shrink-0 bg-gold"></span>
+                                PENERIMAAN MAHASISWA BARU 2026/2027
+                                <span class="h-0.5 w-6 shrink-0 bg-gold"></span>
+                            </div>
+                            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+                                Rancang Masa Depan Digitalmu Bersama <span class="text-gold">FTC UDINUS</span>
+                            </h2>
+                            <p class="text-[15px] leading-relaxed text-white/85 sm:text-base">
+                                Kembangkan potensimu di bidang teknologi cerdas, desain komunikasi kreatif, dan inovasi
+                                digital bersama dosen bereputasi internasional serta kurikulum berstandar industri
+                                global.
+                            </p>
+                            <div class="pt-2">
+                                <a href="https://pmb.dinus.ac.id" target="_blank" rel="noopener"
+                                    class="btn btn-gold btn-lg !rounded-full !px-8 shadow-lg shadow-gold/20 hover:scale-105 transition-all">
+                                    Daftar PMB Online <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                                </a>
+                            </div>
+                            <div
+                                class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-3 text-xs text-white/70">
+                                <span class="inline-flex items-center gap-1.5">
+                                    <i data-lucide="check-circle-2" class="h-3.5 w-3.5 text-gold"></i> Akreditasi Unggul
+                                </span>
+                                <span class="hidden sm:inline text-white/30">•</span>
+                                <span class="inline-flex items-center gap-1.5">
+                                    <i data-lucide="check-circle-2" class="h-3.5 w-3.5 text-gold"></i> Jalur Beasiswa &
+                                    Bebas Tes
+                                </span>
+                                <span class="hidden sm:inline text-white/30">•</span>
+                                <span class="inline-flex items-center gap-1.5">
+                                    <i data-lucide="check-circle-2" class="h-3.5 w-3.5 text-gold"></i> Kolaborasi Tech &
+                                    Industri Kreatif
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
