@@ -37,17 +37,17 @@ const defaultTimelineSteps = [
 
 <div class:list={["space-y-6 font-sans", className]}>
   <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs">
-    <!-- Header Card (Statis sesuai Alur Kegiatan) -->
+    <!-- Header Card (Statis sesuai Kegiatan Program) -->
     <div class="border-b border-gray-100 pb-4">
       <h3 class="text-base font-semibold text-[#09090b]">
-        Alur Kegiatan (Timeline)
+        Kegiatan Program (Timeline)
       </h3>
       <p class="mt-0.5 text-xs text-[#71717a]">
-        Tahapan kegiatan yang dijalani mahasiswa setelah resmi diterima sebagai peserta, hingga luaran pembelajarannya diakui.
+        Kegiatan yang akan dilakukan mahasiswa selama mengikuti program MBKM ini, hingga luaran pembelajarannya diakui.
       </p>
     </div>
 
-    <!-- Daftar 5 Langkah Alur Kegiatan (Maksimal 5 Tahap) -->
+    <!-- Daftar Kegiatan (Maksimal 5 Kegiatan) -->
     <div class="mt-6">
       <div class="space-y-4" id="timeline-steps-container">
         {defaultTimelineSteps.map((step) => (
@@ -61,7 +61,7 @@ const defaultTimelineSteps = [
                 type="button"
                 onclick="hapusTimelineStep(this)"
                 class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
-                title="Hapus Tahap"
+                title="Hapus Kegiatan"
               >
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
@@ -92,7 +92,7 @@ const defaultTimelineSteps = [
         ))}
       </div>
 
-      <!-- Tombol Tambah Tahap (Otomatis disembunyikan jika sudah 5 tahap maksimal) -->
+      <!-- Tombol Tambah Kegiatan (Otomatis disembunyikan jika sudah 5 kegiatan maksimal) -->
       <div class="mt-5">
         <button
           type="button"
@@ -101,7 +101,7 @@ const defaultTimelineSteps = [
           class="hidden items-center justify-center gap-2 rounded-lg border border-dashed border-[#1063B9] bg-blue-50/50 hover:bg-blue-50 px-5 py-3 text-sm font-semibold text-[#1063B9] transition shadow-2xs cursor-pointer w-full sm:w-auto"
         >
           <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>Tambah Tahap</span>
+          <span>Tambah Kegiatan</span>
         </button>
       </div>
     </div>
@@ -129,11 +129,11 @@ const defaultTimelineSteps = [
     // Update badge teks
     if (badge) {
       badge.textContent = count >= MAX_TIMELINE_STEPS
-        ? `${count} dari ${MAX_TIMELINE_STEPS} Tahap (Maksimal)`
-        : `${count} dari ${MAX_TIMELINE_STEPS} Tahap`;
+        ? `${count} dari ${MAX_TIMELINE_STEPS} Kegiatan (Maksimal)`
+        : `${count} dari ${MAX_TIMELINE_STEPS} Kegiatan`;
     }
 
-    // Sembunyikan tombol jika sudah maksimal 5 tahap
+    // Sembunyikan tombol jika sudah maksimal 5 kegiatan
     if (btnTambah) {
       if (count >= MAX_TIMELINE_STEPS) {
         btnTambah.classList.add('hidden');
@@ -173,7 +173,7 @@ const defaultTimelineSteps = [
           type="button"
           onclick="hapusTimelineStep(this)"
           class="p-1 rounded-md text-gray-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
-          title="Hapus Tahap"
+          title="Hapus Kegiatan"
         >
           <i data-lucide="trash-2" class="w-4 h-4"></i>
         </button>
@@ -183,7 +183,7 @@ const defaultTimelineSteps = [
           <label class="mb-1.5 block text-xs font-semibold text-gray-700">Judul</label>
           <input
             type="text"
-            placeholder="Judul Tahap ${newStepNum}"
+            placeholder="Judul Kegiatan ${newStepNum}"
             class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm font-medium text-gray-900 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
           />
         </div>
@@ -191,7 +191,7 @@ const defaultTimelineSteps = [
           <label class="mb-1.5 block text-xs font-semibold text-gray-700">Deskripsi</label>
           <input
             type="text"
-            placeholder="Deskripsi aktivitas tahap ${newStepNum}..."
+            placeholder="Deskripsi kegiatan ${newStepNum}..."
             class="w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-800 transition focus:border-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-100"
           />
         </div>

@@ -1,0 +1,55 @@
+---
+// src/components/mbkm/detail/DetailTimelineSteps.astro
+// Kegiatan program 1–5 item (tanpa nomor & icon). Desktop: satu garis waktu horizontal dengan kartu
+// bergantian di atas dan bawah garis. Mobile: rail vertikal di kiri, kartu di kanan.
+import { cn } from "../../../utils/cn";
+import type { TimelineStep } from "../../../data/mbkm/programTimeline";
+
+interface Props {
+  steps: TimelineStep[];
+}
+
+const { steps } = Astro.props;
+const n = Math.min(Math.max(steps.length, 1), 5);
+const maxW = ["", "lg:max-w-sm", "lg:max-w-2xl", "lg:max-w-4xl", "lg:max-w-6xl", "lg:max-w-none"][n];
+---
+
+<ol class={cn("relative mx-auto flex max-w-md flex-col pl-8 lg:flex-row lg:pl-0", maxW)}>
+  <!-- Garis utama: vertikal di mobile, horizontal di desktop -->
+  <span
+    class="absolute bottom-0 left-[7px] top-0 w-0.5 bg-white/25 lg:bottom-auto lg:left-0 lg:right-0 lg:top-1/2 lg:h-0.5 lg:w-auto"
+    aria-hidden="true"></span>
+
+  {steps.map((step, i) => {
+    const above = i % 2 === 0; // desktop: kegiatan ganjil di atas garis, genap di bawah
+    return (
+      <li class="group relative pb-5 last:pb-0 lg:h-[21rem] lg:flex-1 lg:pb-0">
+        <!-- Titik penanda -->
+        <span
+          class="absolute -left-8 top-5 z-10 h-4 w-4 rounded-full bg-[#f59e0b] ring-4 ring-[#f59e0b]/25 transition-all duration-300 group-hover:ring-8 group-hover:ring-[#f59e0b]/30 motion-safe:group-hover:scale-[1.4] lg:left-1/2 lg:top-1/2 lg:-ml-2 lg:-mt-2"
+          aria-hidden="true"></span>
+
+        <!-- Penyambung titik ke kartu (desktop) -->
+        <span
+          class={cn(
+            "absolute left-1/2 hidden h-[26px] w-px bg-white/30 transition-colors duration-300 group-hover:bg-[#f59e0b] lg:block",
+            above ? "bottom-1/2 mb-2" : "top-1/2 mt-2",
+          )}
+          aria-hidden="true"></span>
+
+        <!-- Kartu kegiatan -->
+        <article
+          class={cn(
+            "rounded-2xl border border-white/15 bg-white/[0.08] p-5 backdrop-blur-sm transition-all duration-300 ease-out",
+            "group-hover:border-[#f59e0b]/55 group-hover:bg-white/[0.14] group-hover:shadow-[0_16px_32px_-14px_rgba(0,0,0,0.5)] motion-safe:group-hover:-translate-y-1.5",
+            "lg:absolute lg:inset-x-2 lg:text-center",
+            above ? "lg:bottom-[calc(50%+36px)]" : "lg:top-[calc(50%+36px)]",
+          )}
+        >
+          <h3 class="text-base font-extrabold leading-snug text-white">{step.title}</h3>
+          <p class="mt-2 text-sm leading-6 text-blue-100/80">{step.desc}</p>
+        </article>
+      </li>
+    );
+  })}
+</ol>

@@ -10,12 +10,15 @@ interface ProgramItem {
   image: string;
   desc: string;
   hidden?: boolean;
+  /** Slug alur kegiatan di halaman detail (?program=slug). */
+  slug?: string;
 }
 
 const programs: ProgramItem[] = [
   // MBKM Internal
   {
     title: 'Lab IntSys',
+    slug: 'lab-intsys',
     type: 'internal',
     by: 'Kontributor',
     badge: 'Studi Independen',
@@ -24,6 +27,7 @@ const programs: ProgramItem[] = [
   },
   {
     title: 'IDSS',
+    slug: 'idss',
     type: 'internal',
     by: 'Kontributor',
     badge: 'Riset Bidang Kajian',
@@ -32,6 +36,7 @@ const programs: ProgramItem[] = [
   },
   {
     title: 'Bengkel Koding',
+    slug: 'bengkel-koding',
     type: 'internal',
     by: 'Kontributor',
     image: 'https://bengkelkoding.dinus.id/_next/image?url=%2Fimg%2Fabout-us.jpeg&w=3840&q=75',
@@ -39,6 +44,7 @@ const programs: ProgramItem[] = [
   },
   {
     title: 'PPKOrmawa',
+    slug: 'ppkormawa',
     type: 'internal',
     by: 'Kontributor',
     image: 'https://ppkormawa.dinus.ac.id/wp-content/uploads/sites/55/2022/10/ppkofkes-627x376.jpg',
@@ -94,6 +100,7 @@ const programs: ProgramItem[] = [
       image={item.image}
       desc={item.desc}
       hidden={item.hidden}
+      href={item.slug ? `/detail-mbkm?program=${item.slug}` : undefined}
     />
   ))}
 </div>

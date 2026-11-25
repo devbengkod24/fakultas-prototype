@@ -1,5 +1,19 @@
 ---
 // src/components/mbkm/detail/DetailTimeline.astro
+import DetailTimelineSteps from "./DetailTimelineSteps.astro";
+import { programTimelines, DEFAULT_PROGRAM_SLUG } from "../../../data/mbkm/programTimeline";
+const sectionBg = [
+  "radial-gradient(60% 75% at 88% -5%, rgba(245,158,11,.30), transparent 62%)",
+  "radial-gradient(55% 70% at -5% 105%, rgba(56,189,248,.24), transparent 62%)",
+  "radial-gradient(48% 62% at 52% 48%, rgba(30,127,217,.30), transparent 72%)",
+  "radial-gradient(40% 50% at 12% 8%, rgba(99,102,241,.18), transparent 70%)",
+  "linear-gradient(160deg,#052443 0%,#0a3e75 46%,#06294d 100%)",
+].join(",");
+const waveBg = [
+  "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'><path fill='%2338bdf8' fill-opacity='.10' d='M0,256L90,245C180,235,360,213,540,224C720,235,900,277,1080,282.7C1260,288,1350,256,1440,224L1440,320L0,320Z'/></svg>\") center bottom/100% 100% no-repeat",
+  "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'><path fill='%230b4d8c' fill-opacity='.38' d='M0,224L80,213C160,203,320,181,480,192C640,203,800,245,960,250.7C1120,256,1280,224,1360,208L1440,192L1440,320L0,320Z'/></svg>\") center bottom/100% 100% no-repeat",
+].join(",");
+const grainBg = "url(\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
 ---
 
 <!-- ========================================== -->
@@ -7,116 +21,51 @@
 <!-- ========================================== -->
 <section
   id="skema"
-  class="relative isolate scroll-mt-6 overflow-x-clip bg-gradient-to-br from-[#072f57] via-[#083460] to-[#072f57] py-16 sm:py-20 lg:py-24 text-white"
+  class="relative isolate scroll-mt-6 overflow-x-clip py-16 sm:py-20 lg:py-24 text-white"
+  style={`background:${sectionBg}`}
 >
-  <!-- Latar organik natural (tanpa pola grid/kotak) -->
-  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-    <div class="absolute -right-24 -top-24 h-[28rem] w-[28rem] rounded-full bg-[#f59e0b]/15 blur-3xl"></div>
-    <div class="absolute -left-24 -bottom-24 h-[28rem] w-[28rem] rounded-full bg-[#0b4d8c]/30 blur-3xl"></div>
-    <div class="absolute left-1/2 top-1/2 h-[18rem] w-[42rem] max-w-full -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#114d91]/20 blur-3xl"></div>
-    <svg
-      class="absolute inset-x-0 bottom-0 h-48 w-full text-[#0b4d8c]/25"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1440 320"
-      preserveAspectRatio="none"
-    >
-      <path
-        fill="currentColor"
-        d="M0,192L60,186.7C120,181,240,171,360,181.3C480,192,600,224,720,213.3C840,203,960,149,1080,138.7C1200,128,1320,160,1380,176L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
-    </svg>
-  </div>
+  <!-- Latar organik: gelombang berlapis + grain halus (tanpa pola grid/kotak) -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[62%]" style={`background:${waveBg}`} aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-soft-light" style={`background:${grainBg}`} aria-hidden="true"></div>
 
   <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- JUDUL (rata tengah) -->
     <div class="mx-auto max-w-3xl text-center flex flex-col items-center">
       <div class="split-badge mb-4">
         <span class="split-badge-left">TIMELINE</span>
-        <span class="split-badge-right">ALUR KEGIATAN</span>
+        <span class="split-badge-right">KEGIATAN</span>
       </div>
 
       <h2
         class="text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl"
       >
-        Alur Kegiatan Program
+        Kegiatan yang Akan Kamu Lakukan
       </h2>
 
       <p class="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-blue-100/80">
-        Tahapan yang kamu jalani setelah resmi diterima sebagai peserta, hingga
-        luaran pembelajarannya diakui.
+        Kegiatan yang akan kamu lakukan selama mengikuti program MBKM ini, hingga luaran pembelajarannya diakui.
       </p>
     </div>
 
-    <!-- TIMELINE 5 LANGKAH (Lingkaran Node + Garis Horizontal Terhubung) -->
+    <!-- TIMELINE: jumlah kegiatan mengikuti program (?program=slug), default Lab IntSys -->
     <div class="relative mt-12 lg:mt-16">
-      <ol class="relative grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-6">
-        <!-- LANGKAH 01 -->
-        <li class="relative flex flex-col items-center text-center">
-          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
-          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
-            <i data-lucide="user-check" class="h-6 w-6"></i>
-          </div>
-          <div class="min-w-0 pt-5">
-            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 01</span>
-            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Onboarding Peserta</h3>
-            <p class="mt-2 text-sm leading-6 text-blue-100/80">Aktivasi akun dan orientasi program.</p>
-          </div>
-        </li>
-
-        <!-- LANGKAH 02 -->
-        <li class="relative flex flex-col items-center text-center">
-          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
-          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
-            <i data-lucide="book-open-check" class="h-6 w-6"></i>
-          </div>
-          <div class="min-w-0 pt-5">
-            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 02</span>
-            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Pembelajaran Mandiri</h3>
-            <p class="mt-2 text-sm leading-6 text-blue-100/80">Modul industri dan mentoring praktisi.</p>
-          </div>
-        </li>
-
-        <!-- LANGKAH 03 -->
-        <li class="relative flex flex-col items-center text-center">
-          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
-          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
-            <i data-lucide="folder-kanban" class="h-6 w-6"></i>
-          </div>
-          <div class="min-w-0 pt-5">
-            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 03</span>
-            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Proyek Nyata</h3>
-            <p class="mt-2 text-sm leading-6 text-blue-100/80">Capstone Project berbasis kasus industri.</p>
-          </div>
-        </li>
-
-        <!-- LANGKAH 04 -->
-        <li class="relative flex flex-col items-center text-center">
-          <div class="absolute left-1/2 top-14 h-[calc(100%+2.5rem)] w-px -translate-x-1/2 bg-white/20 sm:hidden" aria-hidden="true"></div>
-          <div class="absolute left-1/2 top-7 hidden h-px w-[calc(100%+1.5rem)] bg-white/30 lg:block" aria-hidden="true"></div>
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
-            <i data-lucide="briefcase" class="h-6 w-6"></i>
-          </div>
-          <div class="min-w-0 pt-5">
-            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 04</span>
-            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Pembekalan Karir</h3>
-            <p class="mt-2 text-sm leading-6 text-blue-100/80">Soft skills dan kesiapan kerja.</p>
-          </div>
-        </li>
-
-        <!-- LANGKAH 05 -->
-        <li class="relative flex flex-col items-center text-center">
-          <div class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#072f57] shadow-lg ring-4 ring-[#f59e0b]/40">
-            <i data-lucide="graduation-cap" class="h-6 w-6"></i>
-          </div>
-          <div class="min-w-0 pt-5">
-            <span class="font-mono text-xs font-bold text-[#f59e0b]">TAHAP 05</span>
-            <h3 class="mt-1 text-base font-extrabold leading-snug text-white">Konversi SKS</h3>
-            <p class="mt-2 text-sm leading-6 text-blue-100/80">Luaran diakui hingga 20 SKS.</p>
-          </div>
-        </li>
-      </ol>
+      {programTimelines.map((p) => (
+        <div data-timeline-program={p.slug} class:list={[p.slug !== DEFAULT_PROGRAM_SLUG && "hidden"]}>
+          <DetailTimelineSteps steps={p.steps} />
+        </div>
+      ))}
     </div>
   </div>
 </section>
+
+<script is:inline define:vars={{ defaultSlug: DEFAULT_PROGRAM_SLUG }}>
+  (function () {
+    var blocks = document.querySelectorAll("[data-timeline-program]");
+    var slug = new URLSearchParams(location.search).get("program") || defaultSlug;
+    var found = Array.prototype.some.call(blocks, function (b) { return b.getAttribute("data-timeline-program") === slug; });
+    if (!found) slug = defaultSlug;
+    blocks.forEach(function (b) {
+      b.classList.toggle("hidden", b.getAttribute("data-timeline-program") !== slug);
+    });
+  })();
+</script>
