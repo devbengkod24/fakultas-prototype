@@ -13,7 +13,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 <!-- ==================================================== -->
 
 <div class="space-y-4">
-  <!-- Status Tabs Row: 5 Tab Status (Berkas, Wawancara, Diterima, Ditolak, Dibatalkan) -->
+  <!-- Status Tabs Row: 4 Tab Status (Berkas, Diterima, Ditolak, Dibatalkan) -->
   <div class="border-b border-[#e4e4e7] mb-2 flex items-center justify-between gap-4">
     <div class="flex items-center gap-6 overflow-x-auto pb-0">
       <button
@@ -25,17 +25,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <i data-lucide="file-check" class="w-4 h-4"></i>
         <span>Berkas</span>
         <span id="badge-count-pendaftar-berkas" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-[#0655a7]">0</span>
-      </button>
-
-      <button
-        type="button"
-        id="tab-pendaftar-wawancara"
-        onclick="switchPendaftarStatusTab('wawancara')"
-        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
-      >
-        <i data-lucide="message-square" class="w-4 h-4"></i>
-        <span>Wawancara</span>
-        <span id="badge-count-pendaftar-wawancara" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-50 text-amber-700">0</span>
       </button>
 
       <button

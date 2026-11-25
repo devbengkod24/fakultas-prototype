@@ -199,9 +199,17 @@ function closeModalJadwalWawancaraPelamar() {
 
 function setujuiBerkasPelamar() {
   if (!activeModalPelamarId || activeDrawerMode === 'readonly-detail') return;
-  const targetId = activeModalPelamarId;
+  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  if (!item) return;
+
+  item.status = 'diterima';
   closePelamarDetailModal();
-  bukaModalJadwalWawancaraPelamar(targetId);
+  renderPelamarTable();
+  if (typeof window.showAdminToast === 'function') {
+    window.showAdminToast(`Berkas ${item.nama} disetujui. Status pelamar kini Diterima.`, 'success');
+  } else {
+    alert(`Berkas ${item.nama} disetujui. Status pelamar kini Diterima.`);
+  }
 }
 
 function handleMetodeWawancaraChange(metode) {

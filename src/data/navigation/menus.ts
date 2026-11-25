@@ -22,7 +22,6 @@ export const navigationMenus: Record<string, RoleNavConfig> = {
       { id: "kontributor", label: "Kontributor", href: "/koordinator/kontributor", icon: "building-2" },
       { id: "data-mahasiswa", label: "Data Mahasiswa", href: "/koordinator/data-mahasiswa", icon: "user-check" },
       { id: "pelamar", label: "Pendaftar", href: "/koordinator/pelamar", icon: "users" },
-      { id: "logbook-bimbingan", label: "Logbook Bimbingan", href: "/koordinator/logbook-bimbingan", icon: "book-open-check" },
       { id: "dosen-update", label: "Plotting Dosen", href: "/koordinator/dosen-update", icon: "user-plus" },
       { id: "dosen-data", label: "Data Dosen", href: "/koordinator/dosen-data", icon: "graduation-cap" },
       { id: "konversi", label: "Validasi Konversi SKS", href: "/koordinator/konversi", icon: "arrow-left-right" },

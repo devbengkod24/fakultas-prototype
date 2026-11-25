@@ -91,7 +91,7 @@ const tabMetaMap: Record<string, { label: string; title: string; subtitle: strin
     actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="circle-help" class="w-4 h-4 text-[#71717a]"></i><span>Lihat panduan</span></button>',
   },
   'logbook-bimbingan': {
-    label: 'Mahasiswa / Logbook Bimbingan',
+    label: 'Dosen Pembimbing / Data Dosen / Logbook Bimbingan',
     title: 'Logbook Bimbingan Mahasiswa',
     subtitle: 'Pantau progres bimbingan mahasiswa per dosen pembimbing dan bantu verifikasi status bimbingan (minimal 5x bimbingan).',
     actionButton: '',
@@ -150,8 +150,8 @@ const displaySubtitle = subtitle || meta.subtitle;
 const displayActionButton = actionButton !== undefined ? actionButton : meta.actionButton;
 
 const isMbkmActive = ['mbkm', 'form-pendaftaran', 'periode'].includes(activeTabKey);
-const isMahasiswaActive = ['data-mahasiswa', 'pelamar', 'mhs-data', 'mhs-pelamar', 'logbook', 'logbook-bimbingan'].includes(activeTabKey);
-const isDosenActive = ['koordinator', 'dosen-data', 'dosen-update', 'update-dosen'].includes(activeTabKey);
+const isMahasiswaActive = ['data-mahasiswa', 'pelamar', 'mhs-data', 'mhs-pelamar', 'logbook'].includes(activeTabKey);
+const isDosenActive = ['koordinator', 'dosen-data', 'dosen-update', 'update-dosen', 'logbook-bimbingan'].includes(activeTabKey);
 const isSidangActive = ['sidang', 'plotting-jadwal', 'hasil-sidang'].includes(activeTabKey);
 
 const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : isSidangActive ? 'sidang' : isMbkmActive ? 'mbkm' : '';
@@ -426,17 +426,6 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'mhs-pelamar' ? '' : 'hidden']}></span>
                   <span>Pelamar KB</span>
                 </a>
-                <a
-                  href="/koordinator/logbook-bimbingan"
-                  id="nav-sub-mhs-logbook-bimbingan"
-                  class:list={[
-                    "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'logbook-bimbingan' ? 'nav-sub-active' : 'text-[#71717a]'
-                  ]}
-                >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'logbook-bimbingan' ? '' : 'hidden']}></span>
-                  <span>Logbook Bimbingan</span>
-                </a>
               </div>
             </div>
 
@@ -468,10 +457,10 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
                   id="nav-sub-dosen-data"
                   class:list={[
                     "nav-sub-item relative ml-4 pl-4 pr-2 py-3 rounded-lg text-sm hover:text-[#0655a7] hover:bg-blue-50/60 font-medium text-left transition-colors flex items-center",
-                    activeTabKey === 'dosen-data' ? 'nav-sub-active' : 'text-[#71717a]'
+                    (activeTabKey === 'dosen-data' || activeTabKey === 'logbook-bimbingan') ? 'nav-sub-active' : 'text-[#71717a]'
                   ]}
                 >
-                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", activeTabKey === 'dosen-data' ? '' : 'hidden']}></span>
+                  <span class:list={["sub-active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md", (activeTabKey === 'dosen-data' || activeTabKey === 'logbook-bimbingan') ? '' : 'hidden']}></span>
                   <span>Data Dosen</span>
                 </a>
                 <a
@@ -689,7 +678,7 @@ const activeGroup = isMahasiswaActive ? 'mahasiswa' : isDosenActive ? 'dosen' : 
         <div class="w-[calc(100%+3rem)] -mx-6 border-b border-[#e4e4e7] my-4 shrink-0"></div>
 
         <!-- 2. Dynamic Title Header (Hanya tampil pada tab yang tidak memiliki inner header mandiri) -->
-        {!['sidang', 'sertifikat', 'dosen-update', 'koordinator', 'program'].includes(activeTabKey) && (
+        {!['sidang', 'sertifikat', 'dosen-update', 'koordinator', 'program', 'logbook-bimbingan'].includes(activeTabKey) && (
           <header id="dashboard-header-bar-2" class="flex items-start justify-between gap-4 mb-4 shrink-0">
             <div>
               <h2 class="text-xl font-normal text-[#09090b] tracking-tight" id="header-page-title">

@@ -160,7 +160,7 @@ function switchTab(tabKey) {
   // Set status aktif pada sidebar item
   const meta = typeof navMeta !== 'undefined' ? navMeta[tabKey] : null;
   if ((meta && meta.parent) || tabKey === 'logbook' || tabKey === 'logbook-bimbingan') {
-    const parentKey = (tabKey === 'logbook' || tabKey === 'logbook-bimbingan') ? 'mahasiswa' : meta.parent;
+    const parentKey = tabKey === 'logbook' ? 'mahasiswa' : tabKey === 'logbook-bimbingan' ? 'dosen' : meta.parent;
     const parentBtn = document.getElementById('nav-' + parentKey);
     if (parentBtn) {
       parentBtn.classList.remove('text-[#3f3f46]');
@@ -197,7 +197,7 @@ function switchTab(tabKey) {
       subBtn = document.getElementById('nav-sub-mhs-data');
     }
     if (tabKey === 'logbook-bimbingan' && !subBtn) {
-      subBtn = document.getElementById('nav-sub-mhs-logbook-bimbingan');
+      subBtn = document.getElementById('nav-sub-dosen-data');
     }
     if ((tabKey === 'mhs-semua' || tabKey === 'semua-mahasiswa') && !subBtn) {
       subBtn = document.getElementById('nav-sub-mhs-semua');

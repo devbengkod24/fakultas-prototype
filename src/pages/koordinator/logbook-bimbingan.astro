@@ -39,6 +39,37 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
 
       dosenList: ${bimbinganJson},
 
+      init() {
+        const params = new URLSearchParams(window.location.search);
+        const dosenId = params.get('dosenId');
+        const dosenNama = params.get('dosenNama');
+        const npp = params.get('npp');
+        const telepon = params.get('telepon');
+        const email = params.get('email');
+        const aktifParam = params.get('aktif');
+        if (dosenId || dosenNama) {
+          let found = this.dosenList.find(d =>
+            (dosenId && String(d.id) === String(dosenId)) ||
+            (dosenNama && d.nama.toLowerCase() === dosenNama.toLowerCase())
+          );
+          if (!found) {
+            found = {
+              id: Number(dosenId) || Date.now(),
+              nama: dosenNama || 'Dosen Pembimbing',
+              npp: npp || '-',
+              mahasiswa: []
+            };
+          }
+          if (npp) found.npp = npp;
+          if (telepon) found.telepon = telepon;
+          if (email) found.email = email;
+          found.aktifPeriode = aktifParam !== null ? aktifParam === '1' : true;
+          this.selectedDosen = found;
+          this.viewMode = 'mahasiswa';
+          this.reinitLucide();
+        }
+      },
+
       get filteredDosen() {
         const q = (this.searchDosen || '').toLowerCase().trim();
         return this.dosenList.filter(d =>
@@ -223,9 +254,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
       },
 
       backToDosen() {
-        this.selectedDosen = null;
-        this.viewMode = 'dosen';
-        this.reinitLucide();
+        window.location.href = '/koordinator/dosen-data';
       },
 
       backToMahasiswa() {
@@ -368,43 +397,61 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
     <!-- LEVEL 2: DAFTAR MAHASISWA BIMBINGAN DOSEN            -->
     <!-- ==================================================== -->
     <div x-show="viewMode === 'mahasiswa'" x-cloak class="flex flex-col gap-4">
-      <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-        <div class="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            @click="backToDosen()"
-            class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
-          >
-            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-            <span>Kembali</span>
-          </button>
-          <div class="flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#fafafa] border border-[#e4e4e7] text-xs">
-            <span class="text-[#71717a]">Dosen Pembimbing:</span>
-            <span class="font-semibold text-[#09090b]" x-text="selectedDosen?.nama || '-'"></span>
-          </div>
-        </div>
+      <!-- Baris 1: Tombol Kembali -->
+      <div class="flex items-center">
+        <button
+          type="button"
+          @click="backToDosen()"
+          class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Kembali</span>
+        </button>
+      </div>
 
-        <div class="flex items-center gap-2.5 flex-wrap w-full sm:w-auto">
-          <div class="relative w-full sm:w-72">
-            <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
-            <input
-              type="text"
-              x-model="searchMhs"
-              placeholder="Cari mahasiswa atau NIM..."
-              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-            />
-          </div>
-          <button
-            type="button"
-            @click="openBulkApproveModal()"
-            :disabled="selectedMhsIds.length === 0"
-            class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-          >
-            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-            <span>Approve Bimbingan</span>
-            <span x-show="selectedMhsIds.length > 0" x-text="`(${selectedMhsIds.length})`" class="font-bold"></span>
-          </button>
+      <!-- Baris 2: Card Identitas Dosen Pembimbing -->
+      <div class="rounded-xl border border-[#e4e4e7] bg-white p-4 flex items-center gap-4">
+        <div class="h-14 w-14 rounded-full bg-[#f4f4f5] text-[#0655a7] font-bold text-base flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+          <span x-text="selectedDosen?.nama?.charAt(0) || 'D'"></span>
         </div>
+        <div class="flex flex-col min-w-0 gap-1">
+          <p class="text-sm font-bold text-[#09090b] truncate" x-text="selectedDosen?.nama || '-'"></p>
+          <p class="text-xs text-[#71717a] flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/></svg>
+            <span x-text="selectedDosen?.npp || '-'"></span>
+          </p>
+          <p class="text-xs text-[#52525b] flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span x-text="selectedDosen?.telepon || '-'"></span>
+          </p>
+          <p class="text-xs text-[#52525b] flex items-center gap-1.5 min-w-0">
+            <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span class="truncate" x-text="selectedDosen?.email || '-'"></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Baris 3: Toolbar Search & Approve Bimbingan -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="relative w-full sm:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input
+            type="text"
+            x-model="searchMhs"
+            placeholder="Cari mahasiswa atau NIM..."
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+        </div>
+        <button
+          type="button"
+          @click="openBulkApproveModal()"
+          :disabled="selectedMhsIds.length === 0"
+          class="inline-flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+          <span>Approve Bimbingan</span>
+          <span x-show="selectedMhsIds.length > 0" x-text="`(${selectedMhsIds.length})`" class="font-bold"></span>
+        </button>
       </div>
 
       <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
@@ -519,42 +566,67 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
     <!-- LEVEL 3: DETAIL TIMELINE & VERIFIKASI KOORDINATOR    -->
     <!-- ==================================================== -->
     <div x-show="viewMode === 'detail'" x-cloak class="flex flex-col gap-5">
-      <!-- Header Ringkasan Mahasiswa -->
-      <div class="rounded-xl border border-[#e4e4e7] bg-white px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="flex items-center min-w-0 gap-4">
-          <div class="h-14 w-14 rounded-full bg-[#eff6ff] text-[#0655a7] font-bold text-lg flex items-center justify-center shrink-0 border border-[#bfdbfe]">
-            <span x-text="selectedMhs?.nama?.charAt(0) || 'M'"></span>
-          </div>
-          <div class="min-w-0 space-y-1">
-            <div class="flex flex-wrap items-center gap-2.5">
-              <h2 class="text-base font-bold text-[#09090b]" x-text="selectedMhs?.nama || ''"></h2>
-              <span class="text-xs font-medium text-[#71717a]" x-text="selectedMhs?.nim || ''"></span>
-              <span
-                class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold border"
-                :class="approvedCount(selectedMhs) >= (selectedMhs?.targetBimbingan || 5) ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-blue-50 text-[#0655a7] border-blue-200'"
-                x-text="`Progres: ${approvedCount(selectedMhs)} / ${selectedMhs?.targetBimbingan || 5} Bab (${progressPercent(selectedMhs)}%)`"
-              ></span>
-            </div>
-            <p class="text-xs text-[#71717a]" x-text="`${selectedMhs?.skema || ''} (${selectedMhs?.mitra || '-'}) • Dosen Pembimbing: ${selectedDosen?.nama || '-'}`"></p>
-          </div>
-        </div>
-
+      <!-- Tombol Kembali di Paling Atas -->
+      <div class="flex items-center">
         <button
           type="button"
           @click="backToMahasiswa()"
-          class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors self-start md:self-auto shrink-0 cursor-pointer"
+          class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
         >
           <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           <span>Kembali</span>
         </button>
       </div>
 
-      <!-- Timeline Bimbingan -->
-      <div class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h3 class="text-sm font-bold text-[#09090b]">Riwayat Logbook Bimbingan (Bab 1 – Bab 5)</h3>
-          <span class="text-xs text-[#71717a]">Koordinator dapat membantu memverifikasi (Terima / Revisi) bimbingan mahasiswa.</span>
+      <!-- Card Ringkasan Mahasiswa (Style Kerja Praktek) -->
+      <div class="rounded-xl border border-[#e4e4e7] bg-white p-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div class="flex items-start gap-6 min-w-0">
+            <div class="h-20 w-20 rounded-full bg-[#f4f4f5] text-[#09090b] font-medium text-2xl flex items-center justify-center shrink-0">
+              <span x-text="initials(selectedMhs?.nama)"></span>
+            </div>
+            <div class="min-w-0">
+              <h2 class="text-lg font-semibold text-[#09090b] leading-snug" x-text="selectedMhs?.nama || ''"></h2>
+              <p class="text-sm text-[#71717a]" x-text="selectedMhs?.nim || ''"></p>
+              <p class="text-xs text-[#71717a] mt-1" x-text="`Dosen Pembimbing: ${selectedDosen?.nama || '-'}`"></p>
+              <div class="mt-2.5 mb-2.5">
+                <span
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium"
+                  :class="approvedCount(selectedMhs) >= (selectedMhs?.targetBimbingan || 5) ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'"
+                  x-text="approvedCount(selectedMhs) >= (selectedMhs?.targetBimbingan || 5) ? 'Selesai' : 'Sedang Berjalan'"
+                ></span>
+              </div>
+              <div class="space-y-1 text-xs text-[#09090b]">
+                <p class="flex items-center gap-2">
+                  <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                  <span>Total Bimbingan: <strong x-text="selectedMhs?.entries?.length || 0"></strong></span>
+                </p>
+                <p class="flex items-center gap-2">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                  <span>Bab Terakhir: <strong x-text="latestPertemuan(selectedMhs).replace('Bab ', '')"></strong></span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-full md:w-[46%] shrink-0 space-y-2 pb-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-[#52525b]">Progress Kampus Berdampak</span>
+              <span class="font-medium text-[#09090b] tabular-nums" x-text="`${progressPercent(selectedMhs)}%`"></span>
+            </div>
+            <div class="h-2 w-full bg-[#f4f4f5] rounded-full overflow-hidden">
+              <div
+                class="h-full bg-[#0655a7] rounded-full transition-all duration-300"
+                :style="`width: ${progressPercent(selectedMhs)}%`"
+              ></div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Timeline Bimbingan -->
+      <div class="space-y-4 pt-1">
+        <h3 class="text-lg font-bold text-[#09090b]">Riwayat Bimbingan</h3>
 
         <template x-if="(selectedMhs?.entries?.length || 0) === 0">
           <div class="rounded-xl border border-dashed border-[#e4e4e7] bg-white p-10 text-center text-xs text-[#71717a]">
@@ -562,9 +634,23 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
           </div>
         </template>
 
-        <div class="space-y-4">
-          <template x-for="babGroup in groupedBabs(selectedMhs)" :key="babGroup.bab">
-            <div class="rounded-xl border border-[#e4e4e7] bg-white overflow-hidden">
+        <div class="space-y-5">
+          <template x-for="(babGroup, gIdx) in groupedBabs(selectedMhs)" :key="babGroup.bab">
+            <div class="relative">
+              <!-- Garis Vertikal Timeline -->
+              <div
+                x-show="gIdx < groupedBabs(selectedMhs).length - 1"
+                class="absolute left-[18px] top-9 bottom-[-20px] w-[1px] bg-[#e4e4e7]"
+              ></div>
+
+              <div class="flex items-start gap-4">
+                <!-- Node Lingkaran Bernomor -->
+                <div class="relative z-10 size-9 rounded-full bg-blue-50 border border-blue-200 text-[#0655a7] text-xs font-semibold flex items-center justify-center shrink-0">
+                  <span x-text="babGroup.bab"></span>
+                </div>
+
+                <!-- Card Bimbingan -->
+                <div class="flex-1 rounded-xl border border-[#e4e4e7] bg-white overflow-hidden">
               <!-- Header Bab -->
               <div
                 @click="toggleEntry(babGroup.bab)"
@@ -658,6 +744,8 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
                     </div>
                   </div>
                 </template>
+              </div>
+                </div>
               </div>
             </div>
           </template>
