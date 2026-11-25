@@ -1,6 +1,13 @@
 ---
 // src/components/mbkm/logbook-kegiatan/KegiatanRiwayat.astro
 // Riwayat kegiatan, terbaru di atas. Tanpa status verifikasi karena tidak ada approval Dosen Pembimbing.
+interface Props {
+  /** Teks saat belum ada kegiatan (default: untuk mahasiswa yang mencatat). */
+  emptyText?: string;
+  /** Label waktu per kegiatan: tanggal lengkap (default) atau "Minggu ke-N" (butuh minggu(item) di scope Alpine). */
+  waktu?: "tanggal" | "minggu";
+}
+const { waktu = "tanggal", emptyText = 'Belum ada kegiatan. Klik "Tambah Kegiatan" untuk mulai mencatat.' } = Astro.props;
 ---
 
 <div>
@@ -10,7 +17,7 @@
     x-show="!entries.length"
     class="rounded-xl border border-dashed border-[#e4e4e7] bg-white py-10 text-center text-xs text-[#71717a]"
   >
-    Belum ada kegiatan. Klik "Tambah Kegiatan" untuk mulai mencatat.
+    {emptyText}
   </p>
 
   <!-- Timeline vertikal + card accordion (sama seperti Logbook Bimbingan, tanpa nomor dan tanpa status verifikasi) -->
@@ -29,7 +36,7 @@
           <div class="flex items-start justify-between cursor-pointer select-none group" @click="open = !open">
             <div class="space-y-1 min-w-0">
               <h3 class="text-[14px] font-semibold text-[#09090b] group-hover:text-[#1063B9] transition-colors" x-text="item.judul"></h3>
-              <p class="text-[12px] text-[#71717a]" x-text="fmt(item.tanggal)"></p>
+              <p class="text-[12px] text-[#71717a]" x-text={waktu === "minggu" ? "minggu(item)" : "fmt(item.tanggal)"}></p>
             </div>
             <button
               type="button"
