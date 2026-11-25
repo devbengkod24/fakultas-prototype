@@ -1,7 +1,44 @@
 ---
 // src/components/mbkm/detail/DetailTimeline.astro
 import DetailTimelineSteps from "./DetailTimelineSteps.astro";
-import { programTimelines, DEFAULT_PROGRAM_SLUG } from "../../../data/mbkm/programTimeline";
+
+// Kegiatan per program (dipilih lewat ?program=slug). Jumlah kegiatan berbeda (1–5) untuk
+// menggambarkan tampilan jika hanya sebagian yang diisi Kontributor.
+const DEFAULT_PROGRAM_SLUG = "lab-intsys";
+const programTimelines = [
+  {
+    slug: "lab-intsys",
+    steps: [
+      { title: "Onboarding Peserta", desc: "Aktivasi akun dan orientasi program." },
+      { title: "Pembelajaran Mandiri", desc: "Modul industri dan mentoring praktisi." },
+      { title: "Proyek Nyata", desc: "Capstone Project berbasis kasus industri." },
+      { title: "Pembekalan Karir", desc: "Soft skills dan kesiapan kerja." },
+      { title: "Konversi SKS", desc: "Luaran diakui hingga 20 SKS." },
+    ],
+  },
+  {
+    slug: "idss",
+    steps: [
+      { title: "Orientasi & Pembekalan", desc: "Pengenalan bidang kajian dan proses riset." },
+      { title: "Proyek Riset", desc: "Pengerjaan proyek independen bersama dosen peneliti." },
+      { title: "Konversi SKS", desc: "Luaran diakui hingga 20 SKS." },
+    ],
+  },
+  {
+    slug: "bengkel-koding",
+    steps: [
+      { title: "Pembelajaran Terstruktur", desc: "Modul pemrograman dan proyek mingguan." },
+      { title: "Konversi SKS", desc: "Luaran diakui sesuai capaian program." },
+    ],
+  },
+  {
+    slug: "ppkormawa",
+    steps: [
+      { title: "Pelaksanaan Program", desc: "Kegiatan pemberdayaan masyarakat di desa binaan." },
+    ],
+  },
+];
+
 const sectionBg = [
   "radial-gradient(60% 75% at 88% -5%, rgba(245,158,11,.30), transparent 62%)",
   "radial-gradient(55% 70% at -5% 105%, rgba(56,189,248,.24), transparent 62%)",

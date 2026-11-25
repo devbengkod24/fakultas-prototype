@@ -3,10 +3,8 @@
 // Kegiatan program 1–5 item (tanpa nomor & icon). Desktop: satu garis waktu horizontal dengan kartu
 // bergantian di atas dan bawah garis. Mobile: rail vertikal di kiri, kartu di kanan.
 import { cn } from "../../../utils/cn";
-import type { TimelineStep } from "../../../data/mbkm/programTimeline";
-
 interface Props {
-  steps: TimelineStep[];
+  steps: { title: string; desc: string }[];
 }
 
 const { steps } = Astro.props;
