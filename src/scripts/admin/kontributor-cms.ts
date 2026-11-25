@@ -233,15 +233,20 @@ function renderShowcaseGrid() {
       </div>
     `;
 
+    const fotoHtml = item.foto
+      ? `<img src="${item.foto}" alt="${item.judul}" class="mb-3 h-36 w-full rounded-lg border border-[#e4e4e7] object-cover" />`
+      : '';
+
     return `
       <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col justify-between hover:border-[#d4d4d8] transition-colors shadow-none">
         <div class="space-y-2">
+          ${fotoHtml}
           <div class="flex items-start justify-between gap-2">
             <div class="space-y-1">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-blue-200 bg-blue-50 text-[11px] font-semibold text-[#0655a7]">
                 ${item.kategori}
               </span>
-              <div class="text-[11px] text-[#71717a]">${item.batch} • ${item.id}</div>
+              <div class="text-[11px] text-[#71717a]">${item.batch}</div>
             </div>
             ${actionBtns}
           </div>
@@ -259,13 +264,18 @@ function renderShowcaseGrid() {
   if (window.lucide) window.lucide.createIcons();
 }
 
+function setShowcaseFoto(src) {
+  const hidden = document.getElementById('modal-showcase-foto');
+  const root = hidden && hidden.closest('[data-dropzone]');
+  if (root) root.dispatchEvent(new CustomEvent('dropzone:set', { detail: { src } }));
+}
+
 function openShowcaseModal(editIdx) {
   const modal = document.getElementById('modal-showcase-proyek');
   if (!modal) return;
 
   const titleEl = document.getElementById('modal-showcase-title');
   const idxInput = document.getElementById('modal-showcase-idx');
-  const idInput = document.getElementById('modal-showcase-id');
   const batchInput = document.getElementById('modal-showcase-batch');
   const judulInput = document.getElementById('modal-showcase-judul');
   const kategoriInput = document.getElementById('modal-showcase-kategori');
@@ -279,21 +289,21 @@ function openShowcaseModal(editIdx) {
     const item = list[editIdx];
     if (titleEl) titleEl.textContent = 'Edit Proyek Showcase';
     if (idxInput) idxInput.value = editIdx;
-    if (idInput) idInput.value = item.id;
     if (batchInput) batchInput.value = item.batch;
     if (judulInput) judulInput.value = item.judul;
     if (kategoriInput) kategoriInput.value = item.kategori;
     if (descInput) descInput.value = item.deskripsi;
     if (techInput) techInput.value = (item.tech || []).join(', ');
+    setShowcaseFoto(item.foto || '');
   } else {
     if (titleEl) titleEl.textContent = 'Tambah Proyek Showcase';
     if (idxInput) idxInput.value = '';
-    if (idInput) idInput.value = `PRJ-2026-0${list.length + 1}`;
     if (batchInput) batchInput.value = 'Capstone Project Batch 6';
     if (judulInput) judulInput.value = '';
     if (kategoriInput) kategoriInput.value = '';
     if (descInput) descInput.value = '';
     if (techInput) techInput.value = 'Python, TensorFlow, React.js';
+    setShowcaseFoto('');
   }
 
   modal.classList.remove('hidden');
@@ -312,7 +322,6 @@ function handleSaveShowcase(e) {
   if (!data.showcases) data.showcases = [];
 
   const idxVal = document.getElementById('modal-showcase-idx').value;
-  const idVal = document.getElementById('modal-showcase-id').value.trim();
   const batch = document.getElementById('modal-showcase-batch').value.trim();
   const judul = document.getElementById('modal-showcase-judul').value.trim();
   const kategori = document.getElementById('modal-showcase-kategori').value.trim();
@@ -321,12 +330,12 @@ function handleSaveShowcase(e) {
   const tech = techStr.split(',').map(s => s.trim()).filter(Boolean);
 
   const newItem = {
-    id: idVal,
     batch,
     judul,
     kategori,
     deskripsi,
-    tech
+    tech,
+    foto: document.getElementById('modal-showcase-foto').value
   };
 
   if (idxVal !== '' && data.showcases[Number(idxVal)]) {

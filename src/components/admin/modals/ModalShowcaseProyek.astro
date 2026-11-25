@@ -1,3 +1,7 @@
+---
+import ImageDropzone from '../kontributor/cms/ImageDropzone.astro';
+---
+
     <!-- 3b. Modal Tambah / Edit Proyek Showcase Mahasiswa -->
     <div id="modal-showcase-proyek" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center hidden p-4">
       <div class="bg-white rounded-lg border border-[#e4e4e7] shadow-lg max-w-lg w-full p-6 space-y-4 text-sm max-h-[90vh] overflow-y-auto">
@@ -13,27 +17,15 @@
 
         <form onsubmit="handleSaveShowcase(event)" class="space-y-3.5">
           <input type="hidden" id="modal-showcase-idx" value="" />
-          <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1.5">
-              <label class="font-medium text-[#09090b] text-xs">ID Proyek *</label>
-              <input
-                type="text"
-                id="modal-showcase-id"
-                required
-                placeholder="PRJ-2026-04"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              />
-            </div>
-            <div class="space-y-1.5">
-              <label class="font-medium text-[#09090b] text-xs">Batch MBKM *</label>
-              <input
-                type="text"
-                id="modal-showcase-batch"
-                required
-                placeholder="Capstone Project Batch 6"
-                class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-              />
-            </div>
+          <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-xs">Batch MBKM *</label>
+            <input
+              type="text"
+              id="modal-showcase-batch"
+              required
+              placeholder="Capstone Project Batch 6"
+              class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+            />
           </div>
 
           <div class="space-y-1.5">
@@ -67,6 +59,11 @@
               placeholder="Jelaskan inovasi sistem, dataset, atau integrasi sensor yang dibuat mahasiswa..."
               class="w-full rounded-md border border-[#e4e4e7] bg-white p-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#0655a7] leading-relaxed"
             ></textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="font-medium text-[#09090b] text-xs">Foto Proyek</label>
+            <ImageDropzone id="modal-showcase-foto" previewId="modal-showcase-foto-preview" alt="Pratinjau foto proyek" ratio="16/9" stacked />
           </div>
 
           <div class="space-y-1.5">

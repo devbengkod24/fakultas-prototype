@@ -2,6 +2,7 @@
 // src/pages/contributor/kelola-cms.astro
 import KontributorShell from '../../layouts/KontributorShell.astro';
 import KontributorCms from '../../components/admin/kontributor/KontributorCms.astro';
+import ModalShowcaseProyek from '../../components/admin/modals/ModalShowcaseProyek.astro';
 
 const cmsActions = `
   <div id="cms-header-action-btn" class="flex items-center gap-2.5 shrink-0">
@@ -82,13 +83,14 @@ const cmsActions = `
   </section>
 </KontributorShell>
 
-<script is:inline>
-  function openShowcaseModal() {
-    if (typeof showToast === 'function') {
-      showToast('Tambah Proyek Showcase', 'Formulir proyek showcase akan tersedia pada iterasi berikutnya.');
-    }
-  }
+<ModalShowcaseProyek />
 
+<script>
+  import { initShowcaseCms } from '../../scripts/contributor/showcase-cms';
+  document.addEventListener('astro:page-load', initShowcaseCms);
+</script>
+
+<script is:inline>
   document.addEventListener('astro:page-load', () => {
     if (typeof lucide !== 'undefined') lucide.createIcons();
   });

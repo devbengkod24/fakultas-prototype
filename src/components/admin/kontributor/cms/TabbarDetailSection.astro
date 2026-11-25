@@ -100,11 +100,18 @@ const inputFieldCls = "w-full rounded-lg border border-gray-300 bg-white px-3.5 
         </select>
       </div>
 
-      <div class="sm:col-span-2">
+      <div>
         <label for="info-lokasi" class="mb-2 block text-sm font-semibold text-gray-700">
           Lokasi &amp; Moda Kegiatan <span class="text-rose-500">*</span>
         </label>
         <input type="text" id="info-lokasi" name="lokasi_moda" value="Hybrid (Daring & Lab FIK UDINUS)" class={inputFieldCls} />
+      </div>
+
+      <div>
+        <label for="cms-input-koor-nama" class="mb-2 block text-sm font-semibold text-gray-700">
+          Koordinator MBKM <span class="text-rose-500">*</span>
+        </label>
+        <input type="text" id="cms-input-koor-nama" name="koordinator_mbkm" value="Dr. M. Arief Soeleman, M.Kom" class={inputFieldCls} />
       </div>
     </div>
   </div>
@@ -170,6 +177,7 @@ const inputFieldCls = "w-full rounded-lg border border-gray-300 bg-white px-3.5 
       </div>
     </div>
   </div>
+
 </div>
 
 <script is:inline>
