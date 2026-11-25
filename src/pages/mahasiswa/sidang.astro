@@ -105,46 +105,26 @@ import ModalSidang from "../../components/mahasiswa/sidang/ModalSidang.astro";
   <script is:inline>
     window.openJadwalModal = () => { const m = document.getElementById('modal-jadwal'); if (m) m.classList.remove('hidden'); if (window.lucide) window.lucide.createIcons(); };
     window.closeJadwalModal = () => { const m = document.getElementById('modal-jadwal'); if (m) m.classList.add('hidden'); };
-    window.openRescheduleModal = () => { const m = document.getElementById('modal-reschedule'); if (m) m.classList.remove('hidden'); if (window.lucide) window.lucide.createIcons(); };
-    window.closeRescheduleModal = () => { const m = document.getElementById('modal-reschedule'); if (m) m.classList.add('hidden'); };
-    window.handleRescheduleSubmit = (e) => {
-      if (e) e.preventDefault();
-      alert('Permohonan penjadwalan ulang sidang berhasil diajukan ke Koordinator Program.');
-      window.closeRescheduleModal();
-    };
 
     window.cetakBukti = () => window.print();
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         window.closeJadwalModal();
-        window.closeRescheduleModal();
       }
     });
 
-    ['modal-jadwal', 'modal-reschedule'].forEach((id) => {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) modal.classList.add('hidden');
-        });
-      }
-    });
-
-    const initSidangForms = () => {
-      const resched = document.getElementById('form-reschedule-sidang');
-      if (resched && !resched.dataset.bound) {
-        resched.dataset.bound = 'true';
-        resched.addEventListener('submit', (e) => window.handleRescheduleSubmit(e));
-      }
-    };
+    const modal = document.getElementById('modal-jadwal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+      });
+    }
 
     ['DOMContentLoaded', 'astro:page-load'].forEach((evt) => {
       document.addEventListener(evt, () => {
         if (window.lucide) window.lucide.createIcons();
-        initSidangForms();
       });
     });
-    initSidangForms();
   </script>
 </MahasiswaShell>
