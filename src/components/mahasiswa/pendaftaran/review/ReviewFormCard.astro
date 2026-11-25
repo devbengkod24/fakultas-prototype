@@ -12,8 +12,13 @@ const requiredDocFields = [
   { key: "transkrip", label: "Transkrip Nilai", placeholder: "https://drive.google.com/file/d/..." },
 ] as const;
 
-const optionalDocFields = [
-  { key: "surekom", label: "Surat Rekomendasi", placeholder: "https://drive.google.com/file/d/..." },
+const optionalDocFieldsNonSIB = [
+  { key: "cv", label: "CV", placeholder: "https://drive.google.com/file/d/... (Opsional)" },
+  { key: "sertifikat", label: "Sertifikat", placeholder: "https://drive.google.com/file/d/..." },
+] as const;
+
+const optionalDocFieldsDicoding = [
+  { key: "surekom", label: "Surat Rekomendasi", placeholder: "https://drive.google.com/file/d/... (Opsional)" },
   { key: "cv", label: "CV", placeholder: "https://drive.google.com/file/d/... (Opsional)" },
   { key: "sertifikat", label: "Sertifikat", placeholder: "https://drive.google.com/file/d/..." },
 ] as const;
@@ -232,22 +237,46 @@ const optionalDocFields = [
               </div>
             ))}
 
+            <!-- Conditional: Dicoding vs non-SIB program documents -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
-              {optionalDocFields.map((field) => (
-                <div class="space-y-1.5">
-                  <label class="block text-xs font-medium text-[#09090b]">
-                    {field.label}
-                  </label>
-                  <input
-                    type="text"
-                    placeholder={field.placeholder}
-                    :readonly="editingFormId !== program.id"
-                    x-model={`program.dokumen.${field.key}`}
-                    class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
-                    :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
-                  />
-                </div>
-              ))}
+              <template x-if="program.id === 'dicoding'">
+                <template x-for="field in [
+                  { key: 'surekom', label: 'Surat Rekomendasi', placeholder: 'https://drive.google.com/file/d/... (Opsional)' },
+                  { key: 'cv', label: 'CV', placeholder: 'https://drive.google.com/file/d/... (Opsional)' },
+                  { key: 'sertifikat', label: 'Sertifikat', placeholder: 'https://drive.google.com/file/d/...' }
+                ]" :key="field.key">
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-medium text-[#09090b]" x-text="field.label"></label>
+                    <input
+                      type="text"
+                      :placeholder="field.placeholder"
+                      :readonly="editingFormId !== program.id"
+                      x-model="program.dokumen[field.key]"
+                      class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
+                      :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
+                    />
+                  </div>
+                </template>
+              </template>
+
+              <template x-if="program.id !== 'dicoding'">
+                <template x-for="field in [
+                  { key: 'cv', label: 'CV', placeholder: 'https://drive.google.com/file/d/... (Opsional)' },
+                  { key: 'sertifikat', label: 'Sertifikat', placeholder: 'https://drive.google.com/file/d/...' }
+                ]" :key="field.key">
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-medium text-[#09090b]" x-text="field.label"></label>
+                    <input
+                      type="text"
+                      :placeholder="field.placeholder"
+                      :readonly="editingFormId !== program.id"
+                      x-model="program.dokumen[field.key]"
+                      class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
+                      :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
+                    />
+                  </div>
+                </template>
+              </template>
 
               <!-- Lampiran Dinamis (Maksimal 3) -->
               <template x-for="(lamp, lIdx) in program.dokumen.lampiran" :key="lIdx">

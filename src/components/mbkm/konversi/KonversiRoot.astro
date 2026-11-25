@@ -13,7 +13,7 @@ const json = (v: unknown) => JSON.stringify(v);
 const lengkap = buatPengajuan(pengajuanLengkap, "accept");
 const ditolak = lengkap.map((m, i) =>
   i === 0
-    ? { ...m, status: "decline", catatan: "Capaian pembelajaran tidak relevan dengan fokus proyek mitra." }
+    ? { ...m, status: "decline", catatan: "" }
     : m,
 );
 ---

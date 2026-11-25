@@ -17,7 +17,7 @@
 
     <!-- Form Berkas Utama -->
     <div class="mt-6 space-y-5">
-      <!-- Dokumen 1: Transkrip Nilai (Wajib) -->
+      <!-- Dokumen 1: Transkrip Nilai (Wajib) — Standalone full width -->
       <div>
         <label for="transcript-url" class="mb-2 block text-sm font-semibold text-slate-700">
           Transkrip Nilai <span class="text-rose-500">*</span>
@@ -33,64 +33,82 @@
         />
       </div>
 
-      <!-- Dokumen 2: Surat Rekomendasi (Opsional) -->
-      <div>
-        <label for="surekom-url" class="mb-2 block text-sm font-semibold text-slate-700">
-          Surat Rekomendasi <span class="text-xs font-normal text-slate-500">(Opsional)</span>
-        </label>
-        <input
-          id="surekom-url"
-          name="surekomUrl"
-          type="url"
-          inputmode="url"
-          placeholder="https://drive.google.com/file/d/..."
-          class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
-        />
-      </div>
+      <!-- Dokumen Opsional: CV, Sertifikat, Lampiran 1–2, Surat Rekomendasi (2 kolom) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- CV (Opsional) -->
+        <div>
+          <label for="cv-url" class="mb-2 block text-sm font-semibold text-slate-700">
+            CV <span class="text-xs font-normal text-slate-500">(Opsional)</span>
+          </label>
+          <input
+            id="cv-url"
+            name="cvUrl"
+            type="url"
+            inputmode="url"
+            placeholder="https://drive.google.com/file/d/... (Opsional)"
+            class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
+          />
+        </div>
 
-      <!-- Dokumen 3: CV (Opsional) -->
-      <div>
-        <label for="cv-url" class="mb-2 block text-sm font-semibold text-slate-700">
-          CV <span class="text-xs font-normal text-slate-500">(Opsional / Tidak Wajib)</span>
-        </label>
-        <input
-          id="cv-url"
-          name="cvUrl"
-          type="url"
-          inputmode="url"
-          placeholder="https://drive.google.com/file/d/... (Opsional)"
-          class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
-        />
-      </div>
+        <!-- Sertifikat (Opsional) -->
+        <div>
+          <label for="certificate-url" class="mb-2 block text-sm font-semibold text-slate-700">
+            Sertifikat <span class="text-xs font-normal text-slate-500">(Opsional)</span>
+          </label>
+          <input
+            id="certificate-url"
+            name="certificateUrl"
+            type="url"
+            inputmode="url"
+            placeholder="https://drive.google.com/file/d/..."
+            class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
+          />
+        </div>
 
-      <!-- Dokumen 4: Sertifikat / Bukti Pengalaman (Opsional) -->
-      <div>
-        <label for="certificate-url" class="mb-2 block text-sm font-semibold text-slate-700">
-          Sertifikat <span class="text-xs font-normal text-slate-500">(Opsional)</span>
-        </label>
-        <input
-          id="certificate-url"
-          name="certificateUrl"
-          type="url"
-          inputmode="url"
-          placeholder="https://drive.google.com/file/d/..."
-          class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
-        />
-      </div>
+        <!-- Lampiran 1 (Opsional) -->
+        <div>
+          <label for="lampiran-1" class="mb-2 block text-sm font-semibold text-slate-700">
+            Lampiran 1 <span class="text-xs font-normal text-slate-500">(Opsional)</span>
+          </label>
+          <input
+            id="lampiran-1"
+            name="lampiran1"
+            type="url"
+            inputmode="url"
+            placeholder="https://drive.google.com/file/d/..."
+            class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
+          />
+        </div>
 
-      <!-- Container untuk Lampiran Tambahan Dinamis (Lampiran 1 s.d. 3) -->
-      <div id="additional-attachments" class="hidden space-y-5"></div>
+        <!-- Lampiran 2 (Opsional) -->
+        <div>
+          <label for="lampiran-2" class="mb-2 block text-sm font-semibold text-slate-700">
+            Lampiran 2 <span class="text-xs font-normal text-slate-500">(Opsional)</span>
+          </label>
+          <input
+            id="lampiran-2"
+            name="lampiran2"
+            type="url"
+            inputmode="url"
+            placeholder="https://drive.google.com/file/d/..."
+            class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
+          />
+        </div>
 
-      <!-- Tombol Tambahkan Lampiran -->
-      <div>
-        <button
-          type="button"
-          id="add-attachment-btn"
-          class="focus-ring inline-flex items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 hover:border-[#0b4d8c] hover:bg-blue-50/50 hover:text-[#0b4d8c] px-4 py-2.5 text-sm font-semibold text-slate-700 transition cursor-pointer"
-        >
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>Tambah Lampiran</span>
-        </button>
+        <!-- Surat Rekomendasi (Khusus SIB — Opsional) -->
+        <div>
+          <label for="surekom-url" class="mb-2 block text-sm font-semibold text-slate-700">
+            Surat Rekomendasi <span class="text-xs font-normal text-slate-500">(Khusus SIB · Opsional)</span>
+          </label>
+          <input
+            id="surekom-url"
+            name="surekomUrl"
+            type="url"
+            inputmode="url"
+            placeholder="https://drive.google.com/file/d/... (Opsional atau dari Koordinator MBKM)"
+            class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-[#0b4d8c] focus:outline-none focus:ring-3 focus:ring-[#0b4d8c]/15"
+          />
+        </div>
       </div>
     </div>
   </div>
