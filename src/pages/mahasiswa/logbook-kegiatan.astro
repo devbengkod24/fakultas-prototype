@@ -18,14 +18,14 @@ import ModalTambahKegiatan from "../../components/mbkm/logbook-kegiatan/ModalTam
     <div>
       <h1 class="text-[20px] leading-[28px] font-normal text-[#09090b]">Logbook Kegiatan</h1>
       <p class="text-[14px] leading-[20px] text-[#71717a]">
-        Catatan kegiatan mingguan selama program. Tanggal kegiatan diisi sendiri oleh mahasiswa. Tidak memerlukan persetujuan Dosen Pembimbing dan dapat diunduh sebagai laporan PDF.
+        Catatan kegiatan mingguan selama program (Minggu 1–24). Tidak memerlukan persetujuan Dosen Pembimbing dan dapat diunduh sebagai laporan PDF.
       </p>
     </div>
 
     <KegiatanRingkasan />
-    <KegiatanRiwayat />
+    <KegiatanRiwayat waktu="minggu" />
     <ModalTambahKegiatan />
-    <ModalDokumenKegiatan />
+    <ModalDokumenKegiatan waktu="minggu" />
   </KegiatanRoot>
 </MahasiswaShell>
 

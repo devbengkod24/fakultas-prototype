@@ -24,92 +24,42 @@ const optionalDocFieldsDicoding = [
 ] as const;
 ---
 
-<!-- Card Program yang Diajukan (Persis PendaftarProgramTable di Dashboard + Drag Prioritas + Expand Form) -->
+<!-- Card Program yang Diajukan (1 Program Aktif + Riwayat Pendaftaran Ditolak) -->
 <div class={cn("rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none flex flex-col", className)}>
   <!-- Header Card (Selaras Dashboard) -->
-  <div class="px-5 py-3.5 border-b border-[#e4e4e7] rounded-t-xl flex items-center gap-1.5 shrink-0">
+  <div class="px-5 py-3.5 border-b border-[#e4e4e7] rounded-t-xl flex items-center justify-between gap-2 shrink-0">
     <h3 class="text-base font-semibold text-[#09090b]">
       Program yang diajukan
     </h3>
-    <div
-      class="relative flex items-center"
-      x-data="{ showDragInfo: false }"
-      @mouseenter="showDragInfo = true"
-      @mouseleave="showDragInfo = false"
-      @click.outside="showDragInfo = false"
-    >
-      <button
-        type="button"
-        @click="showDragInfo = !showDragInfo"
-        aria-label="Informasi urutan prioritas"
-        class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[#71717a] hover:text-[#0655a7] hover:bg-[#f4f4f5] transition-colors cursor-pointer"
-      >
-        <i data-lucide="info" class="w-4 h-4"></i>
-      </button>
-      <div
-        x-show="showDragInfo"
-        x-transition
-        x-cloak
-        class="absolute left-0 top-full mt-2 sm:left-full sm:top-1/2 sm:-translate-y-1/2 sm:mt-0 sm:ml-2 z-20 w-max max-w-[240px] sm:max-w-none rounded-md border border-[#e4e4e7] bg-[#09090b] px-2.5 py-1.5 text-[11px] font-medium text-white shadow-sm pointer-events-none"
-      >
-        Seret ikon di samping logo untuk mengurutkan prioritas
-      </div>
-    </div>
+    <span class="text-xs text-[#71717a]">Maksimal 1 program aktif</span>
   </div>
 
   <!-- List Items -->
-  <div class="rounded-b-xl overflow-hidden">
+  <div class="rounded-b-xl overflow-hidden pl-4 sm:pl-5">
     <template x-for="(program, idx) in daftarFormMBKM" :key="program.id">
       <div
-        :draggable="dragEnabledId === program.id && !(stageIndex(currentStage) >= 1 && !program.screeningLolos)"
-        @dragstart="dragStart($event, idx)"
-        @dragover.prevent="dragOver($event, idx)"
-        @dragleave="dragLeave($event, idx)"
-        @drop.prevent="dragDrop($event, idx)"
-        @dragend="dragEnd()"
         class="relative transition-all overflow-hidden"
-        :class="(idx > 0 ? 'border-t border-[#e4e4e7] ' : '') + (draggedIndex === idx ? 'opacity-50 bg-white' : (isDragOver === idx && draggedIndex !== idx ? 'bg-blue-50/30 ring-2 ring-inset ring-[#0655a7]/40' : (stageIndex(currentStage) >= 1 && !program.screeningLolos ? 'bg-[#f4f4f5] opacity-65' : (expandedFormId !== program.id ? 'bg-white hover:bg-[#fafafa]' : 'bg-white'))))"
+        :class="(idx > 0 ? 'border-t border-[#e4e4e7] ' : '') + (program.isRejectedHistory ? 'bg-[#f4f4f5] opacity-75' : (expandedFormId !== program.id ? 'bg-white hover:bg-[#fafafa]' : 'bg-white'))"
       >
-        <!-- Indikator Bar Aksen Biru Sisi Kiri (Persis Dashboard) -->
+        <!-- Indikator Bar Aksen Biru Sisi Kiri (Hanya untuk program aktif) -->
         <div
-          x-show="selectedProgram === program.id && !(stageIndex(currentStage) >= 1 && !program.screeningLolos)"
+          x-show="selectedProgram === program.id && !program.isRejectedHistory"
           class="absolute left-0 top-0 bottom-0 w-1 bg-[#0655a7] z-10"
           aria-hidden="true"
         ></div>
 
-        <!-- Baris Ringkasan Program (Persis Dashboard) -->
+        <!-- Baris Ringkasan Program -->
         <div
           class="space-y-2 transition-colors"
-          :class="(expandedFormId === program.id ? 'p-4 sm:p-5 ' : 'px-4 pt-4 pb-2.5 sm:px-5 sm:pt-5 sm:pb-3 ') + (stageIndex(currentStage) >= 1 && !program.screeningLolos ? 'cursor-default' : (expandedFormId === program.id ? 'cursor-pointer hover:bg-[#fafafa]' : 'cursor-pointer'))"
-          @click="if (!(stageIndex(currentStage) >= 1 && !program.screeningLolos)) selectedProgram = program.id"
+          :class="(expandedFormId === program.id ? 'p-4 sm:p-5 ' : 'px-4 pt-4 pb-2.5 sm:px-5 sm:pt-5 sm:pb-3 ') + (program.isRejectedHistory ? 'cursor-pointer' : 'cursor-pointer hover:bg-[#fafafa]')"
+          @click="if (!program.isRejectedHistory) { selectedProgram = program.id; if (program.id === 'bk') toggleExpand(program.id); }"
         >
-          <!-- Baris Atas: Tombol Drag, Logo, Nama Program & Tombol Panah Expand -->
+          <!-- Baris Atas: Logo, Nama Program, Badge Status & Tombol Panah Expand -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div class="flex items-center gap-2.5 sm:gap-3">
-              <!-- Tombol Drag di sebelah logo -->
-              <button
-                type="button"
-                @mousedown="if (!(stageIndex(currentStage) >= 1 && !program.screeningLolos)) dragEnabledId = program.id"
-                @click.stop
-                :disabled="stageIndex(currentStage) >= 1 && !program.screeningLolos"
-                class="p-1.5 -ml-1 rounded-md shrink-0 transition-colors"
-                :class="stageIndex(currentStage) >= 1 && !program.screeningLolos ? 'text-[#d4d4d8] cursor-not-allowed' : 'text-[#a1a1aa] hover:text-[#09090b] hover:bg-[#f4f4f5] cursor-grab active:cursor-grabbing'"
-                title="Seret untuk mengurutkan prioritas"
-                aria-label="Seret untuk mengurutkan prioritas"
-              >
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="9" cy="12" r="1"></circle>
-                  <circle cx="9" cy="5" r="1"></circle>
-                  <circle cx="9" cy="19" r="1"></circle>
-                  <circle cx="15" cy="12" r="1"></circle>
-                  <circle cx="15" cy="5" r="1"></circle>
-                  <circle cx="15" cy="19" r="1"></circle>
-                </svg>
-              </button>
-
+            <div class="flex items-center gap-3">
               <div
                 class="w-10 h-10 rounded-lg border bg-white flex items-center justify-center p-1 shrink-0 overflow-hidden shadow-2xs transition-all"
-                :class="stageIndex(currentStage) >= 1 && !program.screeningLolos ? 'border-[#e4e4e7] grayscale opacity-75' : (selectedProgram === program.id ? 'border-blue-300 ring-2 ring-blue-100' : 'border-[#e4e4e7]')"
+                :class="program.isRejectedHistory ? 'border-[#e4e4e7] grayscale opacity-60' : (selectedProgram === program.id ? 'border-blue-300 ring-2 ring-blue-100' : 'border-[#e4e4e7]')"
               >
                 <img
                   :src="program.logo"
@@ -121,9 +71,15 @@ const optionalDocFieldsDicoding = [
               <div class="flex items-center gap-2 flex-wrap">
                 <h4
                   class="text-sm font-semibold transition-colors"
-                  :class="stageIndex(currentStage) >= 1 && !program.screeningLolos ? 'text-[#71717a]' : (selectedProgram === program.id ? 'text-[#0655a7]' : 'text-[#09090b]')"
+                  :class="program.isRejectedHistory ? 'text-[#71717a]' : (selectedProgram === program.id ? 'text-[#0655a7]' : 'text-[#09090b]')"
                   x-text="program.nama"
                 ></h4>
+                <span
+                  x-show="program.isRejectedHistory"
+                  class="text-[10px] font-semibold px-2 py-0.5 rounded bg-zinc-200/80 text-[#52525b] border border-[#d4d4d8]"
+                >
+                  Riwayat • Ditolak
+                </span>
               </div>
             </div>
 
@@ -153,37 +109,13 @@ const optionalDocFieldsDicoding = [
             </div>
           </div>
 
-          <!-- Baris Bawah: Jadwal & Timeline Inline (Sesuai Tahap Stepper) -->
-          <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-[#71717a] pt-0.5 pl-7 sm:pl-8">
+          <!-- Baris Bawah: Diajukan (Hanya untuk BK) -->
+          <div x-show="program.id === 'bk'" class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-[#71717a] pt-0.5">
             <div class="flex items-center gap-1.5">
               <svg class="w-3.5 h-3.5 text-[#71717a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path>
               </svg>
-              <span>Diajukan: <strong class="font-medium text-[#09090b]" x-text="program.tglDaftar"></strong></span>
-            </div>
-            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
-            <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="m9 15 2 2 4-4"></path>
-              </svg>
-              <span>Screening: <strong
-                :class="stageIndex(currentStage) < 1 ? 'font-medium text-[#71717a]' : (program.screeningLolos ? 'font-semibold text-emerald-700' : 'font-semibold text-red-600')"
-                x-text="stageIndex(currentStage) < 1 ? 'N/A' : (program.screeningLolos ? 'Lolos' : 'Tidak Lolos')"
-              ></strong></span>
-            </div>
-            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
-            <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-[#0655a7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h5"></path><path d="M17.5 17.5 16 16.3V14"></path><circle cx="16" cy="16" r="6"></circle>
-              </svg>
-              <span>Wawancara: <strong :class="stageIndex(currentStage) >= 2 && program.screeningLolos ? 'font-medium text-[#09090b]' : 'font-medium text-[#71717a]'" x-text="stageIndex(currentStage) >= 2 && program.screeningLolos ? program.jadwalWawancaraDetail : 'N/A'"></strong></span>
-            </div>
-            <span class="text-[#e4e4e7] hidden sm:inline">•</span>
-            <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path>
-              </svg>
-              <span>Pengumuman: <strong :class="currentStage === 'hasil' && program.pengumuman !== 'N/A' ? 'font-medium text-[#09090b]' : 'font-medium text-[#71717a]'" x-text="currentStage === 'hasil' ? program.pengumuman : 'N/A'"></strong></span>
+              <span>Diajukan: <strong :class="program.isRejectedHistory ? 'font-medium text-[#71717a]' : 'font-medium text-[#09090b]'" x-text="program.tglDaftar"></strong></span>
             </div>
           </div>
         </div>
@@ -346,12 +278,14 @@ const optionalDocFieldsDicoding = [
           </div>
         </div>
 
-        <!-- Link Detail di Pojok Kanan Bawah Tiap Card Program -->
+        <!-- Link Detail di Pojok Kanan Bawah Tiap Card Program (Hanya untuk BK) -->
         <div
+          x-show="program.id === 'bk'"
           class="flex items-center justify-end"
           :class="expandedFormId === program.id ? 'bg-white px-5 pb-5 sm:px-6 sm:pb-6' : 'px-4 pb-4 sm:px-5 sm:pb-5'"
         >
           <a
+            :href="'/mahasiswa/pendaftaran-detail?program=' + program.id + (typeof currentStage !== 'undefined' ? '&stage=' + currentStage : '')"
             href="/mahasiswa/pendaftaran-detail"
             @click.stop
             class="group inline-flex items-center gap-1 text-xs font-medium text-[#0655a7] hover:text-[#114d91] hover:underline transition-colors"
