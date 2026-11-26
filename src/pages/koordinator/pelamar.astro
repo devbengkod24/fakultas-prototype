@@ -13,7 +13,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
 <!-- ==================================================== -->
 
 <div class="space-y-4">
-  <!-- Status Tabs Row: 5 Tab Status (Berkas, Wawancara, Diterima, Ditolak, Dibatalkan) -->
+  <!-- Status Tabs Row: 4 Tab Status (Berkas, Diterima, Ditolak, Dibatalkan) -->
   <div class="border-b border-[#e4e4e7] mb-2 flex items-center justify-between gap-4">
     <div class="flex items-center gap-6 overflow-x-auto pb-0">
       <button
@@ -29,23 +29,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
 
       <button
         type="button"
-        id="tab-pendaftar-wawancara"
-        onclick="switchPendaftarStatusTab('wawancara')"
-        class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
-      >
-        <i data-lucide="message-square" class="w-4 h-4"></i>
-        <span>Wawancara</span>
-        <span id="badge-count-pendaftar-wawancara" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-50 text-amber-700">0</span>
-      </button>
-
-      <button
-        type="button"
         id="tab-pendaftar-diterima"
         onclick="switchPendaftarStatusTab('diterima')"
         class="flex items-center gap-2 pb-3 text-sm font-medium border-b-2 border-transparent text-[#71717a] hover:text-[#09090b] transition-colors cursor-pointer shrink-0"
       >
         <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-        <span>Penerima</span>
+        <span>Diterima</span>
         <span id="badge-count-pendaftar-diterima" class="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700">0</span>
       </button>
 
@@ -135,7 +124,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <option value="internal">Kontributor Internal (Bengkel Koding, Riset Lab, dll)</option>
           <option value="eksternal">Kontributor Eksternal (Industri & Sekolah)</option>
         </optgroup>
-        <optgroup label="Program MBKM">
+        <optgroup label="Program KB">
           <option value="Studi Independen">1. Studi Independen</option>
           <option value="Riset bersama Bidang Kajian">2. Riset bersama Bidang Kajian</option>
           <option value="PPKOrmawa">3. PPKOrmawa</option>
@@ -196,7 +185,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <tr id="tr-thead-pelamar">
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program KB</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Akademik</th>
           <th id="th-pelamar-aksi" class="h-11 px-4 font-semibold text-xs w-44 text-center text-[#71717a]">Aksi</th>

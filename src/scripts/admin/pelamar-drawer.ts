@@ -84,7 +84,7 @@ function bukaDetailPelamarReadOnly(id) {
   const titleEl = document.getElementById('slide-over-title');
   if (titleEl) {
     if (item.status === 'diterima') {
-      titleEl.textContent = 'Detail Penerima MBKM';
+      titleEl.textContent = 'Detail Pelamar Diterima';
       if (titleEl.nextElementSibling) {
         titleEl.nextElementSibling.textContent = 'Tinjau profil akademik, berkas pendaftaran, dan hasil evaluasi seleksi';
       }
@@ -125,7 +125,7 @@ function bukaDetailPelamarReadOnly(id) {
 
     const inputCatatan = document.getElementById('modal-pelamar-catatan-koor');
     if (inputCatatan) {
-      inputCatatan.value = item.catatanWawancara || 'Kandidat dinyatakan lolos seluruh rangkaian seleksi program MBKM.';
+      inputCatatan.value = item.catatanWawancara || 'Kandidat dinyatakan lolos seluruh rangkaian seleksi program Kampus Berdampak.';
       inputCatatan.disabled = true;
       inputCatatan.classList.add('bg-zinc-50', 'cursor-not-allowed');
     }

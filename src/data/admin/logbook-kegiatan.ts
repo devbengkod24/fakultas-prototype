@@ -48,7 +48,6 @@ function buildWeeks(studentId: number, count: number, hasPendingLast = false, ha
 
   for (let w = 1; w <= count; w++) {
     const endDate = new Date(startBase.getTime() + (w * 7 - 2) * 86400000);
-    const midDate = new Date(endDate.getTime() - 3 * 86400000);
     const formatLong = (d: Date) => `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
     const formatShort = (d: Date) => `${hari[d.getDay()]}, ${d.getDate()} ${bulanPendek[d.getMonth()]} ${d.getFullYear()}`;
 
@@ -72,16 +71,6 @@ function buildWeeks(studentId: number, count: number, hasPendingLast = false, ha
               : undefined,
       },
     ];
-
-    if (w % 3 === 1) {
-      entries.push({
-        id: `${studentId}-w${w}-2`,
-        tanggal: formatShort(midDate),
-        status: 'Diterima',
-        deskripsi: `Catatan harian & koordinasi tim mitra pada awal Minggu ${w} terkait pembagian tugas dan target mingguan.`,
-        dokumenNama: `Catatan_Koordinasi_M${w}.pdf`,
-      });
-    }
 
     weeks.push({
       minggu: w,
@@ -165,12 +154,103 @@ export const logbookKegiatanList: MahasiswaLogbookRecord[] = [
     nama: 'Dewi Lestari Kusuma',
     nim: 'A14.2022.03211',
     prodi: 'Desain Komunikasi Visual',
-    mitra: 'MBKM Bengkel Koding',
-    program: 'Magang UI/UX Product Design',
+    mitra: 'PPKOrmawa',
+    program: 'PPKOrmawa',
     dosenPembimbing: 'Ajib Susanto, M.Kom',
+    mingguAktif: 6,
+    totalMinggu: 24,
+    statusProgres: 'aktif',
+    weeks: buildWeeks(6, 6, true),
+  },
+  {
+    id: 7,
+    nama: 'Budi Santoso',
+    nim: 'A11.2022.14150',
+    prodi: 'Teknik Informatika',
+    mitra: '-',
+    program: 'Belum Ada',
+    dosenPembimbing: '-',
     mingguAktif: 0,
     totalMinggu: 24,
     statusProgres: 'belum',
     weeks: [],
+  },
+  {
+    id: 8,
+    nama: 'Annisa Tri Rahayu',
+    nim: 'A11.2022.14201',
+    prodi: 'Teknik Informatika',
+    mitra: 'Joint Project',
+    program: 'Joint Project',
+    dosenPembimbing: 'Dr. Muljono, S.Si, M.Kom',
+    mingguAktif: 12,
+    totalMinggu: 24,
+    statusProgres: 'aktif',
+    weeks: buildWeeks(8, 12, true),
+  },
+  {
+    id: 9,
+    nama: 'Dimas Bagus Setiawan',
+    nim: 'A12.2022.09915',
+    prodi: 'Sistem Informasi',
+    mitra: 'Industrial Visit ke Luar Negri',
+    program: 'Industrial Visit ke Luar Negri',
+    dosenPembimbing: 'Affandy, Ph.D',
+    mingguAktif: 8,
+    totalMinggu: 24,
+    statusProgres: 'aktif',
+    weeks: buildWeeks(9, 8, false, 7),
+  },
+  {
+    id: 10,
+    nama: 'Siti Aminah',
+    nim: 'A12.2022.09911',
+    prodi: 'Sistem Informasi',
+    mitra: 'Kuliah Kerja Usaha',
+    program: 'Kuliah Kerja Usaha',
+    dosenPembimbing: 'Eko Hari Rachmawanto, M.Kom',
+    mingguAktif: 16,
+    totalMinggu: 24,
+    statusProgres: 'aktif',
+    weeks: buildWeeks(10, 16, true),
+  },
+  {
+    id: 11,
+    nama: 'Bagas Prasetyo',
+    nim: 'A11.2022.14105',
+    prodi: 'Teknik Informatika',
+    mitra: 'PT. Lumintu Sejahtera Mandiri',
+    program: 'Magang Kuliah Kerja Industri (KKI)',
+    dosenPembimbing: 'Dr. M. Arief Soeleman, M.Kom',
+    mingguAktif: 24,
+    totalMinggu: 24,
+    statusProgres: 'selesai',
+    weeks: buildWeeks(11, 24, false),
+  },
+  {
+    id: 12,
+    nama: 'Hendra Wijaya',
+    nim: 'A11.2022.14220',
+    prodi: 'Teknik Informatika',
+    mitra: 'Magang Berdampak di Sekolah',
+    program: 'Magang Berdampak di Sekolah',
+    dosenPembimbing: 'Dr. Ricardus Anggi, M.Kom',
+    mingguAktif: 10,
+    totalMinggu: 24,
+    statusProgres: 'aktif',
+    weeks: buildWeeks(12, 10, false),
+  },
+  {
+    id: 13,
+    nama: 'Putra Mahendra',
+    nim: 'A11.2022.14308',
+    prodi: 'Teknik Informatika',
+    mitra: 'Student Mobility ke UGM',
+    program: 'Student Mobility ke UGM',
+    dosenPembimbing: 'Affandy, Ph.D',
+    mingguAktif: 18,
+    totalMinggu: 24,
+    statusProgres: 'aktif',
+    weeks: buildWeeks(13, 18, true),
   },
 ];

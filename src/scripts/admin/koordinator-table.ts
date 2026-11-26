@@ -163,7 +163,7 @@ function renderKoordinatorTable() {
               type="button"
               onclick="showAssignProgramModal('${item.id}')"
               class="px-2.5 py-1 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-[11px] font-semibold flex items-center gap-1 shadow-none transition-colors"
-              title="Alokasikan Program MBKM yang Diampu Dosen Ini"
+              title="Alokasikan Program Kampus Berdampak yang Diampu Dosen Ini"
             >
               <i data-lucide="layers" class="w-3 h-3"></i>
               <span>Tugaskan</span>

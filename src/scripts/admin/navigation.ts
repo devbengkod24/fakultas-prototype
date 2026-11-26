@@ -121,9 +121,7 @@ function switchTab(tabKey) {
 
   // Resolusi target section dengan alias ke section fungsional eksisting
   let targetId = 'section-' + tabKey;
-  if (tabKey === 'mhs-rekomendasi' && !document.getElementById('section-mhs-rekomendasi')) {
-    targetId = 'section-surekom';
-  } else if (tabKey === 'dosen-data' && !document.getElementById('section-dosen-data')) {
+  if (tabKey === 'dosen-data' && !document.getElementById('section-dosen-data')) {
     targetId = 'section-koordinator';
   } else if (tabKey === 'sidang' && !document.getElementById('section-sidang')) {
     targetId = 'section-sidang';
@@ -160,9 +158,10 @@ function switchTab(tabKey) {
   });
 
   // Set status aktif pada sidebar item
-  const meta = navMeta[tabKey];
-  if (meta && meta.parent) {
-    const parentBtn = document.getElementById('nav-' + meta.parent);
+  const meta = typeof navMeta !== 'undefined' ? navMeta[tabKey] : null;
+  if ((meta && meta.parent) || tabKey === 'logbook' || tabKey === 'logbook-bimbingan') {
+    const parentKey = tabKey === 'logbook' ? 'mahasiswa' : tabKey === 'logbook-bimbingan' ? 'dosen' : meta.parent;
+    const parentBtn = document.getElementById('nav-' + parentKey);
     if (parentBtn) {
       parentBtn.classList.remove('text-[#3f3f46]');
       parentBtn.classList.add('text-[#0655a7]', 'font-medium');
@@ -178,10 +177,10 @@ function switchTab(tabKey) {
         chevron.classList.add('text-[#0655a7]');
       }
     }
-    if (meta.parent === 'mbkm') toggleMbkmSubmenu(true);
-    if (meta.parent === 'mahasiswa') toggleMahasiswaSubmenu(true);
-    if (meta.parent === 'dosen') toggleDosenSubmenu(true);
-    if (meta.parent === 'sidang') toggleSidangSubmenu(true);
+    if (parentKey === 'mbkm') toggleMbkmSubmenu(true);
+    if (parentKey === 'mahasiswa') toggleMahasiswaSubmenu(true);
+    if (parentKey === 'dosen') toggleDosenSubmenu(true);
+    if (parentKey === 'sidang') toggleSidangSubmenu(true);
 
     let subBtn = document.getElementById('nav-sub-' + tabKey) ||
                  document.getElementById('nav-sub-mhs-' + tabKey) ||
@@ -194,8 +193,11 @@ function switchTab(tabKey) {
     if ((tabKey === 'periode' || tabKey === 'periode-mbkm') && !subBtn) {
       subBtn = document.getElementById('nav-sub-mbkm-periode');
     }
-    if ((tabKey === 'mhs-data' || tabKey === 'data-mahasiswa') && !subBtn) {
+    if ((tabKey === 'mhs-data' || tabKey === 'data-mahasiswa' || tabKey === 'logbook') && !subBtn) {
       subBtn = document.getElementById('nav-sub-mhs-data');
+    }
+    if (tabKey === 'logbook-bimbingan' && !subBtn) {
+      subBtn = document.getElementById('nav-sub-dosen-data');
     }
     if ((tabKey === 'mhs-semua' || tabKey === 'semua-mahasiswa') && !subBtn) {
       subBtn = document.getElementById('nav-sub-mhs-semua');
@@ -256,14 +258,11 @@ function switchTab(tabKey) {
     renderSemuaMhsTable();
   } else if (tabKey === 'dosen-data' || tabKey === 'koordinator') {
     renderKoordinatorTable();
-  } else if (tabKey === 'mhs-rekomendasi' || tabKey === 'surekom') {
-    renderSurekomTable();
   } else if (tabKey === 'logbook') {
     renderLogbookTable();
   } else if (tabKey === 'sidang' || tabKey === 'laporan') {
     renderLaporanTable();
   }
-  hideSurekomDetail();
   hideLogbookDetail();
   hideKontributorDetail();
   const bar2 = document.getElementById('dashboard-header-bar-2');

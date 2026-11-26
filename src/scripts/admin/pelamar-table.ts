@@ -20,7 +20,7 @@ let isJadwalUnlocked = false;
 
 function switchPendaftarStatusTab(tabKey) {
   pendaftarActiveStatusTab = tabKey;
-  const tabs = ['berkas', 'wawancara', 'diterima', 'ditolak', 'dibatalkan'];
+  const tabs = ['berkas', 'diterima', 'ditolak', 'dibatalkan'];
 
   tabs.forEach((t) => {
     const btn = document.getElementById('tab-pendaftar-' + t);
@@ -108,19 +108,16 @@ function handleFilterPelamarProdi(val) {
 
 function updatePendaftarTabBadges() {
   const countBerkas = pelamarListData.filter((p) => p.status === 'baru' || p.status === 'berkas').length;
-  const countWawancara = pelamarListData.filter((p) => p.status === 'wawancara').length;
   const countDiterima = pelamarListData.filter((p) => p.status === 'diterima').length;
   const countDitolak = pelamarListData.filter((p) => p.status === 'ditolak').length;
   const countDibatalkan = pelamarListData.filter((p) => p.status === 'dibatalkan').length;
 
   const bBerkas = document.getElementById('badge-count-pendaftar-berkas');
-  const bWawancara = document.getElementById('badge-count-pendaftar-wawancara');
   const bDiterima = document.getElementById('badge-count-pendaftar-diterima');
   const bDitolak = document.getElementById('badge-count-pendaftar-ditolak');
   const bDibatalkan = document.getElementById('badge-count-pendaftar-dibatalkan');
 
   if (bBerkas) bBerkas.textContent = countBerkas;
-  if (bWawancara) bWawancara.textContent = countWawancara;
   if (bDiterima) bDiterima.textContent = countDiterima;
   if (bDitolak) bDitolak.textContent = countDitolak;
   if (bDibatalkan) bDibatalkan.textContent = countDibatalkan;
@@ -369,7 +366,7 @@ function renderPelamarTable() {
                     <div class="space-y-2">
                       <div class="flex items-center gap-2 text-sm font-medium text-[#71717a]">
                         <i data-lucide="building-2" class="w-4 h-4 text-[#0655a7]"></i>
-                        <span>Program MBKM</span>
+                        <span>Program KB</span>
                       </div>
                       <div class="flex items-center gap-2 flex-wrap">
                         <span class="text-lg font-bold text-[#09090b] leading-snug">${mitraText}</span>
@@ -460,36 +457,24 @@ function renderPelamarTable() {
     }
 
     const isTabBerkas = pendaftarActiveStatusTab === 'berkas';
-    const isTabWawancara = pendaftarActiveStatusTab === 'wawancara';
     const isTabDiterima = pendaftarActiveStatusTab === 'diterima';
-    const isTabAksi = isTabBerkas || isTabWawancara;
 
-    // Header tabel dinamis: tab wawancara vs tab penerima vs tab lainnya (semua tab memiliki kolom aksi)
+    // Header tabel dinamis: tab diterima (5 kolom) vs tab lainnya (6 kolom)
     const trThead = document.getElementById('tr-thead-pelamar');
     if (trThead) {
-      if (isTabWawancara) {
+      if (isTabDiterima) {
         trThead.innerHTML = `
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Kampus Berdampak</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Jadwal Wawancara</th>
-          <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
-        `;
-      } else if (isTabDiterima) {
-        trThead.innerHTML = `
-          <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Hasil Seleksi</th>
           <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
         `;
       } else {
         trThead.innerHTML = `
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program MBKM</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program KB</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Akademik</th>
           <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
@@ -497,7 +482,7 @@ function renderPelamarTable() {
       }
     }
 
-    const colSpan = 6;
+    const colSpan = isTabDiterima ? 5 : 6;
 
     if (currentSlice.length === 0) {
       tbody.innerHTML = `
@@ -526,62 +511,6 @@ function renderPelamarTable() {
             ? `<img src="${item.foto}" alt="" class="h-9 w-9 rounded-full object-cover border border-[#e4e4e7] shrink-0" />`
             : `<div class="h-9 w-9 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]"><span>${(item.nama || 'M').charAt(0)}</span></div>`;
 
-          // Rendering baris khusus tab wawancara (No | Mahasiswa | Mitra & Skema Program | Jadwal Wawancara | Aksi)
-          if (isTabWawancara) {
-            const jadwalText = item.jadwalWawancara
-              ? `<div class="font-medium text-sm text-[#09090b] flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5 text-[#0655a7]"></i><span>${item.jadwalWawancara}</span></div><div class="text-xs text-[#71717a] mt-0.5">${item.lokasiWawancara || 'Meet / Lab'}</div>`
-              : `<span class="text-xs text-[#71717a] italic">Belum terjadwal</span>`;
-
-            let actionBtn = isInternal
-              ? `
-                <button
-                  type="button"
-                  onclick="bukaDetailPelamarReadOnly(${item.id})"
-                  class="h-8 px-3.5 rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] shadow-2xs transition-all cursor-pointer inline-flex items-center gap-1.5"
-                >
-                  <i data-lucide="eye" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                  <span>Detail</span>
-                </button>
-              `
-              : `
-                <button
-                  type="button"
-                  onclick="bukaEvaluasiWawancaraDrawer(${item.id})"
-                  class="h-8 px-3.5 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-xs font-medium text-white shadow-2xs transition-all cursor-pointer inline-flex items-center gap-1.5"
-                >
-                  <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
-                  <span>Wawancara</span>
-                </button>
-              `;
-
-            return `
-              <tr class="h-[68px] hover:bg-[#fafafa] transition-colors">
-                <td class="w-12 px-4 text-center text-[#71717a] text-xs font-medium">${rowNum}</td>
-                <td class="px-4 text-sm">
-                  <div class="flex items-center gap-3">
-                    ${avatarHtml}
-                    <div class="flex flex-col leading-tight gap-0.5">
-                      <span class="font-semibold text-[#09090b] text-sm">${item.nama}</span>
-                      <span class="text-xs text-[#71717a]">${item.nim}</span>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-4 text-sm">
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="font-medium text-[#09090b] text-sm">${mitraText}</span>
-                    ${kategoriBadge}
-                  </div>
-                  <div class="text-xs text-[#0655a7] font-medium mt-0.5">${skemaText}</div>
-                </td>
-                <td class="px-4 text-sm">
-                  <span class="text-sm font-normal text-[#09090b]">${item.prodi || '-'}</span>
-                </td>
-                <td class="px-4 text-sm">${jadwalText}</td>
-                <td class="px-4 text-center text-sm">${actionBtn}</td>
-              </tr>
-            `;
-          }
-
           // Rendering baris tab berkas, diterima, ditolak, dibatalkan
           let actionBtn = '';
           if (isTabBerkas) {
@@ -597,50 +526,14 @@ function renderPelamarTable() {
                 </button>
               `
               : `
-                <div class="inline-flex items-center justify-center gap-1.5">
-                  <button
-                    type="button"
-                    onclick="bukaReviewBerkasDrawer(${item.id})"
-                    class="h-8 px-3.5 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-xs font-medium text-white shadow-2xs transition-all cursor-pointer inline-flex items-center gap-1.5"
-                  >
-                    <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
-                    <span>Review</span>
-                  </button>
-                  <div class="relative inline-block text-left" data-pelamar-action-menu>
-                    <button
-                      type="button"
-                      onclick="togglePelamarActionMenu(event, ${item.id})"
-                      class="h-8 w-8 inline-flex items-center justify-center rounded-lg border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#71717a] hover:text-[#09090b] shadow-2xs transition-colors cursor-pointer"
-                      title="Opsi lainnya"
-                      aria-label="Opsi lainnya"
-                      aria-expanded="false"
-                    >
-                      <i data-lucide="more-horizontal" class="w-4 h-4"></i>
-                    </button>
-                    <div
-                      id="pelamar-action-menu-${item.id}"
-                      class="hidden absolute right-0 top-full mt-1.5 w-48 rounded-lg border border-[#e4e4e7] bg-white py-1 shadow-lg z-30 text-xs text-left"
-                    >
-                      <button
-                        type="button"
-                        onclick="jadwalkanWawancaraDariTabel(${item.id})"
-                        class="flex w-full items-center gap-2 px-3 py-2 text-left text-[#09090b] hover:bg-[#f4f4f5] transition-colors cursor-pointer"
-                      >
-                        <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-[#0655a7] shrink-0"></i>
-                        <span>Jadwalkan Wawancara</span>
-                      </button>
-                      <div class="my-1 h-px bg-[#e4e4e7]"></div>
-                      <button
-                        type="button"
-                        onclick="closeAllPelamarActionMenus(); tolakPelamar(${item.id})"
-                        class="flex w-full items-center gap-2 px-3 py-2 text-left text-[#BE123C] hover:bg-rose-50 transition-colors cursor-pointer"
-                      >
-                        <i data-lucide="x-circle" class="w-3.5 h-3.5 shrink-0"></i>
-                        <span>Tolak</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <button
+                  type="button"
+                  onclick="bukaReviewBerkasDrawer(${item.id})"
+                  class="h-8 px-3.5 rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-xs font-medium text-white shadow-2xs transition-all cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+                  <span>Review</span>
+                </button>
               `;
           } else {
             // Tab diterima, ditolak, dibatalkan -> tombol Detail
@@ -657,32 +550,16 @@ function renderPelamarTable() {
           }
           const actionTd = `<td class="px-4 text-center text-sm">${actionBtn}</td>`;
 
-          let col5Html = '';
-          if (isTabDiterima) {
-            const skorFinal =
-              item.nilaiWawancara !== undefined && item.nilaiWawancara !== null
-                ? item.nilaiWawancara
-                : Array.isArray(item.skorPertanyaan) && item.skorPertanyaan.length > 0
-                ? Math.round(item.skorPertanyaan.reduce((a, b) => a + b, 0) / item.skorPertanyaan.length)
-                : 88;
-            col5Html = `
-              <div class="flex flex-col leading-tight gap-1">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    Total Skor: ${skorFinal}
-                  </span>
+          const col5Td = isTabDiterima
+            ? ''
+            : `
+              <td class="px-4 text-sm">
+                <div class="flex flex-col leading-tight gap-0.5">
+                  <span class="text-sm font-medium text-[#09090b]">IPK ${item.ipk}</span>
+                  <span class="text-xs text-[#71717a]">${item.semester}</span>
                 </div>
-                <span class="text-xs text-[#71717a]">IPK ${item.ipk} • ${item.semester}</span>
-              </div>
+              </td>
             `;
-          } else {
-            col5Html = `
-              <div class="flex flex-col leading-tight gap-0.5">
-                <span class="text-sm font-medium text-[#09090b]">IPK ${item.ipk}</span>
-                <span class="text-xs text-[#71717a]">${item.semester}</span>
-              </div>
-            `;
-          }
 
           return `
             <tr class="h-[68px] hover:bg-[#fafafa] transition-colors">
@@ -706,7 +583,7 @@ function renderPelamarTable() {
               <td class="px-4 text-sm">
                 <span class="text-sm font-normal text-[#09090b]">${item.prodi || '-'}</span>
               </td>
-              <td class="px-4 text-sm">${col5Html}</td>
+              ${col5Td}
               ${actionTd}
             </tr>
           `;

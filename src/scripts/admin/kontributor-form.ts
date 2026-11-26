@@ -60,7 +60,7 @@ function populateKontributorFormPage() {
   if (deskripsi && !deskripsi.value) {
     deskripsi.value =
       kontributor.deskripsi ||
-      `Kerja sama strategis MBKM antara FIK UDINUS dan ${kontributor.nama} dalam memberikan pengalaman kerja profesional.`;
+      `Kerja sama strategis Kampus Berdampak antara FIK UDINUS dan ${kontributor.nama} dalam memberikan pengalaman kerja profesional.`;
   }
   const mou = document.getElementById('kf-mou');
   if (mou && !mou.value) mou.value = kontributor.mou || '';

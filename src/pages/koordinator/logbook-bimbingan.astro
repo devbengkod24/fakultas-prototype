@@ -1,0 +1,915 @@
+---
+// src/pages/koordinator/logbook-bimbingan.astro
+import AdminShell from '../../layouts/AdminShell.astro';
+import { logbookBimbinganList } from '../../data/admin/logbook-bimbingan';
+
+const bimbinganJson = JSON.stringify(logbookBimbinganList);
+---
+
+<AdminShell
+  currentTab="logbook-bimbingan"
+  pageTitle="Logbook Bimbingan Mahasiswa"
+  subtitle="Pantau progres bimbingan mahasiswa per dosen pembimbing dan bantu verifikasi status bimbingan (minimal 5x bimbingan)."
+>
+  <section
+    id="section-logbook-bimbingan"
+    class="flex flex-col flex-1 min-h-0 gap-4 pr-1 overflow-y-auto tab-content"
+    x-data={`{
+      viewMode: 'dosen', // 'dosen' | 'mahasiswa' | 'detail'
+      searchDosen: '',
+      searchMhs: '',
+      currentPage: 1,
+      pageSize: 10,
+      selectedDosen: null,
+      selectedMhs: null,
+      selectedMhsIds: [],
+      openPertemuan: {},
+
+      // Modal Tolak Bimbingan
+      isRejectModalOpen: false,
+      rejectTargetEntry: null,
+      rejectReason: '',
+
+      // Modal Lihat Dokumen
+      isDocModalOpen: false,
+      docPreview: { bab: '', tanggal: '', uraian: '', dokumenNama: '', catatanVerifikasi: '' },
+
+      // Modal Konfirmasi Bulk Approve
+      isBulkApproveModalOpen: false,
+
+      dosenList: ${bimbinganJson},
+
+      init() {
+        const params = new URLSearchParams(window.location.search);
+        const dosenId = params.get('dosenId');
+        const dosenNama = params.get('dosenNama');
+        const npp = params.get('npp');
+        const telepon = params.get('telepon');
+        const email = params.get('email');
+        const aktifParam = params.get('aktif');
+        if (dosenId || dosenNama) {
+          let found = this.dosenList.find(d =>
+            (dosenId && String(d.id) === String(dosenId)) ||
+            (dosenNama && d.nama.toLowerCase() === dosenNama.toLowerCase())
+          );
+          if (!found) {
+            found = {
+              id: Number(dosenId) || Date.now(),
+              nama: dosenNama || 'Dosen Pembimbing',
+              npp: npp || '-',
+              mahasiswa: []
+            };
+          }
+          if (npp) found.npp = npp;
+          if (telepon) found.telepon = telepon;
+          if (email) found.email = email;
+          found.aktifPeriode = aktifParam !== null ? aktifParam === '1' : true;
+          this.selectedDosen = found;
+          this.viewMode = 'mahasiswa';
+          this.reinitLucide();
+        }
+      },
+
+      get filteredDosen() {
+        const q = (this.searchDosen || '').toLowerCase().trim();
+        return this.dosenList.filter(d =>
+          !q ||
+          d.nama.toLowerCase().includes(q) ||
+          d.npp.toLowerCase().includes(q)
+        );
+      },
+
+      get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredDosen.length / this.pageSize));
+      },
+
+      get paginatedDosen() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        return this.filteredDosen.slice(start, start + this.pageSize);
+      },
+
+      get filteredMahasiswa() {
+        if (!this.selectedDosen) return [];
+        const q = (this.searchMhs || '').toLowerCase().trim();
+        return (this.selectedDosen.mahasiswa || []).filter(m =>
+          !q ||
+          m.nama.toLowerCase().includes(q) ||
+          m.nim.toLowerCase().includes(q) ||
+          m.skema.toLowerCase().includes(q)
+        );
+      },
+
+      countByPertemuan(dosen, pertemuanNo) {
+        return (dosen.mahasiswa || []).filter(m =>
+          (m.entries || []).some(e => e.pertemuan === pertemuanNo && e.status === 'Diterima')
+        ).length;
+      },
+
+      countPendingDosen(dosen) {
+        return (dosen.mahasiswa || []).reduce((acc, m) =>
+          acc + (m.entries || []).filter(e => e.status === 'Menunggu').length, 0
+        );
+      },
+
+      approvedCount(mhs) {
+        if (!mhs) return 0;
+        return (mhs.entries || []).filter(e => e.status === 'Diterima').length;
+      },
+
+      pendingCount(mhs) {
+        if (!mhs) return 0;
+        return (mhs.entries || []).filter(e => e.status === 'Menunggu').length;
+      },
+
+      latestPertemuan(mhs) {
+        if (!mhs || !mhs.entries || mhs.entries.length === 0) return '-';
+        const maxP = Math.max(...mhs.entries.map(e => e.pertemuan));
+        return 'Bab ' + maxP;
+      },
+
+      progressPercent(mhs) {
+        if (!mhs || !mhs.targetBimbingan) return 0;
+        return Math.min(100, Math.round((this.approvedCount(mhs) / mhs.targetBimbingan) * 100));
+      },
+
+      openDosen(dosen) {
+        this.selectedDosen = dosen;
+        this.selectedMhsIds = [];
+        this.searchMhs = '';
+        this.viewMode = 'mahasiswa';
+        this.reinitLucide();
+      },
+
+      get pendingMhsIds() {
+        return this.filteredMahasiswa.filter(m => this.pendingCount(m) > 0).map(m => m.id);
+      },
+
+      get allPendingMhsSelected() {
+        return this.pendingMhsIds.length > 0 && this.pendingMhsIds.every(id => this.selectedMhsIds.includes(id));
+      },
+
+      toggleSelectAllMhs() {
+        if (this.allPendingMhsSelected) {
+          this.selectedMhsIds = [];
+        } else {
+          this.selectedMhsIds = [...this.pendingMhsIds];
+        }
+      },
+
+      toggleSelectMhs(id) {
+        if (this.selectedMhsIds.includes(id)) {
+          this.selectedMhsIds = this.selectedMhsIds.filter(x => x !== id);
+        } else {
+          this.selectedMhsIds = [...this.selectedMhsIds, id];
+        }
+      },
+
+      get selectedPendingSummary() {
+        if (!this.selectedDosen) return { mhsNames: [], totalPending: 0 };
+        const selected = (this.selectedDosen.mahasiswa || []).filter(m => this.selectedMhsIds.includes(m.id));
+        const totalPending = selected.reduce((acc, m) => acc + this.pendingCount(m), 0);
+        return {
+          mhsNames: selected.map(m => m.nama),
+          totalPending
+        };
+      },
+
+      openBulkApproveModal() {
+        if (this.selectedMhsIds.length === 0) return;
+        this.isBulkApproveModalOpen = true;
+        this.reinitLucide();
+      },
+
+      approveSelectedMhs() {
+        if (this.selectedMhsIds.length === 0 || !this.selectedDosen) return;
+        let totalApproved = 0;
+        let mhsCount = 0;
+        (this.selectedDosen.mahasiswa || []).forEach((m) => {
+          if (!this.selectedMhsIds.includes(m.id)) return;
+          let changed = false;
+          (m.entries || []).forEach((e) => {
+            if (e.status === 'Menunggu') {
+              e.status = 'Diterima';
+              if (!e.catatanVerifikasi) {
+                e.catatanVerifikasi = 'Diverifikasi & diterima oleh Koordinator Kampus Berdampak.';
+              }
+              totalApproved += 1;
+              changed = true;
+            }
+          });
+          if (changed) mhsCount += 1;
+        });
+        this.selectedMhsIds = [];
+        this.isBulkApproveModalOpen = false;
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(\`\${totalApproved} catatan bimbingan dari \${mhsCount} mahasiswa berhasil disetujui.\`, 'success');
+        }
+        this.reinitLucide();
+      },
+
+      groupedBabs(mhs) {
+        if (!mhs || !mhs.entries) return [];
+        const map = {};
+        mhs.entries.forEach((e) => {
+          if (!map[e.pertemuan]) map[e.pertemuan] = [];
+          map[e.pertemuan].push(e);
+        });
+        return Object.keys(map)
+          .map(Number)
+          .sort((a, b) => a - b)
+          .map((bab) => {
+            const list = [...map[bab]].reverse();
+            const hasPending = list.some(x => x.status === 'Menunggu');
+            const hasAccepted = list.some(x => x.status === 'Diterima');
+            const overallStatus = hasPending ? 'Menunggu' : hasAccepted ? 'Diterima' : 'Revisi';
+            return {
+              bab,
+              entries: list,
+              latestDate: list[0]?.tanggal || '-',
+              overallStatus
+            };
+          });
+      },
+
+      openMhsDetail(mhs) {
+        this.selectedMhs = mhs;
+        this.openPertemuan = {};
+        this.groupedBabs(mhs).forEach((g) => {
+          this.openPertemuan[g.bab] = true;
+        });
+        this.viewMode = 'detail';
+        this.reinitLucide();
+      },
+
+      openDocModal(babNo, entry) {
+        this.docPreview = {
+          bab: 'Bimbingan Bab ' + babNo,
+          tanggal: entry.tanggal,
+          uraian: entry.uraian,
+          dokumenNama: entry.dokumenNama || 'Dokumen_Bimbingan.pdf',
+          catatanVerifikasi: entry.catatanVerifikasi || ''
+        };
+        this.isDocModalOpen = true;
+        this.reinitLucide();
+      },
+
+      backToDosen() {
+        window.location.href = '/koordinator/dosen-data';
+      },
+
+      backToMahasiswa() {
+        this.selectedMhs = null;
+        this.viewMode = 'mahasiswa';
+        this.reinitLucide();
+      },
+
+      toggleEntry(entryId) {
+        this.openPertemuan[entryId] = !this.openPertemuan[entryId];
+      },
+
+      statusBadgeClass(status) {
+        if (status === 'Diterima') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        if (status === 'Menunggu') return 'bg-amber-50 text-amber-800 border-amber-200';
+        return 'bg-rose-50 text-rose-700 border-rose-200';
+      },
+
+      approveEntry(entry) {
+        entry.status = 'Diterima';
+        if (!entry.catatanVerifikasi) {
+          entry.catatanVerifikasi = 'Diverifikasi & diterima oleh Koordinator Kampus Berdampak.';
+        }
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(\`Bab \${entry.pertemuan} (\${this.selectedMhs?.nama}) berhasil diterima.\`, 'success');
+        }
+        this.reinitLucide();
+      },
+
+      openRejectModal(entry) {
+        this.rejectTargetEntry = entry;
+        this.rejectReason = '';
+        this.isRejectModalOpen = true;
+        this.reinitLucide();
+      },
+
+      confirmRejectEntry() {
+        if (!this.rejectTargetEntry) return;
+        this.rejectTargetEntry.status = 'Revisi';
+        this.rejectTargetEntry.catatanVerifikasi = this.rejectReason.trim() || 'Diminta revisi oleh Koordinator Kampus Berdampak. Mohon perbaiki catatan bimbingan.';
+        if (typeof window.showAdminToast === 'function') {
+          window.showAdminToast(\`Bab \${this.rejectTargetEntry.pertemuan} (\${this.selectedMhs?.nama}) diminta revisi.\`, 'info');
+        }
+        this.isRejectModalOpen = false;
+        this.rejectTargetEntry = null;
+        this.rejectReason = '';
+        this.reinitLucide();
+      },
+
+      reinitLucide() {
+        this.$nextTick(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+      }
+    }`}
+  >
+    <!-- ==================================================== -->
+    <!-- LEVEL 1: DAFTAR DOSEN PEMBIMBING (Mirip koordinator.tsx) -->
+    <!-- ==================================================== -->
+    <div x-show="viewMode === 'dosen'" class="flex flex-col gap-4">
+      <div class="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+        <div class="relative w-full sm:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input
+            type="text"
+            x-model="searchDosen"
+            @input="currentPage = 1"
+            placeholder="Cari dosen pembimbing atau NPP..."
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+        </div>
+      </div>
+
+      <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+              <tr>
+                <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+                <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Nama Dosen</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Logbook Mhs.</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 1</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 2</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 3</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 4</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 5</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Pending</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Total Mhs.</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#e4e4e7]">
+              <template x-for="(dosen, idx) in paginatedDosen" :key="dosen.id">
+                <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                  <td class="h-[64px] px-2 text-center text-xs font-medium text-[#71717a]" x-text="((currentPage - 1) * pageSize) + (idx + 1)"></td>
+                  <td class="h-[64px] px-4 text-sm">
+                    <div class="flex flex-col">
+                      <span class="font-semibold text-[#09090b]" x-text="dosen.nama"></span>
+                      <span class="text-xs text-[#71717a]" x-text="dosen.npp"></span>
+                    </div>
+                  </td>
+                  <td class="h-[64px] px-4 text-center">
+                    <button
+                      type="button"
+                      @click="openDosen(dosen)"
+                      class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#0655a7] bg-white hover:bg-[#0655a7] text-[#0655a7] hover:text-white text-xs font-medium transition-colors cursor-pointer"
+                    >
+                      <span>Detail Logbook</span>
+                      <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </td>
+                  <td class="h-[64px] px-3 text-center text-xs font-medium text-[#09090b]" x-text="countByPertemuan(dosen, 1)"></td>
+                  <td class="h-[64px] px-3 text-center text-xs font-medium text-[#09090b]" x-text="countByPertemuan(dosen, 2)"></td>
+                  <td class="h-[64px] px-3 text-center text-xs font-medium text-[#09090b]" x-text="countByPertemuan(dosen, 3)"></td>
+                  <td class="h-[64px] px-3 text-center text-xs font-medium text-[#09090b]" x-text="countByPertemuan(dosen, 4)"></td>
+                  <td class="h-[64px] px-3 text-center text-xs font-medium text-[#09090b]" x-text="countByPertemuan(dosen, 5)"></td>
+                  <td class="h-[64px] px-4 text-center">
+                    <span
+                      class="inline-flex items-center justify-center min-w-[26px] px-2 py-0.5 rounded-full text-xs font-semibold"
+                      :class="countPendingDosen(dosen) > 0 ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-[#f4f4f5] text-[#71717a] border border-[#e4e4e7]'"
+                      x-text="countPendingDosen(dosen)"
+                    ></span>
+                  </td>
+                  <td class="h-[64px] px-4 text-center text-xs font-semibold text-[#09090b]" x-text="dosen.mahasiswa.length"></td>
+                </tr>
+              </template>
+              <template x-if="paginatedDosen.length === 0">
+                <tr>
+                  <td colspan="10" class="h-28 text-center text-xs text-[#71717a]">
+                    Tidak ada data dosen pembimbing yang cocok dengan pencarian.
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- LEVEL 2: DAFTAR MAHASISWA BIMBINGAN DOSEN            -->
+    <!-- ==================================================== -->
+    <div x-show="viewMode === 'mahasiswa'" x-cloak class="flex flex-col gap-4">
+      <!-- Baris 1: Tombol Kembali & Judul -->
+      <div class="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          @click="backToDosen()"
+          class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Kembali</span>
+        </button>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Detail Logbook Bimbingan</h2>
+      </div>
+
+      <!-- Baris 2: Card Identitas Dosen Pembimbing -->
+      <div class="rounded-xl border border-[#e4e4e7] bg-white p-4 flex items-center gap-4">
+        <div class="h-14 w-14 rounded-full bg-[#f4f4f5] text-[#0655a7] font-bold text-base flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+          <span x-text="selectedDosen?.nama?.charAt(0) || 'D'"></span>
+        </div>
+        <div class="flex flex-col min-w-0 gap-1">
+          <p class="text-sm font-bold text-[#09090b] truncate" x-text="selectedDosen?.nama || '-'"></p>
+          <p class="text-xs text-[#71717a] flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/></svg>
+            <span x-text="selectedDosen?.npp || '-'"></span>
+          </p>
+          <p class="text-xs text-[#52525b] flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span x-text="selectedDosen?.telepon || '-'"></span>
+          </p>
+          <p class="text-xs text-[#52525b] flex items-center gap-1.5 min-w-0">
+            <svg class="w-3.5 h-3.5 text-[#71717a] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span class="truncate" x-text="selectedDosen?.email || '-'"></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Baris 3: Toolbar Search & Approve Bimbingan -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="relative w-full sm:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-[#71717a] absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input
+            type="text"
+            x-model="searchMhs"
+            placeholder="Cari mahasiswa atau NIM..."
+            class="h-9 w-full rounded-md border border-[#e4e4e7] bg-white pl-9 pr-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          />
+        </div>
+        <button
+          type="button"
+          @click="openBulkApproveModal()"
+          :disabled="selectedMhsIds.length === 0"
+          class="inline-flex items-center justify-center gap-1.5 h-9 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+          <span>Approve Bimbingan</span>
+          <span x-show="selectedMhsIds.length > 0" x-text="`(${selectedMhsIds.length})`" class="font-bold"></span>
+        </button>
+      </div>
+
+      <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="border-b border-[#e4e4e7] bg-[#fafafa]">
+              <tr>
+                <th class="w-10 px-3 text-center h-11">
+                  <input
+                    type="checkbox"
+                    @change="toggleSelectAllMhs()"
+                    :checked="allPendingMhsSelected"
+                    :disabled="pendingMhsIds.length === 0"
+                    class="h-4 w-4 rounded border-[#e4e4e7] accent-[#0655a7] cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    aria-label="Pilih semua mahasiswa perlu disetujui"
+                  />
+                </th>
+                <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
+                <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">NIM</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab Terakhir</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Total Bimbingan</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-48">Progress</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#e4e4e7]">
+              <template x-for="(mhs, idx) in filteredMahasiswa" :key="mhs.id">
+                <tr class="hover:bg-[#f4f4f5]/60 transition-colors" :class="selectedMhsIds.includes(mhs.id) ? 'bg-blue-50/40' : ''">
+                  <td class="h-[64px] px-3 text-center">
+                    <template x-if="pendingCount(mhs) > 0">
+                      <input
+                        type="checkbox"
+                        :checked="selectedMhsIds.includes(mhs.id)"
+                        @change="toggleSelectMhs(mhs.id)"
+                        class="h-4 w-4 rounded border-[#e4e4e7] accent-[#0655a7] cursor-pointer"
+                      />
+                    </template>
+                  </td>
+                  <td class="h-[64px] px-2 text-center text-xs font-medium text-[#71717a]" x-text="idx + 1"></td>
+                  <td class="h-[64px] px-4 text-sm">
+                    <div class="flex items-center gap-3">
+                      <div class="h-8 w-8 rounded-full bg-[#f4f4f5] text-[#0655a7] font-semibold text-xs flex items-center justify-center shrink-0 border border-[#e4e4e7]">
+                        <span x-text="mhs.nama.split(' ').slice(0, 2).map(n => n.charAt(0)).join('')"></span>
+                      </div>
+                      <span class="font-semibold text-[#09090b] text-sm" x-text="mhs.nama"></span>
+                    </div>
+                  </td>
+                  <td class="h-[64px] px-4 text-center text-xs font-medium text-[#09090b]" x-text="mhs.nim"></td>
+                  <td class="h-[64px] px-4 text-center text-xs text-[#09090b]" x-text="latestPertemuan(mhs)"></td>
+                  <td class="h-[64px] px-4 text-center text-xs font-medium text-[#09090b]" x-text="mhs.entries.length"></td>
+                  <td class="h-[64px] px-4">
+                    <div class="flex items-center gap-2.5">
+                      <div class="flex-1 h-2 rounded-full bg-[#f4f4f5] overflow-hidden border border-[#e4e4e7]/60">
+                        <div
+                          class="h-full transition-all duration-300 rounded-full"
+                          :class="approvedCount(mhs) >= mhs.targetBimbingan ? 'bg-emerald-600' : 'bg-[#0655a7]'"
+                          :style="`width: ${progressPercent(mhs)}%`"
+                        ></div>
+                      </div>
+                      <span class="text-xs font-medium tabular-nums text-[#71717a] w-9 text-right" x-text="`${progressPercent(mhs)}%`"></span>
+                    </div>
+                  </td>
+                  <td class="h-[64px] px-4 text-center">
+                    <span
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold border whitespace-nowrap"
+                      :class="pendingCount(mhs) > 0 ? 'bg-amber-50 text-amber-800 border-amber-200' : approvedCount(mhs) >= mhs.targetBimbingan ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-[#f4f4f5] text-[#71717a] border-[#e4e4e7]'"
+                      x-text="pendingCount(mhs) > 0 ? 'Perlu disetujui' : approvedCount(mhs) >= mhs.targetBimbingan ? 'Selesai' : 'Belum'"
+                    ></span>
+                  </td>
+                  <td class="h-[64px] px-4 text-center">
+                    <button
+                      type="button"
+                      @click="openMhsDetail(mhs)"
+                      class="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-[#0655a7]/40 bg-white hover:bg-blue-50/50 text-[#0655a7] text-xs font-medium transition-colors cursor-pointer"
+                    >
+                      <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                      <span>Logbook</span>
+                    </button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="flex flex-col items-center justify-between gap-2 pt-1 sm:flex-row">
+        <p class="text-xs text-[#71717a]" x-text="`Page 1 of 1 (${filteredMahasiswa.length} total items)`"></p>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1">
+            <button type="button" disabled class="h-8 w-8 rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 flex items-center justify-center">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button type="button" class="h-8 w-8 rounded-md bg-[#0655a7] text-white text-xs font-semibold flex items-center justify-center">
+              1
+            </button>
+            <button type="button" disabled class="h-8 w-8 rounded-md border border-[#e4e4e7] bg-white text-[#71717a] opacity-50 flex items-center justify-center">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <select class="h-8 px-2.5 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b]">
+            <option>Show 10 items</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- LEVEL 3: DETAIL TIMELINE & VERIFIKASI KOORDINATOR    -->
+    <!-- ==================================================== -->
+    <div x-show="viewMode === 'detail'" x-cloak class="flex flex-col gap-5">
+      <!-- Tombol Kembali & Judul di Paling Atas -->
+      <div class="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          @click="backToMahasiswa()"
+          class="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Kembali</span>
+        </button>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Detail Logbook Bimbingan</h2>
+      </div>
+
+      <!-- Card Ringkasan Mahasiswa (Style Kerja Praktek) -->
+      <div class="rounded-xl border border-[#e4e4e7] bg-white p-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div class="flex items-start gap-6 min-w-0">
+            <div class="h-20 w-20 rounded-full bg-[#f4f4f5] text-[#09090b] font-medium text-2xl flex items-center justify-center shrink-0">
+              <span x-text="initials(selectedMhs?.nama)"></span>
+            </div>
+            <div class="min-w-0">
+              <h2 class="text-lg font-semibold text-[#09090b] leading-snug" x-text="selectedMhs?.nama || ''"></h2>
+              <p class="text-sm text-[#71717a]" x-text="selectedMhs?.nim || ''"></p>
+              <p class="text-xs text-[#71717a] mt-1" x-text="`Dosen Pembimbing: ${selectedDosen?.nama || '-'}`"></p>
+              <div class="mt-2.5 mb-2.5">
+                <span
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium"
+                  :class="approvedCount(selectedMhs) >= (selectedMhs?.targetBimbingan || 5) ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'"
+                  x-text="approvedCount(selectedMhs) >= (selectedMhs?.targetBimbingan || 5) ? 'Selesai' : 'Sedang Berjalan'"
+                ></span>
+              </div>
+              <div class="space-y-1 text-xs text-[#09090b]">
+                <p class="flex items-center gap-2">
+                  <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                  <span>Total Bimbingan: <strong x-text="selectedMhs?.entries?.length || 0"></strong></span>
+                </p>
+                <p class="flex items-center gap-2">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
+                  <span>Bab Terakhir: <strong x-text="latestPertemuan(selectedMhs).replace('Bab ', '')"></strong></span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-full md:w-[46%] shrink-0 space-y-2 pb-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-[#52525b]">Progress Kampus Berdampak</span>
+              <span class="font-medium text-[#09090b] tabular-nums" x-text="`${progressPercent(selectedMhs)}%`"></span>
+            </div>
+            <div class="h-2 w-full bg-[#f4f4f5] rounded-full overflow-hidden">
+              <div
+                class="h-full bg-[#0655a7] rounded-full transition-all duration-300"
+                :style="`width: ${progressPercent(selectedMhs)}%`"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Bimbingan -->
+      <div class="space-y-4 pt-1">
+        <h3 class="text-lg font-bold text-[#09090b]">Riwayat Bimbingan</h3>
+
+        <template x-if="(selectedMhs?.entries?.length || 0) === 0">
+          <div class="rounded-xl border border-dashed border-[#e4e4e7] bg-white p-10 text-center text-xs text-[#71717a]">
+            Mahasiswa ini belum memiliki catatan logbook bimbingan.
+          </div>
+        </template>
+
+        <div class="space-y-5">
+          <template x-for="(babGroup, gIdx) in groupedBabs(selectedMhs)" :key="babGroup.bab">
+            <div class="relative">
+              <!-- Garis Vertikal Timeline -->
+              <div
+                x-show="gIdx < groupedBabs(selectedMhs).length - 1"
+                class="absolute left-[18px] top-9 bottom-[-20px] w-[1px] bg-[#e4e4e7]"
+              ></div>
+
+              <div class="flex items-start gap-4">
+                <!-- Node Lingkaran Bernomor -->
+                <div class="relative z-10 size-9 rounded-full bg-blue-50 border border-blue-200 text-[#0655a7] text-xs font-semibold flex items-center justify-center shrink-0">
+                  <span x-text="babGroup.bab"></span>
+                </div>
+
+                <!-- Card Bimbingan -->
+                <div class="flex-1 rounded-xl border border-[#e4e4e7] bg-white overflow-hidden">
+              <!-- Header Bab -->
+              <div
+                @click="toggleEntry(babGroup.bab)"
+                class="px-5 py-4 flex items-start justify-between gap-4 cursor-pointer hover:bg-[#fafafa] transition-colors"
+              >
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2.5 flex-wrap">
+                    <span class="text-sm font-bold text-[#09090b]" x-text="`Bimbingan Bab ${babGroup.bab}`"></span>
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold border"
+                      :class="statusBadgeClass(babGroup.overallStatus)"
+                      x-text="babGroup.overallStatus"
+                    ></span>
+                  </div>
+                  <p class="text-xs text-[#71717a]" x-text="`Terakhir: ${babGroup.latestDate}`"></p>
+                  <p class="text-xs text-[#71717a]" x-text="`${babGroup.entries.length}x bimbingan`"></p>
+                </div>
+
+                <button
+                  type="button"
+                  class="p-1 rounded-md text-[#71717a] hover:bg-[#f4f4f5] shrink-0 cursor-pointer"
+                >
+                  <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="openPertemuan[babGroup.bab] ? 'rotate-180' : ''"></i>
+                </button>
+              </div>
+
+              <!-- Daftar Item Bimbingan di dalam Bab -->
+              <div x-show="openPertemuan[babGroup.bab]" x-cloak class="border-t border-[#e4e4e7] divide-y divide-[#e4e4e7]">
+                <template x-for="entry in babGroup.entries" :key="entry.id">
+                  <div class="px-5 py-4 space-y-3 bg-white">
+                    <!-- Baris Tanggal & Status Badge -->
+                    <div class="flex items-center justify-between gap-3">
+                      <div class="flex items-center gap-1.5 text-xs text-[#71717a]">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                        <span x-text="entry.tanggal"></span>
+                      </div>
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold border shrink-0"
+                        :class="statusBadgeClass(entry.status)"
+                        x-text="entry.status"
+                      ></span>
+                    </div>
+
+                    <!-- Uraian -->
+                    <p class="text-sm text-[#09090b] leading-relaxed" x-text="entry.uraian"></p>
+
+                    <template x-if="entry.catatanVerifikasi">
+                      <p class="text-xs text-[#71717a]">
+                        <span class="font-medium text-[#09090b]">Catatan: </span>
+                        <span x-text="entry.catatanVerifikasi"></span>
+                      </p>
+                    </template>
+
+                    <!-- Baris Aksi Bawah: Kiri Lihat Dokumen, Kanan Terima / Tolak -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                      <div>
+                        <template x-if="entry.dokumenNama">
+                          <button
+                            type="button"
+                            @click="openDocModal(babGroup.bab, entry)"
+                            class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] transition-colors cursor-pointer"
+                          >
+                            <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                            <span>Lihat Dokumen</span>
+                          </button>
+                        </template>
+                      </div>
+
+                      <div class="flex items-center gap-2 ml-auto">
+                        <template x-if="entry.status !== 'Diterima'">
+                          <button
+                            type="button"
+                            @click="approveEntry(entry)"
+                            class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-emerald-50 hover:border-emerald-200 text-emerald-700 text-xs font-medium transition-colors cursor-pointer"
+                          >
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Terima</span>
+                          </button>
+                        </template>
+                        <template x-if="entry.status !== 'Revisi' && entry.status !== 'Diterima'">
+                          <button
+                            type="button"
+                            @click="openRejectModal(entry)"
+                            class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-rose-50 hover:border-rose-200 text-rose-600 text-xs font-medium transition-colors cursor-pointer"
+                          >
+                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            <span>Revisi</span>
+                          </button>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL TOLAK BIMBINGAN                                -->
+    <!-- ==================================================== -->
+    <div
+      x-show="isRejectModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    >
+      <div
+        @click.outside="isRejectModalOpen = false"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-base font-semibold text-[#09090b]">Minta Revisi Logbook Bimbingan</h3>
+            <p class="text-xs text-[#71717a] mt-0.5" x-text="rejectTargetEntry ? \`Bab \${rejectTargetEntry.pertemuan} • \${selectedMhs?.nama || ''}\` : ''"></p>
+          </div>
+          <button type="button" @click="isRejectModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-[#09090b]">Alasan / Catatan Penolakan</label>
+          <textarea
+            x-model="rejectReason"
+            rows="3"
+            placeholder="Contoh: Mohon lengkapi bukti dokumentasi hasil diskusi dan file laporan..."
+            class="w-full rounded-md border border-[#e4e4e7] bg-white p-3 text-xs text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
+          ></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            @click="isRejectModalOpen = false"
+            class="h-9 px-3.5 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] cursor-pointer"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="confirmRejectEntry()"
+            class="px-4 text-xs font-medium text-white rounded-md cursor-pointer h-9 bg-rose-600 hover:bg-rose-700"
+          >
+            Kirim Revisi
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL KONFIRMASI BULK APPROVE BIMBINGAN              -->
+    <!-- ==================================================== -->
+    <div
+      x-show="isBulkApproveModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    >
+      <div
+        @click.outside="isBulkApproveModalOpen = false"
+        class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
+          <div class="flex items-center gap-2.5">
+            <div class="h-8 w-8 rounded-full bg-blue-50 text-[#0655a7] flex items-center justify-center shrink-0">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-[#09090b]">Konfirmasi Approve Bimbingan</h3>
+
+            </div>
+          </div>
+          <button type="button" @click="isBulkApproveModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-2.5 text-xs text-[#3f3f46]">
+          <p class="font-medium text-[#09090b]">List Mahasiswa :</p>
+          <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-3 max-h-36 overflow-y-auto space-y-1">
+            <template x-for="nm in selectedPendingSummary.mhsNames" :key="nm">
+              <div class="flex items-center gap-2 text-xs font-medium text-[#09090b]">
+                <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#0655a7] shrink-0"></i>
+                <span x-text="nm"></span>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-[#e4e4e7]">
+          <button
+            type="button"
+            @click="isBulkApproveModalOpen = false"
+            class="h-9 px-3.5 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] cursor-pointer"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            @click="approveSelectedMhs()"
+            class="h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114D91] text-white text-xs font-medium cursor-pointer"
+          >
+            Ya, Setujui
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- MODAL LIHAT DOKUMEN                                  -->
+    <!-- ==================================================== -->
+    <div
+      x-show="isDocModalOpen"
+      x-cloak
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+    >
+      <div
+        @click.outside="isDocModalOpen = false"
+        class="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl border border-[#e4e4e7] space-y-4"
+      >
+        <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
+          <div>
+            <h3 class="text-base font-semibold text-[#09090b]" x-text="docPreview.dokumenNama"></h3>
+            <p class="text-xs text-[#71717a] mt-0.5" x-text="`${docPreview.bab} • ${docPreview.tanggal}`"></p>
+          </div>
+          <button type="button" @click="isDocModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-5 space-y-3 text-xs">
+          <div class="flex items-center gap-2 text-[#0655a7] font-semibold">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>Pratinjau Dokumen Bimbingan</span>
+          </div>
+          <p class="text-[#3f3f46] leading-relaxed" x-text="docPreview.uraian"></p>
+          <template x-if="docPreview.catatanVerifikasi">
+            <div class="pt-2 border-t border-[#e4e4e7] text-[#52525b]">
+              <span class="font-semibold text-[#09090b]">Catatan: </span>
+              <span x-text="docPreview.catatanVerifikasi"></span>
+            </div>
+          </template>
+        </div>
+
+        <div class="flex justify-end pt-1">
+          <button
+            type="button"
+            @click="isDocModalOpen = false"
+            class="h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-xs font-medium text-[#09090b] cursor-pointer"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</AdminShell>

@@ -128,7 +128,7 @@ function handleProgramSubmit(e) {
   const kategoriSelect = document.getElementById('edit-kategori-program');
   const newKategori = kategoriSelect
     ? kategoriSelect.options[kategoriSelect.selectedIndex].text
-    : 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)';
+    : 'KB Internal - Asistensi Mengajar (Bengkel Koding)';
 
   if (currentEditingProgramTitle) {
     const prog = programListData.find((p) => p.nama === currentEditingProgramTitle);

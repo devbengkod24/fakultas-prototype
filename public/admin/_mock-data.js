@@ -12,43 +12,45 @@ const navMeta = {
   dashboard: {
     label: 'Dashboard',
     icon: 'layout-dashboard',
-    title: 'Selamat Datang, Koordinator MBKM di Fakultas Ilmu Komputer',
+    title: 'Selamat Datang, Koordinator Kampus Berdampak di Fakultas Ilmu Komputer',
     subtitle: 'Berikut adalah data-data dan ringkasan operasional yang dapat Anda akses.',
   },
   pengumuman: {
     label: 'Pengumuman',
     icon: 'megaphone',
-    title: 'Pengumuman MBKM',
-    subtitle: 'Broadcast siaran informasi resmi MBKM tingkat program studi dan fakultas.',
-    actionButton: '<button type="button" onclick="showBuatPengumumanModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors shadow-none"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Pengumuman</span></button>',
+    title: 'Pengumuman Kampus Berdampak',
+    subtitle: 'Broadcast siaran informasi resmi Kampus Berdampak tingkat program studi dan fakultas.',
+    actionButton:
+      '<button type="button" onclick="showBuatPengumumanModal()" class="inline-flex items-center gap-2 h-9 px-4 text-sm font-medium rounded-md bg-[#0655a7] hover:bg-[#0655a7]/90 text-white transition-colors shadow-none"><i data-lucide="plus" class="w-4 h-4"></i><span>Tambah Pengumuman</span></button>',
   },
   periode: {
-    label: 'MBKM / Periode MBKM',
+    label: 'KB / Periode KB',
     icon: 'calendar-range',
     parent: 'mbkm',
-    title: 'Periode MBKM',
+    title: 'Periode Kampus Berdampak',
     subtitle: 'Berikut data periode yang sinkron dengan database tahun ajaran pada SIADIN',
     actionButton: '',
   },
   'form-pendaftaran': {
-    label: 'MBKM / Form Pendaftaran',
+    label: 'KB / Form Pendaftaran',
     icon: 'clipboard-list',
     parent: 'mbkm',
     title: 'Form Pendaftaran Mahasiswa',
     subtitle: 'Konfigurasi tahapan identitas, dokumen pendaftaran, dan persetujuan komitmen pendaftar.',
-    actionButton: '<div class="flex items-center gap-2.5 shrink-0"><a href="/pendaftaran-mahasiswa" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-semibold rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 transition-all shadow-2xs"><i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i><span>Pratinjau Formulir Mahasiswa</span></a><button type="button" onclick="handleSaveFormPendaftaran()" class="inline-flex items-center justify-center gap-2 h-9 px-4 text-xs font-bold rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white shadow-2xs transition-all active:scale-95 cursor-pointer"><i data-lucide="save" class="w-3.5 h-3.5"></i><span>Simpan Perubahan</span></button></div>',
+    actionButton:
+      '<div class="flex items-center gap-2.5 shrink-0"><a href="/pendaftaran-mahasiswa" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-9 px-3.5 text-xs font-semibold rounded-lg border border-gray-300 bg-white hover:bg-gray-50 text-gray-700 transition-all shadow-2xs"><i data-lucide="external-link" class="w-3.5 h-3.5 text-gray-500"></i><span>Pratinjau Formulir Mahasiswa</span></a><button type="button" onclick="handleSaveFormPendaftaran()" class="inline-flex items-center justify-center gap-2 h-9 px-4 text-xs font-bold rounded-lg bg-[#0655a7] hover:bg-[#114D91] text-white shadow-2xs transition-all active:scale-95 cursor-pointer"><i data-lucide="save" class="w-3.5 h-3.5"></i><span>Simpan Perubahan</span></button></div>',
   },
   kontributor: {
     label: 'Kontributor',
     icon: 'building-2',
-    title: 'Kontributor MBKM',
+    title: 'Kontributor Kampus Berdampak',
     subtitle: 'Kelola akun kontributor industri, lembaga kontributor, dan instansi magang/studi.',
     actionButton: '',
   },
   kontributor: {
     label: 'Kontributor',
     icon: 'building-2',
-    title: 'Kontributor MBKM',
+    title: 'Kontributor Kampus Berdampak',
     subtitle: 'Kelola akun kontributor industri, lembaga kontributor, dan instansi magang/studi.',
     actionButton: '',
   },
@@ -64,24 +66,27 @@ const navMeta = {
     icon: 'graduation-cap',
     parent: 'mahasiswa',
     title: 'Daftar Pengajuan Mahasiswa Pendaftar',
-    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program MBKM kontributor eksternal.',
-    actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
+    subtitle: 'Berikut ini adalah daftar semua pengajuan mahasiswa pendaftar ke program Kampus Berdampak kontributor eksternal.',
+    actionButton:
+      '<button type="button" class="inline-flex items-center gap-2 h-9 px-3.5 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="help-circle" class="w-4 h-4 text-[#71717a]"></i><span>Lihat Panduan</span></button>',
   },
   'mhs-data': {
     label: 'Mahasiswa / Data Mahasiswa',
     icon: 'graduation-cap',
     parent: 'mahasiswa',
-    title: 'Data Mahasiswa MBKM',
-    subtitle: 'Kelola basis data mahasiswa peserta program MBKM, plotting dosen pembimbing, dan sinkronisasi berkas master.',
-    actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
+    title: 'Data Mahasiswa Kampus Berdampak',
+    subtitle:
+      'Kelola basis data mahasiswa peserta program Kampus Berdampak, plotting dosen pembimbing, dan sinkronisasi berkas master.',
+    actionButton: '',
   },
   'data-mahasiswa': {
     label: 'Mahasiswa / Data Mahasiswa',
     icon: 'graduation-cap',
     parent: 'mahasiswa',
-    title: 'Data Mahasiswa MBKM',
-    subtitle: 'Kelola basis data mahasiswa peserta program MBKM, plotting dosen pembimbing, dan sinkronisasi berkas master.',
-    actionButton: '<button type="button" class="inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"><i data-lucide="download" class="w-4 h-4 text-[#71717a]"></i><span>Export Data</span></button>',
+    title: 'Data Mahasiswa Kampus Berdampak',
+    subtitle:
+      'Kelola basis data mahasiswa peserta program Kampus Berdampak, plotting dosen pembimbing, dan sinkronisasi berkas master.',
+    actionButton: '',
   },
   'dosen-data': {
     label: 'Dosen Pembimbing / Data Dosen',
@@ -96,20 +101,20 @@ const navMeta = {
     icon: 'graduation-cap',
     parent: 'dosen',
     title: 'Plotting Dosen',
-    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program MBKM.',
+    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program Kampus Berdampak.',
   },
   'update-dosen': {
     label: 'Dosen Pembimbing / Plotting Dosen',
     icon: 'graduation-cap',
     parent: 'dosen',
     title: 'Plotting Dosen',
-    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program MBKM.',
+    subtitle: 'Alokasikan dan tetapkan dosen pembimbing bagi mahasiswa yang telah diterima di program Kampus Berdampak.',
   },
   logbook: {
     label: 'Logbook Kegiatan',
     icon: 'book-marked',
     title: 'Daftar Logbook Kegiatan',
-    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program MBKM (maksimal 24 minggu).',
+    subtitle: 'Monitoring logbook kegiatan mingguan mahasiswa peserta program Kampus Berdampak (maksimal 24 minggu).',
   },
   konversi: {
     label: 'Konversi SKS',
@@ -120,7 +125,7 @@ const navMeta = {
   sidang: {
     label: 'Sidang',
     icon: 'award',
-    title: 'Sidang MBKM',
+    title: 'Sidang Kampus Berdampak',
     subtitle: 'Penjadwalan sidang akhir, penginputan nilai gabungan, dan rekap kelulusan kegiatan.',
   },
   'data-pengajuan': {
@@ -141,7 +146,7 @@ const navMeta = {
     label: 'Sidang KP / Hasil Sidang',
     icon: 'award',
     parent: 'sidang',
-    title: 'Hasil Sidang Kerja Praktek',
+    title: 'Hasil Sidang Kampus Berdampak',
     subtitle: 'Berikut data sidang yang sudah diploting jadwalnya.',
   },
   sertifikat: {
@@ -160,8 +165,8 @@ const navMeta = {
   program: {
     label: 'Program',
     icon: 'book-open',
-    title: 'Data Program MBKM',
-    subtitle: 'Daftar seluruh program MBKM internal dan skema asistensi mengajar terdaftar.',
+    title: 'Data Program Kampus Berdampak',
+    subtitle: 'Daftar seluruh program Kampus Berdampak internal dan skema asistensi mengajar terdaftar.',
   },
   koordinator: {
     label: 'Dosen Pembimbing / Data Dosen',
@@ -179,7 +184,7 @@ const navMeta = {
     label: 'Sidang',
     icon: 'award',
     title: 'Sidang & Laporan Akhir',
-    subtitle: 'Review dan evaluasi akhir kegiatan MBKM mahasiswa.',
+    subtitle: 'Review dan evaluasi akhir kegiatan Kampus Berdampak mahasiswa.',
   },
 };
 
@@ -278,98 +283,98 @@ let programListData = [
     id: 'prog_1',
     nama: 'Bengkel Koding Skema Machine Learning',
     dosen: 'Dr. Muljono, S.Si, M.Kom',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'APPROVED',
   },
   {
     id: 'prog_2',
     nama: 'Bengkel Koding Skema Android Programming',
     dosen: 'Nurul Anisa S.W., M.Cs',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'APPROVED',
   },
   {
     id: 'prog_3',
     nama: 'Bengkel Koding Skema Game Programming',
     dosen: 'Ahmad Zainul, M.Kom',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'PENDING',
   },
   {
     id: 'prog_4',
     nama: 'Bengkel Koding Skema Web Programming',
     dosen: 'Budi Setiawan, M.Cs',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'APPROVED',
   },
   {
     id: 'prog_5',
     nama: 'Bengkel Koding Skema Computational Intelligence',
     dosen: 'Dr. Muljono, S.Si, M.Kom',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'DISAPPROVED',
   },
   {
     id: 'prog_6',
     nama: 'Bengkel Koding Skema Computer Vision',
     dosen: 'Nurul Anisa S.W., M.Cs',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'APPROVED',
   },
   {
     id: 'prog_7',
     nama: 'Bengkel Koding Skema Security Data',
     dosen: 'Ahmad Zainul, M.Kom',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'APPROVED',
   },
   {
     id: 'prog_8',
     nama: 'Bengkel Koding Skema Internet of Things',
     dosen: 'Retno Kusumaningrum, M.Kom',
-    kategori: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    kategori: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     status: 'PENDING',
   },
   {
     id: 'prog_9',
     nama: 'Dicoding - Mobile & Cloud Computing Architect',
     dosen: 'Dewi Puspitasari, M.Kom',
-    kategori: 'MBKM Eksternal - Studi Independen (Dicoding, Vinix)',
+    kategori: 'KB Eksternal - Studi Independen (Dicoding, Vinix)',
     status: 'APPROVED',
   },
   {
     id: 'prog_10',
     nama: 'Vinix - AI & Fullstack Web Developer',
     dosen: 'Budi Setiawan, M.Cs',
-    kategori: 'MBKM Eksternal - Studi Independen (Dicoding, Vinix)',
+    kategori: 'KB Eksternal - Studi Independen (Dicoding, Vinix)',
     status: 'APPROVED',
   },
   {
     id: 'prog_11',
     nama: 'Magang Industri Software Engineer di Telkom Corp',
     dosen: 'Dr. Muljono, S.Si, M.Kom',
-    kategori: 'MBKM Eksternal - Magang Kuliah Kerja Industri (KKI)',
+    kategori: 'KB Eksternal - Magang Kuliah Kerja Industri (KKI)',
     status: 'APPROVED',
   },
   {
     id: 'prog_12',
     nama: 'Pengajaran Komputer Cerdas SMA/SMK Negeri 1',
     dosen: 'Nurul Anisa S.W., M.Cs',
-    kategori: 'MBKM Eksternal - Magang Berdampak di Sekolah',
+    kategori: 'KB Eksternal - Magang Berdampak di Sekolah',
     status: 'PENDING',
   },
   {
     id: 'prog_13',
     nama: 'Student Exchange Semester 6 Fakultas Ilmu Komputer UGM',
     dosen: 'Retno Kusumaningrum, M.Kom',
-    kategori: 'MBKM Internal - Student Mobility ke UGM',
+    kategori: 'KB Internal - Student Mobility ke UGM',
     status: 'APPROVED',
   },
   {
     id: 'prog_14',
     nama: 'Riset Kolaboratif Big Data & Intelligent Decision Support',
     dosen: 'Ahmad Zainul, M.Kom',
-    kategori: 'MBKM Internal - Riset Bersama Bidang Kajian (IDSS, Matics)',
+    kategori: 'KB Internal - Riset Bersama Bidang Kajian (IDSS, Matics)',
     status: 'APPROVED',
   },
 ];
@@ -380,67 +385,67 @@ let programListData = [
 let kategoriData = [
   {
     id: 'internal_bengkel',
-    nama: 'MBKM Internal - Asistensi Mengajar (Bengkel Koding)',
+    nama: 'KB Internal - Asistensi Mengajar (Bengkel Koding)',
     type: 'internal',
     sks: 20,
   },
   {
     id: 'eksternal_studi',
-    nama: 'MBKM Eksternal - Studi Independen (Dicoding, Vinix)',
+    nama: 'KB Eksternal - Studi Independen (Dicoding, Vinix)',
     type: 'eksternal',
     sks: 15,
   },
   {
     id: 'eksternal_kki',
-    nama: 'MBKM Eksternal - Magang Kuliah Kerja Industri (KKI)',
+    nama: 'KB Eksternal - Magang Kuliah Kerja Industri (KKI)',
     type: 'eksternal',
     sks: 20,
   },
   {
     id: 'eksternal_sekolah',
-    nama: 'MBKM Eksternal - Magang Berdampak di Sekolah',
+    nama: 'KB Eksternal - Magang Berdampak di Sekolah',
     type: 'eksternal',
     sks: 20,
   },
   {
     id: 'internal_lab',
-    nama: 'MBKM Internal - Studi Independen (Lab IntSys)',
+    nama: 'KB Internal - Studi Independen (Lab IntSys)',
     type: 'internal',
     sks: 15,
   },
   {
     id: 'internal_riset',
-    nama: 'MBKM Internal - Riset Bersama Bidang Kajian (IDSS, Matics)',
+    nama: 'KB Internal - Riset Bersama Bidang Kajian (IDSS, Matics)',
     type: 'internal',
     sks: 20,
   },
   {
     id: 'internal_ppk',
-    nama: 'MBKM Internal - PPKOrmawa',
+    nama: 'KB Internal - PPKOrmawa',
     type: 'internal',
     sks: 12,
   },
   {
     id: 'internal_joint',
-    nama: 'MBKM Internal - Joint Project (Dinosaurus, BTIK)',
+    nama: 'KB Internal - Joint Project (Dinosaurus, BTIK)',
     type: 'internal',
     sks: 20,
   },
   {
     id: 'internal_iv',
-    nama: 'MBKM Internal - Industrial Visit ke Luar Negeri',
+    nama: 'KB Internal - Industrial Visit ke Luar Negeri',
     type: 'internal',
     sks: 12,
   },
   {
     id: 'internal_kku',
-    nama: 'MBKM Internal - Kuliah Kerja Usaha (KKU)',
+    nama: 'KB Internal - Kuliah Kerja Usaha (KKU)',
     type: 'internal',
     sks: 12,
   },
   {
     id: 'internal_ugm',
-    nama: 'MBKM Internal - Student Mobility ke UGM',
+    nama: 'KB Internal - Student Mobility ke UGM',
     type: 'internal',
     sks: 24,
   },
@@ -645,7 +650,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '24 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 2,
@@ -659,7 +664,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '25 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 3,
@@ -673,7 +678,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '26 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 4,
@@ -687,7 +692,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '27 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 5,
@@ -701,7 +706,7 @@ const surekomListData = [
     semester: 'Semester 7',
     status: 'approved',
     tanggal: '20 Sep 2026',
-    catatan: 'Dokumen lengkap dan memenuhi syarat IPK.'
+    catatan: 'Dokumen lengkap dan memenuhi syarat IPK.',
   },
   {
     id: 6,
@@ -715,7 +720,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'approved',
     tanggal: '21 Sep 2026',
-    catatan: 'Direkomendasikan langsung oleh Kepala Lab.'
+    catatan: 'Direkomendasikan langsung oleh Kepala Lab.',
   },
   {
     id: 7,
@@ -729,7 +734,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'approved',
     tanggal: '22 Sep 2026',
-    catatan: 'Syarat portofolio dan bahasa Inggris sangat baik.'
+    catatan: 'Syarat portofolio dan bahasa Inggris sangat baik.',
   },
   {
     id: 8,
@@ -743,7 +748,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'rejected',
     tanggal: '23 Sep 2026',
-    catatan: 'IPK di bawah 3.00 dan SKS lulus belum mencapai 80 SKS.'
+    catatan: 'IPK di bawah 3.00 dan SKS lulus belum mencapai 80 SKS.',
   },
   {
     id: 9,
@@ -757,7 +762,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '28 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 10,
@@ -771,7 +776,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '29 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 11,
@@ -785,7 +790,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '30 Sep 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 12,
@@ -799,7 +804,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'approved',
     tanggal: '19 Sep 2026',
-    catatan: 'Memenuhi kuota pertukaran mahasiswa PMM.'
+    catatan: 'Memenuhi kuota pertukaran mahasiswa PMM.',
   },
   {
     id: 13,
@@ -813,7 +818,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '01 Okt 2026',
-    catatan: ''
+    catatan: '',
   },
   {
     id: 14,
@@ -827,7 +832,7 @@ const surekomListData = [
     semester: 'Semester 5',
     status: 'pending',
     tanggal: '02 Okt 2026',
-    catatan: ''
+    catatan: '',
   },
 ];
 
@@ -873,16 +878,16 @@ const laporanListData = [
 let pengumumanListData = [
   {
     id: 1,
-    judul: 'Sosialisasi Alur Pengajuan Surat Rekomendasi (SuReKom) MBKM Gasal 2026/2027',
+    judul: 'Sosialisasi Alur Pengajuan Surat Rekomendasi (SuReKom) Kampus Berdampak Gasal 2026/2027',
     sasaran: 'semua_mhs',
-    sasaranLabel: 'Semua Mahasiswa MBKM',
+    sasaranLabel: 'Semua Mahasiswa Kampus Berdampak',
     status: 'published',
     tgl: '12 Okt 2026',
     jam: '09:00 WIB',
     author: 'Nurul Anisa, M.Cs',
-    isi: 'Diberitahukan kepada seluruh mahasiswa Fakultas Ilmu Komputer calon peserta MBKM Semester Gasal 2026/2027 bahwa pengajuan Surat Rekomendasi (SuReKom) wajib memenuhi batas IPK minimal 3.00 dan telah menempuh minimal 80 SKS. Pengajuan dilakukan secara mandiri melalui menu Rekomendasi sebelum batas akhir pendaftaran kontributor industri.',
-    file: 'Panduan_SuReKom_MBKM_FIK_2026.pdf',
-    pinned: true
+    isi: 'Diberitahukan kepada seluruh mahasiswa Fakultas Ilmu Komputer calon peserta Kampus Berdampak Semester Gasal 2026/2027 bahwa pengajuan Surat Rekomendasi (SuReKom) wajib memenuhi batas IPK minimal 3.00 dan telah menempuh minimal 80 SKS. Pengajuan dilakukan secara mandiri melalui menu Rekomendasi sebelum batas akhir pendaftaran kontributor industri.',
+    file: 'Panduan_SuReKom_KB_FIK_2026.pdf',
+    pinned: true,
   },
   {
     id: 2,
@@ -895,7 +900,7 @@ let pengumumanListData = [
     author: 'Nurul Anisa, M.Cs',
     isi: 'Batas akhir pengunggahan hasil seleksi internal kontributor dan pengiriman daftar pelamar yang direkomendasikan adalah tanggal 20 Oktober 2026 pukul 23:59 WIB. Mohon PIC kontributor dan Dosen Pembimbing segera memverifikasi kelengkapan berkas mahasiswa.',
     file: 'Format_Berita_Acara_Seleksi_Kontributor.xlsx',
-    pinned: true
+    pinned: true,
   },
   {
     id: 3,
@@ -905,36 +910,36 @@ let pengumumanListData = [
     status: 'published',
     tgl: '08 Okt 2026',
     jam: '10:15 WIB',
-    author: 'Tim MBKM FIK',
+    author: 'Tim KB FIK',
     isi: 'Telah dibuka 25 formasi kuota tambahan untuk track Fullstack Web Developer, UI/UX Designer, dan Mobile Flutter Developer di PT Bengkel Koding dan PT Matic Edukasi Mandiri. Mahasiswa yang telah disetujui SuReKom-nya dapat langsung mengajukan lamaran.',
     file: 'Silabus_Kompetensi_BengkelKoding_2026.pdf',
-    pinned: false
+    pinned: false,
   },
   {
     id: 4,
-    judul: 'Jadwal Coaching Clinic Konversi 20 SKS MBKM & Pemetaan CPL Prodi',
+    judul: 'Jadwal Coaching Clinic Konversi 20 SKS Kampus Berdampak & Pemetaan CPL Prodi',
     sasaran: 'semua_mhs',
-    sasaranLabel: 'Semua Mahasiswa MBKM',
+    sasaranLabel: 'Semua Mahasiswa Kampus Berdampak',
     status: 'published',
     tgl: '05 Okt 2026',
     jam: '13:00 WIB',
     author: 'Nurul Anisa, M.Cs',
-    isi: 'Sesi pendampingan penyusunan konversi mata kuliah MBKM ke Capaian Pembelajaran Lulusan (CPL) program studi (Teknik Informatika, Sistem Informasi, dan DKV) akan diselenggarakan via Zoom Meeting pada hari Jumat, 16 Oktober 2026.',
-    file: 'Matriks_Konversi_20_SKS_MBKM_FIK.pdf',
-    pinned: false
+    isi: 'Sesi pendampingan penyusunan konversi mata kuliah Kampus Berdampak ke Capaian Pembelajaran Lulusan (CPL) program studi (Teknik Informatika, Sistem Informasi, dan DKV) akan diselenggarakan via Zoom Meeting pada hari Jumat, 16 Oktober 2026.',
+    file: 'Matriks_Konversi_20_SKS_KB_FIK.pdf',
+    pinned: false,
   },
   {
     id: 5,
     judul: 'Sosialisasi Program MSIB Mandiri & Magang Bersertifikat Kementerian Batch 7',
     sasaran: 'semua_mhs',
-    sasaranLabel: 'Semua Mahasiswa MBKM',
+    sasaranLabel: 'Semua Mahasiswa Kampus Berdampak',
     status: 'published',
     tgl: '02 Okt 2026',
     jam: '08:45 WIB',
     author: 'Biro Administrasi Akademik',
     isi: 'Kementerian Pendidikan Tinggi telah membuka pendaftaran MSIB Mandiri dan Magang Bersertifikat Batch 7. Mahasiswa wajib melampirkan SPTJM dan Surat Rekomendasi Dekan FIK sebelum mengunggah berkas ke portal nasional.',
     file: 'Template_SPTJM_MSIB_2026.docx',
-    pinned: false
+    pinned: false,
   },
   {
     id: 6,
@@ -946,21 +951,21 @@ let pengumumanListData = [
     jam: '11:00 WIB',
     author: 'Nurul Anisa, M.Cs',
     isi: 'Setiap mahasiswa peserta magang industri wajib mengisi logbook aktivitas mingguan minimal 4 entry per minggu dengan menyertakan bukti dokumentasi pekerjaan. Validasi oleh Dosen Pembimbing dilakukan maksimal setiap hari Minggu pukul 23:59 WIB.',
-    file: 'Panduan_Pengisian_Logbook_MBKM.pdf',
-    pinned: false
+    file: 'Panduan_Pengisian_Logbook_KB.pdf',
+    pinned: false,
   },
   {
     id: 7,
-    judul: 'Penetapan Dosen Pembimbing MBKM Semester Gasal 2026/2027',
+    judul: 'Penetapan Dosen Pembimbing Kampus Berdampak Semester Gasal 2026/2027',
     sasaran: 'kontributor_dospem',
     sasaranLabel: 'Kontributor & Dosen Pembimbing',
     status: 'published',
     tgl: '25 Sep 2026',
     jam: '16:00 WIB',
     author: 'Dekanat FIK',
-    isi: 'Surat Keputusan Dekan mengenai penetapan Dospem untuk seluruh mahasiswa peserta MBKM aktif telah diterbitkan. Dosen pembimbing dapat melihat daftar mahasiswa bimbingan masing-masing pada menu Dosen Pembimbing.',
-    file: 'SK_Dekan_Penetapan_Dospem_MBKM_2026.pdf',
-    pinned: false
+    isi: 'Surat Keputusan Dekan mengenai penetapan Dospem untuk seluruh mahasiswa peserta Kampus Berdampak aktif telah diterbitkan. Dosen pembimbing dapat melihat daftar mahasiswa bimbingan masing-masing pada menu Dosen Pembimbing.',
+    file: 'SK_Dekan_Penetapan_Dospem_KB_2026.pdf',
+    pinned: false,
   },
   {
     id: 8,
@@ -970,10 +975,10 @@ let pengumumanListData = [
     status: 'published',
     tgl: '20 Sep 2026',
     jam: '09:30 WIB',
-    author: 'Tim MBKM FIK',
+    author: 'Tim KB FIK',
     isi: 'Kuliah pembekalan umum mengenai integritas akademik, manajemen waktu pada platform LMS kontributor, serta etika komunikasi profesional akan dilaksanakan secara hybrid di Aula Gedung H lantai 7.',
     file: '',
-    pinned: false
+    pinned: false,
   },
   {
     id: 9,
@@ -986,7 +991,7 @@ let pengumumanListData = [
     author: 'Nurul Anisa, M.Cs',
     isi: 'Draf prosedur perpanjangan masa magang bagi mahasiswa yang mendapatkan penawaran extend kontrak dari kontributor industri hingga 1 tahun penuh. Menunggu penyesuaian regulasi konversi SKS lanjutan.',
     file: '',
-    pinned: false
+    pinned: false,
   },
   {
     id: 10,
@@ -996,37 +1001,37 @@ let pengumumanListData = [
     status: 'draft',
     tgl: '10 Sep 2026',
     jam: '10:00 WIB',
-    author: 'Koordinator MBKM FIK',
+    author: 'Koordinator KB FIK',
     isi: 'Format instrumen asesmen monev tengah semester oleh mentor industri dan Dospem untuk mengevaluasi capaian kompetensi mahasiswa di lapangan.',
     file: '',
-    pinned: false
+    pinned: false,
   },
   {
     id: 11,
-    judul: 'Arsip Panduan Monev & Format Logbook MBKM Semester Genap 2025/2026',
+    judul: 'Arsip Panduan Monev & Format Logbook Kampus Berdampak Semester Genap 2025/2026',
     sasaran: 'semua_mhs',
-    sasaranLabel: 'Semua Mahasiswa MBKM',
+    sasaranLabel: 'Semua Mahasiswa Kampus Berdampak',
     status: 'archived',
     tgl: '15 Jan 2026',
     jam: '08:00 WIB',
-    author: 'Koordinator MBKM FIK',
-    isi: 'Dokumentasi arsip pelaksanaan monitoring dan evaluasi MBKM periode lampau untuk referensi format pengisian rekap kegiatan mingguan dan penyusunan laporan akhir.',
+    author: 'Koordinator KB FIK',
+    isi: 'Dokumentasi arsip pelaksanaan monitoring dan evaluasi Kampus Berdampak periode lampau untuk referensi format pengisian rekap kegiatan mingguan dan penyusunan laporan akhir.',
     file: 'Arsip_Format_Logbook_Genap_2025.pdf',
-    pinned: false
+    pinned: false,
   },
   {
     id: 12,
-    judul: 'Arsip Rekapitulasi Konversi SKS & Nilai Akhir MBKM Periode 20252',
+    judul: 'Arsip Rekapitulasi Konversi SKS & Nilai Akhir Kampus Berdampak Periode 20252',
     sasaran: 'semua_mhs',
-    sasaranLabel: 'Semua Mahasiswa MBKM',
+    sasaranLabel: 'Semua Mahasiswa Kampus Berdampak',
     status: 'archived',
     tgl: '20 Des 2025',
     jam: '11:30 WIB',
-    author: 'Koordinator MBKM FIK',
+    author: 'Koordinator KB FIK',
     isi: 'Laporan arsip rekapitulasi konversi nilai 20 SKS mahasiswa peserta magang dan studi independen periode semester genap 2025/2026 yang telah disahkan ke SIADIN.',
-    file: 'Arsip_Rekap_Nilai_MBKM_20252.pdf',
-    pinned: false
-  }
+    file: 'Arsip_Rekap_Nilai_KB_20252.pdf',
+    pinned: false,
+  },
 ];
 
 // 3. MODUL PERIODE AJARAN (PERSIS GAMBAR SCREENSHOT bimbingan-karir/periode-ajaran)
@@ -1045,8 +1050,16 @@ let periodeDataList = [
 // Generate riwayat hingga 82 entri (Page 1 of 9) persis screenshot
 (function initPeriodeHistoryData() {
   const tahunList = [
-    '2023/2024', '2022/2023', '2021/2022', '2020/2021', '2019/2020',
-    '2018/2019', '2017/2018', '2016/2017', '2015/2016', '2014/2015'
+    '2023/2024',
+    '2022/2023',
+    '2021/2022',
+    '2020/2021',
+    '2019/2020',
+    '2018/2019',
+    '2017/2018',
+    '2016/2017',
+    '2015/2016',
+    '2014/2015',
   ];
   let idCounter = 11;
   tahunList.forEach((th, tIdx) => {
@@ -1059,7 +1072,7 @@ let periodeDataList = [
           tahun: th,
           mulai: '-',
           akhir: '-',
-          status: 0
+          status: 0,
         });
       }
     });
@@ -1079,9 +1092,19 @@ let formPendaftaranConfig = {
   singleApp: true,
   docs: {
     cv: { label: 'Curriculum Vitae (CV ATS)', active: true, required: true, format: 'PDF (Maks 5 MB)' },
-    portofolio: { label: 'Portofolio Karya & Repositori Proyek', active: true, required: true, format: 'Tautan Google Drive / Live URL' },
+    portofolio: {
+      label: 'Portofolio Karya & Repositori Proyek',
+      active: true,
+      required: true,
+      format: 'Tautan Google Drive / Live URL',
+    },
     transkrip: { label: 'Transkrip Nilai Akademik Terkini', active: true, required: true, format: 'PDF Resmi SIADIN' },
-    izin: { label: 'Surat Pernyataan Komitmen & Izin Wali', active: true, required: false, format: 'PDF Bertandatangan Wali' },
+    izin: {
+      label: 'Surat Pernyataan Komitmen & Izin Wali',
+      active: true,
+      required: false,
+      format: 'PDF Bertandatangan Wali',
+    },
   },
   customFields: [
     {
@@ -1104,7 +1127,7 @@ let formPendaftaranConfig = {
   wajibDrafMk: true,
   paktaIntegritas: true,
   surekomTemplate:
-    'Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK Kumulatif: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_kontributor} untuk periode {semester_ajaran}.',
+    'Dengan ini Koordinator Kampus Berdampak Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK Kumulatif: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program Kampus Berdampak pada instansi {nama_kontributor} untuk periode {semester_ajaran}.',
   surekomCutoff: '2026-10-25T23:59',
   ttdDigital: true,
 };
@@ -1127,13 +1150,34 @@ let kontributorListData = [
     avatar: 'BK',
     dosen: [
       { nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 5 },
-      { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
+      { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 },
     ],
     mhs: [
-      { nama: 'Calvin Revianto', nim: 'A11.2021.13782', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dospem: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
-      { nama: 'Salwa Salsabila', nim: 'A11.2020.12864', prodi: 'S1 Teknik Informatika', posisi: 'Cyber Security & Network', dospem: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' },
-      { nama: 'Fakhrurrozi', nim: 'A11.2020.12592', prodi: 'S1 Teknik Informatika', posisi: 'Fullstack Web Developer', dospem: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' }
-    ]
+      {
+        nama: 'Calvin Revianto',
+        nim: 'A11.2021.13782',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'Fullstack Web Developer',
+        dospem: 'Nurul Anisa S.W., M.Cs',
+        status: 'Aktif',
+      },
+      {
+        nama: 'Salwa Salsabila',
+        nim: 'A11.2020.12864',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'Cyber Security & Network',
+        dospem: 'Nurul Anisa S.W., M.Cs',
+        status: 'Aktif',
+      },
+      {
+        nama: 'Fakhrurrozi',
+        nim: 'A11.2020.12592',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'Fullstack Web Developer',
+        dospem: 'Dr. Muljono, S.Si, M.Kom',
+        status: 'Aktif',
+      },
+    ],
   },
   {
     id: 2,
@@ -1150,12 +1194,26 @@ let kontributorListData = [
     alamat: 'Rukan Sinpasa Commercial Blok A-12, Summarecon, Bekasi',
     avatar: 'ME',
     dosen: [
-      { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
+      { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 6 },
     ],
     mhs: [
-      { nama: "SYIFA AIN'NUR MANZILA", nim: 'A11.2019.12233', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dospem: 'Dr. Muljono, S.Si, M.Kom', status: 'Aktif' },
-      { nama: 'Tarissa Aura Azzahra', nim: 'A11.2020.13158', prodi: 'S1 Teknik Informatika', posisi: 'Mobile Developer (Flutter)', dospem: 'Nurul Anisa S.W., M.Cs', status: 'Aktif' }
-    ]
+      {
+        nama: "SYIFA AIN'NUR MANZILA",
+        nim: 'A11.2019.12233',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'Mobile Developer (Flutter)',
+        dospem: 'Dr. Muljono, S.Si, M.Kom',
+        status: 'Aktif',
+      },
+      {
+        nama: 'Tarissa Aura Azzahra',
+        nim: 'A11.2020.13158',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'Mobile Developer (Flutter)',
+        dospem: 'Nurul Anisa S.W., M.Cs',
+        status: 'Aktif',
+      },
+    ],
   },
   {
     id: 3,
@@ -1172,11 +1230,18 @@ let kontributorListData = [
     alamat: 'Creative Hub Semarang, Jl. Pemuda No. 142, Semarang',
     avatar: 'RT',
     dosen: [
-      { nama: 'Ahmad Zainul, M.Kom', nidn: '0686.11.2012.003', prodi: 'S1 Desain Komunikasi Visual', mhsCount: 4 }
+      { nama: 'Ahmad Zainul, M.Kom', nidn: '0686.11.2012.003', prodi: 'S1 Desain Komunikasi Visual', mhsCount: 4 },
     ],
     mhs: [
-      { nama: 'Dewi Lestari', nim: 'A14.2020.03456', prodi: 'S1 DKV', posisi: 'UI/UX & Product Design', dospem: 'Ahmad Zainul, M.Kom', status: 'Aktif' }
-    ]
+      {
+        nama: 'Dewi Lestari',
+        nim: 'A14.2020.03456',
+        prodi: 'S1 DKV',
+        posisi: 'UI/UX & Product Design',
+        dospem: 'Ahmad Zainul, M.Kom',
+        status: 'Aktif',
+      },
+    ],
   },
   {
     id: 4,
@@ -1193,12 +1258,26 @@ let kontributorListData = [
     alamat: 'Gedung H Lantai 6, Kampus Udinus, Jl. Nakula I No. 5-11, Semarang',
     avatar: 'ID',
     dosen: [
-      { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 6 }
+      { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 6 },
     ],
     mhs: [
-      { nama: 'Ahmad Fauzi', nim: 'A11.2021.13890', prodi: 'S1 Teknik Informatika', posisi: 'AI & Data Science Researcher', dospem: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' },
-      { nama: 'Khalivio Rahmiyanto Putra', nim: 'A11.2020.12969', prodi: 'S1 Teknik Informatika', posisi: 'AI Researcher', dospem: 'Dr. Ricardus Anggi, M.Kom', status: 'Aktif' }
-    ]
+      {
+        nama: 'Ahmad Fauzi',
+        nim: 'A11.2021.13890',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'AI & Data Science Researcher',
+        dospem: 'Dr. Ricardus Anggi, M.Kom',
+        status: 'Aktif',
+      },
+      {
+        nama: 'Khalivio Rahmiyanto Putra',
+        nim: 'A11.2020.12969',
+        prodi: 'S1 Teknik Informatika',
+        posisi: 'AI Researcher',
+        dospem: 'Dr. Ricardus Anggi, M.Kom',
+        status: 'Aktif',
+      },
+    ],
   },
 
   // --- KONTRIBUTOR EKSTERNAL (Dikelola 1 Koordinator MBKM / Direct LoA - TANPA AKUN PORTAL) ---
@@ -1206,7 +1285,8 @@ let kontributorListData = [
     id: 9,
     nama: 'PT. Presentologics (Dicoding Indonesia)',
     tipe: 'eksternal',
-    deskripsi: 'Platform edukasi teknologi terakreditasi Kemendikbudristek untuk program pengembang AI dan cloud software engineering.',
+    deskripsi:
+      'Platform edukasi teknologi terakreditasi Kemendikbudristek untuk program pengembang AI dan cloud software engineering.',
     sektor: 'Edutech & Software Engineering',
     picNama: 'Narenda Wicaksono',
     picEmail: '',
@@ -1216,9 +1296,7 @@ let kontributorListData = [
     mou: '085/MoU/FIK-UDINUS/2026',
     alamat: 'Jl. Batik Kumeli No. 50, Sukaluyu, Cibeunying Kaler, Bandung',
     avatar: 'DC',
-    dosen: [
-      { nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 4 }
-    ],
+    dosen: [{ nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 4 }],
     mhs: [
       {
         nama: 'Calvin Revianto',
@@ -1227,9 +1305,9 @@ let kontributorListData = [
         posisi: 'Machine Learning Cohort',
         noLoa: 'LoA-DCD/ASAH-7/2026/088',
         dospem: 'Nurul Anisa S.W., M.Cs',
-        status: 'Disahkan (Aktif)'
-      }
-    ]
+        status: 'Disahkan (Aktif)',
+      },
+    ],
   },
   {
     id: 5,
@@ -1247,7 +1325,7 @@ let kontributorListData = [
     avatar: 'TS',
     dosen: [
       { nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 1 },
-      { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 1 }
+      { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 1 },
     ],
     mhs: [
       {
@@ -1257,7 +1335,7 @@ let kontributorListData = [
         posisi: 'Data Analyst Intern',
         noLoa: 'LoA-TS/MSIB-7/2026/0142',
         dospem: 'Nurul Anisa S.W., M.Cs',
-        status: 'Disahkan (Aktif)'
+        status: 'Disahkan (Aktif)',
       },
       {
         nama: 'Adinda Putri Rahayu',
@@ -1266,15 +1344,16 @@ let kontributorListData = [
         posisi: 'Cyber Security Defense',
         noLoa: 'LoA-TS/MSIB-7/2026/0199',
         dospem: 'Dr. Ricardus Anggi, M.Kom',
-        status: 'Disahkan (Aktif)'
-      }
-    ]
+        status: 'Disahkan (Aktif)',
+      },
+    ],
   },
   {
     id: 6,
     nama: 'PT Bank Central Asia Tbk (BCA)',
     tipe: 'eksternal',
-    deskripsi: 'Institusi perbankan swasta terbesar nasional dengan divisi IT inovasi perbankan digital & Core Banking.',
+    deskripsi:
+      'Institusi perbankan swasta terbesar nasional dengan divisi IT inovasi perbankan digital & Core Banking.',
     sektor: 'Fintech & Perbankan',
     picNama: 'Maya Kartika, S.T.',
     picEmail: '', // Tanpa akun portal
@@ -1285,7 +1364,7 @@ let kontributorListData = [
     alamat: 'Menara BCA Grand Indonesia, Jl. M.H. Thamrin No. 1, Jakarta Pusat',
     avatar: 'BC',
     dosen: [
-      { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 2 }
+      { nama: 'Dr. Muljono, S.Si, M.Kom', nidn: '0686.11.1993.001', prodi: 'S1 Teknik Informatika', mhsCount: 2 },
     ],
     mhs: [
       {
@@ -1295,7 +1374,7 @@ let kontributorListData = [
         posisi: 'Backend Banking Engineer',
         noLoa: 'SK-BCA-MAGANG/2026/045',
         dospem: 'Dr. Muljono, S.Si, M.Kom',
-        status: 'Disahkan (Aktif)'
+        status: 'Disahkan (Aktif)',
       },
       {
         nama: 'Geraldo Bagas Wicaksono',
@@ -1304,15 +1383,16 @@ let kontributorListData = [
         posisi: 'IT Quality Assurance',
         noLoa: 'SK-BCA-MAGANG/2026/078',
         dospem: 'Dr. Muljono, S.Si, M.Kom',
-        status: 'Disahkan (Aktif)'
-      }
-    ]
+        status: 'Disahkan (Aktif)',
+      },
+    ],
   },
   {
     id: 7,
     nama: 'PT Tokopedia (GoTo Group)',
     tipe: 'eksternal',
-    deskripsi: 'Perusahaan teknologi terkemuka Indonesia di bidang e-commerce dan ekosistem marketplace digital skala besar.',
+    deskripsi:
+      'Perusahaan teknologi terkemuka Indonesia di bidang e-commerce dan ekosistem marketplace digital skala besar.',
     sektor: 'E-Commerce & Digital Platform',
     picNama: 'Agus Setiawan, S.Kom',
     picEmail: '', // Tanpa akun portal
@@ -1322,9 +1402,7 @@ let kontributorListData = [
     mou: '075/MoU/FIK-UDINUS/2026',
     alamat: 'Tokopedia Tower Ciputra World 2, Jl. Prof. DR. Satrio Kav. 11, Jakarta Selatan',
     avatar: 'TK',
-    dosen: [
-      { nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 1 }
-    ],
+    dosen: [{ nama: 'Nurul Anisa S.W., M.Cs', nidn: '0686.11.2005.002', prodi: 'S1 Teknik Informatika', mhsCount: 1 }],
     mhs: [
       {
         nama: 'Bambang Triatmojo',
@@ -1333,15 +1411,16 @@ let kontributorListData = [
         posisi: 'Frontend Engineer',
         noLoa: 'GOTO/INTERN/2026/092',
         dospem: 'Nurul Anisa S.W., M.Cs',
-        status: 'Disahkan (Aktif)'
-      }
-    ]
+        status: 'Disahkan (Aktif)',
+      },
+    ],
   },
   {
     id: 8,
     nama: 'Badan Siber dan Sandi Negara (BSSN)',
     tipe: 'eksternal',
-    deskripsi: 'Lembaga pemerintah non-kementerian di bidang keamanan siber, kriptografi, dan ketahanan siber nasional.',
+    deskripsi:
+      'Lembaga pemerintah non-kementerian di bidang keamanan siber, kriptografi, dan ketahanan siber nasional.',
     sektor: 'Keamanan Siber & Pemerintah',
     picNama: 'Kol. Ir. Wahyu Hidayat, M.T.',
     picEmail: '', // Tanpa akun portal
@@ -1352,7 +1431,7 @@ let kontributorListData = [
     alamat: 'Kantor BSSN Ragunan, Jl. Harsono RM No. 70, Ragunan, Jakarta Selatan',
     avatar: 'BS',
     dosen: [
-      { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 1 }
+      { nama: 'Dr. Ricardus Anggi, M.Kom', nidn: '0686.11.2001.004', prodi: 'S1 Teknik Informatika', mhsCount: 1 },
     ],
     mhs: [
       {
@@ -1362,10 +1441,10 @@ let kontributorListData = [
         posisi: 'SOC Analyst Intern',
         noLoa: 'BSSN/DIKTI/2026/011',
         dospem: 'Dr. Ricardus Anggi, M.Kom',
-        status: 'Disahkan (Aktif)'
-      }
-    ]
-  }
+        status: 'Disahkan (Aktif)',
+      },
+    ],
+  },
 ];
 
 // Master list kontributor untuk tab 'Pilih dari List'
@@ -1378,47 +1457,50 @@ const masterKontributorList = [
     picNama: 'Budi Santoso, M.Kom',
     sektor: 'Telekomunikasi & Jaringan',
     alamat: 'Jl. Jend. Gatot Subroto Kav. 52, Jakarta Selatan',
-    avatar: 'TS'
+    avatar: 'TS',
   },
   {
     id: 102,
     nama: 'PT Bank Central Asia Tbk (BCA)',
-    deskripsi: 'Institusi perbankan swasta terbesar nasional dengan divisi IT inovasi perbankan digital & Core Banking.',
+    deskripsi:
+      'Institusi perbankan swasta terbesar nasional dengan divisi IT inovasi perbankan digital & Core Banking.',
     email: 'career.it@bca.co.id',
     picNama: 'Maya Kartika, S.T.',
     sektor: 'Fintech & Perbankan',
     alamat: 'Menara BCA Grand Indonesia, Jakarta Pusat',
-    avatar: 'BC'
+    avatar: 'BC',
   },
   {
     id: 103,
     nama: 'PT Tokopedia (GoTo Group)',
-    deskripsi: 'Perusahaan teknologi terkemuka Indonesia di bidang e-commerce dan ekosistem marketplace digital skala besar.',
+    deskripsi:
+      'Perusahaan teknologi terkemuka Indonesia di bidang e-commerce dan ekosistem marketplace digital skala besar.',
     email: 'campus.relations@tokopedia.com',
     picNama: 'Agus Setiawan, S.Kom',
     sektor: 'E-Commerce & Digital Platform',
     alamat: 'Tokopedia Tower, Jl. Prof. DR. Satrio, Jakarta Selatan',
-    avatar: 'TK'
+    avatar: 'TK',
   },
   {
     id: 104,
     nama: 'PT Astra International Tbk',
     deskripsi: 'Konglomerat multinasional dengan unit bisnis digital transformation & otomasi logistik manufaktur.',
-    email: 'talent.mbkm@astra.co.id',
+    email: 'talent.kb@astra.co.id',
     picNama: 'Hendro Wijaya, S.T.',
     sektor: 'Manufaktur & Transformasi Digital',
     alamat: 'Menara Astra, Jl. Jend. Sudirman Kav. 5-6, Jakarta Pusat',
-    avatar: 'AI'
+    avatar: 'AI',
   },
   {
     id: 105,
     nama: 'Badan Siber dan Sandi Negara (BSSN)',
-    deskripsi: 'Lembaga pemerintah non-kementerian di bidang keamanan siber, kriptografi, dan ketahanan siber nasional.',
+    deskripsi:
+      'Lembaga pemerintah non-kementerian di bidang keamanan siber, kriptografi, dan ketahanan siber nasional.',
     email: 'kerjasama.akademik@bssn.go.id',
     picNama: 'Kol. Ir. Wahyu Hidayat, M.T.',
     sektor: 'Keamanan Siber & Pemerintah',
     alamat: 'Jl. Harsono RM No. 70, Ragunan, Jakarta Selatan',
-    avatar: 'BS'
+    avatar: 'BS',
   },
   {
     id: 106,
@@ -1428,17 +1510,18 @@ const masterKontributorList = [
     picNama: 'Dra. Ratna Juwita, M.M.',
     sektor: 'Enterprise & Supply Chain',
     alamat: 'Jl. Ahmad Yani No. 28, Kudus, Jawa Tengah',
-    avatar: 'DJ'
+    avatar: 'DJ',
   },
   {
     id: 107,
     nama: 'PT Shopee International Indonesia (Sea Group)',
-    deskripsi: 'Platform e-commerce global terkemuka untuk pengembangan talenta software engineering dan machine learning.',
+    deskripsi:
+      'Platform e-commerce global terkemuka untuk pengembangan talenta software engineering dan machine learning.',
     email: 'sea.labs@shopee.co.id',
     picNama: 'Kevin Jonathan, B.Sc',
     sektor: 'E-Commerce & AI',
     alamat: 'Pacific Century Place, SCBD Lot 10, Jakarta Selatan',
-    avatar: 'SH'
+    avatar: 'SH',
   },
   {
     id: 108,
@@ -1448,8 +1531,8 @@ const masterKontributorList = [
     picNama: 'Faisal Ramadhan, M.T.',
     sektor: 'Telekomunikasi & Cloud',
     alamat: 'Jl. Medan Merdeka Barat No. 21, Jakarta Pusat',
-    avatar: 'IO'
-  }
+    avatar: 'IO',
+  },
 ];
 
 // Repository CMS Data per Kontributor (Indeks ID Kontributor)
@@ -1462,10 +1545,11 @@ const kontributorCmsDataMap = {
     mou: '085/MoU/FIK-UDINUS/2026',
     badge: 'Kontributor Unggulan Nasional',
     deadline: '25 Oktober 2026 • 23:59 WIB',
-    deskripsiHero: 'Program kerja sama strategis Dicoding Indonesia bersama Kampus Berdampak FIK UDINUS dirancang untuk membekali mahasiswa dengan keahlian industri tingkat lanjut di bidang Machine Learning, Full-Stack Engineering, dan Cloud Infrastructure.\n\nSelama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mentor industri kelas dunia, menyelesaikan proyek nyata skala enterprise, serta memperoleh hak konversi akademik otomatis hingga 20 SKS ke mata kuliah konsentrasi program studi.',
+    deskripsiHero:
+      'Program kerja sama strategis Dicoding Indonesia bersama Kampus Berdampak FIK UDINUS dirancang untuk membekali mahasiswa dengan keahlian industri tingkat lanjut di bidang Machine Learning, Full-Stack Engineering, dan Cloud Infrastructure.\n\nSelama satu semester (5 bulan penuh), peserta akan dibimbing langsung oleh mentor industri kelas dunia, menyelesaikan proyek nyata skala enterprise, serta memperoleh hak konversi akademik otomatis hingga 20 SKS ke mata kuliah konsentrasi program studi.',
     poin1: 'Sertifikasi Global Dicoding & Partner',
     poin2: 'Uang Saku Pembinaan Kontributor',
-    poin3: 'Kelas Khusus MBKM Pra-KRS',
+    poin3: 'Kelas Khusus KB Pra-KRS',
     koorNama: 'Jane Doe',
     koorJabatan: 'Koordinator Kampus Berdampak FIK UDINUS',
     koorFoto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=256',
@@ -1475,26 +1559,32 @@ const kontributorCmsDataMap = {
         batch: 'Capstone Project Batch 6',
         kategori: 'Smart Energy • IoT & ML',
         judul: 'Smart Energy & Air Quality Monitoring Campus FIK',
-        deskripsi: 'Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.',
-        tech: ['Python', 'TensorFlow', 'React.js', 'Google Cloud']
+        deskripsi:
+          'Sistem prediksi konsumsi daya listrik cerdas dan pemantauan kualitas udara di gedung perkuliahan FIK secara real-time berbasis sensor ESP32, model prediktif LSTM, dan dashboard visual analitik.',
+        foto: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
+        tech: ['Python', 'TensorFlow', 'React.js', 'Google Cloud'],
       },
       {
         id: 'PRJ-2026-02',
         batch: 'Capstone Project Batch 5',
         kategori: 'Attendance AI • Computer Vision',
         judul: 'Vision-Based Automated Academic Attendance & Fraud Detection',
-        deskripsi: 'Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.',
-        tech: ['Python', 'PyTorch', 'YOLOv8', 'FastAPI']
+        deskripsi:
+          'Implementasi sistem absensi presensi wajah otomatis dengan deteksi liveness anti-spoofing menggunakan kamera CCTV kelas perkuliahan terintegrasi sistem presensi akademik FIK.',
+        foto: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800',
+        tech: ['Python', 'PyTorch', 'YOLOv8', 'FastAPI'],
       },
       {
         id: 'PRJ-2026-03',
         batch: 'Capstone Project Batch 5',
         kategori: 'Robotics • Robotics & AI',
         judul: 'Autonomous Robotic Trash Segregator for Green Campus',
-        deskripsi: 'Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.',
-        tech: ['ROS2', 'OpenCV', 'Edge TPU', 'C++']
-      }
-    ]
+        deskripsi:
+          'Robot pemilah sampah otomatis berbasis sensor spektrometri dan vision classifier yang memisahkan sampah organik, anorganik, dan B3 pada area kantin dan selasar kampus FIK.',
+        foto: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800',
+        tech: ['ROS2', 'OpenCV', 'Edge TPU', 'C++'],
+      },
+    ],
   },
   1: {
     kontributor: 'PT Bengkel Koding Nusantara',
@@ -1504,12 +1594,13 @@ const kontributorCmsDataMap = {
     mou: '042/MoU/FIK-UDINUS/2026',
     badge: 'Kontributor Unggulan Kampus',
     deadline: '20 Oktober 2026 • 23:59 WIB',
-    deskripsiHero: 'Platform inkubasi teknologi dan software house internal kampus yang berfokus pada pengembangan perangkat lunak skala enterprise berbasis Laravel, Next.js, dan cloud microservices terdistribusi.',
+    deskripsiHero:
+      'Platform inkubasi teknologi dan software house internal kampus yang berfokus pada pengembangan perangkat lunak skala enterprise berbasis Laravel, Next.js, dan cloud microservices terdistribusi.',
     poin1: 'Mentoring Intensif Tech Lead Industri',
     poin2: 'Hands-on Production Codebase',
     poin3: 'Akses Workspace Lab Eksklusif',
     koorNama: 'Nurul Anisa S.W., M.Cs',
-    koorJabatan: 'Koordinator MBKM FIK UDINUS',
+    koorJabatan: 'Koordinator Kampus Berdampak FIK UDINUS',
     koorFoto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=256',
     showcases: [
       {
@@ -1517,11 +1608,13 @@ const kontributorCmsDataMap = {
         batch: 'Batch 5',
         kategori: 'Fullstack Web & Cloud',
         judul: 'Sistem Informasi Presensi Kampus Berdampak Realtime',
-        deskripsi: 'Platform presensi berbasis GPS geofencing dan integrasi Telegram Bot untuk pemantauan kehadiran magang mahasiswa.',
-        tech: ['Laravel 11', 'Next.js 14', 'MySQL', 'Tailwind CSS']
-      }
-    ]
-  }
+        deskripsi:
+          'Platform presensi berbasis GPS geofencing dan integrasi Telegram Bot untuk pemantauan kehadiran magang mahasiswa.',
+        foto: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
+        tech: ['Laravel 11', 'Next.js 14', 'MySQL', 'Tailwind CSS'],
+      },
+    ],
+  },
 };
 
 let pelamarListData = [
@@ -1542,23 +1635,24 @@ let pelamarListData = [
     sksLulus: 114,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Fokus pada pengembangan kapabilitas Artificial Intelligence Engineer dan arsitektur cloud microservices dengan otomatisasi deployment CI/CD.',
+    deskripsi:
+      'Fokus pada pengembangan kapabilitas Artificial Intelligence Engineer dan arsitektur cloud microservices dengan otomatisasi deployment CI/CD.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Proyek Perangkat Lunak Terapan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 }
+      { kode: 'A11.54803', nama: 'Cloud Computing & DevOps', sks: 6 },
     ],
     minat: ['Cloud Computing', 'AI Engineering'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Dicoding Asah', program: 'Studi Independen' },
       { prioritas: 2, mitra: 'Vinix', program: 'Studi Independen' },
-      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding' }
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding' },
     ],
-    tanggalPengajuan: 'Kamis, 24 September 2026, 17:33'
+    tanggalPengajuan: 'Kamis, 24 September 2026, 17:33',
   },
   // 2. Bengkel Koding (internal, berkas)
   {
@@ -1577,23 +1671,24 @@ let pelamarListData = [
     sksLulus: 108,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan modul web fullstack modern berbasis Next.js dan REST API untuk otomasi sistem administrasi akademik fakultas.',
+    deskripsi:
+      'Pengembangan modul web fullstack modern berbasis Next.js dan REST API untuk otomasi sistem administrasi akademik fakultas.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54804', nama: 'Pemrograman Web Berbasis Komponen', sks: 6 },
-      { kode: 'A11.54805', nama: 'Rekayasa Perangkat Lunak Terapan', sks: 6 }
+      { kode: 'A11.54805', nama: 'Rekayasa Perangkat Lunak Terapan', sks: 6 },
     ],
     minat: ['Fullstack Web', 'Next.js'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Bengkel Koding', program: 'Bengkel Koding' },
       { prioritas: 2, mitra: 'Dicoding Asah', program: 'Studi Independen' },
-      { prioritas: 3, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' }
+      { prioritas: 3, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' },
     ],
-    tanggalPengajuan: 'Jumat, 25 September 2026, 09:15'
+    tanggalPengajuan: 'Jumat, 25 September 2026, 09:15',
   },
   // 3. Riset bersama Bidang Kajian - IDSS (internal, wawancara)
   {
@@ -1607,32 +1702,34 @@ let pelamarListData = [
     kontributor: 'IDSS',
     kategoriKontributor: 'internal',
     program: 'Riset bersama Bidang Kajian',
-    status: 'wawancara',
+    status: 'berkas',
     jadwalWawancara: '22 Okt, 09:00 WIB',
     lokasiWawancara: 'Lab IDSS Gedung H Lantai 3 (H.3.2)',
     nilaiWawancara: 88,
-    catatanWawancara: 'Kandidat memiliki pemahaman algoritma optimasi dan decision tree sangat baik, siap untuk riset terapan sistem pendukung keputusan.',
+    catatanWawancara:
+      'Kandidat memiliki pemahaman algoritma optimasi dan decision tree sangat baik, siap untuk riset terapan sistem pendukung keputusan.',
     ipk: '3.88',
     sksLulus: 118,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Analisis rekayasa proses bisnis enterprise dan perancangan model SPK cerdas berbasis data mining untuk evaluasi performa akademik.',
+    deskripsi:
+      'Analisis rekayasa proses bisnis enterprise dan perancangan model SPK cerdas berbasis data mining untuk evaluasi performa akademik.',
     matkulDiambil: [
       { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
       { kode: 'A12.54802', nama: 'Business Intelligence & Big Data', sks: 6 },
-      { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 }
+      { kode: 'A12.54803', nama: 'Enterprise Architecture', sks: 6 },
     ],
     minat: ['Business Analysis', 'Data Mining'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' },
       { prioritas: 2, mitra: 'Matics', program: 'Riset bersama Bidang Kajian' },
-      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding' }
+      { prioritas: 3, mitra: 'Bengkel Koding', program: 'Bengkel Koding' },
     ],
-    tanggalPengajuan: 'Senin, 28 September 2026, 14:20'
+    tanggalPengajuan: 'Senin, 28 September 2026, 14:20',
   },
   // 4. Studi Independen - Vinix (eksternal, berkas)
   {
@@ -1651,22 +1748,23 @@ let pelamarListData = [
     sksLulus: 110,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Mendalami perancangan sistem keamanan jaringan cyber security, penetration testing web, dan implementasi secure authentication protocols.',
+    deskripsi:
+      'Mendalami perancangan sistem keamanan jaringan cyber security, penetration testing web, dan implementasi secure authentication protocols.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54806', nama: 'Keamanan Jaringan & Sistem', sks: 6 },
-      { kode: 'A11.54807', nama: 'Forensik Digital', sks: 6 }
+      { kode: 'A11.54807', nama: 'Forensik Digital', sks: 6 },
     ],
     minat: ['Cyber Security', 'Network Defense'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Vinix', program: 'Studi Independen' },
-      { prioritas: 2, mitra: 'Dicoding Asah', program: 'Studi Independen' }
+      { prioritas: 2, mitra: 'Dicoding Asah', program: 'Studi Independen' },
     ],
-    tanggalPengajuan: 'Selasa, 29 September 2026, 11:05'
+    tanggalPengajuan: 'Selasa, 29 September 2026, 11:05',
   },
   // 5. Studi Independen - Lab IntSys (internal, berkas)
   {
@@ -1685,22 +1783,23 @@ let pelamarListData = [
     sksLulus: 102,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Eksplorasi model deep learning generative, reinforcement learning untuk otomasi cerdas, dan computer vision berbasis edge computing.',
+    deskripsi:
+      'Eksplorasi model deep learning generative, reinforcement learning untuk otomasi cerdas, dan computer vision berbasis edge computing.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Kecerdasan Buatan Terapan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Deep Learning & Neural Network', sks: 6 }
+      { kode: 'A11.54803', nama: 'Deep Learning & Neural Network', sks: 6 },
     ],
     minat: ['Deep Learning', 'Computer Vision'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Lab IntSys', program: 'Studi Independen' },
-      { prioritas: 2, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' }
+      { prioritas: 2, mitra: 'IDSS', program: 'Riset bersama Bidang Kajian' },
     ],
-    tanggalPengajuan: 'Rabu, 30 September 2026, 16:45'
+    tanggalPengajuan: 'Rabu, 30 September 2026, 16:45',
   },
   // 6. Riset bersama Bidang Kajian - Matics (internal, wawancara)
   {
@@ -1714,31 +1813,33 @@ let pelamarListData = [
     kontributor: 'Matics',
     kategoriKontributor: 'internal',
     program: 'Riset bersama Bidang Kajian',
-    status: 'wawancara',
+    status: 'berkas',
     jadwalWawancara: '23 Okt, 13:30 WIB',
     lokasiWawancara: 'Lab Riset Matics H.2.4',
     nilaiWawancara: 85,
-    catatanWawancara: 'Memiliki dasar kuat pada machine vision dan citra digital, siap berkontribusi pada publikasi riset terindeks SINTA/Scopus.',
+    catatanWawancara:
+      'Memiliki dasar kuat pada machine vision dan citra digital, siap berkontribusi pada publikasi riset terindeks SINTA/Scopus.',
     ipk: '3.72',
     sksLulus: 112,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Penelitian dan implementasi algoritma segmentasi citra medis menggunakan arsitektur U-Net untuk pendeteksian kelainan radiologi secara otomatis.',
+    deskripsi:
+      'Penelitian dan implementasi algoritma segmentasi citra medis menggunakan arsitektur U-Net untuk pendeteksian kelainan radiologi secara otomatis.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54804', nama: 'Pengolahan Citra Digital Lanjut', sks: 6 },
-      { kode: 'A11.54805', nama: 'Metodologi Penelitian Informatika', sks: 6 }
+      { kode: 'A11.54805', nama: 'Metodologi Penelitian Informatika', sks: 6 },
     ],
     minat: ['Medical Imaging', 'Computer Vision'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Matics', program: 'Riset bersama Bidang Kajian' },
-      { prioritas: 2, mitra: 'Lab IntSys', program: 'Studi Independen' }
+      { prioritas: 2, mitra: 'Lab IntSys', program: 'Studi Independen' },
     ],
-    tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10'
+    tanggalPengajuan: 'Kamis, 01 Oktober 2026, 13:10',
   },
   // 7. PPKOrmawa (internal, berkas)
   {
@@ -1757,22 +1858,23 @@ let pelamarListData = [
     sksLulus: 106,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Program Penguatan Kapasitas Organisasi Kemahasiswaan melalui digitalisasi desa wisata dan integrasi marketplace produk lokal UMKM binaan.',
+    deskripsi:
+      'Program Penguatan Kapasitas Organisasi Kemahasiswaan melalui digitalisasi desa wisata dan integrasi marketplace produk lokal UMKM binaan.',
     matkulDiambil: [
-      { kode: 'A12.54801', nama: 'Pemberdayaan Masyarakat MBKM', sks: 8 },
+      { kode: 'A12.54801', nama: 'Pemberdayaan Masyarakat Kampus Berdampak', sks: 8 },
       { kode: 'A12.54802', nama: 'Manajemen Proyek Sistem Informasi', sks: 6 },
-      { kode: 'A12.54803', nama: 'Sistem Informasi Komunitas', sks: 6 }
+      { kode: 'A12.54803', nama: 'Sistem Informasi Komunitas', sks: 6 },
     ],
     minat: ['Community Empowerment', 'Project Management'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'PPKOrmawa', program: 'PPKOrmawa' },
-      { prioritas: 2, mitra: 'Kuliah Kerja Usaha', program: 'Kuliah Kerja Usaha' }
+      { prioritas: 2, mitra: 'Kuliah Kerja Usaha', program: 'Kuliah Kerja Usaha' },
     ],
-    tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30'
+    tanggalPengajuan: 'Jumat, 02 Oktober 2026, 10:30',
   },
   // 8. Joint Project (internal, berkas)
   {
@@ -1791,22 +1893,23 @@ let pelamarListData = [
     sksLulus: 116,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Kolaborasi lintas prodi dan industri dalam rekayasa aplikasi smart campus IoT terintegrasi platform data analytics real-time.',
+    deskripsi:
+      'Kolaborasi lintas prodi dan industri dalam rekayasa aplikasi smart campus IoT terintegrasi platform data analytics real-time.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Internet of Things Terapan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Sistem Terdistribusi', sks: 6 }
+      { kode: 'A11.54803', nama: 'Sistem Terdistribusi', sks: 6 },
     ],
     minat: ['IoT', 'Distributed Systems'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Joint Project', program: 'Joint Project' },
-      { prioritas: 2, mitra: 'Bengkel Koding', program: 'Bengkel Koding' }
+      { prioritas: 2, mitra: 'Bengkel Koding', program: 'Bengkel Koding' },
     ],
-    tanggalPengajuan: 'Sabtu, 03 Oktober 2026, 09:00'
+    tanggalPengajuan: 'Sabtu, 03 Oktober 2026, 09:00',
   },
   // 9. Industrial Visit ke Luar Negri (eksternal, berkas)
   {
@@ -1825,22 +1928,23 @@ let pelamarListData = [
     sksLulus: 124,
     semester: 'Semester 7',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Studi benchmarking teknologi semikonduktor, AI lab, dan green data center di kawasan industri high-tech Malaysia & Singapore.',
+    deskripsi:
+      'Studi benchmarking teknologi semikonduktor, AI lab, dan green data center di kawasan industri high-tech Malaysia & Singapore.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Kapita Selekta Industri Global', sks: 6 },
-      { kode: 'A11.54803', nama: 'Manajemen Teknologi Global', sks: 6 }
+      { kode: 'A11.54803', nama: 'Manajemen Teknologi Global', sks: 6 },
     ],
     minat: ['Global Tech', 'High Performance Computing'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Industrial Visit ke Luar Negri', program: 'Industrial Visit ke Luar Negri' },
-      { prioritas: 2, mitra: 'Student Mobility ke UGM', program: 'Student Mobility ke UGM' }
+      { prioritas: 2, mitra: 'Student Mobility ke UGM', program: 'Student Mobility ke UGM' },
     ],
-    tanggalPengajuan: 'Senin, 05 Oktober 2026, 08:30'
+    tanggalPengajuan: 'Senin, 05 Oktober 2026, 08:30',
   },
   // 10. Kuliah Kerja Usaha (internal, berkas)
   {
@@ -1859,22 +1963,23 @@ let pelamarListData = [
     sksLulus: 104,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Inkubasi bisnis teknologi (technopreneurship) untuk produk SaaS POS terintegrasi QRIS dan akuntansi bagi UMKM kuliner.',
+    deskripsi:
+      'Inkubasi bisnis teknologi (technopreneurship) untuk produk SaaS POS terintegrasi QRIS dan akuntansi bagi UMKM kuliner.',
     matkulDiambil: [
-      { kode: 'A12.54801', nama: 'Technopreneurship MBKM', sks: 8 },
+      { kode: 'A12.54801', nama: 'Technopreneurship Kampus Berdampak', sks: 8 },
       { kode: 'A12.54802', nama: 'Inkubasi Bisnis Digital', sks: 6 },
-      { kode: 'A12.54803', nama: 'Strategi Pemasaran Digital', sks: 6 }
+      { kode: 'A12.54803', nama: 'Strategi Pemasaran Digital', sks: 6 },
     ],
     minat: ['Technopreneurship', 'SaaS Business'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Kuliah Kerja Usaha', program: 'Kuliah Kerja Usaha' },
-      { prioritas: 2, mitra: 'PPKOrmawa', program: 'PPKOrmawa' }
+      { prioritas: 2, mitra: 'PPKOrmawa', program: 'PPKOrmawa' },
     ],
-    tanggalPengajuan: 'Selasa, 06 Oktober 2026, 11:15'
+    tanggalPengajuan: 'Selasa, 06 Oktober 2026, 11:15',
   },
   // 11. Magang Kuliah Kerja Industri - BTIK (internal, berkas)
   {
@@ -1893,22 +1998,23 @@ let pelamarListData = [
     sksLulus: 108,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pemeliharaan infrastruktur jaringan fiber optik backbone kampus, sistem manajemen server Linux, dan virtualisasi Proxmox.',
+    deskripsi:
+      'Pemeliharaan infrastruktur jaringan fiber optik backbone kampus, sistem manajemen server Linux, dan virtualisasi Proxmox.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Administrasi Jaringan & Server', sks: 6 },
-      { kode: 'A11.54803', nama: 'Virtualisasi & Cloud', sks: 6 }
+      { kode: 'A11.54803', nama: 'Virtualisasi & Cloud', sks: 6 },
     ],
     minat: ['Sysadmin', 'Networking'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'BTIK', program: 'Magang Kuliah Kerja Industri' },
-      { prioritas: 2, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }
+      { prioritas: 2, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' },
     ],
-    tanggalPengajuan: 'Rabu, 07 Oktober 2026, 15:20'
+    tanggalPengajuan: 'Rabu, 07 Oktober 2026, 15:20',
   },
   // 12. Magang Kuliah Kerja Industri - PT. Lumintu Sejahtera Mandiri (eksternal, berkas)
   {
@@ -1927,22 +2033,23 @@ let pelamarListData = [
     sksLulus: 114,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan modul backend RESTful API berbasis Go (Golang) dan PostgreSQL untuk platform enterprise resource planning mitra industri.',
+    deskripsi:
+      'Pengembangan modul backend RESTful API berbasis Go (Golang) dan PostgreSQL untuk platform enterprise resource planning mitra industri.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Pemrograman Backend Golang', sks: 6 },
-      { kode: 'A11.54803', nama: 'Database Enterprise', sks: 6 }
+      { kode: 'A11.54803', nama: 'Database Enterprise', sks: 6 },
     ],
     minat: ['Backend Engineering', 'Golang'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' },
-      { prioritas: 2, mitra: 'The Grandia Group', program: 'Magang Kuliah Kerja Industri' }
+      { prioritas: 2, mitra: 'The Grandia Group', program: 'Magang Kuliah Kerja Industri' },
     ],
-    tanggalPengajuan: 'Kamis, 08 Oktober 2026, 10:00'
+    tanggalPengajuan: 'Kamis, 08 Oktober 2026, 10:00',
   },
   // 13. Magang Kuliah Kerja Industri - PT. Happy Dining (OTI) (eksternal, wawancara)
   {
@@ -1956,7 +2063,7 @@ let pelamarListData = [
     kontributor: 'PT. Happy Dining (OTI)',
     kategoriKontributor: 'eksternal',
     program: 'Magang Kuliah Kerja Industri',
-    status: 'wawancara',
+    status: 'berkas',
     jadwalWawancara: '24 Okt, 10:00 WIB',
     lokasiWawancara: 'Online (Google Meet)',
     nilaiWawancara: 80,
@@ -1965,22 +2072,23 @@ let pelamarListData = [
     sksLulus: 110,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Analisis kebutuhan sistem ERP pergudangan dan supply chain F&B berbasis Odoo serta perancangan integrasi API multi-cabang.',
+    deskripsi:
+      'Analisis kebutuhan sistem ERP pergudangan dan supply chain F&B berbasis Odoo serta perancangan integrasi API multi-cabang.',
     matkulDiambil: [
       { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
       { kode: 'A12.54802', nama: 'Sistem Informasi ERP Terapan', sks: 6 },
-      { kode: 'A12.54803', nama: 'Manajemen Rantai Pasok', sks: 6 }
+      { kode: 'A12.54803', nama: 'Manajemen Rantai Pasok', sks: 6 },
     ],
     minat: ['ERP Odoo', 'Supply Chain Analysis'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'PT. Happy Dining (OTI)', program: 'Magang Kuliah Kerja Industri' },
-      { prioritas: 2, mitra: 'PT. Panorama Indah Permai (Saloka)', program: 'Magang Kuliah Kerja Industri' }
+      { prioritas: 2, mitra: 'PT. Panorama Indah Permai (Saloka)', program: 'Magang Kuliah Kerja Industri' },
     ],
-    tanggalPengajuan: 'Jumat, 09 Oktober 2026, 14:10'
+    tanggalPengajuan: 'Jumat, 09 Oktober 2026, 14:10',
   },
   // 14. Magang Kuliah Kerja Industri - PT. Panorama Indah Permai (Saloka) (eksternal, diterima)
   {
@@ -1999,27 +2107,29 @@ let pelamarListData = [
     lokasiWawancara: 'Google Meet (meet.google.com/saloka-interview)',
     nilaiWawancara: 88,
     skorPertanyaan: [86, 90],
-    catatanWawancara: 'Kandidat menunjukkan penguasaan IoT dan embedded systems yang sangat solid, serta portofolio mikrokontroler relevan dengan operasional wahana Saloka.',
+    catatanWawancara:
+      'Kandidat menunjukkan penguasaan IoT dan embedded systems yang sangat solid, serta portofolio mikrokontroler relevan dengan operasional wahana Saloka.',
     ipk: '3.86',
     sksLulus: 118,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan sistem e-ticketing dan integrasi gate akses RFID turnstile wahana rekreasi Saloka Theme Park berbasis IoT dan microservices.',
+    deskripsi:
+      'Pengembangan sistem e-ticketing dan integrasi gate akses RFID turnstile wahana rekreasi Saloka Theme Park berbasis IoT dan microservices.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'IoT & Embedded Automation', sks: 6 },
-      { kode: 'A11.54803', nama: 'Arsitektur Perangkat Lunak', sks: 6 }
+      { kode: 'A11.54803', nama: 'Arsitektur Perangkat Lunak', sks: 6 },
     ],
     minat: ['IoT Integration', 'RFID Systems'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'PT. Panorama Indah Permai (Saloka)', program: 'Magang Kuliah Kerja Industri' },
-      { prioritas: 2, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }
+      { prioritas: 2, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' },
     ],
-    tanggalPengajuan: 'Senin, 12 Oktober 2026, 09:30'
+    tanggalPengajuan: 'Senin, 12 Oktober 2026, 09:30',
   },
   // 15. Magang Kuliah Kerja Industri - The Grandia Group (eksternal, berkas)
   {
@@ -2038,22 +2148,23 @@ let pelamarListData = [
     sksLulus: 108,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Optimalisasi sistem reservasi hotel terpadu (Property Management System) dan integrasi channel manager OTA.',
+    deskripsi:
+      'Optimalisasi sistem reservasi hotel terpadu (Property Management System) dan integrasi channel manager OTA.',
     matkulDiambil: [
       { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
       { kode: 'A12.54802', nama: 'Hospitality Information System', sks: 6 },
-      { kode: 'A12.54803', nama: 'Pengembangan Sistem Berbasis Web', sks: 6 }
+      { kode: 'A12.54803', nama: 'Pengembangan Sistem Berbasis Web', sks: 6 },
     ],
     minat: ['Hospitality IT', 'Web Development'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'The Grandia Group', program: 'Magang Kuliah Kerja Industri' },
-      { prioritas: 2, mitra: 'PT. Happy Dining (OTI)', program: 'Magang Kuliah Kerja Industri' }
+      { prioritas: 2, mitra: 'PT. Happy Dining (OTI)', program: 'Magang Kuliah Kerja Industri' },
     ],
-    tanggalPengajuan: 'Selasa, 13 Oktober 2026, 11:45'
+    tanggalPengajuan: 'Selasa, 13 Oktober 2026, 11:45',
   },
   // 16. Magang Kuliah Kerja Industri - BPMPTP Disdik Jateng (eksternal, diterima)
   {
@@ -2072,27 +2183,33 @@ let pelamarListData = [
     lokasiWawancara: 'Ruang Rapat BPMPTP Disdik Jateng',
     nilaiWawancara: 92,
     skorPertanyaan: [90, 94],
-    catatanWawancara: 'Kemampuan visualisasi data dan penguasaan Three.js/3D web sangat memadai untuk modul media pendidikan vokasi.',
+    catatanWawancara:
+      'Kemampuan visualisasi data dan penguasaan Three.js/3D web sangat memadai untuk modul media pendidikan vokasi.',
     ipk: '3.93',
     sksLulus: 120,
     semester: 'Semester 6',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan media pembelajaran interaktif berbasis web 3D dan analitik data rapor mutu pendidikan vokasi se-Jawa Tengah.',
+    deskripsi:
+      'Pengembangan media pembelajaran interaktif berbasis web 3D dan analitik data rapor mutu pendidikan vokasi se-Jawa Tengah.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Teknologi Media Pendidikan', sks: 6 },
-      { kode: 'A11.54803', nama: 'Data Visualization & BI', sks: 6 }
+      { kode: 'A11.54803', nama: 'Data Visualization & BI', sks: 6 },
     ],
     minat: ['EdTech', 'Interactive Media'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
-      { prioritas: 1, mitra: 'Balai Pengembangan Mutu Pembelajaran dan Teknologi Pendidikan (BPMPTP) Dinas Pendidikan Jawa Tengah', program: 'Magang Kuliah Kerja Industri' },
-      { prioritas: 2, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' }
+      {
+        prioritas: 1,
+        mitra: 'Balai Pengembangan Mutu Pembelajaran dan Teknologi Pendidikan (BPMPTP) Dinas Pendidikan Jawa Tengah',
+        program: 'Magang Kuliah Kerja Industri',
+      },
+      { prioritas: 2, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' },
     ],
-    tanggalPengajuan: 'Rabu, 14 Oktober 2026, 13:20'
+    tanggalPengajuan: 'Rabu, 14 Oktober 2026, 13:20',
   },
   // 17. Magang Berdampak di Sekolah - SMA N 1 Semarang (eksternal, berkas)
   {
@@ -2111,22 +2228,23 @@ let pelamarListData = [
     sksLulus: 112,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Program asistensi pengajaran literasi koding Python & web dasar serta pendampingan ekstrakurikuler olimpiade informatika siswa SMA.',
+    deskripsi:
+      'Program asistensi pengajaran literasi koding Python & web dasar serta pendampingan ekstrakurikuler olimpiade informatika siswa SMA.',
     matkulDiambil: [
       { kode: 'A11.54801', nama: 'Asistensi Mengajar di Sekolah', sks: 8 },
       { kode: 'A11.54802', nama: 'Pedagogi Komputasi', sks: 6 },
-      { kode: 'A11.54803', nama: 'Algoritma Pemrograman Lanjut', sks: 6 }
+      { kode: 'A11.54803', nama: 'Algoritma Pemrograman Lanjut', sks: 6 },
     ],
     minat: ['Computational Thinking', 'Education'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' },
-      { prioritas: 2, mitra: 'SMA Mardisiswa Semarang', program: 'Magang Berdampak di Sekolah' }
+      { prioritas: 2, mitra: 'SMA Mardisiswa Semarang', program: 'Magang Berdampak di Sekolah' },
     ],
-    tanggalPengajuan: 'Kamis, 15 Oktober 2026, 08:45'
+    tanggalPengajuan: 'Kamis, 15 Oktober 2026, 08:45',
   },
   // 18. Magang Berdampak di Sekolah - SMA Mardisiswa Semarang (eksternal, wawancara)
   {
@@ -2140,31 +2258,33 @@ let pelamarListData = [
     kontributor: 'SMA Mardisiswa Semarang',
     kategoriKontributor: 'eksternal',
     program: 'Magang Berdampak di Sekolah',
-    status: 'wawancara',
+    status: 'berkas',
     jadwalWawancara: '25 Okt, 08:30 WIB',
     lokasiWawancara: 'Online (Google Meet)',
     nilaiWawancara: 84,
-    catatanWawancara: 'Kemampuan komunikasi dan modul pembelajaran Scratch/Python sangat aplikatif bagi siswa sekolah menengah.',
+    catatanWawancara:
+      'Kemampuan komunikasi dan modul pembelajaran Scratch/Python sangat aplikatif bagi siswa sekolah menengah.',
     ipk: '3.74',
     sksLulus: 110,
     semester: 'Semester 5',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pengembangan platform e-learning sekolah dan digitalisasi bahan ajar interaktif untuk guru dan siswa SMA Mardisiswa.',
+    deskripsi:
+      'Pengembangan platform e-learning sekolah dan digitalisasi bahan ajar interaktif untuk guru dan siswa SMA Mardisiswa.',
     matkulDiambil: [
       { kode: 'A11.54801', nama: 'Asistensi Mengajar di Sekolah', sks: 8 },
       { kode: 'A11.54802', nama: 'Pengembangan Media Belajar Digital', sks: 6 },
-      { kode: 'A11.54803', nama: 'Manajemen Sistem Sekolah', sks: 6 }
+      { kode: 'A11.54803', nama: 'Manajemen Sistem Sekolah', sks: 6 },
     ],
     minat: ['EdTech', 'Teaching Assistant'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'SMA Mardisiswa Semarang', program: 'Magang Berdampak di Sekolah' },
-      { prioritas: 2, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' }
+      { prioritas: 2, mitra: 'SMA N 1 Semarang', program: 'Magang Berdampak di Sekolah' },
     ],
-    tanggalPengajuan: 'Jumat, 16 Oktober 2026, 10:15'
+    tanggalPengajuan: 'Jumat, 16 Oktober 2026, 10:15',
   },
   // 19. Student Mobility ke UGM (eksternal, berkas)
   {
@@ -2183,22 +2303,23 @@ let pelamarListData = [
     sksLulus: 122,
     semester: 'Semester 7',
     semesterAjaran: 'Gasal 2026/2027',
-    deskripsi: 'Pertukaran mahasiswa nasional (Student Mobility) di Departemen Ilmu Komputer dan Elektronika FMIPA Universitas Gadjah Mada.',
+    deskripsi:
+      'Pertukaran mahasiswa nasional (Student Mobility) di Departemen Ilmu Komputer dan Elektronika FMIPA Universitas Gadjah Mada.',
     matkulDiambil: [
       { kode: 'UGM-MII.4101', nama: 'Advanced Artificial Intelligence', sks: 8 },
       { kode: 'UGM-MII.4102', nama: 'Cryptography & Data Privacy', sks: 6 },
-      { kode: 'UGM-MII.4103', nama: 'Quantum Computing Fundamentals', sks: 6 }
+      { kode: 'UGM-MII.4103', nama: 'Quantum Computing Fundamentals', sks: 6 },
     ],
     minat: ['Theoretical Computer Science', 'Quantum & AI'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
     pilihanProgram: [
       { prioritas: 1, mitra: 'Student Mobility ke UGM', program: 'Student Mobility ke UGM' },
-      { prioritas: 2, mitra: 'Industrial Visit ke Luar Negri', program: 'Industrial Visit ke Luar Negri' }
+      { prioritas: 2, mitra: 'Industrial Visit ke Luar Negri', program: 'Industrial Visit ke Luar Negri' },
     ],
-    tanggalPengajuan: 'Sabtu, 17 Oktober 2026, 14:00'
+    tanggalPengajuan: 'Sabtu, 17 Oktober 2026, 14:00',
   },
   // 20. Dicoding Asah (eksternal, ditolak)
   {
@@ -2220,19 +2341,17 @@ let pelamarListData = [
     semesterAjaran: 'Gasal 2026/2027',
     deskripsi: 'Studi independen machine learning dan data science untuk otomatisasi klasifikasi data.',
     matkulDiambil: [
-      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan MBKM', sks: 8 },
+      { kode: 'A11.54801', nama: 'Praktik Kerja Lapangan Kampus Berdampak', sks: 8 },
       { kode: 'A11.54802', nama: 'Dasar Data Science', sks: 6 },
-      { kode: 'A11.54803', nama: 'Machine Learning Pemula', sks: 6 }
+      { kode: 'A11.54803', nama: 'Machine Learning Pemula', sks: 6 },
     ],
     minat: ['Machine Learning', 'Data Science'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
-    pilihanProgram: [
-      { prioritas: 1, mitra: 'Dicoding Asah', program: 'Studi Independen' }
-    ],
-    tanggalPengajuan: 'Senin, 19 Oktober 2026, 16:30'
+    pilihanProgram: [{ prioritas: 1, mitra: 'Dicoding Asah', program: 'Studi Independen' }],
+    tanggalPengajuan: 'Senin, 19 Oktober 2026, 16:30',
   },
   // 21. PT. Lumintu Sejahtera Mandiri (eksternal, dibatalkan)
   {
@@ -2256,18 +2375,16 @@ let pelamarListData = [
     matkulDiambil: [
       { kode: 'A12.54801', nama: 'Magang Industri Sistem Informasi', sks: 8 },
       { kode: 'A12.54802', nama: 'Pemrograman Web Lanjut', sks: 6 },
-      { kode: 'A12.54803', nama: 'Desain Antarmuka Pengguna', sks: 6 }
+      { kode: 'A12.54803', nama: 'Desain Antarmuka Pengguna', sks: 6 },
     ],
     minat: ['Front-End', 'UI Design'],
     links: [
       { label: 'CV', url: 'https://drive.google.com/file/d/cv/view', wajib: true },
-      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true }
+      { label: 'Portfolio', url: 'https://drive.google.com/file/d/portfolio/view', wajib: true },
     ],
-    pilihanProgram: [
-      { prioritas: 1, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }
-    ],
-    tanggalPengajuan: 'Selasa, 20 Oktober 2026, 11:00'
-  }
+    pilihanProgram: [{ prioritas: 1, mitra: 'PT. Lumintu Sejahtera Mandiri', program: 'Magang Kuliah Kerja Industri' }],
+    tanggalPengajuan: 'Selasa, 20 Oktober 2026, 11:00',
+  },
 ];
 
 // 6. MODUL SEMUA MAHASISWA (DIREKTORI PESERTA AKTIF)
@@ -2284,7 +2401,7 @@ let semuaMhsListData = [
     dpl: 'Nurul Anisa S.W., M.Cs',
     logbookFilled: 12,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 2,
@@ -2298,7 +2415,7 @@ let semuaMhsListData = [
     dpl: 'Nurul Anisa S.W., M.Cs',
     logbookFilled: 14,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 3,
@@ -2312,7 +2429,7 @@ let semuaMhsListData = [
     dpl: 'Dr. Muljono, S.Si, M.Kom',
     logbookFilled: 10,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 4,
@@ -2326,7 +2443,7 @@ let semuaMhsListData = [
     dpl: 'Ahmad Zainul, M.Kom',
     logbookFilled: 13,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 5,
@@ -2340,7 +2457,7 @@ let semuaMhsListData = [
     dpl: 'Dr. Ricardus Anggi, M.Kom',
     logbookFilled: 12,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 6,
@@ -2354,7 +2471,7 @@ let semuaMhsListData = [
     dpl: 'Dr. Muljono, S.Si, M.Kom',
     logbookFilled: 11,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 7,
@@ -2368,7 +2485,7 @@ let semuaMhsListData = [
     dpl: 'Nurul Anisa S.W., M.Cs',
     logbookFilled: 14,
     logbookTotal: 16,
-    status: 'Aktif'
+    status: 'Aktif',
   },
   {
     id: 8,
@@ -2382,7 +2499,6 @@ let semuaMhsListData = [
     dpl: 'Dr. Ricardus Anggi, M.Kom',
     logbookFilled: 12,
     logbookTotal: 16,
-    status: 'Aktif'
-  }
+    status: 'Aktif',
+  },
 ];
-

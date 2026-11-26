@@ -190,7 +190,7 @@ function renderCustomFieldsContainer() {
       <div class="p-6 text-center rounded-lg border border-dashed border-[#e4e4e7] bg-[#fafafa]">
         <i data-lucide="help-circle" class="w-8 h-8 mx-auto text-[#71717a] mb-2 opacity-50"></i>
         <p class="text-xs font-medium text-[#09090b]">Belum ada pertanyaan atau field kustom</p>
-        <p class="text-[11px] text-[#71717a] mt-0.5">Klik tombol di kanan atas untuk menambahkan pertanyaan kustom bagi calon peserta MBKM.</p>
+        <p class="text-[11px] text-[#71717a] mt-0.5">Klik tombol di kanan atas untuk menambahkan pertanyaan kustom bagi calon peserta Kampus Berdampak.</p>
       </div>
     `;
     if (window.lucide) window.lucide.createIcons();
@@ -304,7 +304,7 @@ function insertSurekomTag(tag) {
 
 function resetSurekomTemplate() {
   const defaultTpl =
-    'Dengan ini Koordinator MBKM Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program MBKM pada instansi {nama_kontributor} untuk periode {semester_ajaran}.';
+    'Dengan ini Koordinator Kampus Berdampak Fakultas Ilmu Komputer Universitas Dian Nuswantoro menerangkan bahwa mahasiswa yang bersangkutan:\n\nNama: {nama_mahasiswa}\nNIM: {nim}\nProgram Studi: {program_studi}\nIPK: {ipk} ({sks_lulus} SKS)\n\nTelah memenuhi seluruh persyaratan akademik dan dinyatakan LAYAK serta DIREKOMENDASIKAN untuk mengikuti seleksi program Kampus Berdampak pada instansi {nama_kontributor} untuk periode {semester_ajaran}.';
   const el = document.getElementById('cfg-surekom-template');
   if (el) el.value = defaultTpl;
   triggerAutosave('surekomTemplate', defaultTpl);

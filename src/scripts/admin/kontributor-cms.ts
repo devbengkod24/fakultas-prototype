@@ -41,9 +41,9 @@ function populateKontributorCmsPage(kontributorId) {
       lokasi: kontributor.alamat || 'Hybrid (Daring & Luring)',
       periode: 'Semester Gasal 2026/2027',
       mou: kontributor.mou || '042/MoU/FIK-UDINUS/2026',
-      badge: kontributor.tipe === 'internal' ? 'Kontributor Internal Kampus' : 'Kontributor Nasional MBKM',
+      badge: kontributor.tipe === 'internal' ? 'Kontributor Internal Kampus' : 'Kontributor Nasional KB',
       deadline: '25 Oktober 2026 • 23:59 WIB',
-      deskripsiHero: kontributor.deskripsi || `Kerja Sama strategis MBKM antara FIK UDINUS dan ${kontributor.nama} dalam memberikan pengalaman kerja profesional industri terakreditasi konversi 20 SKS.`,
+      deskripsiHero: kontributor.deskripsi || `Kerja Sama strategis Kampus Berdampak antara FIK UDINUS dan ${kontributor.nama} dalam memberikan pengalaman kerja profesional industri terakreditasi konversi 20 SKS.`,
       poin1: 'Mentoring Mentor Industri Profesional',
       poin2: 'Pengalaman Proyek Nyata Skala Enterprise',
       poin3: 'Konversi Akademik Terjamin hingga 20 SKS',
@@ -72,19 +72,25 @@ function populateKontributorCmsPage(kontributorId) {
   }
 
   // Populate Form Fields
-  document.getElementById('cms-input-kontributor').value = data.kontributor || '';
-  document.getElementById('cms-input-klaster').value = data.sektor || '';
-  document.getElementById('cms-input-moda').value = data.lokasi || '';
-  document.getElementById('cms-input-periode').value = data.periode || 'Semester Gasal 2026/2027';
-  document.getElementById('cms-input-sks').value = data.mou || '';
-  document.getElementById('cms-input-badge').value = data.badge || '';
-  document.getElementById('cms-input-deadline').value = data.deadline || '';
-  document.getElementById('cms-input-deskripsi-hero').value = data.deskripsiHero || '';
-  document.getElementById('cms-input-poin-1').value = data.poin1 || '';
-  document.getElementById('cms-input-poin-2').value = data.poin2 || '';
-  document.getElementById('cms-input-poin-3').value = data.poin3 || '';
-  document.getElementById('cms-input-koor-nama').value = data.koorNama || '';
-  document.getElementById('cms-input-koor-jabatan').value = data.koorJabatan || '';
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  };
+  setVal('cms-input-kontributor', data.kontributor || '');
+  setVal('info-nama-kontributor', data.kontributor || kontributor.nama || '');
+  setVal('cms-input-klaster', data.sektor || '');
+  setVal('cms-input-moda', data.lokasi || '');
+  setVal('info-lokasi', data.lokasi || 'Hybrid (Daring & Lab FIK UDINUS)');
+  setVal('cms-input-periode', data.periode || 'Semester Gasal 2026/2027');
+  setVal('cms-input-sks', data.mou || '');
+  setVal('cms-input-badge', data.badge || '');
+  setVal('cms-input-deadline', data.deadline || '');
+  setVal('cms-input-deskripsi-hero', data.deskripsiHero || '');
+  setVal('cms-input-poin-1', data.poin1 || '');
+  setVal('cms-input-poin-2', data.poin2 || '');
+  setVal('cms-input-poin-3', data.poin3 || '');
+  setVal('cms-input-koor-nama', data.koorNama || '');
+  setVal('cms-input-koor-jabatan', data.koorJabatan || '');
   const fotoImg = document.getElementById('cms-koor-foto-preview');
   if (fotoImg && data.koorFoto) fotoImg.src = data.koorFoto;
 
@@ -233,9 +239,18 @@ function renderShowcaseGrid() {
       </div>
     `;
 
+    const fotoHtml = item.foto
+      ? `
+        <div class="h-36 w-full rounded-lg overflow-hidden border border-[#e4e4e7] bg-[#f4f4f5] mb-3">
+          <img src="${item.foto}" alt="${item.judul}" class="w-full h-full object-cover" />
+        </div>
+      `
+      : '';
+
     return `
       <div class="rounded-xl border border-[#e4e4e7] bg-white p-5 flex flex-col justify-between hover:border-[#d4d4d8] transition-colors shadow-none">
         <div class="space-y-2">
+          ${fotoHtml}
           <div class="flex items-start justify-between gap-2">
             <div class="space-y-1">
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-blue-200 bg-blue-50 text-[11px] font-semibold text-[#0655a7]">
@@ -259,11 +274,78 @@ function renderShowcaseGrid() {
   if (window.lucide) window.lucide.createIcons();
 }
 
+function setShowcaseFotoPreview(dataUrl, fileName) {
+  const preview = document.getElementById('modal-showcase-foto-preview');
+  const empty = document.getElementById('modal-showcase-foto-empty');
+  const statusEl = document.getElementById('modal-showcase-foto-status');
+  const clearBtn = document.getElementById('modal-showcase-foto-clear');
+  const hiddenInput = document.getElementById('modal-showcase-foto-data');
+
+  if (hiddenInput) hiddenInput.value = dataUrl || '';
+
+  if (dataUrl) {
+    if (preview) {
+      preview.src = dataUrl;
+      preview.classList.remove('hidden');
+    }
+    if (empty) empty.classList.add('hidden');
+    if (statusEl) statusEl.textContent = fileName || 'Foto proyek terpilih';
+    if (clearBtn) clearBtn.classList.remove('hidden');
+  } else {
+    if (preview) {
+      preview.src = '';
+      preview.classList.add('hidden');
+    }
+    if (empty) empty.classList.remove('hidden');
+    if (statusEl) statusEl.textContent = 'Belum ada gambar';
+    if (clearBtn) clearBtn.classList.add('hidden');
+  }
+}
+
+function processShowcaseFotoFile(file) {
+  if (!file) return;
+  const allowed = ['image/png', 'image/jpeg', 'image/webp'];
+  if (!allowed.includes(file.type)) {
+    window.showAdminToast?.('Format file harus PNG, JPG, atau WebP.', 'error');
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    window.showAdminToast?.('Ukuran foto proyek maksimal 2 MB.', 'error');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    setShowcaseFotoPreview(typeof reader.result === 'string' ? reader.result : '', file.name);
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleShowcaseFotoChange(event) {
+  const input = event?.target;
+  const file = input?.files?.[0];
+  if (file) processShowcaseFotoFile(file);
+}
+
+function handleShowcaseFotoDrop(event) {
+  event.preventDefault();
+  const dz = document.getElementById('modal-showcase-foto-dropzone');
+  if (dz) dz.classList.remove('border-[#0655a7]', 'bg-blue-50/40');
+  const file = event?.dataTransfer?.files?.[0];
+  if (file) processShowcaseFotoFile(file);
+}
+
+function clearShowcaseFoto() {
+  const input = document.getElementById('modal-showcase-foto-input');
+  if (input) input.value = '';
+  setShowcaseFotoPreview('', '');
+}
+
 function openShowcaseModal(editIdx) {
   const modal = document.getElementById('modal-showcase-proyek');
   if (!modal) return;
 
   const titleEl = document.getElementById('modal-showcase-title');
+  const idBadge = document.getElementById('modal-showcase-id-badge');
   const idxInput = document.getElementById('modal-showcase-idx');
   const idInput = document.getElementById('modal-showcase-id');
   const batchInput = document.getElementById('modal-showcase-batch');
@@ -271,6 +353,8 @@ function openShowcaseModal(editIdx) {
   const kategoriInput = document.getElementById('modal-showcase-kategori');
   const descInput = document.getElementById('modal-showcase-deskripsi');
   const techInput = document.getElementById('modal-showcase-tech');
+  const fileInput = document.getElementById('modal-showcase-foto-input');
+  if (fileInput) fileInput.value = '';
 
   const data = kontributorCmsDataMap[activeCmsKontributorId];
   const list = data && data.showcases ? data.showcases : [];
@@ -280,20 +364,25 @@ function openShowcaseModal(editIdx) {
     if (titleEl) titleEl.textContent = 'Edit Proyek Showcase';
     if (idxInput) idxInput.value = editIdx;
     if (idInput) idInput.value = item.id;
+    if (idBadge) idBadge.textContent = item.id;
     if (batchInput) batchInput.value = item.batch;
     if (judulInput) judulInput.value = item.judul;
     if (kategoriInput) kategoriInput.value = item.kategori;
     if (descInput) descInput.value = item.deskripsi;
     if (techInput) techInput.value = (item.tech || []).join(', ');
+    setShowcaseFotoPreview(item.foto || '', item.foto ? 'Foto proyek tersimpan' : '');
   } else {
+    const autoId = `PRJ-2026-${String(list.length + 1).padStart(2, '0')}`;
     if (titleEl) titleEl.textContent = 'Tambah Proyek Showcase';
     if (idxInput) idxInput.value = '';
-    if (idInput) idInput.value = `PRJ-2026-0${list.length + 1}`;
+    if (idInput) idInput.value = autoId;
+    if (idBadge) idBadge.textContent = autoId;
     if (batchInput) batchInput.value = 'Capstone Project Batch 6';
     if (judulInput) judulInput.value = '';
     if (kategoriInput) kategoriInput.value = '';
     if (descInput) descInput.value = '';
     if (techInput) techInput.value = 'Python, TensorFlow, React.js';
+    setShowcaseFotoPreview('', '');
   }
 
   modal.classList.remove('hidden');
@@ -318,6 +407,7 @@ function handleSaveShowcase(e) {
   const kategori = document.getElementById('modal-showcase-kategori').value.trim();
   const deskripsi = document.getElementById('modal-showcase-deskripsi').value.trim();
   const techStr = document.getElementById('modal-showcase-tech').value.trim();
+  const foto = document.getElementById('modal-showcase-foto-data')?.value || '';
   const tech = techStr.split(',').map(s => s.trim()).filter(Boolean);
 
   const newItem = {
@@ -326,15 +416,24 @@ function handleSaveShowcase(e) {
     judul,
     kategori,
     deskripsi,
+    foto,
     tech
   };
 
   if (idxVal !== '' && data.showcases[Number(idxVal)]) {
     data.showcases[Number(idxVal)] = newItem;
-    alert('Proyek showcase berhasil diperbarui!');
+    if (typeof window.showAdminToast === 'function') {
+      window.showAdminToast('Proyek showcase berhasil diperbarui!', 'success');
+    } else {
+      alert('Proyek showcase berhasil diperbarui!');
+    }
   } else {
     data.showcases.unshift(newItem);
-    alert('Proyek showcase baru berhasil ditambahkan!');
+    if (typeof window.showAdminToast === 'function') {
+      window.showAdminToast('Proyek showcase baru berhasil ditambahkan!', 'success');
+    } else {
+      alert('Proyek showcase baru berhasil ditambahkan!');
+    }
   }
 
   closeShowcaseModal();
@@ -355,21 +454,35 @@ function handleSaveCmsHero() {
   const data = kontributorCmsDataMap[activeCmsKontributorId];
   if (!data) return;
 
-  data.kontributor = document.getElementById('cms-input-kontributor').value.trim();
-  data.sektor = document.getElementById('cms-input-klaster').value.trim();
-  data.lokasi = document.getElementById('cms-input-moda').value.trim();
-  data.periode = document.getElementById('cms-input-periode').value;
-  data.mou = document.getElementById('cms-input-sks').value.trim();
-  data.badge = document.getElementById('cms-input-badge').value.trim();
-  data.deadline = document.getElementById('cms-input-deadline').value.trim();
-  data.deskripsiHero = document.getElementById('cms-input-deskripsi-hero').value.trim();
-  data.poin1 = document.getElementById('cms-input-poin-1').value.trim();
-  data.poin2 = document.getElementById('cms-input-poin-2').value.trim();
-  data.poin3 = document.getElementById('cms-input-poin-3').value.trim();
-  data.koorNama = document.getElementById('cms-input-koor-nama').value.trim();
-  data.koorJabatan = document.getElementById('cms-input-koor-jabatan').value.trim();
+  const getVal = (id, fallback = '') => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : fallback;
+  };
 
-  alert('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!');
+  data.kontributor = getVal('info-nama-kontributor', getVal('cms-input-kontributor', data.kontributor));
+  data.sektor = getVal('cms-input-klaster', data.sektor);
+  data.lokasi = getVal('info-lokasi', getVal('cms-input-moda', data.lokasi));
+  data.periode = getVal('cms-input-periode', data.periode);
+  data.mou = getVal('cms-input-sks', data.mou);
+  data.badge = getVal('cms-input-badge', data.badge);
+  data.deadline = getVal('cms-input-deadline', data.deadline);
+  data.deskripsiHero = getVal('cms-input-deskripsi-hero', data.deskripsiHero);
+  data.poin1 = getVal('cms-input-poin-1', data.poin1);
+  data.poin2 = getVal('cms-input-poin-2', data.poin2);
+  data.poin3 = getVal('cms-input-poin-3', data.poin3);
+  data.koorNama = getVal('cms-input-koor-nama', data.koorNama);
+  data.koorJabatan = getVal('cms-input-koor-jabatan', data.koorJabatan);
+
+  const partnerNameEl = document.getElementById('cms-partner-name');
+  if (partnerNameEl && data.kontributor) {
+    partnerNameEl.textContent = data.kontributor;
+  }
+
+  if (typeof window.showAdminToast === 'function') {
+    window.showAdminToast('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!', 'success');
+  } else {
+    alert('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!');
+  }
   finishKontributorSetup();
 }
 
@@ -404,6 +517,9 @@ if (typeof window !== "undefined") {
   (window as any).closeShowcaseModal = closeShowcaseModal;
   (window as any).handleSaveShowcase = handleSaveShowcase;
   (window as any).handleDeleteShowcase = handleDeleteShowcase;
+  (window as any).handleShowcaseFotoChange = handleShowcaseFotoChange;
+  (window as any).handleShowcaseFotoDrop = handleShowcaseFotoDrop;
+  (window as any).clearShowcaseFoto = clearShowcaseFoto;
   (window as any).handleSaveCmsHero = handleSaveCmsHero;
   (window as any).handleCmsPhotoUpload = handleCmsPhotoUpload;
   try {

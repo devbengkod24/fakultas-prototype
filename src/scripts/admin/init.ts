@@ -11,7 +11,6 @@ function initApp() {
   renderDashboardKoordinatorWidget();
   renderProgramTable();
   renderKategoriTable();
-  renderSurekomTable();
   renderLogbookTable();
   renderLaporanTable();
   renderPengumumanCards();
@@ -32,7 +31,6 @@ function initApp() {
     const slug = window.location.pathname.replace(/\/$/, '').split('/').pop();
     const slugMap = {
       'pelamar': 'mhs-pelamar',
-      'surekom': 'mhs-rekomendasi',
       'semua-mahasiswa': 'mhs-semua',
       'koordinator': 'dosen-data',
       'laporan': 'laporan',

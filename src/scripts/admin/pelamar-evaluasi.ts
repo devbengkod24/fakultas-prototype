@@ -152,7 +152,7 @@ function tolakBerkasPelamar() {
 
   if (confirm(`Tolak berkas pengajuan pendaftar ${item.nama}?\n\nPendaftar akan otomatis dipindahkan ke tab "Dibatalkan".`)) {
     item.status = 'dibatalkan';
-    item.alasanBatal = 'Berkas persyaratan administrasi ditolak oleh Koordinator MBKM.';
+    item.alasanBatal = 'Berkas persyaratan administrasi ditolak oleh Koordinator Kampus Berdampak.';
     alert(`Berkas mahasiswa ${item.nama} DITOLAK.\nStatus kandidat kini berpindah ke tab "Dibatalkan".`);
     closePelamarDetailModal();
     renderPelamarTable();
@@ -199,9 +199,17 @@ function closeModalJadwalWawancaraPelamar() {
 
 function setujuiBerkasPelamar() {
   if (!activeModalPelamarId || activeDrawerMode === 'readonly-detail') return;
-  const targetId = activeModalPelamarId;
+  const item = pelamarListData.find((p) => p.id === activeModalPelamarId);
+  if (!item) return;
+
+  item.status = 'diterima';
   closePelamarDetailModal();
-  bukaModalJadwalWawancaraPelamar(targetId);
+  renderPelamarTable();
+  if (typeof window.showAdminToast === 'function') {
+    window.showAdminToast(`Berkas ${item.nama} disetujui. Status pelamar kini Diterima.`, 'success');
+  } else {
+    alert(`Berkas ${item.nama} disetujui. Status pelamar kini Diterima.`);
+  }
 }
 
 function handleMetodeWawancaraChange(metode) {
