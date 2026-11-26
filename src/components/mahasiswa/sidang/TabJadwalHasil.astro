@@ -10,15 +10,30 @@ interface Props {
 const { data } = Astro.props;
 ---
 
-<div class={cn("space-y-4")}>
-  <!-- Card 1: Jadwal Sidang & Dewan Penguji -->
+<div
+  class={cn("space-y-4")}
+  x-data={`{
+    linkRoom: ${JSON.stringify(data.jadwal.linkMeet || "")},
+    linkTersimpan: ${JSON.stringify(data.jadwal.linkMeet || "")},
+    get linkValid() {
+      if (!this.linkRoom) return false;
+      try { const u = new URL(this.linkRoom); return u.protocol === 'http:' || u.protocol === 'https:'; }
+      catch { return false; }
+    },
+    get adaPerubahan() { return this.linkRoom !== this.linkTersimpan; },
+    simpanLink() {
+      if (!this.linkValid) return;
+      this.linkTersimpan = this.linkRoom;
+      this.$nextTick(() => window.lucide && window.lucide.createIcons());
+    }
+  }`}
+>
+  <!-- Card 1: Jadwal Sidang, Link Room, & Tim Penguji -->
   <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 space-y-4">
     <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
-      <div class="flex items-center gap-3">
-        <div>
-          <h2 class="text-base font-semibold text-[#09090b]">Jadwal Pelaksanaan Sidang</h2>
-          <p class="text-xs text-[#71717a] leading-relaxed">Waktu dan platform pelaksanaan evaluasi akhir program MBKM secara daring</p>
-        </div>
+      <div>
+        <h2 class="text-base font-semibold text-[#09090b]">Jadwal Pelaksanaan Sidang</h2>
+        <p class="text-xs text-[#71717a] leading-relaxed">Waktu dan lokasi evaluasi akhir program MBKM</p>
       </div>
       <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
         Terkonfirmasi
@@ -26,41 +41,95 @@ const { data } = Astro.props;
     </div>
 
     <!-- Grid Rincian Jadwal -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
       <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
-        <span class="text-xs text-[#71717a] block">Hari & Tanggal</span>
+        <span class="text-xs text-[#71717a] block">Hari &amp; Tanggal</span>
         <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.tanggal}</span>
       </div>
       <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
         <span class="text-xs text-[#71717a] block">Waktu Pelaksanaan</span>
         <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.waktu}</span>
       </div>
-      <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
-        <span class="text-xs text-[#71717a] block">Platform Online</span>
-        <a href={data.jadwal.linkMeet} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-[#0655a7] hover:underline inline-flex items-center gap-1">
-          <i data-lucide="video" class="w-3.5 h-3.5"></i>
-          <span>Buka Link Meet</span>
-        </a>
-      </div>
     </div>
 
-    <!-- Tim Penguji -->
+    <!-- Link Room Meeting: dibuat & diisi sendiri oleh mahasiswa -->
+    <div class="p-4 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-2.5">
+      <div class="flex items-center gap-2">
+        <i data-lucide="video" class="w-3.5 h-3.5 text-[#0655a7]"></i>
+        <span class="text-xs font-semibold text-[#09090b]">Link Room Meeting</span>
+      </div>
+      <p class="text-[11px] text-[#71717a] leading-relaxed">
+        Buat room meeting sendiri (misalnya Google Meet), lalu tempelkan tautannya di sini agar dapat dibuka saat sidang berlangsung.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-2">
+        <div class="flex-1 min-w-0">
+          <input
+            id="link-room-meeting"
+            name="linkRoomMeeting"
+            type="url"
+            inputmode="url"
+            autocomplete="off"
+            placeholder="https://meet.google.com/xxx-xxxx-xxx"
+            x-model.trim="linkRoom"
+            @keydown.enter.prevent="simpanLink()"
+            class="w-full h-9 px-3 rounded-md border bg-white text-xs font-medium text-[#09090b] placeholder:font-normal placeholder:text-[#a1a1aa] focus:outline-none focus:ring-1"
+            :class="!linkRoom || linkValid ? 'border-[#e4e4e7] focus:ring-[#0655a7]' : 'border-rose-300 focus:ring-rose-400'"
+          />
+          <p x-show="linkRoom && !linkValid" x-cloak class="mt-1 text-[11px] text-rose-600">
+            Format tautan tidak valid. Gunakan tautan lengkap yang diawali http:// atau https://.
+          </p>
+        </div>
+        <button
+          type="button"
+          @click="simpanLink()"
+          :disabled="!linkValid || !adaPerubahan"
+          class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+        >
+          <i data-lucide="save" class="w-3.5 h-3.5"></i>
+          <span x-text="adaPerubahan ? 'Simpan Link' : 'Tersimpan'"></span>
+        </button>
+      </div>
+
+      <!-- Link yang sudah diinput ditampilkan jelas dan bisa dibuka -->
+      <template x-if="linkTersimpan">
+        <div class="flex items-center gap-2 rounded-md border border-[#e4e4e7] bg-white px-3 py-2">
+          <i data-lucide="link-2" class="w-3.5 h-3.5 text-[#0655a7] shrink-0"></i>
+          <a
+            :href="linkTersimpan"
+            target="_blank"
+            rel="noopener"
+            class="flex-1 min-w-0 truncate text-xs font-medium text-[#0655a7] hover:underline"
+            x-text="linkTersimpan"
+          ></a>
+          <a
+            :href="linkTersimpan"
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-1 h-7 px-2.5 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors shrink-0"
+          >
+            <i data-lucide="external-link" class="w-3 h-3 text-[#71717a]"></i>
+            <span>Buka</span>
+          </a>
+        </div>
+      </template>
+      <p x-show="!linkTersimpan" x-cloak class="text-[11px] text-[#71717a]">
+        Belum ada link room meeting yang disimpan.
+      </p>
+    </div>
+
+    <!-- Tim Penguji & Penilai Sidang -->
     <div class="pt-2 space-y-3">
-      <h3 class="text-xs font-semibold text-[#71717a] uppercase tracking-wider">Tim Penguji & Penilai Sidang</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <h3 class="text-xs font-semibold text-[#71717a] uppercase tracking-wider">Tim Penguji &amp; Penilai Sidang</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {data.penguji.map((item) => (
-          <div class="p-3.5 border border-[#e4e4e7] rounded-lg bg-white space-y-2">
-            <div class="flex items-center justify-between">
-              <div class="w-7 h-7 rounded-md bg-[#fafafa] border border-[#e4e4e7] text-[#0655a7] flex items-center justify-center font-bold text-xs shrink-0">
-                {item.inisial}
-              </div>
-              <span class="bg-[#f4f4f5] border border-[#e4e4e7] text-[#09090b] text-xs px-2 py-0.5 rounded-md font-semibold">
-                Bobot {item.bobot}
-              </span>
+          <div class="flex items-start gap-3 p-4 border border-[#e4e4e7] rounded-lg bg-white">
+            <div class="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 text-[#0655a7] flex items-center justify-center font-bold text-xs shrink-0">
+              {item.inisial}
             </div>
-            <div>
-              <div class="font-semibold text-[#09090b] text-xs leading-tight">{item.nama}</div>
-              <div class="text-xs text-[#71717a] mt-0.5">{item.peran}</div>
+            <div class="min-w-0 space-y-0.5">
+              <div class="text-sm font-semibold text-[#09090b] leading-snug">{item.nama}</div>
+              <div class="text-xs text-[#71717a] leading-relaxed">{item.peran}</div>
             </div>
           </div>
         ))}
@@ -80,60 +149,42 @@ const { data } = Astro.props;
     </div>
   </div>
 
-  <!-- Card 2: Hasil Evaluasi & Rekap Nilai -->
+  <!-- Card 2: Rekap Nilai -->
   <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 space-y-4">
     <div class="flex items-center justify-between pb-3 border-b border-[#e4e4e7] flex-wrap gap-2">
-      <div class="flex items-center gap-3">
-        <div>
-          <h2 class="text-base font-semibold text-[#09090b]">Hasil Evaluasi & Rekapitulasi Nilai</h2>
-          <p class="text-xs text-[#71717a] leading-relaxed">Nilai komposit akhir dari Dosen Pembimbing, Mitra, dan Penguji</p>
-        </div>
+      <div>
+        <h2 class="text-base font-semibold text-[#09090b]">Rekapitulasi Nilai</h2>
+        <p class="text-xs text-[#71717a] leading-relaxed">Nilai komposit akhir dari Dosen Pembimbing dan Penguji</p>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
-          {data.hasil.status}
-        </span>
-      </div>
-    </div>
-
-    <!-- Ringkasan Angka Nilai -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="p-4 bg-[#fafafa] border border-[#e4e4e7] rounded-lg">
-        <span class="text-xs text-[#71717a] block">Nilai Akhir Komposit</span>
-        <div class="text-2xl font-bold text-[#0655a7] mt-1">{data.hasil.nilaiAkhir}</div>
-        <span class="text-xs text-[#71717a] mt-0.5 block">Skala 100</span>
-      </div>
-      <div class="p-4 bg-[#fafafa] border border-[#e4e4e7] rounded-lg">
-        <span class="text-xs text-[#71717a] block">Nilai Mutu Huruf</span>
-        <div class="text-2xl font-bold text-emerald-700 mt-1">{data.hasil.nilaiMutu}</div>
-        <span class="text-xs text-[#71717a] mt-0.5 block">Predikat Istimewa</span>
-      </div>
+      <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
+        {data.hasil.status}
+      </span>
     </div>
 
     <!-- Tabel Rincian Nilai Komponen -->
     <div class="rounded-lg border border-[#e4e4e7] overflow-hidden bg-white">
-      <table class="w-full text-left border-collapse">
-        <thead>
-          <tr class="bg-[#fafafa] border-b border-[#e4e4e7] text-xs font-semibold text-[#71717a] h-11">
-            <th class="w-12 text-center">No.</th>
-            <th class="px-4">Komponen Penilaian</th>
-            <th class="px-4">Penilai</th>
-            <th class="px-4">Bobot</th>
-            <th class="px-4 text-right">Nilai</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-[#e4e4e7] text-sm">
-          {data.hasil.komponen.map((komp, idx) => (
-            <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
-              <td class="w-12 text-center text-xs font-medium text-[#71717a]">{idx + 1}</td>
-              <td class="px-4 py-3 text-xs font-medium text-[#09090b]">{komp.nama}</td>
-              <td class="px-4 py-3 text-xs text-[#71717a]">{komp.penilai}</td>
-              <td class="px-4 py-3 text-xs text-[#71717a]">{komp.bobot}</td>
-              <td class="px-4 py-3 text-xs font-semibold text-[#09090b] text-right">{komp.nilai}</td>
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[560px] text-left border-collapse">
+          <thead>
+            <tr class="bg-[#fafafa] border-b border-[#e4e4e7] text-xs font-semibold text-[#71717a] uppercase tracking-wider">
+              <th class="w-14 h-11 px-3 text-center font-semibold">No.</th>
+              <th class="h-11 px-4 text-left font-semibold">Komponen Penilaian</th>
+              <th class="h-11 px-4 text-left font-semibold">Penilai</th>
+              <th class="w-28 h-11 px-4 text-right font-semibold">Nilai</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody class="divide-y divide-[#e4e4e7]">
+            {data.hasil.komponen.map((komp, idx) => (
+              <tr class="hover:bg-[#f4f4f5]/60 transition-colors">
+                <td class="w-14 px-3 py-3.5 text-center align-middle text-xs font-medium text-[#71717a]">{idx + 1}</td>
+                <td class="px-4 py-3.5 align-middle text-xs font-semibold text-[#09090b]">{komp.nama}</td>
+                <td class="px-4 py-3.5 align-middle text-xs text-[#71717a]">{komp.penilai}</td>
+                <td class="w-28 px-4 py-3.5 align-middle text-right text-xs font-semibold text-[#09090b] tabular-nums">{komp.nilai}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Catatan & Tombol Cetak -->

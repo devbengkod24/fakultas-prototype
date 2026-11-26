@@ -1,7 +1,8 @@
 // src/scripts/mahasiswa/logbook-kegiatan-pdf.ts
 // Membuat laporan PDF Logbook Kegiatan (untuk diserahkan ke Dosen Pembimbing).
 // jsPDF + AutoTable dimuat dari CDN saat tombol "Unduh PDF" ditekan, sehingga halaman tetap ringan.
-import { profilLaporan, type KegiatanLog } from "../../data/mahasiswa/logbookKegiatanData";
+// Laporan memuat kolom minggu dan TIDAK memuat blok tanda tangan apa pun.
+import { profilLaporan, hitungMinggu, type KegiatanLog } from "../../data/mahasiswa/logbookKegiatanData";
 
 const JSPDF_SRC = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 const AUTOTABLE_SRC = "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js";
@@ -19,7 +20,6 @@ interface PdfDoc {
   line(x1: number, y1: number, x2: number, y2: number): void;
   text(text: string | string[], x: number, y: number, opts?: { align?: "left" | "right" | "center" }): void;
   splitTextToSize(text: string, width: number): string[];
-  getTextWidth(text: string): number;
   getNumberOfPages(): number;
   setPage(n: number): void;
   addPage(): void;
@@ -38,10 +38,6 @@ const HAL_W = 210;
 const HAL_H = 297;
 const MARGIN = 18;
 const ISI_W = HAL_W - MARGIN * 2;
-const BATAS_BAWAH = HAL_H - 24;
-/** Blok tanda tangan boleh sampai mendekati garis footer. */
-const BATAS_TTD = HAL_H - 19;
-const TINGGI_TTD = 40;
 
 const tglPendek = (iso: string) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
@@ -87,33 +83,20 @@ function blokIdentitas(doc: PdfDoc, pasangan: Array<[string, string]>, yAwal: nu
   return yAwal + Math.ceil(pasangan.length / 2) * langkah;
 }
 
-function tandaTangan(doc: PdfDoc, p: Profil, tanggalCetak: string, yAwal: number): void {
-  const kananX = MARGIN + ISI_W - 62;
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(9.5);
-  doc.setTextColor(...TINTA);
-  doc.text(`${p.kota}, ${tanggalCetak}`, kananX, yAwal);
+/** Catatan penutup pengganti blok tanda tangan: menegaskan dokumen dihasilkan sistem. */
+function catatanPenutup(doc: PdfDoc, yAwal: number): void {
+  const teks =
+    "Laporan ini dihasilkan otomatis oleh sistem Logbook Kegiatan Kampus Berdampak (MBKM) dan tidak memerlukan tanda tangan.";
+  const baris = doc.splitTextToSize(teks, ISI_W - 12);
 
-  const yJudul = yAwal + 7;
-  doc.text("Mahasiswa,", MARGIN, yJudul);
-  doc.text(["Mengetahui,", "Dosen Pembimbing"], kananX, yJudul);
-
-  const yNama = yJudul + 26;
-  const garisNama = (nama: string, x: number) => {
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(9.5);
-    doc.text(nama, x, yNama);
-    doc.setDrawColor(...TINTA);
-    doc.setLineWidth(0.3);
-    doc.line(x, yNama + 1.2, x + doc.getTextWidth(nama), yNama + 1.2);
-  };
-  garisNama(p.nama, MARGIN);
-  garisNama(p.dospem, kananX);
+  doc.setDrawColor(...GARIS);
+  doc.setLineWidth(0.2);
+  doc.line(MARGIN, yAwal, MARGIN + ISI_W, yAwal);
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
   doc.setTextColor(...REDUP);
-  doc.text(`NIM ${p.nim}`, MARGIN, yNama + 5.5);
+  doc.text(baris, MARGIN + 6, yAwal + 7);
 }
 
 function footerSemuaHalaman(doc: PdfDoc, p: Profil): void {
@@ -133,11 +116,15 @@ function footerSemuaHalaman(doc: PdfDoc, p: Profil): void {
 
 /** Menyusun seluruh isi laporan pada dokumen jsPDF yang diberikan. */
 export function susunLaporan(doc: PdfDoc, entries: KegiatanLog[], p: Profil, tanggalCetak: string): void {
-  const urut = [...entries].sort((a, b) => a.tanggal.localeCompare(b.tanggal));
+  // Urut berdasarkan minggu lalu tanggal, agar kegiatan satu minggu berdekatan.
+  const urut = [...entries].sort(
+    (a, b) => hitungMinggu(a.tanggal) - hitungMinggu(b.tanggal) || a.tanggal.localeCompare(b.tanggal),
+  );
   const periode =
     urut.length > 1
       ? `${tglPendek(urut[0].tanggal)} - ${tglPendek(urut[urut.length - 1].tanggal)}`
       : tglPendek(urut[0].tanggal);
+  const jumlahMinggu = urut.length ? hitungMinggu(urut[urut.length - 1].tanggal) : 0;
 
   kopLaporan(doc, periode);
   const yIdentitas = blokIdentitas(
@@ -150,6 +137,7 @@ export function susunLaporan(doc: PdfDoc, entries: KegiatanLog[], p: Profil, tan
       ["Dosen Pembimbing", p.dospem],
       ["Periode Kegiatan", periode],
       ["Total Kegiatan", `${urut.length} kegiatan`],
+      ["Jumlah Minggu", `${jumlahMinggu} minggu`],
       ["Tanggal Cetak", tanggalCetak],
     ],
     48,
@@ -161,13 +149,20 @@ export function susunLaporan(doc: PdfDoc, entries: KegiatanLog[], p: Profil, tan
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(...TINTA);
-  doc.text("Rincian Kegiatan", MARGIN, yIdentitas + 6);
+  doc.text("Rincian Kegiatan per Minggu", MARGIN, yIdentitas + 6);
 
   doc.autoTable({
     startY: yIdentitas + 10,
     margin: { left: MARGIN, right: MARGIN, top: 20, bottom: 24 },
-    head: [["No", "Tanggal", "Kegiatan", "Uraian", "Dokumen"]],
-    body: urut.map((e, i) => [String(i + 1), `${tglPendek(e.tanggal)}\n${hari(e.tanggal)}`, e.judul, e.deskripsi, "Buka dokumen"]),
+    head: [["No", "Minggu", "Tanggal", "Kegiatan", "Uraian", "Dokumen"]],
+    body: urut.map((e, i) => [
+      String(i + 1),
+      `Minggu ${hitungMinggu(e.tanggal)}`,
+      `${tglPendek(e.tanggal)}\n${hari(e.tanggal)}`,
+      e.judul,
+      e.deskripsi,
+      "Buka dokumen",
+    ]),
     theme: "grid",
     styles: {
       font: "helvetica",
@@ -183,26 +178,23 @@ export function susunLaporan(doc: PdfDoc, entries: KegiatanLog[], p: Profil, tan
     alternateRowStyles: { fillColor: [250, 250, 250] },
     columnStyles: {
       0: { cellWidth: 10, halign: "center" },
-      1: { cellWidth: 26 },
-      2: { cellWidth: 42, fontStyle: "bold" },
-      4: { cellWidth: 28 },
+      1: { cellWidth: 17, halign: "center", fontStyle: "bold" },
+      2: { cellWidth: 25 },
+      3: { cellWidth: 38, fontStyle: "bold" },
+      5: { cellWidth: 26 },
     },
     didParseCell: (d: { section: string; column: { index: number }; cell: { styles: { textColor: Rgb } } }) => {
-      if (d.section === "body" && d.column.index === 4) d.cell.styles.textColor = BIRU;
+      if (d.section === "body" && d.column.index === 5) d.cell.styles.textColor = BIRU;
     },
     didDrawCell: (d: { section: string; column: { index: number }; row: { index: number }; cell: { x: number; y: number; width: number; height: number } }) => {
-      if (d.section === "body" && d.column.index === 4) {
+      if (d.section === "body" && d.column.index === 5) {
         doc.link(d.cell.x, d.cell.y, d.cell.width, d.cell.height, { url: urut[d.row.index].dokumenUrl });
       }
     },
   });
 
-  let y = doc.lastAutoTable.finalY + 12;
-  if (y + TINGGI_TTD > BATAS_TTD) {
-    doc.addPage();
-    y = 26;
-  }
-  tandaTangan(doc, p, tanggalCetak, y);
+  // Tanpa blok tanda tangan: cukup catatan penutup agar halaman terakhir tetap seimbang.
+  catatanPenutup(doc, doc.lastAutoTable.finalY + 12);
   footerSemuaHalaman(doc, p);
 }
 

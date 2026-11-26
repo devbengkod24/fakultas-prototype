@@ -22,6 +22,23 @@ export const profilLaporan = {
   kota: "Semarang",
 };
 
+/**
+ * Tanggal mulai program (ISO yyyy-mm-dd). Dipakai HANYA sebagai titik hitung "Minggu ke-N"
+ * pada pengelompokan logbook. Tanggal kegiatan tetap diisi sendiri oleh mahasiswa.
+ */
+export const mulaiProgram = "2026-09-07";
+
+/**
+ * Menghitung nomor minggu kegiatan dari tanggal kegiatan yang diisi mahasiswa.
+ * Minggu 1 = tujuh hari pertama sejak tanggal mulai program. Minimal 1.
+ */
+export function hitungMinggu(iso: string): number {
+  const mulai = new Date(`${mulaiProgram}T00:00:00`);
+  const tgl = new Date(`${iso}T00:00:00`);
+  const selisihHari = Math.round((tgl.getTime() - mulai.getTime()) / 86_400_000);
+  return Math.max(1, Math.floor(selisihHari / 7) + 1);
+}
+
 export const kegiatanAwal: KegiatanLog[] = [
   {
     id: 1,

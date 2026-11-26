@@ -1,6 +1,6 @@
 ---
-// src/components/mbkm/konversi/Step2PengajuanSks.astro
-// Tahap 1: Pengajuan Matkul. Tiap baris ditandai Baru atau Mengulang (berdasarkan nilai lama di transkrip).
+// src/components/mbkm/konversi/Step1PengajuanMatkul.astro
+// Tahap 1: Pengajuan Matkul. Tiap baris ditandai Baru atau Mengulang.
 // SKS dan dosen diisi pada tahap 3 (Kelompok Matkul).
 ---
 
@@ -54,14 +54,13 @@
               </div>
             </td>
 
-            <!-- Jenis: Baru / Mengulang (dengan nilai lama) -->
+            <!-- Jenis: Baru / Mengulang -->
             <td class="p-3 text-center align-middle">
               <span
                 class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-md border"
                 :class="row.nilaiLama ? 'border-amber-200 bg-amber-50 text-amber-800' : 'border-[#e4e4e7] bg-[#fafafa] text-[#3f3f46]'"
               >
                 <span x-text="row.nilaiLama ? 'Mengulang' : 'Baru'"></span>
-                <span x-show="row.nilaiLama" class="text-amber-700/80" x-text="'· Nilai ' + row.nilaiLama"></span>
               </span>
             </td>
 

@@ -23,21 +23,22 @@ const steps = [
       {steps.map((s) => (
         <div class="flex flex-col items-center">
           <!-- Sementara (prototipe): semua node bisa diklik untuk berpindah tahap -->
+          <!-- Status: selesai = lingkaran biru penuh + centang, berlangsung = lingkaran putih bergaris biru, belum dimulai = abu-abu -->
           <button
             type="button"
             @click={`currentStep = ${s.n}`}
-            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all border-2 border-white cursor-pointer"
+            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs transition-all border-2 cursor-pointer"
             :class={`currentStep > ${s.n}
-              ? 'bg-[#0655a7] text-white ring-4 ring-blue-50'
-              : (currentStep === ${s.n} ? 'bg-[#0655a7] text-white ring-4 ring-blue-100' : 'bg-[#f4f4f5] text-[#71717a]')`}
+              ? 'bg-[#0655a7] border-white text-white ring-4 ring-blue-50'
+              : (currentStep === ${s.n} ? 'bg-white border-[#0655a7] text-[#0655a7] ring-4 ring-blue-100' : 'bg-[#f4f4f5] border-white text-[#71717a]')`}
             :aria-current={`currentStep === ${s.n} ? 'step' : null`}
           >
             <i x-show={`currentStep > ${s.n}`} data-lucide="check" class="w-4 h-4 text-white"></i>
             <span x-show={`currentStep <= ${s.n}`}>{s.n}</span>
           </button>
           <span
-            class="mt-2 text-xs font-semibold leading-tight transition-colors"
-            :class={`currentStep === ${s.n} ? 'text-[#0655a7]' : (currentStep > ${s.n} ? 'text-[#09090b]' : 'text-[#71717a]')`}
+            class="mt-2 text-xs leading-tight transition-colors"
+            :class={`currentStep === ${s.n} ? 'text-[#0655a7] font-bold' : (currentStep > ${s.n} ? 'text-[#09090b] font-semibold' : 'text-[#71717a] font-medium')`}
           >
             {s.label}
           </span>

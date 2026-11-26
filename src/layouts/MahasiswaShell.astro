@@ -374,31 +374,31 @@ const {
               <span class="truncate">Pendaftaran KB</span>
             </a>
 
-            <!-- 4a. Logbook Bimbingan (Terkunci jika belum aktif) -->
+            <!-- 4. Makul Konversi (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
-              title={activeNav !== "logbook"
+              title={activeNav !== "konversi-sks"
                 ? "Terkunci: Memerlukan status pendaftaran diterima"
                 : undefined}
             >
               <a
-                href="/mahasiswa/logbook"
-                id="nav-logbook"
+                href="/mahasiswa/konversi-sks"
+                id="nav-konversi-sks"
                 :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
                 class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                  activeNav === "logbook"
+                  activeNav === "konversi-sks"
                     ? "nav-active text-[#0655a7]"
                     : "text-[#3f3f46]"
                 }`}
               >
                 <span
-                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "logbook" ? "" : "hidden"}`}
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "konversi-sks" ? "" : "hidden"}`}
                 ></span>
                 <i
-                  data-lucide="book-open"
-                  class={`w-4 h-4 shrink-0 ${activeNav === "logbook" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                  data-lucide="layers"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "konversi-sks" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Logbook Bimbingan</span>
+                <span class="truncate flex-1">Makul Konversi</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"
@@ -408,7 +408,7 @@ const {
               </a>
             </div>
 
-            <!-- 4b. Logbook Kegiatan (tanpa approval dosen, bisa diunduh PDF) -->
+            <!-- 5a. Logbook Kegiatan (tanpa approval dosen, bisa diunduh PDF) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
               title={activeNav !== "logbook-kegiatan"
@@ -442,31 +442,31 @@ const {
               </a>
             </div>
 
-            <!-- 5. Makul Konversi (Terkunci jika belum aktif) -->
+            <!-- 5b. Logbook Bimbingan (Terkunci jika belum aktif) -->
             <div
               :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'cursor-not-allowed' : ''"
-              title={activeNav !== "konversi-sks"
+              title={activeNav !== "logbook"
                 ? "Terkunci: Memerlukan status pendaftaran diterima"
                 : undefined}
             >
               <a
-                href="/mahasiswa/konversi-sks"
-                id="nav-konversi-sks"
+                href="/mahasiswa/logbook"
+                id="nav-logbook"
                 :class="$store.mahasiswaSim.state === 'belum_daftar' ? 'opacity-50 pointer-events-none select-none' : ''"
                 class={`nav-item relative flex items-center gap-3 px-4 py-2.5 rounded-lg text-[14px] font-normal hover:bg-black/5 transition-colors text-left w-full ${
-                  activeNav === "konversi-sks"
+                  activeNav === "logbook"
                     ? "nav-active text-[#0655a7]"
                     : "text-[#3f3f46]"
                 }`}
               >
                 <span
-                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "konversi-sks" ? "" : "hidden"}`}
+                  class={`active-bar absolute left-0 top-2 bottom-2 w-1 bg-[#0655a7] rounded-r-md ${activeNav === "logbook" ? "" : "hidden"}`}
                 ></span>
                 <i
-                  data-lucide="layers"
-                  class={`w-4 h-4 shrink-0 ${activeNav === "konversi-sks" ? "text-[#0655a7]" : "text-[#71717a]"}`}
+                  data-lucide="book-open"
+                  class={`w-4 h-4 shrink-0 ${activeNav === "logbook" ? "text-[#0655a7]" : "text-[#71717a]"}`}
                 ></i>
-                <span class="truncate flex-1">Makul Konversi</span>
+                <span class="truncate flex-1">Logbook Bimbingan</span>
                 <span
                   x-show="$store.mahasiswaSim.state === 'belum_daftar'"
                   class="text-[#71717a] ml-auto"

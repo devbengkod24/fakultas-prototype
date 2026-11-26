@@ -1,19 +1,45 @@
 ---
 // src/components/mbkm/logbook-kegiatan/KegiatanRoot.astro
 // Pemegang state Alpine Logbook Kegiatan. Turunan memakai scope ini lewat <slot />.
-import { kegiatanAwal } from "../../../data/mahasiswa/logbookKegiatanData";
+// Logbook dikelompokkan per minggu; tanggal kegiatan tetap diisi sendiri oleh mahasiswa.
+import { kegiatanAwal, mulaiProgram } from "../../../data/mahasiswa/logbookKegiatanData";
 ---
 
 <div
   class="w-full space-y-5"
   x-data={`{
     entries: ${JSON.stringify(kegiatanAwal)},
+    mulaiProgram: '${mulaiProgram}',
     showTambah: false,
     docItem: null,
     form: { judul: '', tanggal: '', deskripsi: '', dokumenUrl: '' },
 
     get terbaru() { return [...this.entries].sort((a, b) => b.tanggal.localeCompare(a.tanggal)); },
     get kegiatanTerakhir() { return this.terbaru.length ? this.fmt(this.terbaru[0].tanggal) : '-'; },
+    get jumlahMinggu() { return this.mingguan.length; },
+
+    // Kelompok mingguan, minggu terkecil di atas, tanggal menaik di dalam tiap minggu.
+    get mingguan() {
+      const peta = new Map();
+      for (const e of this.entries) {
+        const m = this.mingguDari(e.tanggal);
+        if (!peta.has(m)) peta.set(m, []);
+        peta.get(m).push(e);
+      }
+      return [...peta.entries()]
+        .sort((a, b) => a[0] - b[0])
+        .map(([minggu, items]) => ({
+          minggu,
+          items: [...items].sort((a, b) => a.tanggal.localeCompare(b.tanggal)),
+        }));
+    },
+
+    // Rumus sama dengan hitungMinggu() di logbookKegiatanData.ts
+    mingguDari(iso) {
+      if (!iso) return 1;
+      const selisihHari = Math.round((new Date(iso + 'T00:00:00') - new Date(this.mulaiProgram + 'T00:00:00')) / 86400000);
+      return Math.max(1, Math.floor(selisihHari / 7) + 1);
+    },
 
     fmt(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }); },
     refreshIcons() { this.$nextTick(() => window.lucide && window.lucide.createIcons()); },

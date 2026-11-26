@@ -1,9 +1,22 @@
 ---
-// src/components/mbkm/konversi/Step1PaktaUpload.astro
+// src/components/mbkm/konversi/Step4PaktaIntegritas.astro
+// Tahap 4 (terakhir): unggah Pakta Integritas sebagai pelengkap pengajuan konversi matkul.
 ---
 
 <!-- Tahap 4: Pakta Integritas (Murni Unggah Berkas & Unduh Template di Kanan Header Space-Between) -->
-<div x-show="currentStep === 4" class="space-y-4" x-transition>
+<div x-show="currentStep === 4" x-cloak class="space-y-4" x-transition>
+  <!-- Konfirmasi setelah pakta dikirim -->
+  <div
+    x-show="paktaTerkirim"
+    x-cloak
+    class="flex items-start gap-2.5 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-800"
+  >
+    <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0 mt-px text-emerald-600"></i>
+    <p class="leading-relaxed">
+      Pakta integritas berhasil dikirim. Seluruh tahapan konversi matkul telah selesai.
+    </p>
+  </div>
+
   <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-5 sm:p-6 space-y-5">
     <!-- Header Card Space-Between (Tanpa Divider Sesuai Prinsip YAGNI) -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -53,15 +66,35 @@
       </div>
 
       <!-- Footer Aksi (Tanpa Divider Sesuai Prinsip YAGNI) -->
-      <div class="flex items-center justify-end">
+      <div class="flex items-center justify-between gap-2">
         <button
+          x-show="!paktaTerkirim"
           type="button"
-          @click="submitPakta()"
+          @click="currentStep = 3"
+          class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span>Kembali</span>
+        </button>
+
+        <button
+          x-show="!paktaTerkirim"
+          type="button"
+          @click="selesaiPakta()"
           class="inline-flex items-center gap-1.5 h-8 px-3.5 rounded-md bg-[#0655a7] hover:bg-[#114d91] text-white text-xs font-semibold transition-colors shadow-none cursor-pointer"
         >
-          <span>Selesai</span>
-          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          <span>Kirim Pakta Integritas</span>
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
         </button>
+
+        <span
+          x-show="paktaTerkirim"
+          x-cloak
+          class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md border border-emerald-200 bg-emerald-50 text-emerald-800"
+        >
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+          Pakta terkirim
+        </span>
       </div>
     </div>
   </div>

@@ -3,10 +3,10 @@
 import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
 import KonversiRoot from "../../components/mbkm/konversi/KonversiRoot.astro";
 import KonversiStepper from "../../components/mbkm/konversi/KonversiStepper.astro";
-import Step1PaktaUpload from "../../components/mbkm/konversi/Step1PaktaUpload.astro";
-import Step2PengajuanSks from "../../components/mbkm/konversi/Step2PengajuanSks.astro";
-import Step3KonfirmasiMatkul from "../../components/mbkm/konversi/Step3KonfirmasiMatkul.astro";
-import Step4KelompokMatkul from "../../components/mbkm/konversi/Step4KelompokMatkul.astro";
+import Step1PengajuanMatkul from "../../components/mbkm/konversi/Step1PengajuanMatkul.astro";
+import Step2KonfirmasiMatkul from "../../components/mbkm/konversi/Step2KonfirmasiMatkul.astro";
+import Step3KelompokMatkul from "../../components/mbkm/konversi/Step3KelompokMatkul.astro";
+import Step4PaktaIntegritas from "../../components/mbkm/konversi/Step4PaktaIntegritas.astro";
 import ModalGantiMatkul from "../../components/mbkm/konversi/ModalGantiMatkul.astro";
 import KonversiLockedNotice from "../../components/mbkm/konversi/KonversiLockedNotice.astro";
 ---
@@ -43,10 +43,10 @@ import KonversiLockedNotice from "../../components/mbkm/konversi/KonversiLockedN
 
     <div x-show="$store.mahasiswaSim?.state === 'aktif'" class="space-y-4">
       <KonversiStepper />
-      <Step1PaktaUpload />
-      <Step2PengajuanSks />
-      <Step3KonfirmasiMatkul />
-      <Step4KelompokMatkul />
+      <Step1PengajuanMatkul />
+      <Step2KonfirmasiMatkul />
+      <Step3KelompokMatkul />
+      <Step4PaktaIntegritas />
       <ModalGantiMatkul />
     </div>
   </KonversiRoot>

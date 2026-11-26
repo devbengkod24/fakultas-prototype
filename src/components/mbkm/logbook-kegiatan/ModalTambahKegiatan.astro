@@ -35,6 +35,12 @@ const label = "text-[12px] font-semibold text-[#09090b] block mb-1";
       <div>
         <label for="kegiatan-tanggal" class={label}>Tanggal Kegiatan <span class="text-red-500">*</span></label>
         <input id="kegiatan-tanggal" x-model="form.tanggal" type="date" required class={input} />
+        <!-- Minggu mengikuti tanggal yang diisi; tidak ada penguncian tanggal -->
+        <p x-show="form.tanggal" x-cloak class="text-[11px] text-[#71717a] mt-1">
+          Masuk ke <span class="font-semibold text-[#09090b]" x-text="'Minggu ke-' + mingguDari(form.tanggal)"></span>
+          <span class="text-[#d4d4d8] mx-1">•</span>
+          <span x-text="fmt(form.tanggal)"></span>
+        </p>
       </div>
       <div>
         <label for="kegiatan-deskripsi" class={label}>Rincian Aktivitas <span class="text-red-500">*</span></label>

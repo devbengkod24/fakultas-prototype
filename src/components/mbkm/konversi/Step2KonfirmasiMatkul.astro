@@ -1,5 +1,5 @@
 ---
-// src/components/mbkm/konversi/Step3KonfirmasiMatkul.astro
+// src/components/mbkm/konversi/Step2KonfirmasiMatkul.astro
 // Tahap 2: mahasiswa menunggu keputusan Koordinator MBKM. Jika ada yang ditolak, alur kembali ke Pengajuan Matkul.
 ---
 
@@ -54,7 +54,6 @@
                 :class="row.nilaiLama ? 'border-amber-200 bg-amber-50 text-amber-800' : 'border-[#e4e4e7] bg-[#fafafa] text-[#3f3f46]'"
               >
                 <span x-text="row.nilaiLama ? 'Mengulang' : 'Baru'"></span>
-                <span x-show="row.nilaiLama" class="text-amber-700/80" x-text="'· Nilai ' + row.nilaiLama"></span>
               </span>
             </td>
             <td class="p-3 text-center align-middle">

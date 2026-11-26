@@ -69,7 +69,8 @@ export const sidangData: SidangData = {
   posisi: "Fullstack Developer",
   periodeMulai: "Minggu, 23 Agustus 2026",
   periodeSelesai: "Sabtu, 21 November 2026",
-  alamatPerusahaan: "Jl. Pahlawan No. 10, Pleburan, Kec. Semarang Selatan, Kota Semarang, Jawa Tengah 50241",
+  alamatPerusahaan:
+    "Jl. Pahlawan No. 10, Pleburan, Kec. Semarang Selatan, Kota Semarang, Jawa Tengah 50241",
   dosenPembimbing: "Dr. Ricardus Anggi, M.Kom",
   linkSuratDiterima: "https://drive.google.com/file/d/demo-surat-magang/view",
   penyelia: {
@@ -86,7 +87,8 @@ export const sidangData: SidangData = {
       keterangan: "Berkas PDF, maksimal 25 MB",
       tipe: "file",
       nilai: "Laporan_Akhir_Kampus_Berdampak_A11.2020.00001.pdf",
-      tautan: "https://drive.google.com/file/d/laporan-akhir-Kampus-Berdampak-a11.pdf",
+      tautan:
+        "https://drive.google.com/file/d/laporan-akhir-Kampus-Berdampak-a11.pdf",
     },
     {
       id: "logbook",
@@ -115,19 +117,22 @@ export const sidangData: SidangData = {
     {
       id: "video",
       nama: "Video Sosial Media",
-      keterangan: "Tautan video dokumentasi kegiatan di Instagram, YouTube, atau TikTok",
+      keterangan:
+        "Tautan video dokumentasi kegiatan di Instagram, YouTube, atau TikTok",
       tipe: "link",
       nilai: "",
       tautan: "",
     },
   ],
-  folderDrive: "https://drive.google.com/drive/folders/berkas-sidang-Kampus-Berdampak-a11-2020-00001",
-  linkVideoSosialMedia: "https://instagram.com/reel/example-video-kegiatan-mbkm",
+  folderDrive:
+    "https://drive.google.com/drive/folders/berkas-sidang-Kampus-Berdampak-a11-2020-00001",
+  linkVideoSosialMedia:
+    "https://instagram.com/reel/example-video-kegiatan-mbkm",
   jadwal: {
     tanggal: "Kamis, 15 Januari 2027",
     waktu: "09:00 - 10:30 WIB",
-    lokasi: "Google Meet (Daring)",
-    ruang: "",
+    lokasi: "Google Meet Daring",
+    ruang: "Google Meet Daring",
     linkMeet: "https://meet.google.com/Kampus-Berdampak-sidang-a11",
   },
   penguji: [
@@ -135,19 +140,11 @@ export const sidangData: SidangData = {
       inisial: "RA",
       nama: "Dr. Ricardus Anggi, M.Kom",
       peran: "Penguji Akademis 1 & Dosen Pembimbing",
-      bobot: "40%",
     },
     {
       inisial: "EM",
       nama: "Dr. Ir. Edi Mulyanto, M.Kom",
       peran: "Penguji Akademis 2 (Reviewer Prodi)",
-      bobot: "30%",
-    },
-    {
-      inisial: "BS",
-      nama: "Budi Santoso, S.Kom.",
-      peran: "Penilai Kinerja Kontributor (Penyelia Mitra)",
-      bobot: "30%",
     },
   ],
   hasil: {
@@ -157,20 +154,12 @@ export const sidangData: SidangData = {
     catatan: "",
     komponen: [
       {
-        nama: "Nilai Kinerja Mitra Kontributor",
-        bobot: "30%",
-        nilai: "90.00",
-        penilai: "Budi Santoso, S.Kom.",
-      },
-      {
         nama: "Nilai Pembimbingan Dosen Pembimbing",
-        bobot: "40%",
         nilai: "92.50",
         penilai: "Dr. Ricardus Anggi, M.Kom",
       },
       {
         nama: "Nilai Pengujian Sidang",
-        bobot: "30%",
         nilai: "92.00",
         penilai: "Dr. Ir. Edi Mulyanto, M.Kom",
       },
