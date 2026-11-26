@@ -13,9 +13,11 @@ interface Props {
   hint?: string;
   ratio?: '21/9' | '16/9' | '4/3' | '1/1';
   class?: string;
+  /** Susun vertikal (gambar penuh di atas, info & tombol di bawah) — untuk wadah sempit seperti modal. */
+  stacked?: boolean;
 }
 
-const { id, previewId, value = '', alt = 'Pratinjau gambar', hint = 'PNG, JPG, atau WebP. Maksimal 2 MB.', ratio = '16/9', class: className } = Astro.props;
+const { id, previewId, value = '', alt = 'Pratinjau gambar', hint = 'PNG, JPG, atau WebP. Maksimal 2 MB.', ratio = '16/9', class: className, stacked = false } = Astro.props;
 const ratioClass = { '21/9': 'aspect-[21/9]', '16/9': 'aspect-video', '4/3': 'aspect-[4/3]', '1/1': 'aspect-square' }[ratio];
 const filled = !!value;
 const btn = 'h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors';
@@ -27,10 +29,13 @@ const btn = 'h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f
 
   <div
     data-dropzone-area
-    class="flex flex-col gap-4 rounded-lg border border-[#e4e4e7] bg-white p-3 transition-colors sm:flex-row sm:items-center data-[drag=true]:border-[#0655a7] data-[drag=true]:bg-[#fafafa] data-[drag=true]:ring-4 data-[drag=true]:ring-[#0655a7]/10"
+    class={cn(
+      'flex flex-col gap-3 rounded-lg border border-[#e4e4e7] bg-white p-3 transition-colors data-[drag=true]:border-[#0655a7] data-[drag=true]:bg-[#fafafa] data-[drag=true]:ring-4 data-[drag=true]:ring-[#0655a7]/10',
+      !stacked && 'sm:flex-row sm:items-center sm:gap-4',
+    )}
   >
     <!-- Thumbnail / placeholder -->
-    <div class={cn('relative flex w-full shrink-0 items-center justify-center overflow-hidden rounded-md border border-[#e4e4e7] bg-[#f4f4f5] sm:w-56', ratioClass)}>
+    <div class={cn('relative flex w-full shrink-0 items-center justify-center overflow-hidden rounded-md border border-[#e4e4e7] bg-[#f4f4f5]', !stacked && 'sm:w-56', ratioClass)}>
       <img
         id={previewId}
         src={value}
@@ -42,7 +47,7 @@ const btn = 'h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f
     </div>
 
     <!-- Info file -->
-    <div class="min-w-0 flex-1 space-y-0.5">
+    <div class={cn('min-w-0 space-y-0.5', !stacked && 'flex-1')}>
       <p data-dropzone-title class="truncate text-sm font-medium text-[#09090b]">
         {filled ? 'Gambar saat ini' : 'Belum ada gambar'}
       </p>
@@ -116,6 +121,14 @@ const btn = 'h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f
       render('', 'Belum ada gambar', `Tarik file ke sini atau klik Pilih File. ${hint}`);
     });
     fileInput.addEventListener('change', () => handle(fileInput.files?.[0]));
+    // API programatik: root.dispatchEvent(new CustomEvent('dropzone:set', { detail: { src, name } }))
+    // src kosong = reset ke keadaan "Belum ada gambar".
+    root.addEventListener('dropzone:set', (e) => {
+      const { src = '', name = 'Gambar saat ini' } = (e as CustomEvent).detail ?? {};
+      fileInput.value = '';
+      if (src) render(src, name, 'Tarik file ke sini atau klik Ganti untuk mengubah.');
+      else render('', 'Belum ada gambar', `Tarik file ke sini atau klik Pilih File. ${hint}`);
+    });
 
     ['dragenter', 'dragover'].forEach((ev) =>
       area.addEventListener(ev, (e) => { e.preventDefault(); area.dataset.drag = 'true'; }));

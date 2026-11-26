@@ -256,7 +256,7 @@ function renderShowcaseGrid() {
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border border-blue-200 bg-blue-50 text-[11px] font-semibold text-[#0655a7]">
                 ${item.kategori}
               </span>
-              <div class="text-[11px] text-[#71717a]">${item.batch} • ${item.id}</div>
+              <div class="text-[11px] text-[#71717a]">${item.batch}</div>
             </div>
             ${actionBtns}
           </div>
@@ -347,7 +347,6 @@ function openShowcaseModal(editIdx) {
   const titleEl = document.getElementById('modal-showcase-title');
   const idBadge = document.getElementById('modal-showcase-id-badge');
   const idxInput = document.getElementById('modal-showcase-idx');
-  const idInput = document.getElementById('modal-showcase-id');
   const batchInput = document.getElementById('modal-showcase-batch');
   const judulInput = document.getElementById('modal-showcase-judul');
   const kategoriInput = document.getElementById('modal-showcase-kategori');
@@ -401,7 +400,6 @@ function handleSaveShowcase(e) {
   if (!data.showcases) data.showcases = [];
 
   const idxVal = document.getElementById('modal-showcase-idx').value;
-  const idVal = document.getElementById('modal-showcase-id').value.trim();
   const batch = document.getElementById('modal-showcase-batch').value.trim();
   const judul = document.getElementById('modal-showcase-judul').value.trim();
   const kategori = document.getElementById('modal-showcase-kategori').value.trim();
@@ -411,7 +409,6 @@ function handleSaveShowcase(e) {
   const tech = techStr.split(',').map(s => s.trim()).filter(Boolean);
 
   const newItem = {
-    id: idVal,
     batch,
     judul,
     kategori,

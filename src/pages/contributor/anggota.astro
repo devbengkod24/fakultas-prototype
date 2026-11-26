@@ -1,6 +1,7 @@
 ---
 // src/pages/contributor/anggota.astro
 import KontributorShell from "../../layouts/KontributorShell.astro";
+import LogbookDrawer from "../../components/contributor/log-kegiatan/LogbookDrawer.astro";
 ---
 
 <KontributorShell
@@ -71,6 +72,7 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
               <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Program Studi</th>
               <th class="h-10 px-4 text-left font-medium text-[#71717a] text-xs">Dosen Pembimbing</th>
               <th class="h-10 px-4 text-center font-medium text-[#71717a] text-xs">Status</th>
+              <th class="h-10 w-32 px-4 text-center font-medium text-[#71717a] text-xs">Logbook</th>
             </tr>
           </thead>
           <tbody id="mahasiswaTableBody" class="divide-y divide-[#e4e4e7]">
@@ -85,6 +87,12 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
               <td class="px-4 text-center">
                 <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
               </td>
+              <td class="px-4 text-center">
+                <button type="button" onclick="kagOpenLogbook('A11.2021.13782')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer">
+                  <i data-lucide="notebook-pen" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span>Logbook</span>
+                </button>
+              </td>
             </tr>
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
               <td class="px-3 text-center text-[#71717a] text-xs">2</td>
@@ -96,6 +104,12 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
               <td class="px-4 text-sm text-[#09090b]">Dr. Ricardus Anggi, M.Kom.</td>
               <td class="px-4 text-center">
                 <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
+              </td>
+              <td class="px-4 text-center">
+                <button type="button" onclick="kagOpenLogbook('A11.2022.14101')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer">
+                  <i data-lucide="notebook-pen" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span>Logbook</span>
+                </button>
               </td>
             </tr>
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
@@ -109,6 +123,12 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
               <td class="px-4 text-center">
                 <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
               </td>
+              <td class="px-4 text-center">
+                <button type="button" onclick="kagOpenLogbook('A11.2022.14150')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer">
+                  <i data-lucide="notebook-pen" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span>Logbook</span>
+                </button>
+              </td>
             </tr>
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
               <td class="px-3 text-center text-[#71717a] text-xs">4</td>
@@ -120,6 +140,12 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
               <td class="px-4 text-sm text-[#09090b]">Dr. Aris Kusumawati, M.Cs.</td>
               <td class="px-4 text-center">
                 <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
+              </td>
+              <td class="px-4 text-center">
+                <button type="button" onclick="kagOpenLogbook('A11.2022.14205')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer">
+                  <i data-lucide="notebook-pen" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span>Logbook</span>
+                </button>
               </td>
             </tr>
             <tr class="h-12 border-b border-[#e4e4e7] hover:bg-[#f4f4f5]/60 transition-colors">
@@ -133,12 +159,21 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
               <td class="px-4 text-center">
                 <span class="inline-flex items-center rounded-md border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700">Aktif</span>
               </td>
+              <td class="px-4 text-center">
+                <button type="button" onclick="kagOpenLogbook('A12.2022.09876')" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer">
+                  <i data-lucide="notebook-pen" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  <span>Logbook</span>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
+
+  <!-- Drawer: Logbook Kegiatan Mahasiswa (hanya lihat) -->
+  <LogbookDrawer />
 
   <!-- Drawer: Profil Anggota -->
   <div id="kag-drawer" class="fixed inset-0 z-50 hidden" aria-hidden="true">
@@ -286,6 +321,12 @@ import KontributorShell from "../../layouts/KontributorShell.astro";
       drawer.setAttribute('aria-hidden', 'false');
       body.scrollTop = 0;
       if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    // Logbook kegiatan mahasiswa (hanya lihat) — ditangani LogbookDrawer (Alpine) lewat event window.
+    function kagOpenLogbook(nim) {
+      var tr = document.querySelector('#mahasiswaTableBody tr[data-nim="' + nim + '"]');
+      window.dispatchEvent(new CustomEvent('buka-logbook', { detail: { nim: nim, nama: tr ? tr.getAttribute('data-name') : '' } }));
     }
 
     function kagCloseProfile() {

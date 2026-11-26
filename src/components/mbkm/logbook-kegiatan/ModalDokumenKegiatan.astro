@@ -1,6 +1,11 @@
 ---
 // src/components/mbkm/logbook-kegiatan/ModalDokumenKegiatan.astro
 // Modal "Lihat Dokumen" (selaras Logbook Bimbingan, tanpa status verifikasi dosen). Memakai `docItem` dan `fmt()` dari KegiatanRoot.
+interface Props {
+  /** Label waktu: tanggal lengkap (default) atau "Minggu N" (butuh minggu(item) di scope Alpine). */
+  waktu?: "tanggal" | "minggu";
+}
+const { waktu = "tanggal" } = Astro.props;
 ---
 
 <div
@@ -24,7 +29,7 @@
             </div>
             <div class="min-w-0">
               <h3 class="text-[15px] font-semibold text-[#09090b] truncate" x-text="docItem.judul"></h3>
-              <p class="text-xs text-[#71717a]" x-text="fmt(docItem.tanggal)"></p>
+              <p class="text-xs text-[#71717a]" x-text={waktu === "minggu" ? "minggu(docItem)" : "fmt(docItem.tanggal)"}></p>
             </div>
           </div>
           <button type="button" @click="docItem = null" class="text-[#71717a] hover:text-[#09090b] p-1" aria-label="Tutup">
