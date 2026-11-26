@@ -459,16 +459,15 @@ function renderPelamarTable() {
     const isTabBerkas = pendaftarActiveStatusTab === 'berkas';
     const isTabDiterima = pendaftarActiveStatusTab === 'diterima';
 
-    // Header tabel dinamis: tab penerima vs tab lainnya (semua tab memiliki kolom aksi)
+    // Header tabel dinamis: tab diterima (5 kolom) vs tab lainnya (6 kolom)
     const trThead = document.getElementById('tr-thead-pelamar');
     if (trThead) {
       if (isTabDiterima) {
         trThead.innerHTML = `
           <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program KB</th>
+          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Kampus Berdampak</th>
           <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Program Studi</th>
-          <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Hasil Seleksi</th>
           <th class="h-11 px-4 font-semibold text-xs w-36 text-center text-[#71717a]">Aksi</th>
         `;
       } else {
@@ -483,7 +482,7 @@ function renderPelamarTable() {
       }
     }
 
-    const colSpan = 6;
+    const colSpan = isTabDiterima ? 5 : 6;
 
     if (currentSlice.length === 0) {
       tbody.innerHTML = `
@@ -551,32 +550,16 @@ function renderPelamarTable() {
           }
           const actionTd = `<td class="px-4 text-center text-sm">${actionBtn}</td>`;
 
-          let col5Html = '';
-          if (isTabDiterima) {
-            const skorFinal =
-              item.nilaiWawancara !== undefined && item.nilaiWawancara !== null
-                ? item.nilaiWawancara
-                : Array.isArray(item.skorPertanyaan) && item.skorPertanyaan.length > 0
-                ? Math.round(item.skorPertanyaan.reduce((a, b) => a + b, 0) / item.skorPertanyaan.length)
-                : 88;
-            col5Html = `
-              <div class="flex flex-col leading-tight gap-1">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    Total Skor: ${skorFinal}
-                  </span>
+          const col5Td = isTabDiterima
+            ? ''
+            : `
+              <td class="px-4 text-sm">
+                <div class="flex flex-col leading-tight gap-0.5">
+                  <span class="text-sm font-medium text-[#09090b]">IPK ${item.ipk}</span>
+                  <span class="text-xs text-[#71717a]">${item.semester}</span>
                 </div>
-                <span class="text-xs text-[#71717a]">IPK ${item.ipk} • ${item.semester}</span>
-              </div>
+              </td>
             `;
-          } else {
-            col5Html = `
-              <div class="flex flex-col leading-tight gap-0.5">
-                <span class="text-sm font-medium text-[#09090b]">IPK ${item.ipk}</span>
-                <span class="text-xs text-[#71717a]">${item.semester}</span>
-              </div>
-            `;
-          }
 
           return `
             <tr class="h-[68px] hover:bg-[#fafafa] transition-colors">
@@ -600,7 +583,7 @@ function renderPelamarTable() {
               <td class="px-4 text-sm">
                 <span class="text-sm font-normal text-[#09090b]">${item.prodi || '-'}</span>
               </td>
-              <td class="px-4 text-sm">${col5Html}</td>
+              ${col5Td}
               ${actionTd}
             </tr>
           `;

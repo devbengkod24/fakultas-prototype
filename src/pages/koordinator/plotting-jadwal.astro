@@ -371,7 +371,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
       openBuatJadwalModal() {
         this.buatTglSidang = '2026-07-23';
         this.buatJamMulai = '09:00';
-        this.buatGmeet = 'https://meet.google.com/fik-kb-baru';
+        this.buatGmeet = '';
         this.buatDosen1Id = '';
         this.buatDosen2Id = '';
         this.buatSelectedMhs1 = [];
@@ -381,24 +381,24 @@ import AdminShell from '../../layouts/AdminShell.astro';
       },
 
       simpanBuatJadwal() {
-        if (!this.buatTglSidang || !this.buatJamMulai || !this.buatGmeet.trim()) {
-          this.triggerToast('Tanggal, waktu, dan link Google Meet wajib diisi.', 'error');
+        if (!this.buatTglSidang || !this.buatJamMulai) {
+          this.triggerToast('Tanggal dan waktu sidang wajib diisi.', 'error');
           return;
         }
         if (!this.buatDosen1Id || !this.buatDosen2Id) {
-          this.triggerToast('Pilih 2 dosen pembimbing/penguji terlebih dahulu.', 'error');
+          this.triggerToast('Pilih 2 dosen penguji terlebih dahulu.', 'error');
           return;
         }
         if (this.buatDosen1Id === this.buatDosen2Id) {
-          this.triggerToast('Dosen 1 dan Dosen 2 tidak boleh sama.', 'error');
+          this.triggerToast('Dosen Penguji 1 dan Dosen Penguji 2 tidak boleh sama.', 'error');
           return;
         }
         if (this.buatSelectedMhs1.length < 1 || this.buatSelectedMhs1.length > 2) {
-          this.triggerToast('Pilih minimal 1 dan maksimal 2 mahasiswa untuk Dosen 1.', 'error');
+          this.triggerToast('Pilih minimal 1 dan maksimal 2 mahasiswa untuk Dosen Penguji 1.', 'error');
           return;
         }
         if (this.buatSelectedMhs2.length > 2) {
-          this.triggerToast('Maksimal 2 mahasiswa untuk Dosen 2.', 'error');
+          this.triggerToast('Maksimal 2 mahasiswa untuk Dosen Penguji 2.', 'error');
           return;
         }
 
@@ -423,7 +423,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
             pembimbing,
             mahasiswa: { id: 100 + nextId, nama: mhs.nama, nim: mhs.nim },
             jadwal: { tanggal: this.buatTglSidang, jam: `${this.buatJamMulai} - ${jamSelesai}`, status: 'terjadwal' },
-            gmeet: this.buatGmeet.trim(),
+            gmeet: '',
             penguji_1: dosen1,
             penguji_2: dosen2,
             gelombang: { id: 2, nama_gelombang: 'Gelombang 2' },
@@ -465,7 +465,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
             jam: `${this.editJamMulai} - ${jamSelesai}`,
             status: 'terjadwal'
           };
-          target.gmeet = this.editGmeet.trim();
           target.penguji_1 = this.dosenList.find(d => d.id.toString() === this.editPengujiId) || null;
           target.penguji_2 = this.dosenList.find(d => d.id.toString() === this.editPenguji2Id) || null;
         }
@@ -1069,7 +1068,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
             </th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Link Google Meet</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Mahasiswa</th>
-            <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Pembimbing</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 1</th>
             <th class="h-10 px-4 text-left align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Penguji 2</th>
             <th class="h-10 px-4 text-center align-middle font-medium text-[#71717a] text-sm whitespace-nowrap">Status</th>
@@ -1117,11 +1115,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
                   <span class="font-medium text-sm text-[#09090b]" x-text="item.mahasiswa.nama"></span>
                   <span class="text-xs text-[#71717a]" x-text="item.mahasiswa.nim"></span>
                 </div>
-              </td>
-
-              <!-- Pembimbing -->
-              <td class="p-4 align-middle text-sm text-[#09090b]">
-                <span x-text="item.pembimbing?.nama || '-'"></span>
               </td>
 
               <!-- Penguji 1 -->
@@ -1245,7 +1238,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
         <div class="flex items-start justify-between pb-3 border-b border-[#e4e4e7]">
           <div>
             <h3 class="text-lg font-semibold text-[#09090b]">Buat Jadwal Sidang Online</h3>
-            <p class="text-xs text-[#71717a] mt-0.5">Pilih tanggal, waktu, link Google Meet, serta 2 dosen pembimbing yang sekaligus bertugas sebagai penguji.</p>
+            <p class="text-xs text-[#71717a] mt-0.5">Pilih tanggal, waktu, serta 2 dosen penguji beserta mahasiswa bimbingannya.</p>
           </div>
           <button
             type="button"
@@ -1256,7 +1249,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </button>
         </div>
 
-        <!-- Baris 1: Tanggal & Waktu, Baris 2: Link Google Meet -->
+        <!-- Baris 1: Tanggal & Waktu -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div class="space-y-1.5">
             <label class="text-xs font-semibold text-[#09090b]">Tanggal Sidang *</label>
@@ -1278,16 +1271,6 @@ import AdminShell from '../../layouts/AdminShell.astro';
               </template>
             </select>
           </div>
-
-          <div class="space-y-1.5 md:col-span-2">
-            <label class="text-xs font-semibold text-[#09090b]">Link Google Meet *</label>
-            <input
-              type="url"
-              x-model="buatGmeet"
-              placeholder="https://meet.google.com/xxx-yyyy-zzz"
-              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-            />
-          </div>
         </div>
 
         <!-- Baris 2: Pemilihan 2 Dosen & Mahasiswa Bimbingan -->
@@ -1296,7 +1279,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-4 space-y-3">
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
-                <label class="text-xs font-semibold text-[#09090b]">Dosen Pembimbing / Penguji 1 *</label>
+                <label class="text-xs font-semibold text-[#09090b]">Dosen Penguji 1 *</label>
                 <span class="text-[11px] font-medium text-[#0655a7]" x-text="`${buatSelectedMhs1.length}/2 mhs`"></span>
               </div>
               <select
@@ -1304,7 +1287,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 @change="buatSelectedMhs1 = []"
                 class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
               >
-                <option value="">Pilih Dosen 1</option>
+                <option value="">Pilih Dosen Penguji 1</option>
                 <template x-for="d in dosenList" :key="d.id">
                   <option :value="d.id" x-text="d.nama" :disabled="d.id.toString() === buatDosen2Id.toString()"></option>
                 </template>
@@ -1350,7 +1333,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
           <div class="rounded-lg border border-[#e4e4e7] bg-[#fafafa] p-4 space-y-3">
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
-                <label class="text-xs font-semibold text-[#09090b]">Dosen Pembimbing / Penguji 2 *</label>
+                <label class="text-xs font-semibold text-[#09090b]">Dosen Penguji 2 *</label>
                 <span class="text-[11px] font-medium text-[#0655a7]" x-text="`${buatSelectedMhs2.length}/2 mhs`"></span>
               </div>
               <select
@@ -1358,7 +1341,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
                 @change="buatSelectedMhs2 = []"
                 class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
               >
-                <option value="">Pilih Dosen 2</option>
+                <option value="">Pilih Dosen Penguji 2</option>
                 <template x-for="d in dosenList" :key="d.id">
                   <option :value="d.id" x-text="d.nama" :disabled="d.id.toString() === buatDosen1Id.toString()"></option>
                 </template>
@@ -1469,23 +1452,13 @@ import AdminShell from '../../layouts/AdminShell.astro';
             </select>
           </div>
 
-          <div class="space-y-1.5 md:col-span-2">
-            <label class="text-xs font-semibold text-[#09090b]">Link Google Meet *</label>
-            <input
-              type="url"
-              x-model="editGmeet"
-              placeholder="https://meet.google.com/xxx-yyyy-zzz"
-              class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] placeholder:text-[#71717a] focus:outline-none focus:ring-1 focus:ring-[#0655a7]"
-            />
-          </div>
-
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-[#09090b]">Ketua Penguji *</label>
+            <label class="text-xs font-semibold text-[#09090b]">Dosen Penguji 1 *</label>
             <select
               x-model="editPengujiId"
               class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             >
-              <option value="">Pilih Ketua Penguji</option>
+              <option value="">Pilih Dosen Penguji 1</option>
               <template x-for="d in dosenList" :key="d.id">
                 <option :value="d.id" x-text="d.nama" :disabled="editTarget && d.id === editTarget.pembimbing?.id"></option>
               </template>
@@ -1493,12 +1466,12 @@ import AdminShell from '../../layouts/AdminShell.astro';
           </div>
 
           <div class="space-y-1.5">
-            <label class="text-xs font-semibold text-[#09090b]">Penguji 2</label>
+            <label class="text-xs font-semibold text-[#09090b]">Dosen Penguji 2</label>
             <select
               x-model="editPenguji2Id"
               class="h-10 w-full rounded-md border border-[#e4e4e7] bg-white px-3 text-sm text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] cursor-pointer"
             >
-              <option value="">Pilih Penguji 2</option>
+              <option value="">Pilih Dosen Penguji 2</option>
               <template x-for="d in dosenList" :key="d.id">
                 <option :value="d.id" x-text="d.nama" :disabled="editTarget && (d.id === editTarget.pembimbing?.id || d.id.toString() === editPengujiId)"></option>
               </template>

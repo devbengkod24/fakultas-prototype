@@ -84,7 +84,7 @@ function bukaDetailPelamarReadOnly(id) {
   const titleEl = document.getElementById('slide-over-title');
   if (titleEl) {
     if (item.status === 'diterima') {
-      titleEl.textContent = 'Detail Penerima Kampus Berdampak';
+      titleEl.textContent = 'Detail Pelamar Diterima';
       if (titleEl.nextElementSibling) {
         titleEl.nextElementSibling.textContent = 'Tinjau profil akademik, berkas pendaftaran, dan hasil evaluasi seleksi';
       }

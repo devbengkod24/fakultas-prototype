@@ -305,7 +305,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
               <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[200px] max-w-[260px]">Mahasiswa</th>
               <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a] min-w-[180px] max-w-[240px]">Dosen Pembimbing</th>
-              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[130px]">Nilai Kontributor (60%)</th>
+              <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[130px]">Nilai Penyelia (60%)</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[140px]">Nilai Penguji 1 (24%)</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[130px]">Nilai Penguji 2 (16%)</th>
               <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] min-w-[100px]">Nilai Akhir</th>
@@ -545,7 +545,7 @@ import AdminShell from '../../layouts/AdminShell.astro';
     <div
       x-show="isEditNilaiOpen"
       x-cloak
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-150"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 duration-150 bg-black/50 animate-in fade-in"
     >
       <div
         @click.outside="isEditNilaiOpen = false"

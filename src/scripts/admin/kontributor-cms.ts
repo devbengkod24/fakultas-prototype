@@ -72,19 +72,25 @@ function populateKontributorCmsPage(kontributorId) {
   }
 
   // Populate Form Fields
-  document.getElementById('cms-input-kontributor').value = data.kontributor || '';
-  document.getElementById('cms-input-klaster').value = data.sektor || '';
-  document.getElementById('cms-input-moda').value = data.lokasi || '';
-  document.getElementById('cms-input-periode').value = data.periode || 'Semester Gasal 2026/2027';
-  document.getElementById('cms-input-sks').value = data.mou || '';
-  document.getElementById('cms-input-badge').value = data.badge || '';
-  document.getElementById('cms-input-deadline').value = data.deadline || '';
-  document.getElementById('cms-input-deskripsi-hero').value = data.deskripsiHero || '';
-  document.getElementById('cms-input-poin-1').value = data.poin1 || '';
-  document.getElementById('cms-input-poin-2').value = data.poin2 || '';
-  document.getElementById('cms-input-poin-3').value = data.poin3 || '';
-  document.getElementById('cms-input-koor-nama').value = data.koorNama || '';
-  document.getElementById('cms-input-koor-jabatan').value = data.koorJabatan || '';
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  };
+  setVal('cms-input-kontributor', data.kontributor || '');
+  setVal('info-nama-kontributor', data.kontributor || kontributor.nama || '');
+  setVal('cms-input-klaster', data.sektor || '');
+  setVal('cms-input-moda', data.lokasi || '');
+  setVal('info-lokasi', data.lokasi || 'Hybrid (Daring & Lab FIK UDINUS)');
+  setVal('cms-input-periode', data.periode || 'Semester Gasal 2026/2027');
+  setVal('cms-input-sks', data.mou || '');
+  setVal('cms-input-badge', data.badge || '');
+  setVal('cms-input-deadline', data.deadline || '');
+  setVal('cms-input-deskripsi-hero', data.deskripsiHero || '');
+  setVal('cms-input-poin-1', data.poin1 || '');
+  setVal('cms-input-poin-2', data.poin2 || '');
+  setVal('cms-input-poin-3', data.poin3 || '');
+  setVal('cms-input-koor-nama', data.koorNama || '');
+  setVal('cms-input-koor-jabatan', data.koorJabatan || '');
   const fotoImg = document.getElementById('cms-koor-foto-preview');
   if (fotoImg && data.koorFoto) fotoImg.src = data.koorFoto;
 
@@ -448,21 +454,35 @@ function handleSaveCmsHero() {
   const data = kontributorCmsDataMap[activeCmsKontributorId];
   if (!data) return;
 
-  data.kontributor = document.getElementById('cms-input-kontributor').value.trim();
-  data.sektor = document.getElementById('cms-input-klaster').value.trim();
-  data.lokasi = document.getElementById('cms-input-moda').value.trim();
-  data.periode = document.getElementById('cms-input-periode').value;
-  data.mou = document.getElementById('cms-input-sks').value.trim();
-  data.badge = document.getElementById('cms-input-badge').value.trim();
-  data.deadline = document.getElementById('cms-input-deadline').value.trim();
-  data.deskripsiHero = document.getElementById('cms-input-deskripsi-hero').value.trim();
-  data.poin1 = document.getElementById('cms-input-poin-1').value.trim();
-  data.poin2 = document.getElementById('cms-input-poin-2').value.trim();
-  data.poin3 = document.getElementById('cms-input-poin-3').value.trim();
-  data.koorNama = document.getElementById('cms-input-koor-nama').value.trim();
-  data.koorJabatan = document.getElementById('cms-input-koor-jabatan').value.trim();
+  const getVal = (id, fallback = '') => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : fallback;
+  };
 
-  alert('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!');
+  data.kontributor = getVal('info-nama-kontributor', getVal('cms-input-kontributor', data.kontributor));
+  data.sektor = getVal('cms-input-klaster', data.sektor);
+  data.lokasi = getVal('info-lokasi', getVal('cms-input-moda', data.lokasi));
+  data.periode = getVal('cms-input-periode', data.periode);
+  data.mou = getVal('cms-input-sks', data.mou);
+  data.badge = getVal('cms-input-badge', data.badge);
+  data.deadline = getVal('cms-input-deadline', data.deadline);
+  data.deskripsiHero = getVal('cms-input-deskripsi-hero', data.deskripsiHero);
+  data.poin1 = getVal('cms-input-poin-1', data.poin1);
+  data.poin2 = getVal('cms-input-poin-2', data.poin2);
+  data.poin3 = getVal('cms-input-poin-3', data.poin3);
+  data.koorNama = getVal('cms-input-koor-nama', data.koorNama);
+  data.koorJabatan = getVal('cms-input-koor-jabatan', data.koorJabatan);
+
+  const partnerNameEl = document.getElementById('cms-partner-name');
+  if (partnerNameEl && data.kontributor) {
+    partnerNameEl.textContent = data.kontributor;
+  }
+
+  if (typeof window.showAdminToast === 'function') {
+    window.showAdminToast('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!', 'success');
+  } else {
+    alert('Perubahan CMS Halaman Publik Kontributor berhasil disimpan!');
+  }
   finishKontributorSetup();
 }
 

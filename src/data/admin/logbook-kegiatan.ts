@@ -48,7 +48,6 @@ function buildWeeks(studentId: number, count: number, hasPendingLast = false, ha
 
   for (let w = 1; w <= count; w++) {
     const endDate = new Date(startBase.getTime() + (w * 7 - 2) * 86400000);
-    const midDate = new Date(endDate.getTime() - 3 * 86400000);
     const formatLong = (d: Date) => `${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
     const formatShort = (d: Date) => `${hari[d.getDay()]}, ${d.getDate()} ${bulanPendek[d.getMonth()]} ${d.getFullYear()}`;
 
@@ -72,16 +71,6 @@ function buildWeeks(studentId: number, count: number, hasPendingLast = false, ha
               : undefined,
       },
     ];
-
-    if (w % 3 === 1) {
-      entries.push({
-        id: `${studentId}-w${w}-2`,
-        tanggal: formatShort(midDate),
-        status: 'Diterima',
-        deskripsi: `Catatan harian & koordinasi tim mitra pada awal Minggu ${w} terkait pembagian tugas dan target mingguan.`,
-        dokumenNama: `Catatan_Koordinasi_M${w}.pdf`,
-      });
-    }
 
     weeks.push({
       minggu: w,

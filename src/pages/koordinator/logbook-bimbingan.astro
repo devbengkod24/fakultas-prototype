@@ -397,8 +397,8 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
     <!-- LEVEL 2: DAFTAR MAHASISWA BIMBINGAN DOSEN            -->
     <!-- ==================================================== -->
     <div x-show="viewMode === 'mahasiswa'" x-cloak class="flex flex-col gap-4">
-      <!-- Baris 1: Tombol Kembali -->
-      <div class="flex items-center">
+      <!-- Baris 1: Tombol Kembali & Judul -->
+      <div class="flex flex-wrap items-center gap-3">
         <button
           type="button"
           @click="backToDosen()"
@@ -407,6 +407,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
           <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           <span>Kembali</span>
         </button>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Detail Logbook Bimbingan</h2>
       </div>
 
       <!-- Baris 2: Card Identitas Dosen Pembimbing -->
@@ -566,8 +567,8 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
     <!-- LEVEL 3: DETAIL TIMELINE & VERIFIKASI KOORDINATOR    -->
     <!-- ==================================================== -->
     <div x-show="viewMode === 'detail'" x-cloak class="flex flex-col gap-5">
-      <!-- Tombol Kembali di Paling Atas -->
-      <div class="flex items-center">
+      <!-- Tombol Kembali & Judul di Paling Atas -->
+      <div class="flex flex-wrap items-center gap-3">
         <button
           type="button"
           @click="backToMahasiswa()"
@@ -576,6 +577,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
           <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
           <span>Kembali</span>
         </button>
+        <h2 class="text-xl font-normal text-[#09090b] tracking-tight">Detail Logbook Bimbingan</h2>
       </div>
 
       <!-- Card Ringkasan Mahasiswa (Style Kerja Praktek) -->
