@@ -39,9 +39,6 @@
         ></span>
         <h4 class="text-sm font-semibold text-[#09090b]" x-text="editTarget?.nama"></h4>
         <p class="text-xs text-[#71717a]" x-text="editTarget?.kode + (editTarget?.nilaiLama ? ' | Mengulang · Nilai ' + editTarget.nilaiLama : ' | Baru')"></p>
-        <template x-if="editTarget?.catatan">
-          <p class="text-xs text-rose-600 mt-1" x-text="`Alasan: ${editTarget.catatan}`"></p>
-        </template>
       </div>
     </template>
 

@@ -126,8 +126,8 @@ export const sidangData: SidangData = {
   jadwal: {
     tanggal: "Kamis, 15 Januari 2027",
     waktu: "09:00 - 10:30 WIB",
-    lokasi: "Lab Bengkel Koding (Gedung H Lt. 5) & Google Meet Daring",
-    ruang: "Ruang Sidang H.5.2",
+    lokasi: "Google Meet (Daring)",
+    ruang: "",
     linkMeet: "https://meet.google.com/Kampus-Berdampak-sidang-a11",
   },
   penguji: [

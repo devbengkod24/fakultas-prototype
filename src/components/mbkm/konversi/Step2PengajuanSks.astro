@@ -1,10 +1,10 @@
 ---
 // src/components/mbkm/konversi/Step2PengajuanSks.astro
-// Tahap 2: Pengajuan Matkul. Tiap baris ditandai Baru atau Mengulang (berdasarkan nilai lama di transkrip).
-// SKS dan dosen diisi pada tahap 4 (Kelompok Matkul).
+// Tahap 1: Pengajuan Matkul. Tiap baris ditandai Baru atau Mengulang (berdasarkan nilai lama di transkrip).
+// SKS dan dosen diisi pada tahap 3 (Kelompok Matkul).
 ---
 
-<div x-show="currentStep === 2" class="space-y-4" x-transition>
+<div x-show="currentStep === 1" class="space-y-4" x-transition>
   <!-- Pemberitahuan saat ada matkul yang ditolak Koordinator -->
   <div
     x-show="hasDeclined"
@@ -51,10 +51,6 @@
                 <span x-text="row.kode"></span>
                 <span class="text-[#71717a] font-normal mx-1">·</span>
                 <span x-text="row.nama"></span>
-              </div>
-              <div x-show="row.status === 'decline' && row.catatan" class="text-xs text-rose-600 mt-1 flex items-start gap-1">
-                <i data-lucide="info" class="w-3.5 h-3.5 shrink-0 mt-0.5"></i>
-                <span x-text="'Catatan: ' + row.catatan"></span>
               </div>
             </td>
 
@@ -140,16 +136,7 @@
     </p>
   </div>
 
-  <div class="flex items-center justify-between pt-1">
-    <button
-      type="button"
-      @click="currentStep = 1"
-      class="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors cursor-pointer"
-    >
-      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-      <span>Kembali</span>
-    </button>
-
+  <div class="flex items-center justify-end pt-1">
     <button
       type="button"
       @click="submitKonversi()"

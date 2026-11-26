@@ -13,7 +13,7 @@ const json = (v: unknown) => JSON.stringify(v);
 const lengkap = buatPengajuan(pengajuanLengkap, "accept");
 const ditolak = lengkap.map((m, i) =>
   i === 0
-    ? { ...m, status: "decline", catatan: "Capaian pembelajaran tidak relevan dengan fokus proyek mitra." }
+    ? { ...m, status: "decline", catatan: "" }
     : m,
 );
 ---
@@ -21,7 +21,7 @@ const ditolak = lengkap.map((m, i) =>
 <div
   class="w-full space-y-4"
   x-data={`{
-    currentStep: 2,
+    currentStep: 1,
     kondisiSimulasi: 'pertama',
     maxSks: ${MAKS_SKS},
     katalog: ${json(katalogMatkul)},
@@ -51,10 +51,10 @@ const ditolak = lengkap.map((m, i) =>
     setKondisi(val) {
       this.kondisiSimulasi = val;
       this.kelompokTersimpan = false;
-      if (val === 'pertama') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 2; }
-      else if (val === 'menunggu') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 3; }
-      else if (val === 'tolak') { this.konversiList = ${json(ditolak)}; this.currentStep = 2; }
-      else { this.konversiList = ${json(lengkap)}; this.currentStep = 4; }
+      if (val === 'pertama') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 1; }
+      else if (val === 'menunggu') { this.konversiList = ${json(buatPengajuan(pengajuanAwal, "draft"))}; this.currentStep = 2; }
+      else if (val === 'tolak') { this.konversiList = ${json(ditolak)}; this.currentStep = 1; }
+      else { this.konversiList = ${json(lengkap)}; this.currentStep = 3; }
       this.refreshIcons();
     },
     openAddModal() { this.modalMode = 'tambah'; this.selectedMatkul = ''; this.showEditModal = true; this.refreshIcons(); },
@@ -70,13 +70,13 @@ const ditolak = lengkap.map((m, i) =>
       this.showEditModal = false; this.refreshIcons();
     },
     removeMatkul(idx) { this.konversiList.splice(idx, 1); this.refreshIcons(); },
-    submitPakta() { this.currentStep = 2; },
+    submitPakta() { alert('Pakta Integritas berhasil diunggah. Proses konversi selesai.'); },
     submitKonversi() {
       if (this.hasDeclined || !this.konversiList.length) return;
       this.kondisiSimulasi = 'menunggu';
-      this.currentStep = 3;
+      this.currentStep = 2;
     },
-    simpanKelompok() { if (this.kelompokValid) this.kelompokTersimpan = true; }
+    simpanKelompok() { if (this.kelompokValid) { this.kelompokTersimpan = true; this.currentStep = 4; } }
   }`}
 >
   <slot />

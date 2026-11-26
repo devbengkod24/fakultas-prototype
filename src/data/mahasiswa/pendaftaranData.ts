@@ -13,6 +13,8 @@ export interface FormMBKMItem {
   nama: string;
   subnama: string;
   skema: string;
+  isSIB: boolean;
+  surekomMode?: "mandiri" | "koordinator";
   sks: number;
   logo: string;
   tglDaftar: string;
@@ -32,6 +34,7 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     nama: "Bengkel Koding",
     subnama: "Proyek Web & Mobile",
     skema: "Proyek Industri",
+    isSIB: false,
     sks: 20,
     logo: "/assets/images/logo-bengkod.png",
     tglDaftar: "10/10/2025",
@@ -44,11 +47,12 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     noPendaftaran: "REG-BK-2025-0089",
     dokumen: {
       transkrip: "https://drive.google.com/file/d/1T1r2a3n4s5k6r7i8p_Transkrip_AhmadRizky/view",
-      surekom: "https://drive.google.com/file/d/1S1u2r3e4k5o6m7_SuReKom_BengkelKoding/view",
+      surekom: "",
       cv: "https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
       sertifikat: "https://drive.google.com/file/d/1f2g3h4i5j_Sertifikat_React_Node/view",
       lampiran: [
-        "https://drive.google.com/file/d/1k2l3m4n5o_KTM_AhmadRizky/view"
+        "https://drive.google.com/file/d/1k2l3m4n5o_KTM_AhmadRizky/view",
+        "https://drive.google.com/file/d/1k2l3m4n5o_Lampiran2_BK/view"
       ]
     }
   },
@@ -57,6 +61,7 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     nama: "IDSS Laboratory",
     subnama: "Riset Decision Support & AI",
     skema: "Publikasi & Riset",
+    isSIB: false,
     sks: 20,
     logo: "/assets/images/logo-idss.png",
     tglDaftar: "15/10/2025",
@@ -73,7 +78,8 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
       cv: "https://drive.google.com/file/d/1CxiNVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/view",
       sertifikat: "https://drive.google.com/file/d/1g2h3i4j5k_Sertifikat_Python_DataScience/view",
       lampiran: [
-        "https://drive.google.com/file/d/1l2m3n4o5p_KTM_AhmadRizky/view"
+        "https://drive.google.com/file/d/1l2m3n4o5p_KTM_AhmadRizky/view",
+        "https://drive.google.com/file/d/1l2m3n4o5p_Lampiran2_IDSS/view"
       ]
     }
   },
@@ -82,6 +88,8 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     nama: "Dicoding Indonesia",
     subnama: "Asah AI & Software Engineering",
     skema: "Studi Independen",
+    isSIB: true,
+    surekomMode: "mandiri",
     sks: 20,
     logo: "/assets/images/logo-dicoding.png",
     tglDaftar: "16/10/2025",

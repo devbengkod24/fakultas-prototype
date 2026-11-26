@@ -8,11 +8,19 @@ interface Props {
 
 const { class: className } = Astro.props;
 
-const coreDocFields = [
-  { key: "transkrip", label: "Transkrip Nilai", required: true, placeholder: "https://drive.google.com/file/d/..." },
-  { key: "surekom", label: "Surat Rekomendasi", required: false, placeholder: "https://drive.google.com/file/d/..." },
-  { key: "cv", label: "CV", required: false, placeholder: "https://drive.google.com/file/d/... (Opsional)" },
-  { key: "sertifikat", label: "Sertifikat", required: false, placeholder: "https://drive.google.com/file/d/..." },
+const requiredDocFields = [
+  { key: "transkrip", label: "Transkrip Nilai", placeholder: "https://drive.google.com/file/d/..." },
+] as const;
+
+const optionalDocFieldsNonSIB = [
+  { key: "cv", label: "CV", placeholder: "https://drive.google.com/file/d/... (Opsional)" },
+  { key: "sertifikat", label: "Sertifikat", placeholder: "https://drive.google.com/file/d/..." },
+] as const;
+
+const optionalDocFieldsDicoding = [
+  { key: "surekom", label: "Surat Rekomendasi", placeholder: "https://drive.google.com/file/d/... (Opsional)" },
+  { key: "cv", label: "CV", placeholder: "https://drive.google.com/file/d/... (Opsional)" },
+  { key: "sertifikat", label: "Sertifikat", placeholder: "https://drive.google.com/file/d/..." },
 ] as const;
 ---
 
@@ -211,12 +219,12 @@ const coreDocFields = [
             </div>
           </div>
 
-          <!-- Daftar Input Dokumen (Grid 2 Kolom Lebih Lega) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4 text-xs">
-            {coreDocFields.map((field) => (
+          <!-- Dokumen wajib berdiri sendiri, opsional di bawahnya kiri-kanan -->
+          <div class="space-y-4 text-xs">
+            {requiredDocFields.map((field) => (
               <div class="space-y-1.5">
                 <label class="block text-xs font-medium text-[#09090b]">
-                  {field.label}{field.required && <span class="text-red-500"> *</span>}
+                  {field.label}<span class="text-red-500"> *</span>
                 </label>
                 <input
                   type="text"
@@ -229,34 +237,76 @@ const coreDocFields = [
               </div>
             ))}
 
-            <!-- Lampiran Dinamis (Maksimal 3) -->
-            <template x-for="(lamp, lIdx) in program.dokumen.lampiran" :key="lIdx">
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between">
-                  <label class="block text-xs font-medium text-[#09090b]" x-text="'Lampiran ' + (lIdx + 1)"></label>
-                  <button
-                    type="button"
-                    x-show="editingFormId === program.id"
-                    @click="hapusLampiran(program, lIdx)"
-                    class="text-[#71717a] hover:text-red-600 transition-colors p-0.5 cursor-pointer"
-                    :title="'Hapus Lampiran ' + (lIdx + 1)"
-                  >
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                      <line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                  </button>
+            <!-- Conditional: Dicoding vs non-SIB program documents -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+              <template x-if="program.id === 'dicoding'">
+                <template x-for="field in [
+                  { key: 'surekom', label: 'Surat Rekomendasi', placeholder: 'https://drive.google.com/file/d/... (Opsional)' },
+                  { key: 'cv', label: 'CV', placeholder: 'https://drive.google.com/file/d/... (Opsional)' },
+                  { key: 'sertifikat', label: 'Sertifikat', placeholder: 'https://drive.google.com/file/d/...' }
+                ]" :key="field.key">
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-medium text-[#09090b]" x-text="field.label"></label>
+                    <input
+                      type="text"
+                      :placeholder="field.placeholder"
+                      :readonly="editingFormId !== program.id"
+                      x-model="program.dokumen[field.key]"
+                      class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
+                      :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
+                    />
+                  </div>
+                </template>
+              </template>
+
+              <template x-if="program.id !== 'dicoding'">
+                <template x-for="field in [
+                  { key: 'cv', label: 'CV', placeholder: 'https://drive.google.com/file/d/... (Opsional)' },
+                  { key: 'sertifikat', label: 'Sertifikat', placeholder: 'https://drive.google.com/file/d/...' }
+                ]" :key="field.key">
+                  <div class="space-y-1.5">
+                    <label class="block text-xs font-medium text-[#09090b]" x-text="field.label"></label>
+                    <input
+                      type="text"
+                      :placeholder="field.placeholder"
+                      :readonly="editingFormId !== program.id"
+                      x-model="program.dokumen[field.key]"
+                      class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
+                      :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
+                    />
+                  </div>
+                </template>
+              </template>
+
+              <!-- Lampiran Dinamis (Maksimal 3) -->
+              <template x-for="(lamp, lIdx) in program.dokumen.lampiran" :key="lIdx">
+                <div class="space-y-1.5">
+                  <div class="flex items-center justify-between">
+                    <label class="block text-xs font-medium text-[#09090b]" x-text="'Lampiran ' + (lIdx + 1)"></label>
+                    <button
+                      type="button"
+                      x-show="editingFormId === program.id"
+                      @click="hapusLampiran(program, lIdx)"
+                      class="text-[#71717a] hover:text-red-600 transition-colors p-0.5 cursor-pointer"
+                      :title="'Hapus Lampiran ' + (lIdx + 1)"
+                    >
+                      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line>
+                      </svg>
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="https://drive.google.com/file/d/..."
+                    :readonly="editingFormId !== program.id"
+                    x-model="program.dokumen.lampiran[lIdx]"
+                    class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
+                    :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
+                  />
                 </div>
-                <input
-                  type="text"
-                  placeholder="https://drive.google.com/file/d/..."
-                  :readonly="editingFormId !== program.id"
-                  x-model="program.dokumen.lampiran[lIdx]"
-                  class="w-full h-9 px-3 rounded-md border text-xs outline-none transition-all"
-                  :class="editingFormId === program.id ? 'bg-white border-[#0655a7] text-[#09090b] ring-2 ring-blue-100' : 'bg-white border-[#e4e4e7] text-[#3f3f46]'"
-                />
-              </div>
-            </template>
+              </template>
+            </div>
           </div>
 
           <!-- Tombol Tambah Lampiran (Maksimal 3 Lampiran) -->

@@ -16,46 +16,37 @@ const dataStudiFields = [
   { label: "SKS Tempuh", value: "92 SKS" },
 ];
 
-const dokumenFields = [
+const requiredDokumenFields = [
   {
     label: "Transkrip Nilai",
-    required: true,
     value: "https://drive.google.com/file/d/1T4r5a6n7s8k9r0i1p",
     placeholder: "https://drive.google.com/file/d/...",
   },
-  {
-    label: "Surat Rekomendasi",
-    required: false,
-    value: "",
-    placeholder: "https://drive.google.com/file/d/...",
-  },
+];
+
+const optionalDokumenFields = [
   {
     label: "CV",
-    required: false,
     value: "https://drive.google.com/file/d/1A2B3C4D5E6F",
     placeholder: "https://drive.google.com/file/d/... (Opsional)",
   },
   {
     label: "Sertifikat",
-    required: false,
     value: "https://drive.google.com/file/d/7G8H9I0J",
     placeholder: "https://drive.google.com/file/d/...",
   },
   {
     label: "Lampiran 1",
-    required: false,
     value: "https://drive.google.com/file/d/lampiran1-sample",
     placeholder: "https://drive.google.com/file/d/...",
   },
   {
     label: "Lampiran 2",
-    required: false,
     value: "",
     placeholder: "https://drive.google.com/file/d/...",
   },
   {
     label: "Lampiran 3",
-    required: false,
     value: "",
     placeholder: "https://drive.google.com/file/d/...",
   },
@@ -144,11 +135,11 @@ const dokumenFields = [
               periode pendaftaran masih dibuka.
             </p>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
-            {dokumenFields.map((field) => (
+          <div class="space-y-4">
+            {requiredDokumenFields.map((field) => (
               <div class="space-y-1.5">
                 <label class="block text-xs font-medium text-[#09090b]">
-                  {field.label}{field.required && <span class="text-red-500"> *</span>}
+                  {field.label}<span class="text-red-500"> *</span>
                 </label>
                 <input
                   type="url"
@@ -158,6 +149,21 @@ const dokumenFields = [
                 />
               </div>
             ))}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
+              {optionalDokumenFields.map((field) => (
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-medium text-[#09090b]">
+                    {field.label}
+                  </label>
+                  <input
+                    type="url"
+                    value={field.value}
+                    placeholder={field.placeholder}
+                    class="w-full h-9 px-3 rounded-md border border-[#e4e4e7] bg-white text-xs text-[#09090b] focus:border-[#0655a7] focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder:text-[#a1a1aa]"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </div>

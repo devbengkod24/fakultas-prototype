@@ -17,7 +17,7 @@ const { data } = Astro.props;
       <div class="flex items-center gap-3">
         <div>
           <h2 class="text-base font-semibold text-[#09090b]">Jadwal Pelaksanaan Sidang</h2>
-          <p class="text-xs text-[#71717a] leading-relaxed">Waktu dan lokasi evaluasi akhir program MBKM</p>
+          <p class="text-xs text-[#71717a] leading-relaxed">Waktu dan platform pelaksanaan evaluasi akhir program MBKM secara daring</p>
         </div>
       </div>
       <span class="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-2.5 py-0.5 rounded-md font-semibold">
@@ -36,8 +36,11 @@ const { data } = Astro.props;
         <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.waktu}</span>
       </div>
       <div class="p-3.5 bg-[#fafafa] border border-[#e4e4e7] rounded-lg space-y-1">
-        <span class="text-xs text-[#71717a] block">Ruang Sidang</span>
-        <span class="text-sm font-semibold text-[#09090b]">{data.jadwal.ruang}</span>
+        <span class="text-xs text-[#71717a] block">Platform Online</span>
+        <a href={data.jadwal.linkMeet} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-[#0655a7] hover:underline inline-flex items-center gap-1">
+          <i data-lucide="video" class="w-3.5 h-3.5"></i>
+          <span>Buka Link Meet</span>
+        </a>
       </div>
     </div>
 
@@ -73,14 +76,6 @@ const { data } = Astro.props;
       >
         <i data-lucide="info" class="w-4 h-4"></i>
         <span>Tata Tertib Sidang</span>
-      </button>
-      <button
-        type="button"
-        onclick="openRescheduleModal()"
-        class="inline-flex items-center gap-1.5 h-9 px-4 rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium transition-colors"
-      >
-        <i data-lucide="clock" class="w-4 h-4"></i>
-        <span>Ajukan Reschedule</span>
       </button>
     </div>
   </div>
