@@ -1,141 +1,128 @@
 ---
 // src/components/mbkm/mahasiswa/AktifLogbookCard.astro
+// Ringkasan Logbook Bimbingan pada Dashboard Mahasiswa (state aktif).
+// Data diambil dari sumber yang sama dengan halaman /mahasiswa/logbook.
+// 5 sesi bimbingan: yang sudah "Diterima" menampilkan deskripsi kegiatan;
+// yang belum bimbingan menampilkan placeholder italic "Belum ada catatan".
+
+const bimbingan = [
+  {
+    id: 1,
+    bab: 'Bimbingan ke-1',
+    status: 'Diterima',
+    hariTanggal: 'Senin, 7 Sep 2026',
+    deskripsi: 'Persiapan Pemahaman Lingkungan Kerja',
+  },
+  {
+    id: 2,
+    bab: 'Bimbingan ke-2',
+    status: 'Diterima',
+    hariTanggal: 'Kamis, 17 Sep 2026',
+    deskripsi: 'Pendalaman Proyek serta Etika Profesional',
+  },
+  {
+    id: 3,
+    bab: 'Bimbingan ke-3',
+    status: 'Diterima',
+    hariTanggal: 'Senin, 28 Sep 2026',
+    deskripsi: 'Monitoring Progres Tengah Semester',
+  },
+  {
+    id: 4,
+    bab: 'Bimbingan ke-4',
+    status: 'Belum',
+    hariTanggal: '',
+    deskripsi: '',
+  },
+  {
+    id: 5,
+    bab: 'Bimbingan ke-5',
+    status: 'Belum',
+    hariTanggal: '',
+    deskripsi: '',
+  },
+];
+
+const diterima = bimbingan.filter((b) => b.status === 'Diterima').length;
+const total = bimbingan.length;
+const persen = Math.round((diterima / total) * 100);
 ---
 
-<!-- Kolom Kiri (2/3 width): Logbook Bimbingan -->
-<div class="lg:col-span-2 flex">
-  <div
-    class="flex w-full flex-col rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none"
-  >
-    <div class="flex flex-col space-y-1.5 p-4 pb-2">
-      <h3
-        class="flex items-center gap-2 text-sm font-semibold text-[#09090b]"
-      >
-        <i data-lucide="book-open" class="h-5 w-5 text-[#09090b]"></i>
+<!-- Kolom Kiri (8/12 width): Ringkasan Logbook Bimbingan -->
+<div class="flex w-full">
+  <div class="flex w-full flex-col rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none">
+
+    <!-- Header: Judul + Link ke halaman lengkap -->
+    <div class="flex items-center justify-between p-4 pb-2">
+      <h3 class="text-sm font-semibold text-[#09090b]">
         Logbook Bimbingan
       </h3>
-      <p class="text-sm text-[#71717a]">
-        Progress pengerjaan logbook dan checklist KB
-      </p>
     </div>
-    <div class="flex flex-1 flex-col gap-5 p-4 pt-0">
-      <div class="space-y-2">
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-[#09090b]">Progress checklist</span>
-          <span class="font-medium text-[#09090b]">75%</span>
-        </div>
-        <div
-          class="relative h-2 w-full overflow-hidden rounded-full bg-[#f4f4f5]"
-        >
-          <div
-            class="h-full bg-[#0655a7] rounded-full w-[75%] transition-all"
-          >
-          </div>
-        </div>
+
+    <!-- Progress Bar -->
+    <div class="px-4 pb-3 space-y-1.5">
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-[#71717a]">Progress bimbingan</span>
+        <span class="font-semibold text-[#09090b]">{persen}%</span>
       </div>
-
-      <div class="flex flex-1 flex-col gap-2.5">
-        <!-- Item 1: Pengajuan ke dosen pembimbing -->
+      <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-[#f4f4f5]">
         <div
-          class="flex flex-1 items-center gap-3 rounded-2xl border border-[#e4e4e7] p-3"
-        >
-          <div
-            class="rounded-full p-1 bg-emerald-100 text-emerald-600 shrink-0"
-          >
-            <i data-lucide="check-circle-2" class="h-4 w-4"></i>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex items-center justify-between gap-2">
-              <p class="font-medium text-sm text-[#09090b]">
-                Pengajuan ke dosen pembimbing
-              </p>
-              <span
-                class="inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#0655a7] text-white"
-                >Selesai</span
-              >
-            </div>
-            <p class="mt-1 text-xs text-[#71717a]">
-              Pembimbing: Dosen A11
-            </p>
-          </div>
-        </div>
-
-        <!-- Item 2: Bab Sudah Diverifikasi -->
-        <div
-          class="flex flex-1 items-center gap-3 rounded-2xl border border-[#e4e4e7] p-3"
-        >
-          <div
-            class="rounded-full p-1 bg-emerald-100 text-emerald-600 shrink-0"
-          >
-            <i data-lucide="check-circle-2" class="h-4 w-4"></i>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex items-center justify-between gap-2">
-              <p class="font-medium text-sm text-[#09090b]">
-                Bab Sudah Diverifikasi
-              </p>
-              <span
-                class="inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#0655a7] text-white"
-                >Selesai</span
-              >
-            </div>
-            <p class="mt-1 text-xs text-[#71717a]">
-              5/5 bab sudah diverifikasi
-            </p>
-          </div>
-        </div>
-
-        <!-- Item 3: Sudah mendapatkan jadwal sidang -->
-        <div
-          class="flex flex-1 items-center gap-3 rounded-2xl border border-[#e4e4e7] p-3"
-        >
-          <div
-            class="rounded-full p-1 bg-emerald-100 text-emerald-600 shrink-0"
-          >
-            <i data-lucide="check-circle-2" class="h-4 w-4"></i>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex items-center justify-between gap-2">
-              <p class="font-medium text-sm text-[#09090b]">
-                Sudah mendapatkan jadwal sidang
-              </p>
-              <span
-                class="inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#0655a7] text-white"
-                >Selesai</span
-              >
-            </div>
-            <p class="mt-1 text-xs text-[#71717a]">
-              Jadwal: Selasa, 27 Oktober 2026 • 09:00 - 09:45
-            </p>
-          </div>
-        </div>
-
-        <!-- Item 4: Sidang KB sudah dinilai -->
-        <div
-          class="flex flex-1 items-center gap-3 rounded-2xl border border-[#e4e4e7] p-3"
-        >
-          <div
-            class="rounded-full p-1 bg-[#f4f4f5] text-[#71717a] shrink-0"
-          >
-            <i data-lucide="circle" class="h-4 w-4"></i>
-          </div>
-          <div class="min-w-0 flex-1">
-            <div class="flex items-center justify-between gap-2">
-              <p class="font-medium text-sm text-[#09090b]">
-                Sidang KB sudah dinilai
-              </p>
-              <span
-                class="inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-[#fef3c7] text-[#b45309]"
-              >
-                Belum
-              </span>
-            </div>
-            <p class="mt-1 text-xs text-[#71717a]">
-              Sidang KB belum dinilai.
-            </p>
-          </div>
-        </div>
+          class="h-full bg-[#0655a7] rounded-full transition-all"
+          style={`width: ${persen}%`}
+        ></div>
       </div>
     </div>
+
+    <!-- Daftar 5 Bimbingan -->
+    <div class="flex flex-col gap-2 px-4 pb-4">
+      {bimbingan.map((b) => {
+        const diterima = b.status === 'Diterima';
+        return (
+          <div class={`flex items-start gap-3 rounded-xl border p-3 ${diterima ? 'border-[#e4e4e7]' : 'border-[#f4f4f5] bg-[#fafafa]'}`}>
+
+            <!-- Ikon status -->
+            <div class={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${diterima ? 'bg-emerald-100 text-emerald-600' : 'bg-[#f4f4f5] text-[#a1a1aa]'}`}>
+              {diterima
+                ? <i data-lucide="check-circle-2" class="h-3.5 w-3.5"></i>
+                : <i data-lucide="circle-dashed" class="h-3.5 w-3.5"></i>
+              }
+            </div>
+
+            <!-- Konten -->
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between gap-2">
+                <p class={`text-sm font-semibold ${diterima ? 'text-[#09090b]' : 'text-[#71717a]'}`}>
+                  {b.bab}
+                </p>
+                {diterima
+                  ? <span class="inline-flex shrink-0 items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200">
+                      Diterima
+                    </span>
+                  : <span class="inline-flex shrink-0 items-center rounded-full bg-[#fef3c7] px-2 py-0.5 text-[11px] font-semibold text-[#b45309] border border-amber-200">
+                      Belum
+                    </span>
+                }
+              </div>
+
+              {/* Tanggal (hanya jika sudah ada) */}
+              {b.hariTanggal && (
+                <p class="mt-0.5 flex items-center gap-1 text-[11px] text-[#71717a]">
+                  <i data-lucide="calendar" class="h-3 w-3 shrink-0"></i>
+                  {b.hariTanggal}
+                </p>
+              )}
+
+              {/* Deskripsi kegiatan atau placeholder */}
+              {diterima
+                ? <p class="mt-1 text-xs text-[#52525b] leading-relaxed">{b.deskripsi}</p>
+                : <p class="mt-1 text-xs italic text-[#a1a1aa]">Belum ada catatan bimbingan.</p>
+              }
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+
   </div>
 </div>
