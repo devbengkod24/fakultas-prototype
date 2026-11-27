@@ -12,17 +12,33 @@ import { kegiatanAwal, mulaiProgram } from "../../../data/mahasiswa/logbookKegia
     mulaiProgram: '${mulaiProgram}',
     showTambah: false,
     docItem: null,
-    form: { judul: '', tanggal: '', deskripsi: '', dokumenUrl: '' },
+    form: { judul: '', minggu: '', deskripsi: '', dokumenUrl: '' },
 
-    get terbaru() { return [...this.entries].sort((a, b) => b.tanggal.localeCompare(a.tanggal)); },
-    get kegiatanTerakhir() { return this.terbaru.length ? this.fmt(this.terbaru[0].tanggal) : '-'; },
+    mingguOf(e) {
+      if (e && e.minggu) return Number(e.minggu);
+      return this.mingguDari(e?.tanggal);
+    },
+    minggu(e) { return 'Minggu ke-' + this.mingguOf(e); },
+
+    get usedWeeks() { return new Set(this.entries.map((e) => this.mingguOf(e))); },
+    get availableWeeks() {
+      const weeks = [];
+      for (let w = 1; w <= 24; w++) {
+        if (!this.usedWeeks.has(w)) weeks.push(w);
+      }
+      return weeks;
+    },
+
+    get terbaru() { return [...this.entries].sort((a, b) => this.mingguOf(b) - this.mingguOf(a)); },
+    get sortedEntries() { return [...this.entries].sort((a, b) => this.mingguOf(a) - this.mingguOf(b)); },
+    get kegiatanTerakhir() { return this.terbaru.length ? 'Minggu ke-' + this.mingguOf(this.terbaru[0]) : '-'; },
     get jumlahMinggu() { return this.mingguan.length; },
 
-    // Kelompok mingguan, minggu terkecil di atas, tanggal menaik di dalam tiap minggu.
+    // Kelompok mingguan, minggu terkecil di atas.
     get mingguan() {
       const peta = new Map();
       for (const e of this.entries) {
-        const m = this.mingguDari(e.tanggal);
+        const m = this.mingguOf(e);
         if (!peta.has(m)) peta.set(m, []);
         peta.get(m).push(e);
       }
@@ -30,7 +46,7 @@ import { kegiatanAwal, mulaiProgram } from "../../../data/mahasiswa/logbookKegia
         .sort((a, b) => a[0] - b[0])
         .map(([minggu, items]) => ({
           minggu,
-          items: [...items].sort((a, b) => a.tanggal.localeCompare(b.tanggal)),
+          items: [...items].sort((a, b) => (a.tanggal || '').localeCompare(b.tanggal || '')),
         }));
     },
 
@@ -41,17 +57,26 @@ import { kegiatanAwal, mulaiProgram } from "../../../data/mahasiswa/logbookKegia
       return Math.max(1, Math.floor(selisihHari / 7) + 1);
     },
 
-    fmt(iso) { return new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }); },
+    fmt(iso) { return iso ? new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) : '-'; },
     refreshIcons() { this.$nextTick(() => window.lucide && window.lucide.createIcons()); },
 
     openTambah() {
-      this.form = { judul: '', tanggal: new Date().toISOString().slice(0, 10), deskripsi: '', dokumenUrl: '' };
+      const nextWeek = this.availableWeeks.length ? String(this.availableWeeks[0]) : '';
+      this.form = { judul: '', minggu: nextWeek, deskripsi: '', dokumenUrl: '' };
       this.showTambah = true;
       this.refreshIcons();
     },
     simpan() {
+      if (!this.form.minggu) return;
       const id = this.entries.reduce((n, e) => Math.max(n, e.id), 0) + 1;
-      this.entries.push({ id, ...this.form, judul: this.form.judul.trim(), deskripsi: this.form.deskripsi.trim() });
+      this.entries.push({
+        id,
+        minggu: Number(this.form.minggu),
+        tanggal: '',
+        judul: this.form.judul.trim(),
+        deskripsi: this.form.deskripsi.trim(),
+        dokumenUrl: this.form.dokumenUrl.trim(),
+      });
       this.showTambah = false;
       this.refreshIcons();
     },

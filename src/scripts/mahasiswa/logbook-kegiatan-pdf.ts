@@ -116,15 +116,19 @@ function footerSemuaHalaman(doc: PdfDoc, p: Profil): void {
 
 /** Menyusun seluruh isi laporan pada dokumen jsPDF yang diberikan. */
 export function susunLaporan(doc: PdfDoc, entries: KegiatanLog[], p: Profil, tanggalCetak: string): void {
+  const mingguEntry = (e: KegiatanLog) => e.minggu ?? hitungMinggu(e.tanggal);
   // Urut berdasarkan minggu lalu tanggal, agar kegiatan satu minggu berdekatan.
   const urut = [...entries].sort(
-    (a, b) => hitungMinggu(a.tanggal) - hitungMinggu(b.tanggal) || a.tanggal.localeCompare(b.tanggal),
+    (a, b) => mingguEntry(a) - mingguEntry(b) || (a.tanggal || "").localeCompare(b.tanggal || ""),
   );
+  const bertanggal = urut.filter((e) => Boolean(e.tanggal));
   const periode =
-    urut.length > 1
-      ? `${tglPendek(urut[0].tanggal)} - ${tglPendek(urut[urut.length - 1].tanggal)}`
-      : tglPendek(urut[0].tanggal);
-  const jumlahMinggu = urut.length ? hitungMinggu(urut[urut.length - 1].tanggal) : 0;
+    bertanggal.length > 1
+      ? `${tglPendek(bertanggal[0].tanggal)} - ${tglPendek(bertanggal[bertanggal.length - 1].tanggal)}`
+      : bertanggal.length === 1
+        ? tglPendek(bertanggal[0].tanggal)
+        : `Minggu ${mingguEntry(urut[0])} - Minggu ${mingguEntry(urut[urut.length - 1])}`;
+  const jumlahMinggu = urut.length ? mingguEntry(urut[urut.length - 1]) : 0;
 
   kopLaporan(doc, periode);
   const yIdentitas = blokIdentitas(
@@ -157,8 +161,8 @@ export function susunLaporan(doc: PdfDoc, entries: KegiatanLog[], p: Profil, tan
     head: [["No", "Minggu", "Tanggal", "Kegiatan", "Uraian", "Dokumen"]],
     body: urut.map((e, i) => [
       String(i + 1),
-      `Minggu ${hitungMinggu(e.tanggal)}`,
-      `${tglPendek(e.tanggal)}\n${hari(e.tanggal)}`,
+      `Minggu ${mingguEntry(e)}`,
+      e.tanggal ? `${tglPendek(e.tanggal)}\n${hari(e.tanggal)}` : "-",
       e.judul,
       e.deskripsi,
       "Buka dokumen",

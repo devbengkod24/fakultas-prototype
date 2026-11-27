@@ -24,6 +24,7 @@ export interface FormMBKMItem {
   pengumuman: string;
   tglTutup: string;
   isClosed: boolean;
+  isRejectedHistory?: boolean;
   noPendaftaran: string;
   dokumen: FormDokumen;
 }
@@ -43,7 +44,8 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     jadwalWawancaraDetail: "22/10/2025, 09:00 • Google Meet",
     pengumuman: "N/A",
     tglTutup: "14 Okt 2025, 23:59 WIB",
-    isClosed: true,
+    isClosed: false,
+    isRejectedHistory: false,
     noPendaftaran: "REG-BK-2025-0089",
     dokumen: {
       transkrip: "https://drive.google.com/file/d/1T1r2a3n4s5k6r7i8p_Transkrip_AhmadRizky/view",
@@ -64,13 +66,14 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     isSIB: false,
     sks: 20,
     logo: "/assets/images/logo-idss.png",
-    tglDaftar: "15/10/2025",
-    screeningLolos: true,
-    jadwalWawancara: "18/10/2025",
-    jadwalWawancaraDetail: "18/10/2025, 13:30 • Gedung H Lt. 5",
-    pengumuman: "N/A",
-    tglTutup: "17 Okt 2025, 23:59 WIB",
-    isClosed: false,
+    tglDaftar: "01/10/2025",
+    screeningLolos: false,
+    jadwalWawancara: "N/A",
+    jadwalWawancaraDetail: "N/A",
+    pengumuman: "Ditolak",
+    tglTutup: "05 Okt 2025, 23:59 WIB",
+    isClosed: true,
+    isRejectedHistory: true,
     noPendaftaran: "REG-IDSS-2025-0042",
     dokumen: {
       transkrip: "https://drive.google.com/file/d/1T2r3a4n5s6k7r8i9p_Transkrip_AhmadRizky/view",
@@ -92,13 +95,14 @@ export const mockDaftarFormMBKM: FormMBKMItem[] = [
     surekomMode: "mandiri",
     sks: 20,
     logo: "/assets/images/logo-dicoding.png",
-    tglDaftar: "16/10/2025",
+    tglDaftar: "20/09/2025",
     screeningLolos: false,
-    jadwalWawancara: "24/10/2025",
+    jadwalWawancara: "N/A",
     jadwalWawancaraDetail: "N/A",
-    pengumuman: "25/10/2025",
-    tglTutup: "20 Okt 2025, 23:59 WIB",
-    isClosed: false,
+    pengumuman: "Ditolak",
+    tglTutup: "25 Sep 2025, 23:59 WIB",
+    isClosed: true,
+    isRejectedHistory: true,
     noPendaftaran: "REG-DCD-2025-0155",
     dokumen: {
       transkrip: "https://drive.google.com/file/d/1T3r4a5n6s7k8r9i0p_Transkrip_AhmadRizky/view",

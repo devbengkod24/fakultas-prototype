@@ -33,14 +33,19 @@ const label = "text-[12px] font-semibold text-[#09090b] block mb-1";
         <input id="kegiatan-judul" x-model="form.judul" type="text" required class={input} placeholder="Contoh: Implementasi halaman dashboard" />
       </div>
       <div>
-        <label for="kegiatan-tanggal" class={label}>Tanggal Kegiatan <span class="text-red-500">*</span></label>
-        <input id="kegiatan-tanggal" x-model="form.tanggal" type="date" required class={input} />
-        <!-- Minggu mengikuti tanggal yang diisi; tidak ada penguncian tanggal -->
-        <p x-show="form.tanggal" x-cloak class="text-[11px] text-[#71717a] mt-1">
-          Masuk ke <span class="font-semibold text-[#09090b]" x-text="'Minggu ke-' + mingguDari(form.tanggal)"></span>
-          <span class="text-[#d4d4d8] mx-1">•</span>
-          <span x-text="fmt(form.tanggal)"></span>
-        </p>
+        <label for="kegiatan-minggu" class={label}>Minggu Kegiatan <span class="text-red-500">*</span></label>
+        <select
+          id="kegiatan-minggu"
+          x-model="form.minggu"
+          required
+          :disabled="!availableWeeks.length"
+          class={input + " bg-white disabled:bg-[#f4f4f5] disabled:text-[#71717a]"}
+        >
+          <option value="" disabled x-text="availableWeeks.length ? 'Pilih minggu kegiatan' : 'Semua minggu (1–24) sudah dibuat'"></option>
+          <template x-for="w in availableWeeks" :key="w">
+            <option :value="String(w)" x-text="'Minggu ke-' + w"></option>
+          </template>
+        </select>
       </div>
       <div>
         <label for="kegiatan-deskripsi" class={label}>Rincian Aktivitas <span class="text-red-500">*</span></label>

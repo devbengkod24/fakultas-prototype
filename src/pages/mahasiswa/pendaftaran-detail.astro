@@ -1,6 +1,7 @@
 ---
 // src/pages/mahasiswa/pendaftaran-detail.astro
 import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
+import DetailStepper from "../../components/mahasiswa/pendaftaran/DetailStepper.astro";
 
 const syaratAkademikFields = [
   { label: "Nama Lengkap", value: "Faisal Rahman" },
@@ -59,7 +60,24 @@ const optionalDokumenFields = [
   pageTitle="Detail Pendaftaran MBKM"
   breadcrumb="Detail Pendaftaran"
 >
-  <div class="w-full space-y-4">
+  <div
+    class="w-full space-y-4"
+    x-data={`{
+      currentStage: new URLSearchParams(window.location.search).get('stage') || 'pendaftaran',
+      programId: new URLSearchParams(window.location.search).get('program') || 'bk',
+      programs: {
+        bk: 'Bengkel Koding — Proyek Web & Mobile',
+        idss: 'IDSS Laboratory — Riset Decision Support & AI',
+        dicoding: 'Dicoding Indonesia — Asah AI & Software Engineering'
+      },
+      stages: ['pendaftaran', 'berkas', 'wawancara', 'hasil'],
+      setStage(s) { this.currentStage = s; },
+      stageIndex(k) { return this.stages.indexOf(k); },
+      isStepDone(k) { return this.stageIndex(this.currentStage) > this.stageIndex(k); },
+      isStepActive(k) { return this.currentStage === k; },
+      isStepPending(k) { return this.stageIndex(this.currentStage) < this.stageIndex(k); }
+    }`}
+  >
     <!-- Header Halaman (Selaras Dashboard & Pendaftaran) -->
     <header class="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
       <div>
@@ -67,10 +85,11 @@ const optionalDokumenFields = [
           Formulir Pendaftaran MBKM
         </h2>
         <p class="text-sm text-[#71717a] mt-0.5">
-          Program: Bengkel Koding — Proyek Web & Mobile
+          Program: <span x-text="programs[programId] || 'Bengkel Koding — Proyek Web & Mobile'">Bengkel Koding — Proyek Web & Mobile</span>
         </p>
       </div>
       <a
+        :href="'/mahasiswa/pendaftaran' + (currentStage ? '?stage=' + currentStage : '')"
         href="/mahasiswa/pendaftaran"
         class="inline-flex items-center gap-1.5 h-8 px-3 border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] text-xs font-medium rounded-md transition-colors self-start sm:self-auto shrink-0 shadow-none"
       >
@@ -78,6 +97,9 @@ const optionalDokumenFields = [
         <span>Kembali</span>
       </a>
     </header>
+
+    <!-- Stepper Tracker 4 Tahap -->
+    <DetailStepper />
 
     <!-- Card Formulir Pendaftaran (Selaras Zinc & Brand Blue Tokens) -->
     <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">

@@ -10,7 +10,7 @@ interface Props {
 const { waktu = "tanggal", emptyText = 'Belum ada kegiatan. Klik "Tambah Kegiatan" untuk mulai mencatat.' } = Astro.props;
 ---
 
-<div>
+<div class="pt-2">
   <h2 class="text-[16px] font-semibold text-[#09090b] mb-3">Riwayat Kegiatan</h2>
 
   <p
@@ -20,27 +20,25 @@ const { waktu = "tanggal", emptyText = 'Belum ada kegiatan. Klik "Tambah Kegiata
     {emptyText}
   </p>
 
-  <!-- Satu blok per minggu; tiap kegiatan tetap berupa card accordion -->
-  <div class="space-y-5">
-    <template x-for="grup in mingguan" :key="grup.minggu">
-      <section class="space-y-3">
-        <!-- Header minggu -->
-        <div class="flex items-center gap-3">
-          <span class="inline-flex items-center gap-1.5 shrink-0 text-xs font-semibold px-2.5 py-1 rounded-md border border-[#e4e4e7] bg-[#fafafa] text-[#09090b]">
-            <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-[#0655a7]"></i>
-            <span x-text="'Minggu ke-' + grup.minggu"></span>
-          </span>
-          <span class="text-xs text-[#71717a]" x-text="grup.items.length + ' kegiatan'"></span>
-          <span class="flex-1 h-px bg-[#e4e4e7]" aria-hidden="true"></span>
-        </div>
+  <!-- Timeline List (selaras Riwayat Bimbingan) -->
+  <div class="space-y-3 relative" x-show="entries.length">
+    <template x-for="(item, idx) in (typeof sortedEntries !== 'undefined' ? sortedEntries : entries)" :key="item.id">
+      <div class="relative flex items-start gap-4" x-data="{ open: true }">
+        <!-- Garis Penghubung Vertikal Antar Step -->
+        <div
+          x-show="idx < (typeof sortedEntries !== 'undefined' ? sortedEntries : entries).length - 1"
+          class="absolute left-3.5 top-7 -bottom-3 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2 z-0"
+        ></div>
 
-        <!-- Daftar kegiatan minggu tersebut -->
-        <div class="space-y-3">
-          <template x-for="item in grup.items" :key="item.id">
-            <div class="relative flex items-start gap-4" x-data="{ open: true }">
-              <div class="relative z-10 w-7 h-7 rounded-full bg-[#fef3c7] border border-[#fcd34d] shrink-0"></div>
+        <!-- Lingkaran Penomoran -->
+        <div
+          class="relative z-10 w-7 h-7 rounded-full bg-[#eff6ff] text-[#1063B9] text-xs font-semibold flex items-center justify-center shrink-0 border border-[#bfdbfe]"
+          x-text="idx + 1"
+        ></div>
 
+        <!-- Kartu Kegiatan Accordion -->
         <article class="flex-1 min-w-0 bg-white border border-[#e4e4e7] rounded-xl p-4 shadow-2xs hover:border-[#cbd5e1] transition-colors">
+          <!-- Header Kartu (Klik untuk buka/tutup accordion) -->
           <div class="flex items-start justify-between cursor-pointer select-none group" @click="open = !open">
             <div class="space-y-1 min-w-0">
               <h3 class="text-[14px] font-semibold text-[#09090b] group-hover:text-[#1063B9] transition-colors" x-text="item.judul"></h3>
@@ -57,24 +55,22 @@ const { waktu = "tanggal", emptyText = 'Belum ada kegiatan. Klik "Tambah Kegiata
             </button>
           </div>
 
-                <div x-show="open" class="mt-3 pt-3 border-t border-[#f4f4f5] space-y-2.5">
-                  <p class="text-[13px] text-[#27272a] leading-relaxed" x-text="item.deskripsi"></p>
-                  <div class="pt-1">
-                    <button
-                      type="button"
-                      @click="docItem = item; refreshIcons()"
-                      class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer"
-                    >
-                      <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                      <span>Lihat Dokumen</span>
-                    </button>
-                  </div>
-                </div>
-              </article>
+          <!-- Konten Rincian Kegiatan (Collapsible Body) -->
+          <div x-show="open" class="mt-3 pt-3 border-t border-[#f4f4f5] space-y-2.5">
+            <p class="text-[13px] text-[#27272a] leading-relaxed" x-text="item.deskripsi"></p>
+            <div class="pt-1">
+              <button
+                type="button"
+                @click="docItem = item; refreshIcons()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors cursor-pointer"
+              >
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Lihat Dokumen</span>
+              </button>
             </div>
-          </template>
-        </div>
-      </section>
+          </div>
+        </article>
+      </div>
     </template>
   </div>
 </div>
