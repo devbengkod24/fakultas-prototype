@@ -1,6 +1,11 @@
 ---
 // src/components/mbkm/mahasiswa/PendaftarProgramTable.astro
-const programs = [
+// Riwayat pengajuan: urutan terbaru → terlama, dan hanya pengajuan terbaru pada
+// periode berjalan yang detailnya boleh dibuka (aturan satu pendaftaran per periode).
+// Aturan & pengurutan hidup di modul domain, bukan di markup.
+import { riwayatSiapTampil } from '../../../scripts/mahasiswa/pendaftaran-period';
+
+const riwayat = [
   {
     id: 'bk',
     nama: 'Bengkel Koding',
@@ -32,6 +37,8 @@ const programs = [
     hasOffer: false,
   },
 ];
+
+const programs = riwayatSiapTampil(riwayat);
 ---
 
 <!-- Kolom Kiri: Daftar Program yang Diajukan (Flat Inline Metadata - Maksimal 3 Program) -->
@@ -39,8 +46,8 @@ const programs = [
   <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden h-full flex flex-col">
     <!-- Header Card (Selaras Admin Dashboard Card Title) -->
     <div class="px-5 py-3.5 border-b border-[#e4e4e7] shrink-0">
-      <h3 class="text-base font-semibold text-[#09090b]">
-        Program yang diajukan
+      <h3 class="flex items-center gap-2 text-sm font-semibold text-[#09090b]">
+        Riwayat Pengajuan Program
       </h3>
     </div>
 
@@ -110,15 +117,28 @@ const programs = [
                 </template>
               )}
 
-              <!-- Tombol Aksi: Lihat Selengkapnya -->
+              <!-- Tombol Aksi: Lihat Selengkapnya
+                   Hanya pengajuan terbaru pada periode berjalan yang dapat dibuka.
+                   Riwayat pengajuan sebelumnya tetap tampil namun non-aktif. -->
               <template x-if={!program.hasOffer ? "!paktaSubmitted" : "true"}>
-                <a
-                  href={`/mahasiswa/pendaftaran?program=${program.id}`}
-                  class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
-                >
-                  <span>Lihat selengkapnya</span>
-                  <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a]"></i>
-                </a>
+                {program.bolehBukaDetail ? (
+                  <a
+                    href={`/mahasiswa/pendaftaran?program=${program.id}`}
+                    class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-white hover:bg-[#f4f4f5] text-[#09090b] transition-colors"
+                  >
+                    <span>Lihat selengkapnya</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                  </a>
+                ) : (
+                  <span
+                    class="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md border border-[#e4e4e7] bg-[#fafafa] text-[#a1a1aa] cursor-not-allowed select-none"
+                    aria-disabled="true"
+                    title="Riwayat pengajuan sebelumnya — hanya pengajuan terbaru yang dapat dibuka"
+                  >
+                    <span>Lihat selengkapnya</span>
+                    <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                  </span>
+                )}
               </template>
               {!program.hasOffer && (
                 <template x-if="paktaSubmitted">
