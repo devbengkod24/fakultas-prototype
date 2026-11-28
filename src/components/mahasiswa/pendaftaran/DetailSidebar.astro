@@ -10,52 +10,22 @@ const { class: className } = Astro.props;
 ---
 
 <div class={cn("flex flex-col gap-4", className)}>
-  <!-- 1. Ringkasan Data Mahasiswa (Selaras PendaftarSidebar Dashboard) -->
-  <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none p-4">
-    <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#e4e4e7]">
-      <h3 class="text-sm font-semibold text-[#09090b]">Identitas Mahasiswa</h3>
-      <i data-lucide="user-check" class="w-4 h-4 text-[#71717a]"></i>
-    </div>
-
-    <div class="divide-y divide-[#f4f4f5] text-xs">
-      <div class="flex justify-between items-center py-2 first:pt-0">
-        <span class="text-[#71717a]">Nama Lengkap</span>
-        <span class="font-medium text-[#09090b]">Ahmad Rizky Pratama</span>
-      </div>
-      <div class="flex justify-between items-center py-2">
-        <span class="text-[#71717a]">NIM</span>
-        <span class="font-medium text-[#09090b]">A11.2020.00001</span>
-      </div>
-      <div class="flex justify-between items-center py-2">
-        <span class="text-[#71717a]">Program Studi</span>
-        <span class="font-medium text-[#09090b]">Teknik Informatika - S1</span>
-      </div>
-      <div class="flex justify-between items-center py-2">
-        <span class="text-[#71717a]">Semester / TA</span>
-        <span class="font-medium text-[#09090b]">Semester 7 (2024/2025)</span>
-      </div>
-      <div class="flex justify-between items-center py-2 last:pb-0">
-        <span class="text-[#71717a]">IPK / SKS Lulus</span>
-        <span class="font-medium text-[#09090b]">3.68 / 110 SKS</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. Status Ringkas 3 Program yang Diajukan (Flat List, Tanpa Nested Card) -->
+  <!-- Status Program Aktif & Riwayat Pendaftaran -->
   <div class="rounded-xl border border-[#e4e4e7] bg-white text-[#09090b] shadow-none overflow-hidden">
     <div class="flex items-center justify-between px-4 py-3 border-b border-[#e4e4e7]">
-      <h3 class="text-sm font-semibold text-[#09090b]">Prioritas Program (3)</h3>
+      <h3 class="text-sm font-semibold text-[#09090b]">Status & Riwayat Program</h3>
       <i data-lucide="layers" class="w-4 h-4 text-[#71717a]"></i>
     </div>
 
     <div class="divide-y divide-[#f4f4f5]">
-      <template x-for="(prog, idx) in daftarFormMBKM" :key="prog.id">
+      <template x-for="prog in daftarFormMBKM" :key="prog.id">
         <div
-          @click="selectedProgram = prog.id"
-          class="relative px-4 py-3 space-y-0.5 cursor-pointer transition-colors bg-white hover:bg-[#fafafa]"
+          @click="if (!prog.isRejectedHistory) selectedProgram = prog.id; expandedFormId = prog.id"
+          class="relative px-4 py-3 space-y-0.5 cursor-pointer transition-colors"
+          :class="prog.isRejectedHistory ? 'bg-[#f4f4f5]/80 opacity-75 hover:bg-[#f4f4f5]' : 'bg-white hover:bg-[#fafafa]'"
         >
           <div
-            x-show="selectedProgram === prog.id"
+            x-show="selectedProgram === prog.id && !prog.isRejectedHistory"
             class="absolute left-0 top-0 bottom-0 w-0.5 bg-[#0655a7]"
             aria-hidden="true"
           ></div>
@@ -63,35 +33,41 @@ const { class: className } = Astro.props;
           <div class="flex items-center justify-between gap-2">
             <span
               class="text-xs font-semibold truncate transition-colors"
-              :class="selectedProgram === prog.id ? 'text-[#0655a7]' : 'text-[#09090b]'"
-              x-text="(idx + 1) + '. ' + prog.nama"
+              :class="prog.isRejectedHistory ? 'text-[#71717a]' : (selectedProgram === prog.id ? 'text-[#0655a7]' : 'text-[#09090b]')"
+              x-text="prog.nama"
             ></span>
             <span
-              x-show="currentStage === 'hasil' && hasilSubState === 'lolos'"
-              x-text="idx === 0 ? 'Diterima' : 'Gugur'"
-              class="text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0"
-              :class="idx === 0 ? 'bg-emerald-50 text-emerald-800 border-emerald-200' : 'bg-[#f4f4f5] text-[#71717a] border-[#e4e4e7]'"
-            ></span>
+              x-show="prog.isRejectedHistory"
+              class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-zinc-200/80 text-[#52525b] border border-[#d4d4d8] shrink-0"
+            >
+              Ditolak
+            </span>
             <span
-              x-show="currentStage === 'hasil' && hasilSubState === 'belum_lolos'"
+              x-show="!prog.isRejectedHistory && currentStage === 'hasil' && hasilSubState === 'lolos'"
+              class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 shrink-0"
+            >
+              Diterima
+            </span>
+            <span
+              x-show="!prog.isRejectedHistory && currentStage === 'hasil' && hasilSubState === 'belum_lolos'"
               class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 shrink-0"
             >
               Tidak Lolos
             </span>
             <span
-              x-show="currentStage === 'wawancara'"
+              x-show="!prog.isRejectedHistory && currentStage === 'wawancara'"
               class="text-[10px] font-medium px-1.5 py-0.5 rounded border shrink-0"
               :class="prog.screeningLolos ? 'bg-[#f4f4f5] text-[#3f3f46] border-[#e4e4e7]' : 'bg-red-50 text-red-700 border-red-200'"
               x-text="prog.screeningLolos ? 'Wawancara Selesai' : 'Tidak Lolos'"
             ></span>
             <span
-              x-show="currentStage === 'berkas'"
+              x-show="!prog.isRejectedHistory && currentStage === 'berkas'"
               class="text-[10px] font-semibold px-1.5 py-0.5 rounded border shrink-0"
               :class="prog.screeningLolos ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200'"
               x-text="prog.screeningLolos ? 'Lolos Berkas' : 'Tidak Lolos'"
             ></span>
             <span
-              x-show="currentStage === 'pendaftaran'"
+              x-show="!prog.isRejectedHistory && currentStage === 'pendaftaran'"
               class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-blue-50 text-[#0655a7] border border-blue-200 shrink-0"
             >
               Form Terdaftar

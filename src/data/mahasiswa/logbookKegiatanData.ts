@@ -3,7 +3,9 @@
 
 export interface KegiatanLog {
   id: number;
-  /** Format ISO yyyy-mm-dd. */
+  /** Nomor minggu kegiatan (1-24). */
+  minggu?: number;
+  /** Format ISO yyyy-mm-dd (opsional jika dicatat per minggu). */
   tanggal: string;
   judul: string;
   deskripsi: string;

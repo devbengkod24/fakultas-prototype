@@ -2,7 +2,6 @@
 // src/pages/mahasiswa/dashboard.astro
 import MahasiswaShell from "../../layouts/MahasiswaShell.astro";
 import MahasiswaProfileCard from "../../components/mbkm/mahasiswa/MahasiswaProfileCard.astro";
-import PendaftarRoadmapCard from "../../components/mbkm/mahasiswa/PendaftarRoadmapCard.astro";
 import PendaftarProgramTable from "../../components/mbkm/mahasiswa/PendaftarProgramTable.astro";
 import PendaftarSidebar from "../../components/mbkm/mahasiswa/PendaftarSidebar.astro";
 import PaktaIntegritasModal from "../../components/mbkm/mahasiswa/PaktaIntegritasModal.astro";
@@ -51,7 +50,7 @@ import AktifSidebar from "../../components/mbkm/mahasiswa/AktifSidebar.astro";
     }
   }"
   >
-    <!-- Header Sambutan (Format Standar Selaras Koordinator MBKM di Admin Dashboard) -->
+    <!-- Header Sambutan (Format Standar Selaras Koordinator Kampus Berdampak di Admin Dashboard) -->
     <header class="mb-4 flex items-start justify-between gap-4 shrink-0">
       <div>
         <h2 class="text-xl font-normal text-[#09090b] tracking-tight">
@@ -66,14 +65,12 @@ import AktifSidebar from "../../components/mbkm/mahasiswa/AktifSidebar.astro";
     <!-- Card Profil Mahasiswa & Dosen Pembimbing -->
     <MahasiswaProfileCard />
 
-    <!-- STATE 1: PENDAFTARAN MULTI-PROGRAM (BELUM JOIN MBKM) -->
+    <!-- STATE 1: PENDAFTARAN MULTI-PROGRAM (BELUM JOIN KAMPUS BERDAMPAK) -->
     <div
       x-show="$store.mahasiswaSim.state === 'belum_daftar'"
       x-cloak
       class="space-y-4"
     >
-      <!-- Roadmap Stepper Trail: Tepat di Bawah Profil agar Langsung Ter-highlight -->
-      <PendaftarRoadmapCard />
       <section class="grid gap-4 lg:grid-cols-3 items-stretch">
         <PendaftarProgramTable />
         <PendaftarSidebar />
@@ -81,16 +78,16 @@ import AktifSidebar from "../../components/mbkm/mahasiswa/AktifSidebar.astro";
       <PaktaIntegritasModal />
     </div>
 
-    <!-- STATE 2: DITERIMA & AKTIF -->
-    <div
-      x-show="$store.mahasiswaSim.state === 'aktif'"
-      x-cloak
-      class="space-y-4"
-    >
-      <AktifStatCards />
-      <section class="grid gap-4 lg:grid-cols-3 items-stretch">
-        <AktifLogbookCard />
-        <AktifSidebar />
+    <!-- STATE 2: DITERIMA & AKTIF (Susunan Kolom 8/4 Selaras Dashboard Koordinator) -->
+    <div x-show="$store.mahasiswaSim.state === 'aktif'" x-cloak>
+      <section class="grid items-stretch grid-cols-1 gap-4 lg:grid-cols-12">
+        <div class="flex flex-col min-w-0 space-y-4 lg:col-span-8">
+          <AktifStatCards />
+          <AktifLogbookCard />
+        </div>
+        <div class="lg:col-span-4">
+          <AktifSidebar />
+        </div>
       </section>
     </div>
   </div>

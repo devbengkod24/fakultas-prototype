@@ -17,12 +17,6 @@ const infoProgram = [
   { label: "Dosen Pembimbing", value: data.dosenPembimbing },
   { label: "Periode Pelaksanaan", value: `${data.periodeMulai} — ${data.periodeSelesai}` },
 ];
-
-const infoPenyelia = [
-  { label: "Nama", value: data.penyelia.nama },
-  { label: "Jabatan", value: data.penyelia.posisi },
-  { label: "Nilai Evaluasi Mitra", value: `${data.penyelia.nilaiEvaluasi} / 100`, tebal: true },
-];
 ---
 
 <div class={cn("space-y-4")}>
@@ -37,22 +31,6 @@ const infoPenyelia = [
         <div class={cn(i.span && "md:col-span-2")}>
           <dt class="text-xs text-[#71717a]">{i.label}</dt>
           <dd class="mt-0.5 text-sm font-medium text-[#09090b]">{i.value}</dd>
-        </div>
-      ))}
-    </dl>
-  </div>
-
-  <!-- Informasi Penyelia Lapangan -->
-  <div class="bg-white border border-[#e4e4e7] rounded-xl">
-    <div class="px-5 py-4 border-b border-[#e4e4e7]">
-      <h2 class="text-base font-semibold text-[#09090b]">Informasi Penyelia Lapangan</h2>
-      <p class="text-xs text-[#71717a] mt-0.5">Mentor pembimbing dari pihak institusi mitra kerja</p>
-    </div>
-    <dl class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 px-5 py-4">
-      {infoPenyelia.map((i) => (
-        <div>
-          <dt class="text-xs text-[#71717a]">{i.label}</dt>
-          <dd class={cn("mt-0.5 text-sm font-medium text-[#09090b]", i.tebal && "font-semibold text-emerald-700")}>{i.value}</dd>
         </div>
       ))}
     </dl>
