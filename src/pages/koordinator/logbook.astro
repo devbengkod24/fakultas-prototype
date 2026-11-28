@@ -93,11 +93,6 @@ const logbookJson = JSON.stringify(logbookKegiatanList);
       toggleWeek(minggu) {
         this.openWeeks[minggu] = !this.openWeeks[minggu];
       },
-      statusBadgeClass(status) {
-        if (status === 'Diterima') return 'bg-[#ecfdf5] text-[#15803d] border-[#bbf7d0]';
-        if (status === 'Menunggu') return 'bg-amber-50 text-amber-800 border-amber-200';
-        return 'bg-rose-50 text-rose-700 border-rose-200';
-      },
       initials(name) {
         if (!name) return 'M';
         return name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');

@@ -9,9 +9,8 @@ const students = [
     nama: "Evan William Setyawan",
     initials: "EW",
     nim: "A11.2023.15006",
-    babTerakhir: "BAB 0",
-    totalBimbingan: 0,
-    progress: "0",
+    bimbinganDisetujui: 3,
+    progress: "60%",
     status: "Belum",
     statusVariant: "unapproved"
   },
@@ -20,9 +19,8 @@ const students = [
     nama: "Selfi Choiriyah",
     initials: "SC",
     nim: "A11.2023.15154",
-    babTerakhir: "BAB 0",
-    totalBimbingan: 0,
-    progress: "0",
+    bimbinganDisetujui: 3,
+    progress: "60%",
     status: "Belum",
     statusVariant: "unapproved"
   },
@@ -31,9 +29,8 @@ const students = [
     nama: "Wanda Putri Lestari",
     initials: "WP",
     nim: "A11.2023.15257",
-    babTerakhir: "BAB 0",
-    totalBimbingan: 0,
-    progress: "0",
+    bimbinganDisetujui: 3,
+    progress: "60%",
     status: "Belum",
     statusVariant: "unapproved"
   }
@@ -44,8 +41,8 @@ const studentsJson = JSON.stringify(students);
 
 <DosenShell
   activeNav="laporan-akhir"
-  pageTitle="Daftar Laporan Akhir Mahasiswa"
-  subtitle="Berikut adalah daftar laporan akhir mahasiswa bimbingan."
+  pageTitle="Logbook Bimbingan Mahasiswa"
+  subtitle="Berikut adalah daftar logbook bimbingan mahasiswa (Bimbingan ke-1 s.d. 5)."
   breadcrumb="Logbook Bimbingan"
 >
   <div
@@ -72,13 +69,13 @@ const studentsJson = JSON.stringify(students);
         <input
           type="text"
           x-model="search"
-          placeholder="Cari laporan akhir mahasiswa"
+          placeholder="Cari mahasiswa bimbingan"
           class="w-full pl-9 pr-4 py-2 border border-[#e2e8f0] rounded-md text-sm bg-white placeholder-[#94a3b8] text-[#0f172a] focus:outline-none focus:border-blue-500"
         />
       </div>
     </div>
 
-    <!-- Tabel Rekap Laporan Akhir Mahasiswa -->
+    <!-- Tabel Rekap Logbook Bimbingan Mahasiswa -->
     <div class="rounded-md border border-[#e2e8f0] bg-white overflow-hidden shadow-none">
       <div class="overflow-x-auto">
         <table class="w-full text-sm text-left border-collapse">
@@ -87,8 +84,7 @@ const studentsJson = JSON.stringify(students);
               <th class="w-12 px-4 py-3 text-xs font-medium text-[#64748b] text-center">No</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b]">Mahasiswa</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">NIM</th>
-              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Bab Terakhir</th>
-              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Total Bimbingan</th>
+              <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Bimbingan Disetujui</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Progress</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Status</th>
               <th class="px-4 py-3 text-xs font-medium text-[#64748b] text-center">Aksi</th>
@@ -113,11 +109,8 @@ const studentsJson = JSON.stringify(students);
                 <!-- NIM (Font diselaraskan sama seperti kolom lain tanpa font-mono) -->
                 <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.nim"></td>
 
-                <!-- Bab Terakhir (Capslock BAB 0) -->
-                <td class="px-4 py-3 text-center text-sm uppercase text-[#0f172a]" x-text="row.babTerakhir"></td>
-
-                <!-- Total Bimbingan -->
-                <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.totalBimbingan"></td>
+                <!-- Bimbingan Disetujui (dari 5) -->
+                <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.bimbinganDisetujui + ' / 5'"></td>
 
                 <!-- Progress -->
                 <td class="px-4 py-3 text-center text-sm text-[#0f172a]" x-text="row.progress"></td>
@@ -135,7 +128,7 @@ const studentsJson = JSON.stringify(students);
                       class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#1063B9] text-[#1063B9] hover:bg-blue-50/50 rounded-md text-xs font-medium transition-colors"
                     >
                       <i data-lucide="file-text" class="w-4 h-4"></i>
-                      <span>Laporan Akhir</span>
+                      <span>Logbook</span>
                     </button>
                   </a>
                 </td>

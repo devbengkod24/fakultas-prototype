@@ -154,12 +154,17 @@ export const sidangData: SidangData = {
     catatan: "",
     komponen: [
       {
-        nama: "Nilai Pembimbingan Dosen Pembimbing",
+        nama: "Nilai Penyelia",
+        nilai: "90.00",
+        penilai: "Budi Santoso, S.Kom.",
+      },
+      {
+        nama: "Nilai Pembimbing & Penguji 1",
         nilai: "92.50",
         penilai: "Dr. Ricardus Anggi, M.Kom",
       },
       {
-        nama: "Nilai Pengujian Sidang",
+        nama: "Nilai Penguji 2",
         nilai: "92.00",
         penilai: "Dr. Ir. Edi Mulyanto, M.Kom",
       },

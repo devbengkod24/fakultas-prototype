@@ -66,7 +66,7 @@ export interface PengajuanSidangDosen {
   mentor: string;
   dokumenLaporanPdf: string;
   dokumenNilaiKontributorPdf: string;
-  nilaiKontributor: number; // 0 - 100 (bobot 60%)
+  nilaiKontributor: number; // 0 - 100
   tanggalPengajuan: string;
   status: "menunggu_review" | "acc_maju_sidang" | "revisi";
   catatanDpl?: string;
@@ -80,9 +80,9 @@ export interface SidangDosen {
   jamSidang: string;
   ruangMeeting: string;
   linkMeeting?: string;
-  nilaiKontributor: number; // Bobot 60%
-  nilaiDpl: number | null; // Bobot 40% (null jika belum sidang)
-  nilaiAkhir: number | null; // Komposit 60% Kontributor + 40% Dospem
+  nilaiKontributor: number;
+  nilaiDpl: number | null; // null jika belum sidang
+  nilaiAkhir: number | null; // Rata-rata komponen nilai yang sudah terisi
   grade: string | null; // A, AB, B, dsb
   status: "terjadwal" | "selesai" | "menunggu_nilai";
 }

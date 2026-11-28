@@ -101,30 +101,30 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
 
       countByPertemuan(dosen, pertemuanNo) {
         return (dosen.mahasiswa || []).filter(m =>
-          (m.entries || []).some(e => e.pertemuan === pertemuanNo && e.status === 'Diterima')
+          (m.entries || []).some(e => e.pertemuan === pertemuanNo && e.status === 'Disetujui')
         ).length;
       },
 
       countPendingDosen(dosen) {
         return (dosen.mahasiswa || []).reduce((acc, m) =>
-          acc + (m.entries || []).filter(e => e.status === 'Menunggu').length, 0
+          acc + (m.entries || []).filter(e => e.status === 'Menunggu Persetujuan').length, 0
         );
       },
 
       approvedCount(mhs) {
         if (!mhs) return 0;
-        return (mhs.entries || []).filter(e => e.status === 'Diterima').length;
+        return (mhs.entries || []).filter(e => e.status === 'Disetujui').length;
       },
 
       pendingCount(mhs) {
         if (!mhs) return 0;
-        return (mhs.entries || []).filter(e => e.status === 'Menunggu').length;
+        return (mhs.entries || []).filter(e => e.status === 'Menunggu Persetujuan').length;
       },
 
       latestPertemuan(mhs) {
         if (!mhs || !mhs.entries || mhs.entries.length === 0) return '-';
         const maxP = Math.max(...mhs.entries.map(e => e.pertemuan));
-        return 'Bab ' + maxP;
+        return 'Bimbingan ke-' + maxP;
       },
 
       progressPercent(mhs) {
@@ -188,8 +188,8 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
           if (!this.selectedMhsIds.includes(m.id)) return;
           let changed = false;
           (m.entries || []).forEach((e) => {
-            if (e.status === 'Menunggu') {
-              e.status = 'Diterima';
+            if (e.status === 'Menunggu Persetujuan') {
+              e.status = 'Disetujui';
               if (!e.catatanVerifikasi) {
                 e.catatanVerifikasi = 'Diverifikasi & diterima oleh Koordinator Kampus Berdampak.';
               }
@@ -219,9 +219,9 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
           .sort((a, b) => a - b)
           .map((bab) => {
             const list = [...map[bab]].reverse();
-            const hasPending = list.some(x => x.status === 'Menunggu');
-            const hasAccepted = list.some(x => x.status === 'Diterima');
-            const overallStatus = hasPending ? 'Menunggu' : hasAccepted ? 'Diterima' : 'Revisi';
+            const hasPending = list.some(x => x.status === 'Menunggu Persetujuan');
+            const hasAccepted = list.some(x => x.status === 'Disetujui');
+            const overallStatus = hasPending ? 'Menunggu Persetujuan' : hasAccepted ? 'Disetujui' : 'Revisi';
             return {
               bab,
               entries: list,
@@ -243,7 +243,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
 
       openDocModal(babNo, entry) {
         this.docPreview = {
-          bab: 'Bimbingan Bab ' + babNo,
+          bab: 'Bimbingan ke-' + babNo,
           tanggal: entry.tanggal,
           uraian: entry.uraian,
           dokumenNama: entry.dokumenNama || 'Dokumen_Bimbingan.pdf',
@@ -268,18 +268,18 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
       },
 
       statusBadgeClass(status) {
-        if (status === 'Diterima') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-        if (status === 'Menunggu') return 'bg-amber-50 text-amber-800 border-amber-200';
+        if (status === 'Disetujui') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        if (status === 'Menunggu Persetujuan') return 'bg-amber-50 text-amber-800 border-amber-200';
         return 'bg-rose-50 text-rose-700 border-rose-200';
       },
 
       approveEntry(entry) {
-        entry.status = 'Diterima';
+        entry.status = 'Disetujui';
         if (!entry.catatanVerifikasi) {
           entry.catatanVerifikasi = 'Diverifikasi & diterima oleh Koordinator Kampus Berdampak.';
         }
         if (typeof window.showAdminToast === 'function') {
-          window.showAdminToast(\`Bab \${entry.pertemuan} (\${this.selectedMhs?.nama}) berhasil diterima.\`, 'success');
+          window.showAdminToast(\`Bimbingan ke-\${entry.pertemuan} (\${this.selectedMhs?.nama}) berhasil disetujui.\`, 'success');
         }
         this.reinitLucide();
       },
@@ -296,7 +296,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
         this.rejectTargetEntry.status = 'Revisi';
         this.rejectTargetEntry.catatanVerifikasi = this.rejectReason.trim() || 'Diminta revisi oleh Koordinator Kampus Berdampak. Mohon perbaiki catatan bimbingan.';
         if (typeof window.showAdminToast === 'function') {
-          window.showAdminToast(\`Bab \${this.rejectTargetEntry.pertemuan} (\${this.selectedMhs?.nama}) diminta revisi.\`, 'info');
+          window.showAdminToast(\`Bimbingan ke-\${this.rejectTargetEntry.pertemuan} (\${this.selectedMhs?.nama}) diminta revisi.\`, 'info');
         }
         this.isRejectModalOpen = false;
         this.rejectTargetEntry = null;
@@ -335,12 +335,12 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
               <tr>
                 <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
                 <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Nama Dosen</th>
-                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Logbook Mhs.</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 1</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 2</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 3</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 4</th>
-                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bab 5</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Logbook Bimbingan</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bimbingan ke-1</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bimbingan ke-2</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bimbingan ke-3</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bimbingan ke-4</th>
+                <th class="h-11 px-3 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Bimbingan ke-5</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Pending</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] whitespace-nowrap">Total Mhs.</th>
               </tr>
@@ -473,7 +473,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
                 <th class="h-11 px-4 font-semibold text-xs w-12 text-center text-[#71717a]">No.</th>
                 <th class="h-11 px-4 font-semibold text-xs text-left text-[#71717a]">Mahasiswa</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">NIM</th>
-                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bab Terakhir</th>
+                <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Bimbingan Terakhir</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Total Bimbingan</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a] w-48">Progress</th>
                 <th class="h-11 px-4 font-semibold text-xs text-center text-[#71717a]">Status</th>
@@ -605,7 +605,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
                 </p>
                 <p class="flex items-center gap-2">
                   <i data-lucide="book-open" class="w-3.5 h-3.5 text-[#71717a] shrink-0"></i>
-                  <span>Bab Terakhir: <strong x-text="latestPertemuan(selectedMhs).replace('Bab ', '')"></strong></span>
+                  <span>Bimbingan Terakhir: <strong x-text="latestPertemuan(selectedMhs).replace('Bimbingan ke-', '')"></strong></span>
                 </p>
               </div>
             </div>
@@ -653,14 +653,14 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
 
                 <!-- Card Bimbingan -->
                 <div class="flex-1 rounded-xl border border-[#e4e4e7] bg-white overflow-hidden">
-              <!-- Header Bab -->
+              <!-- Header Bimbingan -->
               <div
                 @click="toggleEntry(babGroup.bab)"
                 class="px-5 py-4 flex items-start justify-between gap-4 cursor-pointer hover:bg-[#fafafa] transition-colors"
               >
                 <div class="space-y-1">
                   <div class="flex items-center gap-2.5 flex-wrap">
-                    <span class="text-sm font-bold text-[#09090b]" x-text="`Bimbingan Bab ${babGroup.bab}`"></span>
+                    <span class="text-sm font-bold text-[#09090b]" x-text="`Bimbingan ke-${babGroup.bab}`"></span>
                     <span
                       class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold border"
                       :class="statusBadgeClass(babGroup.overallStatus)"
@@ -679,7 +679,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
                 </button>
               </div>
 
-              <!-- Daftar Item Bimbingan di dalam Bab -->
+              <!-- Daftar Item Bimbingan di dalam sesi Bimbingan -->
               <div x-show="openPertemuan[babGroup.bab]" x-cloak class="border-t border-[#e4e4e7] divide-y divide-[#e4e4e7]">
                 <template x-for="entry in babGroup.entries" :key="entry.id">
                   <div class="px-5 py-4 space-y-3 bg-white">
@@ -722,7 +722,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
                       </div>
 
                       <div class="flex items-center gap-2 ml-auto">
-                        <template x-if="entry.status !== 'Diterima'">
+                        <template x-if="entry.status !== 'Disetujui'">
                           <button
                             type="button"
                             @click="approveEntry(entry)"
@@ -732,7 +732,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
                             <span>Terima</span>
                           </button>
                         </template>
-                        <template x-if="entry.status !== 'Revisi' && entry.status !== 'Diterima'">
+                        <template x-if="entry.status !== 'Revisi' && entry.status !== 'Disetujui'">
                           <button
                             type="button"
                             @click="openRejectModal(entry)"
@@ -770,7 +770,7 @@ const bimbinganJson = JSON.stringify(logbookBimbinganList);
         <div class="flex items-start justify-between pb-2 border-b border-[#e4e4e7]">
           <div>
             <h3 class="text-base font-semibold text-[#09090b]">Minta Revisi Logbook Bimbingan</h3>
-            <p class="text-xs text-[#71717a] mt-0.5" x-text="rejectTargetEntry ? \`Bab \${rejectTargetEntry.pertemuan} • \${selectedMhs?.nama || ''}\` : ''"></p>
+            <p class="text-xs text-[#71717a] mt-0.5" x-text="rejectTargetEntry ? \`Bimbingan ke-\${rejectTargetEntry.pertemuan} • \${selectedMhs?.nama || ''}\` : ''"></p>
           </div>
           <button type="button" @click="isRejectModalOpen = false" class="text-[#71717a] hover:text-[#09090b] p-1 cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>

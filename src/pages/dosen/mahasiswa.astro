@@ -1,7 +1,6 @@
 ---
 // src/pages/dosen/mahasiswa.astro
 import DosenShell from '../../layouts/DosenShell.astro';
-import MahasiswaDetailDrawer from '../../components/dosen/MahasiswaDetailDrawer.astro';
 import { students, type Student, type LogbookEntry } from '../../data/dosenMahasiswaData';
 
 export type { Student, LogbookEntry };
@@ -15,69 +14,10 @@ const studentsJson = JSON.stringify(students);
     x-data={`{
       search: "",
       allStudents: ${studentsJson},
-      selectedStudent: null,
-      drawerOpen: false,
-      selectedWeek: 1,
-      selectedWeek: 1,
       init() {
         this.$nextTick(() => {
           if (window.lucide) window.lucide.createIcons();
         });
-      },
-      openDetail(student) {
-        this.selectedStudent = student;
-        this.drawerOpen = true;
-        const pending = (student.logbookEntries || []).find(e => e.status === "Perlu Review");
-        this.selectedWeek = pending ? pending.minggu : 1;
-        this.$nextTick(() => {
-          if (window.lucide) window.lucide.createIcons();
-          setTimeout(() => { if (window.lucide) window.lucide.createIcons(); }, 50);
-        });
-      },
-      closeDetail() {
-        this.drawerOpen = false;
-        this.selectedStudent = null;
-      },
-      selectWeek(w) {
-        this.selectedWeek = w;
-        this.$nextTick(() => {
-          if (window.lucide) window.lucide.createIcons();
-          setTimeout(() => { if (window.lucide) window.lucide.createIcons(); }, 50);
-        });
-      },
-      prevWeek() {
-        if (this.selectedWeek > 1) {
-          this.selectWeek(this.selectedWeek - 1);
-        }
-      },
-      nextWeek() {
-        if (this.selectedWeek < 24) {
-          this.selectWeek(this.selectedWeek + 1);
-        }
-      },
-      nextPendingWeek() {
-        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return;
-        const nextPending = this.selectedStudent.logbookEntries.find(e => e.status === "Perlu Review" && e.minggu > this.selectedWeek)
-          || this.selectedStudent.logbookEntries.find(e => e.status === "Perlu Review");
-        if (nextPending) {
-          this.selectWeek(nextPending.minggu);
-        }
-      },
-      get currentEntry() {
-        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return null;
-        return this.selectedStudent.logbookEntries.find(e => e.minggu === this.selectedWeek) || null;
-      },
-      get pendingCount() {
-        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return 0;
-        return this.selectedStudent.logbookEntries.filter(e => e.status === "Perlu Review").length;
-      },
-      get approvedCount() {
-        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return 0;
-        return this.selectedStudent.logbookEntries.filter(e => e.status === "Disetujui").length;
-      },
-      get unsubmittedCount() {
-        if (!this.selectedStudent || !this.selectedStudent.logbookEntries) return 0;
-        return this.selectedStudent.logbookEntries.filter(e => e.status === "Belum Diisi").length;
       },
       getInitials(nama) {
         const parts = (nama || "").trim().split(/\s+/).filter(Boolean);
@@ -244,8 +184,5 @@ const studentsJson = JSON.stringify(students);
         </div>
       </div>
     </div>
-
-    <!-- 5. Slide-Over Drawer Detail Mahasiswa -->
-    <MahasiswaDetailDrawer />
   </div>
 </DosenShell>

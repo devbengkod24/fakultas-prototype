@@ -1,4 +1,4 @@
-export type BimbinganStatus = 'Diterima' | 'Menunggu' | 'Revisi';
+export type BimbinganStatus = 'Disetujui' | 'Menunggu Persetujuan' | 'Revisi';
 
 export interface BimbinganEntry {
   id: string;
@@ -51,7 +51,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Konsultasi BAB 1',
             uraian: 'Konsultasi BAB 1: Identifikasi profil mitra dan perumusan rencana kerja proyek Kampus Berdampak.',
             dokumenNama: 'Konsultasi_BAB1_Faisal.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Lanjutkan penyempurnaan batasan masalah.'
           },
           {
@@ -61,7 +61,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Revisi BAB 1',
             uraian: 'Revisi BAB 1: Perbaikan batasan masalah dan tujuan pengembangan sistem sesuai arahan pembimbing.',
             dokumenNama: 'Revisi_BAB1_Faisal.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Rencana kerja sudah sesuai capaian pembelajaran.'
           },
           {
@@ -71,7 +71,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Review Arsitektur & Desain Database',
             uraian: 'Konsultasi perancangan ERD dan relasi antar tabel untuk sistem backend.',
             dokumenNama: 'ERD_Sistem_Faisal.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Struktur relasi tabel sudah baik.'
           },
           {
@@ -81,7 +81,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Evaluasi Progres Sprint 1 & API Endpoint',
             uraian: 'Pemaparan hasil implementasi autentikasi dan modul CRUD utama serta perbaikan validasi input.',
             dokumenNama: 'Progres_Sprint1_Faisal.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Lanjutkan ke tahap integrasi frontend.'
           },
           {
@@ -91,7 +91,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Pengujian Integrasi & Penyusunan Draft Laporan',
             uraian: 'Konsultasi hasil testing end-to-end serta penyesuaian format bab pendahuluan dan implementasi.',
             dokumenNama: 'Draft_Laporan_B4_Faisal.pdf',
-            status: 'Menunggu'
+            status: 'Menunggu Persetujuan'
           }
         ]
       },
@@ -110,7 +110,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Orientasi & Pengenalan Studi Kasus Mitra',
             uraian: 'Pelaporan tugas awal di mitra dan penyelarasan target luaran KKI.',
             dokumenNama: 'Proposal_KKI_Bagas.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Disetujui.'
           },
           {
@@ -119,7 +119,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             tanggal: '2 September 2026',
             topik: 'Analisis Kebutuhan Sistem Mitra',
             uraian: 'Validasi kebutuhan fungsional dan alur bisnis proses gudang di mitra.',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Sesuai.'
           },
           {
@@ -129,7 +129,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Review Implementasi Modul Inventory',
             uraian: 'Demo fitur pencatatan stok masuk/keluar dan ekspor laporan.',
             dokumenNama: 'Demo_Inventory_Bagas.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Bagus, lanjutkan penyusunan laporan.'
           },
           {
@@ -139,7 +139,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Konsultasi Draft Laporan Akhir',
             uraian: 'Pemeriksaan kelengkapan lampiran dokumentasi serta lembar pengesahan mitra.',
             dokumenNama: 'Draft_Laporan_Bagas.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Siap menuju bimbingan final.'
           },
           {
@@ -149,7 +149,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Finalisasi Laporan & Persiapan Sidang',
             uraian: 'Review akhir slide presentasi dan kelengkapan berkas sidang Kampus Berdampak.',
             dokumenNama: 'Slide_Sidang_Bagas.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Lengkap, disetujui untuk maju sidang.'
           }
         ]
@@ -177,7 +177,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Persiapan Agenda & Luaran Industrial Visit',
             uraian: 'Penetapan fokus observasi industri dan format laporan kunjungan internasional.',
             dokumenNama: 'Rencana_Kunjungan_Dimas.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Oke, catat seluruh sesi seminar.'
           },
           {
@@ -187,7 +187,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Laporan Observasi & Studi Komparasi',
             uraian: 'Menyerahkan ringkasan hasil kunjungan ke lab riset dan perusahaan teknologi.',
             dokumenNama: 'Ringkasan_Observasi_Dimas.pdf',
-            status: 'Menunggu'
+            status: 'Menunggu Persetujuan'
           },
           {
             id: '201-3',
@@ -195,7 +195,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             tanggal: '21 September 2026',
             topik: 'Penyusunan Bab Analisis & Rekomendasi',
             uraian: 'Konsultasi hasil analisis komparasi implementasi teknologi cloud.',
-            status: 'Menunggu'
+            status: 'Menunggu Persetujuan'
           }
         ]
       },
@@ -214,7 +214,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Penyelarasan KRS & Konversi SKS',
             uraian: 'Verifikasi daftar mata kuliah yang diambil di kampus tujuan agar ekuivalen 20 SKS.',
             dokumenNama: 'KRS_Mobility_Putra.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Ekuivalensi SKS sudah sesuai.'
           },
           {
@@ -251,7 +251,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Pemetaan Kurikulum Studi Independen',
             uraian: 'Konsultasi silabus Front-End & Back-End Web Developer di Dicoding.',
             dokumenNama: 'Silabus_Dicoding_Nabila.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Sesuai dengan konversi mata kuliah.'
           },
           {
@@ -261,7 +261,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Review Submission & Capstone Plan',
             uraian: 'Penyerahan sertifikat modul dasar dan rancangan proyek capstone tim.',
             dokumenNama: 'Capstone_Plan_Nabila.pdf',
-            status: 'Menunggu'
+            status: 'Menunggu Persetujuan'
           }
         ]
       }
@@ -288,7 +288,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Perancangan Metodologi Riset & Dataset',
             uraian: 'Pembahasan skema preprocessing dataset citra untuk proyek bersama.',
             dokumenNama: 'Metodologi_Annisa.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Lanjutkan ke tahap eksperimen baseline.'
           },
           {
@@ -298,7 +298,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Evaluasi Akurasi Model Tahap Awal',
             uraian: 'Diskusi hasil pelatihan model baseline dan strategi augmentasi data.',
             dokumenNama: 'Evaluasi_Model_Annisa.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Hasil cukup menjanjikan.'
           },
           {
@@ -308,7 +308,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Review Draf Artikel & Laporan Joint Project',
             uraian: 'Konsultasi struktur penulisan artikel luaran dan bab hasil penelitian.',
             dokumenNama: 'Draft_Artikel_Annisa.pdf',
-            status: 'Menunggu'
+            status: 'Menunggu Persetujuan'
           }
         ]
       }
@@ -335,7 +335,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Studi Literatur & Penentuan Parameter Riset',
             uraian: 'Review 10 paper referensi dan perumusan masalah riset bidang kajian.',
             dokumenNama: 'Literatur_Rizky.pdf',
-            status: 'Menunggu'
+            status: 'Menunggu Persetujuan'
           }
         ]
       },
@@ -353,7 +353,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             tanggal: '26 Agustus 2026',
             topik: 'Validasi Rencana Bisnis KKU',
             uraian: 'Review Business Model Canvas dan target penjualan mitra UMKM.',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'BMC sudah jelas.'
           },
           {
@@ -363,7 +363,7 @@ export const logbookBimbinganList: DosenBimbinganRecord[] = [
             topik: 'Evaluasi Strategi Pemasaran Digital',
             uraian: 'Analisis performa konten sosial media dan katalog digital UMKM.',
             dokumenNama: 'Laporan_Digital_Siti.pdf',
-            status: 'Diterima',
+            status: 'Disetujui',
             catatanVerifikasi: 'Pertahankan tren peningkatan.'
           }
         ]
