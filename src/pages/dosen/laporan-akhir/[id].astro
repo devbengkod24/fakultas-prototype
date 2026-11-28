@@ -1,6 +1,7 @@
 ---
 // src/pages/dosen/laporan-akhir/[id].astro
 import DosenShell from '../../../layouts/DosenShell.astro';
+import LogbookBimbinganTimeline from '../../../components/dosen/LogbookBimbinganTimeline.astro';
 
 export function getStaticPaths() {
   return [
@@ -20,7 +21,7 @@ const studentsMap: Record<
     dosen: string;
     status: string;
     totalBimbingan: number;
-    babTerakhir: number;
+    bimbinganDisetujui: number;
     progress: number;
   }
 > = {
@@ -29,27 +30,27 @@ const studentsMap: Record<
     nim: "A11.2023.15006",
     dosen: "ADHITYA NUGRAHA",
     status: "Sedang Berjalan",
-    totalBimbingan: 0,
-    babTerakhir: 0,
-    progress: 0
+    totalBimbingan: 5,
+    bimbinganDisetujui: 3,
+    progress: 60
   },
   "2331": {
     nama: "Selfi Choiriyah",
     nim: "A11.2023.15154",
     dosen: "ADHITYA NUGRAHA",
     status: "Sedang Berjalan",
-    totalBimbingan: 0,
-    babTerakhir: 0,
-    progress: 0
+    totalBimbingan: 5,
+    bimbinganDisetujui: 3,
+    progress: 60
   },
   "2332": {
     nama: "Wanda Putri Lestari",
     nim: "A11.2023.15257",
     dosen: "ADHITYA NUGRAHA",
     status: "Sedang Berjalan",
-    totalBimbingan: 0,
-    babTerakhir: 0,
-    progress: 0
+    totalBimbingan: 5,
+    bimbinganDisetujui: 3,
+    progress: 60
   }
 };
 
@@ -58,7 +59,7 @@ const student = studentsMap[id || "2330"] || studentsMap["2330"];
 
 <DosenShell
   activeNav="laporan-akhir"
-  breadcrumb="Laporan Akhir"
+  breadcrumb="Logbook Bimbingan"
   pageTitle=""
   subtitle=""
 >
@@ -121,8 +122,8 @@ const student = studentsMap[id || "2330"] || studentsMap["2330"];
                 <span>Total Bimbingan: <strong>{student.totalBimbingan}</strong></span>
               </div>
               <div class="flex items-center gap-2 text-sm text-[#0f172a]">
-                <i data-lucide="book-open" class="w-4 h-4 text-[#64748b]"></i>
-                <span>Bab Terakhir: <strong>{student.babTerakhir}</strong></span>
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#64748b]"></i>
+                <span>Bimbingan Disetujui: <strong>{student.bimbinganDisetujui}</strong> dari 5</span>
               </div>
             </div>
 
@@ -140,22 +141,6 @@ const student = studentsMap[id || "2330"] || studentsMap["2330"];
       </div>
     </div>
 
-    <!-- Riwayat Laporan Akhir Section -->
-    <div class="mt-8">
-      <h2 class="text-xl font-semibold text-[#0f172a] mb-6">Riwayat Laporan Akhir</h2>
-
-      <!-- Empty State Persis Screenshot 2 & EmptyState fakultas-fe -->
-      <div class="flex flex-col items-center justify-center py-12 text-center h-[350px]">
-        <div class="rounded-full bg-slate-100 p-3 mb-4 flex items-center justify-center">
-          <i data-lucide="file-text" class="h-6 w-6 text-slate-400 stroke-[1.5]"></i>
-        </div>
-        <h3 class="text-lg font-medium text-[#0f172a]">
-          Belum Ada Laporan Akhir
-        </h3>
-        <p class="text-sm text-[#64748b] mt-1 max-w-md">
-          Mahasiswa belum mengunggah laporan akhir.
-        </p>
-      </div>
-    </div>
+    <LogbookBimbinganTimeline />
   </div>
 </DosenShell>

@@ -2,12 +2,12 @@
 // src/pages/mahasiswa/logbook.astro
 import MahasiswaShell from '../../layouts/MahasiswaShell.astro';
 
-// Mock data riwayat Kegiatan kerja praktek / skripsi
+// Mock data riwayat Bimbingan ke-1 s.d. 5
 const KegiatanList = [
   {
     id: 1,
     bab: 'Bimbingan ke-1',
-    status: 'Diterima',
+    status: 'Disetujui',
     terakhir: '7 September 2026',
     frekuensi: '1x Kegiatan',
     hariTanggal: 'Senin, 7 Sep 2026',
@@ -18,7 +18,7 @@ const KegiatanList = [
   {
     id: 2,
     bab: 'Bimbingan ke-2',
-    status: 'Diterima',
+    status: 'Disetujui',
     terakhir: '17 September 2026',
     frekuensi: '1x Kegiatan',
     hariTanggal: 'Kamis, 17 Sep 2026',
@@ -29,33 +29,33 @@ const KegiatanList = [
   {
     id: 3,
     bab: 'Bimbingan ke-3',
-    status: 'Diterima',
+    status: 'Disetujui',
     terakhir: '28 September 2026',
     frekuensi: '1x Kegiatan',
     hariTanggal: 'Senin, 28 Sep 2026',
-    deskripsi: 'Penyusunan Bab 3 Metodologi pelaksanaan kerja praktek, analisis proses bisnis, dan rancangan arsitektur basis data.',
+    deskripsi: 'Penyusunan Bab 3 Metodologi pelaksanaan, analisis proses bisnis, dan rancangan arsitektur basis data.',
     dokumenUrl: 'https://drive.google.com/drive/folders/bab3-sample',
     dokumenNama: 'Dokumen_Bab_3_Final.pdf'
   },
   {
     id: 4,
     bab: 'Bimbingan ke-4',
-    status: 'Diterima',
+    status: 'Menunggu Persetujuan',
     terakhir: '10 Oktober 2026',
     frekuensi: '1x Kegiatan',
     hariTanggal: 'Sabtu, 10 Okt 2026',
-    deskripsi: 'Penyusunan Bab 4 Implementasi antarmuka front-end, pengujian fungsional modul kerja praktek, dan integrasi API.',
+    deskripsi: 'Penyusunan Bab 4 Implementasi antarmuka front-end, pengujian fungsional modul, dan integrasi API.',
     dokumenUrl: 'https://drive.google.com/drive/folders/bab4-sample',
     dokumenNama: 'Dokumen_Bab_4_Implementasi.pdf'
   },
   {
     id: 5,
     bab: 'Bimbingan ke-5',
-    status: 'Diterima',
+    status: 'Menunggu Persetujuan',
     terakhir: '21 Oktober 2026',
     frekuensi: '1x Kegiatan',
     hariTanggal: 'Rabu, 21 Okt 2026',
-    deskripsi: 'Penyusunan Bab 5 Kesimpulan pelaksanaan kerja praktek, evaluasi sistem, rekomendasi, dan kelengkapan berkas lampiran.',
+    deskripsi: 'Penyusunan Bab 5 Kesimpulan pelaksanaan, evaluasi sistem, rekomendasi, dan kelengkapan berkas lampiran.',
     dokumenUrl: 'https://drive.google.com/drive/folders/bab5-sample',
     dokumenNama: 'Dokumen_Bab_5_Laporan_Lengkap.pdf'
   }
@@ -75,7 +75,7 @@ const KegiatanList = [
       <p class="text-[14px] leading-[20px] text-[#71717a]">Berikut adalah daftar logbook mahasiswa Kegiatan.</p>
     </div>
 
-    <!-- Kartu Profil Mahasiswa & Progres Kerja Praktek -->
+    <!-- Kartu Profil Mahasiswa & Progres MBKM -->
     <div class="bg-white border border-[#e4e4e7] rounded-xl p-5 shadow-2xs">
       <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
         <!-- Kolom Kiri: Avatar & Biodata -->
@@ -97,15 +97,15 @@ const KegiatanList = [
               </span>
             </div>
 
-            <!-- Total Kegiatan & Bab Terakhir -->
+            <!-- Total & Disetujui -->
             <div class="pt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[13px] text-[#3f3f46]">
               <div class="flex items-center gap-1.5">
                 <i data-lucide="file-text" class="w-4 h-4 text-[#71717a]"></i>
-                <span>Total Kegiatan: <strong class="font-semibold text-[#09090b]">5</strong></span>
+                <span>Total Bimbingan: <strong class="font-semibold text-[#09090b]">5</strong></span>
               </div>
               <div class="flex items-center gap-1.5">
-                <i data-lucide="bookmark" class="w-4 h-4 text-[#71717a]"></i>
-                <span>Bab Terakhir: <strong class="font-semibold text-[#09090b]">5</strong></span>
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#71717a]"></i>
+                <span>Bimbingan Disetujui: <strong class="font-semibold text-[#09090b]">3</strong> dari 5</span>
               </div>
             </div>
           </div>
@@ -133,14 +133,14 @@ const KegiatanList = [
             </button>
           </div>
 
-          <!-- Progress Kerja Praktek -->
+          <!-- Progress MBKM -->
           <div class="w-full space-y-1.5 mt-auto">
             <div class="flex items-center justify-between text-xs font-medium">
-              <span class="text-[#3f3f46]">Progress Kerja Praktek</span>
-              <span class="text-[#09090b] font-semibold">100%</span>
+              <span class="text-[#3f3f46]">Progress MBKM</span>
+              <span class="text-[#09090b] font-semibold">60%</span>
             </div>
             <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div class="h-full bg-[#1063B9] rounded-full w-full transition-all duration-500"></div>
+              <div class="h-full bg-[#1063B9] rounded-full w-[60%] transition-all duration-500"></div>
             </div>
           </div>
         </div>
@@ -179,7 +179,7 @@ const KegiatanList = [
                       <h3 class="text-[14px] font-semibold text-[#09090b] group-hover:text-[#1063B9] transition-colors">
                         {item.bab}
                       </h3>
-                      <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-[#ecfdf5] text-[#15803d] border border-[#bbf7d0]">
+                      <span class={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${item.status === 'Disetujui' ? 'bg-[#ecfdf5] text-[#15803d] border-[#bbf7d0]' : 'bg-amber-50 text-amber-700 border-amber-200'} border`}>
                         {item.status}
                       </span>
                     </div>
@@ -213,7 +213,7 @@ const KegiatanList = [
                   <div class="pt-1">
                     <button
                       type="button"
-                      onclick={`openDocModal('${item.bab}', '${item.hariTanggal}', '${item.deskripsi}', '${item.dokumenNama}')`}
+                      onclick={`openDocModal('${item.bab}', '${item.hariTanggal}', '${item.deskripsi}', '${item.dokumenNama}', '${item.status}')`}
                       class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium shadow-2xs transition-colors"
                     >
                       <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
@@ -235,7 +235,7 @@ const KegiatanList = [
       <div class="sticky top-0 bg-white border-b border-[#e4e4e7] p-5 flex items-center justify-between">
         <div>
           <h3 class="text-[16px] font-semibold text-[#09090b]">Tambah Logbook Kegiatan</h3>
-          <p class="text-xs text-[#71717a] mt-0.5">Catat aktivitas konsultasi dan progres bab kerja praktek.</p>
+          <p class="text-xs text-[#71717a] mt-0.5">Catat aktivitas konsultasi dan progres bimbingan MBKM.</p>
         </div>
         <button type="button" onclick="closeTambahModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -244,13 +244,13 @@ const KegiatanList = [
 
       <form onsubmit="handleTambahSubmit(event)" class="p-5 space-y-4">
         <div>
-          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Bab Kegiatan <span class="text-red-500">*</span></label>
+          <label class="text-[12px] font-semibold text-[#09090b] block mb-1">Bimbingan <span class="text-red-500">*</span></label>
           <select id="input-bab" class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]" required>
-            <option value="Kegiatan Bab 1">Kegiatan Bab 1</option>
-            <option value="Kegiatan Bab 2">Kegiatan Bab 2</option>
-            <option value="Kegiatan Bab 3">Kegiatan Bab 3</option>
-            <option value="Kegiatan Bab 4">Kegiatan Bab 4</option>
-            <option value="Kegiatan Bab 5">Kegiatan Bab 5</option>
+            <option value="Bimbingan ke-1">Bimbingan ke-1</option>
+            <option value="Bimbingan ke-2">Bimbingan ke-2</option>
+            <option value="Bimbingan ke-3">Bimbingan ke-3</option>
+            <option value="Bimbingan ke-4">Bimbingan ke-4</option>
+            <option value="Bimbingan ke-5">Bimbingan ke-5</option>
           </select>
         </div>
 
@@ -288,7 +288,7 @@ const KegiatanList = [
       <div class="border-b border-[#e4e4e7] p-5 flex items-center justify-between">
         <div>
           <h3 class="text-[16px] font-semibold text-[#09090b]">Edit Folder Kampus Berdampak</h3>
-          <p class="text-xs text-[#71717a] mt-0.5">Tautan repositori Google Drive berkas kerja praktek.</p>
+          <p class="text-xs text-[#71717a] mt-0.5">Tautan repositori Google Drive berkas Kampus Berdampak.</p>
         </div>
         <button type="button" onclick="closeFolderModal()" class="text-[#71717a] hover:text-[#09090b] p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -305,7 +305,7 @@ const KegiatanList = [
             class="w-full px-3 py-2 border border-[#e4e4e7] rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#1063B9]"
             required
           />
-          <p class="text-[11px] text-[#71717a] mt-1">Semua dokumen revisi dan laporan kerja praktek disatukan di folder ini.</p>
+          <p class="text-[11px] text-[#71717a] mt-1">Semua dokumen revisi dan laporan MBKM disatukan di folder ini.</p>
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-4 border-t border-[#e4e4e7]">
@@ -356,7 +356,7 @@ const KegiatanList = [
 
         <div class="p-3 bg-emerald-50/60 border border-emerald-200/60 rounded-lg flex items-center gap-2 text-xs text-emerald-800">
           <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
-          <span>Status verifikasi: <strong>Telah disetujui Dosen Pembimbing</strong></span>
+          <span>Status verifikasi: <strong id="doc-modal-status">Telah disetujui Dosen Pembimbing</strong></span>
         </div>
       </div>
 
@@ -427,12 +427,12 @@ const KegiatanList = [
 
     function handleFolderSubmit(event) {
       event.preventDefault();
-      alert('Tautan Folder Google Drive Kerja Praktek berhasil diperbarui!');
+      alert('Tautan Folder Google Drive Kampus Berdampak berhasil diperbarui!');
       closeFolderModal();
     }
 
     // Modal Lihat Dokumen
-    function openDocModal(bab, date, desc, file) {
+    function openDocModal(bab, date, desc, file, status) {
       const titleEl = document.getElementById('doc-modal-title');
       const dateEl = document.getElementById('doc-modal-date');
       const descEl = document.getElementById('doc-modal-desc');
@@ -444,6 +444,8 @@ const KegiatanList = [
       if (descEl) descEl.textContent = desc;
       if (fileEl) fileEl.textContent = file;
       if (linkEl) linkEl.href = 'https://drive.google.com/';
+      const statusEl = document.getElementById('doc-modal-status');
+      if (statusEl) statusEl.textContent = status === 'Disetujui' ? 'Telah disetujui Dosen Pembimbing' : 'Menunggu persetujuan Dosen Pembimbing';
 
       const modal = document.getElementById('modal-lihat-dokumen');
       if (modal) modal.classList.remove('hidden');

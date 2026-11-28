@@ -341,7 +341,7 @@ export const MOCK_PENGUMUMAN_DOSEN: PengumumanDosenItem[] = [
     pengirim: "Nurul Anisa, M.Cs (Koordinator MBKM)",
     kategori: "Sidang Evaluasi",
     ringkasan: "Batas akhir penginputan nilai sidang evaluasi Dosen Pembimbing dan penutupan berita acara resmi prodi.",
-    kontenLengkap: "Diberitahukan kepada seluruh Dosen Pembimbing MBKM bahwa masa input nilai evaluasi akhir melalui portal dosen akan ditutup pada tanggal 30 Oktober 2026 pukul 23:59 WIB. Pastikan lembar penilaian kinerja industri dari mentor (bobot 60%) telah diverifikasi sebelum melakukan input nilai penguji Dosen Pembimbing (bobot 40%).",
+    kontenLengkap: "Diberitahukan kepada seluruh Dosen Pembimbing MBKM bahwa masa input nilai evaluasi akhir melalui portal dosen akan ditutup pada tanggal 30 Oktober 2026 pukul 23:59 WIB. Pastikan lembar penilaian dari mitra telah diverifikasi sebelum melakukan input nilai Dosen Pembimbing. Nilai akhir adalah rata-rata nilai Penyelia, Pembimbing, dan Penguji 2.",
     lampiranNama: "Panduan_Input_Nilai_Sidang_MBKM.pdf",
     lampiranUrl: "https://example.com/panduan-nilai.pdf",
     isPinned: true

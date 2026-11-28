@@ -9,24 +9,18 @@ const jadwalSidang = [
     nama: "Wanda Putri Lestari",
     nim: "A11.2023.15257",
     pembimbing: "Adhitya Nugraha, M.Kom",
-    gelombang: "Gelombang 1 - 2026/2027 Gasal",
     nilaiPenyelia: 85,          // nilai dari mitra (wewenang koor/mitra, disabled bagi dosen)
-    nilaiPembimbing: "",        // editable langsung oleh dosen pembimbing di tabel
-    nilaiPenguji1: 82,          // diisi koordinator
+    nilaiPembimbing: "",        // nilai Pembimbing & Penguji 1, editable oleh dosen pembimbing
     nilaiPenguji2: 78,          // diisi koordinator
-    nilaiPenguji3: null,        // belum di-plotting ("-")
   },
   {
     id: 2,
     nama: "Evan William Setyawan",
     nim: "A11.2023.15006",
     pembimbing: "Adhitya Nugraha, M.Kom",
-    gelombang: "Gelombang 1 - 2026/2027 Gasal",
     nilaiPenyelia: 80,
     nilaiPembimbing: "85",
-    nilaiPenguji1: 88,
     nilaiPenguji2: 82,
-    nilaiPenguji3: 79,
   }
 ];
 
@@ -60,17 +54,15 @@ const jadwalJson = JSON.stringify(jadwalSidang);
       calcRowNilaiAkhir(item) {
         const p = parseFloat(item.nilaiPembimbing);
         const penyelia = parseFloat(item.nilaiPenyelia);
-        const u1 = parseFloat(item.nilaiPenguji1);
         const u2 = parseFloat(item.nilaiPenguji2);
-        const u3 = parseFloat(item.nilaiPenguji3);
-        const values = [p, penyelia, u1, u2, u3].filter(v => !isNaN(v));
+        const values = [penyelia, p, u2].filter(v => !isNaN(v));
         if (!values.length) return '-';
         return (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
       },
 
       isComplete(item) {
         const p = parseFloat(item.nilaiPembimbing);
-        return !isNaN(p) && item.nilaiPenyelia != null && item.nilaiPenguji1 != null;
+        return !isNaN(p) && item.nilaiPenyelia != null && item.nilaiPenguji2 != null;
       }
     }`}
   >
@@ -120,12 +112,9 @@ const jadwalJson = JSON.stringify(jadwalSidang);
               <th class="w-[50px] px-2 text-center text-sm font-medium">No</th>
               <th class="min-w-[200px] max-w-[260px] px-2 text-left text-sm font-medium">Mahasiswa</th>
               <th class="min-w-[180px] max-w-[240px] px-2 text-left text-sm font-medium">Pembimbing</th>
-              <th class="min-w-[120px] px-2 text-left text-sm font-medium">Gelombang</th>
               <th class="min-w-[130px] px-2 text-center text-sm font-medium">Nilai Penyelia</th>
-              <th class="min-w-[130px] px-2 text-center text-sm font-medium">Nilai Pembimbing</th>
-              <th class="min-w-[130px] px-2 text-center text-sm font-medium">Nilai Penguji 1</th>
+              <th class="min-w-[130px] px-2 text-center text-sm font-medium">Nilai Pembimbing & Penguji 1</th>
               <th class="min-w-[130px] px-2 text-center text-sm font-medium">Nilai Penguji 2</th>
-              <th class="min-w-[130px] px-2 text-center text-sm font-medium">Nilai Penguji 3</th>
               <th class="min-w-[110px] px-2 text-center text-sm font-medium">Nilai Akhir</th>
               <th class="min-w-[140px] px-2 text-center text-sm font-medium">Status</th>
             </tr>
@@ -145,8 +134,6 @@ const jadwalJson = JSON.stringify(jadwalSidang);
                 <!-- Pembimbing -->
                 <td class="p-2 min-w-[180px] max-w-[240px] text-sm text-[#09090b]" x-text="row.pembimbing"></td>
 
-                <!-- Gelombang -->
-                <td class="p-2 min-w-[120px] text-sm text-[#09090b]" x-text="row.gelombang"></td>
 
                 <!-- Nilai Penyelia (Disabled Input w-24 persis KP) -->
                 <td class="p-2">
@@ -161,7 +148,7 @@ const jadwalJson = JSON.stringify(jadwalSidang);
                   </div>
                 </td>
 
-                <!-- Nilai Pembimbing (Editable Input w-24 tanpa spinbutton persis KP) -->
+                <!-- Nilai Pembimbing & Penguji 1 (Editable Input w-24 tanpa spinbutton persis KP) -->
                 <td class="p-2">
                   <div class="flex justify-center min-w-[90px]">
                     <input
@@ -170,19 +157,6 @@ const jadwalJson = JSON.stringify(jadwalSidang);
                       pattern="[0-9]*"
                       x-model="row.nilaiPembimbing"
                       class="h-8 min-w-[4rem] w-24 px-2 text-center tabular-nums text-sm border border-[#e4e4e7] rounded-md bg-white text-[#09090b] focus:outline-none focus:ring-1 focus:ring-[#0655a7] focus:border-[#0655a7] transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                      placeholder="-"
-                    />
-                  </div>
-                </td>
-
-                <!-- Nilai Penguji 1 (Disabled Input w-24 persis KP) -->
-                <td class="p-2">
-                  <div class="flex justify-center min-w-[90px]">
-                    <input
-                      type="text"
-                      disabled
-                      :value="row.nilaiPenguji1 ?? '-'"
-                      class="h-8 min-w-[4rem] w-24 px-2 text-center tabular-nums text-sm border border-[#e4e4e7] rounded-md bg-white disabled:cursor-not-allowed disabled:opacity-50 text-[#09090b]"
                       placeholder="-"
                     />
                   </div>
@@ -198,23 +172,6 @@ const jadwalJson = JSON.stringify(jadwalSidang);
                       class="h-8 min-w-[4rem] w-24 px-2 text-center tabular-nums text-sm border border-[#e4e4e7] rounded-md bg-white disabled:cursor-not-allowed disabled:opacity-50 text-[#09090b]"
                       placeholder="-"
                     />
-                  </div>
-                </td>
-
-                <!-- Nilai Penguji 3 (Jika belum plotting tampil span "-" persis KP) -->
-                <td class="p-2">
-                  <div class="flex justify-center min-w-[90px]">
-                    <template x-if="row.nilaiPenguji3 !== null && row.nilaiPenguji3 !== undefined">
-                      <input
-                        type="text"
-                        disabled
-                        :value="row.nilaiPenguji3"
-                        class="h-8 min-w-[4rem] w-24 px-2 text-center tabular-nums text-sm border border-[#e4e4e7] rounded-md bg-white disabled:cursor-not-allowed disabled:opacity-50 text-[#09090b]"
-                      />
-                    </template>
-                    <template x-if="row.nilaiPenguji3 === null || row.nilaiPenguji3 === undefined">
-                      <span class="text-[#71717a] text-xs">-</span>
-                    </template>
                   </div>
                 </td>
 

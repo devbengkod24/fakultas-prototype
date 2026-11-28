@@ -1,0 +1,73 @@
+---
+// src/components/dosen/LogbookBimbinganTimeline.astro
+// Versi dosen dari Riwayat Kegiatan di /mahasiswa/logbook: Bimbingan ke-1 s.d. 5 + Approve.
+const bimbinganList = [
+  { ke: 1, status: 'Disetujui', hariTanggal: 'Senin, 7 Sep 2026', deskripsi: 'Penyusunan Bab 1 Pendahuluan, latar belakang masalah, dan analisis kebutuhan sistem dashboard.', dokumenUrl: 'https://drive.google.com/drive/folders/bab1-sample' },
+  { ke: 2, status: 'Disetujui', hariTanggal: 'Kamis, 17 Sep 2026', deskripsi: 'Penyusunan Bab 2 Profil umum PT Telkom Indonesia, struktur organisasi, dan lingkungan kerja.', dokumenUrl: 'https://drive.google.com/drive/folders/bab2-sample' },
+  { ke: 3, status: 'Disetujui', hariTanggal: 'Senin, 28 Sep 2026', deskripsi: 'Penyusunan Bab 3 Metodologi pelaksanaan, analisis proses bisnis, dan rancangan arsitektur basis data.', dokumenUrl: 'https://drive.google.com/drive/folders/bab3-sample' },
+  { ke: 4, status: 'Menunggu', hariTanggal: 'Sabtu, 10 Okt 2026', deskripsi: 'Penyusunan Bab 4 Implementasi antarmuka front-end, pengujian fungsional modul, dan integrasi API.', dokumenUrl: 'https://drive.google.com/drive/folders/bab4-sample' },
+  { ke: 5, status: 'Menunggu', hariTanggal: 'Rabu, 21 Okt 2026', deskripsi: 'Penyusunan Bab 5 Kesimpulan pelaksanaan, evaluasi sistem, rekomendasi, dan kelengkapan berkas lampiran.', dokumenUrl: 'https://drive.google.com/drive/folders/bab5-sample' },
+];
+const listJson = JSON.stringify(bimbinganList);
+---
+
+<div class="mt-8" x-data={`{ list: ${listJson}, open: { 1: true } }`}>
+  <h2 class="text-xl font-semibold text-[#0f172a] mb-6">Riwayat Kegiatan</h2>
+
+  <div class="space-y-3">
+    <template x-for="(item, idx) in list" :key="item.ke">
+      <div class="relative flex items-start gap-4">
+        <div x-show="idx < list.length - 1" class="absolute left-3.5 top-7 -bottom-3 w-[1.5px] bg-[#e4e4e7] -translate-x-1/2"></div>
+
+        <div class="relative z-10 w-7 h-7 rounded-full bg-[#eff6ff] text-[#1063B9] text-xs font-semibold flex items-center justify-center shrink-0 border border-[#bfdbfe]" x-text="item.ke"></div>
+
+        <div class="flex-1 bg-white border border-[#e4e4e7] rounded-xl p-4">
+          <div class="flex items-start justify-between cursor-pointer select-none" @click="open[item.ke] = !open[item.ke]">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2.5">
+                <h3 class="text-[14px] font-semibold text-[#09090b]" x-text="'Bimbingan ke-' + item.ke"></h3>
+                <span
+                  class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border"
+                  :class="item.status === 'Disetujui' ? 'bg-[#ecfdf5] text-[#15803d] border-[#bbf7d0]' : 'bg-amber-50 text-amber-700 border-amber-200'"
+                  x-text="item.status === 'Disetujui' ? 'Disetujui' : 'Menunggu Persetujuan'"
+                ></span>
+              </div>
+            </div>
+            <span class="text-[#71717a] transition-transform" :class="open[item.ke] ? 'rotate-180' : ''">
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </span>
+          </div>
+
+          <div x-show="open[item.ke]" class="mt-3 pt-3 border-t border-[#f4f4f5] space-y-2.5">
+            <div class="flex items-center gap-1.5 text-xs text-[#52525b]">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#71717a]"></i>
+              <span class="font-medium" x-text="item.hariTanggal"></span>
+            </div>
+            <p class="text-[13px] text-[#27272a] leading-relaxed" x-text="item.deskripsi"></p>
+
+            <div class="flex items-center justify-between gap-2 pt-1 flex-wrap">
+              <a
+                :href="item.dokumenUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-gray-50 text-[#09090b] border border-[#e4e4e7] rounded-lg text-xs font-medium transition-colors"
+              >
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#71717a]"></i>
+                <span>Lihat Dokumen</span>
+              </a>
+              <button
+                type="button"
+                x-show="item.status !== 'Disetujui'"
+                @click="item.status = 'Disetujui'"
+                class="inline-flex items-center gap-1.5 h-8 px-3 rounded-lg text-xs font-medium bg-[#1063B9] hover:bg-[#0E4F96] text-white transition-colors"
+              >
+                <i data-lucide="check" class="h-3.5 w-3.5"></i>
+                Approve
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+</div>
